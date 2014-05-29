@@ -9,6 +9,7 @@ using VALE.Models;
 using CsvHelper;
 using System.IO;
 using System.Text;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -112,7 +113,7 @@ namespace VALE.MyVale
                             strbldr.Append(activity.ExpireDate.ToString("dd/MM/yyyy") + ';');
                         else
                             strbldr.Append("Non è Definito;");
-                        strbldr.Append(GetHoursWork(userName, activity.ExpireDate) + ';');
+                        strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId) + ';');
                         strbldr.Append("\n");
                     }
                 }
