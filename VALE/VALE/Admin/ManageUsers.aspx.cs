@@ -33,13 +33,18 @@ namespace VALE.Admin
             return users;
         }
 
-        public string GetRoleName(string userID)
+        public string GetRoleName(string userId)
         {
             var db = new ApplicationDbContext();
-            string roleName,roleId;
-            roleId = db.Users.Where(o => o.Id == userID).FirstOrDefault().Roles.FirstOrDefault().RoleId;
-            roleName = db.Roles.Where(o => o.Id == roleId).FirstOrDefault().Name;
-            return roleName;
+            var user = db.Users.First(u => u.Id == userId);
+            if (user.Roles.Count != 0)
+            {
+                var roleId = user.Roles.First().RoleId;
+                var roleName = db.Roles.FirstOrDefault(o => o.Id == roleId).Name;
+                return roleName;
+            }
+            else
+                return "User";
         }
 
         protected void btnConfimUser_Click(object sender, EventArgs e)
