@@ -154,6 +154,26 @@ namespace VALE.MyVale
             list.Visible = false;
         }
 
+        protected void btnViewDocument_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            var project = db.Projects.First(p => p.ProjectId == _currentEventId);
+            var lstDocument = (ListBox)EventDetail.FindControl("lstDocuments");
+            if (lstDocument.SelectedIndex > -1)
+            {
+                var file = project.DocumentsPath + lstDocument.SelectedValue;
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ClearContent();
+                response.Clear();
+                response.ContentType = "application/octet-stream";
+                string serverPath = Server.MapPath(file);
+                if (File.Exists(serverPath))
+                {
+                    Response.Redirect(file);
+                }
+            }
+        }
+
         
 
     }
