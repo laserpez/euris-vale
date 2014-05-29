@@ -16,10 +16,12 @@ namespace VALE.MyVale
     public partial class Activities : System.Web.UI.Page
     {
         private string _currentUserId;
+        private string _currentUserName;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserId = User.Identity.GetUserId();
+            _currentUserName = User.Identity.GetUserName();
         }
 
         public IQueryable<Activity> GetCurrentActivities()
@@ -82,8 +84,7 @@ namespace VALE.MyVale
         protected void btnExportCSV_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
-            var activitiesId = db.Reports.Where(r => r.WorkerId == _currentUserId).Select(r => r.ActivityId);
-            var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId));
+            ExportToCSV(new List<string>() { _currentUserName });
            
         }
 
@@ -109,10 +110,10 @@ namespace VALE.MyVale
                         strbldr.Append(activity.ActivityId.ToString() + ';');
                         strbldr.Append(activity.ActivityName + ';');
                         strbldr.Append(activity.CreationDate.ToString("dd/MM/yyyy") + ';');
-                        if (activity.ExpireDate.Year == 9999)
+                        if (activity.ExpireDate.Year != 9999)
                             strbldr.Append(activity.ExpireDate.ToString("dd/MM/yyyy") + ';');
                         else
-                            strbldr.Append("Non è Definito;");
+                            strbldr.Append("Non definito;");
                         strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId) + ';');
                         strbldr.Append("\n");
                     }
