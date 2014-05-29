@@ -7,99 +7,99 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VALE.Account {
+namespace VALE.MyVale.BOD {
     
     
-    public partial class RegisterExternalLogin {
+    public partial class BODReportCreate {
         
         /// <summary>
-        /// ErrorMessage control.
+        /// txtReportName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ErrorMessage;
+        protected global::System.Web.UI.WebControls.TextBox txtReportName;
         
         /// <summary>
-        /// TextUserName control.
+        /// txtLocation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextUserName;
+        protected global::System.Web.UI.WebControls.TextBox txtLocation;
         
         /// <summary>
-        /// TextFirstName control.
+        /// txtMeetingDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextFirstName;
+        protected global::System.Web.UI.WebControls.TextBox txtMeetingDate;
         
         /// <summary>
-        /// TextLastName control.
+        /// txtPublishDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextLastName;
+        protected global::System.Web.UI.WebControls.TextBox txtPublishDate;
         
         /// <summary>
-        /// TextAddress control.
+        /// txtReportText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextAddress;
+        protected global::System.Web.UI.WebControls.TextBox txtReportText;
         
         /// <summary>
-        /// TextCity control.
+        /// FileUploadControl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextCity;
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadControl;
         
         /// <summary>
-        /// TextProv control.
+        /// StatusLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextProv;
+        protected global::System.Web.UI.WebControls.Label StatusLabel;
         
         /// <summary>
-        /// TextCF control.
+        /// btnUploadFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextCF;
+        protected global::System.Web.UI.WebControls.Button btnUploadFile;
         
         /// <summary>
-        /// TextEmail control.
+        /// grdFilesUploaded control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextEmail;
+        protected global::System.Web.UI.WebControls.GridView grdFilesUploaded;
         
         /// <summary>
-        /// checkAssociated control.
+        /// btnSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox checkAssociated;
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
     }
 }

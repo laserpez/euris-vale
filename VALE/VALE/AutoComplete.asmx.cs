@@ -30,7 +30,7 @@ namespace VALE
         {
             var db = new UserOperationsContext();
             string[] projects = db.Projects.Select(p => p.ProjectName).ToArray();
-            return (from p in projects where p.StartsWith(prefixText, StringComparison.CurrentCultureIgnoreCase) select p).Take(count).ToArray();
+            return (from p in projects where p.ToUpperInvariant().Contains(prefixText.ToUpperInvariant()) select p).Take(count).ToArray();
         }
 
         [WebMethod]
@@ -38,7 +38,7 @@ namespace VALE
         {
             var db = new ApplicationDbContext();
             string[] users = db.Users.Select(u => u.FirstName + " " + u.LastName).ToArray();
-            return (from u in users where u.StartsWith(prefixText, StringComparison.CurrentCultureIgnoreCase) select u).Take(count).ToArray();
+            return (from u in users where u.ToUpperInvariant().Contains(prefixText.ToUpperInvariant()) select u).Take(count).ToArray();
         }
 
     }

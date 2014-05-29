@@ -41,13 +41,13 @@ namespace VALE
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(
+               consumerKey: "sLEyuwaGlmXM8RUHS89CZRfT7",
+               consumerSecret: "pNWVxCO1czPNZMqm0SrWBJMm1DLKbcCnfN4BSN8MKOosjJYU8l");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "118117908209695",
+               appSecret: "a2e4118519467d2c2b71f2463ee66e46");
 
             app.UseGoogleAuthentication();
         }
