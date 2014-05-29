@@ -7,6 +7,7 @@ syntax: glob
 *.obj
 *.mdf
 *.ldf
+*.orig
 *.exe
 *.pdb
 *.user
