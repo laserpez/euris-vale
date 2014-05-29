@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using VALE.Models;
 using CsvHelper;
 using System.IO;
+using System.Text;
 
 namespace VALE.MyVale
 {
@@ -82,20 +83,42 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var activitiesId = db.Reports.Where(r => r.WorkerId == _currentUserId).Select(r => r.ActivityId);
             var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId));
-            using (StreamWriter streamWriter = new StreamWriter(Server.MapPath("data.csv")))
+           
+        }
+
+        public void ExportToCSV(List<string> usersNames)
+        {
+            List<Activity> activities;
+            using (var activityActions = new ActivityActions())
             {
-                var csv = new CsvWriter(streamWriter);
-                foreach (var activity in activities)
+                string name = usersNames.Count == 1 ? usersNames[0] : "Gruppo Utenti";
+                Response.AddHeader("content-disposition", string.Format("attachment; filename=ListActivities({0}).csv", name));
+                Response.ContentType = "application/text";
+                StringBuilder strbldr = new StringBuilder();
+                //separting header columns text with comma operator
+                strbldr.Append("Utente;Id;Nome Attività;Data Inizio;Data Fine;Ore Di Lavoro");
+                //appending new line for gridview header row
+                strbldr.Append("\n");
+                foreach (var userName in usersNames)
                 {
-                    csv.WriteField(activity.ActivityId);
-                    csv.WriteField(activity.ActivityName);
-                    csv.WriteField(activity.Description);
-                    csv.WriteField(activity.CreationDate);
-                    csv.WriteField(activity.ExpireDate);
-                    csv.WriteField(activity.Status);
-                    csv.NextRecord();
+                    activities = activityActions.GetConcludedActivities(userName);
+                    foreach (var activity in activities)
+                    {
+                        strbldr.Append(userName + ';');
+                        strbldr.Append(activity.ActivityId.ToString() + ';');
+                        strbldr.Append(activity.ActivityName + ';');
+                        strbldr.Append(activity.CreationDate.ToString("dd/MM/yyyy") + ';');
+                        if (activity.ExpireDate.Year == 9999)
+                            strbldr.Append(activity.ExpireDate.ToString("dd/MM/yyyy") + ';');
+                        else
+                            strbldr.Append("Non è Definito;");
+                        strbldr.Append(GetHoursWork(userName, activity.ExpireDate) + ';');
+                        strbldr.Append("\n");
+                    }
                 }
+                Response.Write(strbldr.ToString());
+                Response.End();
             }
-        }       
+        }
     }
 }
