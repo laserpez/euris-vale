@@ -71,7 +71,7 @@
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
-            <asp:Label ID="lblChangeRole" runat="server" Visible="false" Text="" />
+                    <asp:Label ID="lblChangeRole" runat="server" Visible="false" Text="" />
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>

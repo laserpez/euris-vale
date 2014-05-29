@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using VALE.Models;
+using System.Text.RegularExpressions;
 
 namespace VALE.Account
 {
@@ -29,7 +30,26 @@ namespace VALE.Account
             {
                 // Validate the user password
                 var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                ApplicationUser user = manager.Find(Email.Text, Password.Text);
+                string pat = @"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}";
+                string name;
+
+                // Instantiate the regular expression object.
+                Regex r = new Regex(pat, RegexOptions.IgnoreCase);
+                
+                // Match the regular expression pattern against a text string.
+                Match m = r.Match(UserName.Text);
+
+                //controllo del NULL
+                if (m.Success)
+                {
+                    name = manager.FindByEmail(UserName.Text).UserName;
+                }
+                else
+                {
+                    name = UserName.Text;
+                }
+
+                ApplicationUser user = manager.Find(name, Password.Text);
                 if (user != null)
                 {
                     IdentityHelper.SignIn(manager, user, RememberMe.Checked);
