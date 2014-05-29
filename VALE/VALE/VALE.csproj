@@ -448,6 +448,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\ActivityActions.cs" />
     <Compile Include="Logic\AdminActions.cs" />
     <Compile Include="Logic\MailHelper.cs" />
     <Compile Include="Logic\RoleActions.cs" />
