@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VALE {
+namespace VALE.MyVale.BOD {
     
     
-    public partial class _Default {
+    public partial class ViewBODReport {
         
         /// <summary>
-        /// UpdatePanel control.
+        /// BODReportDetail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel;
+        protected global::System.Web.UI.WebControls.FormView BODReportDetail;
     }
 }

@@ -13,6 +13,9 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            var users = GetWaitingUsers();
+            if (users.Count() == 0)
+                btnConfirmUser.Enabled = false;
             
         }
 
@@ -23,12 +26,33 @@ namespace VALE.Admin
             return users;
         }
 
+        public IQueryable<ApplicationUser> GetUsers()
+        {
+            var db = new ApplicationDbContext();
+            var users = db.Users;
+            return users;
+        }
+
+        public string GetRoleName(string userId)
+        {
+            var db = new ApplicationDbContext();
+            var user = db.Users.First(u => u.Id == userId);
+            if (user.Roles.Count != 0)
+            {
+                var roleId = user.Roles.First().RoleId;
+                var roleName = db.Roles.FirstOrDefault(o => o.Id == roleId).Name;
+                return roleName;
+            }
+            else
+                return "User";
+        }
+
         protected void btnConfimUser_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < grdWaitingUsers.Rows.Count; i++)
             {
                 CheckBox chkBox = (CheckBox)grdWaitingUsers.Rows[i].FindControl("chkSelectUser");
-                if(chkBox.Checked)
+                if (chkBox.Checked)
                 {
                     string userId = grdWaitingUsers.Rows[i].Cells[0].Text;
                     AdminActions.ConfirmUser(userId);
@@ -36,6 +60,30 @@ namespace VALE.Admin
                 }
             }
             grdWaitingUsers.DataBind();
+        }
+
+        protected void btnChangeUser_Click(object sender, EventArgs e)
+        {
+            LinkButton button = (LinkButton)sender;
+            if (button.Text == "Administrator")
+            {
+                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Administrator");
+                if (lblChangeRole.Text != "")
+                    lblChangeRole.Visible = true;
+            }
+            else if (button.Text == "BoardMember")
+            {
+                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "BoardMember");
+                if (lblChangeRole.Text != "")
+                    lblChangeRole.Visible = true;
+            }
+            else if (button.Text == "AssociatedUser")
+            {
+                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "AssociatedUser");
+                if (lblChangeRole.Text != "")
+                    lblChangeRole.Visible = true;
+            }
+            grdUsers.DataBind();
         }
     }
 }

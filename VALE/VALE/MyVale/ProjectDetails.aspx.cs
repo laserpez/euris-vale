@@ -17,9 +17,11 @@ namespace VALE.MyVale
     {
         private int _currentProjectId;
         private string _currentUserId;
+        private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            _db = new UserOperationsContext();
             _currentUserId = User.Identity.GetUserId();
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
@@ -28,11 +30,7 @@ namespace VALE.MyVale
         public Project GetProject([QueryString("projectId")] int? projectId)
         {
             if (projectId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                var project = db.Projects.Where(a => a.ProjectId == projectId).First();
-                return project;
-            }
+                return _db.Projects.Where(a => a.ProjectId == projectId).First();
             else
                 return null;
         }
@@ -40,11 +38,7 @@ namespace VALE.MyVale
         public Project GetRelatedProject([QueryString("projectId")] int? projectId)
         {
             if (projectId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                var project = db.Projects.Where(a => a.ProjectId == projectId).Select(p => p.RelatedProject).FirstOrDefault();
-                return project;
-            }
+                return _db.Projects.Where(a => a.ProjectId == projectId).Select(p => p.RelatedProject).FirstOrDefault();
             else
                 return null;
         }
@@ -52,11 +46,7 @@ namespace VALE.MyVale
         public IQueryable<Event> GetRelatedEvents([QueryString("projectId")] int? projectId)
         {
             if (projectId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                var project = db.Projects.First(p => p.ProjectId == projectId);
-                return project.Events.AsQueryable();
-            }
+                return _db.Projects.First(p => p.ProjectId == projectId).Events.AsQueryable();
             else
                 return null;
         }
@@ -64,11 +54,7 @@ namespace VALE.MyVale
         public IQueryable<Activity> GetRelatedActivities([QueryString("projectId")] int? projectId)
         {
             if (projectId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                var project = db.Projects.First(p => p.ProjectId == projectId);
-                return project.Activities.AsQueryable();
-            }
+                return _db.Projects.First(p => p.ProjectId == projectId).Activities.AsQueryable();
             else
                 return null;
         }
@@ -76,11 +62,7 @@ namespace VALE.MyVale
         public IQueryable<UserData> GetRelatedUsers([QueryString("projectId")] int? projectId)
         {
             if (projectId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                var listUsers = db.Projects.Where(a => a.ProjectId == projectId).FirstOrDefault().InvolvedUsers.AsQueryable();
-                return listUsers;
-            }
+                return _db.Projects.Where(a => a.ProjectId == projectId).FirstOrDefault().InvolvedUsers.AsQueryable();
             else
                 return null;
         }
@@ -89,8 +71,7 @@ namespace VALE.MyVale
         {
             if (projectId.HasValue)
             {
-                var db = new UserOperationsContext();
-                var project = db.Projects.First(p => p.ProjectId == projectId);
+                var project = _db.Projects.First(p => p.ProjectId == projectId);
                 if (!String.IsNullOrEmpty(project.DocumentsPath))
                 {
                     var dir = new DirectoryInfo(Server.MapPath(project.DocumentsPath));
@@ -121,10 +102,7 @@ namespace VALE.MyVale
         {
 
             if (projectId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                return db.Interventions.Where(i => i.ProjectId == projectId);
-            }
+                return _db.Interventions.Where(i => i.ProjectId == projectId);
             else
                 return null;
         }
@@ -138,8 +116,7 @@ namespace VALE.MyVale
 
         protected void btnSuspendProject_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
+            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
             Panel panel = (Panel)ProjectDetail.FindControl("manageProjectPanel");
             Label label = (Label)panel.FindControl("lblInfoOperation");
             panel.Visible = true;
@@ -161,8 +138,7 @@ namespace VALE.MyVale
         {
             if (_currentProjectId != 0)
             {
-                var db = new UserOperationsContext();
-                var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
+                var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
                 SetWorkOnProjectSection(project);
                 SetManageProjectSection(project);
             }
@@ -315,8 +291,7 @@ namespace VALE.MyVale
 
         protected void btnViewDocument_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
+            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
             var lstDocument = (ListBox)ProjectDetail.FindControl("lstDocuments");
             if(lstDocument.SelectedIndex > -1)
             {
@@ -328,10 +303,6 @@ namespace VALE.MyVale
                 string serverPath = Server.MapPath(file);
                 if (File.Exists(serverPath))
                 {
-                    //response.AddHeader("Content-Disposition", "attachment; filename=" + lstDocument.SelectedValue + ";");
-                    //response.TransmitFile(Server.MapPath(file));
-                    //response.Flush();
-                    //response.End();
                     Response.Redirect(file);
                 }
             }
@@ -339,8 +310,7 @@ namespace VALE.MyVale
 
         public string GetUserName(string userId)
         {
-            var db = new UserOperationsContext();
-            return db.UsersData.First(u => u.UserDataId == userId).FullName;
+            return _db.UsersData.First(u => u.UserDataId == userId).FullName;
         }
 
         public bool ContainsDocuments(string path)
