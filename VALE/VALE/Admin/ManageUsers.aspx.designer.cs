@@ -13,6 +13,15 @@ namespace VALE.Admin {
     public partial class ManageUsers {
         
         /// <summary>
+        /// UpdatePanelApproval control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelApproval;
+        
+        /// <summary>
         /// grdWaitingUsers control.
         /// </summary>
         /// <remarks>
@@ -29,5 +38,32 @@ namespace VALE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnConfirmUser;
+        
+        /// <summary>
+        /// UpdatePanelUserManager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelUserManager;
+        
+        /// <summary>
+        /// grdUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdUsers;
+        
+        /// <summary>
+        /// lblChangeRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblChangeRole;
     }
 }

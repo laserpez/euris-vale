@@ -38,6 +38,35 @@ namespace VALE.Logic
             }
         }
 
+        public static string ChangeUserRole(string userName, string role)
+        {
+            IdentityResult IdUserResult;
+            ApplicationDbContext db = new ApplicationDbContext();
+            string oldRoleName = "";
+
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var appUser = userManager.FindByName(userName);
+            var oldRole = appUser.Roles.Select(o => o.RoleId).FirstOrDefault();
+
+
+            if (oldRole != null)
+            {
+                oldRoleName = db.Roles.Where(o => o.Id == oldRole).FirstOrDefault().Name;
+                IdUserResult = userManager.RemoveFromRole(appUser.Id, oldRoleName);
+                if (!IdUserResult.Succeeded)
+                    return "Impossibile eliminarlo dal vecchio ruolo.";
+            }
+
+            IdUserResult = userManager.AddToRole(appUser.Id, role);
+            if (IdUserResult.Succeeded)
+               return "Ruolo di " + appUser.UserName + " modificato in " + role + ".";
+            else
+                return "Errore nella modifica dell'utente " + appUser.UserName + ".";
+
+            if (oldRoleName == role)
+                return "L'utente " + appUser.UserName + " è già con il ruolo " + role + ".";
+        }
+
         //public static string GetUserFullName(string userId)
         //{
         //    var db = new ApplicationDbContext();
