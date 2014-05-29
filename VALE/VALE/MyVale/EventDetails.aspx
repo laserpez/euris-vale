@@ -33,6 +33,7 @@
             </asp:FormView>
             <h4>Documents</h4>
             <asp:ListBox runat="server" CssClass="form-control" Width="400px" ID="lstDocuments" SelectMethod="GetRelatedDocuments"></asp:ListBox>
+            <asp:Button runat="server" Text="View document" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
         </ItemTemplate>
     </asp:FormView>
 </asp:Content>
