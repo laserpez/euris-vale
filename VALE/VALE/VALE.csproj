@@ -212,6 +212,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="MyVale\Activities.aspx" />
+    <Content Include="MyVale\BOD\BODReportCreate.aspx" />
+    <Content Include="MyVale\BOD\BODReports.aspx" />
+    <Content Include="MyVale\BOD\ViewBODReport.aspx" />
     <Content Include="MyVale\PersonalArticles.aspx" />
     <Content Include="MyVale\ViewArticle.aspx" />
     <Content Include="MyVale\CreateIntervention.aspx" />
@@ -277,7 +280,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
-    <Content Include="StateInfo\regioni_province_comuni.xml" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -453,6 +455,7 @@
     <Compile Include="Models\ActivityReport.cs" />
     <Compile Include="Models\BlogArticle.cs" />
     <Compile Include="Models\BlogComment.cs" />
+    <Compile Include="Models\BODReport.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -466,6 +469,27 @@
     </Compile>
     <Compile Include="MyVale\Activities.aspx.designer.cs">
       <DependentUpon>Activities.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyVale\BOD\BODReportCreate.aspx.cs">
+      <DependentUpon>BODReportCreate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\BOD\BODReportCreate.aspx.designer.cs">
+      <DependentUpon>BODReportCreate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyVale\BOD\BODReports.aspx.cs">
+      <DependentUpon>BODReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\BOD\BODReports.aspx.designer.cs">
+      <DependentUpon>BODReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyVale\BOD\ViewBODReport.aspx.cs">
+      <DependentUpon>ViewBODReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\BOD\ViewBODReport.aspx.designer.cs">
+      <DependentUpon>ViewBODReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\PersonalArticles.aspx.cs">
       <DependentUpon>PersonalArticles.aspx</DependentUpon>
@@ -602,7 +626,6 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="StateInfo\StateInfoXML.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

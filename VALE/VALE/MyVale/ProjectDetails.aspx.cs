@@ -328,10 +328,6 @@ namespace VALE.MyVale
                 string serverPath = Server.MapPath(file);
                 if (File.Exists(serverPath))
                 {
-                    //response.AddHeader("Content-Disposition", "attachment; filename=" + lstDocument.SelectedValue + ";");
-                    //response.TransmitFile(Server.MapPath(file));
-                    //response.Flush();
-                    //response.End();
                     Response.Redirect(file);
                 }
             }
