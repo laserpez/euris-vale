@@ -8,7 +8,7 @@
     <asp:TextBox CssClass="form-control" ID="txtReleaseDate" runat="server"></asp:TextBox><br />
     <asp:CalendarExtender TargetControlID="txtReleaseDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
     <asp:Label runat="server" CssClass="control-label">Content:</asp:Label><br />
-    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="400px" Height="200" ID="txtArticleContent" runat="server"></asp:TextBox>
+    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtArticleContent" runat="server"></asp:TextBox>
     <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtArticleContent">
         <Toolbar>
             <ajaxToolkit:Undo />
