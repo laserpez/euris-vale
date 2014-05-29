@@ -91,6 +91,10 @@ namespace VALE
             {
                 adminLink.Visible = true;
             }
+            if (HttpContext.Current.User.IsInRole("Administrator") || HttpContext.Current.User.IsInRole("BoardMember"))
+            {
+                boardLink.Visible = true;
+            }
         }
     }
 
