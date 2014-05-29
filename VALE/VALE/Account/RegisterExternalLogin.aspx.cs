@@ -62,6 +62,7 @@ namespace VALE.Account
                     }
 
                     var result = manager.AddLogin(User.Identity.GetUserId(), verifiedloginInfo.Login);
+                    // todo in casa devi inserire email e password da sito esterno
                     if (result.Succeeded)
                     {
                         IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
@@ -74,7 +75,11 @@ namespace VALE.Account
                 }
                 else
                 {
-                    email.Text = loginInfo.Email;
+                    // todo in caso devi solo inserire l'email di fb
+                    // trovare\ aggiungere username
+                    TextEmail.Text = loginInfo.Email;
+                    TextUserName.Text = loginInfo.DefaultUserName;
+                    
                 }
             }
         }        
@@ -90,8 +95,21 @@ namespace VALE.Account
             {
                 return;
             }
+            var db = new UserOperationsContext();
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var user = new ApplicationUser() { UserName = email.Text, Email = email.Text };
+            var user = new ApplicationUser()
+            {
+                UserName = TextUserName.Text,
+                FirstName = TextFirstName.Text,
+                LastName = TextLastName.Text,
+                Address = TextAddress.Text,
+                City = TextCity.Text,
+                Province = TextProv.Text,
+                CF = TextCF.Text,
+                NeedsApproval = checkAssociated.Checked,
+                Email = TextEmail.Text
+            };
+            
             IdentityResult result = manager.Create(user);
             if (result.Succeeded)
             {
@@ -104,6 +122,14 @@ namespace VALE.Account
                 result = manager.AddLogin(user.Id, loginInfo.Login);
                 if (result.Succeeded)
                 {
+                    string userId = user.Id;
+                    db.UsersData.Add(new UserData
+                    {
+                        UserDataId = userId,
+                        Email = user.Email,
+                        FullName = user.FirstName + " " + user.LastName
+                    });
+                    db.SaveChanges();
                     IdentityHelper.SignIn(manager, user, isPersistent: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
