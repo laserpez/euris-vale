@@ -30,7 +30,7 @@ namespace VALE.Logic
                 userManager.AddToRole(adminUser.Id, "AssociatedUser");
                 dbData.UsersData.Add(new UserData 
                 { 
-                    UserDataId = adminUser.Id, 
+                    UserName = adminUser.UserName, 
                     Email = adminUser.Email, 
                     FullName = adminUser.FirstName + " " + adminUser.LastName 
                 });

@@ -40,10 +40,10 @@ namespace VALE.Admin
             }
         }
 
-        public string GetOrganizerName(string userId)
+        public string GetOrganizerName(string userName)
         {
             var db = new UserOperationsContext();
-            return db.UsersData.First(u => u.UserDataId == userId).FullName;
+            return db.UsersData.First(u => u.UserName == userName).FullName;
 
         }
 

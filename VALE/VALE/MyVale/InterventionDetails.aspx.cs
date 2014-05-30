@@ -14,14 +14,14 @@ namespace VALE.MyVale
 {
     public partial class InterventionDetails : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
         private int _currentInterventionId;
         private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _db = new UserOperationsContext();
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _currentInterventionId = Convert.ToInt32(Request.QueryString["interventionId"]);
         }
@@ -33,11 +33,6 @@ namespace VALE.MyVale
             else
                 return null;
         }
-
-        //public string GetCreatorName(string creatorId)
-        //{
-        //    return UserActions.GetUserFullName(creatorId);
-        //}
 
         public List<String> GetRelatedDocuments([QueryString("interventionId")] int? interventionId)
         {
@@ -77,7 +72,7 @@ namespace VALE.MyVale
             {
                 Date = DateTime.Now,
                 CommentText = txtComment.Text,
-                CreatorId = _currentUserId,
+                CreatorUserName = _currentUser,
                 InterventionId = _currentInterventionId
             };
             _db.Comments.Add(comment);

@@ -13,10 +13,10 @@ namespace VALE.MyVale
 {
     public partial class Projects : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
             if(!IsPostBack)
             {
                 var lstProject = GetOpenProjects();
@@ -161,7 +161,7 @@ namespace VALE.MyVale
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
             int projectId = Convert.ToInt32(OpenedProjectList.Rows[rowID].Cells[0].Text);
             var db = new UserOperationsContext();
-            UserData user = db.UsersData.First(u => u.UserDataId == _currentUserId);
+            UserData user = db.UsersData.First(u => u.UserName == _currentUser);
             Project thisProject = db.Projects.First(ev => ev.ProjectId == projectId);
             Button btnAttend = (Button)sender;
             if (btnAttend.CssClass == "btn btn-info btn-sm")
@@ -188,7 +188,7 @@ namespace VALE.MyVale
             {
                 Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
                 int projectId = Convert.ToInt32(OpenedProjectList.Rows[i].Cells[0].Text);
-                if (dbData.UsersData.First(u => u.UserDataId == _currentUserId).AttendingProjects.Contains(dbData.Projects.First(p => p.ProjectId == projectId)))
+                if (dbData.UsersData.First(u => u.UserName == _currentUser).AttendingProjects.Contains(dbData.Projects.First(p => p.ProjectId == projectId)))
                 {
                     btnAttend.CssClass = "btn btn-success btn-sm";
                     btnAttend.Text = "Already working";

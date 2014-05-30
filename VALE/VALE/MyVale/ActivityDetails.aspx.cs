@@ -14,13 +14,13 @@ namespace VALE.MyVale
     public partial class ActivityDetails : System.Web.UI.Page
     {
         private int _currentActivityId;
-        private string _currentUserId;
+        private string _currentUser;
         private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _db = new UserOperationsContext();
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
             if(Request.QueryString.HasKeys())
                 _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
         }
@@ -46,7 +46,7 @@ namespace VALE.MyVale
             int hours;
             using (var activityActions = new ActivityActions())
             {
-                hours = activityActions.GetHoursWorked(_currentUserId, _currentActivityId);
+                hours = activityActions.GetHoursWorked(_currentUser, _currentActivityId);
             }
             return String.Format("Hours worked on this activity: {0}", hours);
         }
@@ -70,7 +70,7 @@ namespace VALE.MyVale
             if(!String.IsNullOrEmpty(userId))
             {
                 Activity activity = dbData.Activities.Where(a => a.ActivityId == _currentActivityId).First();
-                UserData userData = dbData.UsersData.Where(ud => ud.UserDataId == userId).First();
+                UserData userData = dbData.UsersData.Where(ud => ud.UserName == userId).First();
                 
                 // TODO aggiungere il controllo nel caso l'utente sia già assegnato
                 // TODO mandare email di notifica
@@ -122,7 +122,7 @@ namespace VALE.MyVale
                 _db.Reports.Add(new ActivityReport
                     {
                         ActivityId = _currentActivityId,
-                        WorkerId =_currentUserId,
+                        WorkerUserName =_currentUser,
                         ActivityDescription = txtDescription.Text,
                         Date = DateTime.Today,
                         HoursWorked = hours

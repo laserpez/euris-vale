@@ -16,13 +16,13 @@ namespace VALE.MyVale
     public partial class ProjectDetails : System.Web.UI.Page
     {
         private int _currentProjectId;
-        private string _currentUserId;
+        private string _currentUser;
         private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _db = new UserOperationsContext();
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
         }
@@ -151,7 +151,7 @@ namespace VALE.MyVale
             
             if (project.Status == "open")
             {
-                if (project.InvolvedUsers.Select(u => u.UserDataId).Contains(_currentUserId))
+                if (project.InvolvedUsers.Select(u => u.UserName).Contains(_currentUser))
                 {
                     btnWork.Enabled = true;
                     btnWork.CssClass = "btn btn-success";
@@ -183,7 +183,7 @@ namespace VALE.MyVale
             Button btnSuspend = (Button)ProjectDetail.FindControl("btnSuspendProject");
             Button btnClose = (Button)ProjectDetail.FindControl("btnCloseProject");
             Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
-            if (project.OrganizerId == _currentUserId || User.IsInRole("Administration"))
+            if (project.OrganizerUserName == _currentUser || User.IsInRole("Administration"))
             {
                 if (project.Status == "open")
                 {
@@ -226,7 +226,7 @@ namespace VALE.MyVale
             Panel panel = (Panel)ProjectDetail.FindControl("manageProjectPanel");
             Label label = (Label)panel.FindControl("lblInfoOperation");
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser userData = manager.FindById(_currentUserId);
+            ApplicationUser userData = manager.FindById(_currentUser);
             ApplicationUser user = manager.Find(userData.UserName, (panel.FindControl("txtPassword") as TextBox).Text);
             if (user != null)
             {
@@ -260,7 +260,7 @@ namespace VALE.MyVale
             Button btnWork = (Button)sender;
             var db = new UserOperationsContext();
             var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
-            var user = db.UsersData.First(u => u.UserDataId == _currentUserId);
+            var user = db.UsersData.First(u => u.UserName == _currentUser);
             if (project.InvolvedUsers.Contains(user))
             {
                 project.InvolvedUsers.Remove(user);
@@ -300,9 +300,9 @@ namespace VALE.MyVale
             }
         }
 
-        public string GetUserName(string userId)
+        public string GetUserName(string userName)
         {
-            return _db.UsersData.First(u => u.UserDataId == userId).FullName;
+            return _db.UsersData.First(u => u.UserName == userName).FullName;
         }
 
         public bool ContainsDocuments(string path)

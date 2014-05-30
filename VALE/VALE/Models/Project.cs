@@ -35,7 +35,7 @@ namespace VALE.Models
 
         // Foreign key on UserData table - organizer id
         [ForeignKey("Organizer")]
-        public string OrganizerId { get; set; }
+        public string OrganizerUserName { get; set; }
         public virtual UserData Organizer { get; set; }
 
         public virtual Project RelatedProject { get; set; }

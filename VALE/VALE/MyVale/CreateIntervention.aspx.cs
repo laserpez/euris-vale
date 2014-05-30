@@ -13,14 +13,14 @@ namespace VALE.MyVale
 {
     public partial class CreateIntervention : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
         private int _currentProjectId;
         private string _temporaryPath;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
-            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUserId + "/";
+            _currentUser = User.Identity.GetUserName();
+            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUser + "/";
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
             if (!IsPostBack)
@@ -39,7 +39,7 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var intervention = new Intervention
             {
-                CreatorId = _currentUserId,
+                CreatorUserName = _currentUser,
                 ProjectId = _currentProjectId,
                 InterventionText = txtComment.Text,
                 Date = DateTime.Today

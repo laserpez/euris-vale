@@ -19,7 +19,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Expire Date" SortExpression="ExpireDate">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.ExpireDate.Year == 9999 ? "No expire date" : Item.ExpireDate.ToShortDateString() %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No expire date" %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="View">
@@ -47,7 +47,7 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Expire Date">
                 <ItemTemplate>
-                    <asp:Label runat="server"><%#: Item.ExpireDate.Year == 9999 ? "No expire date" : Item.ExpireDate.ToShortDateString() %></asp:Label>
+                    <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No expire date" %></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Accept">

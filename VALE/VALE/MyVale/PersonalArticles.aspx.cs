@@ -11,11 +11,11 @@ namespace VALE.MyVale
 {
     public partial class PersonalArticles : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
         }
 
         protected void grdPersonalArticles_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -31,7 +31,7 @@ namespace VALE.MyVale
         public IQueryable<BlogArticle> GetPersonalArticles()
         {
             var db = new UserOperationsContext();
-            return db.BlogArticles.Where(a => a.CreatorId == _currentUserId);
+            return db.BlogArticles.Where(a => a.CreatorUserName == _currentUser);
         }
     }
 }

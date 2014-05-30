@@ -12,11 +12,11 @@ namespace VALE.MyVale
 {
     public partial class ViewArticle : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
         private int _articleId;
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _articleId = Convert.ToInt32(Request.QueryString.GetValues("articleId").First());
         }
@@ -40,7 +40,7 @@ namespace VALE.MyVale
             {
                 Date = DateTime.Now,
                 CommentText = txtComment.Text,
-                CreatorId = _currentUserId,
+                CreatorUserName = _currentUser,
                 BlogArticleId = _articleId
             };
             var db = new UserOperationsContext();
