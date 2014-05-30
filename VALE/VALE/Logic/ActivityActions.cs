@@ -34,6 +34,7 @@ namespace VALE.Logic
                 CheckStartDate(activity);
                 CheckEndDate(activity);
             }
+            _db.SaveChanges();
         }
 
         private void CheckEndDate(Activity activity)
