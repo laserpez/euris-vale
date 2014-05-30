@@ -22,6 +22,7 @@
                             <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No expire date" %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
+                    <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
                     <asp:TemplateField HeaderText="View">
                         <ItemTemplate>
                             <asp:Button CssClass="btn btn-info" runat="server" CommandName="ViewDetails"
