@@ -64,7 +64,7 @@
                         <Columns>
                             <asp:BoundField DataField="ActivityName" HeaderText="Name" SortExpression="ActivityName" />
                             <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                            <asp:BoundField DataField="CreationDate" DataFormatString="{0:d}" HeaderText="Creation Date" SortExpression="CreationDate" />
+                            <asp:BoundField DataField="StartDate" DataFormatString="{0:d}" HeaderText="Start Date" SortExpression="StartDate" />
                             <asp:TemplateField HeaderText="Expire Date" SortExpression="ExpireDate">
                                 <ItemTemplate>
                                     <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No end date"  %></asp:Label>

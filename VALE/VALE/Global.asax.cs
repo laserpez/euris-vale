@@ -34,7 +34,7 @@ namespace VALE
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             var db = new UserOperationsContext();
-            db.UsersData.Add(new UserData { UserDataId = DateTime.Now.ToString() });
+            db.UsersData.Add(new UserData { UserName = DateTime.Now.ToString() });
             //db.Activities.Where(o => o.ExpireDate.CompareTo(DateTime.Now) )
             db.SaveChanges();
         }
