@@ -16,21 +16,20 @@ namespace VALE.MyVale
     {
         private string _currentUserId;
         private int _currentInterventionId;
+        private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            _db = new UserOperationsContext();
             _currentUserId = User.Identity.GetUserId();
             if (Request.QueryString.HasKeys())
-                _currentInterventionId = Convert.ToInt32(Request.QueryString.GetValues("interventionId").First());
+                _currentInterventionId = Convert.ToInt32(Request.QueryString["interventionId"]);
         }
 
         public Intervention GetIntervention([QueryString("interventionId")] int? interventionId)
         {
             if (interventionId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                return db.Interventions.First(i => i.InterventionId == interventionId);
-            }
+                return _db.Interventions.First(i => i.InterventionId == interventionId);
             else
                 return null;
         }
@@ -44,8 +43,7 @@ namespace VALE.MyVale
         {
             if (interventionId.HasValue)
             {
-                var db = new UserOperationsContext();
-                var thisEvent = db.Interventions.First(p => p.InterventionId == interventionId);
+                var thisEvent = _db.Interventions.First(p => p.InterventionId == interventionId);
                 if (!String.IsNullOrEmpty(thisEvent.DocumentsPath))
                 {
                     var dir = new DirectoryInfo(Server.MapPath(thisEvent.DocumentsPath));
@@ -82,9 +80,8 @@ namespace VALE.MyVale
                 CreatorId = _currentUserId,
                 InterventionId = _currentInterventionId
             };
-            var db = new UserOperationsContext();
-            db.Comments.Add(comment);
-            db.SaveChanges();
+            _db.Comments.Add(comment);
+            _db.SaveChanges();
             lstComments.DataBind();
         }
 
@@ -92,11 +89,21 @@ namespace VALE.MyVale
         {
             if (interventionId.HasValue)
             {
-                var db = new UserOperationsContext();
-                return db.Comments.Where(c => c.InterventionId == interventionId).ToList();
+                return _db.Comments.Where(c => c.InterventionId == interventionId).ToList();
             }
             else
                 return null;
         }
+        protected void btnViewDocument_Click(object sender, EventArgs e)
+        {
+            var intervention = _db.Interventions.First(i => i.InterventionId == _currentInterventionId);
+            var lstDocument = (ListBox)InterventionDetail.FindControl("lstDocuments");
+            if (lstDocument.SelectedIndex > -1)
+            {
+                var file = intervention.DocumentsPath + lstDocument.SelectedValue;
+                Response.Redirect("/DownloadFile.ashx?filePath=" + file + "&fileName=" + lstDocument.SelectedValue);
+            }
+        }
+
     }
 }
