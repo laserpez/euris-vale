@@ -24,19 +24,19 @@ namespace VALE
             RoleActions.CreateRoles();
             UserActions.CreateAdministrator();
 
-            // Create a timer.
-            var aTimer = new Timer();
-            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = 21600000; // 6 hour
-            aTimer.Enabled = true;
+            var timer = new Timer();
+            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            timer.Interval = 21600000; // 6 hour
+            timer.Enabled = true;
         }
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             var db = new UserOperationsContext();
-            db.UsersData.Add(new UserData { UserName = DateTime.Now.ToString() });
-            //db.Activities.Where(o => o.ExpireDate.CompareTo(DateTime.Now) )
-            db.SaveChanges();
+            using(var actions = new ActivityActions())
+            {
+                actions.SetActivitiesStatus();
+            }
         }
     }
 }
