@@ -12,9 +12,9 @@
                     <asp:BoundField DataField="ActivityId" HeaderText="ID" SortExpression="ActivityId" />
                     <asp:BoundField DataField="ActivityName" HeaderText="Name" SortExpression="ActivityName" />
                     <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                    <asp:TemplateField HeaderText="Creation Date" SortExpression="CreationDate">
+                    <asp:TemplateField HeaderText="Start Date" SortExpression="StartDate">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.StartDate.ToShortDateString() %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Expire Date" SortExpression="ExpireDate">
@@ -43,7 +43,7 @@
             <asp:BoundField DataField="Description" HeaderText="Description" />
             <asp:TemplateField HeaderText="Creation Date">
                 <ItemTemplate>
-                    <asp:Label runat="server"><%#: Item.CreationDate %></asp:Label>
+                    <asp:Label runat="server"><%#: Item.StartDate %></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Expire Date">
