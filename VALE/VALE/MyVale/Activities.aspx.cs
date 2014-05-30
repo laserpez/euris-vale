@@ -106,7 +106,7 @@ namespace VALE.MyVale
                         strbldr.Append(userName + ';');
                         strbldr.Append(activity.ActivityId.ToString() + ';');
                         strbldr.Append(activity.ActivityName + ';');
-                        strbldr.Append(activity.CreationDate.ToShortDateString() + ';');
+                        strbldr.Append(activity.StartDate.ToShortDateString() + ';');
                         if (activity.ExpireDate.HasValue)
                             strbldr.Append(activity.ExpireDate.Value.ToShortDateString() + ';');
                         else

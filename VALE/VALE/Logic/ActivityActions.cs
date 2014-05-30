@@ -47,7 +47,7 @@ namespace VALE.Logic
 
         private void CheckStartDate(Activity activity)
         {
-            if (activity.CreationDate <= DateTime.Now)
+            if (activity.StartDate <= DateTime.Now)
                 activity.Status = ActivityStatus.Ongoing;
         }
 
