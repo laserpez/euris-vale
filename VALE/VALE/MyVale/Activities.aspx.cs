@@ -80,7 +80,6 @@ namespace VALE.MyVale
         }
 
 
-        // TODO va cambiato ovviamente, intanto testo così
         protected void btnExportCSV_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
@@ -114,7 +113,7 @@ namespace VALE.MyVale
                             strbldr.Append(activity.ExpireDate.ToString("dd/MM/yyyy") + ';');
                         else
                             strbldr.Append("Non definito;");
-                        strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId) + ';');
+                        strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId).ToString() + ';');
                         strbldr.Append("\n");
                     }
                 }

@@ -15,52 +15,45 @@ namespace VALE.MyVale
     {
         private int _currentActivityId;
         private string _currentUserId;
+        private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            _db = new UserOperationsContext();
             _currentUserId = User.Identity.GetUserId();
             if(Request.QueryString.HasKeys())
-                _currentActivityId = Convert.ToInt32(Request.QueryString.GetValues("activityId").First());
+                _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
         }
 
         public Activity GetActivity([QueryString("activityId")] int? activityId)
         {
-            var db = new UserOperationsContext();
             if (activityId.HasValue)
-            {
-                _currentActivityId = (int)activityId;
-                return db.Activities.Where(a => a.ActivityId == activityId).First();
-            }
+                return _db.Activities.Where(a => a.ActivityId == activityId).First();
             else
                 return null;
         }
 
         public IQueryable<UserData> GetUsersInvolved([QueryString("activityId")] int? activityId)
         {
-            var db = new UserOperationsContext();
             if (activityId.HasValue)
-            {
-                var listUsers = db.Reports.Where(r => r.ActivityId == activityId).GroupBy(r => r.Worker).Select(gr => gr.Key);
-                return listUsers;
-            }
+                return _db.Reports.Where(r => r.ActivityId == activityId).GroupBy(r => r.Worker).Select(gr => gr.Key);
             else
                 return null;
         }
 
         public string GetHoursWorked()
         {
-            var db = new UserOperationsContext();
-            int hours = db.Reports.Where(r => r.WorkerId == _currentUserId && r.ActivityId == _currentActivityId).Sum(r => r.HoursWorked);
+            int hours;
+            using (var activityActions = new ActivityActions())
+            {
+                hours = activityActions.GetHoursWorked(_currentUserId, _currentActivityId);
+            }
             return String.Format("Hours worked on this activity: {0}", hours);
         }
 
         public Project GetRelatedProject([QueryString("activityId")] int? activityId)
         {
-            var db = new UserOperationsContext();
-            var project = db.Projects
-                .Where(p => p.ProjectId == db.Activities
-                    .Where(a => a.ActivityId == activityId)
-                    .Select(a => a.RelatedProject.ProjectId).FirstOrDefault()).FirstOrDefault();
+            var project = _db.Activities.First(a => a.ActivityId == activityId).RelatedProject;
             return project;
         }
 
@@ -99,17 +92,16 @@ namespace VALE.MyVale
 
         protected void btnSearchProject_Click(object sender, EventArgs e)
         {
-            var dbData = new UserOperationsContext();
             FormView fwProject = (FormView)ActivityDetail.FindControl("ProjectDetail");
             TextBox textBox = (TextBox)fwProject.FindControl("txtProjectName");
             string projectName = textBox.Text;
-            Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
+            Project project = _db.Projects.FirstOrDefault(p => p.ProjectName == projectName);
             if(project != null)
             {
-                Activity activity = dbData.Activities.Where(a => a.ActivityId == _currentActivityId).First();
+                Activity activity = _db.Activities.Where(a => a.ActivityId == _currentActivityId).First();
                 activity.RelatedProject = project;
                 project.Activities.Add(activity);
-                dbData.SaveChanges();
+                _db.SaveChanges();
             }
             else
             {
@@ -124,11 +116,10 @@ namespace VALE.MyVale
             TextBox txtDescription = (TextBox)ActivityDetail.FindControl("txtDescription");
             Button btnAdd = (Button)sender;
             Label lblHoursWorked = (Label)ActivityDetail.FindControl("lblHoursWorked");
-            var db = new UserOperationsContext();
             int hours = 0;
             if(int.TryParse(txtHours.Text, out hours))
             {
-                db.Reports.Add(new ActivityReport
+                _db.Reports.Add(new ActivityReport
                     {
                         ActivityId = _currentActivityId,
                         WorkerId =_currentUserId,
@@ -136,7 +127,7 @@ namespace VALE.MyVale
                         Date = DateTime.Today,
                         HoursWorked = hours
                     });
-                db.SaveChanges();
+                _db.SaveChanges();
                 btnAdd.CssClass = "btn btn-success";
                 btnAdd.Text = "Report added";
                 lblHoursWorked.Text = GetHoursWorked();

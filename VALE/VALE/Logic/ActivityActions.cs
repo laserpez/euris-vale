@@ -17,10 +17,10 @@ namespace VALE.Logic
             return _db.Activities.Where(a => activitiesId.Contains(a.ActivityId)).ToList();
         }
 
-        public string GetHoursWorked(string userName, int activityId)
+        public int GetHoursWorked(string userName, int activityId)
         {
             var userId = GetUserId(userName);
-            return _db.Reports.Where(r => r.ActivityId == activityId && r.WorkerId == userId).Sum(r => r.HoursWorked).ToString();
+            return _db.Reports.Where(r => r.ActivityId == activityId && r.WorkerId == userId).Sum(r => r.HoursWorked);
         }
 
         public void Dispose()
