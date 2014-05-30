@@ -14,7 +14,7 @@ namespace VALE.Models
         public DateTime ReleaseDate { get; set; }
 
         [ForeignKey("Creator")]
-        public string CreatorId { get; set; }
+        public string CreatorUserName { get; set; }
         public virtual UserData Creator { get; set; }
 
         public string Status { get; set; }

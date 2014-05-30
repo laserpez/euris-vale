@@ -11,7 +11,7 @@ namespace VALE.Models
     public class UserData
     {
         [Key]
-        public string UserDataId { get; set; }
+        public string UserName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
 

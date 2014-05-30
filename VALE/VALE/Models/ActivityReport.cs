@@ -19,7 +19,7 @@ namespace VALE.Models
         public virtual Activity WorkedActivity { get; set; }
 
         [Required, ForeignKey("Worker")]
-        public string WorkerId { get; set; }
+        public string WorkerUserName { get; set; }
         public virtual UserData Worker { get; set; }
 
         

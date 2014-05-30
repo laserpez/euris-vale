@@ -15,7 +15,7 @@ namespace VALE.MyVale
     public partial class EventDetails : System.Web.UI.Page
     {
         private int _currentEventId;
-        private string _currentUserId;
+        private string _currentUser;
         private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -23,7 +23,7 @@ namespace VALE.MyVale
             _db = new UserOperationsContext();
             if (Request.QueryString.HasKeys())
                 _currentEventId = Convert.ToInt32(Request.QueryString["eventId"]);
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -42,7 +42,7 @@ namespace VALE.MyVale
 
         private bool IsUserAttendingThisEvent()
         {
-            return _db.Events.First(a => a.EventId == _currentEventId).RegisteredUsers.Select(u => u.UserDataId).Contains(_currentUserId);
+            return _db.Events.First(a => a.EventId == _currentEventId).RegisteredUsers.Select(u => u.UserName).Contains(_currentUser);
         }
 
         public Event GetEvent([QueryString("eventId")] int? eventId)
@@ -89,7 +89,7 @@ namespace VALE.MyVale
 
         protected void btnAttend_Click(object sender, EventArgs e)
         {
-            UserData user = _db.UsersData.First(u => u.UserDataId == _currentUserId);
+            UserData user = _db.UsersData.First(u => u.UserName == _currentUser);
             Event thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             if (!IsUserAttendingThisEvent())

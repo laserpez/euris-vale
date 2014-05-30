@@ -67,7 +67,7 @@
                             <asp:BoundField DataField="CreationDate" DataFormatString="{0:d}" HeaderText="Creation Date" SortExpression="CreationDate" />
                             <asp:TemplateField HeaderText="Expire Date" SortExpression="ExpireDate">
                                 <ItemTemplate>
-                                    <asp:Label runat="server"><%#: Item.ExpireDate.Year == 9999 ? "No end date" : Item.ExpireDate.ToShortDateString() %></asp:Label>
+                                    <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No end date"  %></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -91,7 +91,7 @@
                     <asp:BoundField DataField="InterventionText" HeaderText="Comment" SortExpression="InterventionText" />
                     <asp:TemplateField HeaderText="Created by">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: GetUserName(Item.CreatorId) %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Date">

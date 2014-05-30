@@ -104,10 +104,9 @@ namespace VALE.Account
             IdentityResult result = manager.Create(user, Password.Text);
             if (result.Succeeded)
             {
-                string userId = user.Id;
                 db.UsersData.Add(new UserData 
                 { 
-                    UserDataId = userId,
+                    UserName = user.UserName,
                     Email = user.Email,
                     FullName = user.FirstName + " " + user.LastName
                 });
