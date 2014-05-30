@@ -31,7 +31,7 @@ namespace VALE.MyVale
                 ActivityName = txtName.Text,
                 Description = txtDescription.Text,
                 Status = Convert.ToDateTime(txtStartDate.Text) > DateTime.Today ? ActivityStatus.Planned : ActivityStatus.Ongoing,
-                CreationDate = Convert.ToDateTime(txtStartDate.Text),
+                StartDate = Convert.ToDateTime(txtStartDate.Text),
                 ExpireDate = expireDate,
                 RelatedProject = project,
                 PendingUsers = new List<UserData>(),
