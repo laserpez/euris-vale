@@ -10,17 +10,15 @@ namespace VALE.Logic
     {
         UserOperationsContext _db = new UserOperationsContext();
 
-        public List<Activity> GetConcludedActivities(string userName)
+        public List<Activity> GetActivities(string userName, ActivityStatus status)
         {
-            var userId = GetUserId(userName);
-            var activitiesId = _db.Reports.Where(r => r.WorkerId == userId).GroupBy(r => r.ActivityId).Select(gr => gr.Key).ToList();
-            return _db.Activities.Where(a => activitiesId.Contains(a.ActivityId)).ToList();
+            var activitiesId = _db.Reports.Where(r => r.WorkerUserName == userName).GroupBy(r => r.ActivityId).Select(gr => gr.Key).ToList();
+            return _db.Activities.Where(a => activitiesId.Contains(a.ActivityId) && a.Status == status).ToList();
         }
 
-        public string GetHoursWorked(string userName, int activityId)
+        public int GetHoursWorked(string userName, int activityId)
         {
-            var userId = GetUserId(userName);
-            return _db.Reports.Where(r => r.ActivityId == activityId && r.WorkerId == userId).Sum(r => r.HoursWorked).ToString();
+            return _db.Reports.Where(r => r.ActivityId == activityId && r.WorkerUserName == userName).Sum(r => r.HoursWorked);
         }
 
         public void Dispose()
@@ -29,10 +27,29 @@ namespace VALE.Logic
                 _db = null;
         }
 
-        public string GetUserId(string userName)
+        public void SetActivitiesStatus()
         {
-            var _dbUser = new ApplicationDbContext();
-            return _dbUser.Users.First(u => u.UserName == userName).Id;
+            foreach(var activity in _db.Activities.Where(a => a.Status != ActivityStatus.Deleted && a.Status != ActivityStatus.Suspended))
+            {
+                CheckStartDate(activity);
+                CheckEndDate(activity);
+            }
         }
+
+        private void CheckEndDate(Activity activity)
+        {
+            if(activity.ExpireDate.HasValue)
+            {
+                if (activity.ExpireDate.Value <= DateTime.Now)
+                    activity.Status = ActivityStatus.Ended;
+            }
+        }
+
+        private void CheckStartDate(Activity activity)
+        {
+            if (activity.CreationDate <= DateTime.Now)
+                activity.Status = ActivityStatus.Ongoing;
+        }
+
     }
 }

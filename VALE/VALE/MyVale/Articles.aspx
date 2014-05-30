@@ -10,7 +10,7 @@
                     <asp:BoundField DataField="Title" HeaderText="Title" SortExpression="Title" />
                     <asp:TemplateField HeaderText="Creator" >
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: GetCreatorName(Item.CreatorId) %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Release date" SortExpression="ReleaseDate">

@@ -7,9 +7,9 @@
             <h4>Activity details</h4>
             <asp:Label runat="server" CssClass="conrol-label"><%#: String.Format("Created by: {0}", Item.Creator.FullName) %></asp:Label>
             <br />
-            <asp:Label runat="server" CssClass="control-label"><%#: String.Format("From: {0} - To: {1}", Item.CreationDate.ToShortDateString(), Item.ExpireDate.Year == 9999 ? "No end date" : Item.ExpireDate.ToShortDateString()) %></asp:Label>
+            <asp:Label runat="server" CssClass="control-label"><%#: String.Format("From: {0} - To: {1}", Item.CreationDate.ToShortDateString(), Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No expire date") %></asp:Label>
             <br />
-            <asp:Label runat="server" CssClass="control-label"><%#: String.Format("Status: {0}", Item.Status.ToUpper()) %></asp:Label>
+            <asp:Label runat="server" CssClass="control-label"><%#: String.Format("Status: {0}", Item.Status) %></asp:Label>
             <br />
             <asp:Label runat="server"><%#: String.Format("Description: {0}", Item.Description) %></asp:Label><br />
 

@@ -12,9 +12,9 @@
                             <asp:Label runat="server"><%#: Item.ReleaseDate.ToShortDateString() %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Creator" SortExpression="OrganizerId">
+                    <asp:TemplateField HeaderText="Creator" SortExpression="CreatorUserName">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: GetCreatorName(Item.CreatorId) %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />

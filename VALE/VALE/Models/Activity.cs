@@ -15,8 +15,8 @@ namespace VALE.Models
         public string ActivityName { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
-        public DateTime ExpireDate { get; set; }
-        public string Status { get; set; }
+        public DateTime? ExpireDate { get; set; }
+        public ActivityStatus Status { get; set; }
 
         // Nullable FK, cascade deleting is set in modelBuilder
         [ForeignKey("RelatedProject")]
@@ -27,7 +27,16 @@ namespace VALE.Models
         public virtual List<UserData> PendingUsers { get; set; }
         
         [ForeignKey("Creator")]
-        public string UserDataId { get; set; }
+        public string CreatorUserName { get; set; }
         public virtual UserData Creator { get; set; }
+    }
+
+    public enum ActivityStatus
+    {
+        Planned,
+        Ongoing,
+        Suspended,
+        Deleted,
+        Ended
     }
 }

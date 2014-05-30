@@ -15,15 +15,15 @@ namespace VALE.MyVale
     public partial class EventDetails : System.Web.UI.Page
     {
         private int _currentEventId;
-        private string _currentUserId;
+        private string _currentUser;
+        private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            _db = new UserOperationsContext();
             if (Request.QueryString.HasKeys())
-                _currentEventId = Convert.ToInt32(Request.QueryString.GetValues("eventId").First());
-            _currentUserId = User.Identity.GetUserId();
-
-
+                _currentEventId = Convert.ToInt32(Request.QueryString["eventId"]);
+            _currentUser = User.Identity.GetUserName();
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -42,18 +42,13 @@ namespace VALE.MyVale
 
         private bool IsUserAttendingThisEvent()
         {
-            var db = new UserOperationsContext();
-            return db.Events.First(a => a.EventId == _currentEventId).RegisteredUsers.Select(u => u.UserDataId).Contains(_currentUserId);
+            return _db.Events.First(a => a.EventId == _currentEventId).RegisteredUsers.Select(u => u.UserName).Contains(_currentUser);
         }
 
         public Event GetEvent([QueryString("eventId")] int? eventId)
         {
-            var db = new UserOperationsContext();
             if (eventId.HasValue)
-            {
-                _currentEventId = (int)eventId;
-                return db.Events.FirstOrDefault(e => e.EventId == eventId);
-            }
+                return _db.Events.FirstOrDefault(e => e.EventId == eventId);
             else
                 return null;
         }
@@ -61,38 +56,29 @@ namespace VALE.MyVale
         public IQueryable<UserData> GetRegisteredUsers([QueryString("eventId")] int? eventId)
         {
             if (eventId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                var listUsers = db.Events.Where(e => e.EventId == eventId).FirstOrDefault().RegisteredUsers.AsQueryable();
-                return listUsers;
-            }
+                return _db.Events.Where(e => e.EventId == eventId).FirstOrDefault().RegisteredUsers.AsQueryable();
             else
                 return null;
         }
 
         public Project GetRelatedProject([QueryString("eventId")] int? eventId)
         {
-            var db = new UserOperationsContext();
-            var project = db.Projects
-                .Where(p => p.ProjectId == db.Events
-                    .Where(a => a.EventId == eventId)
-                    .Select(a => a.RelatedProject.ProjectId).FirstOrDefault()).FirstOrDefault();
+            var project = _db.Events.First(e => e.EventId == eventId).RelatedProject;
             return project;
         }
 
         protected void btnSearchProject_Click(object sender, EventArgs e)
         {
-            var dbData = new UserOperationsContext();
             FormView fwProject = (FormView)EventDetail.FindControl("ProjectDetail");
             TextBox textBox = (TextBox)fwProject.FindControl("txtProjectName");
             string projectName = textBox.Text;
-            Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
+            Project project = _db.Projects.FirstOrDefault(p => p.ProjectName == projectName);
             if (project != null)
             {
-                Activity activity = dbData.Activities.Where(a => a.ActivityId == _currentEventId).First();
+                Activity activity = _db.Activities.Where(a => a.ActivityId == _currentEventId).First();
                 activity.RelatedProject = project;
                 project.Activities.Add(activity);
-                dbData.SaveChanges();
+                _db.SaveChanges();
             }
             else
             {
@@ -103,15 +89,14 @@ namespace VALE.MyVale
 
         protected void btnAttend_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            UserData user = db.UsersData.First(u => u.UserDataId == _currentUserId);
-            Event thisEvent = db.Events.First(ev => ev.EventId == _currentEventId);
+            UserData user = _db.UsersData.First(u => u.UserName == _currentUser);
+            Event thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             if (!IsUserAttendingThisEvent())
             {
                 thisEvent.RegisteredUsers.Add(user);
                 user.AttendingEvents.Add(thisEvent);
-                db.SaveChanges();
+                _db.SaveChanges();
                 // MAIL
                 //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
                 //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
@@ -121,7 +106,7 @@ namespace VALE.MyVale
             {
                 thisEvent.RegisteredUsers.Remove(user);
                 user.AttendingEvents.Remove(thisEvent);
-                db.SaveChanges();
+                _db.SaveChanges();
             }
 
 
@@ -156,25 +141,13 @@ namespace VALE.MyVale
 
         protected void btnViewDocument_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var project = db.Projects.First(p => p.ProjectId == _currentEventId);
+            var thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
             var lstDocument = (ListBox)EventDetail.FindControl("lstDocuments");
-            if (lstDocument.SelectedIndex > -1)
+            if(lstDocument.SelectedIndex > -1)
             {
-                var file = project.DocumentsPath + lstDocument.SelectedValue;
-                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-                response.ClearContent();
-                response.Clear();
-                response.ContentType = "application/octet-stream";
-                string serverPath = Server.MapPath(file);
-                if (File.Exists(serverPath))
-                {
-                    Response.Redirect(file);
-                }
+                var file = thisEvent.DocumentsPath + lstDocument.SelectedValue;
+                Response.Redirect("/DownloadFile.ashx?filePath=" + file + "&fileName=" + lstDocument.SelectedValue);
             }
         }
-
-        
-
     }
 }

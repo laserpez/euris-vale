@@ -11,10 +11,10 @@ namespace VALE.MyVale.Create
 {
     public partial class ArticleCreate : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -26,7 +26,7 @@ namespace VALE.MyVale.Create
                 Content = txtArticleContent.Text,
                 Status = "pending",
                 ReleaseDate = Convert.ToDateTime(txtReleaseDate.Text),
-                CreatorId = _currentUserId
+                CreatorUserName = _currentUser
             };
             db.BlogArticles.Add(article);
             db.SaveChanges();
