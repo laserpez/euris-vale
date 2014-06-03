@@ -12,11 +12,11 @@ namespace VALE.MyVale
 {
     public partial class Events : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
             if (!IsPostBack)
             {
                 PopulateGridView(DateTime.Today, DateTime.Today.AddDays(7));
@@ -61,13 +61,13 @@ namespace VALE.MyVale
         private bool IsUserAttendingThisEvent(int eventId)
         {
             var db = new UserOperationsContext();
-            return db.Events.First(a => a.EventId == eventId).RegisteredUsers.Select(u => u.UserDataId).Contains(_currentUserId);
+            return db.Events.First(a => a.EventId == eventId).RegisteredUsers.Select(u => u.UserName).Contains(_currentUser);
         }
 
         public List<Event> GetAttendingEvents()
         {
             var dbData = new UserOperationsContext();
-            var events = dbData.UsersData.First(u => u.UserDataId == _currentUserId).AttendingEvents;
+            var events = dbData.UsersData.First(u => u.UserName == _currentUser).AttendingEvents;
             return events;
         }
 
@@ -83,7 +83,7 @@ namespace VALE.MyVale
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
             int eventId = Convert.ToInt32(grdPlannedEvent.Rows[rowID].Cells[0].Text);
             var db = new UserOperationsContext();
-            UserData user = db.UsersData.First(u => u.UserDataId == _currentUserId);
+            UserData user = db.UsersData.First(u => u.UserName == _currentUser);
             Event thisEvent = db.Events.First(ev => ev.EventId == eventId);
             Button btnAttend = (Button)sender;
             if (!IsUserAttendingThisEvent(eventId))

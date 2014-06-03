@@ -9,6 +9,7 @@
             <asp:Label runat="server"><%#: String.IsNullOrEmpty(Item.InterventionText) ? "No text inserted" : Item.InterventionText %></asp:Label>
             <h4>Related documents</h4>
             <asp:ListBox runat="server" ID="lstDocuments" CssClass="form-control" SelectMethod="GetRelatedDocuments"></asp:ListBox>
+            <asp:Button runat="server" Text="View document" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
         </ItemTemplate>
     </asp:FormView>
     <h3>Comments</h3>

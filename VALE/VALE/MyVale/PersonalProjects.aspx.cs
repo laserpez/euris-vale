@@ -11,23 +11,23 @@ namespace VALE.MyVale
 {
     public partial class PersonalProjects : System.Web.UI.Page
     {
+        private string _currentUser;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            _currentUser = User.Identity.GetUserName();
         }
 
         public IQueryable<Project> GetOrganizedProjects()
         {
             var db = new UserOperationsContext();
-            string currentIdUser = User.Identity.GetUserId();
-            return db.UsersData.Where(u => u.UserDataId == currentIdUser).First().OrganizedProjects.AsQueryable();
+            return db.UsersData.Where(u => u.UserName == _currentUser).First().OrganizedProjects.AsQueryable();
         }
 
         public IQueryable<Project> GetAttendingProjects()
         {
             var db = new UserOperationsContext();
-            string currentIdUser = User.Identity.GetUserId();
-            return db.UsersData.Where(u => u.UserDataId == currentIdUser).First().AttendingProjects.AsQueryable();
+            return db.UsersData.Where(u => u.UserName == _currentUser).First().AttendingProjects.AsQueryable();
         }
 
         protected void grid_RowCommand(object sender, GridViewCommandEventArgs e)

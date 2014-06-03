@@ -27,7 +27,7 @@ namespace VALE.Models
         public virtual List<UserData> RegisteredUsers { get; set; }
 
         [ForeignKey("Organizer")]
-        public string OrganizerId { get; set; }
+        public string OrganizerUserName { get; set; }
         public virtual UserData Organizer { get; set; }
         
     }

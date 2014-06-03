@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Timers;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -22,6 +23,20 @@ namespace VALE
 
             RoleActions.CreateRoles();
             UserActions.CreateAdministrator();
+
+            var timer = new Timer();
+            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            timer.Interval = 21600000; // 6 hour
+            timer.Enabled = true;
+        }
+
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            var db = new UserOperationsContext();
+            using(var actions = new ActivityActions())
+            {
+                actions.SetActivitiesStatus();
+            }
         }
     }
 }

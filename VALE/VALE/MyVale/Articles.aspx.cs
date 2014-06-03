@@ -21,12 +21,6 @@ namespace VALE.MyVale
             return db.BlogArticles;
         }
 
-        public string GetCreatorName(string userId)
-        {
-            var db = new UserOperationsContext();
-            return db.UsersData.First(u => u.UserDataId == userId).FullName;
-        }
-
         protected void grdAllArticles_RowCommand(object sender, GridViewCommandEventArgs e)
         {
 

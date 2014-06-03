@@ -12,13 +12,13 @@ namespace VALE.MyVale
 {
     public partial class EventCreate : System.Web.UI.Page
     {
-        private string _currentUserId = "";
+        private string _currentUser;
         private string _temporaryPath;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
-            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUserId + "/";
+            _currentUser = User.Identity.GetUserName();
+            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUser + "/";
             if (!IsPostBack)
             {
                 if (!String.IsNullOrEmpty(_temporaryPath))
@@ -35,7 +35,7 @@ namespace VALE.MyVale
         protected void btnSaveEvent_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
-            var user = db.UsersData.FirstOrDefault(u => u.UserDataId == _currentUserId);
+            var user = db.UsersData.FirstOrDefault(u => u.UserName == _currentUser);
             var registeredUsers = new List<UserData>() { user };
             var newEvent = new Event
             {
@@ -43,7 +43,7 @@ namespace VALE.MyVale
                 Description = txtDescription.Text,
                 Public = chkPublic.Checked,
                 EventDate = Convert.ToDateTime(txtStartDate.Text),
-                OrganizerId = _currentUserId,
+                OrganizerUserName = _currentUser,
                 RegisteredUsers = registeredUsers,
                 RelatedProject = db.Projects.FirstOrDefault(p => p.ProjectName == txtProjectName.Text)
             };

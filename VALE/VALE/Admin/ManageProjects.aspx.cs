@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace VALE.Admin
 {
@@ -43,11 +45,35 @@ namespace VALE.Admin
         {
             int index = Convert.ToInt32(e.CommandArgument);
             int projectId = Convert.ToInt32(ProjectList.Rows[index].Cells[0].Text);
+            var dbData = new UserOperationsContext();
 
             if (e.CommandName == "DeleteProject")
             {
+                ProjectID.Text = projectId.ToString();
+                ProjectName.Text = dbData.Projects.Where(o => o.ProjectId == projectId).FirstOrDefault().ProjectName;
+                ModalPopup.Show();
+            }
+            else
+            {
+                Response.Redirect("/Admin/ProjectReport?projectId=" + projectId);
+            }
+        }
+
+        protected void CloseButton_Click(object sender, EventArgs e)
+        {
+            ModalPopup.Hide();
+        }
+
+        protected void DeleteButton_Click(object sender, EventArgs e)
+        {
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = manager.Find(User.Identity.Name, PassTextBox.Text);
+            if (user != null)
+            {
+
                 var dbData = new UserOperationsContext();
-                var project = dbData.Projects.First(p => p.ProjectId == projectId);
+                int Id = Convert.ToInt32(ProjectID.Text);
+                var project = dbData.Projects.First(p => p.ProjectId == Id);
                 if (!String.IsNullOrEmpty(project.DocumentsPath))
                 {
                     if (Directory.Exists(Server.MapPath(project.DocumentsPath)))
@@ -60,10 +86,13 @@ namespace VALE.Admin
                 ViewState["lstProject"] = GetProjects();
                 ProjectList.DataSource = (List<Project>)ViewState["lstProject"];
                 ProjectList.DataBind();
+                Response.Redirect("/Admin/ManageProjects.aspx");
             }
             else
             {
-                Response.Redirect("/Admin/ProjectReport?projectId=" + projectId);
+                ErrorDeleteLabel.Visible = true;
+                ErrorDeleteLabel.Text = "Wrong password";
+                ModalPopup.Show();
             }
         }
 

@@ -11,11 +11,11 @@ namespace VALE.MyVale
 {
     public partial class ActivityCreate : System.Web.UI.Page
     {
-        private string _currentUserId = "";
+        private string _currentUser = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
             if (!IsPostBack)
             {
                 calendarFrom.StartDate = DateTime.Now;
@@ -27,23 +27,26 @@ namespace VALE.MyVale
         {
             var db = new UserOperationsContext();
             var project = db.Projects.FirstOrDefault(p => p.ProjectName == txtProjectName.Text);
+            DateTime? expireDate = null;
+            if(!String.IsNullOrEmpty(txtEndDate.Text))
+                expireDate = Convert.ToDateTime(txtEndDate.Text);
             var newActivity = new Activity
             {
                 ActivityName = txtName.Text,
                 Description = txtDescription.Text,
-                Status = "ongoing",
-                CreationDate = Convert.ToDateTime(txtStartDate.Text),
-                ExpireDate = String.IsNullOrEmpty(txtEndDate.Text) ? DateTime.MaxValue : Convert.ToDateTime(txtEndDate.Text),
+                Status = Convert.ToDateTime(txtStartDate.Text) > DateTime.Today ? ActivityStatus.Planned : ActivityStatus.Ongoing,
+                StartDate = Convert.ToDateTime(txtStartDate.Text),
+                ExpireDate = expireDate,
                 RelatedProject = project,
                 PendingUsers = new List<UserData>(),
-                UserDataId = _currentUserId
+                CreatorUserName = _currentUser
             };
             db.Activities.Add(newActivity);
             db.SaveChanges();
             db.Reports.Add(new ActivityReport
             {
                 ActivityId = newActivity.ActivityId,
-                WorkerId = _currentUserId,
+                WorkerUserName = _currentUser,
                 HoursWorked = 0,
                 ActivityDescription = "Creazione attività",
                 Date = DateTime.Today

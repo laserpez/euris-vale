@@ -12,16 +12,17 @@
                     <asp:BoundField DataField="ActivityId" HeaderText="ID" SortExpression="ActivityId" />
                     <asp:BoundField DataField="ActivityName" HeaderText="Name" SortExpression="ActivityName" />
                     <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                    <asp:TemplateField HeaderText="Creation Date" SortExpression="CreationDate">
+                    <asp:TemplateField HeaderText="Start Date" SortExpression="StartDate">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.StartDate.ToShortDateString() %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Expire Date" SortExpression="ExpireDate">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.ExpireDate.Year == 9999 ? "No expire date" : Item.ExpireDate.ToShortDateString() %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No expire date" %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
+                    <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
                     <asp:TemplateField HeaderText="View">
                         <ItemTemplate>
                             <asp:Button CssClass="btn btn-info" runat="server" CommandName="ViewDetails"
@@ -42,12 +43,12 @@
             <asp:BoundField DataField="Description" HeaderText="Description" />
             <asp:TemplateField HeaderText="Creation Date">
                 <ItemTemplate>
-                    <asp:Label runat="server"><%#: Item.CreationDate %></asp:Label>
+                    <asp:Label runat="server"><%#: Item.StartDate %></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Expire Date">
                 <ItemTemplate>
-                    <asp:Label runat="server"><%#: Item.ExpireDate.Year == 9999 ? "No expire date" : Item.ExpireDate.ToShortDateString() %></asp:Label>
+                    <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No expire date" %></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="Accept">
