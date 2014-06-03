@@ -59,7 +59,7 @@ namespace VALE.MyVale.BOD
             list.Visible = false;
         }
 
-        protected void btnViewDocument_Click(object sender, EventArgs e)
+        protected void btnViewDocuments_Click(object sender, EventArgs e)
         {
             var report = _db.BODReports.First(r => r.BODReportId == _currentReportId);
             var lstDocument = (ListBox)BODReportDetail.FindControl("lstDocuments");
