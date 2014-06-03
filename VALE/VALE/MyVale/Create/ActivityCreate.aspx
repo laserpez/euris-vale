@@ -13,17 +13,21 @@
             <asp:TextBox TextMode="MultiLine" runat="server" ID="txtDescription" CssClass="form-control" Height="145px" Width="404px" />
             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="The description field is required." />
         </div>
-        <asp:Label runat="server" CssClass="col-md-2 control-label">Start date *</asp:Label>
-        <div class="col-md-10">
-            <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" OnTextChanged="txtStartDate_TextChanged" AutoPostBack="true" />
-            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
-            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="The start date field is required." />
-        </div>
-        <asp:Label runat="server" CssClass="col-md-2 control-label">End date (optional)</asp:Label>
-        <div class="col-md-10">
-            <asp:TextBox runat="server" ID="txtEndDate" CssClass="form-control" />
-            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtEndDate"></asp:CalendarExtender>
-        </div>
+        <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+                <asp:Label runat="server" CssClass="col-md-2 control-label">Start date *</asp:Label>
+                <div class="col-md-10">
+                    <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" OnTextChanged="txtStartDate_TextChanged" AutoPostBack="true" />
+                    <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
+                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="The start date field is required." />
+                </div>
+                <asp:Label runat="server" CssClass="col-md-2 control-label">End date (optional)</asp:Label>
+                <div class="col-md-10">
+                    <asp:TextBox runat="server" ID="txtEndDate" CssClass="form-control" />
+                    <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtEndDate"></asp:CalendarExtender>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
         <asp:Label runat="server" CssClass="col-md-2 control-label">Related project (optional)</asp:Label>
         <div class="col-md-10">
             <asp:UpdatePanel ID="SearchProjectPanel" runat="server">

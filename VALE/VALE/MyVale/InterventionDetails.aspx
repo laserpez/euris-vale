@@ -28,7 +28,7 @@
                             <asp:Label runat="server" Text="No comments yet"></asp:Label>
                         </EmptyDataTemplate>
                         <ItemTemplate>
-                            <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.Creator.FullName %></asp:Label>
+                            <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.CreatorUserName %></asp:Label>
                             <asp:Label runat="server"><%#: String.Format(" - {0}", Item.Date) %></asp:Label><br />
                             <asp:Label runat="server"><%#: Item.CommentText %></asp:Label><br />
                         </ItemTemplate>

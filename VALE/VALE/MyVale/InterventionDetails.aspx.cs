@@ -78,13 +78,15 @@ namespace VALE.MyVale
             _db.Comments.Add(comment);
             _db.SaveChanges();
             lstComments.DataBind();
+            txtComment.Text = "";
         }
 
         public List<Comment> GetComments([QueryString("interventionId")] int? interventionId)
         {
             if (interventionId.HasValue)
             {
-                return _db.Comments.Where(c => c.InterventionId == interventionId).ToList();
+                var comments = _db.Comments.Where(c => c.InterventionId == interventionId).ToList();
+                return comments;
             }
             else
                 return null;

@@ -11,7 +11,7 @@
     <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtLocation" ErrorMessage="* location field required" ></asp:RequiredFieldValidator><br />
 
     <asp:Label runat="server" CssClass="control-label">Meeting date:</asp:Label>
-    <asp:TextBox CssClass="form-control" ID="txtMeetingDate" runat="server" OnTextChanged="txtMeetingDate_TextChanged" AutoPostBack="true"></asp:TextBox>
+    <asp:TextBox CssClass="form-control" ID="txtMeetingDate" runat="server" AutoPostBack="true"></asp:TextBox>
     <asp:CalendarExtender ID="CalendarMeetingDate" TargetControlID="txtMeetingDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
     <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtMeetingDate" ErrorMessage="* date field required" ></asp:RequiredFieldValidator><br />
 
@@ -23,24 +23,6 @@
     <asp:Label runat="server" CssClass="control-label">Write report:</asp:Label>
     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtReportText" runat="server"></asp:TextBox>
     <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtReportText" ErrorMessage="* report field required" ></asp:RequiredFieldValidator><br />
-    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtReportText">
-        <Toolbar>
-            <ajaxToolkit:Undo />
-            <ajaxToolkit:Redo />
-            <ajaxToolkit:Bold />
-            <ajaxToolkit:Italic />
-            <ajaxToolkit:Underline />
-            <ajaxToolkit:StrikeThrough />
-            <ajaxToolkit:Subscript />
-            <ajaxToolkit:Superscript />
-            <ajaxToolkit:InsertOrderedList />
-            <ajaxToolkit:InsertUnorderedList />
-            <ajaxToolkit:CreateLink />
-            <ajaxToolkit:Cut />
-            <ajaxToolkit:Copy />
-            <ajaxToolkit:Paste />
-        </Toolbar>
-    </asp:HtmlEditorExtender>
     <br />
     <asp:Label runat="server" CssClass="control-label">Upload file(s)</asp:Label>
 
