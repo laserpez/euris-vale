@@ -87,9 +87,5 @@ namespace VALE.MyVale.BOD
             Response.Redirect("/MyVale/BOD/BODReports");
 
         }
-
-        protected void txtMeetingDate_TextChanged(object sender, EventArgs e)
-        {
-        }
     }
 }
