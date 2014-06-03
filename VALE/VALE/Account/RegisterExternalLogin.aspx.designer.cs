@@ -58,22 +58,40 @@ namespace VALE.Account {
         protected global::System.Web.UI.WebControls.TextBox TextAddress;
         
         /// <summary>
-        /// TextCity control.
+        /// UpdatePanel3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextCity;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel3;
         
         /// <summary>
-        /// TextProv control.
+        /// DropDownRegion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextProv;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownRegion;
+        
+        /// <summary>
+        /// DropDownProvince control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownProvince;
+        
+        /// <summary>
+        /// DropDownCity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownCity;
         
         /// <summary>
         /// TextCF control.

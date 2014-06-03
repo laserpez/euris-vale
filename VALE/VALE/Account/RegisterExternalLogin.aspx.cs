@@ -4,7 +4,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
+using System.Linq;
 using VALE.Models;
+using System.Collections.Generic;
+using VALE.StateInfo;
 
 namespace VALE.Account
 {
@@ -38,6 +41,7 @@ namespace VALE.Account
             }
             if (!IsPostBack)
             {
+                SetRegionDropDownList();
                 var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var loginInfo = Context.GetOwinContext().Authentication.GetExternalLoginInfo();
                 if (loginInfo == null)
@@ -82,7 +86,63 @@ namespace VALE.Account
                     
                 }
             }
-        }        
+        }
+
+        private void SetRegionDropDownList()
+        {
+            List<string> init = new List<string> { "Select" };
+            DropDownProvince.DataSource = init;
+            DropDownProvince.DataBind();
+            DropDownCity.DataSource = init;
+            DropDownCity.DataBind();
+            String path = Server.MapPath("~/StateInfo/regioni_province_comuni.xml");
+            StateInfoXML.GetInstance().FileName = path;
+            var list = StateInfoXML.GetInstance().LoadData();
+            var regions = (from r in list where r.depth == "0" orderby r.name select r.name).ToList();
+            regions.Insert(0, "Select");
+            DropDownRegion.DataSource = regions;
+            DropDownRegion.DataBind();
+        }
+
+        protected void Region_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DropDownRegion.SelectedIndex == 0)
+            {
+                List<string> init = new List<string> { "Select" };
+                DropDownProvince.DataSource = init;
+                DropDownProvince.DataBind();
+                DropDownCity.DataSource = init;
+                DropDownCity.DataBind();
+            }
+            else
+            {
+                var list = StateInfoXML.GetInstance().LoadData();
+                var tid = (from r in list where r.depth == "0" && r.name == DropDownRegion.SelectedValue select r.tid).FirstOrDefault();
+                var provinces = (from r in list where r.depth == "1" && r.parent == tid orderby r.name select r.name).ToList();
+                provinces.Insert(0, "Select");
+                DropDownProvince.DataSource = provinces;
+                DropDownProvince.DataBind();
+            }
+        }
+
+        protected void State_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DropDownProvince.SelectedIndex == 0)
+            {
+                List<string> init = new List<string> { "Select" };
+                DropDownCity.DataSource = init;
+                DropDownCity.DataBind();
+            }
+            else
+            {
+                var list = StateInfoXML.GetInstance().LoadData();
+                var tid = (from r in list where r.depth == "1" && r.name == DropDownProvince.SelectedValue select r.tid).FirstOrDefault();
+                var citys = (from r in list where r.depth == "2" && r.parent == tid orderby r.name select r.name).ToList();
+                citys.Insert(0, "Select");
+                DropDownCity.DataSource = citys;
+                DropDownCity.DataBind();
+            }
+        }
         
         protected void LogIn_Click(object sender, EventArgs e)
         {
@@ -103,11 +163,12 @@ namespace VALE.Account
                 FirstName = TextFirstName.Text,
                 LastName = TextLastName.Text,
                 Address = TextAddress.Text,
-                City = TextCity.Text,
-                Province = TextProv.Text,
+                Region = DropDownRegion.SelectedValue,
+                Province = DropDownProvince.SelectedValue,
+                City = DropDownCity.SelectedValue,
                 CF = TextCF.Text,
                 NeedsApproval = checkAssociated.Checked,
-                Email = TextEmail.Text
+                Email = TextEmail.Text 
             };
             
             IdentityResult result = manager.Create(user);
