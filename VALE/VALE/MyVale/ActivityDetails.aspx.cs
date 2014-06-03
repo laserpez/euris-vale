@@ -60,21 +60,19 @@ namespace VALE.MyVale
         protected void btnSearchUser_Click(object sender, EventArgs e)
         {
             var btnAddUser = (Button)sender;
-            var dbUser = new ApplicationDbContext();
             var dbData = new UserOperationsContext();
             TextBox textBox = (TextBox)ActivityDetail.FindControl("txtUserName");
             string userName = textBox.Text;
 
-            string userId = dbUser.Users.Where(p => p.FirstName + " " + p.LastName == userName).Select(u => u.Id).FirstOrDefault();
+            var user = dbData.UsersData.FirstOrDefault(p => p.FullName == userName);
 
-            if(!String.IsNullOrEmpty(userId))
+            if(user != null)
             {
                 Activity activity = dbData.Activities.Where(a => a.ActivityId == _currentActivityId).First();
-                UserData userData = dbData.UsersData.Where(ud => ud.UserName == userId).First();
                 
                 // TODO aggiungere il controllo nel caso l'utente sia già assegnato
                 // TODO mandare email di notifica
-                userData.PendingActivity.Add(activity);
+                user.PendingActivity.Add(activity);
 
                 dbData.SaveChanges();
                 Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
