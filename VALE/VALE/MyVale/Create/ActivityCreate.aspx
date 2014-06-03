@@ -15,7 +15,7 @@
         </div>
         <asp:Label runat="server" CssClass="col-md-2 control-label">Start date *</asp:Label>
         <div class="col-md-10">
-            <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" />
+            <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" OnTextChanged="txtStartDate_TextChanged" AutoPostBack="true" />
             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="The start date field is required." />
         </div>

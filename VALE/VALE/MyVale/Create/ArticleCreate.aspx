@@ -6,7 +6,7 @@
     <asp:TextBox CssClass="form-control" ID="txtArticleTitle" runat="server"></asp:TextBox><br />
     <asp:Label runat="server" CssClass="control-label">Release date:</asp:Label>
     <asp:TextBox CssClass="form-control" ID="txtReleaseDate" runat="server"></asp:TextBox><br />
-    <asp:CalendarExtender TargetControlID="txtReleaseDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
+    <asp:CalendarExtender ID="CalendarReleaseDate" TargetControlID="txtReleaseDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
     <asp:Label runat="server" CssClass="control-label">Content:</asp:Label><br />
     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtArticleContent" runat="server"></asp:TextBox>
     <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtArticleContent">

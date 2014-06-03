@@ -40,6 +40,15 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.WebControls.TextBox txtMeetingDate;
         
         /// <summary>
+        /// CalendarMeetingDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender CalendarMeetingDate;
+        
+        /// <summary>
         /// txtPublishDate control.
         /// </summary>
         /// <remarks>
@@ -47,6 +56,15 @@ namespace VALE.MyVale.BOD {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPublishDate;
+        
+        /// <summary>
+        /// CalendarPublishDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender CalendarPublishDate;
         
         /// <summary>
         /// txtReportText control.

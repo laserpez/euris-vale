@@ -4,13 +4,16 @@
     <h3>Planned events</h3>
     
     <asp:UpdatePanel runat="server">
+        <%--<Triggers>
+            <asp:PostBackTrigger ControlID="txtFromDate" />   
+        </Triggers>--%>
         <ContentTemplate>
             <div class="row">
                 <div class="col-md-2">
                     <asp:Label runat="server" Text="From" CssClass="control-label"></asp:Label>
-                    <asp:TextBox runat="server" ID="txtFromDate" CssClass="form-control"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="txtFromDate" CssClass="form-control" OnTextChanged="txtFromDate_TextChanged" AutoPostBack="true"></asp:TextBox>
                     <asp:RequiredFieldValidator ErrorMessage="* required" runat="server" ControlToValidate="txtFromDate"></asp:RequiredFieldValidator>
-                    <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtFromDate"></asp:CalendarExtender>
+                    <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtFromDate" ></asp:CalendarExtender>
                 </div>
                 <div class="col-md-2">
                     <asp:Label runat="server" Text="To" CssClass="control-label"></asp:Label>

@@ -22,6 +22,9 @@ namespace VALE.MyVale
                 PopulateGridView(DateTime.Today, DateTime.Today.AddDays(7));
                 txtFromDate.Text = DateTime.Today.ToShortDateString();
                 txtToDate.Text = DateTime.Today.AddDays(7).ToShortDateString();
+                calendarFrom.StartDate = DateTime.Now;
+                calendarTo.StartDate = calendarFrom.StartDate.Value.AddDays(1);
+                txtToDate.Text = calendarTo.StartDate.Value.ToShortDateString();
             }
         }
 
@@ -102,6 +105,12 @@ namespace VALE.MyVale
             DateTime from = Convert.ToDateTime(txtFromDate.Text);
             DateTime to = Convert.ToDateTime(txtToDate.Text);
             PopulateGridView(from, to);
+        }
+
+        protected void txtFromDate_TextChanged(object sender, EventArgs e)
+        {
+            calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text).AddDays(1);
+            txtToDate.Text = calendarTo.StartDate.Value.ToShortDateString();
         }
 
     }

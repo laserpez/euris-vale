@@ -16,7 +16,11 @@ namespace VALE.MyVale
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserId = User.Identity.GetUserId();
-
+            if (!IsPostBack)
+            {
+                calendarFrom.StartDate = DateTime.Now;
+                calendarTo.StartDate = calendarFrom.StartDate.Value.AddDays(1);
+            }
         }
 
         protected void btnSaveActivity_Click(object sender, EventArgs e)
@@ -65,6 +69,11 @@ namespace VALE.MyVale
                 lblResultSearchProject.Text = "This project does not exist";
                 btnSearchProject.CssClass = "btn btn-warning";
             }
+        }
+
+        protected void txtStartDate_TextChanged(object sender, EventArgs e)
+        {
+            calendarTo.StartDate = Convert.ToDateTime(txtStartDate.Text).AddDays(1);
         }
     }
 }

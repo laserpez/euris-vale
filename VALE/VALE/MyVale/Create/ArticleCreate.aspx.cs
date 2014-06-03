@@ -15,6 +15,7 @@ namespace VALE.MyVale.Create
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserId = User.Identity.GetUserId();
+            CalendarReleaseDate.StartDate = DateTime.Now;
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

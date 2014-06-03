@@ -50,6 +50,7 @@ namespace VALE
                appId: "118117908209695",
                appSecret: "a2e4118519467d2c2b71f2463ee66e46");
 
+            //todo non funziona perchè correntemente linkedin ha cambiato la modalità interna di autenticazione
             app.UseLinkedInAuthentication("77g75e4c2jf81d", "3pBhpjoaXTgB9xSa");
            
             app.UseGoogleAuthentication();

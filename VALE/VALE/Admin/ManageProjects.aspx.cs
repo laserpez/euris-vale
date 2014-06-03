@@ -20,6 +20,7 @@ namespace VALE.Admin
                 ProjectList.DataBind();
                 ViewState["lstProject"] = lstProject;
                 filterPanel.Visible = false;
+                
             }
         }
 
@@ -127,5 +128,6 @@ namespace VALE.Admin
             result = result.Where(p => p.LastModified.ToShortDateString() == lastModified).ToList();
             ViewState["lstProject"] = result;
         }
+
     }
 }

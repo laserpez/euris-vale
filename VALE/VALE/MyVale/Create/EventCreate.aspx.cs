@@ -28,6 +28,7 @@ namespace VALE.MyVale
                     Directory.CreateDirectory(Server.MapPath(_temporaryPath));
                 }
                 PopulateGridView();
+                calendarFrom.StartDate = DateTime.Now;
             }
         }
 

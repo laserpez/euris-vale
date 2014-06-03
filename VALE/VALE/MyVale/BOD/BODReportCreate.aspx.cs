@@ -30,6 +30,8 @@ namespace VALE.MyVale.BOD
                         Directory.Delete(Server.MapPath(_temporaryPath), true);
                     Directory.CreateDirectory(Server.MapPath(_temporaryPath));
                 }
+                CalendarMeetingDate.StartDate = DateTime.Now;
+                CalendarPublishDate.StartDate = DateTime.Now;
             }
         }
 
@@ -84,6 +86,10 @@ namespace VALE.MyVale.BOD
 
             Response.Redirect("/MyVale/BOD/BODReports");
 
+        }
+
+        protected void txtMeetingDate_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }

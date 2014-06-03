@@ -31,6 +31,7 @@ namespace VALE.MyVale
                 var usersList = new List<string>();
                 ViewState["usersIds"] = usersList;
                 PopulateGridView();
+                calendarFrom.StartDate = DateTime.Now;
             }
         }
 
