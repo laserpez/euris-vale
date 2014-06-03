@@ -13,25 +13,25 @@ namespace VALE.MyVale.BOD
     public partial class ViewBODReport : System.Web.UI.Page
     {
         private int _currentReportId;
+        private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            _db = new UserOperationsContext();
             if (Request.QueryString.HasKeys())
-                _currentReportId = Convert.ToInt32(Request.QueryString.GetValues("reportId").First());
+                _currentReportId = Convert.ToInt32(Request.QueryString["reportId"]);
         }
 
         public BODReport GetBODReport([QueryString("reportId")] int? reportId)
         {
-            var db = new UserOperationsContext();
-            return db.BODReports.First(r => r.BODReportId == reportId);
+            return _db.BODReports.First(r => r.BODReportId == reportId);
         }
 
         public List<String> GetRelatedDocuments([QueryString("reportId")] int? reportId)
         {
             if (reportId.HasValue)
             {
-                var db = new UserOperationsContext();
-                var report = db.BODReports.First(p => p.BODReportId == reportId);
+                var report = _db.BODReports.First(p => p.BODReportId == reportId);
                 if (!String.IsNullOrEmpty(report.DocumentsPath))
                 {
                     var dir = new DirectoryInfo(Server.MapPath(report.DocumentsPath));
@@ -61,21 +61,12 @@ namespace VALE.MyVale.BOD
 
         protected void btnViewDocuments_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var project = db.BODReports.First(r => r.BODReportId == _currentReportId);
+            var report = _db.BODReports.First(r => r.BODReportId == _currentReportId);
             var lstDocument = (ListBox)BODReportDetail.FindControl("lstDocuments");
             if (lstDocument.SelectedIndex > -1)
             {
-                var file = project.DocumentsPath + lstDocument.SelectedValue;
-                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-                response.ClearContent();
-                response.Clear();
-                response.ContentType = "application/octet-stream";
-                string serverPath = Server.MapPath(file);
-                if (File.Exists(serverPath))
-                {
-                    Response.Redirect(file);
-                }
+                var file = report.DocumentsPath + lstDocument.SelectedValue;
+                Response.Redirect("/DownloadFile.ashx?filePath=" + file + "&fileName=" + lstDocument.SelectedValue);
             }
         }
     }

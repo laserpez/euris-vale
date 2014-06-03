@@ -11,17 +11,17 @@ namespace VALE.MyVale
 {
     public partial class PersonalEvents : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
+            _currentUser = User.Identity.GetUserName();
         }
 
         public IQueryable<Event> GetAttendingEvents()
         {
             var db = new UserOperationsContext();
-            return db.UsersData.First(u => u.UserDataId == _currentUserId).AttendingEvents.AsQueryable();
+            return db.UsersData.First(u => u.UserName == _currentUser).AttendingEvents.AsQueryable();
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)

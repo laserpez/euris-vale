@@ -56,4 +56,41 @@
             </asp:GridView>
         </ContentTemplate>
     </asp:UpdatePanel>
+    <asp:UpdatePanel ID="UpdatePanelDelete" runat="server">
+        <ContentTemplate>
+            <asp:LinkButton ID="lnkDummy" runat="server"></asp:LinkButton>
+            <asp:ModalPopupExtender ID="ModalPopup" BehaviorID="mpe" runat="server"
+                PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
+            </asp:ModalPopupExtender>
+            <div class="panel panel-primary" id="pnlPopup" style="width: 60%;">
+                <div class="panel-heading">
+                    <asp:Label ID="TitleModalView" runat="server" Text="DeletePanel"></asp:Label>
+                    <asp:Button runat="server" class="close" OnClick="CloseButton_Click" Text="x" />
+                </div>
+                <div class="panel-body" style="max-height: 300px; overflow: auto;">
+                    <div>
+                        <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
+                        <div class="form-group">
+                            <legend>Remove Project</legend>
+                            <div class="form-group">
+                                <label class="col-lg-12 control-label">Project name</label>
+                                <div class="col-lg-10 control-label" runat="server" id="Div1">
+                                    <asp:Label runat="server" ID="ProjectName" Text="" />
+                                    <asp:Label runat="server" ID="ProjectID" Text="" Visible="false"></asp:Label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-12 control-label">Password</label>
+                                <div class="col-lg-10 control-label" runat="server" id="PasswordDiv">
+                                    <asp:TextBox TextMode="Password" runat="server" class="form-control" ID="PassTextBox" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <asp:Button runat="server" ID="DeleteButton" class="btn btn-default navbar-btn" Text="Confirm" OnClick="DeleteButton_Click" />
+                    <asp:Label  runat="server" ID="ErrorDeleteLabel" Text="" Visible="false" ></asp:Label>
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
 </asp:Content>

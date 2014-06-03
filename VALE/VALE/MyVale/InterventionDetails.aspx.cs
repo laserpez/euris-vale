@@ -14,38 +14,31 @@ namespace VALE.MyVale
 {
     public partial class InterventionDetails : System.Web.UI.Page
     {
-        private string _currentUserId;
+        private string _currentUser;
         private int _currentInterventionId;
+        private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
+            _db = new UserOperationsContext();
+            _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
-                _currentInterventionId = Convert.ToInt32(Request.QueryString.GetValues("interventionId").First());
+                _currentInterventionId = Convert.ToInt32(Request.QueryString["interventionId"]);
         }
 
         public Intervention GetIntervention([QueryString("interventionId")] int? interventionId)
         {
             if (interventionId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                return db.Interventions.First(i => i.InterventionId == interventionId);
-            }
+                return _db.Interventions.First(i => i.InterventionId == interventionId);
             else
                 return null;
         }
-
-        //public string GetCreatorName(string creatorId)
-        //{
-        //    return UserActions.GetUserFullName(creatorId);
-        //}
 
         public List<String> GetRelatedDocuments([QueryString("interventionId")] int? interventionId)
         {
             if (interventionId.HasValue)
             {
-                var db = new UserOperationsContext();
-                var thisEvent = db.Interventions.First(p => p.InterventionId == interventionId);
+                var thisEvent = _db.Interventions.First(p => p.InterventionId == interventionId);
                 if (!String.IsNullOrEmpty(thisEvent.DocumentsPath))
                 {
                     var dir = new DirectoryInfo(Server.MapPath(thisEvent.DocumentsPath));
@@ -79,12 +72,11 @@ namespace VALE.MyVale
             {
                 Date = DateTime.Now,
                 CommentText = txtComment.Text,
-                CreatorId = _currentUserId,
+                CreatorUserName = _currentUser,
                 InterventionId = _currentInterventionId
             };
-            var db = new UserOperationsContext();
-            db.Comments.Add(comment);
-            db.SaveChanges();
+            _db.Comments.Add(comment);
+            _db.SaveChanges();
             lstComments.DataBind();
         }
 
@@ -92,11 +84,21 @@ namespace VALE.MyVale
         {
             if (interventionId.HasValue)
             {
-                var db = new UserOperationsContext();
-                return db.Comments.Where(c => c.InterventionId == interventionId).ToList();
+                return _db.Comments.Where(c => c.InterventionId == interventionId).ToList();
             }
             else
                 return null;
         }
+        protected void btnViewDocument_Click(object sender, EventArgs e)
+        {
+            var intervention = _db.Interventions.First(i => i.InterventionId == _currentInterventionId);
+            var lstDocument = (ListBox)InterventionDetail.FindControl("lstDocuments");
+            if (lstDocument.SelectedIndex > -1)
+            {
+                var file = intervention.DocumentsPath + lstDocument.SelectedValue;
+                Response.Redirect("/DownloadFile.ashx?filePath=" + file + "&fileName=" + lstDocument.SelectedValue);
+            }
+        }
+
     }
 }

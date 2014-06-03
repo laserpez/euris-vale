@@ -15,13 +15,6 @@ namespace VALE.Admin
 
         }
 
-        public string GetCreatorName(string userId)
-        {
-            var db = new UserOperationsContext();
-            return db.UsersData.First(u => u.UserDataId == userId).FullName;
-
-        }
-
         public IQueryable<BlogArticle> GetArticles()
         {
             var db = new UserOperationsContext();

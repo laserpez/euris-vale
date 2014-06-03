@@ -63,7 +63,7 @@
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Board<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/MyVale/BOD/ViewBODReport.aspx">View board reports</a></li>
+                                <li><a href="/MyVale/BOD/BODReports.aspx">View board reports</a></li>
                                 <li><a href="/MyVale/BOD/BODReportCreate.aspx">Create board reports</a></li>
                             </ul>
                         </li>

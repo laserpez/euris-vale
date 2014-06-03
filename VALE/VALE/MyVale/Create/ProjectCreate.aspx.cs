@@ -12,13 +12,13 @@ namespace VALE.MyVale
 {
     public partial class ProjectCreate : System.Web.UI.Page
     {
-        private string _currentUserID;
+        private string _currentUser;
         private string _temporaryPath;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserID = User.Identity.GetUserId();
-            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUserID + "/";
+            _currentUser = User.Identity.GetUserName();
+            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUser + "/";
             
             if (!IsPostBack)
             {
@@ -38,7 +38,7 @@ namespace VALE.MyVale
         public List<UserData> GetUsers(UserOperationsContext db)
         {
             List<string> userIds = (List<string>)ViewState["usersIds"];
-            return db.UsersData.Where(u => userIds.Contains(u.UserDataId)).ToList();
+            return db.UsersData.Where(u => userIds.Contains(u.UserName)).ToList();
         }
 
         protected void btnSaveProject_Click(object sender, EventArgs e)
@@ -47,14 +47,14 @@ namespace VALE.MyVale
 
 
             var listUser = new List<UserData>();
-            listUser.Add(dbData.UsersData.First(u => u.UserDataId == _currentUserID));
+            listUser.Add(dbData.UsersData.First(u => u.UserName == _currentUser));
             listUser.AddRange(GetUsers(dbData));
 
 
             var project = new Project
             {
                 CreationDate = Convert.ToDateTime(txtStartDate.Text),
-                OrganizerId = _currentUserID,
+                OrganizerUserName = _currentUser,
                 Description = txtDescription.Text,
                 ProjectName = txtName.Text,
                 LastModified = Convert.ToDateTime(txtStartDate.Text),
@@ -104,7 +104,7 @@ namespace VALE.MyVale
                 lblResultSearchUser.Text = String.Format("User {0} is now related to this project", txtUserName.Text);
                 btnSearchUser.CssClass = "btn btn-success";
                 List<string> users = (List<string>)ViewState["usersIds"];
-                users.Add(user.UserDataId);
+                users.Add(user.UserName);
                 ViewState["usersIds"] = users;
                 lstUsers.DataBind();
             }
@@ -120,7 +120,7 @@ namespace VALE.MyVale
         {
             List<string> userIds = (List<string>)ViewState["usersIds"];
             var db = new UserOperationsContext();
-            return db.UsersData.Where(u => userIds.Contains(u.UserDataId));
+            return db.UsersData.Where(u => userIds.Contains(u.UserName));
         }
 
         public void DeleteUser(ApplicationUser user)

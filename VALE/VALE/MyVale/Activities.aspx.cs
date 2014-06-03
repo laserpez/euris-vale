@@ -15,19 +15,17 @@ namespace VALE.MyVale
 {
     public partial class Activities : System.Web.UI.Page
     {
-        private string _currentUserId;
         private string _currentUserName;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUserId = User.Identity.GetUserId();
             _currentUserName = User.Identity.GetUserName();
         }
 
         public IQueryable<Activity> GetCurrentActivities()
         {
             var db = new UserOperationsContext();
-            var activitiesId = db.Reports.Where(r => r.WorkerId == _currentUserId).Select(r => r.ActivityId);
+            var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
             var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId));
             return activities;
         }
@@ -35,7 +33,7 @@ namespace VALE.MyVale
         public IQueryable<Activity> GetPendingActivities()
         {
             var db = new UserOperationsContext();
-            var activities = db.UsersData.First(u => u.UserDataId == _currentUserId).PendingActivity.AsQueryable();
+            var activities = db.UsersData.First(u => u.UserName == _currentUserName).PendingActivity.AsQueryable();
             return activities;
         }
 
@@ -61,13 +59,13 @@ namespace VALE.MyVale
             int activityId = Convert.ToInt32(grdPendingActivities.Rows[index].Cells[0].Text);
             var db = new UserOperationsContext();
             var activity = db.Activities.First(a => a.ActivityId == activityId);
-            var user = db.UsersData.First(u => u.UserDataId == _currentUserId);
+            var user = db.UsersData.First(u => u.UserName == _currentUserName);
             if (e.CommandName == "AcceptActivity")
             {
                 db.Reports.Add(new ActivityReport 
                 { 
-                    ActivityId = activityId, 
-                    WorkerId = _currentUserId, 
+                    ActivityId = activityId,
+                    WorkerUserName = _currentUserName, 
                     HoursWorked = 0,
                     Date = DateTime.Today, 
                     ActivityDescription = "Accepted activity from another user"
@@ -80,7 +78,6 @@ namespace VALE.MyVale
         }
 
 
-        // TODO va cambiato ovviamente, intanto testo così
         protected void btnExportCSV_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
@@ -103,18 +100,18 @@ namespace VALE.MyVale
                 strbldr.Append("\n");
                 foreach (var userName in usersNames)
                 {
-                    activities = activityActions.GetConcludedActivities(userName);
+                    activities = activityActions.GetActivities(userName, ActivityStatus.Ongoing);
                     foreach (var activity in activities)
                     {
                         strbldr.Append(userName + ';');
                         strbldr.Append(activity.ActivityId.ToString() + ';');
                         strbldr.Append(activity.ActivityName + ';');
-                        strbldr.Append(activity.CreationDate.ToString("dd/MM/yyyy") + ';');
-                        if (activity.ExpireDate.Year != 9999)
-                            strbldr.Append(activity.ExpireDate.ToString("dd/MM/yyyy") + ';');
+                        strbldr.Append(activity.StartDate.ToShortDateString() + ';');
+                        if (activity.ExpireDate.HasValue)
+                            strbldr.Append(activity.ExpireDate.Value.ToShortDateString() + ';');
                         else
                             strbldr.Append("Non definito;");
-                        strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId) + ';');
+                        strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId).ToString() + ';');
                         strbldr.Append("\n");
                     }
                 }
