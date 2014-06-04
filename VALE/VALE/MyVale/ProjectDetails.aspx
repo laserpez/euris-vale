@@ -17,7 +17,38 @@
                     <h4>Work on this project</h4>
                     <asp:Button runat="server" ID="btnWorkOnThis" OnClick="btnWorkOnThis_Click" />
                     <asp:Button runat="server" ID="btnAddIntervention" OnClick="btnAddIntervention_Click" />
-
+                    <h4>Interventions</h4>
+            <asp:GridView OnRowCommand="grdInterventions_RowCommand" ItemType="VALE.Models.Intervention" GridLines="Both" AllowSorting="true"
+                SelectMethod="GetInterventions" runat="server" ID="grdInterventions" AutoGenerateColumns="false" CssClass="table table-striped table-bordered">
+                <Columns>
+                    <asp:BoundField DataField="InterventionId" HeaderText="ID" SortExpression="InterventionId" />
+                    <asp:BoundField DataField="InterventionText" HeaderText="Comment" SortExpression="InterventionText" />
+                    <asp:TemplateField HeaderText="Created by">
+                        <ItemTemplate>
+                            <asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Date">
+                        <ItemTemplate>
+                            <asp:Label runat="server"><%#: Item.Date.ToShortDateString() %></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Has documents">
+                        <ItemTemplate>
+                            <asp:Label runat="server"><%#: ContainsDocuments(Item.DocumentsPath) ? "YES" : "NO" %></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="View">
+                        <ItemTemplate>
+                            <asp:Button CssClass="btn btn-info btn-sm" runat="server" CommandName="ViewIntervention"
+                                CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="View intervention" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+                <EmptyDataTemplate>
+                    <asp:Label runat="server">No interventions</asp:Label>
+                </EmptyDataTemplate>
+            </asp:GridView>
 
                     <h4>Related users</h4>
                     <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
@@ -83,38 +114,7 @@
             <asp:ListBox runat="server" CssClass="form-control" Width="400px" ID="lstDocuments" SelectMethod="GetRelatedDocuments"></asp:ListBox>
             <asp:Button runat="server" Text="View document" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
 
-            <h4>Interventions</h4>
-            <asp:GridView OnRowCommand="grdInterventions_RowCommand" ItemType="VALE.Models.Intervention" GridLines="Both" AllowSorting="true"
-                SelectMethod="GetInterventions" runat="server" ID="grdInterventions" AutoGenerateColumns="false" CssClass="table table-striped table-bordered">
-                <Columns>
-                    <asp:BoundField DataField="InterventionId" HeaderText="ID" SortExpression="InterventionId" />
-                    <asp:BoundField DataField="InterventionText" HeaderText="Comment" SortExpression="InterventionText" />
-                    <asp:TemplateField HeaderText="Created by">
-                        <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Date">
-                        <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.Date.ToShortDateString() %></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Has documents">
-                        <ItemTemplate>
-                            <asp:Label runat="server"><%#: ContainsDocuments(Item.DocumentsPath) ? "YES" : "NO" %></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="View">
-                        <ItemTemplate>
-                            <asp:Button CssClass="btn btn-info btn-sm" runat="server" CommandName="ViewIntervention"
-                                CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="View intervention" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
-                <EmptyDataTemplate>
-                    <asp:Label runat="server">No interventions</asp:Label>
-                </EmptyDataTemplate>
-            </asp:GridView>
+            
 
 
 
