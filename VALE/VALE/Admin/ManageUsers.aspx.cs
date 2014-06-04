@@ -54,12 +54,13 @@ namespace VALE.Admin
                 CheckBox chkBox = (CheckBox)grdWaitingUsers.Rows[i].FindControl("chkSelectUser");
                 if (chkBox.Checked)
                 {
-                    string userId = grdWaitingUsers.Rows[i].Cells[0].Text;
-                    AdminActions.ConfirmUser(userId);
+                    string userName = grdWaitingUsers.Rows[i].Cells[0].Text;
+                    AdminActions.ConfirmUser(userName);
                     //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "Your associated account has been confirmed", "Account confirmed");
                 }
             }
             grdWaitingUsers.DataBind();
+            grdUsers.DataBind();
         }
 
         protected void btnChangeUser_Click(object sender, EventArgs e)

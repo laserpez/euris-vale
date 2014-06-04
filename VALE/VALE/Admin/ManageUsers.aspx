@@ -17,7 +17,7 @@
                     <asp:GridView ID="grdWaitingUsers" runat="server" AutoGenerateColumns="false" ShowFooter="true" SelectMethod="GetWaitingUsers" GridLines="Both"
                         ItemType="VALE.Models.ApplicationUser" EmptyDataText="No waiting users" CssClass="table table-striped table-bordered">
                         <Columns>
-                            <asp:BoundField DataField="Id" HeaderText="ID" />
+                            <asp:BoundField DataField="UserName" HeaderText="Username" />
                             <asp:BoundField DataField="Email" HeaderText="Email" />
                             <asp:BoundField DataField="FirstName" HeaderText="First name" />
                             <asp:BoundField DataField="LastName" HeaderText="Last name" />

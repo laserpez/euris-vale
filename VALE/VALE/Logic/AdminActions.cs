@@ -10,11 +10,11 @@ namespace VALE.Logic
 {
     public static class AdminActions
     {
-        public static void ConfirmUser(string userId)
+        public static void ConfirmUser(string userName)
         {
             var db = new ApplicationDbContext();
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-            var userToConfirm = userManager.FindById(userId);
+            var userToConfirm = userManager.FindByName(userName);
             if (userToConfirm != null)
             {
                 userToConfirm.NeedsApproval = false;
