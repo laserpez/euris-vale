@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
 using VALE.Logic;
+using System.Web.UI.HtmlControls;
 
 namespace VALE.MyVale
 {
@@ -23,6 +24,40 @@ namespace VALE.MyVale
             _currentUser = User.Identity.GetUserName();
             if(Request.QueryString.HasKeys())
                 _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
+            
+        }
+
+        private LinkButton FindButton(string name)
+        {
+            return (LinkButton)ActivityDetail.FindControl(name);
+        }
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            LinkButton btnOngoing = FindButton("btnOngoing");
+            LinkButton btnSuspended = FindButton("btnSuspended");
+            HtmlButton btnChangeStatus = (HtmlButton)ActivityDetail.FindControl("btnChangeStatus");
+            Label lblInfoChangeStatus = (Label)ActivityDetail.FindControl("lblInfoChangeStatus");
+            var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
+
+            btnOngoing.Visible = activity.Status == ActivityStatus.Suspended;
+            btnSuspended.Visible = activity.Status == ActivityStatus.Ongoing;
+            btnChangeStatus.Visible = activity.Status != ActivityStatus.Deleted;
+            lblInfoChangeStatus.Visible = activity.Status == ActivityStatus.Deleted;
+
+            
+        }
+
+        protected void btnChangeStatus_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            string statusString = btn.CommandArgument;
+            var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
+            ActivityStatus newStatus;
+            Enum.TryParse(statusString, out newStatus);
+            activity.Status = newStatus;
+            _db.SaveChanges();
+            ActivityDetail.DataBind();
         }
 
         public Activity GetActivity([QueryString("activityId")] int? activityId)
