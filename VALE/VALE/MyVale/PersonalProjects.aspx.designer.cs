@@ -22,30 +22,39 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.UpdatePanel ProjectGrid;
         
         /// <summary>
-        /// OrganizedProjectList control.
+        /// btnCurrentView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView OrganizedProjectList;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnCurrentView;
         
         /// <summary>
-        /// UpdatePanel1 control.
+        /// btnAttending control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        protected global::System.Web.UI.WebControls.LinkButton btnAttending;
         
         /// <summary>
-        /// AttendingProjectList control.
+        /// btnCreated control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView AttendingProjectList;
+        protected global::System.Web.UI.WebControls.LinkButton btnCreated;
+        
+        /// <summary>
+        /// grdProjectList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdProjectList;
     }
 }
