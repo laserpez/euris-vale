@@ -31,6 +31,15 @@ namespace VALE.Account {
         protected global::System.Web.UI.WebControls.TextBox TextUserName;
         
         /// <summary>
+        /// Email control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Email;
+        
+        /// <summary>
         /// TextFirstName control.
         /// </summary>
         /// <remarks>
@@ -47,24 +56,6 @@ namespace VALE.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextLastName;
-        
-        /// <summary>
-        /// Email control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Email;
-        
-        /// <summary>
-        /// TextAddress control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextAddress;
         
         /// <summary>
         /// UpdatePanel3 control.
@@ -103,6 +94,15 @@ namespace VALE.Account {
         protected global::System.Web.UI.WebControls.DropDownList DropDownCity;
         
         /// <summary>
+        /// TextAddress control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextAddress;
+        
+        /// <summary>
         /// TextCF control.
         /// </summary>
         /// <remarks>
@@ -110,15 +110,6 @@ namespace VALE.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextCF;
-        
-        /// <summary>
-        /// checkAssociated control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox checkAssociated;
         
         /// <summary>
         /// Password control.
@@ -137,5 +128,14 @@ namespace VALE.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox ConfirmPassword;
+        
+        /// <summary>
+        /// checkAssociated control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox checkAssociated;
     }
 }
