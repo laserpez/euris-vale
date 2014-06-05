@@ -18,6 +18,14 @@ namespace VALE.MyVale
             _currentUser = User.Identity.GetUserName();
         }
 
+        public IQueryable<Project> GetPersonalProjects()
+        {
+            if (btnCurrentView.InnerText == "Attending")
+                return GetAttendingProjects();
+            else
+                return GetOrganizedProjects();
+        }
+
         public IQueryable<Project> GetOrganizedProjects()
         {
             var db = new UserOperationsContext();
@@ -32,11 +40,26 @@ namespace VALE.MyVale
 
         protected void grid_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            GridView grid = (GridView)sender;
-            int index = Convert.ToInt32(e.CommandArgument);
-            int projectId = Convert.ToInt32(grid.Rows[index].Cells[0].Text);
-            Response.Redirect("/MyVale/ProjectDetails?projectId=" + projectId);
+            switch(e.CommandName)
+            {
+                case "ViewDetails":
+                    int projectId = Convert.ToInt32(e.CommandArgument);
+                    Response.Redirect("/MyVale/ProjectDetails?projectId=" + projectId);
+                    break;
+                default:
+                    break;
+            }
         }
+
+        protected void btnViewProjects_Click(object sender, EventArgs e)
+        {
+            LinkButton button = (LinkButton)sender;
+            btnCurrentView.InnerText = button.Text;
+            grdProjectList.DataBind();
+
+        }
+
+        
 
         
     }
