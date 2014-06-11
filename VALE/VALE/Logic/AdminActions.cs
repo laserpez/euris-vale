@@ -23,5 +23,17 @@ namespace VALE.Logic
             db.SaveChanges();
         }
 
+        public static int GetWaitingUsers()
+        {
+            var db = new ApplicationDbContext();
+            return db.Users.Where(u => u.NeedsApproval == true).Count();
+        }
+
+        public static int GetWaitingArticles()
+        {
+            var db = new UserOperationsContext();
+            return db.BlogArticles.Where(b => b.Status == "pending").Count();
+        }
+
     }
 }
