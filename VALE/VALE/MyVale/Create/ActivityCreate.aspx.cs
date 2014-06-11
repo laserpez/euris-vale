@@ -76,7 +76,9 @@ namespace VALE.MyVale
 
         protected void txtStartDate_TextChanged(object sender, EventArgs e)
         {
-            calendarTo.StartDate = Convert.ToDateTime(txtStartDate.Text).AddDays(1);
+            DateTime startDate;
+            if (DateTime.TryParse(txtStartDate.Text, out startDate))
+                calendarTo.StartDate = startDate.AddDays(1);
         }
     }
 }
