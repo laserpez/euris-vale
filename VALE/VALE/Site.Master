@@ -46,18 +46,20 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/">VALE</a>
+                    <object width="130" height="51">
+                        <embed src="~/Vale.swf" type="application/x-shockwave-flash" width="130" height="50" runat="server" />
+                    </object>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Home</a></li>
                         <li runat="server" id="adminLink" visible="false" class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Administration<span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Administration <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/Admin/ManageUsers.aspx">Manage users <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
                                 <li><a href="/Admin/ManageProjects.aspx">Manage projects </a></li>
                                 <li><a href="/Admin/ManageEvents.aspx">Manage events</a></li>
-                                <li><a href="/Admin/ManageArticles.aspx">Manage blog articles <span runat="server" class="badge" id="NotificationActivitiesRequest"></span></a></li>
+                                <li><a href="/Admin/ManageArticles.aspx">Manage blog articles <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
                             </ul>
                         </li>
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
@@ -84,7 +86,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Activities<b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Activities  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Activities.aspx">To do list</a></li>
                                 <li><a href="/MyVale/PersonalActivities.aspx">Activity reports</a></li>

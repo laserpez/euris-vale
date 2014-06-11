@@ -15,9 +15,10 @@ namespace VALE
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            _db = new UserOperationsContext();
             notLoggedUser.Visible = !HttpContext.Current.User.Identity.IsAuthenticated;
             loggedUser.Visible = HttpContext.Current.User.Identity.IsAuthenticated;
-            _currentUser = _db.UsersData.First(u => u.UserName == User.Identity.Name);
+            _currentUser = _db.UsersData.FirstOrDefault(u => u.UserName == User.Identity.Name);
         }
 
         protected void btnViewAll_Click(object sender, EventArgs e)
@@ -27,7 +28,10 @@ namespace VALE
 
         public IQueryable<Project> GetProjects()
         {
-            return _currentUser.AttendingProjects.Take(10).AsQueryable();
+            if (_currentUser != null)
+                return _currentUser.AttendingProjects.Take(10).AsQueryable();
+            else
+                return null;
         }
 
         public IQueryable<Event> GetEvents()

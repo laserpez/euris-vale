@@ -56,6 +56,8 @@ namespace VALE.Admin
                 {
                     string userName = grdWaitingUsers.Rows[i].Cells[0].Text;
                     AdminActions.ConfirmUser(userName);
+                    string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
+                    Response.Redirect(pageUrl);
                     //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "Your associated account has been confirmed", "Account confirmed");
                 }
             }
