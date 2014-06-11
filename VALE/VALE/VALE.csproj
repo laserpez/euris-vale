@@ -248,6 +248,7 @@
     <Content Include="MyVale\Create\Web.config" />
     <Content Include="Admin\Web.config" />
     <Content Include="DownloadFile.ashx" />
+    <Content Include="Content\ACCORDO PER LE TRANSAZIONI INTERNAZIONALI.pdf" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
