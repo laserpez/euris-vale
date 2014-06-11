@@ -101,6 +101,11 @@ namespace VALE.Account
                 NeedsApproval = checkAssociated.Checked,
                 Email = Email.Text 
             };
+            var passwordValidator = new PasswordValidator();
+            //per la password sono richiesti solo sei caratteri
+            passwordValidator.RequiredLength = 6;
+            manager.PasswordValidator = passwordValidator;
+
             IdentityResult result = manager.Create(user, Password.Text);
             if (result.Succeeded)
             {
@@ -122,7 +127,9 @@ namespace VALE.Account
             }
             else 
             {
-                ErrorMessage.Text = result.Errors.FirstOrDefault();
+                var prova = result.Errors.FirstOrDefault();
+                ErrorMessage.Text = prova.FirstOrDefault().ToString();
+                //ErrorMessage.Text = result.Errors.FirstOrDefault();
             }
         }
     }
