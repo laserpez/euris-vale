@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using VALE.Logic;
 using VALE.Models;
 
 namespace VALE
@@ -23,6 +24,9 @@ namespace VALE
 
         protected void btnViewAll_Click(object sender, EventArgs e)
         {
+            Button btn = (Button)sender;
+            string uri = String.Format("/MyVale/{0}.aspx", btn.CommandArgument);
+            Response.Redirect(uri);
 
         }
 
@@ -36,18 +40,29 @@ namespace VALE
 
         public IQueryable<Event> GetEvents()
         {
-            return null;
+            if (_currentUser != null)
+                return _currentUser.AttendingEvents.Take(10).AsQueryable();
+            else
+                return null;
         }
 
         public IQueryable<Activity> GetActivities()
         {
-            return null;
+            var actions = new ActivityActions();
+            if (_currentUser != null)
+                return actions.GetActivities(_currentUser.UserName, ActivityStatus.Ongoing).AsQueryable();
+            else
+                return null;
         }
 
-        protected void btnViewProjectDetails_Click(object sender, EventArgs e)
+        protected void btnViewDetails_Click(object sender, EventArgs e)
         {
-
+            Button btn = (Button)sender;
+            string uri = String.Format("/MyVale/{0}", btn.CommandArgument);
+            Response.Redirect(uri);
         }
+
+        
         
     }
 }
