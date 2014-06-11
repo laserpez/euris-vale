@@ -22,6 +22,33 @@ namespace VALE {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminLink;
         
         /// <summary>
+        /// NotificationsAllRequests control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NotificationsAllRequests;
+        
+        /// <summary>
+        /// NotificationUsersRequest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NotificationUsersRequest;
+        
+        /// <summary>
+        /// NotificationActivitiesRequest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NotificationActivitiesRequest;
+        
+        /// <summary>
         /// boardLink control.
         /// </summary>
         /// <remarks>

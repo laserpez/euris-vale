@@ -78,6 +78,7 @@ namespace VALE
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+
             if (HttpContext.Current.User.IsInRole("Administrator") ||
                 HttpContext.Current.User.IsInRole("BoardMember") ||
                 HttpContext.Current.User.IsInRole("AssociatedUser"))
@@ -95,7 +96,8 @@ namespace VALE
             {
                 boardLink.Visible = true;
             }
+
+
         }
     }
-
 }
