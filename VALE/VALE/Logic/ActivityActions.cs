@@ -29,7 +29,7 @@ namespace VALE.Logic
 
         public void SetActivitiesStatus()
         {
-            foreach(var activity in _db.Activities.Where(a => a.Status != ActivityStatus.Deleted && a.Status != ActivityStatus.Suspended))
+            foreach (var activity in _db.Activities.Where(a => a.Status != ActivityStatus.Deleted && a.Status != ActivityStatus.Suspended))
             {
                 CheckStartDate(activity);
                 CheckEndDate(activity);
@@ -39,7 +39,7 @@ namespace VALE.Logic
 
         private void CheckEndDate(Activity activity)
         {
-            if(activity.ExpireDate.HasValue)
+            if (activity.ExpireDate.HasValue)
             {
                 if (activity.ExpireDate.Value <= DateTime.Now)
                     activity.Status = ActivityStatus.Ended;
@@ -50,6 +50,12 @@ namespace VALE.Logic
         {
             if (activity.StartDate <= DateTime.Now)
                 activity.Status = ActivityStatus.Ongoing;
+        }
+
+        public int GetActivitiesRequest(string userName)
+        {
+            return _db.UsersData.First(u => u.UserName == userName).PendingActivity.Count;
+
         }
 
     }
