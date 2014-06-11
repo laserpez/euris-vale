@@ -37,6 +37,9 @@ namespace VALE.Admin
                 article.Status = newStatus;
                 db.SaveChanges();
                 grdArticleList.DataBind();
+                // Reload the page.
+                string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
+                Response.Redirect(pageUrl);
             }
         }
     }

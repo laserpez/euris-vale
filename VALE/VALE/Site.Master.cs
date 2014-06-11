@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using VALE.Logic;
 
 namespace VALE
 {
@@ -79,6 +80,33 @@ namespace VALE
         protected void Page_PreRender(object sender, EventArgs e)
         {
 
+            int waitingUsersNotifications = AdminActions.GetWaitingUsers();
+            int waitingArticlesNotifications = AdminActions.GetWaitingArticles();
+            int totalNotifications = waitingUsersNotifications + waitingArticlesNotifications;
+            if (totalNotifications > 0)
+                NotificationsAllRequests.InnerText = totalNotifications.ToString();
+            else
+                NotificationsAllRequests.Visible = false;
+            if (waitingUsersNotifications > 0)
+                NotificationUsersRequest.InnerText = waitingUsersNotifications.ToString();
+            else
+                NotificationUsersRequest.Visible = false;
+            if (waitingArticlesNotifications > 0)
+                NotificationArticlesRequest.InnerText = waitingArticlesNotifications.ToString();
+            else
+                NotificationArticlesRequest.Visible = false;
+            if (HttpContext.Current.User.Identity.IsAuthenticated) 
+            {
+                using (ActivityActions activityActions = new ActivityActions())
+                {
+                    int activitiesRequestNotifications = activityActions.GetActivitiesRequest(HttpContext.Current.User.Identity.Name);
+                    if (activitiesRequestNotifications > 0)
+                        NotificationActivitiesRequest.InnerText = activitiesRequestNotifications.ToString();
+                    else
+                        NotificationActivitiesRequest.Visible = false;
+                }
+            }
+           
             if (HttpContext.Current.User.IsInRole("Administrator") ||
                 HttpContext.Current.User.IsInRole("BoardMember") ||
                 HttpContext.Current.User.IsInRole("AssociatedUser"))
