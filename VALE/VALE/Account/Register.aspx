@@ -66,7 +66,6 @@
                         <asp:RequiredFieldValidator InitialValue="Select" runat="server" ControlToValidate="DropDownCity"
                             CssClass="text-danger" ErrorMessage="Select the City." />
                     </div>
-                    s
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
