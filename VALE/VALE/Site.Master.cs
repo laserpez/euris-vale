@@ -109,22 +109,19 @@ namespace VALE
            
             if (HttpContext.Current.User.IsInRole("Administrator") ||
                 HttpContext.Current.User.IsInRole("BoardMember") ||
-                HttpContext.Current.User.IsInRole("AssociatedUser"))
+                HttpContext.Current.User.IsInRole("AssociatedUser") )
             {
                 createProjectLink.Visible = true;
                 createEventLink.Visible = true;
                 createActivityLink.Visible = true;
                 createBlogArticle.Visible = true;
             }
-            if (HttpContext.Current.User.IsInRole("Administrator"))
+            if (HttpContext.Current.User.IsInRole("Administrator") || 
+                HttpContext.Current.User.IsInRole("BoardMember") )
             {
                 adminLink.Visible = true;
-            }
-            if (HttpContext.Current.User.IsInRole("Administrator") || HttpContext.Current.User.IsInRole("BoardMember"))
-            {
                 boardLink.Visible = true;
             }
-
 
         }
     }
