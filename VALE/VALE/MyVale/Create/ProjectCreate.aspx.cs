@@ -62,7 +62,7 @@ namespace VALE.MyVale
                 Activities = new List<Activity>(),
                 Events = new List<Event>(),
                 InvolvedUsers = listUser,
-                RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == txtProjectName.Text),
+                RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text),
             };
             dbData.Projects.Add(project);
             dbData.SaveChanges();
