@@ -62,7 +62,7 @@
             </asp:UpdatePanel>
         </div>
 
-        <uc:SelectProject runat="server" />
+        <uc:SelectProject runat="server" ID="SelectProject"/>
 
         <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Add users</asp:Label>
 
