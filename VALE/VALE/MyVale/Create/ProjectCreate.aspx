@@ -1,4 +1,6 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/Create/SelectProject.ascx" TagPrefix="uc" TagName="SelectProject" %>
+
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProjectCreate.aspx.cs" Inherits="VALE.MyVale.ProjectCreate" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h3>Create new project</h3>
@@ -58,11 +60,8 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
-        <asp:UpdateProgress AssociatedUpdatePanelID="SearchProjectPanel" ID="MyUpdateProgress" runat="server">
-            <ProgressTemplate>
-                Checking project name...
-            </ProgressTemplate>
-        </asp:UpdateProgress>
+
+        <uc:SelectProject runat="server" />
 
         <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Add users</asp:Label>
 
