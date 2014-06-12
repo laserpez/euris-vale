@@ -219,7 +219,6 @@
     <Content Include="MyVale\BOD\BODReports.aspx" />
     <Content Include="MyVale\BOD\ViewBODReport.aspx" />
     <Content Include="MyVale\Create\SelectProject.ascx" />
-    <Content Include="MyVale\Create\SelectUser.ascx" />
     <Content Include="MyVale\PersonalArticles.aspx" />
     <Content Include="MyVale\ViewArticle.aspx" />
     <Content Include="MyVale\CreateIntervention.aspx" />
@@ -511,20 +510,6 @@
     </Compile>
     <Compile Include="MyVale\Create\SelectProject.ascx.designer.cs">
       <DependentUpon>SelectProject.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="MyVale\Create\SelectUser.ascx.cs">
-      <DependentUpon>SelectUser.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MyVale\Create\SelectUser.ascx.designer.cs">
-      <DependentUpon>SelectUser.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="MyVale\Create\SelectUser.ascx.cs">
-      <DependentUpon>SelectUser.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MyVale\Create\SelectUser.ascx.designer.cs">
-      <DependentUpon>SelectUser.ascx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\PersonalArticles.aspx.cs">
       <DependentUpon>PersonalArticles.aspx</DependentUpon>
