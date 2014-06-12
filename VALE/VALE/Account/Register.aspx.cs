@@ -15,13 +15,13 @@ namespace VALE.Account
     {
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            Email.Text = "domenico.moreschini@gmail.com";
-            TextFirstName.Text = "Domenico";
-            TextLastName.Text = "Moreschini";
-            TextAddress.Text = "Via Galvoni 35";
+            Email.Text = "antonio.rossi@rossi.com";
+            TextFirstName.Text = "Antonio";
+            TextLastName.Text = "Rossi";
+            TextAddress.Text = "Via emilia, 35";
             //TextCity.Text = "Castignano";
             //TextProv.Text = "AP";
-            TextCF.Text = "MRSDNC87P25H769L";
+            TextCF.Text = "RSSNT87P25H769L";
             Password.Text = "Pa$$word1";
 
             if (!IsPostBack)
