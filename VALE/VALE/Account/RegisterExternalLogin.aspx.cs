@@ -170,7 +170,9 @@ namespace VALE.Account
                 NeedsApproval = checkAssociated.Checked,
                 Email = TextEmail.Text 
             };
-            
+            var passwordValidator = new PasswordValidator();
+            passwordValidator.RequiredLength = 6;
+            manager.PasswordValidator = passwordValidator;
             IdentityResult result = manager.Create(user);
             if (result.Succeeded)
             {
