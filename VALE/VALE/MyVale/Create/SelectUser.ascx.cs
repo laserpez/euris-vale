@@ -7,14 +7,9 @@ using System.Web.UI.WebControls;
 
 namespace VALE.MyVale.Create
 {
-    public partial class SelectProject : System.Web.UI.UserControl
+    public partial class SelectUser : System.Web.UI.UserControl
     {
         protected void Page_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnSearchProject_Click(object sender, EventArgs e)
         {
 
         }
