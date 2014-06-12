@@ -1,4 +1,6 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/Create/SelectProject.ascx" TagPrefix="uc" TagName="SelectProject" %>
+
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ActivityCreate.aspx.cs" Inherits="VALE.MyVale.ActivityCreate" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h3>Create new personal activity</h3>
@@ -28,7 +30,7 @@
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
-        <asp:Label runat="server" CssClass="col-md-2 control-label">Related project (optional)</asp:Label>
+        <%--<asp:Label runat="server" CssClass="col-md-2 control-label">Related project (optional)</asp:Label>
         <div class="col-md-10">
             <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
                 <ContentTemplate>
@@ -48,7 +50,8 @@
             <ProgressTemplate>
                 Checking project name...
             </ProgressTemplate>
-        </asp:UpdateProgress>
+        </asp:UpdateProgress>--%>
+        <uc:SelectProject runat="server" ID="SelectProject"/>
         <p></p>
     </div>
     <p></p>

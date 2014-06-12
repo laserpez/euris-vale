@@ -45,7 +45,7 @@ namespace VALE.MyVale
                 EventDate = Convert.ToDateTime(txtStartDate.Text),
                 OrganizerUserName = _currentUser,
                 RegisteredUsers = registeredUsers,
-                RelatedProject = db.Projects.FirstOrDefault(p => p.ProjectName == txtProjectName.Text)
+                RelatedProject = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text)
             };
             db.Events.Add(newEvent);
             db.SaveChanges();
@@ -60,22 +60,22 @@ namespace VALE.MyVale
             Response.Redirect("/MyVale/Events");
         }
 
-        protected void btnSearchProject_Click(object sender, EventArgs e)
-        {
-            var dbData = new UserOperationsContext();
-            string projectName = txtProjectName.Text;
-            Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-            if (project != null)
-            {
-                lblResultSearchProject.Text = String.Format("This event is now related to project {0}", txtProjectName.Text);
-                btnSearchProject.CssClass = "btn btn-success";
-            }
-            else
-            {
-                lblResultSearchProject.Text = "This project does not exist";
-                btnSearchProject.CssClass = "btn btn-warning";
-            }
-        }
+        //protected void btnSearchProject_Click(object sender, EventArgs e)
+        //{
+        //    var dbData = new UserOperationsContext();
+        //    string projectName = txtProjectName.Text;
+        //    Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
+        //    if (project != null)
+        //    {
+        //        lblResultSearchProject.Text = String.Format("This event is now related to project {0}", txtProjectName.Text);
+        //        btnSearchProject.CssClass = "btn btn-success";
+        //    }
+        //    else
+        //    {
+        //        lblResultSearchProject.Text = "This project does not exist";
+        //        btnSearchProject.CssClass = "btn btn-warning";
+        //    }
+        //}
 
         protected void btnUploadFile_Click(object sender, EventArgs e)
         {

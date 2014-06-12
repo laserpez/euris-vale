@@ -11,9 +11,9 @@
                 Enabled="True" TargetControlID="txtProjectName" UseContextKey="True"
                 MinimumPrefixLength="2">
             </asp:AutoCompleteExtender>
+            <asp:Button CssClass="btn btn-primary" ID="btnShowPopup" runat="server" Text="View all" OnClick="btnShowPopup_Click" CausesValidation="false" />
             <asp:Button runat="server" Text="Save" ID="btnSearchProject" CssClass="btn btn-default" CausesValidation="false" OnClick="btnSearchProject_Click" />
             <asp:Label runat="server" ID="lblResultSearchProject" CssClass="control-label"></asp:Label>
-            <asp:Button CssClass="btn btn-primary" ID="btnShowPopup" runat="server" Text="View all" OnClick="btnShowPopup_Click" CausesValidation="false" />
             <asp:ModalPopupExtender ID="ModalPopup" BehaviorID="mpe" runat="server"
                 PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
             </asp:ModalPopupExtender>

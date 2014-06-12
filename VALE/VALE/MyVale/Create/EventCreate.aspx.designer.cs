@@ -94,58 +94,13 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.CheckBox chkPublic;
         
         /// <summary>
-        /// SearchProjectPanel control.
+        /// SelectProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel SearchProjectPanel;
-        
-        /// <summary>
-        /// txtProjectName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProjectName;
-        
-        /// <summary>
-        /// txtManufacturer_AutoCompleteExtender control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.AutoCompleteExtender txtManufacturer_AutoCompleteExtender;
-        
-        /// <summary>
-        /// btnSearchProject control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearchProject;
-        
-        /// <summary>
-        /// lblResultSearchProject control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblResultSearchProject;
-        
-        /// <summary>
-        /// MyUpdateProgress control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdateProgress MyUpdateProgress;
+        protected global::VALE.MyVale.Create.SelectProject SelectProject;
         
         /// <summary>
         /// btnSaveActivity control.

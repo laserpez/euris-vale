@@ -1,4 +1,6 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/Create/SelectProject.ascx" TagPrefix="uc" TagName="SelectProject" %>
+
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EventCreate.aspx.cs" Inherits="VALE.MyVale.EventCreate" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h3>Create a new event</h3>
@@ -47,7 +49,9 @@
             <asp:CheckBox runat="server" ID="chkPublic" />
         </div>
 
-        <asp:Label runat="server" CssClass="col-md-2 control-label">Related project (optional)</asp:Label>
+        <uc:SelectProject runat="server" ID="SelectProject"/>
+
+        <%--<asp:Label runat="server" CssClass="col-md-2 control-label">Related project (optional)</asp:Label>
         <div class="col-md-10">
         <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
                 <ContentTemplate>
@@ -66,7 +70,7 @@
             <ProgressTemplate>
                 Checking project name...
             </ProgressTemplate>
-        </asp:UpdateProgress>
+        </asp:UpdateProgress>--%>
         <p></p>
         <asp:Button runat="server" Text="Save" ID="btnSaveActivity" CausesValidation="true" CssClass="btn btn-primary"  OnClick="btnSaveEvent_Click" />
     </div>

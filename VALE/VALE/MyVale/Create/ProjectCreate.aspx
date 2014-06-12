@@ -44,7 +44,7 @@
         </div>
 
         <p></p>
-        <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Related project (optional)</asp:Label>
+        <%--<asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Related project (optional)</asp:Label>
         <div class="col-md-10">
             <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
                 <ContentTemplate>
@@ -59,7 +59,7 @@
                     <asp:Label runat="server" ID="lblResultSearchProject" CssClass="control-label"></asp:Label>
                 </ContentTemplate>
             </asp:UpdatePanel>
-        </div>
+        </div>--%>
 
         <uc:SelectProject runat="server" ID="SelectProject"/>
 

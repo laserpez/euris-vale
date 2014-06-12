@@ -85,51 +85,6 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.GridView grdFilesUploaded;
         
         /// <summary>
-        /// SearchProjectPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel SearchProjectPanel;
-        
-        /// <summary>
-        /// txtProjectName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProjectName;
-        
-        /// <summary>
-        /// txtProjectAutoCompleter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.AutoCompleteExtender txtProjectAutoCompleter;
-        
-        /// <summary>
-        /// btnSearchProject control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearchProject;
-        
-        /// <summary>
-        /// lblResultSearchProject control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblResultSearchProject;
-        
-        /// <summary>
         /// SelectProject control.
         /// </summary>
         /// <remarks>
