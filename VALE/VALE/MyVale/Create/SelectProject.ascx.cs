@@ -13,5 +13,10 @@ namespace VALE.MyVale.Create
         {
 
         }
+
+        protected void btnSearchProject_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
