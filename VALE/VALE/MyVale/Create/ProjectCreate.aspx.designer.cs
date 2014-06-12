@@ -130,6 +130,15 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Label lblResultSearchProject;
         
         /// <summary>
+        /// SelectProject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::VALE.MyVale.Create.SelectProject SelectProject;
+        
+        /// <summary>
         /// SearchUserPanel control.
         /// </summary>
         /// <remarks>
