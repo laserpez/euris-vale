@@ -7,6 +7,7 @@
             <asp:ModalPopupExtender ID="ModalPopup" BehaviorID="mpe" runat="server"
                 PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
             </asp:ModalPopupExtender>
+            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
             <div class="panel panel-primary" id="pnlPopup" style="width: 80%;">
                 <div class="panel-heading">
                     <asp:Label ID="TitleMpdalView" runat="server" Text="Titolo"></asp:Label>
