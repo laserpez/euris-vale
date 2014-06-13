@@ -21,7 +21,7 @@
             <div class="panel panel-primary" id="pnlPopup" style="width: 80%;">
                 <div class="panel-heading">
                     <asp:Label ID="TitleMpdalView" runat="server" Text="Titolo"></asp:Label>
-                    <asp:Button runat="server" class="close" CausesValidation="false" OnClick="Unnamed_Click" Text="x" />
+                    <asp:Button runat="server" CssClass="close" CausesValidation="false" OnClick="Unnamed_Click" Text="x" />
                 </div>
                 <div class="panel-body" style="max-height: 500px; overflow: auto;">
                     <div>
