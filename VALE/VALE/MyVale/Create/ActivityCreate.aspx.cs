@@ -25,16 +25,17 @@ namespace VALE.MyVale
 
         protected void btnSaveActivity_Click(object sender, EventArgs e)
         {
-                var db = new UserOperationsContext();
+            var db = new UserOperationsContext();
             var project = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
             DateTime? expireDate = null;
-            if(!String.IsNullOrEmpty(txtEndDate.Text))
+            if (!String.IsNullOrEmpty(txtEndDate.Text))
                 expireDate = Convert.ToDateTime(txtEndDate.Text);
             var newActivity = new Activity
             {
                 ActivityName = txtName.Text,
                 Description = txtDescription.Text,
-                Status = Convert.ToDateTime(txtStartDate.Text) > DateTime.Today ? ActivityStatus.Planned : ActivityStatus.Ongoing,
+                Status = ActivityStatus.ToBePlanned,
+                CreationDate = DateTime.Today,
                 StartDate = Convert.ToDateTime(txtStartDate.Text),
                 ExpireDate = expireDate,
                 RelatedProject = project,
@@ -57,22 +58,7 @@ namespace VALE.MyVale
             Response.Redirect("/MyVale/Activities");
         }
 
-        //protected void btnSearchProject_Click(object sender, EventArgs e)
-        //{
-        //    var dbData = new UserOperationsContext();
-        //    string projectName = txtProjectName.Text;
-        //    Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-        //    if (project != null)
-        //    {
-        //        lblResultSearchProject.Text = String.Format("This activity is now related to project {0}", txtProjectName.Text);
-        //        btnSearchProject.CssClass = "btn btn-success";
-        //    }
-        //    else
-        //    {
-        //        lblResultSearchProject.Text = "This project does not exist";
-        //        btnSearchProject.CssClass = "btn btn-warning";
-        //    }
-        //}
+
 
         protected void txtStartDate_TextChanged(object sender, EventArgs e)
         {

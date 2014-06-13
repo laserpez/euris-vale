@@ -15,7 +15,7 @@
             <h4>Status</h4>
             <asp:Label runat="server" CssClass="control-label"><%#: String.Format("Current: {0}", Item.Status) %></asp:Label>
             <br />
-            <div class="btn-group">
+            <%--<div class="btn-group">
                     <asp:Label runat="server" Text="This activity is deleted. You cannot change its status" Visible="false" ID="lblInfoChangeStatus" ></asp:Label>
                     <button type="button" id="btnChangeStatus" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" runat="server">Change status<span class="caret"></span></button>
                     <ul class="dropdown-menu">
@@ -23,7 +23,7 @@
                         <li><asp:LinkButton Visible="false" ID="btnSuspended" CommandArgument="Suspended" runat="server" OnClick="btnChangeStatus_Click">Suspended</asp:LinkButton></li>
                         <li><asp:LinkButton Visible="true" ID="btnDeleted" CommandArgument="Deleted" runat="server" OnClick="btnChangeStatus_Click">Deleted</asp:LinkButton></li>
                     </ul>
-                </div>
+                </div>--%>
             <h4>Involved users</h4>
             <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                         SelectMethod="GetUsersInvolved" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">

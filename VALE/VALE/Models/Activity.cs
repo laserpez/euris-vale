@@ -14,7 +14,8 @@ namespace VALE.Models
 
         public string ActivityName { get; set; }
         public string Description { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public DateTime? ExpireDate { get; set; }
         public ActivityStatus Status { get; set; }
 
@@ -33,10 +34,11 @@ namespace VALE.Models
 
     public enum ActivityStatus
     {
+        ToBePlanned,
         Planned,
         Ongoing,
         Suspended,
-        Deleted,
-        Ended
+        Done,
+        Deleted
     }
 }

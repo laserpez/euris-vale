@@ -27,30 +27,30 @@ namespace VALE.Logic
                 _db = null;
         }
 
-        public void SetActivitiesStatus()
-        {
-            foreach (var activity in _db.Activities.Where(a => a.Status != ActivityStatus.Deleted && a.Status != ActivityStatus.Suspended))
-            {
-                CheckStartDate(activity);
-                CheckEndDate(activity);
-            }
-            _db.SaveChanges();
-        }
+        //public void SetActivitiesStatus()
+        //{
+        //    foreach (var activity in _db.Activities.Where(a => a.Status != ActivityStatus.Deleted && a.Status != ActivityStatus.Suspended))
+        //    {
+        //        CheckStartDate(activity);
+        //        CheckEndDate(activity);
+        //    }
+        //    _db.SaveChanges();
+        //}
 
-        private void CheckEndDate(Activity activity)
-        {
-            if (activity.ExpireDate.HasValue)
-            {
-                if (activity.ExpireDate.Value <= DateTime.Now)
-                    activity.Status = ActivityStatus.Ended;
-            }
-        }
+        //private void CheckEndDate(Activity activity)
+        //{
+        //    if (activity.ExpireDate.HasValue)
+        //    {
+        //        if (activity.ExpireDate.Value <= DateTime.Now)
+        //            activity.Status = ActivityStatus.Ended;
+        //    }
+        //}
 
-        private void CheckStartDate(Activity activity)
-        {
-            if (activity.StartDate <= DateTime.Now)
-                activity.Status = ActivityStatus.Ongoing;
-        }
+        //private void CheckStartDate(Activity activity)
+        //{
+        //    if (activity.StartDate <= DateTime.Now)
+        //        activity.Status = ActivityStatus.Ongoing;
+        //}
 
         public int GetActivitiesRequest(string userName)
         {
