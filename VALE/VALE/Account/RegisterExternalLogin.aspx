@@ -47,6 +47,22 @@
             </div>
 
             <div class="form-group">
+                <asp:Label runat="server" AssociatedControlID="TextTelephone" CssClass="col-md-1 control-label">Telephone</asp:Label>
+                <div class="col-md-3">
+                    <asp:TextBox TextMode="Number" runat="server" ID="TextTelephone" CssClass="form-control" />
+                    <asp:RegularExpressionValidator runat="server" ControlToValidate="TextTelephone" CssClass="text-danger"
+                        ValidationExpression="[0-9]{8,11}" ErrorMessage="Number not valid"></asp:RegularExpressionValidator>
+                </div>
+                <asp:Label runat="server" AssociatedControlID="TextCellPhone" CssClass="col-md-1 control-label">Cell</asp:Label>
+                <div class="col-md-3">
+                    <asp:TextBox TextMode="Number" runat="server" ID="TextCellPhone" CssClass="form-control" />
+                    <asp:RegularExpressionValidator runat="server" ControlToValidate="TextCellPhone" CssClass="text-danger"
+                        ValidationExpression="[0-9]{8,11}" ErrorMessage="Number not valid"></asp:RegularExpressionValidator>
+                </div>
+            </div>
+
+
+            <div class="form-group">
                 <asp:UpdatePanel ID="UpdatePanel3" runat="server">
                     <ContentTemplate>
 
