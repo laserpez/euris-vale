@@ -10,7 +10,7 @@
 namespace VALE.MyVale {
     
     
-    public partial class UserlList {
+    public partial class UserList {
         
         /// <summary>
         /// ProjectGrid control.
