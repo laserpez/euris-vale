@@ -63,8 +63,6 @@ namespace VALE.Logic
             else
                 return "Errore nella modifica dell'utente " + appUser.UserName + ".";
 
-            if (oldRoleName == role)
-                return "L'utente " + appUser.UserName + " è già con il ruolo " + role + ".";
         }
 
         //public static string GetUserFullName(string userId)
