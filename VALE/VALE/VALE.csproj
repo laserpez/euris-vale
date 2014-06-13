@@ -221,7 +221,7 @@
     <Content Include="MyVale\Create\SelectProject.ascx" />
     <Content Include="MyVale\Create\SelectUser.ascx" />
     <Content Include="MyVale\PersonalArticles.aspx" />
-    <Content Include="MyVale\UserlList.aspx" />
+    <Content Include="MyVale\UserList.aspx" />
     <Content Include="MyVale\ViewArticle.aspx" />
     <Content Include="MyVale\CreateIntervention.aspx" />
     <Content Include="MyVale\Create\ActivityCreate.aspx" />
@@ -525,12 +525,12 @@
     <Compile Include="MyVale\PersonalArticles.aspx.designer.cs">
       <DependentUpon>PersonalArticles.aspx</DependentUpon>
     </Compile>
-    <Compile Include="MyVale\UserlList.aspx.cs">
-      <DependentUpon>UserlList.aspx</DependentUpon>
+    <Compile Include="MyVale\UserList.aspx.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MyVale\UserlList.aspx.designer.cs">
-      <DependentUpon>UserlList.aspx</DependentUpon>
+    <Compile Include="MyVale\UserList.aspx.designer.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\ViewArticle.aspx.cs">
       <DependentUpon>ViewArticle.aspx</DependentUpon>

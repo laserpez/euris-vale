@@ -54,7 +54,7 @@
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Home</a></li>
                         <li runat="server" id="adminLink" visible="false" class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Administration <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-star"></span> Administration <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/Admin/ManageUsers.aspx">Manage users <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
                                 <li><a href="/Admin/ManageProjects.aspx">Manage projects </a></li>
@@ -63,14 +63,14 @@
                             </ul>
                         </li>
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Board<b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-tasks"></span> Board<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/BOD/BODReports.aspx">View board reports</a></li>
                                 <li><a href="/MyVale/BOD/BODReportCreate.aspx">Create board reports</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Projects<b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-inbox"></span> Projects<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Projects.aspx">All projects</a></li>
                                 <li><a href="/MyVale/PersonalProjects.aspx">Personal projects</a></li>
@@ -78,7 +78,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Events<b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-flash"></span> Events<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Events.aspx">Events calendar</a></li>
                                 <li><a href="/MyVale/PersonalEvents.aspx">Personal events</a></li>
@@ -86,7 +86,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Activities  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Activities  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Activities.aspx">To do list</a></li>
                                 <li><a href="/MyVale/PersonalActivities.aspx">Activity reports</a></li>
@@ -94,13 +94,14 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Blog articles<b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list-alt"></span> Blog articles<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Articles.aspx">All articles</a></li>
                                 <li><a href="/MyVale/PersonalArticles.aspx">Personal articles</a></li>
                                 <li><a runat="server" visible="false" id="createBlogArticle" href="/MyVale/Create/ArticleCreate.aspx">Create blog article</a></li>
                             </ul>
                         </li>
+                        <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Users </a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
