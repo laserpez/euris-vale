@@ -8,6 +8,8 @@ namespace VALE.Logic
 {
     public static class MailHelper
     {
+
+
         public static void SendMail(string email, string message, string subject)
         {
             var emailMessage = new MailMessage();

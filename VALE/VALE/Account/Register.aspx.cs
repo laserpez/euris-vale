@@ -14,6 +14,11 @@ namespace VALE.Account
 {
     public partial class Register : Page
     {
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+                SetRegionDropDownList();
+        }
 
         private void SetRegionDropDownList()
         {
