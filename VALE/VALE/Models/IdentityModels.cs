@@ -21,6 +21,8 @@ namespace VALE.Models
         public string Province { get; set; }
         public string City { get; set; }
         public string CF { get; set; }
+        public string Telephone { get; set; }
+        public string CellPhone { get; set; }
         public bool NeedsApproval { get; set; }
 
         public Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager manager)
