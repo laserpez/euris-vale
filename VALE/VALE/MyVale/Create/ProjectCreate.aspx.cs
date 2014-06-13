@@ -35,22 +35,17 @@ namespace VALE.MyVale
             }
         }
 
-        public List<UserData> GetUsers(UserOperationsContext db)
-        {
-            List<string> userIds = (List<string>)ViewState["usersIds"];
-            return db.UsersData.Where(u => userIds.Contains(u.UserName)).ToList();
-        }
+        //public List<UserData> GetUsers(UserOperationsContext db)
+        //{
+        //    List<string> userIds = (List<string>)ViewState["usersIds"];
+        //    return db.UsersData.Where(u => userIds.Contains(u.UserName)).ToList();
+        //}
 
         protected void btnSaveProject_Click(object sender, EventArgs e)
         {
             var dbData = new UserOperationsContext();
-
-
             var listUser = new List<UserData>();
-            listUser.Add(dbData.UsersData.First(u => u.UserName == _currentUser));
-            listUser.AddRange(GetUsers(dbData));
-
-
+            //listUser.AddRange(GetUsers(dbData));
             var project = new Project
             {
                 CreationDate = Convert.ToDateTime(txtStartDate.Text),
@@ -94,41 +89,6 @@ namespace VALE.MyVale
         //    }
         //}
 
-        protected void btnSearchUser_Click(object sender, EventArgs e)
-        {
-            var db = new UserOperationsContext();
-            string userName = txtUserName.Text;
-            var user = db.UsersData.FirstOrDefault(p => p.FullName == userName);
-            if (user != null)
-            {
-                lblResultSearchUser.Text = String.Format("User {0} is now related to this project", txtUserName.Text);
-                btnSearchUser.CssClass = "btn btn-success";
-                List<string> users = (List<string>)ViewState["usersIds"];
-                users.Add(user.UserName);
-                ViewState["usersIds"] = users;
-                lstUsers.DataBind();
-            }
-            else
-            {
-                lblResultSearchUser.Text = "This user does not exist";
-                btnSearchUser.CssClass = "btn btn-warning";
-            }
-            txtUserName.Text = "";
-        }
-
-        public IQueryable<UserData> GetRelatedUsers()
-        {
-            List<string> userIds = (List<string>)ViewState["usersIds"];
-            var db = new UserOperationsContext();
-            return db.UsersData.Where(u => userIds.Contains(u.UserName));
-        }
-
-        public void DeleteUser(ApplicationUser user)
-        {
-            List<string> users = (List<string>)ViewState["usersIds"];
-            users.Remove(user.Id);
-            ViewState["usersIds"] = users;
-        }
 
         protected void btnUploadFile_Click(object sender, EventArgs e)
         {
@@ -138,7 +98,6 @@ namespace VALE.MyVale
             }
             PopulateGridView();
         }
-
 
         protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
         {
