@@ -119,6 +119,7 @@ namespace VALE
             if (HttpContext.Current.User.IsInRole("Administrator") || 
                 HttpContext.Current.User.IsInRole("BoardMember") )
             {
+                UserList.Visible = false;
                 adminLink.Visible = true;
                 boardLink.Visible = true;
             }

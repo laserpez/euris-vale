@@ -13,14 +13,11 @@ using System.Text.RegularExpressions;
 
 namespace VALE.MyVale
 {
-    public partial class UserlList : System.Web.UI.Page
+    public partial class UserList : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //var db = new ApplicationDbContext();
-            //var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            //var user = db.Users.Where(o => o.UserName == HttpContext.Current.User.Identity.Name).Select(o => o.Id).FirstOrDefault();
-            //manager.SendEmail(user, "Confirm your account", "Please confirm your account by clicking");
+
         }
 
         public IQueryable<ApplicationUser> GetUsers()
