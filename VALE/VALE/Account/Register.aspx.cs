@@ -8,6 +8,7 @@ using Owin;
 using VALE.Models;
 using System.Collections.Generic;
 using VALE.StateInfo;
+using System.Text.RegularExpressions;
 
 namespace VALE.Account
 {
@@ -15,15 +16,6 @@ namespace VALE.Account
     {
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            Email.Text = "antonio.rossi@rossi.com";
-            TextFirstName.Text = "Antonio";
-            TextLastName.Text = "Rossi";
-            TextAddress.Text = "Via emilia, 35";
-            //TextCity.Text = "Castignano";
-            //TextProv.Text = "AP";
-            TextCF.Text = "RSSNT87P25H769L";
-            Password.Text = "Pa$$word1";
-
             if (!IsPostBack)
                 SetRegionDropDownList();
         }
@@ -86,20 +78,24 @@ namespace VALE.Account
 
         protected void CreateUser_Click(object sender, EventArgs e)
         {
+
+
             var db = new UserOperationsContext();
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var user = new ApplicationUser() 
+            var user = new ApplicationUser()
             {
                 UserName = TextUserName.Text,
                 FirstName = TextFirstName.Text,
                 LastName = TextLastName.Text,
                 Address = TextAddress.Text,
+                Telephone = TextTelephone.Text,
+                CellPhone = TextCellPhone.Text,
                 Region = DropDownRegion.SelectedValue,
                 Province = DropDownProvince.SelectedValue,
                 City = DropDownCity.SelectedValue,
                 CF = TextCF.Text,
                 NeedsApproval = checkAssociated.Checked,
-                Email = Email.Text 
+                Email = Email.Text
             };
             var passwordValidator = new PasswordValidator();
             //per la password sono richiesti solo sei caratteri
@@ -109,8 +105,8 @@ namespace VALE.Account
             IdentityResult result = manager.Create(user, Password.Text);
             if (result.Succeeded)
             {
-                db.UsersData.Add(new UserData 
-                { 
+                db.UsersData.Add(new UserData
+                {
                     UserName = user.UserName,
                     Email = user.Email,
                     FullName = user.FirstName + " " + user.LastName
@@ -125,11 +121,9 @@ namespace VALE.Account
 
                 IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
             }
-            else 
+            else
             {
-                var prova = result.Errors.FirstOrDefault();
-                ErrorMessage.Text = prova.FirstOrDefault().ToString();
-                //ErrorMessage.Text = result.Errors.FirstOrDefault();
+                ErrorMessage.Text = result.Errors.FirstOrDefault();
             }
         }
     }
