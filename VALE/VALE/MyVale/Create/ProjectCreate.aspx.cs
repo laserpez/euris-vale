@@ -35,17 +35,12 @@ namespace VALE.MyVale
             }
         }
 
-        //public List<UserData> GetUsers(UserOperationsContext db)
-        //{
-        //    List<string> userIds = (List<string>)ViewState["usersIds"];
-        //    return db.UsersData.Where(u => userIds.Contains(u.UserName)).ToList();
-        //}
-
         protected void btnSaveProject_Click(object sender, EventArgs e)
         {
             var dbData = new UserOperationsContext();
-            var listUser = new List<UserData>();
-            //listUser.AddRange(GetUsers(dbData));
+
+            var users = dbData.UsersData.Where(u => SelectUser.SelectedUsers.Contains(u.UserName)).ToList();
+
             var project = new Project
             {
                 CreationDate = Convert.ToDateTime(txtStartDate.Text),
@@ -56,7 +51,7 @@ namespace VALE.MyVale
                 Status = "open",
                 Activities = new List<Activity>(),
                 Events = new List<Event>(),
-                InvolvedUsers = listUser,
+                InvolvedUsers = users,
                 RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text),
             };
             dbData.Projects.Add(project);

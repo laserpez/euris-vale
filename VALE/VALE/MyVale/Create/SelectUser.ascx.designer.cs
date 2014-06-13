@@ -40,15 +40,6 @@ namespace VALE.MyVale.Create {
         protected global::AjaxControlToolkit.AutoCompleteExtender txtNameAutoCompleter;
         
         /// <summary>
-        /// btnSearchUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearchUser;
-        
-        /// <summary>
         /// btnShowPopup control.
         /// </summary>
         /// <remarks>
@@ -56,6 +47,15 @@ namespace VALE.MyVale.Create {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnShowPopup;
+        
+        /// <summary>
+        /// btnSearchUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSearchUser;
         
         /// <summary>
         /// lblResultSearchUser control.
@@ -94,13 +94,13 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.WebControls.LinkButton lnkDummy;
         
         /// <summary>
-        /// TitleMpdalView control.
+        /// TitleModalView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label TitleMpdalView;
+        protected global::System.Web.UI.WebControls.Label TitleModalView;
         
         /// <summary>
         /// UsersList control.
