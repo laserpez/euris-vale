@@ -25,7 +25,7 @@ namespace VALE.MyVale
 
         protected void btnSaveActivity_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
+                var db = new UserOperationsContext();
             var project = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
             DateTime? expireDate = null;
             if(!String.IsNullOrEmpty(txtEndDate.Text))
