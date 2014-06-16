@@ -13,48 +13,39 @@ namespace VALE {
     public partial class Prova {
         
         /// <summary>
-        /// UpdatePanel5 control.
+        /// ToBePlannedGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel5;
+        protected global::System.Web.UI.WebControls.GridView ToBePlannedGridView;
         
         /// <summary>
-        /// lnkDummy control.
+        /// OngoingGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkDummy;
+        protected global::System.Web.UI.WebControls.GridView OngoingGridView;
         
         /// <summary>
-        /// ModalPopup control.
+        /// GridView2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopup;
+        protected global::System.Web.UI.WebControls.GridView GridView2;
         
         /// <summary>
-        /// TextBox1 control.
+        /// GridView3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
-        
-        /// <summary>
-        /// TitleMpdalView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label TitleMpdalView;
+        protected global::System.Web.UI.WebControls.GridView GridView3;
     }
 }
