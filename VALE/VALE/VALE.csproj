@@ -251,6 +251,7 @@
     <Content Include="MyVale\Create\Web.config" />
     <Content Include="Admin\Web.config" />
     <Content Include="DownloadFile.ashx" />
+    <Content Include="ProvaDrag.aspx" />
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -645,6 +646,13 @@
       <DependentUpon>Projects.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    </Compile>
+    <Compile Include="ProvaDrag.aspx.cs">
+      <DependentUpon>ProvaDrag.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProvaDrag.aspx.designer.cs">
+      <DependentUpon>ProvaDrag.aspx</DependentUpon>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
