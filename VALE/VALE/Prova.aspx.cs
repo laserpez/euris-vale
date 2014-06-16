@@ -11,12 +11,7 @@ namespace VALE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ModalPopup.Show();
-        }
-
-        protected void CloseButton_Click(object sender, EventArgs e)
-        {
-            ModalPopup.Hide();
+            
         }
     }
 }

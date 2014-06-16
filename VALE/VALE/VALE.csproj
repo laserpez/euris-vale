@@ -251,6 +251,7 @@
     <Content Include="Admin\Web.config" />
     <Content Include="DownloadFile.ashx" />
     <Content Include="Prova.aspx" />
+    <Content Include="ProvaDrag.aspx" />
     <Content Include="WebForm1.aspx" />
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
@@ -645,6 +646,13 @@
     </Compile>
     <Compile Include="Prova.aspx.designer.cs">
       <DependentUpon>Prova.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProvaDrag.aspx.cs">
+      <DependentUpon>ProvaDrag.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProvaDrag.aspx.designer.cs">
+      <DependentUpon>ProvaDrag.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
