@@ -14,7 +14,7 @@
                     <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
                     <asp:TemplateField HeaderText="Start Date" SortExpression="StartDate">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.StartDate.ToShortDateString() %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "No start date" %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Expire Date" SortExpression="ExpireDate">
