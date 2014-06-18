@@ -1,0 +1,9 @@
+1) Cambiare logo Vale    OUSSEMA
+2) Iconcine nel menu	FATTO
+3) Nella lista utenti del pannello amministrazione aggiungere cellulare    FATTO
+4) Inserire le iconcine nelle griglie   FEDE
+5) Inserire il bottone del filtro nella schermata gestione utente  OUSSEMA
+6) Aggiungere tra i filtri anche quello sullo stato  FATTO
+7) Aggiungere i filtri anche nelle attività    OUSSEMA
+8) Nel riepilogo del progetto aggiungere i bottoni per inserire eventi/utenti/attività e mostrarli tramite popup
+9) Nella lista utenti aggiungere il filtro e le colonne ordinabili - aggiungere export CSV solo per Admin e BoardMember FEDE
