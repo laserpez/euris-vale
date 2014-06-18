@@ -95,7 +95,7 @@ namespace VALE.Admin
                 if (lblChangeRole.Text != "")
                     lblChangeRole.Visible = true;
             }
-            Response.Redirect("~/ManageUsers");
+            Response.Redirect("~/Admin/ManageUsers");
         }
 
         private void PreparePanelForRegistrationRequest()
