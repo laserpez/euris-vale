@@ -40,7 +40,10 @@
                         <asp:BoundField DataField="ProjectID" HeaderText="ID" SortExpression="ProjectId" />
                         <asp:BoundField DataField="ProjectName" HeaderText="Name" SortExpression="ProjectName" />
                         <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                        <asp:TemplateField HeaderText="Created" SortExpression="CreationDate">
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <asp:LinkButton CommandArgument="CreationDate" CommandName="sort" runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-th"></span> Data Creazione</asp:LinkButton>
+                            </HeaderTemplate>
                             <ItemTemplate>
                                 <asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label>
                             </ItemTemplate>
