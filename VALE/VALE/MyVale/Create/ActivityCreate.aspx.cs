@@ -30,13 +30,20 @@ namespace VALE.MyVale
             DateTime? expireDate = null;
             if (!String.IsNullOrEmpty(txtEndDate.Text))
                 expireDate = Convert.ToDateTime(txtEndDate.Text);
+
+            DateTime? startDate = null;
+            if (!String.IsNullOrEmpty(txtStartDate.Text))
+                startDate = Convert.ToDateTime(txtStartDate.Text);
+
+
             var newActivity = new Activity
             {
                 ActivityName = txtName.Text,
                 Description = txtDescription.Text,
-                Status = ActivityStatus.ToBePlanned,
+                //Status = ActivityStatus.ToBePlanned,
+                Status = (ActivityStatus)1,
                 CreationDate = DateTime.Today,
-                StartDate = Convert.ToDateTime(txtStartDate.Text),
+                StartDate = startDate,
                 ExpireDate = expireDate,
                 RelatedProject = project,
                 PendingUsers = new List<UserData>(),

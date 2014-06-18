@@ -10,6 +10,7 @@ using CsvHelper;
 using System.IO;
 using System.Text;
 using VALE.Logic;
+using System.Web.ModelBinding ;
 
 namespace VALE.MyVale
 {
@@ -20,13 +21,39 @@ namespace VALE.MyVale
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserName = User.Identity.GetUserName();
+            if(!IsPostBack)
+                filterPanel.Visible = false;
         }
 
-        public IQueryable<Activity> GetCurrentActivities()
+        public IQueryable<Activity> GetCurrentActivities([Control]string txtName, [Control]string txtDescription, [Control]string ddlStatus)
         {
             var db = new UserOperationsContext();
             var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
             var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId));
+            if (txtName != null)
+                activities = activities.Where(a => a.ActivityName.ToUpper().Contains(txtName.ToUpper()));
+            if(txtDescription != null)
+                activities = activities.Where(a => a.Description.ToUpper().Contains(txtDescription.ToUpper()));
+            if(ddlStatus != null && ddlStatus != "Tutte")
+            {
+                ActivityStatus statusFilter = ActivityStatus.Deleted;
+                switch(ddlStatus)
+                {
+                    case "Da pianificare":
+                        statusFilter = ActivityStatus.ToBePlanned;
+                        break;
+                    case "In corso":
+                        statusFilter = ActivityStatus.Ongoing;
+                        break;
+                    case "Sospese":
+                        statusFilter = ActivityStatus.Suspended;
+                        break;
+                    case "Terminata":
+                        statusFilter = ActivityStatus.Done;
+                        break;
+                }
+                activities = activities.Where(a => a.Status == statusFilter);
+            }
             return activities;
         }
 
@@ -118,6 +145,29 @@ namespace VALE.MyVale
                 Response.Write(strbldr.ToString());
                 Response.End();
             }
+        }
+
+        protected void btnShowFilters_Click(object sender, EventArgs e)
+        {
+            filterPanel.Visible = !filterPanel.Visible;
+        }
+
+        protected void btnFilterProjects_Click(object sender, EventArgs e)
+        {
+            grdCurrentActivities.DataBind();
+        }
+
+        protected void btnClearFilters_Click(object sender, EventArgs e)
+        {
+            txtDescription.Text = "";
+            txtName.Text = "";
+            ddlStatus.SelectedValue = "Tutte";
+            grdCurrentActivities.DataBind();
+        }
+
+        public List<string> PopulateDropDown()
+        {
+            return new List<string>() { "Tutte", "Da pianificare", "In corso", "Sospese", "Terminate" };
         }
     }
 }
