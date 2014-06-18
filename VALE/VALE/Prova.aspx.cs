@@ -74,7 +74,7 @@ namespace VALE
                         break;
                     case "Project":
                         var projectId = Convert.ToInt32(ddlSelectProject.SelectedValue);
-                        activities = activities.Where(a => a.RelatedProject.ProjectId == projectId).ToList();
+                        activities = activities.Where(a => a.RelatedProject != null && a.RelatedProject.ProjectId == projectId).ToList();
                         break;
                     case "Unrelated":
                         activities = activities.Where(a => a.RelatedProject == null).ToList();
