@@ -214,6 +214,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="logoVALE.png" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
     <Content Include="MyVale\BOD\BODReports.aspx" />
