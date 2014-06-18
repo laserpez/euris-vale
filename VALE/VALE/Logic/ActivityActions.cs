@@ -27,15 +27,11 @@ namespace VALE.Logic
                 _db = null;
         }
 
-        //public void SetActivitiesStatus()
-        //{
-        //    foreach (var activity in _db.Activities.Where(a => a.Status != ActivityStatus.Deleted && a.Status != ActivityStatus.Suspended))
-        //    {
-        //        CheckStartDate(activity);
-        //        CheckEndDate(activity);
-        //    }
-        //    _db.SaveChanges();
-        //}
+        public void SetActivityStatus(int id, ActivityStatus status)
+        {
+            _db.Activities.First(a => a.ActivityId == id).Status = status;
+            _db.SaveChanges();
+        }
 
         //private void CheckEndDate(Activity activity)
         //{
