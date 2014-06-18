@@ -35,7 +35,6 @@ namespace VALE.Models
     public enum ActivityStatus
     {
         ToBePlanned,
-        Planned,
         Ongoing,
         Suspended,
         Done,

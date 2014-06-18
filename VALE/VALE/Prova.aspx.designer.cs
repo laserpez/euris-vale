@@ -13,39 +13,111 @@ namespace VALE {
     public partial class Prova {
         
         /// <summary>
-        /// ToBePlannedGridView control.
+        /// UpdatePanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView ToBePlannedGridView;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
-        /// OngoingGridView control.
+        /// HeaderName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView OngoingGridView;
+        protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// SuspendedGridView control.
+        /// ButtonAllActivities control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView SuspendedGridView;
+        protected global::System.Web.UI.HtmlControls.HtmlButton ButtonAllActivities;
         
         /// <summary>
-        /// DoneGridView control.
+        /// ButtonProjectActivities control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView DoneGridView;
+        protected global::System.Web.UI.HtmlControls.HtmlButton ButtonProjectActivities;
+        
+        /// <summary>
+        /// ButtonNotRelatedActivities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton ButtonNotRelatedActivities;
+        
+        /// <summary>
+        /// LinkButtonAllActivities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButtonAllActivities;
+        
+        /// <summary>
+        /// LinkButtonProjectActivities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButtonProjectActivities;
+        
+        /// <summary>
+        /// LinkButtonNotRelatedActivities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButtonNotRelatedActivities;
+        
+        /// <summary>
+        /// ToBePlannedGridView0 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView ToBePlannedGridView0;
+        
+        /// <summary>
+        /// OngoingGridView1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView OngoingGridView1;
+        
+        /// <summary>
+        /// SuspendedGridView2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView SuspendedGridView2;
+        
+        /// <summary>
+        /// DoneGridView3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView DoneGridView3;
     }
 }
