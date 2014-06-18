@@ -76,6 +76,15 @@ namespace VALE.Admin {
         protected global::System.Web.UI.HtmlControls.HtmlButton GetAllUsersButton;
         
         /// <summary>
+        /// GetAdminButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton GetAdminButton;
+        
+        /// <summary>
         /// GetPartnersButton control.
         /// </summary>
         /// <remarks>

@@ -28,6 +28,7 @@
                                             <div class="btn-group" runat="server" id="ListActivityDiv">
                                                 <asp:Label ID="ListUsersType" Visible="false" runat="server" Text=""></asp:Label>
                                                 <button type="button" visible="true" id="GetAllUsersButton" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutti  <span class="caret"></span></button>
+                                                <button type="button" visible="false" id="GetAdminButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Amministratori  <span class="caret"></span></button>
                                                 <button type="button" visible="false" id="GetPartnersButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Soci  <span class="caret"></span></button>
                                                 <button type="button" visible="false" id="GetDirectivPartnersButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Consiglio Direttivo<span class="caret"></span></button>
                                                 <button type="button" visible="false" id="GetRequestsdButton" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">Richieste  <span class="caret"></span></button>
