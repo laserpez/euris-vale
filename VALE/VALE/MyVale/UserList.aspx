@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UserList.aspx.cs" Inherits="VALE.MyVale.UserList" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <h3>Personal projects</h3>
+    <h3>Lista utenti</h3>
     <p>
         <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
             <ContentTemplate>
@@ -22,8 +22,8 @@
                             <asp:TextBox CssClass="form-control" runat="server" ID="txtEmail"></asp:TextBox>
 
 
-                            <asp:Button runat="server" Text="Search" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
-                            <asp:Button runat="server" Text="Clear filter" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
+                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
+                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
                         </div>
                     </div>
                 <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" ShowFooter="true" SelectMethod="GetUsers" GridLines="Both"

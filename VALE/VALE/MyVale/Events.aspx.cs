@@ -45,12 +45,12 @@ namespace VALE.MyVale
                 if (IsUserAttendingThisEvent(eventId))
                 {
                     btnAttend.CssClass = "btn btn-success";
-                    btnAttend.Text = "Already attending";
+                    btnAttend.Text = "Stai partecipando";
                 }
                 else
                 {
                     btnAttend.CssClass = "btn btn-info";
-                    btnAttend.Text = "Attend this event";
+                    btnAttend.Text = "Partecipa";
                 }
             }
         }

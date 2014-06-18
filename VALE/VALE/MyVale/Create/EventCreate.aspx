@@ -3,33 +3,33 @@
 
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EventCreate.aspx.cs" Inherits="VALE.MyVale.EventCreate" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h3>Create a new event</h3>
+    <h3>Crea un nuovo evento</h3>
     <div class="form-group">
-         <asp:Label runat="server" CssClass="col-md-2 control-label">Event name *</asp:Label>
+         <asp:Label runat="server" CssClass="col-md-2 control-label">Nome evento *</asp:Label>
          <div class="col-md-10">
             <asp:TextBox runat="server" ID="txtName" CssClass="form-control" />
-            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" CssClass="text-danger" ErrorMessage="The name field is required." />
+            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" CssClass="text-danger" ErrorMessage="Il nome è obbligatorio" />
         </div>
 
-        <asp:Label runat="server" CssClass="col-md-2 control-label">Event description *</asp:Label>
+        <asp:Label runat="server" CssClass="col-md-2 control-label">Descrizione evento *</asp:Label>
         <div class="col-md-10">
             <asp:TextBox TextMode="MultiLine" runat="server" ID="txtDescription" CssClass="form-control" Height="145px" Width="404px" />
-            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="The description field is required." />
+            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="La descrizione è obbligatoria" />
         </div>
 
-        <asp:Label runat="server" CssClass="col-md-2 control-label">Date *</asp:Label>
+        <asp:Label runat="server" CssClass="col-md-2 control-label">Data *</asp:Label>
         <div class="col-md-10">
             <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" />
             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
-            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="The start date field is required." />
+            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="La data è obbligatoria" />
         </div>
-        <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Upload file</asp:Label>
+        <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Carica file</asp:Label>
         <div class="col-md-10">
             <asp:FileUpload AllowMultiple="false" ID="FileUploadControl" runat="server" />
             <asp:Label runat="server" ID="StatusLabel" Text="" />
             <asp:Button runat="server" Text="Upload" ID="btnUploadFile" CssClass="btn btn-info" OnClick="btnUploadFile_Click" />
         </div>
-        <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Uploaded file</asp:Label>
+        <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">File caricati</asp:Label>
         <div class="col-md-10">
             <asp:GridView OnRowCommand="grdFilesUploaded_RowCommand" CssClass="table table-striped table-bordered" EmptyDataText="No files uploaded" 
                 ID="grdFilesUploaded" runat="server">
@@ -37,14 +37,14 @@
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:Button CausesValidation="false" CssClass="btn btn-danger btn-sm" runat="server" CommandName="DeleteFile" 
-                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Delete file" />
+                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Elimina" />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
         </div>
 
-        <asp:Label runat="server" CssClass="col-md-2 control-label">Public event</asp:Label>
+        <asp:Label runat="server" CssClass="col-md-2 control-label">E' un evento pubblico?</asp:Label>
         <div class="col-md-10">
             <asp:CheckBox runat="server" ID="chkPublic" />
         </div>
@@ -72,6 +72,6 @@
             </ProgressTemplate>
         </asp:UpdateProgress>--%>
         <p></p>
-        <asp:Button runat="server" Text="Save" ID="btnSaveActivity" CausesValidation="true" CssClass="btn btn-primary"  OnClick="btnSaveEvent_Click" />
+        <asp:Button runat="server" Text="Crea evento" ID="btnSaveActivity" CausesValidation="true" CssClass="btn btn-primary"  OnClick="btnSaveEvent_Click" />
     </div>
 </asp:Content>
