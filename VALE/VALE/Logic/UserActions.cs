@@ -19,8 +19,8 @@ namespace VALE.Logic
             var adminUser = new ApplicationUser
             {
                 UserName = "Admin",
-                FirstName = ".Amministratore",
-                LastName = "",
+                FirstName = "Amministratore",
+                LastName = "Capo",
                 Email = "admin@vale.org"
             };
             if (userManager.Find("Admin", "Pa$$word") == null)

@@ -32,7 +32,7 @@ namespace VALE.MyVale
             if(IsUserAttendingThisEvent())
             {
                 btnAttend.CssClass = "btn btn-success";
-                btnAttend.Text = "Already attending";
+                btnAttend.Text = "Stai partecipando";
             }
             else
             {
@@ -67,25 +67,25 @@ namespace VALE.MyVale
             return project;
         }
 
-        protected void btnSearchProject_Click(object sender, EventArgs e)
-        {
-            FormView fwProject = (FormView)EventDetail.FindControl("ProjectDetail");
-            TextBox textBox = (TextBox)fwProject.FindControl("txtProjectName");
-            string projectName = textBox.Text;
-            Project project = _db.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-            if (project != null)
-            {
-                Activity activity = _db.Activities.Where(a => a.ActivityId == _currentEventId).First();
-                activity.RelatedProject = project;
-                project.Activities.Add(activity);
-                _db.SaveChanges();
-            }
-            else
-            {
-                Label statusLabel = (Label)fwProject.FindControl("lblResultAddProject");
-                statusLabel.Text = "This project does not exists";
-            }
-        }
+        //protected void btnSearchProject_Click(object sender, EventArgs e)
+        //{
+        //    FormView fwProject = (FormView)EventDetail.FindControl("ProjectDetail");
+        //    TextBox textBox = (TextBox)fwProject.FindControl("txtProjectName");
+        //    string projectName = textBox.Text;
+        //    Project project = _db.Projects.FirstOrDefault(p => p.ProjectName == projectName);
+        //    if (project != null)
+        //    {
+        //        Activity activity = _db.Activities.Where(a => a.ActivityId == _currentEventId).First();
+        //        activity.RelatedProject = project;
+        //        project.Activities.Add(activity);
+        //        _db.SaveChanges();
+        //    }
+        //    else
+        //    {
+        //        Label statusLabel = (Label)fwProject.FindControl("lblResultAddProject");
+        //        statusLabel.Text = "Questo pr";
+        //    }
+        //}
 
         protected void btnAttend_Click(object sender, EventArgs e)
         {

@@ -62,25 +62,25 @@
         ItemType="VALE.Models.Activity" SelectMethod="GetPendingActivities" EmptyDataText="No pending activities" CssClass="table table-striped table-bordered">
         <Columns>
             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-            <asp:BoundField DataField="ActivityName" HeaderText="Name" />
-            <asp:BoundField DataField="Description" HeaderText="Description" />
-            <asp:TemplateField HeaderText="Creation Date">
+            <asp:BoundField DataField="ActivityName" HeaderText="Nome" />
+            <asp:BoundField DataField="Description" HeaderText="Descrizione" />
+            <asp:TemplateField HeaderText="Data inizio">
                 <ItemTemplate>
-                    <asp:Label runat="server"><%#: Item.StartDate %></asp:Label>
+                    <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Non definita" %></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Expire Date">
+            <asp:TemplateField HeaderText="Data fine">
                 <ItemTemplate>
-                    <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No expire date" %></asp:Label>
+                    <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Non definita" %></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Accept">
+            <asp:TemplateField HeaderText="Accetta">
                 <ItemTemplate>
                     <asp:Button CssClass="btn btn-success" runat="server" CommandName="AcceptActivity"
                         CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Accept" />
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Refuse">
+            <asp:TemplateField HeaderText="Rifiuta">
                 <ItemTemplate>
                     <asp:Button CssClass="btn btn-danger" runat="server" CommandName="RefuseActivity"
                         CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Refuse" />
