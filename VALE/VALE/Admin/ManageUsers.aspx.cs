@@ -22,7 +22,6 @@ namespace VALE.Admin
                 grdUsers.DataSource = lstUsers;
                 grdUsers.DataBind();
                 ViewState["lstProject"] = lstUsers;
-                filterPanel.Visible = false;
             }
             if (users.Count() == 0)
                 btnConfirmUser.Enabled = false;

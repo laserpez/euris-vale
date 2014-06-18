@@ -40,8 +40,7 @@ namespace VALE.MyVale
             {
                 ActivityName = txtName.Text,
                 Description = txtDescription.Text,
-                //Status = ActivityStatus.ToBePlanned,
-                Status = (ActivityStatus)1,
+                Status = ActivityStatus.ToBePlanned,
                 CreationDate = DateTime.Today,
                 StartDate = startDate,
                 ExpireDate = expireDate,
