@@ -13,24 +13,24 @@ namespace VALE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.QueryString["Method"] == "GetServerDate")
+            if (Request.QueryString["Method"] == "ChangeStatus")
             {
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                GetServerDate(Request.QueryString["format"]);
+                int id = Convert.ToInt16(Request.QueryString["id"]);
+                string statusNumber = Request.QueryString["status"];
+                ChangeStatus(id, statusNumber);
             }
         }
 
-        private void GetServerDate(string dateformat)
+        private void ChangeStatus(int id, string statusNumber)
         {
             Response.Clear();
-            if (dateformat.Equals("utc"))
+            ActivityStatus status = (ActivityStatus)Convert.ToInt16(statusNumber);
+            using (var activityActions = new ActivityActions())
             {
-                Response.Write(DateTime.Now.ToUniversalTime().ToString());
+                activityActions.SetActivityStatus(id, status);
             }
-            else
-            {
-                Response.Write(DateTime.Now.ToLocalTime().ToString());
-            }
+            Response.Write("True");
             Response.End();
         }
 
@@ -65,6 +65,27 @@ namespace VALE
             {
                 return activityActions.GetActivities(HttpContext.Current.User.Identity.Name, ActivityStatus.Suspended);
             }
+        }
+
+        protected void LinkButtonAllActivities_Click(object sender, EventArgs e)
+        {
+            ButtonAllActivities.Visible = true;
+            ButtonProjectActivities.Visible = false;
+            ButtonNotRelatedActivities.Visible = false;
+        }
+
+        protected void LinkButtonProjectActivities_Click(object sender, EventArgs e)
+        {
+            ButtonAllActivities.Visible = false;
+            ButtonProjectActivities.Visible = true;
+            ButtonNotRelatedActivities.Visible = false;
+        }
+
+        protected void LinkButtonNotRelatedActivities_Click(object sender, EventArgs e)
+        {
+            ButtonAllActivities.Visible = false;
+            ButtonProjectActivities.Visible = false;
+            ButtonNotRelatedActivities.Visible = true;
         }
     }
 }
