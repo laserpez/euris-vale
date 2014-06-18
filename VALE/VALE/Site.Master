@@ -1,0 +1,135 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="VALE.SiteMaster" %>
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - VALE</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+</head>
+<body>
+    <form runat="server">
+        <asp:ToolkitScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <%--<asp:ScriptReference Name="MsAjaxBundle" /--%>
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="respond" />
+                <asp:ScriptReference Name="WebForms.js" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ToolkitScriptManager>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <object width="130" height="51">
+                        <embed src="~/Vale.swf" type="application/x-shockwave-flash" width="130" height="50" runat="server" />
+                    </object>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/">Home</a></li>
+                        <li runat="server" id="adminLink" visible="false" class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-star"></span> Administration <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Admin/ManageUsers.aspx">Manage users <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
+                                <li><a href="/Admin/ManageProjects.aspx">Manage projects </a></li>
+                                <li><a href="/Admin/ManageEvents.aspx">Manage events</a></li>
+                                <li><a href="/Admin/ManageArticles.aspx">Manage blog articles <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
+                            </ul>
+                        </li>
+                        <li runat="server" id="boardLink" visible="false" class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-tasks"></span> Board<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/BOD/BODReports.aspx">View board reports</a></li>
+                                <li><a href="/MyVale/BOD/BODReportCreate.aspx">Create board reports</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-inbox"></span> Projects<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Projects.aspx">All projects</a></li>
+                                <li><a href="/MyVale/PersonalProjects.aspx">Personal projects</a></li>
+                                <li><a runat="server" visible="false" id="createProjectLink" href="/MyVale/Create/ProjectCreate.aspx">Create project</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-flash"></span> Events<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Events.aspx">Events calendar</a></li>
+                                <li><a href="/MyVale/PersonalEvents.aspx">Personal events</a></li>
+                                <li><a runat="server" visible="false" id="createEventLink" href="/MyVale/Create/EventCreate.aspx">Create event</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Activities  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Activities.aspx">To do list</a></li>
+                                <li><a href="/MyVale/PersonalActivities.aspx">Activity reports</a></li>
+                                <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx">Create personal activity</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list-alt"></span> Blog articles<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Articles.aspx">All articles</a></li>
+                                <li><a href="/MyVale/PersonalArticles.aspx">Personal articles</a></li>
+                                <li><a runat="server" visible="false" id="createBlogArticle" href="/MyVale/Create/ArticleCreate.aspx">Create blog article</a></li>
+                            </ul>
+                        </li>
+                        <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Users </a></li>
+                    </ul>
+                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                        <AnonymousTemplate>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a runat="server" href="~/Account/Register">Register</a></li>
+                                <li><a runat="server" href="~/Account/Login">Log in</a></li>
+                            </ul>
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Hello, <%: Context.User.Identity.Name  %> !</a></li>
+                                <li>
+                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
+                                </li>
+                            </ul>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <p>&copy; <%: DateTime.Now.Year %> - VALE</p>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>
