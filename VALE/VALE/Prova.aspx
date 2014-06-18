@@ -4,21 +4,21 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js" type="text/javascript"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
     <script type="text/javascript">
-        $(function () {
-            $(".table").sortable({
-                items: 'tr:not(tr:first-child)',
-                cursor: 'crosshair',
-                connectWith: '.table',
-                dropOnEmpty: true,
-                receive: function (e, ui) {
-                    $(this).find("tbody").append(ui.item);
-                    var receverTableId = this.id;
-                    var status = receverTableId.charAt(receverTableId.length - 1);
-                    var activityId = ui.item.find("td")[0].innerHTML;
-                    ChangeStatus(activityId, status);
-                }
-            });
-        });
+        //$(function () {
+        //    $('.table').sortable({
+        //        items: 'tr:not(tr:first-child)',
+        //        cursor: 'crosshair',
+        //        connectWith: '.table',
+        //        dropOnEmpty: true,
+        //        receive: function (e, ui) {
+        //            $(this).find('tbody').append(ui.item);
+        //            var receverTableId = this.id;
+        //            var status = receverTableId.charAt(receverTableId.length - 1);
+        //            var activityId = ui.item.find('td')[0].innerHTML;
+        //            ChangeStatus(activityId, status);
+        //        }
+        //    });
+        //});
 
         function ChangeStatus(id, status) {
             var xmlhttp;
@@ -33,12 +33,8 @@
             xmlhttp.send(null);
             var result = xmlhttp.responseText;
         }
-
-        function Go()
-        {
-            alert("Oussama");
-        }
     </script>
+    
     <div class="container" onload="Go()">
         <div class="bs-docs-section">
             <br />
