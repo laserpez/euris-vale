@@ -13,112 +13,94 @@ namespace VALE.Admin {
     public partial class ManageUsers {
         
         /// <summary>
-        /// UpdatePanelApproval control.
+        /// UpdatePanelUsrManager control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelApproval;
+        protected global::System.Web.UI.UpdatePanel UpdatePanelUsrManager;
         
         /// <summary>
-        /// grdWaitingUsers control.
+        /// NotificationNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdWaitingUsers;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NotificationNumber;
         
         /// <summary>
-        /// btnConfirmUser control.
+        /// TitleLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmUser;
+        protected global::System.Web.UI.WebControls.Label TitleLabel;
         
         /// <summary>
-        /// UpdatePanelUserManager control.
+        /// TypeOfListUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelUserManager;
+        protected global::System.Web.UI.WebControls.Label TypeOfListUsers;
         
         /// <summary>
-        /// btnShowFilters control.
+        /// ListActivityDiv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnShowFilters;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ListActivityDiv;
         
         /// <summary>
-        /// filterPanel control.
+        /// ListUsersType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl filterPanel;
+        protected global::System.Web.UI.WebControls.Label ListUsersType;
         
         /// <summary>
-        /// txtName control.
+        /// GetAllUsersButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtName;
+        protected global::System.Web.UI.HtmlControls.HtmlButton GetAllUsersButton;
         
         /// <summary>
-        /// txtLastname control.
+        /// GetPartnersButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLastname;
+        protected global::System.Web.UI.HtmlControls.HtmlButton GetPartnersButton;
         
         /// <summary>
-        /// txtUsername control.
+        /// GetDirectivPartnersButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUsername;
+        protected global::System.Web.UI.HtmlControls.HtmlButton GetDirectivPartnersButton;
         
         /// <summary>
-        /// txtEmail control.
+        /// GetRequestsdButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
-        
-        /// <summary>
-        /// btnFilterProjects control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilterProjects;
-        
-        /// <summary>
-        /// btnClearFilters control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearFilters;
+        protected global::System.Web.UI.HtmlControls.HtmlButton GetRequestsdButton;
         
         /// <summary>
         /// grdUsers control.
@@ -128,6 +110,15 @@ namespace VALE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdUsers;
+        
+        /// <summary>
+        /// btnConfirmUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmUser;
         
         /// <summary>
         /// lblChangeRole control.

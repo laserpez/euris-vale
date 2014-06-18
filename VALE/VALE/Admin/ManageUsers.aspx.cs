@@ -18,11 +18,10 @@ namespace VALE.Admin
             var users = GetWaitingUsers();
             if (!IsPostBack)
             {
+                grdUsers.Columns[7].Visible = false;
                 var lstUsers = GetUsers();
                 grdUsers.DataSource = lstUsers;
                 grdUsers.DataBind();
-                ViewState["lstProject"] = lstUsers;
-                filterPanel.Visible = false;
             }
             if (users.Count() == 0)
                 btnConfirmUser.Enabled = false;
@@ -59,19 +58,19 @@ namespace VALE.Admin
 
         protected void btnConfimUser_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < grdWaitingUsers.Rows.Count; i++)
+            for (int i = 0; i < grdUsers.Rows.Count; i++)
             {
-                CheckBox chkBox = (CheckBox)grdWaitingUsers.Rows[i].FindControl("chkSelectUser");
+                CheckBox chkBox = (CheckBox)grdUsers.Rows[i].FindControl("chkSelectUser");
                 if (chkBox.Checked)
                 {
-                    string userName = grdWaitingUsers.Rows[i].Cells[0].Text;
+                    string userName = grdUsers.Rows[i].Cells[0].Text;
                     AdminActions.ConfirmUser(userName);
                     string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
                     Response.Redirect(pageUrl);
                     //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "Your associated account has been confirmed", "Account confirmed");
                 }
             }
-            grdWaitingUsers.DataBind();
+            grdUsers.DataBind();
             grdUsers.DataBind();
         }
 
@@ -97,6 +96,107 @@ namespace VALE.Admin
                     lblChangeRole.Visible = true;
             }
             grdUsers.DataBind();
+        }
+
+        private void PreparePanelForRegistrationRequest()
+        {
+            grdUsers.Columns[8].Visible = false;
+            grdUsers.Columns[7].Visible = true;
+            NotificationNumber.Visible = true;
+            btnConfirmUser.Visible = true;
+            TitleLabel.Text = " Richieste Di Registrazione";
+        }
+
+        private void PreparePanelForManage()
+        {
+            grdUsers.Columns[8].Visible = true;
+            grdUsers.Columns[7].Visible = false;
+            NotificationNumber.Visible = false;
+            btnConfirmUser.Visible = false;
+            TitleLabel.Text = " Gestione Utenti";
+        }
+
+        protected void GetAllUsers_Click(object sender, EventArgs e)
+        {
+            PreparePanelForManage();
+            GetPartnersButton.Visible = false;
+            GetDirectivPartnersButton.Visible = false;
+            GetRequestsdButton.Visible = false;
+            ListUsersType.Text = "Tutti";
+            GetAllUsersButton.Visible = true;
+            LoadData();
+        }
+
+        protected void GetPartners_Click(object sender, EventArgs e)
+        {
+            PreparePanelForManage();
+            GetAllUsersButton.Visible = false;
+            GetDirectivPartnersButton.Visible = false;
+            GetRequestsdButton.Visible = false;
+            ListUsersType.Text = "Soci";
+            GetPartnersButton.Visible = true;
+            LoadData();
+        }
+
+        protected void GetAdmin_Click(object sender, EventArgs e)
+        {
+            PreparePanelForManage();
+            GetAllUsersButton.Visible = false;
+            GetDirectivPartnersButton.Visible = false;
+            GetRequestsdButton.Visible = false;
+            ListUsersType.Text = "Soci";
+            GetPartnersButton.Visible = true;
+            LoadData();
+        }
+
+        protected void GetDirectivPartners_Click(object sender, EventArgs e)
+        {
+            PreparePanelForManage();
+            GetAllUsersButton.Visible = false;
+            GetPartnersButton.Visible = false;
+            GetRequestsdButton.Visible = false;
+            ListUsersType.Text = "Membri";
+            GetDirectivPartnersButton.Visible = true;
+            LoadData();
+        }
+
+        protected void GetRequests_Click(object sender, EventArgs e)
+        {
+            PreparePanelForRegistrationRequest();
+            GetAllUsersButton.Visible = false;
+            GetPartnersButton.Visible = false;
+            GetDirectivPartnersButton.Visible = false;
+            ListUsersType.Text = "Richieste";
+            GetRequestsdButton.Visible = true;
+            LoadData();
+        }
+        private void LoadData()
+        {
+            var db = new ApplicationDbContext();
+            List<ApplicationUser> list = new List<ApplicationUser>();
+
+            switch (ListUsersType.Text)
+            {
+                case "Tutti":
+                    list = db.Users.ToList();
+                    break;
+                case "Amministratori":
+                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == db.Roles.Where(p => p.Name == "Amministratore").Select(k => k.Id).FirstOrDefault()).ToList();
+                    break;
+                case "Soci":
+                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == db.Roles.Where(p => p.Name == "Soci").Select(k => k.Id).FirstOrDefault()).ToList();
+                    break;
+                case "Membri":
+                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == db.Roles.Where(p => p.Name == "Membri").Select(k => k.Id).FirstOrDefault()).ToList();
+                    break;
+                case "Richieste":
+                    list = db.Users.Where(u => u.NeedsApproval == true).ToList();
+                    break;
+                default:
+                    break;
+            }
+                    grdUsers.DataSource = list;
+                    grdUsers.DataBind();
         }
     }
 }
