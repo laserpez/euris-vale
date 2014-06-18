@@ -120,10 +120,10 @@ namespace VALE.MyVale
             Panel panel = (Panel)ProjectDetail.FindControl("manageProjectPanel");
             Label label = (Label)panel.FindControl("lblInfoOperation");
             panel.Visible = true;
-            if (project.Status == "suspended")
-                label.Text = "RESUME";
+            if (project.Status == "Sospeso")
+                label.Text = "RIPRENDI";
             else
-                label.Text = "SUSPEND";
+                label.Text = "SOSPENDI";
         }
 
         protected void btnCloseProject_Click(object sender, EventArgs e)
@@ -131,7 +131,7 @@ namespace VALE.MyVale
             Panel panel = (Panel)ProjectDetail.FindControl("manageProjectPanel");
             Label label = (Label)panel.FindControl("lblInfoOperation");
             panel.Visible = true;
-            label.Text = "CLOSE";
+            label.Text = "CHIUDI";
         }
 
         protected void ProjectDetail_DataBound(object sender, EventArgs e)
@@ -149,13 +149,13 @@ namespace VALE.MyVale
             Button btnWork = (Button)ProjectDetail.FindControl("btnWorkOnThis");
             Button btnAddIntervention = (Button)ProjectDetail.FindControl("btnAddIntervention");
             
-            if (project.Status == "open")
+            if (project.Status == "Aperto")
             {
                 if (project.InvolvedUsers.Select(u => u.UserName).Contains(_currentUser))
                 {
                     btnWork.Enabled = true;
                     btnWork.CssClass = "btn btn-success";
-                    btnWork.Text = "You are working on this project";
+                    btnWork.Text = "Stai lavorando";
                     btnAddIntervention.Enabled = true;
                     btnAddIntervention.CssClass = "btn btn-info";
                     btnAddIntervention.Text = "Add intervention";
@@ -164,7 +164,7 @@ namespace VALE.MyVale
                 {
                     btnWork.Enabled = true;
                     btnWork.CssClass = "btn btn-info";
-                    btnWork.Text = "Work on this project";
+                    btnWork.Text = "Lavora al progetto";
                     btnAddIntervention.Enabled = false;
                     btnAddIntervention.CssClass = "btn btn-info disable";
                     btnAddIntervention.Text = "Cannot add intervention";
@@ -174,7 +174,7 @@ namespace VALE.MyVale
             {
                 btnWork.Enabled = false;
                 btnWork.CssClass = "btn btn-info disable";
-                btnWork.Text = "Cannot work on this project";
+                btnWork.Text = "Non puoi lavorare al progetto";
             }
         }
 
@@ -185,30 +185,30 @@ namespace VALE.MyVale
             Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
             if (project.OrganizerUserName == _currentUser || User.IsInRole("Administration"))
             {
-                if (project.Status == "open")
+                if (project.Status == "Aperto")
                 {
-                    btnSuspend.Text = "Suspend project";
+                    btnSuspend.Text = "Sospendi progetto";
                     btnSuspend.Enabled = true;
                     btnSuspend.CssClass = "btn btn-warning";
-                    btnClose.Text = "Close project";
+                    btnClose.Text = "Chiudi progetto";
                     btnClose.Enabled = true;
                     btnClose.CssClass = "btn btn-danger";
                 }
-                else if (project.Status == "suspended")
+                else if (project.Status == "Sospeso")
                 {
-                    btnSuspend.Text = "Resume project";
+                    btnSuspend.Text = "Riprendi progetto";
                     btnSuspend.Enabled = true;
                     btnSuspend.CssClass = "btn btn-warning";
-                    btnClose.Text = "Close project";
+                    btnClose.Text = "Chiudi progetto";
                     btnClose.Enabled = true;
                     btnClose.CssClass = "btn btn-danger";
                 }
                 else
                 {
-                    btnSuspend.Text = "This project is closed";
+                    btnSuspend.Text = "Il progetto è chiuso";
                     btnSuspend.Enabled = false;
                     btnSuspend.CssClass = "btn btn-warning disabled";
-                    btnClose.Text = "This project is closed";
+                    btnClose.Text = "Il progetto è chiuso";
                     btnClose.Enabled = false;
                     btnClose.CssClass = "btn btn-danger disabled";
                 }
@@ -235,13 +235,13 @@ namespace VALE.MyVale
 
                 switch (label.Text)
                 {
-                    case "SUSPEND":
+                    case "SOSPENDI":
                         project.Status = "Sospeso";
                         break;
-                    case "CLOSE":
+                    case "CHIUDI":
                         project.Status = "Chiuso";
                         break;
-                    case "RESUME":
+                    case "RIPRENDI":
                         project.Status = "Aperto";
                         break;
                 }
