@@ -13,6 +13,7 @@ namespace VALE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            ApplyDragAndDrop();
             if (Request.QueryString["Method"] == "ChangeStatus")
             {
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -20,6 +21,26 @@ namespace VALE
                 string statusNumber = Request.QueryString["status"];
                 ChangeStatus(id, statusNumber);
             }
+        }
+
+        private void ApplyDragAndDrop() 
+        {
+            string _myScript = @"$(function () {
+            $('.table').sortable({
+                items: 'tr:not(tr:first-child)',
+                cursor: 'crosshair',
+                connectWith: '.table',
+                dropOnEmpty: true,
+                receive: function (e, ui) {
+                    $(this).find('tbody').append(ui.item);
+                    var receverTableId = this.id;
+                    var status = receverTableId.charAt(receverTableId.length - 1);
+                    var activityId = ui.item.find('td')[0].innerHTML;
+                    ChangeStatus(activityId, status);
+                    }
+                });
+            });";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "myScript", _myScript, true); 
         }
 
         private void ChangeStatus(int id, string statusNumber)
