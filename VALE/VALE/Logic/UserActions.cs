@@ -19,15 +19,14 @@ namespace VALE.Logic
             var adminUser = new ApplicationUser
             {
                 UserName = "Admin",
-                FirstName = "Amministratore",
-                LastName = "Capo",
+                FirstName = ".Amministratore",
+                LastName = "",
                 Email = "admin@vale.org"
             };
             if (userManager.Find("Admin", "Pa$$word") == null)
             {
                 userManager.Create(adminUser, "Pa$$word");
-                userManager.AddToRole(adminUser.Id, "Administrator");
-                userManager.AddToRole(adminUser.Id, "AssociatedUser");
+                userManager.AddToRole(adminUser.Id, "Amministratore");
                 dbData.UsersData.Add(new UserData 
                 { 
                     UserName = adminUser.UserName, 

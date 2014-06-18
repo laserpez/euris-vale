@@ -107,17 +107,17 @@ namespace VALE
                 }
             }
            
-            if (HttpContext.Current.User.IsInRole("Administrator") ||
-                HttpContext.Current.User.IsInRole("BoardMember") ||
-                HttpContext.Current.User.IsInRole("AssociatedUser") )
+            if (HttpContext.Current.User.IsInRole("Amministratore") ||
+                HttpContext.Current.User.IsInRole("Membro del consiglio") ||
+                HttpContext.Current.User.IsInRole("Socio") )
             {
                 createProjectLink.Visible = true;
                 createEventLink.Visible = true;
                 createActivityLink.Visible = true;
                 createBlogArticle.Visible = true;
             }
-            if (HttpContext.Current.User.IsInRole("Administrator") || 
-                HttpContext.Current.User.IsInRole("BoardMember") )
+            if (HttpContext.Current.User.IsInRole("Amministratore") || 
+                HttpContext.Current.User.IsInRole("Membro del consiglio") )
             {
                 UserList.Visible = false;
                 adminLink.Visible = true;
