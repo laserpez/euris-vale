@@ -1,6 +1,8 @@
-﻿using System;
+﻿//using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,6 +16,14 @@ namespace VALE.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
             var users = GetWaitingUsers();
+            if (!IsPostBack)
+            {
+                var lstUsers = GetUsers();
+                grdUsers.DataSource = lstUsers;
+                grdUsers.DataBind();
+                ViewState["lstProject"] = lstUsers;
+                filterPanel.Visible = false;
+            }
             if (users.Count() == 0)
                 btnConfirmUser.Enabled = false;
             
@@ -26,10 +36,10 @@ namespace VALE.Admin
             return users;
         }
 
-        public IQueryable<ApplicationUser> GetUsers()
+        public List<ApplicationUser> GetUsers()
         {
             var db = new ApplicationDbContext();
-            var users = db.Users;
+            var users = db.Users.ToList();
             return users;
         }
 
@@ -44,7 +54,7 @@ namespace VALE.Admin
                 return roleName;
             }
             else
-                return "User";
+                return "Utente";
         }
 
         protected void btnConfimUser_Click(object sender, EventArgs e)
@@ -68,21 +78,21 @@ namespace VALE.Admin
         protected void btnChangeUser_Click(object sender, EventArgs e)
         {
             LinkButton button = (LinkButton)sender;
-            if (button.Text == "Administrator")
+            if (button.Text == "Amministratore")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Administrator");
+                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Amministratore");
                 if (lblChangeRole.Text != "")
                     lblChangeRole.Visible = true;
             }
-            else if (button.Text == "BoardMember")
+            else if (button.Text == "Membro del consiglio")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "BoardMember");
+                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Membro del consiglio");
                 if (lblChangeRole.Text != "")
                     lblChangeRole.Visible = true;
             }
-            else if (button.Text == "AssociatedUser")
+            else if (button.Text == "Socio")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "AssociatedUser");
+                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Socio");
                 if (lblChangeRole.Text != "")
                     lblChangeRole.Visible = true;
             }
