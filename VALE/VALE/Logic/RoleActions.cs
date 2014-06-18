@@ -25,17 +25,17 @@ namespace VALE.Logic
 
         private static void CreateAdministratorRole()
         {
-            CreateRole("Administrator");
+            CreateRole("Amministratore");
         }
 
         private static void CreateAssociatedUserRole()
         {
-            CreateRole("AssociatedUser");
+            CreateRole("Socio");
         }
 
         private static void CreateBoardMemberRole()
         {
-            CreateRole("BoardMember");
+            CreateRole("Membro del consiglio");
         }
 
         public static void CreateRoles()
