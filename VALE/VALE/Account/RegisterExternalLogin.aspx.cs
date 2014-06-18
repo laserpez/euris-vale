@@ -166,6 +166,7 @@ namespace VALE.Account
                 Region = DropDownRegion.SelectedValue,
                 Province = DropDownProvince.SelectedValue,
                 City = DropDownCity.SelectedValue,
+                CellPhone = TextCellPhone.Text,
                 CF = TextCF.Text,
                 NeedsApproval = checkAssociated.Checked,
                 Email = TextEmail.Text 

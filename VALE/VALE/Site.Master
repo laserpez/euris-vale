@@ -17,7 +17,7 @@
 </head>
 <body>
     <form runat="server">
-        <asp:ToolkitScriptManager runat="server">
+        <asp:ToolkitScriptManager runat="server" >
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
                 <%--Framework Scripts--%>
@@ -46,9 +46,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <object width="130" height="51">
-                        <embed src="~/Vale.swf" type="application/x-shockwave-flash" width="130" height="50" runat="server" />
-                    </object>
+                   
+                        <img src="~/logoVALE.png" width="130" height="47" runat="server" />
+                    
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">

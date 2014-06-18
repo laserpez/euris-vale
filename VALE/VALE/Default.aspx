@@ -40,7 +40,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 15 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
+                                <asp:Label runat="server"><%#: Item.Description.Length >= 20 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
                             </td>
                         </tr>
                     </table>
@@ -75,7 +75,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 15 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
+                                <asp:Label runat="server"><%#: Item.Description.Length >= 20 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
                             </td>
                         </tr>
                     </table>
@@ -110,7 +110,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 15 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
+                                <asp:Label runat="server"><%#: Item.Description.Length >= 20 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
                             </td>
                         </tr>
                     </table>
