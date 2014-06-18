@@ -217,7 +217,7 @@ namespace VALE.MyVale
             {
                 btnSuspend.Visible = false;
                 btnClose.Visible = false;
-                lblInfo.Text = "Only organizator can manage this project";
+                lblInfo.Text = "Solo il creatore può gestire lo stato del progetto";
             }
         }
 
@@ -236,13 +236,13 @@ namespace VALE.MyVale
                 switch (label.Text)
                 {
                     case "SUSPEND":
-                        project.Status = "suspended";
+                        project.Status = "Sospeso";
                         break;
                     case "CLOSE":
-                        project.Status = "closed";
+                        project.Status = "Chiuso";
                         break;
                     case "RESUME":
-                        project.Status = "open";
+                        project.Status = "Aperto";
                         break;
                 }
                 db.SaveChanges();
