@@ -13,13 +13,13 @@ namespace VALE.Admin {
     public partial class ManageUsers {
         
         /// <summary>
-        /// UpdatePanelUsrManager control.
+        /// UpdatePanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelUsrManager;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
         /// NotificationNumber control.
