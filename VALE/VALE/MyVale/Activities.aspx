@@ -5,28 +5,51 @@
     <asp:Button runat="server" Text="Export CSV" CssClass="btn btn-info" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
-            
-            <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false" ShowFooter="true" GridLines="Both"
+            <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Show filters" ID="btnShowFilters"  OnClick="btnShowFilters_Click" />
+                     </div>
+                    <div runat="server" id="filterPanel" class="panel-body">
+                        <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
+                        <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
+                        <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
+                        <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
+                        
+                        <%--<asp:Label CssClass="col-md-2 control-label" runat="server" Text="Creato il"></asp:Label>
+                        <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtCreationDate"></asp:TextBox>
+                        <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtCreationDate"></asp:CalendarExtender>
+                        <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Ultima modifica"></asp:Label>
+                        <asp:TextBox CssClass="form-control" runat="server" ID="txtLastModifiedDate"></asp:TextBox>
+                        <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtLastModifiedDate"></asp:CalendarExtender>--%>
+
+                        <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Stato"></asp:Label>
+                        <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control" ID="ddlStatus" runat="server"></asp:DropDownList>
+                        <br /><br /><br />
+                        <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
+                        <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
+                    </div>
+                </div>
+            <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
                 ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="No current activities" CssClass="table table-striped table-bordered">
                 <Columns>
                     <asp:BoundField DataField="ActivityId" HeaderText="ID" SortExpression="ActivityId" />
-                    <asp:BoundField DataField="ActivityName" HeaderText="Name" SortExpression="ActivityName" />
-                    <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                    <asp:TemplateField HeaderText="Start Date" SortExpression="StartDate">
+                    <asp:BoundField DataField="ActivityName" HeaderText="Nome" SortExpression="ActivityName" />
+                    <asp:BoundField DataField="Description" HeaderText="Descrizione" SortExpression="Description" />
+                    <asp:TemplateField HeaderText="Data inizio" SortExpression="StartDate">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "No start date" %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Non definita" %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Expire Date" SortExpression="ExpireDate">
+                    <asp:TemplateField HeaderText="Data fine" SortExpression="ExpireDate">
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "No expire date" %></asp:Label>
+                            <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Non definita" %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
-                    <asp:TemplateField HeaderText="View">
+                    <asp:BoundField DataField="Status" HeaderText="Stato" SortExpression="Status" />
+                    <asp:TemplateField HeaderText="Dettagli">
                         <ItemTemplate>
                             <asp:Button CssClass="btn btn-info" runat="server" CommandName="ViewDetails"
-                                CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="View activity" />
+                                CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Vedi" />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
@@ -34,7 +57,7 @@
         </ContentTemplate>
     </asp:UpdatePanel>
     <p></p>
-    <h3>Pending activities</h3>
+    <h3>Attività in attesa</h3>
     <asp:GridView OnRowCommand="grdPendingActivities_RowCommand" ID="grdPendingActivities" runat="server" AutoGenerateColumns="false" ShowFooter="true" GridLines="Both"
         ItemType="VALE.Models.Activity" SelectMethod="GetPendingActivities" EmptyDataText="No pending activities" CssClass="table table-striped table-bordered">
         <Columns>
@@ -65,28 +88,4 @@
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
-
-    <%--<h3>Previous activities</h3>
-    <div class="row">
-        <div class="col-md-3">
-            <asp:Label runat="server" Text="Start date:"></asp:Label>
-            <asp:TextBox runat="server" Text="" ID="txtStartDate"></asp:TextBox>
-            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
-        </div>
-        <div class="col-md-3">
-           <asp:Label runat="server" Text="Start date:"></asp:Label>
-           <asp:TextBox runat="server" Text="" ID="txtEndDate"></asp:TextBox>
-            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtEndDate"></asp:CalendarExtender>
-        </div>
-        <div class="col-md-3">
-            <asp:Button CssClass="btn btn-primary" ID="btnSearch" runat="server" Text="Search" />
-        </div>
-        <div class="col-md-3">
-            <asp:Button CssClass="btn btn-primary" ID="btnExport" runat="server" Text="Export CSV" />
-        </div>
-    </div>
-    <p></p>
-    <asp:ListView runat="server">
-
-    </asp:ListView>--%>
 </asp:Content>

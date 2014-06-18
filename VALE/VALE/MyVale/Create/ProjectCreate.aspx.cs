@@ -48,7 +48,7 @@ namespace VALE.MyVale
                 Description = txtDescription.Text,
                 ProjectName = txtName.Text,
                 LastModified = Convert.ToDateTime(txtStartDate.Text),
-                Status = "open",
+                Status = "Aperto",
                 Activities = new List<Activity>(),
                 Events = new List<Event>(),
                 InvolvedUsers = users,

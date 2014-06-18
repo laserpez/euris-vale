@@ -40,10 +40,10 @@ namespace VALE.MyVale
             Label lblInfoChangeStatus = (Label)ActivityDetail.FindControl("lblInfoChangeStatus");
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
 
-            btnOngoing.Visible = activity.Status == ActivityStatus.Suspended;
-            btnSuspended.Visible = activity.Status == ActivityStatus.Ongoing;
-            btnChangeStatus.Visible = activity.Status != ActivityStatus.Deleted;
-            lblInfoChangeStatus.Visible = activity.Status == ActivityStatus.Deleted;
+            //btnOngoing.Visible = activity.Status == ActivityStatus.Suspended;
+            //btnSuspended.Visible = activity.Status == ActivityStatus.Ongoing;
+            //btnChangeStatus.Visible = activity.Status != ActivityStatus.Deleted;
+            //lblInfoChangeStatus.Visible = activity.Status == ActivityStatus.Deleted;
 
             
         }
