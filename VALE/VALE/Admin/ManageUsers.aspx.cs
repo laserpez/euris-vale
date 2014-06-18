@@ -15,17 +15,18 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var users = GetWaitingUsers();
             if (!IsPostBack)
             {
                 grdUsers.Columns[7].Visible = false;
+                
                 var lstUsers = GetUsers();
                 grdUsers.DataSource = lstUsers;
                 grdUsers.DataBind();
             }
-            if (users.Count() == 0)
+
+            if (GetWaitingUsers().Count() == 0)
                 btnConfirmUser.Enabled = false;
-            
+
         }
 
         public IQueryable<ApplicationUser> GetWaitingUsers()
@@ -71,7 +72,6 @@ namespace VALE.Admin
                 }
             }
             grdUsers.DataBind();
-            grdUsers.DataBind();
         }
 
         protected void btnChangeUser_Click(object sender, EventArgs e)
@@ -95,7 +95,7 @@ namespace VALE.Admin
                 if (lblChangeRole.Text != "")
                     lblChangeRole.Visible = true;
             }
-            grdUsers.DataBind();
+            Response.Redirect("~/ManageUsers");
         }
 
         private void PreparePanelForRegistrationRequest()
@@ -114,14 +114,17 @@ namespace VALE.Admin
             NotificationNumber.Visible = false;
             btnConfirmUser.Visible = false;
             TitleLabel.Text = " Gestione Utenti";
+
+            GetAllUsersButton.Visible = false;
+            GetAdminButton.Visible = false;
+            GetPartnersButton.Visible = false;
+            GetDirectivPartnersButton.Visible = false;
+            GetRequestsdButton.Visible = false;
         }
 
         protected void GetAllUsers_Click(object sender, EventArgs e)
         {
             PreparePanelForManage();
-            GetPartnersButton.Visible = false;
-            GetDirectivPartnersButton.Visible = false;
-            GetRequestsdButton.Visible = false;
             ListUsersType.Text = "Tutti";
             GetAllUsersButton.Visible = true;
             LoadData();
@@ -130,9 +133,6 @@ namespace VALE.Admin
         protected void GetPartners_Click(object sender, EventArgs e)
         {
             PreparePanelForManage();
-            GetAllUsersButton.Visible = false;
-            GetDirectivPartnersButton.Visible = false;
-            GetRequestsdButton.Visible = false;
             ListUsersType.Text = "Soci";
             GetPartnersButton.Visible = true;
             LoadData();
@@ -141,20 +141,14 @@ namespace VALE.Admin
         protected void GetAdmin_Click(object sender, EventArgs e)
         {
             PreparePanelForManage();
-            GetAllUsersButton.Visible = false;
-            GetDirectivPartnersButton.Visible = false;
-            GetRequestsdButton.Visible = false;
-            ListUsersType.Text = "Soci";
-            GetPartnersButton.Visible = true;
+            ListUsersType.Text = "Amministratori";
+            GetAdminButton.Visible = true;
             LoadData();
         }
 
         protected void GetDirectivPartners_Click(object sender, EventArgs e)
         {
             PreparePanelForManage();
-            GetAllUsersButton.Visible = false;
-            GetPartnersButton.Visible = false;
-            GetRequestsdButton.Visible = false;
             ListUsersType.Text = "Membri";
             GetDirectivPartnersButton.Visible = true;
             LoadData();
@@ -164,6 +158,7 @@ namespace VALE.Admin
         {
             PreparePanelForRegistrationRequest();
             GetAllUsersButton.Visible = false;
+            GetAdminButton.Visible = false;
             GetPartnersButton.Visible = false;
             GetDirectivPartnersButton.Visible = false;
             ListUsersType.Text = "Richieste";
@@ -181,13 +176,16 @@ namespace VALE.Admin
                     list = db.Users.ToList();
                     break;
                 case "Amministratori":
-                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == db.Roles.Where(p => p.Name == "Amministratore").Select(k => k.Id).FirstOrDefault()).ToList();
+                    var rolesA = db.Roles.Where(p => p.Name == "Amministratore").Select(k => k.Id).FirstOrDefault();
+                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesA).ToList();
                     break;
                 case "Soci":
-                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == db.Roles.Where(p => p.Name == "Soci").Select(k => k.Id).FirstOrDefault()).ToList();
+                    var rolesS = db.Roles.Where(p => p.Name == "Socio").Select(k => k.Id).FirstOrDefault();
+                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesS ).ToList();
                     break;
                 case "Membri":
-                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == db.Roles.Where(p => p.Name == "Membri").Select(k => k.Id).FirstOrDefault()).ToList();
+                    var rolesM = db.Roles.Where(p => p.Name == "Membro del consiglio").Select(k => k.Id).FirstOrDefault();
+                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesM).ToList();
                     break;
                 case "Richieste":
                     list = db.Users.Where(u => u.NeedsApproval == true).ToList();
