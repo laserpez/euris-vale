@@ -12,12 +12,21 @@ namespace VALE.MyVale
     public partial class ActivityCreate : System.Web.UI.Page
     {
         private string _currentUser = "";
+        private string _callingProjectId = null;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUser = User.Identity.GetUserName();
+            _callingProjectId = Request.QueryString["ProjectId"];
             if (!IsPostBack)
             {
+                if (_callingProjectId != null)
+                {
+                    var db = new UserOperationsContext();
+                    var projectId = Convert.ToInt32(_callingProjectId);
+                    var projectName = db.Projects.First(p => p.ProjectId == projectId).ProjectName;
+                    SelectProject.DisableControl(projectName);
+                }
                 calendarFrom.StartDate = DateTime.Now;
                 calendarTo.StartDate = calendarFrom.StartDate.Value.AddDays(1);
             }
@@ -61,7 +70,10 @@ namespace VALE.MyVale
             });
             db.SaveChanges();
 
-            Response.Redirect("/MyVale/Activities");
+            if(_callingProjectId != null)
+                Response.Redirect("/MyVale/ProjectDetails?projectId=" + _callingProjectId);
+            else
+                Response.Redirect("/MyVale/Activities");
         }
 
 

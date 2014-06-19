@@ -58,5 +58,14 @@ namespace VALE.MyVale.Create
             Button btn = (Button)sender;
             txtProjectName.Text = btn.CommandArgument;
         }
+
+        public void DisableControl(string projectName)
+        {
+            txtProjectName.Text = projectName;
+            txtProjectName.Enabled = false;
+            btnSearchProject.Enabled = false;
+            btnShowPopup.Enabled = false;
+
+        }
     }
 }

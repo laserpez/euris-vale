@@ -77,6 +77,7 @@
             <asp:UpdatePanel runat="server">
                 <ContentTemplate>
                     <h4>Eventi correlati</h4>
+                    <asp:Button CssClass="btn btn-success btn-sm" Text="Aggiungi evento" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
                     <asp:GridView ItemType="VALE.Models.Event" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                         SelectMethod="GetRelatedEvents" DataKeyNames="EventId" runat="server" ID="GridView1" CssClass="table table-striped table-bordered">
                         <Columns>
@@ -90,6 +91,7 @@
                     </asp:GridView>
 
                     <h4>Attività correlate</h4>
+                    <asp:Button CssClass="btn btn-success btn-sm" Text="Aggiungi attività" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
                     <asp:GridView ItemType="VALE.Models.Activity" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                         SelectMethod="GetRelatedActivities" DataKeyNames="ActivityId" runat="server" ID="GridView2" CssClass="table table-striped table-bordered">
                         <Columns>

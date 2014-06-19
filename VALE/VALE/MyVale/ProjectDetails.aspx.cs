@@ -310,6 +310,16 @@ namespace VALE.MyVale
             DirectoryInfo dir = new DirectoryInfo(Server.MapPath(path));
             return dir.GetFiles().Count() > 0;
         }
+
+        protected void btnAddActivity_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/Create/ActivityCreate?projectId=" + _currentProjectId);
+        }
+
+        protected void btnAddEvent_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/Create/EventCreate?projectId=" + _currentProjectId);
+        }
         
     }
 }
