@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Prova.aspx.cs" Inherits="VALE.Prova" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageActivities.aspx.cs" Inherits="VALE.Prova" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -64,7 +64,7 @@
                                                     <button type="button" visible="false" id="ButtonNotRelatedActivities" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Non Correlate  <span class="caret"></span></button>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <asp:LinkButton ID="LinkButtonAllActivities" runat="server" OnClick="LinkButtonAllActivities_Click"><span class="glyphicon glyphicon-tasks"></span> Tutti</asp:LinkButton></li>
+                                                            <asp:LinkButton ID="LinkButtonAllActivities" runat="server" OnClick="LinkButtonAllActivities_Click"><span class="glyphicon glyphicon-tasks"></span> Tutte</asp:LinkButton></li>
                                                         <li>
                                                             <asp:LinkButton ID="LinkButtonProjectActivities" runat="server" OnClick="LinkButtonProjectActivities_Click"><span class="glyphicon glyphicon-inbox"></span> Per Progetto</asp:LinkButton></li>
                                                         <li>

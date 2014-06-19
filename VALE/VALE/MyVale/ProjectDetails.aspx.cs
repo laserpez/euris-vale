@@ -158,7 +158,7 @@ namespace VALE.MyVale
                     btnWork.Text = "Stai lavorando";
                     btnAddIntervention.Enabled = true;
                     btnAddIntervention.CssClass = "btn btn-info";
-                    btnAddIntervention.Text = "Add intervention";
+                    btnAddIntervention.Text = "Aggiungi intervento";
                 }
                 else
                 {
@@ -167,7 +167,7 @@ namespace VALE.MyVale
                     btnWork.Text = "Lavora al progetto";
                     btnAddIntervention.Enabled = false;
                     btnAddIntervention.CssClass = "btn btn-info disable";
-                    btnAddIntervention.Text = "Cannot add intervention";
+                    btnAddIntervention.Text = "Non puoi aggiungere interventi";
                 }
             }
             else
@@ -183,7 +183,7 @@ namespace VALE.MyVale
             Button btnSuspend = (Button)ProjectDetail.FindControl("btnSuspendProject");
             Button btnClose = (Button)ProjectDetail.FindControl("btnCloseProject");
             Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
-            if (project.OrganizerUserName == _currentUser || User.IsInRole("Administration"))
+            if (project.OrganizerUserName == _currentUser || User.IsInRole("Amministratore"))
             {
                 if (project.Status == "Aperto")
                 {
