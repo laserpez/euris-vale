@@ -173,7 +173,7 @@ namespace VALE.MyVale
             UserData user = db.UsersData.First(u => u.UserName == _currentUser);
             Project thisProject = db.Projects.First(ev => ev.ProjectId == projectId);
             Button btnAttend = (Button)sender;
-            if (btnAttend.CssClass == "btn btn-info btn-sm")
+            if (btnAttend.CssClass == "btn btn-info btn-xs")
             {
                 thisProject.InvolvedUsers.Add(user);
                 user.AttendingProjects.Add(thisProject);
@@ -196,15 +196,16 @@ namespace VALE.MyVale
             for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
             {
                 Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
-                int projectId = Convert.ToInt32(OpenedProjectList.DataKeys[i].Value);//Convert.ToInt32(OpenedProjectList.DataKeyNames.[i].ToString());
+                //int projectId = Convert.ToInt32(OpenedProjectList.DataKeys[i].Value);
+                int projectId = Convert.ToInt32(OpenedProjectList.Rows[i].Cells[0].Text);
                 if (dbData.UsersData.First(u => u.UserName == _currentUser).AttendingProjects.Contains(dbData.Projects.First(p => p.ProjectId == projectId)))
                 {
-                    btnAttend.CssClass = "btn btn-success btn-sm";
+                    btnAttend.CssClass = "btn btn-success btn-xs";
                     btnAttend.Text = "Stai partecipando";
                 }
                 else
                 {
-                    btnAttend.CssClass = "btn btn-info btn-sm";
+                    btnAttend.CssClass = "btn btn-info btn-xs";
                     btnAttend.Text = "Partecipa";
                 }
             }
