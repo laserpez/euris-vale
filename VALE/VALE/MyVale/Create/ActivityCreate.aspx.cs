@@ -70,7 +70,7 @@ namespace VALE.MyVale
             });
             db.SaveChanges();
 
-            if(_callingProjectId != null)
+            if (_callingProjectId != null)
                 Response.Redirect("/MyVale/ProjectDetails?projectId=" + _callingProjectId);
             else
                 Response.Redirect("/MyVale/Activities");
