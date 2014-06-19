@@ -21,7 +21,7 @@
 
     <div id="loggedUser" runat="server" class="row">
         <div class="col-md-4" style="max-height: 600px; overflow: auto">
-            <h3>Projects</h3>
+            <h3>Progetti</h3>
             <asp:ListView ID="lstProgetti" runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjects">
                 <ItemTemplate>
                     <table>
@@ -49,14 +49,14 @@
                     <br />
                 </ItemSeparatorTemplate>
                 <EmptyDataTemplate>
-                    No personal projects
+                    Nessun progetto creato.
                 </EmptyDataTemplate>
             </asp:ListView>
             <br />
-            <asp:Button CommandArgument="Projects" Text="View all" CssClass="btn btn-info btn-sm" ID="btnViewAll" OnClick="btnViewAll_Click" runat="server" />
+            <asp:Button CommandArgument="Projects" Text="Vedi tutti" CssClass="btn btn-info btn-sm" ID="btnViewAll" OnClick="btnViewAll_Click" runat="server" />
         </div>
         <div class="col-md-4" style="max-height: 600px; overflow: auto">
-            <h3>Events</h3>
+            <h3>Eventi</h3>
             <asp:ListView ID="lstEvents" runat="server" ItemType="VALE.Models.Event" SelectMethod="GetEvents">
                 <ItemTemplate>
                     <table>
@@ -84,14 +84,14 @@
                     <br />
                 </ItemSeparatorTemplate>
                 <EmptyDataTemplate>
-                    No personal events
+                    Nessun evento creato. 
                 </EmptyDataTemplate>
             </asp:ListView>
             <br />
-            <asp:Button CommandArgument="Events" Text="View all" CssClass="btn btn-info btn-sm" ID="Button1" OnClick="btnViewAll_Click" runat="server" />
+            <asp:Button CommandArgument="Events" Text="Vedi tutti" CssClass="btn btn-info btn-sm" ID="Button1" OnClick="btnViewAll_Click" runat="server" />
         </div>
         <div class="col-md-4" style="max-height: 600px; overflow: auto">
-            <h3>Activities</h3>
+            <h3>Attività</h3>
             <asp:ListView ID="lstActivities" runat="server" ItemType="VALE.Models.Activity" SelectMethod="GetActivities">
                 <ItemTemplate>
                     <table>
@@ -119,11 +119,11 @@
                     <br />
                 </ItemSeparatorTemplate>
                 <EmptyDataTemplate>
-                    No personal activities
+                    Nessuna attività creata.
                 </EmptyDataTemplate>
             </asp:ListView>
             <br />
-            <asp:Button CommandArgument="Activities" Text="View all" CssClass="btn btn-info btn-sm" ID="Button2" OnClick="btnViewAll_Click" runat="server" />
+            <asp:Button CommandArgument="Activities" Text="Vedi tutti" CssClass="btn btn-info btn-sm" ID="Button2" OnClick="btnViewAll_Click" runat="server" />
         </div>
 
     </div>
