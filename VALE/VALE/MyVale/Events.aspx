@@ -12,13 +12,13 @@
                 <div class="col-md-2">
                     <asp:Label runat="server" Text="Da" CssClass="control-label"></asp:Label>
                     <asp:TextBox runat="server" ID="txtFromDate" CssClass="form-control" OnTextChanged="txtFromDate_TextChanged" AutoPostBack="true"></asp:TextBox>
-                    <asp:RequiredFieldValidator ErrorMessage="* required" runat="server" ControlToValidate="txtFromDate"></asp:RequiredFieldValidator>
+                    <asp:RequiredFieldValidator ErrorMessage="* obbligatorio" runat="server" ControlToValidate="txtFromDate"></asp:RequiredFieldValidator>
                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtFromDate" ></asp:CalendarExtender>
                 </div>
                 <div class="col-md-2">
                     <asp:Label runat="server" Text="A" CssClass="control-label"></asp:Label>
                     <asp:TextBox runat="server" ID="txtToDate" CssClass="form-control"></asp:TextBox>
-                    <asp:RequiredFieldValidator ErrorMessage="* required" runat="server" ControlToValidate="txtToDate"></asp:RequiredFieldValidator>
+                    <asp:RequiredFieldValidator ErrorMessage="* obbligatorio" runat="server" ControlToValidate="txtToDate"></asp:RequiredFieldValidator>
                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtToDate"></asp:CalendarExtender>
                 </div>
             </div>

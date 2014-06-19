@@ -5,7 +5,7 @@
         <ContentTemplate>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Show filters" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
+                    <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Mostra filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
                 </div>
                 <div runat="server" id="filterPanel" class="panel-body">
                     <asp:Label AssociatedControlID="txtName" CssClass="col-md-2 control-label" runat="server" Text="Name"></asp:Label>
@@ -24,7 +24,7 @@
             </div>
 
             <asp:GridView OnRowCommand="ProjectList_RowCommand" ID="ProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" 
-                ItemType="VALE.Models.Project" EmptyDataText="No open projects" CssClass="table table-striped table-bordered">
+                ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                 <Columns>
                     <asp:BoundField DataField="ProjectID" HeaderText="ID" SortExpression="ProjectId" />
                     <asp:BoundField DataField="ProjectName" HeaderText="Name" SortExpression="ProjectName" />

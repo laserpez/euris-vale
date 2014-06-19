@@ -2,12 +2,12 @@
 <%@ Page Title="Activities" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Activities.aspx.cs" Inherits="VALE.MyVale.Activities" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h3>To do</h3>
-    <asp:Button runat="server" Text="Export CSV" CssClass="btn btn-info" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
+    <asp:Button runat="server" Text="Esporta CSV" CssClass="btn btn-info" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
             <div class="panel panel-default">
                     <div class="panel-heading">
-                        <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Show filters" ID="btnShowFilters"  OnClick="btnShowFilters_Click" />
+                        <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Mostra filtri" ID="btnShowFilters"  OnClick="btnShowFilters_Click" />
                      </div>
                     <div runat="server" id="filterPanel" class="panel-body">
                         <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
-                ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="No current activities" CssClass="table table-striped table-bordered">
+                ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="Nessuna attività in corso." CssClass="table table-striped table-bordered">
                 <Columns>
                     <asp:BoundField DataField="ActivityId" HeaderText="ID" SortExpression="ActivityId" />
                     <asp:BoundField DataField="ActivityName" HeaderText="Nome" SortExpression="ActivityName" />
@@ -59,7 +59,7 @@
     <p></p>
     <h3>Attività in attesa</h3>
     <asp:GridView OnRowCommand="grdPendingActivities_RowCommand" ID="grdPendingActivities" runat="server" AutoGenerateColumns="false" ShowFooter="true" GridLines="Both"
-        ItemType="VALE.Models.Activity" SelectMethod="GetPendingActivities" EmptyDataText="No pending activities" CssClass="table table-striped table-bordered">
+        ItemType="VALE.Models.Activity" SelectMethod="GetPendingActivities" EmptyDataText="Nessuna attività in attesa." CssClass="table table-striped table-bordered">
         <Columns>
             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
             <asp:BoundField DataField="ActivityName" HeaderText="Nome" />

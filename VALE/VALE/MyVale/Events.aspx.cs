@@ -106,8 +106,11 @@ namespace VALE.MyVale
 
         protected void txtFromDate_TextChanged(object sender, EventArgs e)
         {
-            calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text).AddDays(7);
-            txtToDate.Text = calendarTo.StartDate.Value.ToShortDateString();
+            if (!string.IsNullOrEmpty(txtFromDate.Text))
+            {
+                calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text).AddDays(7);
+                txtToDate.Text = calendarTo.StartDate.Value.ToShortDateString();
+            }
         }
 
     }
