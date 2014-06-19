@@ -201,5 +201,10 @@ namespace VALE
         {
             BindAllGrids();
         }
+
+        protected void btnCreateActivity_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/Create/ActivityCreate");
+        }
     }
 }
