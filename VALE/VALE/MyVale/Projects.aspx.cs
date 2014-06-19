@@ -196,7 +196,7 @@ namespace VALE.MyVale
             for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
             {
                 Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
-                int projectId = Convert.ToInt32(OpenedProjectList.Rows[i].Cells[0].Text);
+                int projectId = Convert.ToInt32(OpenedProjectList.DataKeys[i].Value);//Convert.ToInt32(OpenedProjectList.DataKeyNames.[i].ToString());
                 if (dbData.UsersData.First(u => u.UserName == _currentUser).AttendingProjects.Contains(dbData.Projects.First(p => p.ProjectId == projectId)))
                 {
                     btnAttend.CssClass = "btn btn-success btn-sm";
