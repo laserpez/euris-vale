@@ -32,7 +32,7 @@
                 </div>
 
                 <asp:GridView OnDataBound="OpenedProjectList_DataBound" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                    ItemType="VALE.Models.Project" EmptyDataText="No open projects" CssClass="table table-striped table-bordered" OnSorting="OpenedProjectList_Sorting">
+                    ItemType="VALE.Models.Project" EmptyDataText="Non sono presenti progetti aperti." CssClass="table table-striped table-bordered" OnSorting="OpenedProjectList_Sorting">
                     <Columns>
                         <asp:BoundField DataField="ProjectID" HeaderText="ID" SortExpression="ProjectId" />
                         <asp:BoundField DataField="ProjectName" HeaderText="Nome" SortExpression="ProjectName" />

@@ -4,30 +4,30 @@
     <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
         <ContentTemplate>
             <asp:GridView OnRowCommand="grdEventList_RowCommand" ID="grdEventList" SelectMethod="GetEvents" runat="server" AutoGenerateColumns="false" GridLines="Both"
-                ItemType="VALE.Models.Event" EmptyDataText="No open projects" CssClass="table table-striped table-bordered">
+                ItemType="VALE.Models.Event" EmptyDataText="Nessun evento aperto." CssClass="table table-striped table-bordered">
                 <Columns>
                     <asp:BoundField DataField="EventId" HeaderText="ID" SortExpression="EventId" />
-                    <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
-                    <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                    <asp:TemplateField HeaderText="Created" SortExpression="EventDate">
+                    <asp:BoundField DataField="Name" HeaderText="Nome" SortExpression="Name" />
+                    <asp:BoundField DataField="Description" HeaderText="Descrizione" SortExpression="Description" />
+                    <asp:TemplateField HeaderText="Data di creazione" SortExpression="EventDate">
                         <ItemTemplate>
                             <asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Creator" SortExpression="OrganizerId">
+                    <asp:TemplateField HeaderText="Creatore" SortExpression="OrganizerId">
                         <ItemTemplate>
                             <asp:Label runat="server"><%#: Item.OrganizerUserName %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="View">
+                    <asp:TemplateField HeaderText="Vedi">
                         <ItemTemplate>
-                            <asp:Button runat="server" Text="View report" CssClass="btn btn-info btn-sm"
+                            <asp:Button runat="server" Text="Vedi report" CssClass="btn btn-info btn-sm"
                                 CommandName="ViewReport" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" />
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Delete">
+                    <asp:TemplateField HeaderText="Cancella">
                         <ItemTemplate>
-                            <asp:Button runat="server" Text="Delete event" CssClass="btn btn-danger btn-sm"
+                            <asp:Button runat="server" Text="Cancella evento" CssClass="btn btn-danger btn-sm"
                                 CommandName="DeleteProject" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" />
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -50,7 +50,7 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <legend>Remove Event</legend>
+                            <legend>Rimuovi evento</legend>
                             <div class="form-group">
                                 <label class="col-lg-12 control-label">Event name</label>
                                 <div class="col-lg-10 control-label" runat="server" id="Div1">
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <asp:Button runat="server" ID="DeleteButton" class="btn btn-default navbar-btn" Text="Confirm" OnClick="DeleteButton_Click" />
+                    <asp:Button runat="server" ID="DeleteButton" class="btn btn-default navbar-btn" Text="Conferma" OnClick="DeleteButton_Click" />
                     <asp:Label  runat="server" ID="ErrorDeleteLabel" Text="" Visible="false" ></asp:Label>
                 </div>
             </div>
