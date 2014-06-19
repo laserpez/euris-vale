@@ -11,7 +11,6 @@ namespace VALE.Models
     {
         // Primary key
         public int ActivityId { get; set; }
-
         public string ActivityName { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }

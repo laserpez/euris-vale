@@ -15,6 +15,7 @@ namespace VALE.MyVale
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             _currentUser = User.Identity.GetUserName();
             if (!IsPostBack)
             {
