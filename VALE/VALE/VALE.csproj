@@ -254,7 +254,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DownloadFile.ashx" />
-    <Content Include="Prova.aspx" />
+    <Content Include="MyVale\ManageActivities.aspx" />
     <Content Include="ProvaDrag.aspx" />
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
@@ -650,12 +650,12 @@
       <DependentUpon>Projects.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Prova.aspx.cs">
-      <DependentUpon>Prova.aspx</DependentUpon>
+    <Compile Include="MyVale\ManageActivities.aspx.cs">
+      <DependentUpon>ManageActivities.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Prova.aspx.designer.cs">
-      <DependentUpon>Prova.aspx</DependentUpon>
+    <Compile Include="MyVale\ManageActivities.aspx.designer.cs">
+      <DependentUpon>ManageActivities.aspx</DependentUpon>
     </Compile>
     <Compile Include="ProvaDrag.aspx.cs">
       <DependentUpon>ProvaDrag.aspx</DependentUpon>

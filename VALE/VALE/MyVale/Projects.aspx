@@ -8,7 +8,7 @@
             <ContentTemplate>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Show filters" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
+                        <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Mostra filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
                      </div>
                     <div runat="server" id="filterPanel" class="panel-body">
                         <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
