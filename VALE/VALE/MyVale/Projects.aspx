@@ -36,66 +36,66 @@
                     <Columns>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><asp:LinkButton CommandArgument="ProjectID" CommandName="sort" runat="server" ID="labelProjectId"><span  class="glyphicon glyphicon-th"></span> ID</asp:LinkButton></center>
+                                <p style="text-align:center"><asp:LinkButton CommandArgument="ProjectID" CommandName="sort" runat="server" ID="labelProjectId"><span class="glyphicon glyphicon-th"></span> ID</asp:LinkButton></p>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><asp:Label runat="server"><%#: Item.ProjectId %></asp:Label></center>
+                                <p style="text-align:center"><asp:Label runat="server"><%#: Item.ProjectId %></asp:Label></p>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><asp:LinkButton CommandArgument="ProjectName" CommandName="sort" runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></center>
+                                <p style="text-align:center"><asp:LinkButton CommandArgument="ProjectName" CommandName="sort" runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></p>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><asp:Label runat="server"><%#: Item.ProjectName %></asp:Label></center>
+                                <p style="text-align:center"><asp:Label runat="server"><%#: Item.ProjectName %></asp:Label></p>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton>
+                                <p style="text-align:center"><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><asp:Label runat="server"><%#: Item.Description %></asp:Label></center>
+                                <p style="text-align:center"><asp:Label runat="server"><%#: Item.Description %></asp:Label></p>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><asp:LinkButton CommandArgument="CreationDate" CommandName="sort" runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-th"></span> Data Creazione</asp:LinkButton></center>
+                                <p style="text-align:center"><asp:LinkButton CommandArgument="CreationDate" CommandName="sort" runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-th"></span> Data Creazione</asp:LinkButton></p>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></center>
+                                <p style="text-align:center"><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></p>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><asp:LinkButton CommandArgument="LastModified" CommandName="sort" runat="server" ID="labelLastModified"><span  class="glyphicon glyphicon-th"></span> Ultima modifica</asp:LinkButton></center>
+                                <p style="text-align:center"><asp:LinkButton CommandArgument="LastModified" CommandName="sort" runat="server" ID="labelLastModified"><span  class="glyphicon glyphicon-th"></span> Ultima modifica</asp:LinkButton></p>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><asp:Label runat="server"><%#: Item.LastModified.ToShortDateString() %></asp:Label></center>
+                                <p style="text-align:center"><asp:Label runat="server"><%#: Item.LastModified.ToShortDateString() %></asp:Label></p>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-th"></span> Stato</asp:LinkButton></center>
+                                <p style="text-align:center"><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-th"></span> Stato</asp:LinkButton></p>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><asp:Label runat="server"><%#: Item.Status %></asp:Label></center>
+                                <p style="text-align:center"><asp:Label runat="server"><%#: Item.Status %></asp:Label></p>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><asp:Label runat="server" ID="labelPartecipate"><span  class="glyphicon glyphicon-th"></span> Partecipa</asp:Label></center>
+                                <p style="text-align:center"><asp:Label runat="server" ID="labelPartecipate"><span  class="glyphicon glyphicon-th"></span> Partecipa</asp:Label></p>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><asp:Button runat="server" Text="Partecipa" CssClass="btn btn-info btn-sm" ID="btnWorkOnThis"  OnClick="btnWorkOnThis_Click" /></center>
+                                <p style="text-align:center"><asp:Button runat="server" Text="Partecipa" CssClass="btn btn-info btn-sm" ID="btnWorkOnThis"  OnClick="btnWorkOnThis_Click" /></p>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></center>
+                                <p style="text-align:center"><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></p>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><asp:Button runat="server" Text="Vedi" CssClass="btn btn-info btn-sm" ID="btnViewDetails" OnClick="btnViewDetails_Click" /></center>
+                                <p style="text-align:center"><asp:Button runat="server" Text="Vedi" CssClass="btn btn-info btn-sm" ID="btnViewDetails" OnClick="btnViewDetails_Click" /></p>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
