@@ -14,7 +14,8 @@
             <asp:Label runat="server"><%#: Item.PublishingDate.ToShortDateString() %></asp:Label><br />
             <asp:Label runat="server">Testo: </asp:Label>
             <asp:Label runat="server"><%#: Item.Text %></asp:Label><br />
-            <h4>Documenti correlati</h4>
+            <br />
+            <asp:Label ID="attachmentsLabel" runat="server" CssClass="h4" Text="Documenti correlati"></asp:Label>
             <asp:ListBox runat="server" ID="lstDocuments" CssClass="form-control" SelectMethod="GetRelatedDocuments"></asp:ListBox>
             <asp:Button runat="server" ID="btnViewDocuments" OnClick="btnViewDocuments_Click" CssClass="btn btn-info" Text="View document" />
         </ItemTemplate>
