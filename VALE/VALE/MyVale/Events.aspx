@@ -19,10 +19,10 @@
                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtToDate"></asp:CalendarExtender>
                 </div>
             </div>
-            <div class="row">
-                    <asp:Button CausesValidation="true" runat="server" ID="btnShowEvents" CssClass="btn btn-primary btn-xs" Text="Mostra eventi" OnClick="btnShowEvents_Click" />
+            <div class="col-md-12 row">
+                <asp:Button CausesValidation="true" runat="server" ID="btnShowEvents" CssClass="btn btn-primary btn-xs" Text="Mostra eventi" OnClick="btnShowEvents_Click" />
             </div>
-            <p></p>
+            <div class="col-md-12 row"><br /></div>
             <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" OnSorting="grdPlannedEvent_Sorting" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato" 
                 CssClass="table table-striped table-bordered" ShowFooter="true" ID="grdPlannedEvent" >
             <Columns>

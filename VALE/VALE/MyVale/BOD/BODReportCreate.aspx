@@ -11,14 +11,17 @@
     <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtLocation" ErrorMessage="* campo Luogo obbligatorio" ></asp:RequiredFieldValidator><br />
 
     <asp:Label runat="server" CssClass="control-label">Data riunione:</asp:Label>
-    <asp:TextBox CssClass="form-control" ID="txtMeetingDate" runat="server" OnTextChanged="txtMeetingDate_TextChanged" AutoPostBack="true"></asp:TextBox>
-    <asp:CalendarExtender ID="CalendarMeetingDate" TargetControlID="txtMeetingDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
-    <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtMeetingDate" ErrorMessage="* campo Data riunione obbligatorio" ></asp:RequiredFieldValidator><br />
-
-    <asp:Label runat="server" CssClass="control-label">Data di pubblicazione:</asp:Label>
-    <asp:TextBox CssClass="form-control" ID="txtPublishDate" runat="server"></asp:TextBox>
-    <asp:CalendarExtender ID="CalendarPublishDate" TargetControlID="txtPublishDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
-    <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtPublishDate" ErrorMessage="* campo Data di pubblicazione obbligatorio" ></asp:RequiredFieldValidator><br />
+    <asp:UpdatePanel ID="MeetingDateUpdatePanel" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
+            <asp:TextBox CssClass="form-control" ID="txtMeetingDate" runat="server" OnTextChanged="txtMeetingDate_TextChanged" AutoPostBack="true"></asp:TextBox>
+            <asp:CalendarExtender ID="CalendarMeetingDate" TargetControlID="txtMeetingDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
+            <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtMeetingDate" ErrorMessage="* campo Data riunione obbligatorio"></asp:RequiredFieldValidator><br />
+            <asp:Label runat="server" CssClass="control-label">Data di pubblicazione:</asp:Label>
+            <asp:TextBox CssClass="form-control" ID="txtPublishDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="CalendarPublishDate" TargetControlID="txtPublishDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
+            <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtPublishDate" ErrorMessage="* campo Data di pubblicazione obbligatorio"></asp:RequiredFieldValidator><br />
+        </ContentTemplate>
+    </asp:UpdatePanel>
 
     <asp:Label runat="server" CssClass="control-label">Scrivi verbale:</asp:Label>
     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtReportText" runat="server"></asp:TextBox>
