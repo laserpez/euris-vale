@@ -27,11 +27,11 @@
         <div class="col-md-10">
             <asp:FileUpload AllowMultiple="false" ID="FileUploadControl" runat="server" />
             <asp:Label runat="server" ID="StatusLabel" Text="" />
-            <asp:Button runat="server" Text="Upload" ID="btnUploadFile" CssClass="btn btn-info" OnClick="btnUploadFile_Click" />
+            <asp:Button runat="server" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info" OnClick="btnUploadFile_Click" />
         </div>
         <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">File caricati</asp:Label>
         <div class="col-md-10">
-            <asp:GridView OnRowCommand="grdFilesUploaded_RowCommand" CssClass="table table-striped table-bordered" EmptyDataText="No files uploaded" 
+            <asp:GridView OnRowCommand="grdFilesUploaded_RowCommand" CssClass="table table-striped table-bordered" EmptyDataText="Nessun file caricato." 
                 ID="grdFilesUploaded" runat="server">
                 <Columns>
                     <asp:TemplateField>

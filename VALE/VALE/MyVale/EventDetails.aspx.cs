@@ -122,12 +122,18 @@ namespace VALE.MyVale
                 var dir = new DirectoryInfo(Server.MapPath(thisEvent.DocumentsPath));
                 var files = dir.GetFiles().Select(f => f.Name).ToList();
                 if (files.Count == 0)
+                {
+                    HideLabel("AttachmentsLabel");
                     HideListBox("lstDocuments");
+                    HideButton("btnViewDocument");
+                }
                 return files;
             }
             else
             {
+                HideLabel("AttachmentsLabel");
                 HideListBox("lstDocuments");
+                HideButton("btnViewDocument");
                 return null;
             }
         }
@@ -137,6 +143,18 @@ namespace VALE.MyVale
         {
             ListBox list = (ListBox)EventDetail.FindControl(name);
             list.Visible = false;
+        }
+
+        private void HideLabel(string name)
+        {
+            Label nameLabel = (Label)EventDetail.FindControl(name);
+            nameLabel.Visible = false;
+        }
+
+        private void HideButton(string name)
+        {
+            Button nameButton = (Button)EventDetail.FindControl(name);
+            nameButton.Visible = false;
         }
 
         protected void btnViewDocument_Click(object sender, EventArgs e)
