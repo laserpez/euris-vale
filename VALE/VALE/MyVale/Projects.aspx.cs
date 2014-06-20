@@ -24,6 +24,14 @@ namespace VALE.MyVale
                 OpenedProjectList.DataSource = lstProject;
                 OpenedProjectList.DataBind();
                 ViewState["lstProject"] = lstProject;
+
+                if (OpenedProjectList.Rows.Count == 0)
+                {
+                    ExternalPanelDefault.Visible = false;
+                    InternalPanelHeading.Visible = false;
+                    btnShowFilters.Visible = false;
+                }
+                
                 filterPanel.Visible = false;
             }
         }
