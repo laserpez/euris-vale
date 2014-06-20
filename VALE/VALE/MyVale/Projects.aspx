@@ -6,10 +6,10 @@
     <p>
         <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
             <ContentTemplate>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+                <asp:Panel ID="ExternalPanelDefault" runat="server" CssClass="panel panel-default">
+                    <asp:Panel ID="InternalPanelHeading" runat="server" CssClass="panel-heading">
                         <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Mostra filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
-                     </div>
+                     </asp:Panel>
                     <div runat="server" id="filterPanel" class="panel-body">
                         <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
                         <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
@@ -29,7 +29,7 @@
                         <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
                         <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
                     </div>
-                </div>
+                </asp:Panel>
 
                 <asp:GridView OnDataBound="OpenedProjectList_DataBound" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                     ItemType="VALE.Models.Project" EmptyDataText="Non sono presenti progetti aperti." CssClass="table table-striped table-bordered" OnSorting="OpenedProjectList_Sorting">
