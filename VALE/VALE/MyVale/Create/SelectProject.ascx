@@ -1,19 +1,26 @@
-﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SelectProject.ascx.cs" Inherits="VALE.MyVale.Create.SelectProject" %>
 <asp:Label runat="server" CssClass="col-md-2 control-label">Collega a un progetto</asp:Label>
 <div class="col-md-10">
     <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
         <ContentTemplate>
-            <asp:TextBox runat="server" ID="txtProjectName" CssClass="form-control" />
+                <div class="input-group col-lg-4">
+                    <div class="form-group">
+                        <asp:TextBox runat="server" ID="txtProjectName" CssClass="form-control" />
+                    </div>
+                    <div class="input-group-btn">
+                        <asp:Button CssClass="btn btn-primary" ID="btnShowPopup" runat="server" Text="Lista" OnClick="btnShowPopup_Click" CausesValidation="false" />
+                    </div>
+                    <!-- /btn-group -->
+                </div>
             <asp:AutoCompleteExtender
                 ServiceMethod="GetProjectNames" ServicePath="/AutoComplete.asmx"
                 ID="txtProjectAutoCompleter" runat="server"
                 Enabled="True" TargetControlID="txtProjectName" UseContextKey="True"
                 MinimumPrefixLength="2">
             </asp:AutoCompleteExtender>
-            <asp:Button CssClass="btn btn-primary" ID="btnShowPopup" runat="server" Text="Scegli dalla lista" OnClick="btnShowPopup_Click" CausesValidation="false" />
-            <asp:Button runat="server" Text="Aggiungi progetto" ID="btnSearchProject" CssClass="btn btn-default" CausesValidation="false" OnClick="btnSearchProject_Click" />
-            <asp:Label runat="server" ID="lblResultSearchProject" CssClass="control-label"></asp:Label>
+            <br />
+            
             <asp:ModalPopupExtender ID="ModalPopup" runat="server"
                 PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
             </asp:ModalPopupExtender>
@@ -28,7 +35,7 @@
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
                             <asp:GridView SelectMethod="GetProjects" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                ItemType="VALE.Models.Project" EmptyDataText="No open projects" CssClass="table table-striped table-bordered" >
+                                ItemType="VALE.Models.Project" EmptyDataText="No open projects" CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:BoundField DataField="ProjectID" HeaderText="ID" SortExpression="ProjectId" />
                                     <asp:BoundField DataField="ProjectName" HeaderText="Nome" SortExpression="ProjectName" />
@@ -41,7 +48,7 @@
                                     <asp:BoundField DataField="Status" HeaderText="Stato" SortExpression="Status" />
                                     <asp:TemplateField HeaderText="Details">
                                         <ItemTemplate>
-                                            <asp:Button runat="server" CausesValidation="false" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-sm" ID="btnChooseProject" OnClick="btnChooseProject_Click"/>
+                                            <asp:Button runat="server" CausesValidation="false" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-sm" ID="btnChooseProject" OnClick="btnChooseProject_Click" />
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

@@ -202,9 +202,21 @@ namespace VALE
             BindAllGrids();
         }
 
-        protected void btnCreateActivity_Click(object sender, EventArgs e)
+        protected void btnCreateActivityToBePlannedStatus_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/MyVale/Create/ActivityCreate");
+            Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/ManageActivities&Status=ToBePlannedStatus");
+        }
+        protected void btnCreateActivityOngoingStatus_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/ManageActivities&Status=OngoingStatus");
+        }
+        protected void btnCreateActivitySuspendedStatus_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/ManageActivities&Status=SuspendedStatus");
+        }
+        protected void btnCreateActivityDoneStatus_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/ManageActivities&Status=DoneStatus");
         }
     }
 }
