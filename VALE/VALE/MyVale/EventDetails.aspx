@@ -20,18 +20,18 @@
                     <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />
                 </Columns>
                 <EmptyDataTemplate>
-                    <asp:Label runat="server">No registered users</asp:Label>
+                    <asp:Label runat="server">Nessun utente registrato.</asp:Label>
                 </EmptyDataTemplate>
             </asp:GridView>
-            <br />
             <h4>Progetto correlato</h4>
-            <asp:FormView runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
+            <asp:FormView runat="server" ID="ProjectDetail" EmptyDataText="Nessun progetto correlato." ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
                 <ItemTemplate>
                     <a href="ProjectDetails.aspx?projectId=<%#:Item.ProjectId %>"><%#: Item.ProjectName %></a>
                     <br />
                 </ItemTemplate>
             </asp:FormView>
-            <h4>Documenti</h4>
+            <br />
+            <asp:Label runat="server" ID="AttachmentsLabel" Text="Documenti" CssClass="h4"></asp:Label>
             <asp:ListBox runat="server" CssClass="form-control" Width="400px" ID="lstDocuments" SelectMethod="GetRelatedDocuments"></asp:ListBox>
             <asp:Button runat="server" Text="Scarica documento" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
         </ItemTemplate>
