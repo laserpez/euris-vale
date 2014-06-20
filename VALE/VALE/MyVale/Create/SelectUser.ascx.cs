@@ -65,7 +65,7 @@ namespace VALE.MyVale.Create
             var user = db.UsersData.FirstOrDefault(p => p.FullName == userName);
             if (user != null)
             {
-                lblResultSearchUser.Text = String.Format("User {0} is now related to this project", txtUserName.Text);
+                lblResultSearchUser.Text = String.Format("L'utente {0} ora partecipa al progetto", txtUserName.Text);
                 btnSearchUser.CssClass = "btn btn-success";
                 List<string> users = (List<string>)ViewState["usersIds"];
                 users.Add(user.UserName);
@@ -74,7 +74,7 @@ namespace VALE.MyVale.Create
             }
             else
             {
-                lblResultSearchUser.Text = "This user does not exist";
+                lblResultSearchUser.Text = "Questo utente non esiste";
                 btnSearchUser.CssClass = "btn btn-warning";
             }
             txtUserName.Text = "";
