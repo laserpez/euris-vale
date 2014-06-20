@@ -34,7 +34,8 @@
                 <asp:GridView OnDataBound="OpenedProjectList_DataBound" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                     ItemType="VALE.Models.Project" EmptyDataText="Non sono presenti progetti aperti." CssClass="table table-striped table-bordered" OnSorting="OpenedProjectList_Sorting">
                     <Columns>
-                        <asp:BoundField DataField="ProjectId" HeaderText="ID" SortExpression="ProjectId" ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" />
+                        <asp:BoundField DataField="ProjectId" HeaderStyle-Width="30px" ItemStyle-Width="30px" HeaderText="ID" SortExpression="ProjectId" ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" />
+                        
                         <asp:TemplateField>
                             <HeaderTemplate>
                                 <center><div><asp:LinkButton CommandArgument="ProjectName" CommandName="sort" runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
@@ -83,7 +84,7 @@
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><div><asp:Label runat="server" ID="labelPartecipate"><span  class="glyphicon glyphicon-th"></span> Partecipa</asp:Label></div></center>
+                                <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-th"></span> Partecipa</asp:Label></div></center>
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <center><div><asp:Button runat="server" Width="150" Text="&nbsp;&nbsp;&nbsp;&nbsp;Partecipa&nbsp;&nbsp;&nbsp;&nbsp;" CssClass="btn btn-info btn-xs" ID="btnWorkOnThis"  OnClick="btnWorkOnThis_Click" /></div></center>
