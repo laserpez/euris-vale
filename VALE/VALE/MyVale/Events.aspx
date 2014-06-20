@@ -23,30 +23,74 @@
                 </div>
             </div>
             <div class="row">
-                    <asp:Button CausesValidation="true" runat="server" ID="btnShowEvents" CssClass="btn btn-primary" Text="Mostra eventi" OnClick="btnShowEvents_Click" />
+                    <asp:Button CausesValidation="true" runat="server" ID="btnShowEvents" CssClass="btn btn-primary btn-xs" Text="Mostra eventi" OnClick="btnShowEvents_Click" />
             </div>
             <p></p>
-            <asp:GridView runat="server" ItemType="VALE.Models.Event" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato" 
+            <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" OnSorting="grdPlannedEvent_Sorting" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato" 
                 CssClass="table table-striped table-bordered" ShowFooter="true" ID="grdPlannedEvent" >
             <Columns>
-                <asp:BoundField HeaderText="Id" SortExpression="EventId" DataField="EventId" />
-                <asp:TemplateField HeaderText="Data" SortExpression="EventDate">
+                <%--<asp:BoundField HeaderText="Id" SortExpression="EventId" DataField="EventId" ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" />--%>
+                
+                <asp:TemplateField>
+                    <HeaderTemplate>
+                        <center><div><asp:LinkButton CommandArgument="EventId" CommandName="sort" runat="server" ID="labelEventId">ID</asp:LinkButton></div></center>
+                    </HeaderTemplate>
                     <ItemTemplate>
-                        <asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label>
+                        <center><div><asp:Label runat="server"><%#: Item.EventId %></asp:Label></div></center>
                     </ItemTemplate>
-                </asp:TemplateField>
-                <asp:BoundField HeaderText="Nome" SortExpression="Name" DataField="Name" />
-                <asp:BoundField HeaderText="Descrizione" SortExpression="Description" DataField="Description" />
-                <asp:TemplateField HeaderText="Dettagli">
-                    <ItemTemplate>
-                        <asp:Button ID="btnViewDetails" CssClass="btn btn-info" Text="Vedi" runat="server" OnClick="btnViewDetails_Click" />
-                    </ItemTemplate>
+                    <HeaderStyle Width="30px" />
+                    <ItemStyle Width="30px" />
                 </asp:TemplateField>
                 <asp:TemplateField>
+                    <HeaderTemplate>
+                        <center><div><asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventData"><span  class="glyphicon glyphicon-th"></span> Data</asp:LinkButton></div></center>
+                    </HeaderTemplate>
                     <ItemTemplate>
-                        <asp:Button ID="btnAttendEvent" runat="server" OnClick="btnAttendEvent_Click" />
+                        <center><div><asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label></div></center>
+                    </ItemTemplate>
+                    <HeaderStyle Width="90px" />
+                    <ItemStyle Width="90px" />
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <HeaderTemplate>
+                        <center><div><asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelEventName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
                     </ItemTemplate>
                 </asp:TemplateField>
+
+                <asp:TemplateField>
+                    <HeaderTemplate>
+                        <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelEventDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField>
+                    <HeaderTemplate>
+                        <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></div></center>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <center><div><asp:Button ID="btnViewDetails" Width="90" CssClass="btn btn-info btn-xs" Text="Vedi" runat="server" OnClick="btnViewDetails_Click" /></div></center>
+                    </ItemTemplate>
+                    <HeaderStyle Width="90px" />
+                    <ItemStyle Width="90px" />
+                </asp:TemplateField>
+                
+                <asp:TemplateField>
+                    <HeaderTemplate>
+                        <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-th"></span> Partecipa</asp:Label></div></center>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <center><div><asp:Button ID="btnAttendEvent" Width="150" runat="server" OnClick="btnAttendEvent_Click" Text="&nbsp;&nbsp;&nbsp;&nbsp;Partecipa&nbsp;&nbsp;&nbsp;&nbsp;" CssClass="btn btn-info btn-xs" /></div></center>
+                    </ItemTemplate>
+                    <HeaderStyle Width="100px" />
+                    <ItemStyle Width="100px" />
+                </asp:TemplateField>
+                
             </Columns>
             </asp:GridView>
         </ContentTemplate>
