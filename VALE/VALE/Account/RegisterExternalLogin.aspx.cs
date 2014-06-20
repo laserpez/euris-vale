@@ -81,25 +81,29 @@ namespace VALE.Account
                 {
                     // todo in caso devi solo inserire l'email di fb
                     // trovare\ aggiungere username
-                    TextEmail.Text = loginInfo.Email;
                     TextUserName.Text = loginInfo.DefaultUserName;
                     
                 }
             }
         }
 
-        private void SetRegionDropDownList()
+        private void ClearDropDownList()
         {
-            List<string> init = new List<string> { "Select" };
+            List<string> init = new List<string> { "Seleziona" };
             DropDownProvince.DataSource = init;
             DropDownProvince.DataBind();
             DropDownCity.DataSource = init;
             DropDownCity.DataBind();
+        }
+
+        private void SetRegionDropDownList()
+        {
+            ClearDropDownList();
             String path = Server.MapPath("~/StateInfo/regioni_province_comuni.xml");
             StateInfoXML.GetInstance().FileName = path;
             var list = StateInfoXML.GetInstance().LoadData();
             var regions = (from r in list where r.depth == "0" orderby r.name select r.name).ToList();
-            regions.Insert(0, "Select");
+            regions.Insert(0, "Seleziona");
             DropDownRegion.DataSource = regions;
             DropDownRegion.DataBind();
         }
@@ -108,7 +112,7 @@ namespace VALE.Account
         {
             if (DropDownRegion.SelectedIndex == 0)
             {
-                List<string> init = new List<string> { "Select" };
+                List<string> init = new List<string> { "Seleziona" };
                 DropDownProvince.DataSource = init;
                 DropDownProvince.DataBind();
                 DropDownCity.DataSource = init;
@@ -116,10 +120,12 @@ namespace VALE.Account
             }
             else
             {
+                ClearDropDownList();
+
                 var list = StateInfoXML.GetInstance().LoadData();
                 var tid = (from r in list where r.depth == "0" && r.name == DropDownRegion.SelectedValue select r.tid).FirstOrDefault();
                 var provinces = (from r in list where r.depth == "1" && r.parent == tid orderby r.name select r.name).ToList();
-                provinces.Insert(0, "Select");
+                provinces.Insert(0, "Seleziona");
                 DropDownProvince.DataSource = provinces;
                 DropDownProvince.DataBind();
             }
@@ -129,7 +135,7 @@ namespace VALE.Account
         {
             if (DropDownProvince.SelectedIndex == 0)
             {
-                List<string> init = new List<string> { "Select" };
+                List<string> init = new List<string> { "Seleziona" };
                 DropDownCity.DataSource = init;
                 DropDownCity.DataBind();
             }
@@ -138,7 +144,7 @@ namespace VALE.Account
                 var list = StateInfoXML.GetInstance().LoadData();
                 var tid = (from r in list where r.depth == "1" && r.name == DropDownProvince.SelectedValue select r.tid).FirstOrDefault();
                 var citys = (from r in list where r.depth == "2" && r.parent == tid orderby r.name select r.name).ToList();
-                citys.Insert(0, "Select");
+                citys.Insert(0, "Seleziona");
                 DropDownCity.DataSource = citys;
                 DropDownCity.DataBind();
             }

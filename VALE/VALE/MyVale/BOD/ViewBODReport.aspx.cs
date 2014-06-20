@@ -37,18 +37,26 @@ namespace VALE.MyVale.BOD
                     var dir = new DirectoryInfo(Server.MapPath(report.DocumentsPath));
                     var files = dir.GetFiles().Select(f => f.Name).ToList();
                     if (files.Count == 0)
+                    {
                         HideListBox("lstDocuments");
+                        HideLabel("attachmentsLabel");
+                        HideButton("btnViewDocuments");
+                    }
                     return files;
                 }
                 else
                 {
                     HideListBox("lstDocuments");
+                    HideLabel("attachmentsLabel");
+                    HideButton("btnViewDocuments");
                     return null;
                 }
             }
             else
             {
                 HideListBox("lstDocuments");
+                HideLabel("attachmentsLabel");
+                HideButton("btnViewDocuments");
                 return null;
             }
         }
@@ -57,6 +65,18 @@ namespace VALE.MyVale.BOD
         {
             ListBox list = (ListBox)BODReportDetail.FindControl(name);
             list.Visible = false;
+        }
+
+        private void HideLabel(string name)
+        {
+            Label nameLabel = (Label)BODReportDetail.FindControl(name);
+            nameLabel.Visible = false;
+        }
+
+        private void HideButton(string name)
+        {
+            Button nameButton = (Button)BODReportDetail.FindControl(name);
+            nameButton.Visible = false;
         }
 
         protected void btnViewDocuments_Click(object sender, EventArgs e)

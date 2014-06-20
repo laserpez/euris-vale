@@ -80,6 +80,7 @@ namespace VALE.MyVale
                     {
                         HideControl("lstDocuments");
                         HideControl("btnViewDocument");
+                        HideControl("attachmentsLabel");
                     }
                     return files;
                 }
@@ -87,6 +88,7 @@ namespace VALE.MyVale
                 {
                     HideControl("lstDocuments");
                     HideControl("btnViewDocument");
+                    HideControl("attachmentsLabel");
                     return null;
                 }
             }
@@ -94,6 +96,7 @@ namespace VALE.MyVale
             {
                 HideControl("lstDocuments");
                 HideControl("btnViewDocument");
+                HideControl("attachmentsLabel");
                 return null;
             }
         }
