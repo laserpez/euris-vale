@@ -114,9 +114,8 @@
                     </asp:GridView>
                 </ContentTemplate>
             </asp:UpdatePanel>
-
-
-            <h4>Allegati</h4>
+            
+            <asp:Label runat="server" ID="attachmentsLabel" Text="Allegati" CssClass="h4"></asp:Label>
             <asp:ListBox runat="server" CssClass="form-control" Width="400px" ID="lstDocuments" SelectMethod="GetRelatedDocuments"></asp:ListBox>
             <asp:Button runat="server" Text="Scarica" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
 
