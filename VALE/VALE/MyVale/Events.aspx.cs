@@ -18,8 +18,13 @@ namespace VALE.MyVale
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUser = User.Identity.GetUserName();
+            
             if (!IsPostBack)
             {
+                var dbData = new UserOperationsContext();
+                var events = dbData.Events.ToList();
+                ViewState["lstEvent"] = events;
+
                 PopulateGridView(DateTime.Today, DateTime.Today.AddDays(7));
                 txtFromDate.Text = DateTime.Today.ToShortDateString();
                 txtToDate.Text = DateTime.Today.AddDays(7).ToShortDateString(); 
@@ -30,22 +35,27 @@ namespace VALE.MyVale
         {
             DateTime from = Convert.ToDateTime(txtFromDate.Text);
             DateTime to = Convert.ToDateTime(txtToDate.Text);
+
+            var dbData = new UserOperationsContext();
+            var events = dbData.Events.ToList();
+            ViewState["lstEvent"] = events;
+
             PopulateGridView(from, to);
         }
 
         private void PopulateGridView(DateTime from, DateTime to)
         {
-            var dbData = new UserOperationsContext();
-            var events = dbData.Events.Where(ev => ev.EventDate >= from && ev.EventDate <= to);
-            grdPlannedEvent.DataSource = events.ToList();
-            ViewState["lstEvent"] = events.ToList();
+            var events = (List<Event>)ViewState["lstEvent"];
+            var filteredEvents = events.Where(ev => ev.EventDate >= from && ev.EventDate <= to);
+            grdPlannedEvent.DataSource = filteredEvents;
+            ViewState["lstEvent"] = filteredEvents.ToList();
 
             grdPlannedEvent.DataBind();
             for (int i = 0; i < grdPlannedEvent.Rows.Count; i++)
             {
                 Button btnAttend = (Button)grdPlannedEvent.Rows[i].FindControl("btnAttendEvent");
 
-                int eventId = (int)grdPlannedEvent.DataKeys[i].Value;// Convert.ToInt32(grdPlannedEvent.Rows[i].Cells[0].Text);
+                int eventId = (int)grdPlannedEvent.DataKeys[i].Value;
                 if (IsUserAttendingThisEvent(eventId))
                 {
                     btnAttend.CssClass = "btn btn-success btn-xs";
@@ -75,14 +85,14 @@ namespace VALE.MyVale
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            string id = grdPlannedEvent.DataKeys[rowID].Value.ToString(); //grdPlannedEvent.Rows[rowID].Cells[0].Text;
+            string id = grdPlannedEvent.DataKeys[rowID].Value.ToString(); 
             Response.Redirect("/MyVale/EventDetails?eventId=" + id);
         }
 
         protected void btnAttendEvent_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            //int eventId = Convert.ToInt32(grdPlannedEvent.Rows[rowID].Cells[0].Text);
+            
             int eventId = (int)grdPlannedEvent.DataKeys[rowID].Value;
             var db = new UserOperationsContext();
             UserData user = db.UsersData.First(u => u.UserName == _currentUser);
@@ -127,8 +137,7 @@ namespace VALE.MyVale
             else
                 GridViewSortDirection = SortDirection.Ascending;
 
-            grdPlannedEvent.DataSource = GetSortedData(e.SortExpression);
-            grdPlannedEvent.DataBind();
+            GetSortedData(sortExpression);
         }
 
         public SortDirection GridViewSortDirection
@@ -155,6 +164,7 @@ namespace VALE.MyVale
             else
                 result = result.AsQueryable<Event>().OrderBy(sortBy).ToList();
             ViewState["lstEvent"] = result;
+            PopulateGridView(DateTime.Today, DateTime.Today.AddDays(7));
             return result;
         }
     }

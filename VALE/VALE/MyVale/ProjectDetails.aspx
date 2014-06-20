@@ -6,6 +6,7 @@
             <h3><%#: Item.ProjectName.ToUpper() %></h3>
             <h4>Dettagli progetto</h4>
 
+            <asp:Label runat="server"><%#: String.Format("Pubblico:\t{0}", Item.Public ? "Si" : "No") %></asp:Label><br />
             <asp:Label runat="server"><%#: String.Format("Stato:\t{0}", Item.Status.ToUpperInvariant()) %></asp:Label><br />
             <asp:Label runat="server"><%#: String.Format("Descrizione:\t{0}", Item.Description) %></asp:Label><br />
             <asp:Label runat="server"><%#: String.Format("Creatore:\t{0}", Item.Organizer.FullName) %></asp:Label><br />

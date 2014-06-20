@@ -4,9 +4,6 @@
     <h3>Calendario eventi</h3>
     
     <asp:UpdatePanel runat="server">
-        <%--<Triggers>
-            <asp:PostBackTrigger ControlID="txtFromDate" />   
-        </Triggers>--%>
         <ContentTemplate>
             <div class="row">
                 <div class="col-md-2">
@@ -29,18 +26,6 @@
             <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" OnSorting="grdPlannedEvent_Sorting" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato" 
                 CssClass="table table-striped table-bordered" ShowFooter="true" ID="grdPlannedEvent" >
             <Columns>
-                <%--<asp:BoundField HeaderText="Id" SortExpression="EventId" DataField="EventId" ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" />--%>
-                
-                <asp:TemplateField>
-                    <HeaderTemplate>
-                        <center><div><asp:LinkButton CommandArgument="EventId" CommandName="sort" runat="server" ID="labelEventId">ID</asp:LinkButton></div></center>
-                    </HeaderTemplate>
-                    <ItemTemplate>
-                        <center><div><asp:Label runat="server"><%#: Item.EventId %></asp:Label></div></center>
-                    </ItemTemplate>
-                    <HeaderStyle Width="30px" />
-                    <ItemStyle Width="30px" />
-                </asp:TemplateField>
                 <asp:TemplateField>
                     <HeaderTemplate>
                         <center><div><asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventData"><span  class="glyphicon glyphicon-th"></span> Data</asp:LinkButton></div></center>
@@ -59,7 +44,6 @@
                         <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
                     </ItemTemplate>
                 </asp:TemplateField>
-
                 <asp:TemplateField>
                     <HeaderTemplate>
                         <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelEventDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
@@ -68,7 +52,6 @@
                         <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
                     </ItemTemplate>
                 </asp:TemplateField>
-
                 <asp:TemplateField>
                     <HeaderTemplate>
                         <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></div></center>
@@ -79,7 +62,6 @@
                     <HeaderStyle Width="90px" />
                     <ItemStyle Width="90px" />
                 </asp:TemplateField>
-                
                 <asp:TemplateField>
                     <HeaderTemplate>
                         <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-th"></span> Partecipa</asp:Label></div></center>
@@ -90,7 +72,6 @@
                     <HeaderStyle Width="100px" />
                     <ItemStyle Width="100px" />
                 </asp:TemplateField>
-                
             </Columns>
             </asp:GridView>
         </ContentTemplate>
