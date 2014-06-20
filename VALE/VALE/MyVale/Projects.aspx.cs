@@ -50,7 +50,7 @@ namespace VALE.MyVale
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            string id = OpenedProjectList.Rows[rowID].Cells[0].Text;
+            string id = OpenedProjectList.DataKeys[rowID].Value.ToString();
             Response.Redirect("/MyVale/ProjectDetails?projectId=" + id);
         }
 
@@ -204,8 +204,7 @@ namespace VALE.MyVale
             for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
             {
                 Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
-                //int projectId = Convert.ToInt32(OpenedProjectList.DataKeys[i].Value);
-                int projectId = Convert.ToInt32(OpenedProjectList.Rows[i].Cells[0].Text);
+                int projectId = (int)OpenedProjectList.DataKeys[i].Value;
                 if (dbData.UsersData.First(u => u.UserName == _currentUser).AttendingProjects.Contains(dbData.Projects.First(p => p.ProjectId == projectId)))
                 {
                     btnAttend.CssClass = "btn btn-success btn-xs";
@@ -218,9 +217,5 @@ namespace VALE.MyVale
                 }
             }
         }
-
-
-        
-        
     }
 }

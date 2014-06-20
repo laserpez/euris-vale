@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
 using VALE.Logic;
+using System.Linq.Expressions;
 
 namespace VALE.MyVale
 {
@@ -21,7 +22,7 @@ namespace VALE.MyVale
             {
                 PopulateGridView(DateTime.Today, DateTime.Today.AddDays(7));
                 txtFromDate.Text = DateTime.Today.ToShortDateString();
-                txtToDate.Text = DateTime.Today.AddDays(7).ToShortDateString();
+                txtToDate.Text = DateTime.Today.AddDays(7).ToShortDateString(); 
             }
         }
 
@@ -37,19 +38,22 @@ namespace VALE.MyVale
             var dbData = new UserOperationsContext();
             var events = dbData.Events.Where(ev => ev.EventDate >= from && ev.EventDate <= to);
             grdPlannedEvent.DataSource = events.ToList();
+            ViewState["lstEvent"] = events.ToList();
+
             grdPlannedEvent.DataBind();
             for (int i = 0; i < grdPlannedEvent.Rows.Count; i++)
             {
                 Button btnAttend = (Button)grdPlannedEvent.Rows[i].FindControl("btnAttendEvent");
-                int eventId = Convert.ToInt32(grdPlannedEvent.Rows[i].Cells[0].Text);
+
+                int eventId = (int)grdPlannedEvent.DataKeys[i].Value;// Convert.ToInt32(grdPlannedEvent.Rows[i].Cells[0].Text);
                 if (IsUserAttendingThisEvent(eventId))
                 {
-                    btnAttend.CssClass = "btn btn-success";
+                    btnAttend.CssClass = "btn btn-success btn-xs";
                     btnAttend.Text = "Stai partecipando";
                 }
                 else
                 {
-                    btnAttend.CssClass = "btn btn-info";
+                    btnAttend.CssClass = "btn btn-info btn-xs";
                     btnAttend.Text = "Partecipa";
                 }
             }
@@ -71,14 +75,15 @@ namespace VALE.MyVale
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            string id = grdPlannedEvent.Rows[rowID].Cells[0].Text;
+            string id = grdPlannedEvent.DataKeys[rowID].Value.ToString(); //grdPlannedEvent.Rows[rowID].Cells[0].Text;
             Response.Redirect("/MyVale/EventDetails?eventId=" + id);
         }
 
         protected void btnAttendEvent_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            int eventId = Convert.ToInt32(grdPlannedEvent.Rows[rowID].Cells[0].Text);
+            //int eventId = Convert.ToInt32(grdPlannedEvent.Rows[rowID].Cells[0].Text);
+            int eventId = (int)grdPlannedEvent.DataKeys[rowID].Value;
             var db = new UserOperationsContext();
             UserData user = db.UsersData.First(u => u.UserName == _currentUser);
             Event thisEvent = db.Events.First(ev => ev.EventId == eventId);
@@ -113,5 +118,44 @@ namespace VALE.MyVale
             }
         }
 
+        protected void grdPlannedEvent_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            string sortExpression = e.SortExpression;
+
+            if (GridViewSortDirection == SortDirection.Ascending)
+                GridViewSortDirection = SortDirection.Descending;
+            else
+                GridViewSortDirection = SortDirection.Ascending;
+
+            grdPlannedEvent.DataSource = GetSortedData(e.SortExpression);
+            grdPlannedEvent.DataBind();
+        }
+
+        public SortDirection GridViewSortDirection
+        {
+            get
+            {
+                if (ViewState["sortDirection"] == null)
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+
+                return (SortDirection)ViewState["sortDirection"];
+            }
+            set { ViewState["sortDirection"] = value; }
+        }
+
+        private List<Event> GetSortedData(string sortExpression)
+        {
+            var result = (List<Event>)ViewState["lstEvent"];
+
+            var param = Expression.Parameter(typeof(Event), sortExpression);
+            var sortBy = Expression.Lambda<Func<Event, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+
+            if (GridViewSortDirection == SortDirection.Descending)
+                result = result.AsQueryable<Event>().OrderByDescending(sortBy).ToList();
+            else
+                result = result.AsQueryable<Event>().OrderBy(sortBy).ToList();
+            ViewState["lstEvent"] = result;
+            return result;
+        }
     }
 }
