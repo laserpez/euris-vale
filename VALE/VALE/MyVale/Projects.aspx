@@ -53,12 +53,12 @@
                         <asp:BoundField DataField="Status" HeaderText="Stato" SortExpression="Status" />
                         <asp:TemplateField HeaderText="Partecipa">
                             <ItemTemplate>
-                                <asp:Button runat="server" Text="Partecipa" CssClass="btn btn-info btn-sm" ID="btnWorkOnThis"  OnClick="btnWorkOnThis_Click" />
+                                <asp:Button runat="server" Text="Partecipa" CssClass="btn btn-info btn-xs" ID="btnWorkOnThis"  OnClick="btnWorkOnThis_Click" />
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Dettagli">
                             <ItemTemplate>
-                                <asp:Button runat="server" Text="Vedi" CssClass="btn btn-info btn-sm" ID="btnViewDetails" OnClick="btnViewDetails_Click" />
+                                <asp:Button runat="server" Text="Vedi" CssClass="btn btn-info btn-xs" ID="btnViewDetails" OnClick="btnViewDetails_Click" />
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

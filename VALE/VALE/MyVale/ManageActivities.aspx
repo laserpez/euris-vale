@@ -13,14 +13,14 @@
             else {// code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
-            var url = "Prova.aspx?Method=ChangeStatus&id=" + id + "&status=" + status;
+            var url = "ManageActivities.aspx?Method=ChangeStatus&id=" + id + "&status=" + status;
             xmlhttp.open("Get", url, false);
             xmlhttp.send(null);
             var result = xmlhttp.responseText;
         }
     </script>
     
-    <div class="container" onload="Go()">
+    <div class="container">
         <div class="bs-docs-section">
             <br />
             <div class="row">
@@ -85,9 +85,9 @@
                                         <div class="col-sm-6 col-md-3">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;To Be Planned
+                                                    <span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;Da Pianificare
                                                      <div class="navbar-right">
-                                                        <button type="button" runat="server" class="btn btn-success btn-xs" onserverclick="btnCreateActivity_Click"><span class="glyphicon glyphicon-plus"></span></button>
+                                                        <button type="button" runat="server"  class="btn btn-success btn-xs" onserverclick="btnCreateActivityToBePlannedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
@@ -112,9 +112,9 @@
                                         <div class="col-sm-6 col-md-3">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <span class="glyphicon glyphicon-play"></span>&nbsp;&nbsp;Ongoing
+                                                    <span class="glyphicon glyphicon-play"></span>&nbsp;&nbsp;In Corso
                                                     <div class="navbar-right">
-                                                        <button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
+                                                        <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivityOngoingStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
@@ -139,9 +139,9 @@
                                         <div class="col-sm-6 col-md-3">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <span class="glyphicon glyphicon-pause"></span>&nbsp;&nbsp;Suspended
+                                                    <span class="glyphicon glyphicon-pause"></span>&nbsp;&nbsp;Sospeso
                                                      <div class="navbar-right">
-                                                        <button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
+                                                        <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivitySuspendedStatus_Click" ><span class="glyphicon glyphicon-plus"></span></button>
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
@@ -166,9 +166,9 @@
                                         <div class="col-sm-6 col-md-3">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <span class="glyphicon glyphicon-stop"></span>&nbsp;&nbsp;Done
+                                                    <span class="glyphicon glyphicon-stop"></span>&nbsp;&nbsp;Terminato
                                                      <div class="navbar-right">
-                                                        <button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
+                                                        <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivityDoneStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="max-height: 400px; overflow: auto;">

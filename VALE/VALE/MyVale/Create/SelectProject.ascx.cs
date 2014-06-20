@@ -24,17 +24,17 @@ namespace VALE.MyVale.Create
         {
             var dbData = new UserOperationsContext();
             string projectName = txtProjectName.Text;
-            Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-            if (project != null)
-            {
-                lblResultSearchProject.Text = String.Format("This event is now related to project {0}", txtProjectName.Text);
-                btnSearchProject.CssClass = "btn btn-success";
-            }
-            else
-            {
-                lblResultSearchProject.Text = "This project does not exist";
-                btnSearchProject.CssClass = "btn btn-warning";
-            }
+            //Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
+            //if (project != null)
+            //{
+            //    lblResultSearchProject.Text = String.Format("This event is now related to project {0}", txtProjectName.Text);
+            //    btnSearchProject.CssClass = "btn btn-success";
+            //}
+            //else
+            //{
+            //    lblResultSearchProject.Text = "This project does not exist";
+            //    btnSearchProject.CssClass = "btn btn-warning";
+            //}
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)
@@ -63,7 +63,6 @@ namespace VALE.MyVale.Create
         {
             txtProjectName.Text = projectName;
             txtProjectName.Enabled = false;
-            btnSearchProject.Enabled = false;
             btnShowPopup.Enabled = false;
 
         }
