@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageActivities.aspx.cs" Inherits="VALE.Prova" %>
-<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js" type="text/javascript"></script>
@@ -19,7 +20,7 @@
             var result = xmlhttp.responseText;
         }
     </script>
-    
+
     <div class="container">
         <div class="bs-docs-section">
             <br />
@@ -65,32 +66,47 @@
                                             <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Show filters" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
                                         </div>
                                         <div runat="server" id="filterPanel" class="panel-body">
-                                            <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
-                                            <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
-                                            <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
-                                            <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
-
-                                            <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
+                                            <center><div>
+                                                <div class="col-md-6">
+                                                    <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
+                                                    <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
+                                                    <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
+                                                </div>
+                                            
+                                            
+                                            
+                                            <div  class="col-md-12"><br /></div>
+                                                <div class="col-md-6">
+                                                    <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
                                             <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtFromDate"></asp:TextBox>
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtFromDate"></asp:CalendarExtender>
-                                            <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Al"></asp:Label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                     <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Al"></asp:Label>
                                             <asp:TextBox CssClass="form-control" runat="server" ID="txtToDate"></asp:TextBox>
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtToDate"></asp:CalendarExtender>
+                                                </div>
+                                            
+                                           
+                                                </div></center>
                                             <br />
                                             <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
                                             <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-6 col-md-3">
+                                        <div class="col-sm-6 col-md-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;Da Pianificare
                                                      <div class="navbar-right">
-                                                        <button type="button" runat="server"  class="btn btn-success btn-xs" onserverclick="btnCreateActivityToBePlannedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
-                                                    </div>
+                                                         <button type="button" runat="server" class="btn btn-success btn-xs" onserverclick="btnCreateActivityToBePlannedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
+                                                     </div>
                                                 </div>
-                                                <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                <div class="panel-body" style="max-height: 170px; overflow: auto;">
                                                     <asp:GridView ID="ToBePlannedGridView0" runat="server" AutoGenerateColumns="False"
                                                         ItemType="VALE.Models.Activity"
                                                         CssClass="table table-striped table-bordered"
@@ -109,7 +125,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-md-3">
+                                        <div class="col-sm-6 col-md-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <span class="glyphicon glyphicon-play"></span>&nbsp;&nbsp;In Corso
@@ -117,7 +133,7 @@
                                                         <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivityOngoingStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                     </div>
                                                 </div>
-                                                <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                <div class="panel-body" style="max-height: 170px; overflow: auto;">
                                                     <asp:GridView ID="OngoingGridView1" runat="server" AutoGenerateColumns="False"
                                                         ItemType="VALE.Models.Activity"
                                                         CssClass="table table-striped table-bordered"
@@ -136,15 +152,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-md-3">
+                                        <div class="col-sm-6 col-md-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <span class="glyphicon glyphicon-pause"></span>&nbsp;&nbsp;Sospeso
                                                      <div class="navbar-right">
-                                                        <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivitySuspendedStatus_Click" ><span class="glyphicon glyphicon-plus"></span></button>
-                                                    </div>
+                                                         <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivitySuspendedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
+                                                     </div>
                                                 </div>
-                                                <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                <div class="panel-body" style="max-height: 170px; overflow: auto;">
                                                     <asp:GridView ID="SuspendedGridView2" runat="server" AutoGenerateColumns="False"
                                                         ItemType="VALE.Models.Activity"
                                                         CssClass="table table-striped table-bordered"
@@ -163,15 +179,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-md-3">
+                                        <div class="col-sm-6 col-md-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <span class="glyphicon glyphicon-stop"></span>&nbsp;&nbsp;Terminato
                                                      <div class="navbar-right">
-                                                        <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivityDoneStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
-                                                    </div>
+                                                         <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivityDoneStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
+                                                     </div>
                                                 </div>
-                                                <div class="panel-body" style="max-height: 400px; overflow: auto;">
+                                                <div class="panel-body" style="max-height: 170px; overflow: auto;">
                                                     <asp:GridView ID="DoneGridView3" runat="server" AutoGenerateColumns="False"
                                                         ItemType="VALE.Models.Activity"
                                                         CssClass="table table-striped table-bordered"

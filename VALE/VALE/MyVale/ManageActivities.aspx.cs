@@ -13,8 +13,8 @@ namespace VALE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-        
-         ApplyDragAndDrop();
+            ApplyDragAndDrop();
+            PopulateFilters();
             if (!IsPostBack)
             {
                 ddlSelectProject.Visible = false;
@@ -28,6 +28,18 @@ namespace VALE
                 string statusNumber = Request.QueryString["status"];
                 ChangeStatus(id, statusNumber);
             }
+        }
+
+        private void PopulateFilters()
+        {
+            if (!String.IsNullOrEmpty(txtDescription.Text))
+                Session["txtDescription"] = txtDescription.Text.ToUpper();
+            if (!String.IsNullOrEmpty(txtName.Text))
+                Session["txtName"] = txtName.Text.ToUpper();
+            if (!String.IsNullOrEmpty(txtFromDate.Text))
+                Session["txtFromDate"] = txtFromDate.Text;
+            if (!String.IsNullOrEmpty(txtToDate.Text))
+                Session["txtToDate"] = txtToDate.Text;
         }
 
         private void ApplyDragAndDrop() 
@@ -65,7 +77,7 @@ namespace VALE
         private List<Activity> ApplyFilters(List<Activity> activities)
         {
             string filterType = Session["filter"].ToString();
-            if(filterType != null)
+            if (filterType != null)
             {
                 switch (filterType)
                 {
@@ -81,18 +93,18 @@ namespace VALE
                         break;
                 }
             }
-            if (!String.IsNullOrEmpty(txtDescription.Text))
-                activities = activities.Where(a => a.Description.ToUpper().Contains(txtDescription.Text.ToUpper())).ToList();
-            if (!String.IsNullOrEmpty(txtName.Text))
-                activities = activities.Where(a => a.ActivityName.ToUpper().Contains(txtName.Text.ToUpper())).ToList();
-            if (!String.IsNullOrEmpty(txtFromDate.Text))
+            if (Session["txtDescription"] != null)
+                activities = activities.Where(a => a.Description.ToUpper().Contains(Session["txtDescription"].ToString())).ToList();
+            if (Session["txtName"] != null)
+                activities = activities.Where(a => a.ActivityName.ToUpper().Contains(Session["txtName"].ToString())).ToList();
+            if (Session["txtFromDate"] != null)
             {
-                var dateFrom = Convert.ToDateTime(txtFromDate.Text);
+                var dateFrom = Convert.ToDateTime(Session["txtFromDate"].ToString());
                 activities = activities.Where(a => a.CreationDate >= dateFrom).ToList();
             }
-            if (!String.IsNullOrEmpty(txtToDate.Text))
+            if (Session["txtToDate"] != null)
             {
-                var dateTo = Convert.ToDateTime(txtToDate.Text);
+                var dateTo = Convert.ToDateTime(Session["txtToDate"]);
                 activities = activities.Where(a => a.CreationDate <= dateTo).ToList();
             }
             return activities;
@@ -162,11 +174,23 @@ namespace VALE
 
         protected void btnFilterProjects_Click(object sender, EventArgs e)
         {
+            if (!String.IsNullOrEmpty(txtDescription.Text))
+                Session["txtDescription"] = txtDescription.Text.ToUpper();
+            if (!String.IsNullOrEmpty(txtName.Text))
+                Session["txtName"] = txtName.Text.ToUpper();
+            if (!String.IsNullOrEmpty(txtFromDate.Text))
+                Session["txtFromDate"] = txtFromDate.Text;
+            if (!String.IsNullOrEmpty(txtToDate.Text))
+                Session["txtToDate"] = txtToDate.Text;
             BindAllGrids();
         }
 
         protected void btnClearFilters_Click(object sender, EventArgs e)
         {
+            Session["txtDescription"] = null;
+            Session["txtName"] = null;
+            Session["txtFromDate"] = null;
+            Session["txtToDate"] = null;
             txtDescription.Text = null;
             txtFromDate.Text = null;
             txtName.Text = null;

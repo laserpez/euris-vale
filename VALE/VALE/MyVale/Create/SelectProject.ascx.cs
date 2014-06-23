@@ -63,7 +63,6 @@ namespace VALE.MyVale.Create
         {
             txtProjectName.Text = projectName;
             txtProjectName.Enabled = false;
-            btnSearchProject.Enabled = false;
             btnShowPopup.Enabled = false;
 
         }
