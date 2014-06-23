@@ -27,13 +27,13 @@ namespace VALE.MyVale.Create
             Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
             if (project != null)
             {
-                lblResultSearchProject.Text = String.Format("Questo evento è correlato al progetto {0}", txtProjectName.Text);
-                btnSearchProject.CssClass = "btn btn-success";
+                //lblResultSearchProject.Text = String.Format("Questo evento è correlato al progetto {0}", txtProjectName.Text);
+                //btnSearchProject.CssClass = "btn btn-success";
             }
             else
             {
-                lblResultSearchProject.Text = "Il progetto non esiste";
-                btnSearchProject.CssClass = "btn btn-warning";
+                //lblResultSearchProject.Text = "Il progetto non esiste";
+                //btnSearchProject.CssClass = "btn btn-warning";
             }
         }
 

@@ -31,15 +31,6 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.WebControls.TextBox txtUserName;
         
         /// <summary>
-        /// txtNameAutoCompleter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.AutoCompleteExtender txtNameAutoCompleter;
-        
-        /// <summary>
         /// btnShowPopup control.
         /// </summary>
         /// <remarks>
@@ -56,6 +47,15 @@ namespace VALE.MyVale.Create {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearchUser;
+        
+        /// <summary>
+        /// txtNameAutoCompleter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.AutoCompleteExtender txtNameAutoCompleter;
         
         /// <summary>
         /// lblResultSearchUser control.
