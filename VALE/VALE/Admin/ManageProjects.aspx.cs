@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using VALE.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Linq.Expressions;
 
 namespace VALE.Admin
 {
@@ -43,18 +44,19 @@ namespace VALE.Admin
 
         protected void ProjectList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            int index = Convert.ToInt32(e.CommandArgument);
-            int projectId = Convert.ToInt32(ProjectList.Rows[index].Cells[0].Text);
-            var dbData = new UserOperationsContext();
-
             if (e.CommandName == "DeleteProject")
             {
+                int index = Convert.ToInt32(e.CommandArgument);
+                var projectId = (int)ProjectList.DataKeys[index].Value;
+                var dbData = new UserOperationsContext();
                 ProjectID.Text = projectId.ToString();
                 ProjectName.Text = dbData.Projects.Where(o => o.ProjectId == projectId).FirstOrDefault().ProjectName;
                 ModalPopup.Show();
             }
-            else
+            else if (e.CommandName == "ViewReport")
             {
+                int index = Convert.ToInt32(e.CommandArgument);
+                var projectId = (int)ProjectList.DataKeys[index].Value;
                 Response.Redirect("/Admin/ProjectReport?projectId=" + projectId);
             }
         }
@@ -158,5 +160,44 @@ namespace VALE.Admin
             ViewState["lstProject"] = result;
         }
 
+        protected void ProjectList_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            string sortExpression = e.SortExpression;
+
+            if (GridViewSortDirection == SortDirection.Ascending)
+                GridViewSortDirection = SortDirection.Descending;
+            else
+                GridViewSortDirection = SortDirection.Ascending;
+
+            ProjectList.DataSource = GetSortedData(e.SortExpression);
+            ProjectList.DataBind();
+        }
+
+        private List<Project> GetSortedData(string sortExpression)
+        {
+            var result = (List<Project>)ViewState["lstProject"];
+
+            var param = Expression.Parameter(typeof(Project), sortExpression);
+            var sortBy = Expression.Lambda<Func<Project, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+
+            if (GridViewSortDirection == SortDirection.Descending)
+                result = result.AsQueryable<Project>().OrderByDescending(sortBy).ToList();
+            else
+                result = result.AsQueryable<Project>().OrderBy(sortBy).ToList();
+            ViewState["lstProject"] = result;
+            return result;
+        }
+
+        public SortDirection GridViewSortDirection
+        {
+            get
+            {
+                if (ViewState["sortDirection"] == null)
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+
+                return (SortDirection)ViewState["sortDirection"];
+            }
+            set { ViewState["sortDirection"] = value; }
+        }
     }
 }
