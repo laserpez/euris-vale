@@ -110,7 +110,6 @@ namespace VALE.MyVale
                 return null;
         }
 
-
         private void HideControl(string name)
         {
             Control control = ProjectDetail.FindControl(name);
