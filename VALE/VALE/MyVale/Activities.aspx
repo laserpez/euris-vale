@@ -29,10 +29,10 @@
                         <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
                     </div>
                 </div>
-            <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
+            <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" DataKeyNames="ActivityId" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
                 ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="Nessuna attività in corso." CssClass="table table-striped table-bordered">
                 <Columns>
-                    <asp:BoundField DataField="ActivityId" HeaderText="ID" SortExpression="ActivityId" />
+                    <%--<asp:BoundField DataField="ActivityId" HeaderText="ID" SortExpression="ActivityId" />
 
                     <asp:TemplateField>
                         <HeaderTemplate>
@@ -43,7 +43,7 @@
                         </ItemTemplate>
                         <HeaderStyle Width="30px" />
                         <ItemStyle Width="30px" />
-                    </asp:TemplateField>
+                    </asp:TemplateField>--%>
 
                     <%--<asp:BoundField DataField="ActivityName" HeaderText="Nome" SortExpression="ActivityName" />--%>
 

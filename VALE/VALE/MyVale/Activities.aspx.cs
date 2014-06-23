@@ -74,7 +74,7 @@ namespace VALE.MyVale
             if (e.CommandName == "ViewDetails")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                int activityId = Convert.ToInt32(grdCurrentActivities.Rows[index].Cells[0].Text);
+                int activityId = (int)grdCurrentActivities.DataKeys[index].Value;// Convert.ToInt32(grdCurrentActivities.Rows[index].Cells[0].Text);
                 Response.Redirect("/MyVale/ActivityDetails?activityId=" + activityId);
             }
 
