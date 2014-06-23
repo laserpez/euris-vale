@@ -42,7 +42,6 @@
                                                 </ul>
                                             </div>
                                             <div class="navbar-right">
-                                                <asp:DropDownList AutoPostBack="true" runat="server" OnSelectedIndexChanged="ddlSelectProject_SelectedIndexChanged" ID="ddlSelectProject" SelectMethod="GetProjects" ItemType="VALE.Models.Project" DataTextField="ProjectName" DataValueField="ProjectId"></asp:DropDownList>
                                                 <div class="btn-group">
                                                     <button type="button" id="ButtonAllActivities" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutti  <span class="caret"></span></button>
                                                     <button type="button" visible="false" id="ButtonProjectActivities" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">Per Progetto  <span class="caret"></span></button>
@@ -63,36 +62,44 @@
                                 <div class="panel-body" style="max-height: 700px; overflow: auto;">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Show filters" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
+                                            <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Visualizza filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
                                         </div>
                                         <div runat="server" id="filterPanel" class="panel-body">
+                                             <div runat="server" id="projectPanel">
+                                                 <legend>Progetto</legend>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                        <asp:DropDownList AutoPostBack="true"  class="col-md-2 form-control input-sm" runat="server" OnSelectedIndexChanged="ddlSelectProject_SelectedIndexChanged" ID="ddlSelectProject" SelectMethod="GetProjects" ItemType="VALE.Models.Project" DataTextField="ProjectName" DataValueField="ProjectId"></asp:DropDownList>
+                                                </div>
+                                            </div>
+                                                 <div  class="col-md-12"><br /></div>
+                                            <legend>Attività</legend>
+                                       
+                                             </div>
+                                            
                                             <center><div>
                                                 <div class="col-md-6">
                                                     <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
-                                                    <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
+                                                    <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtName"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
-                                                    <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
+                                                    <asp:TextBox CssClass="form-control input-sm" runat="server" ID="txtDescription"></asp:TextBox>
                                                 </div>
-                                            
-                                            
-                                            
+                     
                                             <div  class="col-md-12"><br /></div>
                                                 <div class="col-md-6">
                                                     <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
-                                            <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtFromDate"></asp:TextBox>
+                                            <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtFromDate"></asp:TextBox>
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtFromDate"></asp:CalendarExtender>
                                                 </div>
                                                 <div class="col-md-6">
                                                      <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Al"></asp:Label>
-                                            <asp:TextBox CssClass="form-control" runat="server" ID="txtToDate"></asp:TextBox>
+                                            <asp:TextBox CssClass="form-control input-sm" runat="server" ID="txtToDate"></asp:TextBox>
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtToDate"></asp:CalendarExtender>
                                                 </div>
-                                            
-                                           
                                                 </div></center>
-                                            <br />
+                                             <div  class="col-md-12"><br /></div>
                                             <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
                                             <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
                                         </div>
@@ -114,12 +121,24 @@
                                                         ShowHeaderWhenEmpty="true">
                                                         <Columns>
                                                             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                                            <asp:BoundField DataField="ActivityName" HeaderText="Name" />
-                                                            <asp:TemplateField HeaderText="Data">
+                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "No start date" %></asp:Label>
+                                                                    <asp:LinkButton runat="server" OnClick="ToBePlannedGridViewLinkButton_Click"><%#: Item.ActivityName %></asp:LinkButton>
                                                                 </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
+                                                                </HeaderTemplate>
                                                             </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
+                                                                </HeaderTemplate>
+                                                                <HeaderStyle Width="115px"></HeaderStyle>
+                                                                <ItemStyle Width="115px"></ItemStyle>
+                                                            </asp:TemplateField>   
                                                         </Columns>
                                                     </asp:GridView>
                                                 </div>
@@ -141,17 +160,31 @@
                                                         ShowHeaderWhenEmpty="true">
                                                         <Columns>
                                                             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                                            <asp:BoundField DataField="ActivityName" HeaderText="Nome" />
-                                                            <asp:TemplateField HeaderText="Data">
+                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "No start date" %></asp:Label>
+                                                                    <asp:LinkButton runat="server" OnClick="OngoingGridViewLinkButton_Click"><%#: Item.ActivityName %></asp:LinkButton>
                                                                 </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
+                                                                </HeaderTemplate>
                                                             </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
+                                                                </HeaderTemplate>
+                                                                <HeaderStyle Width="115px"></HeaderStyle>
+                                                                <ItemStyle Width="115px"></ItemStyle>
+                                                            </asp:TemplateField>   
                                                         </Columns>
                                                     </asp:GridView>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-sm-6 col-md-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
@@ -168,12 +201,24 @@
                                                         ShowHeaderWhenEmpty="true">
                                                         <Columns>
                                                             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                                            <asp:BoundField DataField="ActivityName" HeaderText="Nome" />
-                                                            <asp:TemplateField HeaderText="Data">
+                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "No start date" %></asp:Label>
+                                                                    <asp:LinkButton runat="server" OnClick="SuspendedGridViewLinkButton_Click"><%#: Item.ActivityName %></asp:LinkButton>
                                                                 </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
+                                                                </HeaderTemplate>
                                                             </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server" ><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
+                                                                </HeaderTemplate>
+                                                                <HeaderStyle Width="115px"></HeaderStyle>
+                                                                <ItemStyle Width="115px"></ItemStyle>
+                                                            </asp:TemplateField>   
                                                         </Columns>
                                                     </asp:GridView>
                                                 </div>
@@ -195,12 +240,24 @@
                                                         ShowHeaderWhenEmpty="true">
                                                         <Columns>
                                                             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                                            <asp:BoundField DataField="ActivityName" HeaderText="Nome" />
-                                                            <asp:TemplateField HeaderText="Data">
+                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "No start date" %></asp:Label>
+                                                                    <asp:LinkButton runat="server" OnClick="DoneGridViewLinkButton_Click"><%#: Item.ActivityName %></asp:LinkButton>
                                                                 </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
+                                                                </HeaderTemplate>
                                                             </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
+                                                                </HeaderTemplate>
+                                                                <HeaderStyle Width="115px"></HeaderStyle>
+                                                                <ItemStyle Width="115px"></ItemStyle>
+                                                            </asp:TemplateField>   
                                                         </Columns>
                                                     </asp:GridView>
                                                 </div>
