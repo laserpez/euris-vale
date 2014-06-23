@@ -22,24 +22,6 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.UpdatePanel SearchProjectPanel;
         
         /// <summary>
-        /// ToFromDateAddActivityDiv control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ToFromDateAddActivityDiv;
-        
-        /// <summary>
-        /// ActivityCalendarToTextBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ActivityCalendarToTextBox;
-        
-        /// <summary>
         /// txtProjectName control.
         /// </summary>
         /// <remarks>
@@ -47,15 +29,6 @@ namespace VALE.MyVale.Create {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtProjectName;
-        
-        /// <summary>
-        /// txtProjectAutoCompleter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.AutoCompleteExtender txtProjectAutoCompleter;
         
         /// <summary>
         /// btnShowPopup control.
@@ -67,22 +40,13 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.WebControls.Button btnShowPopup;
         
         /// <summary>
-        /// btnSearchProject control.
+        /// txtProjectAutoCompleter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearchProject;
-        
-        /// <summary>
-        /// lblResultSearchProject control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblResultSearchProject;
+        protected global::AjaxControlToolkit.AutoCompleteExtender txtProjectAutoCompleter;
         
         /// <summary>
         /// ModalPopup control.

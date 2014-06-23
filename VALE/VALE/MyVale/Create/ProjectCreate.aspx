@@ -5,7 +5,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProjectCreate.aspx.cs" Inherits="VALE.MyVale.ProjectCreate" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h3>Crea un nuovo progetto</h3>
-    <div class="form-group">
+    <div class="col-md-12 form-group">
         <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Nome progetto *</asp:Label>
         <div class="col-md-10">
             <asp:TextBox runat="server" ID="txtName" CssClass="form-control" />
@@ -30,32 +30,36 @@
             <asp:Button runat="server" CausesValidation="false" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info" OnClick="btnUploadFile_Click" />
         </div>
         <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">File caricato</asp:Label>
-        <div class="col-md-10">
-            <asp:GridView OnRowCommand="grdFilesUploaded_RowCommand" CssClass="table table-striped table-bordered" EmptyDataText="Nessun file caricato." 
-                ID="grdFilesUploaded" runat="server">
-                <Columns>
-                    <asp:TemplateField>
-                        <ItemTemplate>
-                            <asp:Button CausesValidation="false" CssClass="btn btn-danger btn-sm" runat="server" CommandName="DeleteFile" 
-                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Cancella file" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
-            </asp:GridView>
-        </div>
-
-        <asp:Label runat="server" CssClass="col-md-2 control-label">E' un progetto pubblico?</asp:Label>
+        
+        <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+                <div class="col-md-10">
+                    <asp:GridView OnRowCommand="grdFilesUploaded_RowCommand" CssClass="table table-striped table-bordered" EmptyDataText="Nessun file caricato."
+                        ID="grdFilesUploaded" runat="server">
+                        <Columns>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:Button CausesValidation="false" Width="90" CssClass="btn btn-danger btn-xs" runat="server" CommandName="DeleteFile"
+                                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Cancella file" />
+                                </ItemTemplate>
+                                <HeaderStyle Width="90px" />
+                                <ItemStyle Width="90px" />
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">E' un progetto pubblico?</asp:Label>
         <div class="col-md-10">
             <asp:CheckBox runat="server" ID="chkPublic" />
         </div>
-
-        <p></p>
+        <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
         <uc:SelectProject runat="server" ID="SelectProject"/>       
-
+        <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
         <ux:SelectUser runat="server" ID="SelectUser"/>
-
-        <p></p>
-        <asp:Button runat="server" CssClass="btn btn-primary" Text="Salva" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveProject_Click" />
-        <br />
+        
+        <div class="col-md-12"><asp:Button runat="server" CssClass="btn btn-primary" Text="Salva" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveProject_Click" /></div>
+            
     </div>
 </asp:Content>
