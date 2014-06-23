@@ -1,6 +1,6 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SelectProject.ascx.cs" Inherits="VALE.MyVale.Create.SelectProject" %>
-<asp:Label runat="server" CssClass="col-md-2 control-label">Collega a un progetto</asp:Label>
+<asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Collega a un progetto</asp:Label>
 <div class="col-md-10">
     <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
         <ContentTemplate>

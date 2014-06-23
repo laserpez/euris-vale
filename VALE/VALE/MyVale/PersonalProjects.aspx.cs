@@ -58,9 +58,5 @@ namespace VALE.MyVale
             grdProjectList.DataBind();
 
         }
-
-        
-
-        
     }
 }

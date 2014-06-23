@@ -16,15 +16,44 @@ namespace VALE.MyVale
     public partial class ProjectDetails : System.Web.UI.Page
     {
         private int _currentProjectId;
-        private string _currentUser;
+        private string _currentUserName;
         private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _db = new UserOperationsContext();
-            _currentUser = User.Identity.GetUserName();
+            _currentUserName = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+            if (!IsPostBack)
+            {
+                DataBindControls();
+            }
+        }
+
+        private void DataBindControls()
+        {
+            if (_currentProjectId != 0)
+            {
+                var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+
+                if (currentProject != null)
+                {
+                    var isPublic = currentProject.Public;
+                    var checkBox = (CheckBox)ProjectDetail.FindControl("checkboxPublic");
+                    if (checkBox != null)
+                    {
+                        if (isPublic == true)
+                            checkBox.Checked = true;
+                        else
+                            checkBox.Checked = false;
+                    }
+                    if (currentProject.Status == "Chiuso")
+                        checkBox.Enabled = false;
+                    else
+                        checkBox.Enabled = true;
+                }
+            }
         }
 
         public Project GetProject([QueryString("projectId")] int? projectId)
@@ -153,7 +182,7 @@ namespace VALE.MyVale
             
             if (project.Status == "Aperto")
             {
-                if (project.InvolvedUsers.Select(u => u.UserName).Contains(_currentUser))
+                if (project.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName))
                 {
                     btnWork.Enabled = true;
                     btnWork.CssClass = "btn btn-success";
@@ -177,6 +206,7 @@ namespace VALE.MyVale
                 btnWork.Enabled = false;
                 btnWork.CssClass = "btn btn-info disable";
                 btnWork.Text = "Non puoi lavorare al progetto";
+                btnAddIntervention.Visible = false;
             }
         }
 
@@ -185,7 +215,7 @@ namespace VALE.MyVale
             Button btnSuspend = (Button)ProjectDetail.FindControl("btnSuspendProject");
             Button btnClose = (Button)ProjectDetail.FindControl("btnCloseProject");
             Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
-            if (project.OrganizerUserName == _currentUser || User.IsInRole("Amministratore"))
+            if (project.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore"))
             {
                 if (project.Status == "Aperto")
                 {
@@ -228,31 +258,31 @@ namespace VALE.MyVale
             Panel panel = (Panel)ProjectDetail.FindControl("manageProjectPanel");
             Label label = (Label)panel.FindControl("lblInfoOperation");
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser userData = manager.FindById(_currentUser);
-            ApplicationUser user = manager.Find(userData.UserName, (panel.FindControl("txtPassword") as TextBox).Text);
-            if (user != null)
+            var passTextbox = (TextBox)panel.FindControl("txtPassword");
+            var password = passTextbox.Text;
+            if (!string.IsNullOrEmpty(password))
             {
-                var db = new UserOperationsContext();
-                var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
-
-                switch (label.Text)
+                ApplicationUser user = manager.Find(_currentUserName, password);
+                if (user != null)
                 {
-                    case "SOSPENDI":
-                        project.Status = "Sospeso";
-                        break;
-                    case "CHIUDI":
-                        project.Status = "Chiuso";
-                        break;
-                    case "RIPRENDI":
-                        project.Status = "Aperto";
-                        break;
-                }
-                db.SaveChanges();
-                Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
-            }
-            else
-            {
+                    var db = new UserOperationsContext();
+                    var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
 
+                    switch (label.Text)
+                    {
+                        case "SOSPENDI":
+                            project.Status = "Sospeso";
+                            break;
+                        case "CHIUDI":
+                            project.Status = "Chiuso";
+                            break;
+                        case "RIPRENDI":
+                            project.Status = "Aperto";
+                            break;
+                    }
+                    db.SaveChanges();
+                    Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
+                }
             }
         }
 
@@ -262,7 +292,7 @@ namespace VALE.MyVale
             Button btnWork = (Button)sender;
             var db = new UserOperationsContext();
             var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
-            var user = db.UsersData.First(u => u.UserName == _currentUser);
+            var user = db.UsersData.First(u => u.UserName == _currentUserName);
             if (project.InvolvedUsers.Contains(user))
             {
                 project.InvolvedUsers.Remove(user);
@@ -286,9 +316,13 @@ namespace VALE.MyVale
         protected void grdInterventions_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             GridView grid = (GridView)sender;
-            int index = Convert.ToInt32(e.CommandArgument);
-            int interventionID = Convert.ToInt32(grid.Rows[index].Cells[0].Text);
-            Response.Redirect("/MyVale/InterventionDetails?interventionId=" + interventionID);
+            if (e.CommandName == "ViewIntervention")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                var grdInterventions = (GridView)ProjectDetail.FindControl("grdInterventions");
+                string interventionID = grdInterventions.DataKeys[index].Value.ToString();
+                Response.Redirect("/MyVale/InterventionDetails?interventionId=" + interventionID);
+            }
         }
 
         protected void btnViewDocument_Click(object sender, EventArgs e)
@@ -321,6 +355,18 @@ namespace VALE.MyVale
         protected void btnAddEvent_Click(object sender, EventArgs e)
         {
             Response.Redirect("/MyVale/Create/EventCreate?projectId=" + _currentProjectId);
+        }
+
+        protected void checkboxPublic_CheckedChanged(object sender, EventArgs e)
+        {
+            var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            if (currentProject != null)
+            {
+                var checbox = (CheckBox)sender;
+                currentProject.Public = checbox.Checked;
+                _db.SaveChanges();
+            }
+
         }
         
     }
