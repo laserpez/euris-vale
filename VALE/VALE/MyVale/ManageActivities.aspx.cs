@@ -14,13 +14,8 @@ namespace VALE
         protected void Page_Load(object sender, EventArgs e)
         {
             ApplyDragAndDrop();
+            HideIdColumns();
             PopulateFilters();
-            if (!IsPostBack)
-            {
-                ddlSelectProject.Visible = false;
-                Session["filter"] = "All";
-                filterPanel.Visible = false;
-            }
             if (Request.QueryString["Method"] == "ChangeStatus")
             {
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -30,21 +25,32 @@ namespace VALE
             }
         }
 
-        private void PopulateFilters()
+        private void HideIdColumns()
         {
-            if (!String.IsNullOrEmpty(txtDescription.Text))
-                Session["txtDescription"] = txtDescription.Text.ToUpper();
-            if (!String.IsNullOrEmpty(txtName.Text))
-                Session["txtName"] = txtName.Text.ToUpper();
-            if (!String.IsNullOrEmpty(txtFromDate.Text))
-                Session["txtFromDate"] = txtFromDate.Text;
-            if (!String.IsNullOrEmpty(txtToDate.Text))
-                Session["txtToDate"] = txtToDate.Text;
+            string hideId = @"$(function () {
+            var gridrows = document.getElementById('MainContent_ToBePlannedGridView0').rows;
+            for (var i = 0; i < gridrows.length; i++) {
+                gridrows[i].cells[0].style.display = 'none';
+            }
+            var gridrows = document.getElementById('MainContent_OngoingGridView1').rows;
+            for (var i = 0; i < gridrows.length; i++) {
+                gridrows[i].cells[0].style.display = 'none';
+            }
+            var gridrows = document.getElementById('MainContent_SuspendedGridView2').rows;
+            for (var i = 0; i < gridrows.length; i++) {
+                gridrows[i].cells[0].style.display = 'none';
+            }
+            var gridrows = document.getElementById('MainContent_DoneGridView3').rows;
+            for (var i = 0; i < gridrows.length; i++) {
+                gridrows[i].cells[0].style.display = 'none';
+            }
+            });";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "hideId", hideId, true);
         }
 
-        private void ApplyDragAndDrop() 
+        private void ApplyDragAndDrop()
         {
-            string _myScript = @"$(function () {
+            string dragAndDrop = @"$(function () {
             $('.table').sortable({
                 items: 'tr:not(tr:first-child)',
                 cursor: 'crosshair',
@@ -59,7 +65,44 @@ namespace VALE
                     }
                 });
             });";
-            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "myScript", _myScript, true); 
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "dragAndDrop", dragAndDrop, true);
+        }
+
+        private void PopulateFilters()
+        {
+            if (Session["ManageActivities_txtDescription"] != null)
+                txtDescription.Text = Session["ManageActivities_txtDescription"].ToString();
+            if (Session["ManageActivities_txtName"] != null)
+                txtName.Text = Session["ManageActivities_txtName"].ToString();
+            if (Session["ManageActivities_txtFromDate"] != null)
+                txtFromDate.Text = Session["ManageActivities_txtFromDate"].ToString();
+            if (Session["ManageActivities_txtToDate"] != null)
+                txtToDate.Text = Session["ManageActivities_txtToDate"].ToString();
+            if (Session["ManageActivities_projectId"] != null)
+                ddlSelectProject.SelectedValue = Session["ManageActivities_projectId"].ToString();
+            string filterType= "All";
+            if(Session["ManageActivities_filterType"] != null)
+                filterType = Session["ManageActivities_filterType"].ToString();
+            if (filterType != null)
+            {
+                switch (filterType)
+                {
+                    case "All":
+                    default:
+                        SetAllActivities();
+                        break;
+                    case "Project":
+                        LinkButtonProjectActivities_Click(new object(), new EventArgs());
+                        break;
+                    case "Unrelated":
+                        SetNotRelatedActivities();
+                        break;
+                }
+            }
+            if (Session["ManageActivities_filterIsVisible"] != null)
+                showFilters();
+            else
+                hideFilters();
         }
 
         private void ChangeStatus(int id, string statusNumber)
@@ -70,13 +113,15 @@ namespace VALE
             {
                 activityActions.SetActivityStatus(id, status);
             }
-            Response.Write("True");
-            Response.End();
+            BindAllGrids();
+            //Response.Write("True");
+            //Response.End();
+            
         }
 
         private List<Activity> ApplyFilters(List<Activity> activities)
         {
-            string filterType = Session["filter"].ToString();
+            string filterType = Session["ManageActivities_filterType"].ToString();
             if (filterType != null)
             {
                 switch (filterType)
@@ -85,7 +130,8 @@ namespace VALE
                     default:
                         break;
                     case "Project":
-                        var projectId = Convert.ToInt32(ddlSelectProject.SelectedValue);
+                        var projectId = 0;
+                        int.TryParse(ddlSelectProject.SelectedValue, out projectId);
                         activities = activities.Where(a => a.RelatedProject != null && a.RelatedProject.ProjectId == projectId).ToList();
                         break;
                     case "Unrelated":
@@ -93,18 +139,18 @@ namespace VALE
                         break;
                 }
             }
-            if (Session["txtDescription"] != null)
-                activities = activities.Where(a => a.Description.ToUpper().Contains(Session["txtDescription"].ToString())).ToList();
-            if (Session["txtName"] != null)
-                activities = activities.Where(a => a.ActivityName.ToUpper().Contains(Session["txtName"].ToString())).ToList();
-            if (Session["txtFromDate"] != null)
+            if (Session["ManageActivities_txtDescription"] != null)
+                activities = activities.Where(a => a.Description.ToUpper().Contains(Session["ManageActivities_txtDescription"].ToString().ToUpper())).ToList();
+            if (Session["ManageActivities_txtName"] != null)
+                activities = activities.Where(a => a.ActivityName.ToUpper().Contains(Session["ManageActivities_txtName"].ToString().ToUpper())).ToList();
+            if (Session["ManageActivities_txtFromDate"] != null)
             {
-                var dateFrom = Convert.ToDateTime(Session["txtFromDate"].ToString());
+                var dateFrom = Convert.ToDateTime(Session["ManageActivities_txtFromDate"].ToString());
                 activities = activities.Where(a => a.CreationDate >= dateFrom).ToList();
             }
-            if (Session["txtToDate"] != null)
+            if (Session["ManageActivities_txtToDate"] != null)
             {
-                var dateTo = Convert.ToDateTime(Session["txtToDate"]);
+                var dateTo = Convert.ToDateTime(Session["ManageActivities_txtToDate"].ToString());
                 activities = activities.Where(a => a.CreationDate <= dateTo).ToList();
             }
             return activities;
@@ -145,11 +191,17 @@ namespace VALE
 
         protected void LinkButtonAllActivities_Click(object sender, EventArgs e)
         {
+            SetAllActivities();
+            hideFilters();
+        }
+
+        private void SetAllActivities()
+        {
             ButtonAllActivities.Visible = true;
             ButtonProjectActivities.Visible = false;
             ButtonNotRelatedActivities.Visible = false;
-            ddlSelectProject.Visible = false;
-            Session["filter"] = "All";
+            Session["ManageActivities_filterType"] = "All";
+            hideDropDownProject();
             BindAllGrids();
         }
 
@@ -158,39 +210,45 @@ namespace VALE
             ButtonAllActivities.Visible = false;
             ButtonProjectActivities.Visible = true;
             ButtonNotRelatedActivities.Visible = false;
-            ddlSelectProject.Visible = true;
-            Session["filter"] = "Project";
+            Session["ManageActivities_filterType"] = "Project";
+            showDropDownProject();
         }
 
         protected void LinkButtonNotRelatedActivities_Click(object sender, EventArgs e)
         {
+            SetNotRelatedActivities();
+            hideFilters();
+        }
+
+        private void SetNotRelatedActivities() 
+        {
             ButtonAllActivities.Visible = false;
             ButtonProjectActivities.Visible = false;
             ButtonNotRelatedActivities.Visible = true;
-            ddlSelectProject.Visible = false;
-            Session["filter"] = "Unrelated";
+            Session["ManageActivities_filterType"] = "Unrelated";
+            hideDropDownProject();
             BindAllGrids();
         }
 
         protected void btnFilterProjects_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(txtDescription.Text))
-                Session["txtDescription"] = txtDescription.Text.ToUpper();
+                Session["ManageActivities_txtDescription"] = txtDescription.Text;
             if (!String.IsNullOrEmpty(txtName.Text))
-                Session["txtName"] = txtName.Text.ToUpper();
+                Session["ManageActivities_txtName"] = txtName.Text;
             if (!String.IsNullOrEmpty(txtFromDate.Text))
-                Session["txtFromDate"] = txtFromDate.Text;
+                Session["ManageActivities_txtFromDate"] = txtFromDate.Text;
             if (!String.IsNullOrEmpty(txtToDate.Text))
-                Session["txtToDate"] = txtToDate.Text;
+                Session["ManageActivities_txtToDate"] = txtToDate.Text;
             BindAllGrids();
         }
 
         protected void btnClearFilters_Click(object sender, EventArgs e)
         {
-            Session["txtDescription"] = null;
-            Session["txtName"] = null;
-            Session["txtFromDate"] = null;
-            Session["txtToDate"] = null;
+            Session["ManageActivities_txtDescription"] = null;
+            Session["ManageActivities_txtName"] = null;
+            Session["ManageActivities_txtFromDate"] = null;
+            Session["ManageActivities_txtToDate"] = null;
             txtDescription.Text = null;
             txtFromDate.Text = null;
             txtName.Text = null;
@@ -200,8 +258,10 @@ namespace VALE
 
         protected void btnShowFilters_Click(object sender, EventArgs e)
         {
-            BindAllGrids();
-            filterPanel.Visible = !filterPanel.Visible;
+            if (filterPanel.Visible)
+                hideFilters();
+            else
+                showFilters();
         }
 
         private void BindAllGrids()
@@ -223,6 +283,7 @@ namespace VALE
 
         protected void ddlSelectProject_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Session["ManageActivities_projectId"] = ddlSelectProject.SelectedValue;
             BindAllGrids();
         }
 
@@ -230,17 +291,75 @@ namespace VALE
         {
             Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/ManageActivities&Status=ToBePlannedStatus");
         }
+
         protected void btnCreateActivityOngoingStatus_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/ManageActivities&Status=OngoingStatus");
         }
+
         protected void btnCreateActivitySuspendedStatus_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/ManageActivities&Status=SuspendedStatus");
         }
+
         protected void btnCreateActivityDoneStatus_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/ManageActivities&Status=DoneStatus");
+        }
+
+        private void showFilters() 
+        {
+            filterPanel.Visible = true;
+            btnShowFilters.Text = "Nascondi filtri";
+            Session["ManageActivities_filterIsVisible"] = "true";
+        }
+
+        private void hideFilters()
+        {
+            filterPanel.Visible = false;
+            btnShowFilters.Text = "Visualizza filtri";
+            Session["ManageActivities_filterIsVisible"] = null;
+        }
+
+        private void showDropDownProject() 
+        {
+            projectPanel.Visible = true;
+            if (filterPanel.Visible == false)
+                showFilters();
+
+        }
+
+        private void hideDropDownProject()
+        {
+            projectPanel.Visible = false;
+        }
+
+        protected void ToBePlannedGridViewLinkButton_Click(object sender, EventArgs e)
+        {
+            int RowId = ((GridViewRow)((LinkButton)sender).Parent.Parent).RowIndex;
+            string activityId = ToBePlannedGridView0.Rows[RowId].Cells[0].Text;
+            Response.Redirect("/MyVale/ActivityDetails?activityId=" + activityId);
+        }
+
+        protected void OngoingGridViewLinkButton_Click(object sender, EventArgs e)
+        {
+            int RowId = ((GridViewRow)((LinkButton)sender).Parent.Parent).RowIndex;
+            string activityId = OngoingGridView1.Rows[RowId].Cells[0].Text;
+            Response.Redirect("/MyVale/ActivityDetails?activityId=" + activityId);
+        }
+
+        protected void SuspendedGridViewLinkButton_Click(object sender, EventArgs e)
+        {
+            int RowId = ((GridViewRow)((LinkButton)sender).Parent.Parent).RowIndex;
+            string activityId = SuspendedGridView2.Rows[RowId].Cells[0].Text;
+            Response.Redirect("/MyVale/ActivityDetails?activityId=" + activityId);
+        }
+
+        protected void DoneGridViewLinkButton_Click(object sender, EventArgs e)
+        {
+            int RowId = ((GridViewRow)((LinkButton)sender).Parent.Parent).RowIndex;
+            string activityId = DoneGridView3.Rows[RowId].Cells[0].Text;
+            Response.Redirect("/MyVale/ActivityDetails?activityId=" + activityId);
         }
     }
 }
