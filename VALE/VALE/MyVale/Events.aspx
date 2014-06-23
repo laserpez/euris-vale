@@ -24,7 +24,7 @@
             </div>
             <div class="col-md-12 row"><br /></div>
             <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" OnSorting="grdPlannedEvent_Sorting" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato" 
-                CssClass="table table-striped table-bordered" ShowFooter="true" ID="grdPlannedEvent" >
+                CssClass="table table-striped table-bordered" ID="grdPlannedEvent" >
             <Columns>
                 <asp:TemplateField>
                     <HeaderTemplate>
@@ -49,7 +49,7 @@
                         <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelEventDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                     </HeaderTemplate>
                     <ItemTemplate>
-                        <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
+                        <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>

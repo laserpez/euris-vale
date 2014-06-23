@@ -27,8 +27,8 @@ namespace VALE.MyVale
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            string id = grdPlannedEvent.Rows[rowID].Cells[0].Text;
-            Response.Redirect("/MyVale/EventDetails?eventId=" + id);
+            int eventId = (int)grdPlannedEvent.DataKeys[rowID].Value;
+            Response.Redirect("/MyVale/EventDetails?eventId=" + eventId);
         }
     }
 }

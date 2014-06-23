@@ -13,16 +13,50 @@
             <br />
             <asp:Label runat="server"><%#: String.Format("Descrizione: {0}", Item.Description) %></asp:Label><br />
             <h4>Partecipanti</h4>
-            <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                SelectMethod="GetRegisteredUsers" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
-                <Columns>
-                    <asp:BoundField DataField="FullName" HeaderText="Name" SortExpression="FullName" />
-                    <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />
-                </Columns>
-                <EmptyDataTemplate>
-                    <asp:Label runat="server">Nessun utente registrato.</asp:Label>
-                </EmptyDataTemplate>
-            </asp:GridView>
+            <asp:UpdatePanel runat="server">
+                <ContentTemplate>
+                    <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                        SelectMethod="GetRegisteredUsers" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
+                        <Columns>
+                            <asp:TemplateField>
+                                <HeaderTemplate>
+                                    <center>
+                                        <div>
+                                            <asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-th"></span>Nome</asp:LinkButton>
+                                        </div>
+                                    </center>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <center>
+                                        <div>
+                                            <asp:Label runat="server"><%#: Item.FullName %></asp:Label>
+                                        </div>
+                                    </center>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <HeaderTemplate>
+                                    <center>
+                                        <div>
+                                            <asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-th"></span>Email</asp:LinkButton>
+                                        </div>
+                                    </center>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <center>
+                                        <div>
+                                            <asp:Label runat="server"><%#: Item.Email %></asp:Label>
+                                        </div>
+                                    </center>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                        <EmptyDataTemplate>
+                            <asp:Label runat="server">Nessun utente registrato.</asp:Label>
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                </ContentTemplate>
+            </asp:UpdatePanel>
             <h4>Progetto correlato</h4>
             <asp:FormView runat="server" ID="ProjectDetail" EmptyDataText="Nessun progetto correlato." ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
                 <ItemTemplate>
