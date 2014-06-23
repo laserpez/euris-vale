@@ -16,11 +16,37 @@ namespace VALE.MyVale
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUser = User.Identity.GetUserName();
+
+            if (!IsPostBack)
+            {
+                PopulateDropDownList();
+            }
+
         }
 
-        protected void ddlSelectActivity_SelectedIndexChanged(object sender, EventArgs e)
+        private void PopulateDropDownList()
         {
-
+            var listPersonalActivities = GetPersonalActivities();
+            if (listPersonalActivities.Count == 0)
+            {
+                SelectLabel.Text = "Non sono attualmente presenti attività di cui poter vedere il report.";
+                ddlSelectActivity.Visible = false;
+                bnViewReports.Visible = false;
+            }
+            else
+            {
+                SelectLabel.Text = "Seleziona l'attività per vedere il report personale";
+                ListItem init = new ListItem();
+                init.Text = "Seleziona";
+                ddlSelectActivity.Items.Add(init);
+                foreach (var aPersonalActivity in listPersonalActivities)
+                {
+                    ListItem li = new ListItem();
+                    li.Value = aPersonalActivity.ActivityId.ToString();
+                    li.Text = aPersonalActivity.ActivityName;
+                    ddlSelectActivity.Items.Add(li);
+                }
+            }
         }
 
         public List<Activity> GetPersonalActivities()
@@ -28,19 +54,26 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var activityIds = db.Reports.Where(r => r.WorkerUserName == _currentUser).GroupBy(r => r.ActivityId).Select(o => o.Key);
             return db.Activities.Where(a => activityIds.Contains(a.ActivityId)).ToList();
-            
         }
 
         protected void bnViewReports_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
-            var activityId = Convert.ToInt32(ddlSelectActivity.SelectedValue);
-            var reports = db.Reports
-                .Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId)
-                .OrderByDescending(r => r.ActivityReportId).ToList();
-            grdActivityReport.DataSource = reports;
-            grdActivityReport.DataBind();
 
+            if (ddlSelectActivity.SelectedIndex == 0)
+            {
+                // Reload the page.
+                string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
+                Response.Redirect(pageUrl);
+            }
+            else
+            {
+                var activityId = Convert.ToInt32(ddlSelectActivity.SelectedValue);
+                List<ActivityReport> reports = new List<ActivityReport>();
+                reports = db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).ToList();
+                grdActivityReport.DataSource = reports;
+                grdActivityReport.DataBind();
+            }
         }
     }
 }

@@ -46,9 +46,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                   
-                        <img src="~/logoVALE.png" width="130" height="47" runat="server" />
-                    
+                    <asp:Image ID="LogoImage" runat="server" />
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
