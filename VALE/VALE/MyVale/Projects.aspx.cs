@@ -44,7 +44,10 @@ namespace VALE.MyVale
         public List<Project> GetProjects()
         {
             var dbData = new UserOperationsContext();
-            return dbData.Projects.ToList();
+            //var currentUserData = dbData.UsersData.FirstOrDefault(u => u.UserName == _currentUser);
+            var projects =  dbData.Projects.Where(p => p.Public == true || p.OrganizerUserName == _currentUser || p.InvolvedUsers.Select(u => u.UserName).Contains(_currentUser)).ToList();
+            return projects;
+            
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)
@@ -176,7 +179,7 @@ namespace VALE.MyVale
         protected void btnWorkOnThis_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            int projectId = Convert.ToInt32(OpenedProjectList.Rows[rowID].Cells[0].Text);
+            int projectId = (int)OpenedProjectList.DataKeys[rowID].Value;
             var db = new UserOperationsContext();
             UserData user = db.UsersData.First(u => u.UserName == _currentUser);
             Project thisProject = db.Projects.First(ev => ev.ProjectId == projectId);
@@ -193,7 +196,6 @@ namespace VALE.MyVale
                 user.AttendingProjects.Remove(thisProject);
                 db.SaveChanges();
             }
-            ViewState["lstProject"] = GetProjects();
             OpenedProjectList.DataSource = (List<Project>)ViewState["lstProject"];
             OpenedProjectList.DataBind();
         }

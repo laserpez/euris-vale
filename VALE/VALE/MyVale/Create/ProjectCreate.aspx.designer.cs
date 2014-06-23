@@ -85,6 +85,15 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.GridView grdFilesUploaded;
         
         /// <summary>
+        /// chkPublic control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkPublic;
+        
+        /// <summary>
         /// SelectProject control.
         /// </summary>
         /// <remarks>

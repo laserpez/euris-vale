@@ -44,6 +44,11 @@
             </asp:GridView>
         </div>
 
+        <asp:Label runat="server" CssClass="col-md-2 control-label">E' un progetto pubblico?</asp:Label>
+        <div class="col-md-10">
+            <asp:CheckBox runat="server" ID="chkPublic" />
+        </div>
+
         <p></p>
         <uc:SelectProject runat="server" ID="SelectProject"/>       
 
