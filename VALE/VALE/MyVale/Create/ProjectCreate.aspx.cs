@@ -49,6 +49,7 @@ namespace VALE.MyVale
                 ProjectName = txtName.Text,
                 LastModified = Convert.ToDateTime(txtStartDate.Text),
                 Status = "Aperto",
+                Public = chkPublic.Checked,
                 Activities = new List<Activity>(),
                 Events = new List<Event>(),
                 InvolvedUsers = users,
