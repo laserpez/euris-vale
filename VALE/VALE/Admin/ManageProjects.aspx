@@ -1,6 +1,9 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageProjects.aspx.cs" Inherits="VALE.Admin.ManageProject" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <h3>Gestione progetti</h3>
+    <br />
+    <br />
     <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
         <ContentTemplate>
             <div class="panel panel-default">
@@ -23,34 +26,76 @@
                 </div>
             </div>
 
-            <asp:GridView OnRowCommand="ProjectList_RowCommand" ID="ProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" 
+            <asp:GridView OnRowCommand="ProjectList_RowCommand" DataKeyNames="ProjectId" OnSorting="ProjectList_Sorting" AllowSorting="true" ID="ProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both"
                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                 <Columns>
-                    <asp:BoundField DataField="ProjectID" HeaderText="ID" SortExpression="ProjectId" />
-                    <asp:BoundField DataField="ProjectName" HeaderText="Name" SortExpression="ProjectName" />
-                    <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                    <asp:TemplateField HeaderText="Created" SortExpression="CreationDate">
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            <center><div><asp:LinkButton CommandArgument="ProjectName" CommandName="sort" runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                        </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label>
+                            <center><div><asp:Label runat="server"><%#: Item.ProjectName %></asp:Label></div></center>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Last modified" SortExpression="LastModified">
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                        </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.LastModified.ToShortDateString() %></asp:Label>
+                            <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
-                    <asp:TemplateField HeaderText="View">
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            <center><div><asp:LinkButton CommandArgument="CreationDate" CommandName="sort" runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-th"></span> Data Creazione</asp:LinkButton></div></center>
+                        </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:Button runat="server" Text="View report" CssClass="btn btn-info btn-sm"
-                                CommandName="ViewReport" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" />
+                            <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
                         </ItemTemplate>
+                        <HeaderStyle Width="140px" />
+                        <ItemStyle Width="140px" />
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Delete">
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            <center><div><asp:LinkButton CommandArgument="LastModified" CommandName="sort" runat="server" ID="labelLastModified"><span  class="glyphicon glyphicon-th"></span> Ultima modifica</asp:LinkButton></div></center>
+                        </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:Button runat="server" Text="Delete project" CssClass="btn btn-danger btn-sm"
-                                CommandName="DeleteProject" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" />
+                            <center><div><asp:Label runat="server"><%#: Item.LastModified.ToShortDateString() %></asp:Label></div></center>
                         </ItemTemplate>
+                        <HeaderStyle Width="150px" />
+                        <ItemStyle Width="150px" />
+                    </asp:TemplateField>
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-th"></span> Stato</asp:LinkButton></div></center>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
+                        </ItemTemplate>
+                        <HeaderStyle Width="90px" />
+                        <ItemStyle Width="90px" />
+                    </asp:TemplateField>
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-th"></span> Vedi</asp:Label></div></center>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <center><div><asp:Button runat="server" Width="150" Text="Vedi report" CssClass="btn btn-info btn-xs"
+                                CommandName="ViewReport" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
+                        </ItemTemplate>
+                        <HeaderStyle Width="150px" />
+                        <ItemStyle Width="150px" />
+                    </asp:TemplateField>
+                    <asp:TemplateField>
+                        <HeaderTemplate>
+                            <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-th"></span> Cancella</asp:Label></div></center>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <center><div><asp:Button runat="server" Width="150" Text="Cancella progetto" CssClass="btn btn-danger btn-xs"
+                                CommandName="DeleteProject" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
+                        </ItemTemplate>
+                        <HeaderStyle Width="150px" />
+                        <ItemStyle Width="150px" />
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
@@ -64,16 +109,16 @@
             </asp:ModalPopupExtender>
             <div class="panel panel-primary" id="pnlPopup" style="width: 60%;">
                 <div class="panel-heading">
-                    <asp:Label ID="TitleModalView" runat="server" Text="DeletePanel"></asp:Label>
-                    <asp:Button runat="server" class="close" OnClick="CloseButton_Click" Text="x" />
+                    <asp:Label ID="TitleModalView" runat="server" Text="Cancella progetto"></asp:Label>
+                    <asp:Button runat="server" CssClass="close" OnClick="CloseButton_Click" Text="x" />
                 </div>
-                <div class="panel-body" style="max-height: 300px; overflow: auto;">
+                <div class="panel-body" style="max-height: 220px">
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <legend>Remove Project</legend>
+                            <%--<legend>Cancella progetto</legend>--%>
                             <div class="form-group">
-                                <label class="col-lg-12 control-label">Project name</label>
+                                <label class="col-lg-12 control-label">Nome progetto</label>
                                 <div class="col-lg-10 control-label" runat="server" id="Div1">
                                     <asp:Label runat="server" ID="ProjectName" Text="" />
                                     <asp:Label runat="server" ID="ProjectID" Text="" Visible="false"></asp:Label>
@@ -82,13 +127,15 @@
                             <div class="form-group">
                                 <label class="col-lg-12 control-label">Password</label>
                                 <div class="col-lg-10 control-label" runat="server" id="PasswordDiv">
-                                    <asp:TextBox TextMode="Password" runat="server" class="form-control" ID="PassTextBox" />
+                                    <asp:TextBox TextMode="Password" runat="server" CssClass="form-control" ID="PassTextBox" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <asp:Button runat="server" ID="DeleteButton" class="btn btn-default navbar-btn" Text="Confirm" OnClick="DeleteButton_Click" />
-                    <asp:Label  runat="server" ID="ErrorDeleteLabel" Text="" Visible="false" ></asp:Label>
+                    <div class="col-md-12">
+                        <asp:Button runat="server" ID="DeleteButton" CssClass="btn btn-default navbar-btn" Text="Conferma" OnClick="DeleteButton_Click" />
+                        <asp:Label runat="server" ID="ErrorDeleteLabel" Text="" Visible="false"></asp:Label>
+                    </div>
                 </div>
             </div>
         </ContentTemplate>
