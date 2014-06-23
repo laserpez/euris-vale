@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Web;
@@ -69,7 +70,7 @@ namespace VALE
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            this.LogoImage.ImageUrl = ConfigurationManager.AppSettings["testKey"];
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
