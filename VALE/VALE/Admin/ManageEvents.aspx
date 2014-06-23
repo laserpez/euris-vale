@@ -6,7 +6,7 @@
             <asp:GridView OnRowCommand="grdEventList_RowCommand" ID="grdEventList" SelectMethod="GetEvents" runat="server" AutoGenerateColumns="false" GridLines="Both"
                 ItemType="VALE.Models.Event" EmptyDataText="Nessun evento aperto." CssClass="table table-striped table-bordered">
                 <Columns>
-                    <asp:BoundField DataField="EventId" HeaderText="ID" SortExpression="EventId" />
+                     <asp:BoundField DataField="EventId" HeaderText="ID" SortExpression="EventId" />
                     <asp:BoundField DataField="Name" HeaderText="Nome" SortExpression="Name" />
                     <asp:BoundField DataField="Description" HeaderText="Descrizione" SortExpression="Description" />
                     <asp:TemplateField HeaderText="Data di creazione" SortExpression="EventDate">
@@ -44,7 +44,7 @@
             <div class="panel panel-primary" id="pnlPopup" style="width: 60%;">
                 <div class="panel-heading">
                     <asp:Label ID="TitleModalView" runat="server" Text="DeletePanel"></asp:Label>
-                    <asp:Button runat="server" class="close" OnClick="CloseButton_Click" Text="x" />
+                    <asp:Button runat="server" CssClass="close" OnClick="CloseButton_Click" Text="x" />
                 </div>
                 <div class="panel-body" style="max-height: 300px; overflow: auto;">
                     <div>
@@ -61,12 +61,12 @@
                             <div class="form-group">
                                 <label class="col-lg-12 control-label">Password</label>
                                 <div class="col-lg-10 control-label" runat="server" id="PasswordDiv">
-                                    <asp:TextBox TextMode="Password" runat="server" class="form-control" ID="PassTextBox" />
+                                    <asp:TextBox TextMode="Password" runat="server" CssClass="form-control" ID="PassTextBox" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <asp:Button runat="server" ID="DeleteButton" class="btn btn-default navbar-btn" Text="Conferma" OnClick="DeleteButton_Click" />
+                    <asp:Button runat="server" ID="DeleteButton" CssClass="btn btn-default navbar-btn" Text="Conferma" OnClick="DeleteButton_Click" />
                     <asp:Label  runat="server" ID="ErrorDeleteLabel" Text="" Visible="false" ></asp:Label>
                 </div>
             </div>
