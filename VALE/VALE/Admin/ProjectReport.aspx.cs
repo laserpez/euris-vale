@@ -81,8 +81,6 @@ namespace VALE.Admin
                 return null;
         }
 
-       
-
         private GridView GetGridView(string name)
         {
             return (GridView)frmProjectReport.FindControl(name);
