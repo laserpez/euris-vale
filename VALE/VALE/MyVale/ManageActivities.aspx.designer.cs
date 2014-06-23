@@ -31,15 +31,6 @@ namespace VALE {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// ddlSelectProject control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSelectProject;
-        
-        /// <summary>
         /// ButtonAllActivities control.
         /// </summary>
         /// <remarks>
@@ -110,6 +101,24 @@ namespace VALE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl filterPanel;
+        
+        /// <summary>
+        /// projectPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl projectPanel;
+        
+        /// <summary>
+        /// ddlSelectProject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSelectProject;
         
         /// <summary>
         /// txtName control.
