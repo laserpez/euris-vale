@@ -15,24 +15,26 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            grdEventList.AllowSorting = true;
         }
 
         protected void grdEventList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            int index = Convert.ToInt32(e.CommandArgument);
-            int eventId = Convert.ToInt32(grdEventList.Rows[index].Cells[0].Text);
-
-            var dbData = new UserOperationsContext();
-
             if (e.CommandName == "DeleteProject")
             {
+                int index = Convert.ToInt32(e.CommandArgument);
+                int eventId = Convert.ToInt32(grdEventList.DataKeys[index].Value);
+
+                var dbData = new UserOperationsContext();
                 EventID.Text = eventId.ToString();
                 EventName.Text = dbData.Events.Where(o => o.EventId == eventId).FirstOrDefault().Name;
                 ModalPopup.Show();
             }
-            else
+            else if (e.CommandName == "ViewReport")
             {
+                int index = Convert.ToInt32(e.CommandArgument);
+                int eventId = Convert.ToInt32(grdEventList.DataKeys[index].Value);
+
                 Response.Redirect("/Admin/EventReport?eventId=" + eventId);
             }
         }
@@ -49,8 +51,10 @@ namespace VALE.Admin
             if (user != null)
             {
                 var dbData = new UserOperationsContext();
-                int Id = Convert.ToInt32(EventID.Text);
-                var thisEvent = dbData.Events.First(ev => ev.EventId == Id);
+
+                int eventId = Convert.ToInt32(EventID.Text);
+
+                var thisEvent = dbData.Events.First(ev => ev.EventId == eventId);
                 if (!String.IsNullOrEmpty(thisEvent.DocumentsPath))
                 {
                     if (Directory.Exists(Server.MapPath(thisEvent.DocumentsPath)))
@@ -74,7 +78,7 @@ namespace VALE.Admin
         public IQueryable<Event> GetEvents()
         {
             var db = new UserOperationsContext();
-            return db.Events;
+            return db.Events.AsQueryable();
         }
     }
 }
