@@ -21,8 +21,27 @@ namespace VALE.MyVale
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserName = User.Identity.GetUserName();
-            if(!IsPostBack)
+            if (!IsPostBack)
+            {
                 filterPanel.Visible = false;
+            }
+        }
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            ShowHideControls();
+        }
+
+        private void ShowHideControls()
+        {
+            if (grdCurrentActivities.Rows.Count == 0 && grdPendingActivities.Rows.Count == 0)
+            {
+                filterPanel.Visible = false;
+                btnShowFilters.Visible = false;
+                ExternalPanelDefault.Visible = false;
+                InternalPanelHeading.Visible = false;
+                btnExportCSV.Visible = false;
+            }
         }
 
         public IQueryable<Activity> GetCurrentActivities([Control]string txtName, [Control]string txtDescription, [Control]string ddlStatus)
@@ -74,10 +93,9 @@ namespace VALE.MyVale
             if (e.CommandName == "ViewDetails")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                int activityId = (int)grdCurrentActivities.DataKeys[index].Value;// Convert.ToInt32(grdCurrentActivities.Rows[index].Cells[0].Text);
+                int activityId = (int)grdCurrentActivities.DataKeys[index].Value;
                 Response.Redirect("/MyVale/ActivityDetails?activityId=" + activityId);
             }
-
         }
 
         protected void grdPendingActivities_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -95,7 +113,7 @@ namespace VALE.MyVale
                     WorkerUserName = _currentUserName, 
                     HoursWorked = 0,
                     Date = DateTime.Today, 
-                    ActivityDescription = "Accepted activity from another user"
+                    ActivityDescription = "Attività accettata da un altro utente"
                 });
             }
             user.PendingActivity.Remove(activity);
@@ -104,12 +122,10 @@ namespace VALE.MyVale
             grdPendingActivities.DataBind();
         }
 
-
         protected void btnExportCSV_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
             ExportToCSV(new List<string>() { _currentUserName });
-           
         }
 
         public void ExportToCSV(List<string> usersNames)
