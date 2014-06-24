@@ -6,6 +6,7 @@ using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using System.Web.UI.WebControls;
 using VALE.Models;
+using System.Linq.Expressions;
 
 namespace VALE.MyVale
 {
@@ -19,6 +20,10 @@ namespace VALE.MyVale
 
             if (!IsPostBack)
             {
+                var lstActivities = GetPersonalActivities();
+                grdActivityReport.DataSource = lstActivities;
+                grdActivityReport.DataBind();
+                ViewState["lstActivities"] = lstActivities;
                 PopulateDropDownList();
             }
 
@@ -74,6 +79,44 @@ namespace VALE.MyVale
                 grdActivityReport.DataSource = reports;
                 grdActivityReport.DataBind();
             }
+        }
+
+        public SortDirection GridViewSortDirection
+        {
+            get
+            {
+                if (ViewState["sortDirection"] == null)
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+
+                return (SortDirection)ViewState["sortDirection"];
+            }
+            set { ViewState["sortDirection"] = value; }
+        }
+
+        protected void grdActivityReport_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (GridViewSortDirection == SortDirection.Ascending)
+                GridViewSortDirection = SortDirection.Descending;
+            else
+                GridViewSortDirection = SortDirection.Ascending;
+
+            grdActivityReport.DataSource = GetSortedData(e.SortExpression);
+            grdActivityReport.DataBind();
+        }
+
+        private List<Activity> GetSortedData(string sortExpression)
+        {
+            var result = (List<Activity>)ViewState["lstActivities"];
+
+            var param = Expression.Parameter(typeof(Project), sortExpression);
+            var sortBy = Expression.Lambda<Func<Project, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+
+            if (GridViewSortDirection == SortDirection.Descending)
+                result = result.AsQueryable<Activity>().OrderByDescending(sortBy).ToList();
+            else
+                result = result.AsQueryable<Activity>().OrderBy(sortBy).ToList();
+            ViewState["llstActivities"] = result;
+            return result;
         }
     }
 }
