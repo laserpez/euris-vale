@@ -255,6 +255,7 @@
     </Content>
     <Content Include="DownloadFile.ashx" />
     <Content Include="MyVale\ManageActivities.aspx" />
+    <Content Include="PopUpPassword.aspx" />
     <Content Include="ProvaDrag.aspx" />
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
@@ -648,6 +649,13 @@
     </Compile>
     <Compile Include="MyVale\Projects.aspx.designer.cs">
       <DependentUpon>Projects.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PopUpPassword.aspx.cs">
+      <DependentUpon>PopUpPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PopUpPassword.aspx.designer.cs">
+      <DependentUpon>PopUpPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MyVale\ManageActivities.aspx.cs">
