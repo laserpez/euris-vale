@@ -105,7 +105,7 @@ namespace VALE.Admin
             else
             {
                 ErrorDeleteLabel.Visible = true;
-                ErrorDeleteLabel.Text = "Wrong password";
+                ErrorDeleteLabel.Text = "Password sbagliata";
                 ModalPopup.Show();
             }
         }

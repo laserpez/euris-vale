@@ -48,7 +48,7 @@ namespace VALE.Admin
 
         protected void grdReports_DataBound(object sender, EventArgs e)
         {
-            lblSummary.Text = String.Format("Report for user {0} on activity {1}", GetWorkerName(), GetWorkedActivity());
+            HeaderName.Text = String.Format("Report per l'utente {0} sull'attività {1}", GetWorkerName(), GetWorkedActivity());
         }
 
 
