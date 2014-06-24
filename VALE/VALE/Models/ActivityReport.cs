@@ -7,6 +7,7 @@ using System.Web;
 
 namespace VALE.Models
 {
+    [Serializable]
     public class ActivityReport
     {
         public int ActivityReportId { get; set; }

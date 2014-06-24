@@ -20,10 +20,7 @@ namespace VALE.MyVale
 
             if (!IsPostBack)
             {
-                var lstActivities = GetPersonalActivities();
-                grdActivityReport.DataSource = lstActivities;
-                grdActivityReport.DataBind();
-                ViewState["lstActivities"] = lstActivities;
+                ViewState["lstActivities"] = new List<ActivityReport>();
                 PopulateDropDownList();
             }
 
@@ -77,6 +74,7 @@ namespace VALE.MyVale
                 List<ActivityReport> reports = new List<ActivityReport>();
                 reports = db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).ToList();
                 grdActivityReport.DataSource = reports;
+                ViewState["lstActivities"] = reports;
                 grdActivityReport.DataBind();
             }
         }
@@ -104,17 +102,17 @@ namespace VALE.MyVale
             grdActivityReport.DataBind();
         }
 
-        private List<Activity> GetSortedData(string sortExpression)
+        private List<ActivityReport> GetSortedData(string sortExpression)
         {
-            var result = (List<Activity>)ViewState["lstActivities"];
+            var result = (List<ActivityReport>)ViewState["lstActivities"];
 
-            var param = Expression.Parameter(typeof(Project), sortExpression);
-            var sortBy = Expression.Lambda<Func<Project, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+            var param = Expression.Parameter(typeof(ActivityReport), sortExpression);
+            var sortBy = Expression.Lambda<Func<ActivityReport, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
 
             if (GridViewSortDirection == SortDirection.Descending)
-                result = result.AsQueryable<Activity>().OrderByDescending(sortBy).ToList();
+                result = result.AsQueryable<ActivityReport>().OrderByDescending(sortBy).ToList();
             else
-                result = result.AsQueryable<Activity>().OrderBy(sortBy).ToList();
+                result = result.AsQueryable<ActivityReport>().OrderBy(sortBy).ToList();
             ViewState["llstActivities"] = result;
             return result;
         }

@@ -7,6 +7,7 @@ using System.Web;
 
 namespace VALE.Models
 {
+    [Serializable]
     public class Activity
     {
         // Primary key
