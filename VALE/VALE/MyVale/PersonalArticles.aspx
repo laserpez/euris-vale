@@ -30,7 +30,7 @@
                                                 ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo personale." CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:BoundField DataField="BlogArticleId" HeaderText="ID" SortExpression="BlogArticleId" />
-                                                    <asp:BoundField DataField="Titolo" HeaderText="Title" SortExpression="Title" />
+                                                    <asp:BoundField DataField="Title" HeaderText="Titolo" SortExpression="Title" />
                                                     <asp:TemplateField HeaderText="Data di pubblicazione" SortExpression="ReleaseDate">
                                                         <ItemTemplate>
                                                             <asp:Label runat="server"><%#: Item.ReleaseDate.ToShortDateString() %></asp:Label>

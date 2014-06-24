@@ -23,14 +23,17 @@ namespace VALE.Admin
 
         protected void grdArticleList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            int index = Convert.ToInt32(e.CommandArgument);
-            int articleId = Convert.ToInt32(grdArticleList.Rows[index].Cells[0].Text);
+            
             if(e.CommandName == "ViewArticle")
             {
+                int index = Convert.ToInt32(e.CommandArgument);
+                int articleId = (int)grdArticleList.DataKeys[index].Value;
                 Response.Redirect("/MyVale/ViewArticle?articleId=" + articleId);
             }
             else if(e.CommandName == "AcceptArticle" || e.CommandName == "RejectArticle")
             {
+                int index = Convert.ToInt32(e.CommandArgument);
+                int articleId = (int)grdArticleList.DataKeys[index].Value;
                 string newStatus = e.CommandName == "AcceptArticle" ? "accepted" : "rejected";
                 var db = new UserOperationsContext();
                 var article = db.BlogArticles.First(a => a.BlogArticleId == articleId);
