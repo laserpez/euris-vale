@@ -59,8 +59,6 @@ namespace VALE.MyVale
 
         protected void OpenedProjectList_Sorting(object sender, GridViewSortEventArgs e)
         {
-            string sortExpression = e.SortExpression;
-
             if (GridViewSortDirection == SortDirection.Ascending)
                 GridViewSortDirection = SortDirection.Descending;
             else
@@ -96,13 +94,6 @@ namespace VALE.MyVale
             }
             set { ViewState["sortDirection"] = value; }
         }
-
-        //protected void btnViewClosedDetails_Click(object sender, EventArgs e)
-        //{
-        //    int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-        //    string id = grdClosedProject.Rows[rowID].Cells[0].Text;
-        //    Response.Redirect("/MyVale/ProjectDetails?projectId=" + id);
-        //}
 
         protected void btnFilterProjects_Click(object sender, EventArgs e)
         {
