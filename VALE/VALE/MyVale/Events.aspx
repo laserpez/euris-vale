@@ -42,13 +42,14 @@
                                                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtToDate"></asp:CalendarExtender>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 row">
+                                            <div class="col-md-12">
                                                 <asp:Button CausesValidation="true" runat="server" ID="btnShowEvents" CssClass="btn btn-primary btn-xs" Text="Mostra eventi" OnClick="btnShowEvents_Click" />
                                             </div>
-                                            <div class="col-md-12 row">
+                                            <div class="col-md-12">
                                                 <br />
                                             </div>
-                                            <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" OnSorting="grdPlannedEvent_Sorting" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato"
+                                            <div class="col-md-12">
+                                                <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" OnSorting="grdPlannedEvent_Sorting" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato"
                                                 CssClass="table table-striped table-bordered" ID="grdPlannedEvent">
                                                 <Columns>
                                                     <asp:TemplateField>
@@ -99,6 +100,8 @@
                                                     </asp:TemplateField>
                                                 </Columns>
                                             </asp:GridView>
+                                            </div>
+                                            
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
 
