@@ -83,8 +83,8 @@
                                                             <ItemTemplate>
                                                                 <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
                                                             </ItemTemplate>
-                                                            <HeaderStyle Width="140px" />
-                                                            <ItemStyle Width="140px" />
+                                                            <HeaderStyle Width="150px" />
+                                                            <ItemStyle Width="150px" />
                                                         </asp:TemplateField>
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>

@@ -89,7 +89,33 @@ namespace VALE.Admin
         public List<Activity> GetActivities()
         {
             var db = new UserOperationsContext();
-            return db.Projects.First(p => p.ProjectId == _currentProjectId).Activities;
+            var activities = db.Projects.First(p => p.ProjectId == _currentProjectId).Activities;
+
+            var fakeActivity = new Activity() { ActivityId = 0, ActivityName = "Seleziona" };
+            activities.Insert(0, fakeActivity);
+
+            var emptyLabel = (Label)frmProjectReport.FindControl("emptyAtcivitiesLabel");
+            var dropdownlistActivities = (DropDownList)frmProjectReport.FindControl("ddlSelectActivity");
+            var reportBtn = (Button)frmProjectReport.FindControl("btnShowActivityReport");
+            var gridViewReport = (GridView)frmProjectReport.FindControl("grdActivitiesReport");
+            if (activities.Count == 1)
+            {
+                dropdownlistActivities.Visible = false;
+                emptyLabel.Visible = true;
+                emptyLabel.Text = "Non ci sono attività correlate.";
+                
+                reportBtn.Visible = false;
+                gridViewReport.Visible = false;
+            }
+            else
+            {
+                dropdownlistActivities.Visible = true;
+                emptyLabel.Visible = false;
+                emptyLabel.Text = "";
+                reportBtn.Visible = true;
+                gridViewReport.Visible = true;
+            }
+            return activities;
         }
 
         protected void btnShowActivityReport_Click(object sender, EventArgs e)
