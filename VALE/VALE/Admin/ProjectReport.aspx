@@ -48,6 +48,7 @@
                                                 </Columns>
                                             </asp:GridView>
                                             <h4>Report attività</h4>
+                                            <asp:Label runat="server" ID="emptyAtcivitiesLabel" CssClass="form-control" Visible="false"></asp:Label>
                                             <asp:UpdatePanel runat="server">
                                                 <ContentTemplate>
                                                     <asp:DropDownList CssClass="form-control" runat="server" ID="ddlSelectActivity" SelectMethod="GetActivities" DataTextField="ActivityName" DataValueField="ActivityId">
