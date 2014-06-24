@@ -1,11 +1,10 @@
-1) InterventDetail sistemare pulsanti
-2) ActivityDetail da mettere a posto grafica e pulsanti e cancellare text box del report se piene
-3) MenageArticle: da sistemare gridview
-4) PersonalArticles: da sistemare gridview
-5) Nascondere filtri e pulsante export in csv nella pagina TODO attività
-6) Nel riepilogo del progetto aggiungere i bottoni per inserire eventi/utenti/attività e mostrarli tramite popup
-7) Aggiugnere utenti da parte amministrazione
-8) Inserire pannello in tutte le pagine con questo HTML:
+1) ActivityDetail da mettere a posto grafica e pulsanti e cancellare text box del report se piene OUSSAM
+2) PersonalArticles: grid view da mettere a posto EMMA
+3) Article: grid view da mettere a posto ELENA
+4) Report Project : sistemare report quando non ci sono ELENA
+5) Nascondere filtri e pulsante export in csv nella pagina TODO attività ELENA
+6) Nel riepilogo del progetto aggiungere i bottoni per inserire eventi/utenti/attività e mostrarli tramite popup ROB?
+7) Inserire pannello in tutte le pagine con questo HTML: TUTTI
 
 <div class="container">
         <div class="bs-docs-section">
