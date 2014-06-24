@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProjectDetails.aspx.cs" Inherits="VALE.MyVale.ProjectDetails" %>
-
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:FormView OnDataBound="ProjectDetail_DataBound" runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetProject">
         <ItemTemplate>
@@ -56,8 +56,8 @@
                             </asp:TemplateField>
                             <asp:TemplateField>
                                 <HeaderTemplate>
-                                <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></div></center>
-                            </HeaderTemplate>
+                                    <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></div></center>
+                                </HeaderTemplate>
                                 <ItemTemplate>
                                     <center><div><asp:Button CssClass="btn btn-info btn-xs" Width="90" runat="server" CommandName="ViewIntervention"
                                         CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Vedi" /></div></center>
@@ -202,13 +202,38 @@
                     <asp:Label runat="server" ID="lblInfoManage" Text="Cambia lo stato del tuo progetto"></asp:Label><br />
                     <asp:Button runat="server" ID="btnSuspendProject" CausesValidation="false" OnClick="btnSuspendProject_Click" />
                     <asp:Button runat="server" ID="btnCloseProject" CausesValidation="false" OnClick="btnCloseProject_Click" /><br />
-                    <asp:Panel runat="server" Visible="false" ID="manageProjectPanel">
-                        <asp:Label runat="server" Text="Inserire la password per confermare l'operazione: "></asp:Label>
-                        <asp:Label ID="lblInfoOperation" runat="server"></asp:Label><br />
-                        <asp:TextBox CssClass="form-control" runat="server" ID="txtPassword" TextMode="Password"></asp:TextBox>
-                        <asp:RequiredFieldValidator ErrorMessage="La password è richiesta" ControlToValidate="txtPassword" runat="server"></asp:RequiredFieldValidator>
-                        <asp:Button runat="server" ID="btnModifyProject" CssClass="btn btn-info" Text="Conferma" OnClick="btnModifyProject_Click" />
-                    </asp:Panel>
+                    <asp:Label ID="lblInfoOperation" runat="server" Visible="false"></asp:Label><br />
+ 
+                    <asp:ModalPopupExtender ID="ModalPopup" runat="server"
+                        PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
+                    </asp:ModalPopupExtender>
+                    <asp:LinkButton ID="lnkDummy" runat="server"></asp:LinkButton>
+                    <div class="alert alert-dismissable alert-info" id="pnlPopup" style="width: 25%;">
+                        <div class="row">
+
+                            <asp:Label runat="server" CssClass="col-md-12 control-label"><strong>Inserisci Password</strong></asp:Label>
+                            <div class="col-md-12">
+                                <br />
+                            </div>
+                            <div class="col-md-12">
+                                <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control input-sm" />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <br />
+                                </div>
+                                <div class="col-md-offset-8 col-md-10">
+                                    <asp:Button runat="server" Text="Ok" ID="btnFilterProjects" CssClass="btn btn-success btn-xs" OnClick="btnModifyProject_Click" />
+                                    <asp:Button runat="server" Text="Annulla" ID="btnClearFilters" CssClass="btn btn-danger btn-xs" OnClick="CloseButton_Click" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                  
                 </ContentTemplate>
             </asp:UpdatePanel>
 

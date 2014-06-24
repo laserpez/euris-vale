@@ -32,6 +32,7 @@
                                                 <asp:Panel ID="InternalPanelHeading" runat="server" CssClass="panel-heading">
                                                     <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Mostra filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
                                                 </asp:Panel>
+
                                                 <div runat="server" id="filterPanel" class="panel-body">
                                                     <asp:Label AssociatedControlID="txtName" CssClass="col-md-2 control-label" runat="server" Text="Name"></asp:Label>
                                                     <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
@@ -73,8 +74,8 @@
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
                                                         </ItemTemplate>
-                                                        <HeaderStyle Width="140px" />
-                                                        <ItemStyle Width="140px" />
+                                                        <HeaderStyle Width="150px" />
+                                                        <ItemStyle Width="150px" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
