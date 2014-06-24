@@ -22,8 +22,20 @@ namespace VALE.Admin
                 ProjectList.DataSource = lstProject;
                 ProjectList.DataBind();
                 ViewState["lstProject"] = lstProject;
+                ShowHideControls();
                 filterPanel.Visible = false;
-                
+            }
+        }
+
+        private void ShowHideControls()
+        {
+            var projects = (List<Project>)ViewState["lstProject"];
+            if (projects.Count == 0)
+            {
+                filterPanel.Visible = false;
+                btnShowFilters.Visible = false;
+                ExternalPanelDefault.Visible = false;
+                InternalPanelHeading.Visible = false;
             }
         }
 

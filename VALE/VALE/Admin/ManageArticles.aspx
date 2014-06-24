@@ -17,7 +17,11 @@
                             <asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="Status" HeaderText="Stato" SortExpression="Status" />
+                    <asp:TemplateField HeaderText="Stato" SortExpression="Status">
+                        <ItemTemplate>
+                            <asp:Label runat="server"><%#: Item.Status == "rejected" ? "Rifiutato" : "Accettato" %></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="View">
                         <ItemTemplate>
                             <asp:Button runat="server" Text="Vedi articolo" CssClass="btn btn-info btn-sm"

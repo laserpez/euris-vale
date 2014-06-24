@@ -67,7 +67,7 @@
             <br />
             <asp:Label runat="server" ID="AttachmentsLabel" Text="Documenti" CssClass="h4"></asp:Label>
             <asp:ListBox runat="server" CssClass="form-control" Width="400px" ID="lstDocuments" SelectMethod="GetRelatedDocuments"></asp:ListBox>
-            <asp:Button runat="server" Text="Scarica documento" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
+            <asp:Button runat="server" Text="Scarica" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
         </ItemTemplate>
     </asp:FormView>
 </asp:Content>

@@ -47,6 +47,9 @@ namespace VALE.MyVale
             db.BlogComments.Add(comment);
             db.SaveChanges();
             lstComments.DataBind();
+            var textBoxComment = (TextBox)frmArticle.FindControl("txtComment");
+            if (textBoxComment != null)
+                textBoxComment.Text = "";
         }
 
         public List<BlogComment> GetComments([QueryString("articleId")] int? articleId)

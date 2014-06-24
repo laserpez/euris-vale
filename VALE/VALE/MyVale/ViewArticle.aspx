@@ -3,27 +3,28 @@
     <asp:FormView ID="frmArticle" OnDataBound="Unnamed_DataBound" ItemType="VALE.Models.BlogArticle" SelectMethod="GetArticle" runat="server">
         <ItemTemplate>
             <h3><%#: Item.Title %></h3>
-            <asp:Label Font-Bold="true" runat="server"><%#: String.Format("By: {0}", Item.Creator.FullName) %></asp:Label><br />
+            <asp:Label runat="server"><%#: String.Format("Autore: {0}", Item.Creator.FullName) %></asp:Label><br />
             <asp:Label runat="server"><%#: Item.ReleaseDate.ToShortDateString() %></asp:Label>
             <p>
                 <asp:Label ID="lblContent" runat="server"></asp:Label>
             </p>
         </ItemTemplate>
     </asp:FormView>
-    <h3>Comments</h3>
+    <h3>Commenti</h3>
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
             <asp:Panel runat="server">
-                <asp:Label runat="server" Font-Bold="true" Text="Add comment:"></asp:Label>
+                <asp:Label runat="server" Font-Bold="true" Text="Aggiungi commento:"></asp:Label>
                 <asp:TextBox runat="server" CssClass="form-control" TextMode="MultiLine" ID="txtComment"></asp:TextBox>
-                <asp:Button runat="server" CssClass="btn btn-info" ID="btnAddComment" Text="Add" OnClick="btnAddComment_Click" />
+                <asp:Button runat="server" CssClass="btn btn-info" ID="btnAddComment" Text="Aggiungi" OnClick="btnAddComment_Click" />
             </asp:Panel>
+            <br />
             <div class="panel panel-default">
-                <div class="panel-heading">Comments</div>
+                <div class="panel-heading">Commenti</div>
                 <div class="panel-body">
                     <asp:ListView runat="server" ID="lstComments" ItemType="VALE.Models.BlogComment" SelectMethod="GetComments">
                         <EmptyDataTemplate>
-                            <asp:Label runat="server" Text="No comments yet"></asp:Label>
+                            <asp:Label runat="server" Text="Nessun commento"></asp:Label>
                         </EmptyDataTemplate>
                         <ItemTemplate>
                             <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.Creator.FullName %></asp:Label>

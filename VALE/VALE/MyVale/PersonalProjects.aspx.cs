@@ -16,14 +16,51 @@ namespace VALE.MyVale
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUser = User.Identity.GetUserName();
+            if (!IsPostBack)
+            {
+                ShowHideControls();
+            }
         }
+
+        private void ShowHideControls()
+        {
+            var db = new UserOperationsContext();
+            var organizedPrj = db.UsersData.Where(u => u.UserName == _currentUser).First().OrganizedProjects;
+            var attendingPrj = db.UsersData.Where(u => u.UserName == _currentUser).First().AttendingProjects;
+
+            if (organizedPrj.Count() != 0 || attendingPrj.Count() != 0)
+            {
+                labelSelect.Visible = true;
+                btnCurrentView.Visible = true;
+            }
+            else
+            {
+                labelSelect.Visible = false;
+                btnCurrentView.Visible = false;
+            }
+        }
+
+        
 
         public IQueryable<Project> GetPersonalProjects()
         {
-            if (btnCurrentView.InnerText == "Attending")
-                return GetAttendingProjects();
-            else
-                return GetOrganizedProjects();
+            IQueryable<Project> result = null;
+
+            if (btnCurrentView.Attributes.Count != 0)
+            {
+                var keys = btnCurrentView.Attributes.Keys;
+
+                var aValue = btnCurrentView.Attributes["btnPressed"];
+                
+                if (!string.IsNullOrEmpty(aValue))
+                {
+                    if (aValue == "btnAttending")
+                        result = GetAttendingProjects();
+                    else
+                        result = GetOrganizedProjects();
+                }
+            }
+            return result;
         }
 
         public IQueryable<Project> GetOrganizedProjects()
@@ -54,7 +91,12 @@ namespace VALE.MyVale
         protected void btnViewProjects_Click(object sender, EventArgs e)
         {
             LinkButton button = (LinkButton)sender;
-            btnCurrentView.InnerText = button.Text;
+            var buttonId = button.ID;
+
+            btnCurrentView.InnerText = "Progetti" + " " + button.Text;
+            btnCurrentView.Attributes.Remove("btnPressed");
+            btnCurrentView.Attributes.Add("btnPressed", buttonId);
+            
             grdProjectList.DataBind();
 
         }
