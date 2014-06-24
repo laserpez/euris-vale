@@ -28,7 +28,7 @@ namespace VALE.MyVale
             if (e.CommandName == "ViewArticle")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                int articleId = Convert.ToInt32(grdAllArticles.Rows[index].Cells[0].Text);
+                int articleId = Convert.ToInt32(grdAllArticles.DataKeys[index].Value);
                 Response.Redirect("/MyVale/ViewArticle?articleId=" + articleId);
             }
         }

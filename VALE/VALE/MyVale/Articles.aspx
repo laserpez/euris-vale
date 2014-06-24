@@ -27,27 +27,57 @@
 
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
-                                            <asp:GridView OnRowCommand="grdAllArticles_RowCommand" SelectMethod="GetAllArticles" ID="grdAllArticles" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                            <asp:GridView OnRowCommand="grdAllArticles_RowCommand" DataKeyNames="BlogArticleId" SelectMethod="GetAllArticles" ID="grdAllArticles" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                 ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo." CssClass="table table-striped table-bordered">
                                                 <Columns>
-                                                    <asp:BoundField DataField="BlogArticleId" HeaderText="ID" SortExpression="BlogArticleId" />
-                                                    <asp:BoundField DataField="Title" HeaderText="Titolo" SortExpression="Title" />
-                                                    <asp:TemplateField HeaderText="Creatore">
-                                                        <ItemTemplate>
-                                                            <asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Data di pubblicazione" SortExpression="ReleaseDate">
-                                                        <ItemTemplate>
-                                                            <asp:Label runat="server"><%#: Item.ReleaseDate.ToShortDateString() %></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:BoundField DataField="Status" HeaderText="Stato" SortExpression="Status" />
                                                     <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="Title" CommandName="sort" runat="server" ID="labelTitle"><span  class="glyphicon glyphicon-th"></span> Titolo</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <asp:Button runat="server" Text="Vedi articolo" CssClass="btn btn-info btn-sm"
-                                                                CommandName="ViewArticle" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" />
+                                                            <center><div><asp:Label runat="server"><%#: Item.Title %></asp:Label></div></center>
                                                         </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="CreatorUserName" CommandName="sort" runat="server" ID="labelCreatorUserName"><span  class="glyphicon glyphicon-th"></span> Creatore</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                             <center><div><asp:LinkButton CommandArgument="ReleaseDate" CommandName="sort" runat="server" ID="labelReleaseDate"><span  class="glyphicon glyphicon-th"></span> Data di pubblicazione</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.ReleaseDate.ToShortDateString() %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                        <HeaderStyle Width="100px" />
+                                                        <ItemStyle Width="100px" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-th"></span> Stato</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.Status== "rejected" ? "Rifiutato" : "Accettato" %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                        <HeaderStyle Width="90px" />
+                                                        <ItemStyle Width="90px" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div>
+                                                                <asp:Button runat="server" Width="120px" Text="Vedi articolo" CssClass="btn btn-info btn-sm"
+                                                                CommandName="ViewArticle" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" />
+                                                                    </div></center>
+                                                        </ItemTemplate>
+                                                        <HeaderStyle Width="120px" />
+                                                        <ItemStyle Width="120px" />
                                                     </asp:TemplateField>
                                                 </Columns>
                                             </asp:GridView>
