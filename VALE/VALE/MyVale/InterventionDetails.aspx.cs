@@ -44,26 +44,30 @@ namespace VALE.MyVale
                     var dir = new DirectoryInfo(Server.MapPath(thisEvent.DocumentsPath));
                     var files = dir.GetFiles().Select(f => f.Name).ToList();
                     if (files.Count == 0)
-                        HideListBox("lstDocuments");
+                        HideAttchmentBox("lstDocuments");
                     return files;
                 }
                 else
                 {
-                    HideListBox("lstDocuments");
+                    HideAttchmentBox("lstDocuments");
                     return null;
                 }
             }
             else
             {
-                HideListBox("lstDocuments");
+                HideAttchmentBox("lstDocuments");
                 return null;
             }
         }
 
-        private void HideListBox(string name)
+        private void HideAttchmentBox(string name)
         {
             ListBox list = (ListBox)InterventionDetail.FindControl(name);
             list.Visible = false;
+            Label labelAttachment = (Label)InterventionDetail.FindControl("labelAttachment");
+            labelAttachment.Visible = false;
+            Button btnViewAttchment = (Button)InterventionDetail.FindControl("btnViewDocument");
+            btnViewAttchment.Visible = false;
         }
 
         protected void btnAddComment_Click(object sender, EventArgs e)
