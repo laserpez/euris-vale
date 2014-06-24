@@ -34,14 +34,29 @@
                                             <br />
                                             <br />
                                             <asp:GridView runat="server" ID="grdActivityReport" ItemType="VALE.Models.ActivityReport" AutoGenerateColumns="false"
-                                                CssClass="table table-striped table-bordered" EmptyDataText="Nessun report per questa attività">
+                                                CssClass="table table-striped table-bordered" AllowSorting="true" OnSorting="grdActivityReport_Sorting" EmptyDataText="Nessun report per questa attività">
                                                 <Columns>
-                                                    <asp:BoundField HeaderText="Descrizione" DataField="ActivityDescription" SortExpression="ActivityDescription" />
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="ActivityDescription" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.ActivityDescription %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                        <HeaderStyle Width="120px" />
+                                                        <ItemStyle Width="120px" />
+                                                    </asp:TemplateField>
+                                                    
                                                     <asp:BoundField HeaderText="Ore di lavoro" DataField="HoursWorked" SortExpression="HoursWorked" />
                                                     <asp:TemplateField HeaderText="Data">
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="Date" CommandName="sort" runat="server" ID="labelDate"><span  class="glyphicon glyphicon-th"></span> Data</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <asp:Label runat="server"><%#: Item.Date.ToShortDateString() %></asp:Label>
                                                         </ItemTemplate>
+                                                         <HeaderStyle Width="120px" />
+                                                        <ItemStyle Width="120px" />
                                                     </asp:TemplateField>
                                                 </Columns>
                                             </asp:GridView>
