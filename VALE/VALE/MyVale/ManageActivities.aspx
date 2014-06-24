@@ -79,29 +79,29 @@
                                             
                                             <center><div>
                                                 <div class="col-md-6">
-                                                    <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
+                                                    <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
                                                     <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtName"></asp:TextBox>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
+                                                    <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
                                                     <asp:TextBox CssClass="form-control input-sm" runat="server" ID="txtDescription"></asp:TextBox>
                                                 </div>
                      
                                             <div  class="col-md-12"><br /></div>
                                                 <div class="col-md-6">
-                                                    <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
+                                                    <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
                                             <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtFromDate"></asp:TextBox>
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtFromDate"></asp:CalendarExtender>
                                                 </div>
                                                 <div class="col-md-6">
-                                                     <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Al"></asp:Label>
+                                                     <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Al"></asp:Label>
                                             <asp:TextBox CssClass="form-control input-sm" runat="server" ID="txtToDate"></asp:TextBox>
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtToDate"></asp:CalendarExtender>
                                                 </div>
                                                 </div></center>
                                              <div  class="col-md-12"><br /></div>
-                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
+                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-sm" />
+                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-sm" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -123,11 +123,12 @@
                                                             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
                                                              <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:LinkButton runat="server" OnClick="ToBePlannedGridViewLinkButton_Click"><%#: Item.ActivityName %></asp:LinkButton>
+                                                                    <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
                                                                 </ItemTemplate>
                                                                 <HeaderTemplate>
                                                                     <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
                                                                 </HeaderTemplate>
+                                                                 <ItemStyle Font-Bold="true"></ItemStyle>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
@@ -137,7 +138,7 @@
                                                                     <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
                                                                 </HeaderTemplate>
                                                                 <HeaderStyle Width="115px"></HeaderStyle>
-                                                                <ItemStyle Width="115px"></ItemStyle>
+                                                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
                                                             </asp:TemplateField>   
                                                         </Columns>
                                                     </asp:GridView>
@@ -162,11 +163,12 @@
                                                             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
                                                              <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:LinkButton runat="server" OnClick="OngoingGridViewLinkButton_Click"><%#: Item.ActivityName %></asp:LinkButton>
+                                                                    <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
                                                                 </ItemTemplate>
                                                                 <HeaderTemplate>
                                                                     <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
                                                                 </HeaderTemplate>
+                                                                 <ItemStyle Font-Bold="true"></ItemStyle>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
@@ -176,7 +178,7 @@
                                                                     <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
                                                                 </HeaderTemplate>
                                                                 <HeaderStyle Width="115px"></HeaderStyle>
-                                                                <ItemStyle Width="115px"></ItemStyle>
+                                                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
                                                             </asp:TemplateField>   
                                                         </Columns>
                                                     </asp:GridView>
@@ -203,11 +205,12 @@
                                                             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
                                                              <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:LinkButton runat="server" OnClick="SuspendedGridViewLinkButton_Click"><%#: Item.ActivityName %></asp:LinkButton>
+                                                                    <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
                                                                 </ItemTemplate>
                                                                 <HeaderTemplate>
                                                                     <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
                                                                 </HeaderTemplate>
+                                                                 <ItemStyle Font-Bold="true"></ItemStyle>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
@@ -217,7 +220,7 @@
                                                                     <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
                                                                 </HeaderTemplate>
                                                                 <HeaderStyle Width="115px"></HeaderStyle>
-                                                                <ItemStyle Width="115px"></ItemStyle>
+                                                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
                                                             </asp:TemplateField>   
                                                         </Columns>
                                                     </asp:GridView>
@@ -242,11 +245,12 @@
                                                             <asp:BoundField DataField="ActivityId" HeaderText="ID" />
                                                              <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:LinkButton runat="server" OnClick="DoneGridViewLinkButton_Click"><%#: Item.ActivityName %></asp:LinkButton>
+                                                                    <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
                                                                 </ItemTemplate>
                                                                 <HeaderTemplate>
                                                                     <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
                                                                 </HeaderTemplate>
+                                                                 <ItemStyle Font-Bold="true"></ItemStyle>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
@@ -256,7 +260,7 @@
                                                                     <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
                                                                 </HeaderTemplate>
                                                                 <HeaderStyle Width="115px"></HeaderStyle>
-                                                                <ItemStyle Width="115px"></ItemStyle>
+                                                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
                                                             </asp:TemplateField>   
                                                         </Columns>
                                                     </asp:GridView>
