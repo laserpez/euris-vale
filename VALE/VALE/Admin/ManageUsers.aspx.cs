@@ -196,5 +196,52 @@ namespace VALE.Admin
                     grdUsers.DataSource = list;
                     grdUsers.DataBind();
         }
+
+        protected void grdUsers_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (GridViewSortDirection == SortDirection.Ascending)
+                GridViewSortDirection = SortDirection.Descending;
+            else
+                GridViewSortDirection = SortDirection.Ascending;
+
+            grdUsers.DataSource = GetSortedData(e.SortExpression);
+            grdUsers.DataBind();
+        }
+
+        private List<ApplicationUser> GetSortedData(string sortExpression)
+        {
+            var result = GetUsers();
+            if (sortExpression != "Ruolo")
+            {
+                var param = Expression.Parameter(typeof(ApplicationUser), sortExpression);
+                var sortBy = Expression.Lambda<Func<ApplicationUser, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+
+                if (GridViewSortDirection == SortDirection.Descending)
+                    result = result.AsQueryable<ApplicationUser>().OrderByDescending(sortBy).ToList();
+                else
+                    result = result.AsQueryable<ApplicationUser>().OrderBy(sortBy).ToList();
+            }
+            else
+            {
+                if (GridViewSortDirection == SortDirection.Descending)
+                    result = result.AsQueryable<ApplicationUser>().OrderByDescending(u => GetRoleName(u.Id)).ToList();
+                else
+                    result = result.AsQueryable<ApplicationUser>().OrderBy(u => GetRoleName(u.Id)).ToList();
+            }
+
+            return result;
+        }
+
+        public SortDirection GridViewSortDirection
+        {
+            get
+            {
+                if (ViewState["sortDirection"] == null)
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+
+                return (SortDirection)ViewState["sortDirection"];
+            }
+            set { ViewState["sortDirection"] = value; }
+        }
     }
 }

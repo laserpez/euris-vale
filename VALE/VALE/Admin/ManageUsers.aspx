@@ -25,22 +25,22 @@
                                 <div class="navbar-right">
                                     <div class="btn-group" runat="server" id="ListActivityDiv">
                                         <asp:Label ID="ListUsersType" Visible="false" runat="server" Text=""></asp:Label>
-                                        <button type="button" visible="true" id="GetAllUsersButton" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutti  <span class="caret"></span></button>
-                                        <button type="button" visible="false" id="GetAdminButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Amministratori  <span class="caret"></span></button>
-                                        <button type="button" visible="false" id="GetPartnersButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Soci  <span class="caret"></span></button>
-                                        <button type="button" visible="false" id="GetDirectivPartnersButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Consiglio Direttivo<span class="caret"></span></button>
-                                        <button type="button" visible="false" id="GetRequestsdButton" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">Richieste  <span class="caret"></span></button>
+                                        <button type="button" visible="true" id="GetAllUsersButton" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Tutti  <span class="caret"></span></button>
+                                        <button type="button" visible="false" id="GetAdminButton" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Amministratori  <span class="caret"></span></button>
+                                        <button type="button" visible="false" id="GetPartnersButton" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Soci  <span class="caret"></span></button>
+                                        <button type="button" visible="false" id="GetDirectivPartnersButton" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Consiglio Direttivo<span class="caret"></span></button>
+                                        <button type="button" visible="false" id="GetRequestsdButton" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Richieste  <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <asp:LinkButton runat="server" OnClick="GetAllUsers_Click"><span class="glyphicon glyphicon-hdd"></span> Tutti</asp:LinkButton></li>
+                                                <asp:LinkButton runat="server" OnClick="GetAllUsers_Click"><span class="glyphicon glyphicon-hdd btn-sm"></span> Tutti</asp:LinkButton></li>
                                             <li>
-                                                <asp:LinkButton runat="server" OnClick="GetAdmin_Click"><span class="glyphicon glyphicon-star"></span> Amministratori  </asp:LinkButton></li>
+                                                <asp:LinkButton runat="server" OnClick="GetAdmin_Click"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratori  </asp:LinkButton></li>
                                             <li>
-                                                <asp:LinkButton runat="server" OnClick="GetPartners_Click"><span class="glyphicon glyphicon-user"></span> Soci  </asp:LinkButton></li>
+                                                <asp:LinkButton runat="server" OnClick="GetPartners_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Soci  </asp:LinkButton></li>
                                             <li>
-                                                <asp:LinkButton runat="server" OnClick="GetDirectivPartners_Click"><span class="glyphicon glyphicon-user"></span> Consiglio Direttivo</asp:LinkButton></li>
+                                                <asp:LinkButton runat="server" OnClick="GetDirectivPartners_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Consiglio Direttivo</asp:LinkButton></li>
                                             <li>
-                                                <asp:LinkButton runat="server" OnClick="GetRequests_Click"><span class="glyphicon glyphicon-plus-sign"></span>  Richieste  </asp:LinkButton></li>
+                                                <asp:LinkButton runat="server" OnClick="GetRequests_Click"><span class="glyphicon glyphicon-plus-sign btn-sm"></span>  Richieste  </asp:LinkButton></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -49,17 +49,62 @@
                     </div>
                     <div class="panel-body">
                         <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" ShowFooter="true" AllowSorting="true" GridLines="Both"
-                            ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered">
+                            ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                             <Columns>
-                                <asp:BoundField DataField="UserName" HeaderText="UserName" />
-                                <asp:BoundField DataField="Email" HeaderText="Email" />
-                                <asp:BoundField DataField="FirstName" HeaderText="Nome" />
-                                <asp:BoundField DataField="LastName" HeaderText="Cognome" />
-                                <asp:BoundField DataField="CellPhone" HeaderText="Cellulare" />
-                                <asp:BoundField DataField="CF" HeaderText="Codice fiscale" />
-                                <asp:TemplateField HeaderText="Ruolo">
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <center><div><asp:LinkButton CommandArgument="UserName" CommandName="sort" runat="server" ID="labelUserName"><span  class="glyphicon glyphicon-th"></span> UserName</asp:LinkButton></div></center>
+                                    </HeaderTemplate>
                                     <ItemTemplate>
-                                        <%# GetRoleName(Item.Id) %>
+                                        <center><div><asp:Label runat="server"><%#: Item.UserName %></asp:Label></div></center>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <center><div><asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-th"></span> Email</asp:LinkButton></div></center>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <center><div><asp:LinkButton CommandArgument="FirstName" CommandName="sort" runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <center><div><asp:Label runat="server"><%#: Item.FirstName %></asp:Label></div></center>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <center><div><asp:LinkButton CommandArgument="LastName" CommandName="sort" runat="server" ID="labelLastName"><span  class="glyphicon glyphicon-th"></span> Cognome</asp:LinkButton></div></center>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <center><div><asp:Label runat="server"><%#: Item.LastName %></asp:Label></div></center>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <center><div><asp:LinkButton CommandArgument="CellPhone" CommandName="sort" runat="server" ID="labelCellPhone"><span  class="glyphicon glyphicon-th"></span> Cellulare</asp:LinkButton></div></center>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <center><div><asp:Label runat="server"><%#: Item.CellPhone %></asp:Label></div></center>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <center><div><asp:LinkButton CommandArgument="CF" CommandName="sort" runat="server" ID="labelCF"><span  class="glyphicon glyphicon-th"></span> Codice fiscale</asp:LinkButton></div></center>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <center><div><asp:Label runat="server"><%#: Item.CF %></asp:Label></div></center>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <HeaderTemplate>
+                                        <center><div><asp:LinkButton CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-th"></span> Ruolo</asp:LinkButton></div></center>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <center><div><%# GetRoleName(Item.Id) %></div></center>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField>
@@ -70,7 +115,7 @@
                                 <asp:TemplateField>
                                     <ItemTemplate>
                                         <div class="btn-group">
-                                            <button type="button" id="AllListRoles" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Cambia Ruolo<span class="caret"></span></button>
+                                            <button type="button" id="AllListRoles" Width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server">Cambia Ruolo<span class="caret"></span></button>
                                             <ul class="dropdown-menu">
                                                 <li>
                                                     <asp:LinkButton ID="btnAdministrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click">Amministratore</asp:LinkButton></li>
@@ -81,6 +126,7 @@
                                             </ul>
                                         </div>
                                     </ItemTemplate>
+                                    <ItemStyle Width="100px" />
                                 </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
