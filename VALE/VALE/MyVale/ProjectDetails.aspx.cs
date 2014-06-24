@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using VALE.Models;
 using VALE.Logic;
+using AjaxControlToolkit;
 
 namespace VALE.MyVale
 {
@@ -148,21 +149,21 @@ namespace VALE.MyVale
         protected void btnSuspendProject_Click(object sender, EventArgs e)
         {
             var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
-            Panel panel = (Panel)ProjectDetail.FindControl("manageProjectPanel");
-            Label label = (Label)panel.FindControl("lblInfoOperation");
-            panel.Visible = true;
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
             if (project.Status == "Sospeso")
                 label.Text = "RIPRENDI";
             else
                 label.Text = "SOSPENDI";
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Show();
         }
 
         protected void btnCloseProject_Click(object sender, EventArgs e)
         {
-            Panel panel = (Panel)ProjectDetail.FindControl("manageProjectPanel");
-            Label label = (Label)panel.FindControl("lblInfoOperation");
-            panel.Visible = true;
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
             label.Text = "CHIUDI";
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Show();
         }
 
         protected void ProjectDetail_DataBound(object sender, EventArgs e)
@@ -253,12 +254,17 @@ namespace VALE.MyVale
             }
         }
 
+        protected void CloseButton_Click(object sender, EventArgs e)
+        {
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Hide();
+        }
         protected void btnModifyProject_Click(object sender, EventArgs e)
         {
-            Panel panel = (Panel)ProjectDetail.FindControl("manageProjectPanel");
-            Label label = (Label)panel.FindControl("lblInfoOperation");
+            
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var passTextbox = (TextBox)panel.FindControl("txtPassword");
+            var passTextbox = (TextBox)ProjectDetail.FindControl("Password");
             var password = passTextbox.Text;
             if (!string.IsNullOrEmpty(password))
             {
