@@ -113,9 +113,9 @@ namespace VALE
             {
                 activityActions.SetActivityStatus(id, status);
             }
-            BindAllGrids();
-            //Response.Write("True");
-            //Response.End();
+            //BindAllGrids();
+            Response.Write("True");
+            Response.End();
             
         }
 
