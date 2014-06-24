@@ -1,0 +1,47 @@
+1) Cambiare logo Vale    FATTO
+2) Iconcine nel menu	FATTO
+3) Nella lista utenti del pannello amministrazione aggiungere cellulare    FATTO
+4) Inserire le iconcine nelle griglie   FEDE
+5) Inserire il bottone del filtro nella schermata gestione utente  FEDE
+6) Aggiungere tra i filtri anche quello sullo stato  FATTO
+7) Aggiungere i filtri anche nelle attività    FATTO
+8) Nel riepilogo del progetto aggiungere i bottoni per inserire eventi/utenti/attività e mostrarli tramite popup
+9) Nella lista utenti aggiungere il filtro e le colonne ordinabili - aggiungere export CSV solo per Admin e BoardMember FATTO
+10) Aggiugnere utenti da parte amministrazione
+11) Inserire pannello in tutte le pagine con questo HTML:
+
+<div class="container">
+        <div class="bs-docs-section">
+            <br />
+            <div class="row">
+                <div class="col-lg-12">
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="col-lg-6">
+                                                <ul class="nav nav-pills col-lg-6">
+                                                    <li>
+                                                        <h4>
+                                                            <asp:Label ID="HeaderName" runat="server" Text="Progetti"></asp:Label>
+                                                        </h4>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body" style="overflow: auto;">
+
+					Inserisci qui la pagina!!!!!!
+
+				</div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+    </div>
