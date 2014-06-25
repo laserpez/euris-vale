@@ -4,15 +4,14 @@
 <div class="col-md-10">
     <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
         <ContentTemplate>
-                <div class="input-group col-lg-4">
-                    <div class="form-group">
-                        <asp:TextBox runat="server" ID="txtProjectName" CssClass="form-control" />
-                    </div>
-                    <div class="input-group-btn">
-                        <asp:Button CssClass="btn btn-primary" ID="btnShowPopup" runat="server" Text="Lista" OnClick="btnShowPopup_Click" CausesValidation="false" />
-                    </div>
-                    <!-- /btn-group -->
+            <div class="input-group col-lg-4">
+                <div class="form-group">
+                    <asp:TextBox runat="server" ID="txtProjectName" CssClass="form-control" />
                 </div>
+                <div class="input-group-btn">
+                    <asp:Button CssClass="btn btn-primary" ID="btnShowPopup" runat="server" Text="Lista" OnClick="btnShowPopup_Click" CausesValidation="false" />
+                </div>
+            </div>
             <asp:AutoCompleteExtender
                 ServiceMethod="GetProjectNames" ServicePath="/AutoComplete.asmx"
                 ID="txtProjectAutoCompleter" runat="server"
@@ -20,7 +19,7 @@
                 MinimumPrefixLength="2">
             </asp:AutoCompleteExtender>
             <br />
-            
+
             <asp:ModalPopupExtender ID="ModalPopup" runat="server"
                 PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
             </asp:ModalPopupExtender>
@@ -54,7 +53,6 @@
                                 </Columns>
                             </asp:GridView>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -10,8 +10,8 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-6">
-                                        <ul class="nav nav-pills col-lg-6">
+                                    <div class="col-lg-12">
+                                        <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
                                                     <asp:Label ID="HeaderName" runat="server" Text="To do"></asp:Label>

@@ -19,7 +19,6 @@
                 Enabled="True" TargetControlID="txtUserName" UseContextKey="True"
                 MinimumPrefixLength="2">
             </asp:AutoCompleteExtender>
-            
 
             <asp:Label runat="server" ID="lblResultSearchUser" CssClass="control-label"></asp:Label>
             <br />
@@ -63,7 +62,6 @@
                                 </Columns>
                             </asp:GridView>
                         </div>
-
                     </div>
                 </div>
             </div>
