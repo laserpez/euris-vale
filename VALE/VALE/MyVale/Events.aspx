@@ -54,7 +54,7 @@
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventData"><span  class="glyphicon glyphicon-th"></span> Data</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventData"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label></div></center>
@@ -64,7 +64,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelEventName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelEventName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
@@ -80,7 +80,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Button ID="btnViewDetails" Width="90" CssClass="btn btn-info btn-xs" Text="Vedi" runat="server" OnClick="btnViewDetails_Click" /></div></center>
@@ -90,7 +90,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-th"></span> Partecipa</asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-thumbs-up"></span> Partecipa</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Button ID="btnAttendEvent" Width="150" runat="server" OnClick="btnAttendEvent_Click" Text="&nbsp;&nbsp;&nbsp;&nbsp;Partecipa&nbsp;&nbsp;&nbsp;&nbsp;" CssClass="btn btn-info btn-xs" /></div></center>
