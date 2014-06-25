@@ -50,7 +50,7 @@
                                         <div class="col-md-10">
                                             <asp:FileUpload AllowMultiple="false" ID="FileUploadControl" runat="server" />
                                             <asp:Label runat="server" ID="StatusLabel" Text="" />
-                                            <asp:Button runat="server" CausesValidation="false" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info" OnClick="btnUploadFile_Click" />
+                                            <asp:Button runat="server" CausesValidation="false" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info btn-xs" OnClick="btnUploadFile_Click" />
                                         </div>
                                         <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">File caricato</asp:Label>
 
@@ -90,13 +90,12 @@
                                 </div>
                             </div>
                         </ContentTemplate>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="btnUploadFile" />
+                        </Triggers>
                     </asp:UpdatePanel>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <h3><%--Crea un nuovo progetto--%></h3>
-
 </asp:Content>

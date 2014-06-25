@@ -89,7 +89,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:Label runat="server" ID="labelReject"><span  class="glyphicon glyphicon-th"></span> Accetta</asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="labelReject"><span  class="glyphicon glyphicon-th"></span> Rifiuta</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Button runat="server" Width="120" Text="Rifiuta articolo" CssClass="btn btn-danger btn-xs"
