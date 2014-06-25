@@ -101,7 +101,7 @@ namespace VALE.MyVale
         protected void grdPendingActivities_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             int index = Convert.ToInt32(e.CommandArgument);
-            int activityId = Convert.ToInt32(grdPendingActivities.Rows[index].Cells[0].Text);
+            int activityId = Convert.ToInt32(grdPendingActivities.DataKeys[index].Value);
             var db = new UserOperationsContext();
             var activity = db.Activities.First(a => a.ActivityId == activityId);
             var user = db.UsersData.First(u => u.UserName == _currentUserName);
@@ -113,7 +113,7 @@ namespace VALE.MyVale
                     WorkerUserName = _currentUserName, 
                     HoursWorked = 0,
                     Date = DateTime.Today, 
-                    ActivityDescription = "Attività accettata da un altro utente"
+                    ActivityDescription = "Attività accettata da un altro utente."
                 });
             }
             user.PendingActivity.Remove(activity);
