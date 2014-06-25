@@ -31,15 +31,6 @@ namespace VALE.Admin {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// lblSummary control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSummary;
-        
-        /// <summary>
         /// grdReports control.
         /// </summary>
         /// <remarks>
