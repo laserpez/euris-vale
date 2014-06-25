@@ -23,7 +23,8 @@ namespace VALE.MyVale.BOD
 
         protected void grdBODReport_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            Response.Redirect("/MyVale/BOD/ViewBODReport?reportId=" + e.CommandArgument);
+            if (e.CommandName == "ViewReport")
+                Response.Redirect("/MyVale/BOD/ViewBODReport?reportId=" + e.CommandArgument);
         }
     }
 }
