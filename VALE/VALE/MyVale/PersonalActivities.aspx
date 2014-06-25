@@ -61,7 +61,7 @@
                                                             <center><div><asp:LinkButton CommandArgument="Date" CommandName="sort" runat="server" ID="labelDate"><span  class="glyphicon glyphicon-th"></span> Data</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <asp:Label runat="server"><%#: Item.Date.ToShortDateString() %></asp:Label>
+                                                            <center><div><asp:Label runat="server"><%#: Item.Date.ToShortDateString() %></asp:Label></div></center>
                                                         </ItemTemplate>
                                                          <HeaderStyle Width="120px" />
                                                         <ItemStyle Width="120px" />

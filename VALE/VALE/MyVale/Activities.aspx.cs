@@ -138,12 +138,12 @@ namespace VALE.MyVale
                 Response.ContentType = "application/text";
                 StringBuilder strbldr = new StringBuilder();
                 //separting header columns text with comma operator
-                strbldr.Append("Utente;Id;Nome Attività;Data Inizio;Data Fine;Ore Di Lavoro");
+                strbldr.Append("Utente;Id;Nome Attività;Data Inizio;Data Fine;Ore Di Lavoro;Stato");
                 //appending new line for gridview header row
                 strbldr.Append("\n");
                 foreach (var userName in usersNames)
                 {
-                    activities = activityActions.GetActivities(userName, ActivityStatus.Ongoing);
+                    activities = activityActions.GetActivities(userName);
                     foreach (var activity in activities)
                     {
                         strbldr.Append(userName + ';');
@@ -155,6 +155,7 @@ namespace VALE.MyVale
                         else
                             strbldr.Append("Non definito;");
                         strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId).ToString() + ';');
+                        strbldr.Append(activity.Status + ';');
                         strbldr.Append("\n");
                     }
                 }

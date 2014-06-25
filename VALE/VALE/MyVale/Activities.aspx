@@ -26,6 +26,7 @@
                                 </div>
                                 <div class="panel-body" style="overflow: auto;">
                                     <asp:Button runat="server" Text="Esporta CSV" Width="90" CssClass="btn btn-info btn-xs" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
+                                    <p></p>
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <asp:Panel ID="ExternalPanelDefault" runat="server" CssClass="panel panel-default">
@@ -37,13 +38,6 @@
                                                     <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
                                                     <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
                                                     <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
-
-                                                    <%--<asp:Label CssClass="col-md-2 control-label" runat="server" Text="Creato il"></asp:Label>
-                                                        <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtCreationDate"></asp:TextBox>
-                                                        <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtCreationDate"></asp:CalendarExtender>
-                                                        <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Ultima modifica"></asp:Label>
-                                                        <asp:TextBox CssClass="form-control" runat="server" ID="txtLastModifiedDate"></asp:TextBox>
-                                                        <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtLastModifiedDate"></asp:CalendarExtender>--%>
 
                                                     <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Stato"></asp:Label>
                                                     <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control" ID="ddlStatus" runat="server"></asp:DropDownList>
@@ -58,21 +52,7 @@
                                             <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" DataKeyNames="ActivityId" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
                                                 ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="Nessuna attività in corso." CssClass="table table-striped table-bordered">
                                                 <Columns>
-                                                    <%--<asp:BoundField DataField="ActivityId" HeaderText="ID" SortExpression="ActivityId" />
-
-                                                        <asp:TemplateField>
-                                                            <HeaderTemplate>
-                                                                <center><div><asp:LinkButton CommandArgument="ActivityId" CommandName="sort" runat="server" ID="labelActivityId">ID</asp:LinkButton></div></center>
-                                                            </HeaderTemplate>
-                                                            <ItemTemplate>
-                                                                <center><div><asp:Label runat="server"><%#: Item.ActivityId %></asp:Label></div></center>
-                                                            </ItemTemplate>
-                                                            <HeaderStyle Width="30px" />
-                                                            <ItemStyle Width="30px" />
-                                                        </asp:TemplateField>--%>
-
-                                                    <%--<asp:BoundField DataField="ActivityName" HeaderText="Nome" SortExpression="ActivityName" />--%>
-
+                                                    
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
@@ -106,12 +86,6 @@
                                                         <ItemStyle Width="140px" />
                                                     </asp:TemplateField>
 
-                                                    <%--<asp:TemplateField HeaderText="Data inizio" SortExpression="StartDate">
-                        <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Non definita" %></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>--%>
-
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             <center><div><asp:LinkButton CommandArgument="ExpireDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-th"></span> Data fine</asp:LinkButton></div></center>
@@ -123,14 +97,6 @@
                                                         <ItemStyle Width="140px" />
                                                     </asp:TemplateField>
 
-                                                    <%--<asp:TemplateField HeaderText="Data fine" SortExpression="ExpireDate">
-                        <ItemTemplate>
-                            <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Non definita" %></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>--%>
-
-                                                    <%--<asp:BoundField DataField="Status" HeaderText="Stato" SortExpression="Status" />--%>
-
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-th"></span> Stato</asp:LinkButton></div></center>
@@ -141,13 +107,6 @@
                                                         <HeaderStyle Width="90px" />
                                                         <ItemStyle Width="90px" />
                                                     </asp:TemplateField>
-
-                                                    <%--<asp:TemplateField HeaderText="Dettagli">
-                        <ItemTemplate>
-                            <asp:Button CssClass="btn btn-info" runat="server" CommandName="ViewDetails"
-                                CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Vedi" />
-                        </ItemTemplate>
-                    </asp:TemplateField>--%>
 
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>

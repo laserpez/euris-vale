@@ -16,6 +16,12 @@ namespace VALE.Logic
             return _db.Activities.Where(a => activitiesId.Contains(a.ActivityId) && a.Status == status).ToList();
         }
 
+        public List<Activity> GetActivities(string userName)
+        {
+            var activitiesId = _db.Reports.Where(r => r.WorkerUserName == userName).GroupBy(r => r.ActivityId).Select(gr => gr.Key).ToList();
+            return _db.Activities.Where(a => activitiesId.Contains(a.ActivityId)).ToList();
+        }
+
         public int GetHoursWorked(string userName, int activityId)
         {
             return _db.Reports.Where(r => r.ActivityId == activityId && r.WorkerUserName == userName).Sum(r => r.HoursWorked);
