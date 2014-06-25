@@ -41,34 +41,26 @@
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center>
-                                        <div>
-                                            <asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-th"></span>Nome</asp:LinkButton>
-                                        </div>
-                                    </center>
+                                                                    <center><div>
+                                                                        <asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton>
+                                                                    </div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center>
-                                        <div>
-                                            <asp:Label runat="server"><%#: Item.FullName %></asp:Label>
-                                        </div>
-                                    </center>
+                                                                    <center><div>
+                                                                    <asp:Label runat="server"><%#: Item.FullName %></asp:Label>
+                                                                </div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center>
-                                        <div>
-                                            <asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-th"></span>Email</asp:LinkButton>
-                                        </div>
-                                    </center>
+                                                                    <center><div>
+                                                                    <asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton>
+                                                                </div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center>
-                                        <div>
-                                            <asp:Label runat="server"><%#: Item.Email %></asp:Label>
-                                        </div>
-                                    </center>
+                                                                    <center><div>
+                                                                    <asp:Label runat="server"><%#: Item.Email %></asp:Label>
+                                                                </div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>

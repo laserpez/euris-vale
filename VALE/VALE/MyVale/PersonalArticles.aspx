@@ -30,7 +30,7 @@
                                         <Columns>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="Title" CommandName="sort" runat="server" ID="labelTitle"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="Title" CommandName="sort" runat="server" ID="labelTitle"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.Title %></asp:Label></div></center>
@@ -38,7 +38,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="ReleaseDate" CommandName="sort" runat="server" ID="labelReleaseDate"><span  class="glyphicon glyphicon-th"></span> Data di pubblicazione</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="ReleaseDate" CommandName="sort" runat="server" ID="labelReleaseDate"><span  class="glyphicon glyphicon-calendar"></span> Data di pubblicazione</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.ReleaseDate.ToShortDateString() %></asp:Label><center><div>
@@ -48,7 +48,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-th"></span> Stato</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.Status== "rejected" ? "Rifiutato" : "Accettato" %></asp:Label></div></center>
@@ -58,10 +58,10 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Button runat="server" Width="120" Text="Vedi articolo" CssClass="btn btn-info btn-xs"
+                                                            <center><div><asp:Button runat="server" Width="120" Text="Vedi" CssClass="btn btn-info btn-xs"
                                                                 CommandName="ViewArticle" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
                                                 </ItemTemplate>
                                                 <HeaderStyle Width="120px" />
@@ -69,7 +69,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-th"></span> Cancella</asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-remove"></span> Cancella</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Button runat="server" Width="120" Text="Cancella articolo" CssClass="btn btn-danger btn-xs"
