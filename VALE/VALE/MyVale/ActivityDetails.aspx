@@ -67,7 +67,6 @@
                                             <asp:Label runat="server">Nessun utente correlato</asp:Label>
                                         </EmptyDataTemplate>
                                     </asp:GridView>
-
                                     <h4>Lavoro svolto per l'attività</h4>
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>

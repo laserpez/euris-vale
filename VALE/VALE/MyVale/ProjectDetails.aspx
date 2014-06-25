@@ -69,7 +69,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="DocumentsPath" CommandName="sort" runat="server" ID="labelDocumentsPath"><span  class="glyphicon glyphicon-file"></span> Ha allegati</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="DocumentsPath" CommandName="sort" runat="server" ID="labelDocumentsPath"><span  class="glyphicon glyphicon-paperclip"></span> Ha allegati</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: ContainsDocuments(Item.DocumentsPath) ? "SI" : "NO" %></asp:Label></div></center>

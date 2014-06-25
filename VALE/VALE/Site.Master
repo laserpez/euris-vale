@@ -50,54 +50,54 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
+                        <li><a runat="server" href="~/"><span  class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li runat="server" id="adminLink" visible="false" class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-star"></span> Amministrazione <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/Admin/ManageUsers.aspx">Gestisci utenti <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
-                                <li><a href="/Admin/ManageProjects.aspx">Gestisci progetti </a></li>
-                                <li><a href="/Admin/ManageEvents.aspx">Gestisci eventi</a></li>
-                                <li><a href="/Admin/ManageArticles.aspx">Gestisci articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
+                                <li><a href="/Admin/ManageUsers.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci utenti <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
+                                <li><a href="/Admin/ManageProjects.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci progetti </a></li>
+                                <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci eventi</a></li>
+                                <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
                             </ul>
                         </li>
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-tasks"></span> Consiglio<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/MyVale/BOD/BODReports.aspx">Vedi verbali</a></li>
-                                <li><a href="/MyVale/BOD/BODReportCreate.aspx">Crea verbale</a></li>
+                                <li><a href="/MyVale/BOD/BODReports.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Vedi verbali</a></li>
+                                <li><a href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-inbox"></span> Progetti<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/MyVale/Projects.aspx">Tutti i progetti</a></li>
-                                <li><a href="/MyVale/PersonalProjects.aspx">Progetti personali</a></li>
-                                <li><a runat="server" visible="false" id="createProjectLink" href="/MyVale/Create/ProjectCreate.aspx">Crea progetto</a></li>
+                                <li><a href="/MyVale/Projects.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Tutti i progetti</a></li>
+                                <li><a href="/MyVale/PersonalProjects.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Progetti personali</a></li>
+                                <li><a runat="server" visible="false" id="createProjectLink" href="/MyVale/Create/ProjectCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea progetto</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-flash"></span> Eventi<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/MyVale/Events.aspx">Calendario eventi</a></li>
-                                <li><a href="/MyVale/PersonalEvents.aspx">Eventi personali</a></li>
-                                <li><a runat="server" visible="false" id="createEventLink" href="/MyVale/Create/EventCreate.aspx">Crea evento</a></li>
+                                <li><a href="/MyVale/Events.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Calendario eventi</a></li>
+                                <li><a href="/MyVale/PersonalEvents.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Eventi personali</a></li>
+                                <li><a runat="server" visible="false" id="createEventLink" href="/MyVale/Create/EventCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea evento</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Attività  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/MyVale/Activities.aspx">To do</a></li>
-                                <li><a href="/MyVale/ManageActivities.aspx">Gestisci attività</a></li>
-                                <li><a href="/MyVale/PersonalActivities.aspx">Report attività</a></li>
-                                <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx">Crea attività</a></li>
+                                <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> To do</a></li>
+                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Gestisci attività</a></li>
+                                <li><a href="/MyVale/PersonalActivities.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Report attività</a></li>
+                                <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list-alt"></span> Blog <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/MyVale/Articles.aspx">Tutti gli articoli</a></li>
-                                <li><a href="/MyVale/PersonalArticles.aspx">Articoli personali</a></li>
-                                <li><a runat="server" visible="false" id="createBlogArticle" href="/MyVale/Create/ArticleCreate.aspx">Crea articolo</a></li>
+                                <li><a href="/MyVale/Articles.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Tutti gli articoli</a></li>
+                                <li><a href="/MyVale/PersonalArticles.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Articoli personali</a></li>
+                                <li><a runat="server" visible="false" id="createBlogArticle" href="/MyVale/Create/ArticleCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea articolo</a></li>
                             </ul>
                         </li>
                         <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Utenti </a></li>
