@@ -9,23 +9,6 @@
                 <div class="col-lg-12">
                     <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                         <ContentTemplate>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="col-lg-6">
-                                                <ul class="nav nav-pills col-lg-6">
-                                                    <li>
-                                                        <h4>
-                                                            <asp:Label ID="HeaderName" runat="server" Text="Gestione utenti"></asp:Label>
-                                                        </h4>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel-body" style="overflow: auto;">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <div class="row">
@@ -34,7 +17,7 @@
                                                         <ul class="nav nav-pills col-lg-6">
                                                             <li>
                                                                 <h4><span class="badge" runat="server" id="NotificationNumber"></span>
-                                                                    <asp:Label ID="TitleLabel" runat="server"></asp:Label></h4>
+                                                                    <asp:Label ID="HeaderName" runat="server" Text="Gestione Utenti"></asp:Label></h4>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -64,13 +47,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="panel-body">
+                                        <div class="panel-body" style="overflow: auto;">
                                             <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both"
                                                 ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="UserName" CommandName="sort" runat="server" ID="labelUserName"><span  class="glyphicon glyphicon-th"></span> UserName</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="UserName" CommandName="sort" runat="server" ID="labelUserName"><span  class="glyphicon glyphicon-credit-card"></span> UserName</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.UserName %></asp:Label></div></center>
@@ -78,7 +61,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-th"></span> Email</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
@@ -86,7 +69,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="FirstName" CommandName="sort" runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="FirstName" CommandName="sort" runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.FirstName %></asp:Label></div></center>
@@ -94,7 +77,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="LastName" CommandName="sort" runat="server" ID="labelLastName"><span  class="glyphicon glyphicon-th"></span> Cognome</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="LastName" CommandName="sort" runat="server" ID="labelLastName"><span  class="glyphicon glyphicon-user"></span> Cognome</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.LastName %></asp:Label></div></center>
@@ -102,7 +85,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="CellPhone" CommandName="sort" runat="server" ID="labelCellPhone"><span  class="glyphicon glyphicon-th"></span> Cellulare</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="CellPhone" CommandName="sort" runat="server" ID="labelCellPhone"><span  class="glyphicon glyphicon-phone"></span> Cellulare</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.CellPhone %></asp:Label></div></center>
@@ -118,7 +101,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-th"></span> Ruolo</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><%# GetRoleName(Item.Id) %></div></center>

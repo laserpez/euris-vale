@@ -104,7 +104,7 @@ namespace VALE.Admin
             grdUsers.Columns[7].Visible = true;
             NotificationNumber.Visible = true;
             btnConfirmUser.Visible = true;
-            TitleLabel.Text = " Richieste Di Registrazione";
+            HeaderName.Text = " Richieste Di Registrazione";
         }
 
         private void PreparePanelForManage()
@@ -113,7 +113,7 @@ namespace VALE.Admin
             grdUsers.Columns[7].Visible = false;
             NotificationNumber.Visible = false;
             btnConfirmUser.Visible = false;
-            TitleLabel.Text = " Gestione Utenti";
+            HeaderName.Text = " Gestione Utenti";
 
             GetAllUsersButton.Visible = false;
             GetAdminButton.Visible = false;
