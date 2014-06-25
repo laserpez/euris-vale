@@ -45,7 +45,8 @@ namespace VALE.Admin
 
         protected void lstInterventions_DataBound(object sender, EventArgs e)
         {
-            lblSummary.Text = String.Format("Intervention of user {0} on project {1}", GetWorkerName(), GetProject());
+            var title = String.Format(HeaderName.Text, GetWorkerName(), GetProject());
+            HeaderName.Text = title;
         }
 
         public string GetWorkerName()
