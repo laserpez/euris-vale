@@ -105,7 +105,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <HeaderTemplate>
-                                                        <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-plus-sign"></span> Partecipa</asp:Label></div></center>
+                                                                <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-thumbs-up"></span> Partecipa</asp:Label></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
                                                         <center><div><asp:Button runat="server" Width="150" Text="Partecipa" CssClass="btn btn-info btn-xs" ID="btnWorkOnThis"  OnClick="btnWorkOnThis_Click" /></div></center>

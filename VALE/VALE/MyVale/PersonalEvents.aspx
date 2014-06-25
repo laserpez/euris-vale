@@ -31,7 +31,7 @@
                                                 <HeaderTemplate>
                                                     <center>
                                                                 <div>
-                                                                    <asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventDate"><span  class="glyphicon glyphicon-calendar"></span>Data</asp:LinkButton>
+                                                                    <asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton>
                                                                 </div>
                                                             </center>
                                                 </HeaderTemplate>
@@ -49,7 +49,7 @@
                                                 <HeaderTemplate>
                                                     <center>
                                                                 <div>
-                                                                    <asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span>Nome</asp:LinkButton>
+                                                                    <asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton>
                                                                 </div>
                                                             </center>
                                                 </HeaderTemplate>
@@ -65,7 +65,7 @@
                                                 <HeaderTemplate>
                                                     <center>
                                                                 <div>
-                                                                    <asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span>Descrizione</asp:LinkButton>
+                                                                    <asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton>
                                                                 </div>
                                                             </center>
                                                 </HeaderTemplate>
@@ -81,7 +81,7 @@
                                                 <HeaderTemplate>
                                                     <center>
                                                                 <div>
-                                                                    <asp:Label runat="server" ID="viewLabel"><span  class="glyphicon glyphicon-open"></span>Vedi</asp:Label>
+                                                                    <asp:Label runat="server" ID="viewLabel"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label>
                                                                 </div>
                                                             </center>
                                                 </HeaderTemplate>
