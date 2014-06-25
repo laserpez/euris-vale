@@ -32,17 +32,17 @@
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             <center>
-                                <div>
-                                    <asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventDate"><span  class="glyphicon glyphicon-th"></span>Data</asp:LinkButton>
-                                </div>
-                            </center>
+                                                                <div>
+                                                                    <asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventDate"><span  class="glyphicon glyphicon-calendar"></span>Data</asp:LinkButton>
+                                                                </div>
+                                                            </center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center>
-                                <div>
-                                    <asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label>
-                                </div>
-                            </center>
+                                                                <div>
+                                                                    <asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label>
+                                                                </div>
+                                                            </center>
                                                         </ItemTemplate>
                                                         <HeaderStyle Width="140px" />
                                                         <ItemStyle Width="140px" />
@@ -50,49 +50,49 @@
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             <center>
-                                <div>
-                                    <asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-th"></span>Nome</asp:LinkButton>
-                                </div>
-                            </center>
+                                                                <div>
+                                                                    <asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span>Nome</asp:LinkButton>
+                                                                </div>
+                                                            </center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center>
-                                <div>
-                                    <asp:Label runat="server"><%#: Item.Name %></asp:Label>
-                                </div>
-                            </center>
+                                                                <div>
+                                                                    <asp:Label runat="server"><%#: Item.Name %></asp:Label>
+                                                                </div>
+                                                            </center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             <center>
-                                <div>
-                                    <asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span>Descrizione</asp:LinkButton>
-                                </div>
-                            </center>
+                                                                <div>
+                                                                    <asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span>Descrizione</asp:LinkButton>
+                                                                </div>
+                                                            </center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center>
-                                <div>
-                                    <asp:Label runat="server"><%#: Item.Description %></asp:Label>
-                                </div>
-                            </center>
+                                                                <div>
+                                                                    <asp:Label runat="server"><%#: Item.Description %></asp:Label>
+                                                                </div>
+                                                            </center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             <center>
-                                <div>
-                                    <asp:Label runat="server" ID="viewLabel"><span  class="glyphicon glyphicon-th"></span>Vedi</asp:Label>
-                                </div>
-                            </center>
+                                                                <div>
+                                                                    <asp:Label runat="server" ID="viewLabel"><span  class="glyphicon glyphicon-open"></span>Vedi</asp:Label>
+                                                                </div>
+                                                            </center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center>
-                                <div>
-                                    <asp:Button ID="btnViewDetails" CssClass="btn btn-info btn-xs" Text="Vedi dettagli" runat="server" OnClick="btnViewDetails_Click" />
-                                </div>
-                            </center>
+                                                                <div>
+                                                                    <asp:Button ID="btnViewDetails" CssClass="btn btn-info btn-xs" Text="Vedi dettagli" runat="server" OnClick="btnViewDetails_Click" />
+                                                                </div>
+                                                            </center>
                                                         </ItemTemplate>
                                                         <HeaderStyle Width="100px" />
                                                         <ItemStyle Width="100px" />
@@ -101,7 +101,6 @@
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-
                                 </div>
                             </div>
                         </ContentTemplate>
