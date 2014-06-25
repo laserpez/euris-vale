@@ -46,8 +46,16 @@
                                                         <HeaderStyle Width="120px" />
                                                         <ItemStyle Width="120px" />
                                                     </asp:TemplateField>
-                                                    
-                                                    <asp:BoundField HeaderText="Ore di lavoro" DataField="HoursWorked" SortExpression="HoursWorked" />
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton runat="server" ID="labelHoursWorked" CommandArgument="HoursWorked" CommandName="sort"><span  class="glyphicon glyphicon-th"></span> Ore di attività</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.HoursWorked %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                        <HeaderStyle Width="120px" />
+                                                        <ItemStyle Width="120px" />
+                                                    </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Data">
                                                         <HeaderTemplate>
                                                             <center><div><asp:LinkButton CommandArgument="Date" CommandName="sort" runat="server" ID="labelDate"><span  class="glyphicon glyphicon-th"></span> Data</asp:LinkButton></div></center>
