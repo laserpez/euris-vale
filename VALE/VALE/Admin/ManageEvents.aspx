@@ -33,7 +33,7 @@
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
@@ -49,7 +49,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventDate"><span  class="glyphicon glyphicon-th"></span> Data di creazione</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventDate"><span  class="glyphicon glyphicon-calendar"></span> Data di creazione</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label>
@@ -59,7 +59,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="OrganizerUserName" CommandName="sort" runat="server" ID="labelOrganizerUserName"><span  class="glyphicon glyphicon-th"></span>Creatore</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="OrganizerUserName" CommandName="sort" runat="server" ID="labelOrganizerUserName"><span  class="glyphicon glyphicon-user"></span> Creatore</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.OrganizerUserName %></asp:Label></div></center>
@@ -67,7 +67,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:Label runat="server" ID="labelView"><span  class="glyphicon glyphicon-th"></span>Vedi</asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="labelView"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Button runat="server" Text="Vedi report" CssClass="btn btn-info btn-xs" Width="150px" CommandName="ViewReport" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
@@ -77,7 +77,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-th"></span>Cancella</asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-remove"></span> Cancella</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Button runat="server" Text="Cancella evento" CssClass="btn btn-danger btn-xs" Width="150px" CommandName="DeleteProject" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>

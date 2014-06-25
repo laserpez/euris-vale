@@ -38,7 +38,7 @@
                                                     <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
                                                     <asp:Label AssociatedControlID="txtDescription" CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
                                                     <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
-                                                    <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Data di creazione"></asp:Label>
+                                                    <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Creato il"></asp:Label>
                                                     <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtCreationDate"></asp:TextBox>
                                                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtCreationDate"></asp:CalendarExtender>
                                                     <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Ultima modifica"></asp:Label>
@@ -99,7 +99,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-open"></span> Vedi</asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Button runat="server" Width="150" Text="Vedi report" CssClass="btn btn-info btn-xs"
