@@ -37,12 +37,28 @@
                                             <asp:Label runat="server"><%#: String.Format("Ultima modifica:\t{0}", Item.LastModified.ToShortDateString()) %></asp:Label><br />
 
                                             <h4>Interventi</h4>
-                                            <asp:GridView OnRowCommand="grid_RowCommand" runat="server" ID="grdUsersInterventions" CssClass="table table-striped table-bordered" EmptyDataText="Nessun intervento">
+                                            <asp:GridView ID="grdUsersInterventions" AutoGenerateColumns="false" OnRowCommand="grid_RowCommand" runat="server" ItemType="VALE.Admin.InterventionReports" CssClass="table table-striped table-bordered" EmptyDataText="Nessun intervento" >
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <asp:Button CausesValidation="false" CssClass="btn btn-info btn-xs" runat="server" CommandName="ViewUserInterventions"
-                                                                CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Vedi dettagli" />
+                                                            <center><div><asp:Button Width="120" CausesValidation="false" CssClass="btn btn-info btn-xs" runat="server" CommandName="ViewUserInterventions" CommandArgument="<%# Item.Email %>"
+                                                                         Text="Vedi dettagli" /></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="Username" CommandName="sort" runat="server" ID="labelUsername"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%# Item.Username %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="InterventionsCount" CommandName="sort" runat="server" ID="labelInterventionsCount"><span  class="glyphicon glyphicon-th"></span> Numero interventi</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%# Item.InterventionsCount %></asp:Label></div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -57,12 +73,30 @@
                                                     <asp:Button runat="server" ID="btnShowActivityReport" OnClick="btnShowActivityReport_Click" CssClass="btn btn-info btn-xs" Text="Visualizza report" />
                                                     <br />
                                                     <br />
-                                                    <asp:GridView OnRowCommand="grid_RowCommand" runat="server" EmptyDataText="Nessun report" ID="grdActivitiesReport" CssClass="table table-striped table-bordered">
+                                                    <asp:GridView AutoGenerateColumns="false" OnRowCommand="grid_RowCommand" runat="server" EmptyDataText="Nessun report" ItemType="VALE.Admin.UserActivityReport" ID="grdActivitiesReport" CssClass="table table-striped table-bordered">
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <asp:Button CausesValidation="false" CssClass="btn btn-info btn-xs" runat="server" CommandName="ViewActivityReport"
-                                                                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Vedi dettagli" />
+                                                                    <center><div><asp:Button Width="120" CausesValidation="false" CssClass="btn btn-info btn-xs" runat="server" CommandName="ViewActivityReport"
+                                                                        CommandArgument="<%# Item.Email %>" Text="Vedi dettagli" /></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle Width="120px" />
+                                                                <ItemStyle Width="120px" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="Username" CommandName="sort" runat="server" ID="labelUsername"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.Username %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="HoursWorked" CommandName="sort" runat="server" ID="labelHoursWorked"><span  class="glyphicon glyphicon-th"></span> Ore lavorate</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.HoursWorked %></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                         </Columns>
