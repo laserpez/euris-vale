@@ -11,7 +11,7 @@
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-12">
                                                 <ul class="nav nav-pills">
                                                     <li>
                                                         <h4>
@@ -24,9 +24,7 @@
                                     </div>
                                 </div>
                                 <div class="panel-body" style="overflow: auto;">
-                                   <!-- <br />
-                                    <asp:Label ID="lblSummary" Font-Size="Large" Font-Bold="true" ForeColor="#317eac" runat="server"></asp:Label>
-                                    <p></p>-->
+                                   
                                     <asp:GridView ID="grdReports" OnDataBound="grdReports_DataBound" runat="server" SelectMethod="GetUserActivities" AutoGenerateColumns="false" GridLines="Both"
                                         ItemType="VALE.Models.ActivityReport" EmptyDataText="Nessun progetto aperto" CssClass="table table-striped table-bordered" AllowSorting="true">
                                         <Columns>
