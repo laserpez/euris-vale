@@ -42,8 +42,8 @@
                                             <br />
                                             <br />
                                             <br />
-                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
+                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-xs" />
+                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
                                         </div>
                                     </asp:Panel>
                                     <h3>Attività in corso</h3>
@@ -53,7 +53,7 @@
 
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                                    <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
@@ -75,7 +75,7 @@
 
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-th"></span> Data di inizio</asp:LinkButton></div></center>
+                                                    <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data di inizio</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Non definita" %></asp:Label></div></center>
@@ -86,7 +86,7 @@
 
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="ExpireDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-th"></span> Data fine</asp:LinkButton></div></center>
+                                                    <center><div><asp:LinkButton CommandArgument="ExpireDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-calendar"></span> Data fine</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Non definita" %></asp:Label></div></center>
@@ -97,10 +97,10 @@
 
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-th"></span> Stato</asp:LinkButton></div></center>
+                                                    <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
+                                                    <center><div><asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label></div></center>
                                                 </ItemTemplate>
                                                 <HeaderStyle Width="90px" />
                                                 <ItemStyle Width="90px" />
@@ -129,7 +129,7 @@
                                 <Columns>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                            <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
@@ -149,7 +149,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-th"></span> Data di inizio</asp:LinkButton></div></center>
+                                            <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data di inizio</asp:LinkButton></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Non definita" %></asp:Label></div></center>
@@ -159,7 +159,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="ExpireDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-th"></span> Data di  fine</asp:LinkButton></div></center>
+                                            <center><div><asp:LinkButton CommandArgument="ExpireDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-calendar"></span> Data di  fine</asp:LinkButton></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <center><div><asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Non definita" %></asp:Label></div></center>
@@ -169,7 +169,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
-                                            <center><div><asp:Label runat="server" ID="labelAccept"><span  class="glyphicon glyphicon-th"></span> Accetta</asp:Label></div></center>
+                                            <center><div><asp:Label runat="server" ID="labelAccept"><span  class="glyphicon glyphicon-ok-circle"></span> Accetta</asp:Label></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <center><div><asp:Button CssClass="btn btn-success btn-xs" Width="120" runat="server" CommandName="AcceptActivity"
@@ -180,7 +180,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
-                                            <center><div><asp:Label runat="server" ID="labelReject"><span  class="glyphicon glyphicon-th"></span> Rifiuta</asp:Label></div></center>
+                                            <center><div><asp:Label runat="server" ID="labelReject"><span  class="glyphicon glyphicon-remove-circle"></span> Rifiuta</asp:Label></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <center><div><asp:Button CssClass="btn btn-danger btn-xs" Width="120" runat="server" CommandName="RefuseActivity"
