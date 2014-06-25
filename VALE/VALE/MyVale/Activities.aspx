@@ -84,8 +84,6 @@
                                                         <ItemStyle Width="90px" />
                                                     </asp:TemplateField>
 
-                                                    <%--<asp:BoundField DataField="Description" HeaderText="Descrizione" SortExpression="Description" />--%>
-
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
@@ -169,33 +167,70 @@
                                     </asp:UpdatePanel>
                                     <p></p>
                                     <h3>Attività in attesa</h3>
-                                    <asp:GridView OnRowCommand="grdPendingActivities_RowCommand" ID="grdPendingActivities" runat="server" AutoGenerateColumns="false" ShowFooter="true" GridLines="Both"
+                                    <asp:GridView OnRowCommand="grdPendingActivities_RowCommand" DataKeyNames="ActivityId" ID="grdPendingActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
                                         ItemType="VALE.Models.Activity" SelectMethod="GetPendingActivities" EmptyDataText="Nessuna attività in attesa." CssClass="table table-striped table-bordered">
                                         <Columns>
-                                            <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                            <asp:BoundField DataField="ActivityName" HeaderText="Nome" />
-                                            <asp:BoundField DataField="Description" HeaderText="Descrizione" />
-                                            <asp:TemplateField HeaderText="Data inizio">
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-th"></span> Nome</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Non definita" %></asp:Label>
+                                                    <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
                                                 </ItemTemplate>
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Data fine">
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Non definita" %></asp:Label>
+                                                    <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
                                                 </ItemTemplate>
+                                                <HeaderStyle Width="120px" />
+                                                <ItemStyle Width="120px" />
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Accetta">
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-th"></span> Data di inizio</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:Button CssClass="btn btn-success" runat="server" CommandName="AcceptActivity"
-                                                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Accept" />
+                                                    <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Non definita" %></asp:Label></div></center>
                                                 </ItemTemplate>
+                                                <HeaderStyle Width="140px" />
+                                                <ItemStyle Width="140px" />
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Rifiuta">
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="ExpireDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-th"></span> Data di  fine</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:Button CssClass="btn btn-danger" runat="server" CommandName="RefuseActivity"
-                                                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Refuse" />
+                                                    <center><div><asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Non definita" %></asp:Label></div></center>
                                                 </ItemTemplate>
+                                                <HeaderStyle Width="140px" />
+                                                <ItemStyle Width="140px" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:Label runat="server" ID="labelAccept"><span  class="glyphicon glyphicon-th"></span> Accetta</asp:Label></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Button CssClass="btn btn-success btn-xs" Width="120" runat="server" CommandName="AcceptActivity"
+                                                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Accetta" /></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="120px" />
+                                                <ItemStyle Width="120px" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:Label runat="server" ID="labelReject"><span  class="glyphicon glyphicon-th"></span> Rifiuta</asp:Label></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Button CssClass="btn btn-danger btn-xs" Width="120" runat="server" CommandName="RefuseActivity"
+                                                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Rifiuta" /></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="120px" />
+                                                <ItemStyle Width="120px" />
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>
