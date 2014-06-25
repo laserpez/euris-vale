@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.ModelBinding;
 using System.Web.UI;
@@ -11,10 +12,17 @@ namespace VALE.Admin
 {
     public class InterventionReports
     {
-        public string UserFullName { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
         public int InterventionsCount { get; set; }
     }
 
+    public class UserActivityReport
+    {
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public int HoursWorked { get; set; }
+    }
 
     public partial class ProjectReport : System.Web.UI.Page
     {
@@ -28,28 +36,21 @@ namespace VALE.Admin
 
         protected void grid_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            GridView grid = (GridView)sender;
-            int index = Convert.ToInt32(e.CommandArgument);
+            
             if(e.CommandName == "ViewUserInterventions")
             {
-                string userEmail = grid.Rows[index].Cells[2].Text;
+                var userEmail = e.CommandArgument.ToString();
                 Response.Redirect("/Admin/UserInterventions?projectId=" + _currentProjectId + "&userId=" + userEmail);
             }
             else if(e.CommandName == "ViewActivityReport")
             {
+                var userEmail = e.CommandArgument.ToString();
                 DropDownList ddlActivitySelect = (DropDownList)frmProjectReport.FindControl("ddlSelectActivity");
                 var activityId = Convert.ToInt32(ddlActivitySelect.SelectedValue);
-                string userEmail = grid.Rows[index].Cells[2].Text;
+                
                 Response.Redirect("/Admin/UserActivities?activityId=" + activityId + "&userId=" + userEmail);
             }
-            else
-            {
-
-            }
-            
-
         }
-
         protected void frmProjectReport_DataBound(object sender, EventArgs e)
         {
             if (_currentProjectId != 0)
@@ -58,15 +59,14 @@ namespace VALE.Admin
             }
         }
 
-        public List<InterventionReports> GetInterventions()
+        public void GetInterventions()
         {
-            var result = new List<InterventionReports>();
             var dbData = new UserOperationsContext();
             //var userIds = dbData.Projects.First(p => p.ProjectId == _currentProjectId).InvolvedUsers.Select(u => u.UserDataId);
-            var list = dbData.Interventions.GroupBy(i => i.Creator).Select(o => new { User = o.Key.FullName, Email = o.Key.Email, Interventions = o.Count() }).ToList();
-            GetGridView("grdUsersInterventions").DataSource = list;
+            var list = dbData.Interventions.Where(i => i.ProjectId == _currentProjectId).GroupBy(i => i.Creator).Select(gr => new InterventionReports { Username = gr.Key.FullName, Email = gr.Key.Email, InterventionsCount = gr.Count() }).ToList();
+
+            GetGridView("grdUsersInterventions").DataSource = list.ToList();
             GetGridView("grdUsersInterventions").DataBind();
-            return result;
         }
 
         public Project GetProject([QueryString("projectId")] int? projectId)
@@ -125,8 +125,8 @@ namespace VALE.Admin
             if (!String.IsNullOrEmpty(ddlActivitySelect.SelectedValue))
             {
                 var activityId = Convert.ToInt32(ddlActivitySelect.SelectedValue);
-                var reports = db.Reports.Where(r => r.ActivityId == activityId)
-                    .GroupBy(r => r.Worker).Select(gr => new { User = gr.Key.FullName, Email = gr.Key.Email, Hours = gr.Sum(r => r.HoursWorked) });
+                var reports = db.Reports.Where(r => r.ActivityId == activityId).GroupBy(r => r.Worker).Select(gr => new UserActivityReport() { Username = gr.Key.FullName, Email = gr.Key.Email, HoursWorked = gr.Sum(r => r.HoursWorked) });
+                
                 GetGridView("grdActivitiesReport").DataSource = reports.ToList();
                 GetGridView("grdActivitiesReport").DataBind();
             }
