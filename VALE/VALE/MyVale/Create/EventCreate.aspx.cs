@@ -21,6 +21,11 @@ namespace VALE.MyVale
             _temporaryPath = "/MyVale/Documents/Temp/" + _currentUser + "/";
             if (!IsPostBack)
             {
+                if (Request.QueryString["ProjectId"] != null)
+                    Session["callingProjectId"] = Request.QueryString["ProjectId"];
+                else
+                    Session["callingProjectId"] = null;
+
                 if (!String.IsNullOrEmpty(_temporaryPath))
                 {
                     if (Directory.Exists(Server.MapPath(_temporaryPath)))
@@ -29,6 +34,14 @@ namespace VALE.MyVale
                 }
                 PopulateGridView();
                 calendarFrom.StartDate = DateTime.Now;
+            }
+
+            if (Session["callingProjectId"] != null)
+            {
+                var db = new UserOperationsContext();
+                var projectId = Convert.ToInt32(Session["callingProjectId"].ToString());
+                var projectName = db.Projects.First(p => p.ProjectId == projectId).ProjectName;
+                SelectProject.DisableControl(projectName);
             }
         }
 
@@ -57,7 +70,13 @@ namespace VALE.MyVale
                 Directory.CreateDirectory(Server.MapPath("/MyVale/Documents/Events/"));
             Directory.Move(tempPath, serverPath);
             db.SaveChanges();
-            Response.Redirect("/MyVale/Events");
+
+            if (Session["callingProjectId"] != null)
+                Response.Redirect("/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString());
+            else if (Session["requestFrom"] != null)
+                Response.Redirect(Session["requestFrom"].ToString());
+            else
+                Response.Redirect("/MyVale/Activities");
         }
 
         //protected void btnSearchProject_Click(object sender, EventArgs e)

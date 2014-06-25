@@ -30,7 +30,7 @@
                                 <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.ProjectName %></asp:Label><br />
                             </td>
                             <td rowspan="3">
-                                <asp:Button runat="server" Text="View" ID="btnViewProjectDetails" CommandArgument='<%#: String.Format("ProjectDetails?projectId={0}", Item.ProjectId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click" />
+                                <asp:Button runat="server" Text="Visualizza" ID="btnViewProjectDetails" CommandArgument='<%#: String.Format("ProjectDetails?projectId={0}", Item.ProjectId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click" />
                             </td>
                         </tr>
                         <tr>
@@ -65,7 +65,7 @@
                                 <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.Name %></asp:Label><br />
                             </td>
                             <td rowspan="3">
-                                <asp:Button runat="server" Text="View" ID="btnViewEventDetails" CommandArgument='<%#: String.Format("EventDetails?eventId={0}", Item.EventId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click"  />
+                                <asp:Button runat="server" Text="Visualizza" ID="btnViewEventDetails" CommandArgument='<%#: String.Format("EventDetails?eventId={0}", Item.EventId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click"  />
                             </td>
                         </tr>
                         <tr>
@@ -100,7 +100,7 @@
                                 <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.ActivityName %></asp:Label><br />
                             </td>
                             <td rowspan="3">
-                                <asp:Button runat="server" Text="View" ID="btnViewActivity" CommandArgument='<%#: String.Format("ActivityDetails?activityId={0}", Item.ActivityId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click" />
+                                <asp:Button runat="server" Text="Visualizza" ID="btnViewActivity" CommandArgument='<%#: String.Format("ActivityDetails?activityId={0}", Item.ActivityId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click" />
                             </td>
                         </tr>
                         <tr>
