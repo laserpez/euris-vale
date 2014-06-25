@@ -19,6 +19,9 @@ namespace VALE.MyVale
             {
                 if (Request.QueryString["ProjectId"] != null)
                     Session["callingProjectId"] = Request.QueryString["ProjectId"];
+                else
+                    Session["callingProjectId"] = null;
+
                 if (Request.QueryString["From"] != null) 
                 {
                     Session["requestFrom"] = Request.QueryString["From"];

@@ -113,7 +113,7 @@ namespace VALE.MyVale
                 result = result.AsQueryable<ActivityReport>().OrderByDescending(sortBy).ToList();
             else
                 result = result.AsQueryable<ActivityReport>().OrderBy(sortBy).ToList();
-            ViewState["llstActivities"] = result;
+            ViewState["lstActivities"] = result;
             return result;
         }
     }

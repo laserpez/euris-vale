@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using VALE.Models;
 using VALE.Logic;
 using System.Web.UI.HtmlControls;
+using VALE.MyVale.Create;
 
 namespace VALE.MyVale
 {
@@ -24,7 +25,6 @@ namespace VALE.MyVale
             _currentUser = User.Identity.GetUserName();
             if(Request.QueryString.HasKeys())
                 _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
-            
         }
 
         private LinkButton FindButton(string name)
@@ -96,31 +96,42 @@ namespace VALE.MyVale
         {
             var btnAddUser = (Button)sender;
             var dbData = new UserOperationsContext();
-            TextBox textBox = (TextBox)ActivityDetail.FindControl("txtUserName");
-            string userName = textBox.Text;
+            //TextBox textBox = (TextBox)ActivityDetail.FindControl("txtUserName");
+            //string userName = textBox.Text;
 
-            var user = dbData.UsersData.FirstOrDefault(p => p.FullName == userName);
+            var userControl = (SelectUser)ActivityDetail.FindControl("SelectUser");
+            var users = dbData.UsersData.Where(u => userControl.SelectedUsers.Contains(u.UserName)).ToList();
 
-            if(user != null)
+            foreach (var user in users)
             {
-                Activity activity = dbData.Activities.Where(a => a.ActivityId == _currentActivityId).First();
-                
-                // TODO aggiungere il controllo nel caso l'utente sia già assegnato
-                // TODO mandare email di notifica
-                user.PendingActivity.Add(activity);
+                if (user != null)
+                {
+                    Activity activity = dbData.Activities.Where(a => a.ActivityId == _currentActivityId).First();
 
-                dbData.SaveChanges();
-                Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
-                statusLabel.Text = "User invited";
-                btnAddUser.CssClass = "btn btn-success";
-            }
-            else
-            {
-                Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
-                statusLabel.Text = "This user does not exists";
-                btnAddUser.CssClass = "btn btn-warning";
-            }
+                    if (user.PendingActivity.Contains(activity) == true)
+                    {
+                        Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
+                        statusLabel.Text = "L'attività è già stata invitata all'utente: " + user.UserName;
+                        btnAddUser.CssClass = "btn btn-warning btn-xs";
+                    }
+                    else
+                    {
+                        MailHelper.SendMail(user.Email, "Sei stato invitato all'attività " + activity.ActivityName, "Invio attività");
+                        user.PendingActivity.Add(activity);
 
+                        dbData.SaveChanges();
+                        Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
+                        statusLabel.Text = "Richiesta inviata agli utenti invitati.";
+                        btnAddUser.CssClass = "btn btn-success btn-xs";
+                    }
+                }
+                else
+                {
+                    Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
+                    statusLabel.Text = "L'utente non esiste.";
+                    btnAddUser.CssClass = "btn btn-warning btn-xs";
+                }
+            }
         }
 
         protected void btnSearchProject_Click(object sender, EventArgs e)
@@ -139,7 +150,7 @@ namespace VALE.MyVale
             else
             {
                 Label statusLabel = (Label)fwProject.FindControl("lblResultAddProject");
-                statusLabel.Text = "This project does not exists";
+                statusLabel.Text = "Il progetto non esiste.";
             }
         }
 
@@ -161,14 +172,14 @@ namespace VALE.MyVale
                         HoursWorked = hours
                     });
                 _db.SaveChanges();
-                btnAdd.CssClass = "btn btn-success";
-                btnAdd.Text = "Report added";
+                btnAdd.CssClass = "btn btn-success btn-xs";
+                btnAdd.Text = "Report aggiunto";
                 lblHoursWorked.Text = GetHoursWorked();
             }
             else
             {
                 txtHours.Text = "";
-                btnAdd.CssClass = "btn btn-danger";
+                btnAdd.CssClass = "btn btn-danger btn-xs";
                 btnAdd.Text = "Error";
             }
 

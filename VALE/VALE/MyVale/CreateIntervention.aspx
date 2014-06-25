@@ -28,6 +28,7 @@
                                     <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Inserisci commento</asp:Label>
                                     <div class="col-md-10">
                                         <asp:TextBox TextMode="MultiLine" runat="server" ID="txtComment" CssClass="form-control" Height="145px" Width="404px" />
+                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtComment" CssClass="text-danger" ErrorMessage="Il campo Inserisci commento è obbligatorio"></asp:RequiredFieldValidator>
                                     </div>
                                     <div class="col-md-12">
                                         <br />
@@ -36,7 +37,7 @@
                                     <div class="col-md-10">
                                         <asp:FileUpload AllowMultiple="false" ID="FileUploadControl" runat="server" />
                                         <asp:Label runat="server" ID="StatusLabel" Text="" />
-                                        <asp:Button runat="server" CausesValidation="false" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info" OnClick="btnUploadFile_Click" />
+                                        <asp:Button runat="server" CausesValidation="false" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info btn-xs" OnClick="btnUploadFile_Click" />
                                     </div>
                                     <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">File caricati</asp:Label>
                                     <asp:UpdatePanel runat="server">
@@ -69,6 +70,9 @@
                                 </div>
                             </div>
                         </ContentTemplate>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="btnUploadFile" />
+                        </Triggers>
                     </asp:UpdatePanel>
                 </div>
             </div>
