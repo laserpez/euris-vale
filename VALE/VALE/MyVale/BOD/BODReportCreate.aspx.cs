@@ -30,6 +30,7 @@ namespace VALE.MyVale.BOD
                         Directory.Delete(Server.MapPath(_temporaryPath), true);
                     Directory.CreateDirectory(Server.MapPath(_temporaryPath));
                 }
+                PopulateGridView();
                 CalendarMeetingDate.StartDate = DateTime.Now;
                 CalendarPublishDate.StartDate = DateTime.Now;
             }

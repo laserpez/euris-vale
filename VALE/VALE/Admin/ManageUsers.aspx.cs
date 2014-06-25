@@ -64,10 +64,9 @@ namespace VALE.Admin
                 CheckBox chkBox = (CheckBox)grdUsers.Rows[i].FindControl("chkSelectUser");
                 if (chkBox.Checked)
                 {
-                    string userName = grdUsers.Rows[i].Cells[0].Text;
+                    string userName = ((Label)grdUsers.Rows[i].Cells[0].FindControl("labelUserName")).Text;
                     AdminActions.ConfirmUser(userName);
-                    string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
-                    Response.Redirect(pageUrl);
+
                     //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "Your associated account has been confirmed", "Account confirmed");
                 }
             }
