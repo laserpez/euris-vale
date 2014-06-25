@@ -93,7 +93,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="CF" CommandName="sort" runat="server" ID="labelCF"><span  class="glyphicon glyphicon-th"></span> Codice fiscale</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton CommandArgument="CF" CommandName="sort" runat="server" ID="labelCF"><span  class="glyphicon glyphicon-barcode"></span> Codice fiscale</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Label runat="server"><%#: Item.CF %></asp:Label></div></center>
