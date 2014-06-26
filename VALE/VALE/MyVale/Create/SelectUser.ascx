@@ -51,12 +51,36 @@
                             <asp:GridView SelectMethod="GetUsers" ID="UsersList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.UserData" EmptyDataText="Nessun utente." CssClass="table table-striped table-bordered">
                                 <Columns>
-                                    <asp:BoundField DataField="UserName" HeaderText="Nome utente" SortExpression="UserName" />
-                                    <asp:BoundField DataField="FullName" HeaderText="Nome completo" SortExpression="FullName" />
-                                    <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />
-                                    <asp:TemplateField HeaderText="Aggiungi">
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <center><div><asp:LinkButton CommandArgument="UserName" CommandName="sort" runat="server" ID="labelUserName"><span  class="glyphicon glyphicon-credit-card"></span> UserName</asp:LinkButton></div></center>
+                                        </HeaderTemplate>
                                         <ItemTemplate>
-                                            <asp:Button runat="server" CausesValidation="false" CommandArgument="<%#: Item.UserName %>" Text="Aggiungi" CssClass="btn btn-info btn-sm" ID="btnChooseUser" OnClick="btnChooseUser_Click" />
+                                            <center><div><asp:Label ID="labelUserName" runat="server" Text="<%#: Item.UserName %>"></asp:Label></div></center>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <center><div><asp:Label runat="server" Text="<%#: Item.FullName %>"></asp:Label></div></center>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <center><div><asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <center><div><asp:Button runat="server" CausesValidation="false" CommandArgument="<%#: Item.UserName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseUser" OnClick="btnChooseUser_Click" /></div></center>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

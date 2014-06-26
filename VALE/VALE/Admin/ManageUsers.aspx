@@ -28,7 +28,7 @@
                                             <button type="button" visible="false" id="GetPartnersButton" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Soci  <span class="caret"></span></button>
                                             <button type="button" visible="false" id="GetDirectivPartnersButton" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Consiglio Direttivo<span class="caret"></span></button>
                                             <button type="button" visible="false" id="GetRequestsdButton" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Richieste  <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
+                                            <ul class="dropdown-menu" >
                                                 <li>
                                                     <asp:LinkButton runat="server" OnClick="GetAllUsers_Click"><span class="glyphicon glyphicon-hdd btn-sm"></span> Tutti</asp:LinkButton></li>
                                                 <li>
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body" style="overflow: auto;"> 
+                        <div class="panel-body" style="overflow: auto;">
                             <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both"
                                 ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                                 <Columns>
