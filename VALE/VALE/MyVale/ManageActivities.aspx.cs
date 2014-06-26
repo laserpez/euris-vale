@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -266,9 +267,16 @@ namespace VALE
 
         private void BindAllGrids()
         {
+            ToBePlannedGridView0.DataSource = ToBePlannedGridViewGetData();
             ToBePlannedGridView0.DataBind();
+
+            OngoingGridView1.DataSource = OngoingGridViewGetData();
             OngoingGridView1.DataBind();
+
+            SuspendedGridView2.DataSource = SuspendedGridViewGetData();
             SuspendedGridView2.DataBind();
+
+            DoneGridView3.DataSource = DoneGridViewGetData();
             DoneGridView3.DataBind();
         }
 
@@ -360,6 +368,68 @@ namespace VALE
             int RowId = ((GridViewRow)((LinkButton)sender).Parent.Parent).RowIndex;
             string activityId = DoneGridView3.Rows[RowId].Cells[0].Text;
             Response.Redirect("/MyVale/ActivityDetails?activityId=" + activityId);
+        }
+
+        protected void ActivitiesSortedByName_Click(object sender, EventArgs e)
+        {
+            var currentGridView = (GridView)sender;
+            var listAllActivities = GetActivitiesFromGridView(currentGridView);
+            currentGridView.DataSource = (from ac in listAllActivities orderby ac.ActivityName descending select ac).ToList();
+            currentGridView.DataBind();
+            
+        }
+
+        private List<Activity> GetActivitiesFromGridView(GridView currentGridView)
+        {
+            List<Activity> activitiesList = new List<Activity>();
+            var db = new UserOperationsContext();
+
+            foreach (GridViewRow row in currentGridView.Rows)
+	        {
+                int activityId = Convert.ToInt32(row.Cells[0].Text);
+                var anActivity = db.Activities.Where(ac => ac.ActivityId == activityId).FirstOrDefault();
+                activitiesList.Add(anActivity);
+	        }
+            
+            return activitiesList;
+        }
+
+        protected void GridView_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (GridViewSortDirection == SortDirection.Ascending)
+                GridViewSortDirection = SortDirection.Descending;
+            else
+                GridViewSortDirection = SortDirection.Ascending;
+
+            var currentGridView = (GridView)sender;
+            var listAllActivities = GetActivitiesFromGridView(currentGridView);
+            currentGridView.DataSource = GetSortedData(e.SortExpression, listAllActivities);
+            currentGridView.DataBind();
+        }
+
+        private List<Activity> GetSortedData(string sortExpression, List<Activity> listAllActivities)
+        {
+            var result = listAllActivities;
+            var param = Expression.Parameter(typeof(Activity), sortExpression);
+            var sortBy = Expression.Lambda<Func<Activity, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+
+            if (GridViewSortDirection == SortDirection.Descending)
+                result = result.AsQueryable<Activity>().OrderByDescending(sortBy).ToList();
+            else
+                result = result.AsQueryable<Activity>().OrderBy(sortBy).ToList();
+            return result;
+        }
+
+        public SortDirection GridViewSortDirection
+        {
+            get
+            {
+                if (ViewState["sortDirection"] == null)
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+
+                return (SortDirection)ViewState["sortDirection"];
+            }
+            set { ViewState["sortDirection"] = value; }
         }
     }
 }
