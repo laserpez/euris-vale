@@ -57,14 +57,11 @@ namespace VALE.Logic
             return result;
 
         }
+              
 
-
-
-        public void AddOrRemoveUser(int projectId, string userName)
+        public Project AddOrRemoveUser(Project project, UserData user)
         {
-            var project = _db.Projects.First(p => p.ProjectId == projectId);
-            var user =_db.UsersData.First(u => u.UserName == userName);
-            if (IsUserRelated(projectId, userName))
+            if (IsUserRelated(project.ProjectId, user.UserName))
             {
                 project.InvolvedUsers.Remove(user);
                 user.AttendingProjects.Remove(project);
@@ -74,7 +71,7 @@ namespace VALE.Logic
                 project.InvolvedUsers.Add(user);
                 user.AttendingProjects.Add(project);
             }
-            _db.SaveChanges();
+            return project;
 
         }
 
@@ -83,6 +80,11 @@ namespace VALE.Logic
             var project = _db.Projects.First(p => p.ProjectId == projectId);
             return project.InvolvedUsers.Select(u => u.UserName).Contains(userName);
         }
+
+        //public bool IsUserRelated(Project project, UserData user)
+        //{
+        //    return project.InvolvedUsers.Select(u => u.UserName).Contains(user.UserName);
+        //}
 
         public void Dispose()
         {
