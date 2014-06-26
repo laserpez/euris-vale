@@ -58,8 +58,8 @@
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="90px" />
-                                                <ItemStyle Width="90px" />
+                                                <HeaderStyle Width="120px" />
+                                                <ItemStyle Width="120px" />
                                             </asp:TemplateField>
 
                                             <asp:TemplateField>
@@ -108,11 +108,11 @@
 
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-th"></span> Dettagli</asp:Label></div></center>
+                                                    <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Button Width="90" CssClass="btn btn-info btn-xs" runat="server" CommandName="ViewDetails"
-                                CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Vedi" /></div></center>
+                                CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Visualizza" /></div></center>
                                                 </ItemTemplate>
                                                 <HeaderStyle Width="90px" />
                                                 <ItemStyle Width="90px" />
@@ -134,8 +134,8 @@
                                         <ItemTemplate>
                                             <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
                                         </ItemTemplate>
-                                        <HeaderStyle Width="90px" />
-                                        <ItemStyle Width="90px" />
+                                        <HeaderStyle Width="120px" />
+                                        <ItemStyle Width="120px" />
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
@@ -154,8 +154,8 @@
                                         <ItemTemplate>
                                             <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Non definita" %></asp:Label></div></center>
                                         </ItemTemplate>
-                                        <HeaderStyle Width="140px" />
-                                        <ItemStyle Width="140px" />
+                                        <HeaderStyle Width="15px" />
+                                        <ItemStyle Width="150px" />
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
@@ -164,8 +164,8 @@
                                         <ItemTemplate>
                                             <center><div><asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Non definita" %></asp:Label></div></center>
                                         </ItemTemplate>
-                                        <HeaderStyle Width="140px" />
-                                        <ItemStyle Width="140px" />
+                                        <HeaderStyle Width="150px" />
+                                        <ItemStyle Width="150px" />
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>

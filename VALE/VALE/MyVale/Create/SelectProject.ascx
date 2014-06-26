@@ -74,7 +74,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
-                                            <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
+                                            <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <center><div><asp:Button runat="server" CausesValidation="false" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-sm" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>

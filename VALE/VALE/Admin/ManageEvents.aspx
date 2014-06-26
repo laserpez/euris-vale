@@ -67,20 +67,20 @@
                                                     <center><div><asp:Label runat="server" ID="labelView"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Button runat="server" Text="Vedi report" CssClass="btn btn-info btn-xs" Width="150px" CommandName="ViewReport" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
+                                                    <center><div><asp:Button runat="server" Text="Report" CssClass="btn btn-info btn-xs" Width="90px" CommandName="ViewReport" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="150px" />
-                                                <ItemStyle Width="150px" />
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
                                                     <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-remove"></span> Cancella</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Button runat="server" Text="Cancella evento" CssClass="btn btn-danger btn-xs" Width="150px" CommandName="DeleteProject" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
+                                                    <center><div><asp:Button runat="server" Text="Cancella" CssClass="btn btn-danger btn-xs" Width="90px" CommandName="DeleteProject" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="150px" />
-                                                <ItemStyle Width="150px" />
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>

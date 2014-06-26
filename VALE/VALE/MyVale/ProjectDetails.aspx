@@ -81,7 +81,7 @@
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
                                                             <center><div><asp:Button CssClass="btn btn-info btn-xs" Width="90" runat="server" CommandName="ViewIntervention"
-                                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Vedi" /></div></center>
+                                        CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Visualizza" /></div></center>
                                                         </ItemTemplate>
                                                         <HeaderStyle Width="90px" />
                                                         <ItemStyle Width="90px" />
@@ -201,7 +201,7 @@
                                                             <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label></div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
