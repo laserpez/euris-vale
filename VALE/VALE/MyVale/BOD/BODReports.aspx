@@ -64,11 +64,11 @@
                                                             <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                 <ItemTemplate>
-                                                            <center><div><asp:Button runat="server" Width="90" Text="Vedi" CssClass="btn btn-info btn-xs"
+                                                            <center><div><asp:Button runat="server" Width="90px" Text="Visualizza" CssClass="btn btn-info btn-xs"
                                                                 CommandName="ViewReport" CommandArgument="<%# Item.BODReportId %>" /></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="120" />
-                                                <ItemStyle Width="120" />
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>

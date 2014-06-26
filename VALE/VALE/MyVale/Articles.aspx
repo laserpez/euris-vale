@@ -70,12 +70,12 @@
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div>
-                                                                <asp:Button runat="server" Width="120px" Text="Vedi" CssClass="btn btn-info btn-xs"
+                                                                <asp:Button runat="server" Width="90px" Text="Visualizza" CssClass="btn btn-info btn-xs"
                                                                 CommandName="ViewArticle" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" />
                                                                     </div></center>
                                                 </ItemTemplate>
-                                                        <HeaderStyle Width="140px" />
-                                                        <ItemStyle Width="140px" />
+                                                        <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>
