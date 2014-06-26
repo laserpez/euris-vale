@@ -9,6 +9,7 @@ namespace VALE.Models
     {
         public int AttachedFileID { get; set; }
         public string FileName { get; set; }
+        public string FileDescription { get; set; }
         public string FileExtension { get; set; }
         public DateTime CreationDate { get; set; }
         public string Owner { get; set; }

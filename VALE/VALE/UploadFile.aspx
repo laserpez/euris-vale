@@ -3,7 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="col-md-12">
-            <legend>Documenti Allegati</legend>
             <div class="panel panel-default">
                 <div class="panel-heading"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Documenti Allegati</div>
                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
@@ -18,7 +17,7 @@
                             <asp:BoundField DataField="FileExtension" HeaderText="Estenssione" />
                             <asp:TemplateField HeaderText="Azione" HeaderStyle-Width="50px" ItemStyle-Width="50px">
                                 <ItemTemplate>
-                                    <center><div><asp:Button  runat="server" Text="Cancella" value="" class="btn btn-danger btn-xs" OnClick="DeleteDocumentFromProject_Click"/></div></center>
+                                    <center><div><asp:Button  runat="server" Text="Cancella"  CssClass="btn btn-danger btn-xs" OnClick="DeleteDocumentFromProject_Click"/></div></center>
                                 </ItemTemplate>
                                 <HeaderStyle Width="50px"></HeaderStyle>
                                 <ItemStyle Width="50px"></ItemStyle>
@@ -33,10 +32,10 @@
                                 <div class="input-group">
                                     <span class="input-group-addon input-sm"><span class="glyphicon glyphicon-file"></span></span>
                                     <div runat="server" id="FileTextBox">
-                                        <asp:FileUpload ID="FileUpload" runat="server" class="form-control input-sm" />
+                                        <asp:FileUpload ID="FileUpload" runat="server" CssClass="form-control input-sm" />
                                     </div>
                                     <span class="input-group-btn">
-                                        <asp:Button runat="server" ID="AddFileNameButton" class="btn btn-default btn-sm" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
+                                        <asp:Button runat="server" ID="AddFileNameButton" CssClass="btn btn-default btn-sm" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
                                     </span>
                                 </div>
                             </div>

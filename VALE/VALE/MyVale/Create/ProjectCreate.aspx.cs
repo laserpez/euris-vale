@@ -30,7 +30,7 @@ namespace VALE.MyVale
                 }
                 var usersList = new List<string>();
                 ViewState["usersIds"] = usersList;
-                PopulateGridView();
+                //PopulateGridView();
                 calendarFrom.StartDate = DateTime.Now;
             }
         }
@@ -57,61 +57,10 @@ namespace VALE.MyVale
             };
             dbData.Projects.Add(project);
             dbData.SaveChanges();
-
-            //project.DocumentsPath = "/MyVale/Documents/Projects/" + project.ProjectId + "/";
-            //string serverPath = Server.MapPath(project.DocumentsPath);
-            //string tempPath = Server.MapPath(_temporaryPath);
-            //if (!Directory.Exists(Server.MapPath("/MyVale/Documents/Projects/")))
-            //    Directory.CreateDirectory(Server.MapPath("/MyVale/Documents/Projects/"));
-            //Directory.Move(tempPath, serverPath);
             dbData.SaveChanges();
             Response.Redirect("/MyVale/Projects");
         }
 
-        //protected void btnSearchProject_Click(object sender, EventArgs e)
-        //{
-        //    var dbData = new UserOperationsContext();
-        //    string projectName = txtProjectName.Text;
-        //    Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-        //    if (project != null)
-        //    {
-        //        lblResultSearchProject.Text = String.Format("This event is now related to project {0}", txtProjectName.Text);
-        //        btnSearchProject.CssClass = "btn btn-success";
-        //    }
-        //    else
-        //    {
-        //        lblResultSearchProject.Text = "This project does not exist";
-        //        btnSearchProject.CssClass = "btn btn-warning";
-        //    }
-        //}
-
-
-        protected void btnUploadFile_Click(object sender, EventArgs e)
-        {
-            if (FileUploadControl.HasFiles)
-            {
-                FileUploadControl.SaveAs(Server.MapPath(_temporaryPath + Path.GetFileName(FileUploadControl.PostedFile.FileName)));
-            }
-            PopulateGridView();
-        }
-
-        protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            GridView grid = (GridView)sender;
-            int index = Convert.ToInt32(e.CommandArgument);
-            string fileToRemove = grid.Rows[index].Cells[1].Text;
-            File.Delete(Server.MapPath(_temporaryPath) + fileToRemove);
-            PopulateGridView();
-        }
-
-        private void PopulateGridView()
-        {
-            DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath(_temporaryPath));
-            if (dirInfo.Exists)
-                grdFilesUploaded.DataSource = dirInfo.GetFiles().Select(o => new { Filename = o.Name });
-            else
-                grdFilesUploaded.DataSource = null;
-            grdFilesUploaded.DataBind();
-        }
+    
     }
 }

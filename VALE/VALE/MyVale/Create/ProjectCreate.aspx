@@ -44,7 +44,7 @@
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="Il campo Data di inizio è obbligatorio." />
                                 </div>
 
-                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Carica file</asp:Label>
+                                <%--<asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Carica file</asp:Label>
                                 <div class="col-md-10">
                                     <asp:FileUpload AllowMultiple="false" ID="FileUploadControl" runat="server" />
                                     <asp:Label runat="server" ID="StatusLabel" Text="" />
@@ -70,7 +70,8 @@
                                             </asp:GridView>
                                         </div>
                                     </ContentTemplate>
-                                </asp:UpdatePanel>
+                                </asp:UpdatePanel>--%>
+
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">E' un progetto pubblico?</asp:Label>
                                 <div class="col-md-10">
                                     <asp:CheckBox runat="server" ID="chkPublic" />

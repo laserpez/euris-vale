@@ -22,6 +22,7 @@ namespace VALE.Models
         public DbSet<BlogArticle> BlogArticles { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<BODReport> BODReports { get; set; }
+        public DbSet<AttachedFile> AttachedFiles { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
