@@ -27,7 +27,7 @@ namespace VALE.Account
                 var user = manager.FindByName(Email.Text);
                 if (user == null)
                 {
-                    ErrorMessage.Text = "No user found";
+                    ErrorMessage.Text = "Nessun utente trovato";
                     return;
                 }
                 var result = manager.ResetPassword(user.Id, code, Password.Text);
@@ -40,7 +40,7 @@ namespace VALE.Account
                 return;
             }
 
-            ErrorMessage.Text = "An error has occurred";
+            ErrorMessage.Text = "Si è verificato un errore.";
         }
     }
 }
