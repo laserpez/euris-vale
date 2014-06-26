@@ -79,47 +79,7 @@ namespace VALE.MyVale
 
             FilterEvents();
             UpdateGridView();
-
-            //PopulateGridView(from, to);
         }
-
-        //private void PopulateGridView(DateTime from, DateTime to)
-        //{
-        //    var events = (List<Event>)ViewState["lstEvent"];
-        //    var filteredEvents = events.Where(ev => ev.EventDate >= from && ev.EventDate <= to);
-
-        //    using (var eventActions = new EventActions())
-        //    {
-        //        //var filteredEvents = eventActions.FilterWithParams(from, to, events);
-        //        grdPlannedEvent.DataSource = filteredEvents.AsQueryable();
-        //        ViewState["lstEvent"] = filteredEvents;
-        //    }
-            
-
-        //    grdPlannedEvent.DataBind();
-        //    for (int i = 0; i < grdPlannedEvent.Rows.Count; i++)
-        //    {
-        //        Button btnAttend = (Button)grdPlannedEvent.Rows[i].FindControl("btnAttendEvent");
-
-        //        int eventId = (int)grdPlannedEvent.DataKeys[i].Value;
-        //        if (IsUserAttendingThisEvent(eventId))
-        //        {
-        //            btnAttend.CssClass = "btn btn-success btn-xs";
-        //            btnAttend.Text = "Stai partecipando";
-        //        }
-        //        else
-        //        {
-        //            btnAttend.CssClass = "btn btn-info btn-xs";
-        //            btnAttend.Text = "Partecipa";
-        //        }
-        //    }
-        //}
-
-        //private bool IsUserAttendingThisEvent(int eventId)
-        //{
-        //    var db = new UserOperationsContext();
-        //    return db.Events.First(a => a.EventId == eventId).RegisteredUsers.Select(u => u.UserName).Contains(_currentUser);
-        //}
 
         public List<Event> GetAttendingEvents()
         {
@@ -153,9 +113,6 @@ namespace VALE.MyVale
                     //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
                     //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
             }
-            //DateTime from = Convert.ToDateTime(txtFromDate.Text);
-            //DateTime to = Convert.ToDateTime(txtToDate.Text);
-            //PopulateGridView(from, to);
             db.SaveChanges();
 
             FilterEvents();

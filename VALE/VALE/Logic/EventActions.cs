@@ -66,16 +66,13 @@ namespace VALE.Logic
         public bool AddOrRemoveUser(Event anEvent, UserData currentUser)
         {
             bool added = false;
-            var user = _db.UsersData.First(u => u.UserName == currentUser.UserName);
-            var thisEvent = _db.Events.First(ev => ev.EventId == anEvent.EventId);
-
             if (!IsUserAttendingThisEvent(anEvent.EventId, currentUser.UserName))
             {
-                thisEvent.RegisteredUsers.Add(user);
+                anEvent.RegisteredUsers.Add(currentUser);
                 added = true;
             }
             else
-                thisEvent.RegisteredUsers.Remove(user);
+                anEvent.RegisteredUsers.Remove(currentUser);
 
             return added;
         }
