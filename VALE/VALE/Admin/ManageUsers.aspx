@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body" style="overflow: auto;">
+                        <div class="panel-body" style="overflow: auto;"> 
                             <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both"
                                 ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                                 <Columns>
