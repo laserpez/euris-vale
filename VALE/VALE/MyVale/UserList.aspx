@@ -26,14 +26,51 @@
                             <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
                         </div>
                     </div>
-                <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" ShowFooter="true" SelectMethod="GetUsers" GridLines="Both"
-                    ItemType="VALE.Models.ApplicationUser" AllowSorting="true" EmptyDataText="No waiting users" CssClass="table table-striped table-bordered">
+                <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" GridLines="Both"
+                    ItemType="VALE.MyVale.UserInfo" AllowSorting="true" EmptyDataText="No waiting users" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                     <Columns>
-                        <asp:BoundField DataField="UserName" HeaderText="Username" SortExpression="UserName" />
-                        <asp:BoundField DataField="FirstName" HeaderText="Nome" SortExpression="FirstName" />
-                        <asp:BoundField DataField="LastName" HeaderText="Cognome"  SortExpression="LastName"/>
-                        <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />
-                        <asp:BoundField DataField="CellPhone" HeaderText="Cell" SortExpression="CellPhone" />
+
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <center><div><asp:LinkButton CommandArgument="Username" CommandName="sort" runat="server" ID="label0"><span  class="glyphicon glyphicon-credit-card"></span> UserName</asp:LinkButton></div></center>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <center><div><asp:Label runat="server"><%#: Item.Username %></asp:Label></div></center>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <center><div><asp:LinkButton CommandArgument="FirstName" CommandName="sort" runat="server" ID="label1"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <center><div><asp:Label runat="server"><%#: Item.FirstName %></asp:Label></div></center>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <center><div><asp:LinkButton CommandArgument="LastName" CommandName="sort" runat="server" ID="label2"><span  class="glyphicon glyphicon-user"></span> Cognome</asp:LinkButton></div></center>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <center><div><asp:Label runat="server"><%#: Item.LastName %></asp:Label></div></center>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <center><div><asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="label3"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <center><div><asp:LinkButton CommandArgument="CellPhone" CommandName="sort" runat="server" ID="label4"><span  class="glyphicon glyphicon-phone"></span> Cell</asp:LinkButton></div></center>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <center><div><asp:Label runat="server"><%#: Item.CellPhone %></asp:Label></div></center>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
                     </Columns>
                 </asp:GridView>
 
