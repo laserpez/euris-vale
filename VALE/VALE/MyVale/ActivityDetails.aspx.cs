@@ -19,6 +19,7 @@ namespace VALE.MyVale
         private string _currentUser;
         private UserOperationsContext _db;
 
+
         protected void Page_Load(object sender, EventArgs e)
         {
             _db = new UserOperationsContext();
@@ -29,18 +30,12 @@ namespace VALE.MyVale
 
         public string GetStatus(Activity anActivity)
         {
-            if (anActivity.Status == ActivityStatus.ToBePlanned)
-                return "Da pianificare";
-            if (anActivity.Status == ActivityStatus.Suspended)
-                return "Sospesa";
-            if (anActivity.Status == ActivityStatus.Ongoing)
-                return "In corso";
-            if (anActivity.Status == ActivityStatus.Done)
-                return "Terminata";
-            if (anActivity.Status == ActivityStatus.Deleted)
-                return "Cancellata";
-
-            return null;
+            string status;
+            using(var activityActions = new ActivityActions())
+            {
+                status = activityActions.GetStatus(anActivity);
+            }
+            return status;
         }
 
         private LinkButton FindButton(string name)
@@ -55,25 +50,6 @@ namespace VALE.MyVale
             HtmlButton btnChangeStatus = (HtmlButton)ActivityDetail.FindControl("btnChangeStatus");
             Label lblInfoChangeStatus = (Label)ActivityDetail.FindControl("lblInfoChangeStatus");
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
-
-            //btnOngoing.Visible = activity.Status == ActivityStatus.Suspended;
-            //btnSuspended.Visible = activity.Status == ActivityStatus.Ongoing;
-            //btnChangeStatus.Visible = activity.Status != ActivityStatus.Deleted;
-            //lblInfoChangeStatus.Visible = activity.Status == ActivityStatus.Deleted;
-
-            
-        }
-
-        protected void btnChangeStatus_Click(object sender, EventArgs e)
-        {
-            LinkButton btn = (LinkButton)sender;
-            string statusString = btn.CommandArgument;
-            var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
-            ActivityStatus newStatus;
-            Enum.TryParse(statusString, out newStatus);
-            activity.Status = newStatus;
-            _db.SaveChanges();
-            ActivityDetail.DataBind();
         }
 
         public Activity GetActivity([QueryString("activityId")] int? activityId)
@@ -112,8 +88,6 @@ namespace VALE.MyVale
         {
             var btnAddUser = (Button)sender;
             var dbData = new UserOperationsContext();
-            //TextBox textBox = (TextBox)ActivityDetail.FindControl("txtUserName");
-            //string userName = textBox.Text;
 
             var userControl = (SelectUser)ActivityDetail.FindControl("SelectUser");
             var users = dbData.UsersData.Where(u => userControl.SelectedUsers.Contains(u.UserName)).ToList();
@@ -150,30 +124,11 @@ namespace VALE.MyVale
             }
         }
 
-        protected void btnSearchProject_Click(object sender, EventArgs e)
-        {
-            FormView fwProject = (FormView)ActivityDetail.FindControl("ProjectDetail");
-            TextBox textBox = (TextBox)fwProject.FindControl("txtProjectName");
-            string projectName = textBox.Text;
-            Project project = _db.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-            if(project != null)
-            {
-                Activity activity = _db.Activities.Where(a => a.ActivityId == _currentActivityId).First();
-                activity.RelatedProject = project;
-                project.Activities.Add(activity);
-                _db.SaveChanges();
-            }
-            else
-            {
-                Label statusLabel = (Label)fwProject.FindControl("lblResultAddProject");
-                statusLabel.Text = "Il progetto non esiste.";
-            }
-        }
-
         protected void btnAddReport_Click(object sender, EventArgs e)
         {
             TextBox txtHours = (TextBox)ActivityDetail.FindControl("txtHours");
             TextBox txtDescription = (TextBox)ActivityDetail.FindControl("txtDescription");
+            Label addReport = (Label)ActivityDetail.FindControl("addReportLabel");
             Button btnAdd = (Button)sender;
             Label lblHoursWorked = (Label)ActivityDetail.FindControl("lblHoursWorked");
             int hours = 0;
@@ -189,14 +144,14 @@ namespace VALE.MyVale
                     });
                 _db.SaveChanges();
                 btnAdd.CssClass = "btn btn-success btn-xs";
-                btnAdd.Text = "Report aggiunto";
+                addReport.Text = "Report aggiunto";
                 lblHoursWorked.Text = GetHoursWorked();
             }
             else
             {
                 txtHours.Text = "";
                 btnAdd.CssClass = "btn btn-danger btn-xs";
-                btnAdd.Text = "Error";
+                addReport.Text = "Error";
             }
 
         }

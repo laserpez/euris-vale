@@ -29,7 +29,8 @@ namespace VALE.MyVale
         protected void Page_PreRender(object sender, EventArgs e)
         {
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
-            if(IsUserAttendingThisEvent())
+            var eventActions = new EventActions();
+            if(eventActions.IsUserAttendingThisEvent(_currentEventId, _currentUser))
             {
                 btnAttend.CssClass = "btn btn-success";
                 btnAttend.Text = "Stai partecipando";
@@ -38,11 +39,6 @@ namespace VALE.MyVale
             {
                 btnAttend.CssClass = "btn btn-info";
             }
-        }
-
-        private bool IsUserAttendingThisEvent()
-        {
-            return _db.Events.First(a => a.EventId == _currentEventId).RegisteredUsers.Select(u => u.UserName).Contains(_currentUser);
         }
 
         public Event GetEvent([QueryString("eventId")] int? eventId)
@@ -67,49 +63,20 @@ namespace VALE.MyVale
             return project;
         }
 
-        //protected void btnSearchProject_Click(object sender, EventArgs e)
-        //{
-        //    FormView fwProject = (FormView)EventDetail.FindControl("ProjectDetail");
-        //    TextBox textBox = (TextBox)fwProject.FindControl("txtProjectName");
-        //    string projectName = textBox.Text;
-        //    Project project = _db.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-        //    if (project != null)
-        //    {
-        //        Activity activity = _db.Activities.Where(a => a.ActivityId == _currentEventId).First();
-        //        activity.RelatedProject = project;
-        //        project.Activities.Add(activity);
-        //        _db.SaveChanges();
-        //    }
-        //    else
-        //    {
-        //        Label statusLabel = (Label)fwProject.FindControl("lblResultAddProject");
-        //        statusLabel.Text = "Questo pr";
-        //    }
-        //}
-
         protected void btnAttend_Click(object sender, EventArgs e)
         {
             UserData user = _db.UsersData.First(u => u.UserName == _currentUser);
             Event thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
-            if (!IsUserAttendingThisEvent())
+            var eventActions = new EventActions();
+            if (eventActions.AddOrRemoveUser(thisEvent, user) == true)
             {
-                thisEvent.RegisteredUsers.Add(user);
-                user.AttendingEvents.Add(thisEvent);
-                _db.SaveChanges();
                 // MAIL
                 //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
                 //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
                 //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
             }
-            else
-            {
-                thisEvent.RegisteredUsers.Remove(user);
-                user.AttendingEvents.Remove(thisEvent);
-                _db.SaveChanges();
-            }
-
-
+            _db.SaveChanges();
             Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
         }
 
