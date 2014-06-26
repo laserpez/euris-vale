@@ -114,40 +114,6 @@ namespace VALE.MyVale
                 return null;
         }
 
-        public List<string> GetRelatedDocuments([QueryString("projectId")] int? projectId)
-        {
-            if (projectId.HasValue)
-            {
-                var project = _db.Projects.First(p => p.ProjectId == projectId);
-                if (!String.IsNullOrEmpty(project.DocumentsPath))
-                {
-                    var dir = new DirectoryInfo(Server.MapPath(project.DocumentsPath));
-                    var files = dir.GetFiles().Select(f => f.Name).ToList();
-                    if (files.Count == 0)
-                    {
-                        HideControl("lstDocuments");
-                        HideControl("btnViewDocument");
-                        HideControl("attachmentsLabel");
-                    }
-                    return files;
-                }
-                else
-                {
-                    HideControl("lstDocuments");
-                    HideControl("btnViewDocument");
-                    HideControl("attachmentsLabel");
-                    return null;
-                }
-            }
-            else
-            {
-                HideControl("lstDocuments");
-                HideControl("btnViewDocument");
-                HideControl("attachmentsLabel");
-                return null;
-            }
-        }
-
         public IQueryable<Intervention> GetInterventions([QueryString("projectId")] int? projectId)
         {
 
@@ -155,12 +121,6 @@ namespace VALE.MyVale
                 return _db.Interventions.Where(i => i.ProjectId == projectId);
             else
                 return null;
-        }
-
-        private void HideControl(string name)
-        {
-            Control control = ProjectDetail.FindControl(name);
-            control.Visible = false;
         }
 
         protected void btnSuspendProject_Click(object sender, EventArgs e)
@@ -341,17 +301,6 @@ namespace VALE.MyVale
             }
         }
 
-        protected void btnViewDocument_Click(object sender, EventArgs e)
-        {
-            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
-            var lstDocument = (ListBox)ProjectDetail.FindControl("lstDocuments");
-            if(lstDocument.SelectedIndex > -1)
-            {
-                var file = project.DocumentsPath + lstDocument.SelectedValue;
-                Response.Redirect("/DownloadFile.ashx?filePath=" + file + "&fileName=" + lstDocument.SelectedValue);
-            }
-        }
-
         public bool ContainsDocuments(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(Server.MapPath(path));
@@ -426,17 +375,13 @@ namespace VALE.MyVale
                 default:
                     Response.Redirect("/DownloadFile.ashx?fileId=" + id);
                     break;
-                case "DELETE":
-                    var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-                    if (currentProject != null)
+                case "Cancella":
+                    var attachedFile = _db.AttachedFiles.FirstOrDefault(f => f.AttachedFileID == id);
+                    if (attachedFile != null)
                     {
-                        var attachedFile = currentProject.AttachedFiles.FirstOrDefault(f => f.AttachedFileID == id);
-                        if (attachedFile != null)
-                        {
-                            currentProject.AttachedFiles.Remove(attachedFile);
-                            _db.SaveChanges();
-                            documentsGridView.DataBind();
-                        }
+                        _db.AttachedFiles.Remove(attachedFile);
+                        _db.SaveChanges();
+                        documentsGridView.DataBind();
                     }
                     break;
             }
