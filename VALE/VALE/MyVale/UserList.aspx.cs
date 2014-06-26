@@ -11,31 +11,52 @@ using Owin;
 using VALE.StateInfo;
 using System.Text.RegularExpressions;
 using System.Web.ModelBinding;
+using System.Linq.Expressions;
 
 namespace VALE.MyVale
 {
+    [Serializable]
+    public class UserInfo
+    {
+        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string CellPhone { get; set; }
+    }
+
     public partial class UserList : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
+            {
                 filterPanel.Visible = false;
+                ViewState["UserInfo"] = GetUsers().ToList();
+                grdUsers.DataSource = (List<UserInfo>)ViewState["UserInfo"];
+                grdUsers.DataBind();
+            }
         }
 
-        public IQueryable<ApplicationUser> GetUsers([Control]string txtName, [Control]string txtLastname, [Control]string txtUsername, [Control]string txtEmail)
+        public IQueryable<UserInfo> GetUsers()
         {
+            var textname = txtName.Text;
+            var textusername = txtUsername.Text;
+            var textlastname = txtLastname.Text;
+            var textemail = txtEmail.Text;
             var db = new ApplicationDbContext();
             var users = db.Users.AsQueryable();
-            if (txtName != null)
-                users = users.Where(u => u.FirstName.ToUpper().Contains(txtName));
-            if(txtLastname != null)
-                users = users.Where(u => u.LastName.ToUpper().Contains(txtLastname));
-            if (txtUsername != null)
-                users = users.Where(u => u.UserName.ToUpper().Contains(txtUsername));
-            if (txtEmail != null)
-                users = users.Where(u => u.Email.Contains(txtEmail));
+            if (textname != null)
+                users = users.Where(u => u.FirstName.ToUpper().Contains(textname));
+            if (textlastname != null)
+                users = users.Where(u => u.LastName.ToUpper().Contains(textlastname));
+            if (textusername != null)
+                users = users.Where(u => u.UserName.ToUpper().Contains(textusername));
+            if (textemail != null)
+                users = users.Where(u => u.Email.Contains(textemail));
 
-            return users;
+            var usersInfo = users.Select(u => new UserInfo { Username = u.UserName, FirstName = u.FirstName, LastName = u.LastName, Email = u.Email, CellPhone = u.CellPhone });
+            return usersInfo;
         }
 
         protected void btnShowFilters_Click(object sender, EventArgs e)
@@ -45,6 +66,8 @@ namespace VALE.MyVale
 
         protected void btnFilterProjects_Click(object sender, EventArgs e)
         {
+            ViewState["UserInfo"] = GetUsers().ToList();
+            grdUsers.DataSource = (List<UserInfo>)ViewState["UserInfo"];
             grdUsers.DataBind();
         }
 
@@ -54,7 +77,49 @@ namespace VALE.MyVale
             txtLastname.Text = null;
             txtName.Text = null;
             txtUsername.Text = null;
+            ViewState["UserInfo"] = GetUsers().ToList();
+            grdUsers.DataSource = (List<UserInfo>)ViewState["UserInfo"];
             grdUsers.DataBind();
+        }
+
+        protected void grdUsers_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            string sortExpression = e.SortExpression;
+
+            if (GridViewSortDirection == SortDirection.Ascending)
+                GridViewSortDirection = SortDirection.Descending;
+            else
+                GridViewSortDirection = SortDirection.Ascending;
+
+            ViewState["UserInfo"] = GetSortedData(e.SortExpression);
+            grdUsers.DataSource = (List<UserInfo>)ViewState["UserInfo"];
+            grdUsers.DataBind();
+        }
+
+        private List<UserInfo> GetSortedData(string sortExpression)
+        {
+            var result = (List<UserInfo>)ViewState["UserInfo"];
+
+            var param = Expression.Parameter(typeof(UserInfo), sortExpression);
+            var sortBy = Expression.Lambda<Func<UserInfo, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+
+            if (GridViewSortDirection == SortDirection.Descending)
+                result = result.AsQueryable<UserInfo>().OrderByDescending(sortBy).ToList();
+            else
+                result = result.AsQueryable<UserInfo>().OrderBy(sortBy).ToList();
+            return result;
+        }
+
+        public SortDirection GridViewSortDirection
+        {
+            get
+            {
+                if (ViewState["sortDirection"] == null)
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+
+                return (SortDirection)ViewState["sortDirection"];
+            }
+            set { ViewState["sortDirection"] = value; }
         }
     }
 }
