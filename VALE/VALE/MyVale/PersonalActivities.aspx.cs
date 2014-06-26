@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using System.Web.UI.WebControls;
 using VALE.Models;
 using System.Linq.Expressions;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -106,13 +107,11 @@ namespace VALE.MyVale
         {
             var result = (List<ActivityReport>)ViewState["lstActivities"];
 
-            var param = Expression.Parameter(typeof(ActivityReport), sortExpression);
-            var sortBy = Expression.Lambda<Func<ActivityReport, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
-
-            if (GridViewSortDirection == SortDirection.Descending)
-                result = result.AsQueryable<ActivityReport>().OrderByDescending(sortBy).ToList();
-            else
-                result = result.AsQueryable<ActivityReport>().OrderBy(sortBy).ToList();
+            
+            using (var activityActions = new ActivityActions())
+            {
+                result = activityActions.Sort(GridViewSortDirection, result, sortExpression);
+            }
             ViewState["lstActivities"] = result;
             return result;
         }
