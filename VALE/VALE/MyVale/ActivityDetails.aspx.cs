@@ -27,6 +27,22 @@ namespace VALE.MyVale
                 _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
         }
 
+        public string GetStatus(Activity anActivity)
+        {
+            if (anActivity.Status == ActivityStatus.ToBePlanned)
+                return "Da pianificare";
+            if (anActivity.Status == ActivityStatus.Suspended)
+                return "Sospesa";
+            if (anActivity.Status == ActivityStatus.Ongoing)
+                return "In corso";
+            if (anActivity.Status == ActivityStatus.Done)
+                return "Terminata";
+            if (anActivity.Status == ActivityStatus.Deleted)
+                return "Cancellata";
+
+            return null;
+        }
+
         private LinkButton FindButton(string name)
         {
             return (LinkButton)ActivityDetail.FindControl(name);
@@ -83,7 +99,7 @@ namespace VALE.MyVale
             {
                 hours = activityActions.GetHoursWorked(_currentUser, _currentActivityId);
             }
-            return String.Format("Hours worked on this activity: {0}", hours);
+            return String.Format("Ore lavorate su quest'attività: {0}", hours);
         }
 
         public Project GetRelatedProject([QueryString("activityId")] int? activityId)

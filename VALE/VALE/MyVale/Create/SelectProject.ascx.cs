@@ -17,7 +17,6 @@ namespace VALE.MyVale.Create
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
         }
 
         protected void btnSearchProject_Click(object sender, EventArgs e)
@@ -57,14 +56,13 @@ namespace VALE.MyVale.Create
         {
             Button btn = (Button)sender;
             txtProjectName.Text = btn.CommandArgument;
+            DisableControl(txtProjectName.Text);
         }
 
         public void DisableControl(string projectName)
         {
             txtProjectName.Text = projectName;
             txtProjectName.Enabled = false;
-            btnShowPopup.Enabled = false;
-
         }
     }
 }
