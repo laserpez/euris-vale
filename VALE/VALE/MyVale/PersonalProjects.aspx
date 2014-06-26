@@ -91,11 +91,11 @@
                                                         <center><div><asp:Label runat="server" ID="labelView"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <asp:Button CssClass="btn btn-info btn-xs" Width="150" runat="server" CommandName="ViewDetails"
-                                                            CommandArgument="<%# Item.ProjectId %>" Text="Vedi progetto" />
+                                                        <asp:Button CssClass="btn btn-info btn-xs"  Width="90" runat="server" CommandName="ViewDetails"
+                                                            CommandArgument="<%# Item.ProjectId %>" Text="Visualizza" />
                                                     </ItemTemplate>
-                                                    <HeaderStyle Width="100px" />
-                                                    <ItemStyle Width="100px" />
+                                                    <HeaderStyle Width="90px" />
+                                                    <ItemStyle Width="90px" />
                                                 </asp:TemplateField>
                                             </Columns>
                                         </asp:GridView>

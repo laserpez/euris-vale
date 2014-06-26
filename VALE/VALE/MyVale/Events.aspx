@@ -81,7 +81,7 @@
                                                         <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <center><div><asp:Button ID="btnViewDetails" Width="90" CssClass="btn btn-info btn-xs" Text="Vedi" runat="server" OnClick="btnViewDetails_Click" /></div></center>
+                                                        <center><div><asp:Button ID="btnViewDetails" Width="90" CssClass="btn btn-info btn-xs" Text="Visualizza" runat="server" OnClick="btnViewDetails_Click" /></div></center>
                                                     </ItemTemplate>
                                                     <HeaderStyle Width="90px" />
                                                     <ItemStyle Width="90px" />

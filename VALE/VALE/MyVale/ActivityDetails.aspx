@@ -68,21 +68,21 @@
                                         </EmptyDataTemplate>
                                     </asp:GridView>
                                     <h4>Lavoro svolto per l'attività</h4>
-                                                <asp:UpdatePanel runat="server">
-                                                    <ContentTemplate>
-                                                        <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetHoursWorked() %></asp:Label><br />
+                                    <asp:UpdatePanel runat="server">
+                                        <ContentTemplate>
+                                            <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetHoursWorked() %></asp:Label>
+                                            <p></p>
+                                            <asp:Label runat="server" CssClass="control-label" Text="Ore lavorate"></asp:Label>
+                                            <asp:TextBox runat="server" ID="txtHours" CssClass="form-control"></asp:TextBox>
+                                            <asp:RequiredFieldValidator runat="server" ValidationGroup="ReportValidation" CssClass="txt-danger" ControlToValidate="txtHours" ErrorMessage="* campo ore obblligatorio"></asp:RequiredFieldValidator><br />
 
-                                                        <asp:Label runat="server" CssClass="control-label" Text="Ore lavorate"></asp:Label>
-                                                        <asp:TextBox runat="server" ID="txtHours" CssClass="form-control"></asp:TextBox>
-                                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="ReportValidation" CssClass="txt-danger" ControlToValidate="txtHours" ErrorMessage="* campo ore obblligatorio"></asp:RequiredFieldValidator><br />
+                                            <asp:Label runat="server" CssClass="control-label" Text="Descrizione"></asp:Label>
+                                            <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control"></asp:TextBox>
+                                            <asp:RequiredFieldValidator runat="server" ValidationGroup="ReportValidation" CssClass="txt-danger" ControlToValidate="txtDescription" ErrorMessage="* descrizione obbligatoria"></asp:RequiredFieldValidator><br />
+                                            <asp:Button runat="server" ValidationGroup="ReportValidation" Text="Aggiungi report" CssClass="btn btn-info btn-xs" ID="btnAddReport" OnClick="btnAddReport_Click" />
 
-                                                        <asp:Label runat="server" CssClass="control-label" Text="Descrizione"></asp:Label>
-                                                        <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control"></asp:TextBox>
-                                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="ReportValidation" CssClass="txt-danger" ControlToValidate="txtDescription" ErrorMessage="* descrizione obbligatoria"></asp:RequiredFieldValidator><br />
-                                                        <asp:Button runat="server" ValidationGroup="ReportValidation" Text="Aggiungi report" CssClass="btn btn-info btn-xs" ID="btnAddReport" OnClick="btnAddReport_Click" />
-
-                                                    </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                     <div class="col-md-12">
                                         <br />
                                     </div>
