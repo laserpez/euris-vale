@@ -313,9 +313,11 @@ namespace VALE.MyVale
             GridView grdUsers = (GridView)ProjectDetail.FindControl("lstUsers");
             var db = new UserOperationsContext();
             var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
+            var user = db.UsersData.First(u => u.UserName == _currentUserName);
             using (var actions = new ProjectActions())
             {
-                actions.AddOrRemoveUser(_currentProjectId, _currentUserName);
+                actions.AddOrRemoveUser(project, user);
+                db.SaveChanges();
                 grdUsers.DataBind();
                 SetWorkOnProjectSection(project);
             }

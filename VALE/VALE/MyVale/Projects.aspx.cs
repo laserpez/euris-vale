@@ -180,9 +180,13 @@ namespace VALE.MyVale
         protected void btnWorkOnThis_Click(object sender, EventArgs e)
         {
             int projectId = Convert.ToInt32(((Button)sender).CommandArgument);
+            var db = new UserOperationsContext();
+            var thisProject = db.Projects.First(p => p.ProjectId == projectId);
+            var user = db.UsersData.First(u => u.UserName == User.Identity.Name);
             using(var actions = new ProjectActions())
             {
-                actions.AddOrRemoveUser(projectId, _currentUser);
+                actions.AddOrRemoveUser(thisProject, user);
+                db.SaveChanges();
                 OpenedProjectList.DataSource = (List<Project>)ViewState["lstProject"];
                 OpenedProjectList.DataBind();
             }
