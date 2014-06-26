@@ -28,6 +28,11 @@ namespace VALE.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Event>().HasOptional(e => e.RelatedProject).WithMany(p => p.Events).WillCascadeOnDelete();
+
+            modelBuilder.Entity<AttachedFile>().HasOptional(f => f.RelatedProject).WithMany(p => p.AttachedFiles).WillCascadeOnDelete();
+
+            // TODO Controllare la cancellazione a cascata dagli eventi
+            //modelBuilder.Entity<AttachedFile>().HasOptional(f => f.RelatedEvent).WithMany(ev => ev.AttachedFiles).WillCascadeOnDelete();
             
             modelBuilder.Entity<Event>()
                 .HasMany(u => u.RegisteredUsers)
