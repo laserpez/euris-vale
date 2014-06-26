@@ -23,7 +23,7 @@ namespace VALE.Account
                 ApplicationUser user = manager.FindByName(Email.Text);
                 if (user == null || !manager.IsEmailConfirmed(user.Id))
                 {
-                    FailureText.Text = "The user either does not exist or is not confirmed.";
+                    FailureText.Text = "L'utente non è registrato o non è stato confermato.";
                     ErrorMessage.Visible = true;
                     return;
                 }
