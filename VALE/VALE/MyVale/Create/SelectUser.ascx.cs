@@ -44,7 +44,7 @@ namespace VALE.MyVale.Create
         public void DeleteUser(UserData user)
         {
             List<string> users = (List<string>)ViewState["usersIds"];
-            users.Remove(user.UserName);
+            users.Remove(users.FirstOrDefault());
             ViewState["usersIds"] = users;
         }
 
