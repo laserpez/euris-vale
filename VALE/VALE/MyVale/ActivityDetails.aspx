@@ -80,6 +80,7 @@
                                             <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control"></asp:TextBox>
                                             <asp:RequiredFieldValidator runat="server" ValidationGroup="ReportValidation" CssClass="txt-danger" ControlToValidate="txtDescription" ErrorMessage="* descrizione obbligatoria"></asp:RequiredFieldValidator><br />
                                             <asp:Button runat="server" ValidationGroup="ReportValidation" Text="Aggiungi report" CssClass="btn btn-info btn-xs" ID="btnAddReport" OnClick="btnAddReport_Click" />
+                                            <asp:Label ID="addReportLabel" runat="server" Text=""></asp:Label>
 
                                         </ContentTemplate>
                                     </asp:UpdatePanel>

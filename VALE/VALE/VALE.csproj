@@ -467,7 +467,10 @@
     </Compile>
     <Compile Include="Logic\ActivityActions.cs" />
     <Compile Include="Logic\AdminActions.cs" />
+    <Compile Include="Logic\EventActions.cs" />
+    <Compile Include="Logic\ExportToCSV.cs" />
     <Compile Include="Logic\MailHelper.cs" />
+    <Compile Include="Logic\ProjectActions.cs" />
     <Compile Include="Logic\RoleActions.cs" />
     <Compile Include="Logic\UserActions.cs" />
     <Compile Include="Models\Activity.cs" />

@@ -312,23 +312,16 @@ namespace VALE.MyVale
         protected void btnWorkOnThis_Click(object sender, EventArgs e)
         {
             GridView grdUsers = (GridView)ProjectDetail.FindControl("lstUsers");
-            Button btnWork = (Button)sender;
             var db = new UserOperationsContext();
             var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
             var user = db.UsersData.First(u => u.UserName == _currentUserName);
-            if (project.InvolvedUsers.Contains(user))
+            using (var actions = new ProjectActions())
             {
-                project.InvolvedUsers.Remove(user);
-                user.AttendingProjects.Remove(project);
+                actions.AddOrRemoveUser(project, user);
+                db.SaveChanges();
+                grdUsers.DataBind();
+                SetWorkOnProjectSection(project);
             }
-            else
-            {
-                project.InvolvedUsers.Add(user);
-                user.AttendingProjects.Add(project);
-            }
-            db.SaveChanges();
-            grdUsers.DataBind();
-            SetWorkOnProjectSection(project);
         }
 
         protected void btnAddIntervention_Click(object sender, EventArgs e)
@@ -357,11 +350,6 @@ namespace VALE.MyVale
                 var file = project.DocumentsPath + lstDocument.SelectedValue;
                 Response.Redirect("/DownloadFile.ashx?filePath=" + file + "&fileName=" + lstDocument.SelectedValue);
             }
-        }
-
-        public string GetUserName(string userName)
-        {
-            return _db.UsersData.First(u => u.UserName == userName).FullName;
         }
 
         public bool ContainsDocuments(string path)

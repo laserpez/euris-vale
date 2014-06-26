@@ -26,12 +26,12 @@ namespace VALE.Account
                 var result = manager.ConfirmEmail(userId, code);
                 if (result.Succeeded)
                 {
-                    StatusMessage = "Thank you for confirming your account.";
+                    StatusMessage = "Ti ringrazio per aver confermato il tuo account.";
                     return;
                 }
             }
 
-            StatusMessage = "An error has occurred";
+            StatusMessage = "Si è verificato un errore.";
         }
     }
 }

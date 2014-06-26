@@ -79,7 +79,7 @@
                                                     <center><div><asp:Label runat="server" ID="labelAccept"><span  class="glyphicon glyphicon-ok-circle"></span> Accetta</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Button runat="server" Width="120" Text="Accetta articolo" CssClass="btn btn-success btn-xs"
+                                                    <center><div><asp:Button runat="server" Width="120" Text="Accetta" CssClass="btn btn-success btn-xs"
                                                                 CommandName="AcceptArticle" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
                                                 </ItemTemplate>
                                                 <HeaderStyle Width="120px" />
@@ -90,7 +90,7 @@
                                                     <center><div><asp:Label runat="server" ID="labelReject"><span  class="glyphicon glyphicon-remove-circle"></span> Rifiuta</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Button runat="server" Width="120" Text="Rifiuta articolo" CssClass="btn btn-danger btn-xs"
+                                                    <center><div><asp:Button runat="server" Width="120" Text="Rifiuta" CssClass="btn btn-danger btn-xs"
                                                                 CommandName="RejectArticle" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
                                                 </ItemTemplate>
                                                 <HeaderStyle Width="120px" />

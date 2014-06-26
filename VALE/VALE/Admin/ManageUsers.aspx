@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body" style="overflow: auto;">
+                        <div class="panel-body">
                             <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both"
                                 ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                                 <Columns>
@@ -112,16 +112,18 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <ItemTemplate>
-                                            <div class="btn-group">
-                                                <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server">Cambia Ruolo<span class="caret"></span></button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <asp:LinkButton ID="btnAdministrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratore</asp:LinkButton></li>
-                                                    <li>
-                                                        <asp:LinkButton ID="btnBoard" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Membro del consiglio</asp:LinkButton></li>
-                                                    <li>
-                                                        <asp:LinkButton ID="btnAssociated" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Socio</asp:LinkButton></li>
-                                                </ul>
+                                            <div class="navbar-right">
+                                                <div class="btn-group">
+                                                    <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server">Cambia Ruolo<span class="caret"></span></button>
+                                                    <ul class="dropdown-menu" style="text-align: initial">
+                                                        <li>
+                                                            <asp:LinkButton ID="btnAdministrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratore</asp:LinkButton></li>
+                                                        <li>
+                                                            <asp:LinkButton ID="btnBoard" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Membro del consiglio</asp:LinkButton></li>
+                                                        <li>
+                                                            <asp:LinkButton ID="btnAssociated" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Socio</asp:LinkButton></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </ItemTemplate>
                                         <ItemStyle Width="100px" />
