@@ -46,7 +46,7 @@
                 <div class="col-md-3">
                     <asp:TextBox runat="server" ID="TextLastName" CssClass="form-control" />
                     <asp:RequiredFieldValidator runat="server" ControlToValidate="TextLastName"
-                        CssClass="text-danger" ErrorMessage="Il campo Cognome è obblligatorio." /><br />
+                        CssClass="text-danger" ErrorMessage="Il campo Cognome è obbligatorio." /><br />
                     <asp:RegularExpressionValidator ID="LastNameToValidate" runat="server" ErrorMessage="Formato non corretto." CssClass="text-danger"
                         ControlToValidate="TextLastName" ValidationExpression="^[a-zA-Z]*$" Display="Dynamic"></asp:RegularExpressionValidator>
                 </div>
