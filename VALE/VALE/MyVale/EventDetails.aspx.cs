@@ -41,11 +41,6 @@ namespace VALE.MyVale
             }
         }
 
-        //private bool IsUserAttendingThisEvent()
-        //{
-        //    return _db.Events.First(a => a.EventId == _currentEventId).RegisteredUsers.Select(u => u.UserName).Contains(_currentUser);
-        //}
-
         public Event GetEvent([QueryString("eventId")] int? eventId)
         {
             if (eventId.HasValue)
@@ -68,26 +63,6 @@ namespace VALE.MyVale
             return project;
         }
 
-        //protected void btnSearchProject_Click(object sender, EventArgs e)
-        //{
-        //    FormView fwProject = (FormView)EventDetail.FindControl("ProjectDetail");
-        //    TextBox textBox = (TextBox)fwProject.FindControl("txtProjectName");
-        //    string projectName = textBox.Text;
-        //    Project project = _db.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-        //    if (project != null)
-        //    {
-        //        Activity activity = _db.Activities.Where(a => a.ActivityId == _currentEventId).First();
-        //        activity.RelatedProject = project;
-        //        project.Activities.Add(activity);
-        //        _db.SaveChanges();
-        //    }
-        //    else
-        //    {
-        //        Label statusLabel = (Label)fwProject.FindControl("lblResultAddProject");
-        //        statusLabel.Text = "Questo pr";
-        //    }
-        //}
-
         protected void btnAttend_Click(object sender, EventArgs e)
         {
             UserData user = _db.UsersData.First(u => u.UserName == _currentUser);
@@ -102,24 +77,6 @@ namespace VALE.MyVale
                 //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
             }
             _db.SaveChanges();
-
-            //if (!eventActions.IsUserAttendingThisEvent(_currentEventId, _currentUser))
-            //{
-            //    thisEvent.RegisteredUsers.Add(user);
-            //    user.AttendingEvents.Add(thisEvent);
-            //    _db.SaveChanges();
-            //    // MAIL
-            //    //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
-            //    //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
-            //    //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
-            //}
-            //else
-            //{
-            //    thisEvent.RegisteredUsers.Remove(user);
-            //    user.AttendingEvents.Remove(thisEvent);
-            //    _db.SaveChanges();
-            //}
-
             Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
         }
 
