@@ -54,9 +54,9 @@ namespace VALE.Account
                     Form.Action = ResolveUrl("~/Account/Manage");
 
                     SuccessMessage =
-                        message == "ChangePwdSuccess" ? "Your password has been changed."
-                        : message == "SetPwdSuccess" ? "Your password has been set."
-                        : message == "RemoveLoginSuccess" ? "The account was removed."
+                        message == "ChangePwdSuccess" ? "La tua password è stata modificata."
+                        : message == "SetPwdSuccess" ? "La tua password è stata settata."
+                        : message == "RemoveLoginSuccess" ? "L'account è stato rimosso."
                         : String.Empty;
                     successMessage.Visible = !String.IsNullOrEmpty(SuccessMessage);
                 }
@@ -69,6 +69,12 @@ namespace VALE.Account
             if (IsValid)
             {
                 var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                var passwordValidator = new PasswordValidator();
+                //per la password sono richiesti solo sei caratteri
+                passwordValidator.RequiredLength = 6;
+                manager.PasswordValidator = passwordValidator;
+
                 IdentityResult result = manager.ChangePassword(User.Identity.GetUserId(), CurrentPassword.Text, NewPassword.Text);
                 if (result.Succeeded)
                 {
@@ -139,7 +145,7 @@ namespace VALE.Account
             {
                 btnRequestAssociation.Enabled = false;
                 btnRequestAssociation.CssClass = "btn btn-success disabled";
-                btnRequestAssociation.Text = "Already associated";
+                btnRequestAssociation.Text = "Sei già associato";
             }
             else
             {
@@ -147,12 +153,12 @@ namespace VALE.Account
                 {
                     btnRequestAssociation.Enabled = false;
                     btnRequestAssociation.CssClass = "btn btn-warning disabled";
-                    btnRequestAssociation.Text = "Pending approval";
+                    btnRequestAssociation.Text = "Approvazione sospesa";
                 }
                 else
                 {
                     btnRequestAssociation.CssClass = "btn btn-info";
-                    btnRequestAssociation.Text = "Request assiciation";
+                    btnRequestAssociation.Text = "Associazione richiesta";
                 }
             }
         }
@@ -163,7 +169,7 @@ namespace VALE.Account
             var db = new ApplicationDbContext();
             db.Users.First(u => u.Id == userId).NeedsApproval = true;
             db.SaveChanges();
-            lblRequestAssociation.Text = "Request sent";
+            lblRequestAssociation.Text = "Richiesta inviata";
             SetAssociationStatus();
         }
     }
