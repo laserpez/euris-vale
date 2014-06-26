@@ -32,9 +32,9 @@
                                         </asp:Panel>
 
                                         <div runat="server" id="filterPanel" class="panel-body">
-                                            <asp:Label AssociatedControlID="txtName" CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
+                                            <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
                                             <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
-                                            <asp:Label AssociatedControlID="txtDescription" CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
+                                            <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
                                             <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
                                             <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Creato il"></asp:Label>
                                             <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtCreationDate"></asp:TextBox>
@@ -42,8 +42,8 @@
                                             <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Ultima modifica"></asp:Label>
                                             <asp:TextBox CssClass="form-control" runat="server" ID="txtLastModifiedDate"></asp:TextBox>
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtLastModifiedDate"></asp:CalendarExtender>
-                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
+                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-xs" />
+                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
                                         </div>
                                     </asp:Panel>
                                     <asp:GridView OnRowCommand="ProjectList_RowCommand" DataKeyNames="ProjectId" OnSorting="ProjectList_Sorting" AllowSorting="true" ID="ProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both"
@@ -100,22 +100,22 @@
                                                     <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Button runat="server" Width="150" Text="Vedi report" CssClass="btn btn-info btn-xs"
+                                                    <center><div><asp:Button runat="server" Width="90" Text="Report" CssClass="btn btn-info btn-xs"
                                 CommandName="ViewReport" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="150px" />
-                                                <ItemStyle Width="150px" />
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
                                                     <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-remove"></span> Cancella</asp:Label></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Button runat="server" Width="150" Text="Cancella progetto" CssClass="btn btn-danger btn-xs"
+                                                    <center><div><asp:Button runat="server" Width="90" Text="Cancella" CssClass="btn btn-danger btn-xs"
                                 CommandName="DeleteProject" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" /></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="150px" />
-                                                <ItemStyle Width="150px" />
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>

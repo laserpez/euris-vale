@@ -46,7 +46,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton runat="server" ID="labelHoursWorked" CommandArgument="HoursWorked" CommandName="sort"><span  class="glyphicon glyphicon-th"></span> Ore di attività</asp:LinkButton></div></center>
+                                                    <center><div><asp:LinkButton runat="server" ID="labelHoursWorked" CommandArgument="HoursWorked" CommandName="sort"><span  class="glyphicon glyphicon-time"></span> Ore di attività</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.HoursWorked %></asp:Label></div></center>
@@ -56,7 +56,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Data">
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="Date" CommandName="sort" runat="server" ID="labelDate"><span  class="glyphicon glyphicon-th"></span> Data</asp:LinkButton></div></center>
+                                                    <center><div><asp:LinkButton CommandArgument="Date" CommandName="sort" runat="server" ID="labelDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.Date.ToShortDateString() %></asp:Label></div></center>

@@ -88,12 +88,12 @@
                                                 <ItemTemplate>
                                                     <center>
                                                                 <div>
-                                                                    <asp:Button ID="btnViewDetails" CssClass="btn btn-info btn-xs" Text="Vedi dettagli" runat="server" OnClick="btnViewDetails_Click" />
+                                                                    <asp:Button ID="btnViewDetails" Width="90" CssClass="btn btn-info btn-xs" Text="Visualizza" runat="server" OnClick="btnViewDetails_Click" />
                                                                 </div>
                                                             </center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="100px" />
-                                                <ItemStyle Width="100px" />
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>

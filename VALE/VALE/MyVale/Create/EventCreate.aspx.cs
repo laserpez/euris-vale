@@ -76,7 +76,7 @@ namespace VALE.MyVale
             else if (Session["requestFrom"] != null)
                 Response.Redirect(Session["requestFrom"].ToString());
             else
-                Response.Redirect("/MyVale/Activities");
+                Response.Redirect("/MyVale/Events");
         }
 
         //protected void btnSearchProject_Click(object sender, EventArgs e)

@@ -36,7 +36,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField>
                         <HeaderTemplate>
-                            <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                            <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
                         </HeaderTemplate>
                         <ItemTemplate>
                             <center><div><asp:Label runat="server" Text="<%#: Item.FullName %>"></asp:Label></div></center>
@@ -50,9 +50,6 @@
                             <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <%--<asp:BoundField DataField="UserName" HeaderText="Nome utente" SortExpression="UserName" />
-                    <asp:BoundField DataField="FullName" HeaderText="Nome" SortExpression="FullName" />
-                    <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />--%>
                 </Columns>
                 <EmptyDataTemplate>
                     <asp:Label runat="server">Nessun utente correlato.</asp:Label>
@@ -85,7 +82,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField>
                                         <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                            <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <center><div><asp:Label runat="server" Text="<%#: Item.FullName %>"></asp:Label></div></center>

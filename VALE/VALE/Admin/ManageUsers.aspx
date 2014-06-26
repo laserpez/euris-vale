@@ -116,11 +116,11 @@
                                                 <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server">Cambia Ruolo<span class="caret"></span></button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <asp:LinkButton ID="btnAdministrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click">Amministratore</asp:LinkButton></li>
+                                                        <asp:LinkButton ID="btnAdministrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratore</asp:LinkButton></li>
                                                     <li>
-                                                        <asp:LinkButton ID="btnBoard" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click">Membro del consiglio</asp:LinkButton></li>
+                                                        <asp:LinkButton ID="btnBoard" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Membro del consiglio</asp:LinkButton></li>
                                                     <li>
-                                                        <asp:LinkButton ID="btnAssociated" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click">Socio</asp:LinkButton></li>
+                                                        <asp:LinkButton ID="btnAssociated" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Socio</asp:LinkButton></li>
                                                 </ul>
                                             </div>
                                         </ItemTemplate>
