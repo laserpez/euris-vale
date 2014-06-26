@@ -29,7 +29,8 @@ namespace VALE.MyVale
         protected void Page_PreRender(object sender, EventArgs e)
         {
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
-            if(IsUserAttendingThisEvent())
+            var eventActions = new EventActions();
+            if(eventActions.IsUserAttendingThisEvent(_currentEventId, _currentUser))
             {
                 btnAttend.CssClass = "btn btn-success";
                 btnAttend.Text = "Stai partecipando";
@@ -40,10 +41,10 @@ namespace VALE.MyVale
             }
         }
 
-        private bool IsUserAttendingThisEvent()
-        {
-            return _db.Events.First(a => a.EventId == _currentEventId).RegisteredUsers.Select(u => u.UserName).Contains(_currentUser);
-        }
+        //private bool IsUserAttendingThisEvent()
+        //{
+        //    return _db.Events.First(a => a.EventId == _currentEventId).RegisteredUsers.Select(u => u.UserName).Contains(_currentUser);
+        //}
 
         public Event GetEvent([QueryString("eventId")] int? eventId)
         {
@@ -92,23 +93,32 @@ namespace VALE.MyVale
             UserData user = _db.UsersData.First(u => u.UserName == _currentUser);
             Event thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
-            if (!IsUserAttendingThisEvent())
+            var eventActions = new EventActions();
+            if (eventActions.AddOrRemoveUser(thisEvent, user) == true)
             {
-                thisEvent.RegisteredUsers.Add(user);
-                user.AttendingEvents.Add(thisEvent);
-                _db.SaveChanges();
                 // MAIL
                 //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
                 //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
                 //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
             }
-            else
-            {
-                thisEvent.RegisteredUsers.Remove(user);
-                user.AttendingEvents.Remove(thisEvent);
-                _db.SaveChanges();
-            }
+            _db.SaveChanges();
 
+            //if (!eventActions.IsUserAttendingThisEvent(_currentEventId, _currentUser))
+            //{
+            //    thisEvent.RegisteredUsers.Add(user);
+            //    user.AttendingEvents.Add(thisEvent);
+            //    _db.SaveChanges();
+            //    // MAIL
+            //    //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
+            //    //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
+            //    //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
+            //}
+            //else
+            //{
+            //    thisEvent.RegisteredUsers.Remove(user);
+            //    user.AttendingEvents.Remove(thisEvent);
+            //    _db.SaveChanges();
+            //}
 
             Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
         }
