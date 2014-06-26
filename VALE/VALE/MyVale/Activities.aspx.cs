@@ -27,6 +27,22 @@ namespace VALE.MyVale
             }
         }
 
+        public string GetStatus(Activity anActivity)
+        {
+            if (anActivity.Status == ActivityStatus.ToBePlanned)
+                return "Da pianificare";
+            if (anActivity.Status == ActivityStatus.Suspended)
+                return "Sospesa";
+            if (anActivity.Status == ActivityStatus.Ongoing)
+                return "In corso";
+            if (anActivity.Status == ActivityStatus.Done)
+                return "Terminata";
+            if (anActivity.Status == ActivityStatus.Deleted)
+                return "Cancellata";
+
+            return null;
+        }
+
         protected void Page_PreRender(object sender, EventArgs e)
         {
             ShowHideControls();
