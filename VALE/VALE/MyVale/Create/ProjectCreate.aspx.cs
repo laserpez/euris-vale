@@ -58,12 +58,12 @@ namespace VALE.MyVale
             dbData.Projects.Add(project);
             dbData.SaveChanges();
 
-            project.DocumentsPath = "/MyVale/Documents/Projects/" + project.ProjectId + "/";
-            string serverPath = Server.MapPath(project.DocumentsPath);
-            string tempPath = Server.MapPath(_temporaryPath);
-            if (!Directory.Exists(Server.MapPath("/MyVale/Documents/Projects/")))
-                Directory.CreateDirectory(Server.MapPath("/MyVale/Documents/Projects/"));
-            Directory.Move(tempPath, serverPath);
+            //project.DocumentsPath = "/MyVale/Documents/Projects/" + project.ProjectId + "/";
+            //string serverPath = Server.MapPath(project.DocumentsPath);
+            //string tempPath = Server.MapPath(_temporaryPath);
+            //if (!Directory.Exists(Server.MapPath("/MyVale/Documents/Projects/")))
+            //    Directory.CreateDirectory(Server.MapPath("/MyVale/Documents/Projects/"));
+            //Directory.Move(tempPath, serverPath);
             dbData.SaveChanges();
             Response.Redirect("/MyVale/Projects");
         }
