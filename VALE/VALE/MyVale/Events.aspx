@@ -91,7 +91,7 @@
                                                         <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-thumbs-up"></span> Partecipa</asp:Label></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <center><div><asp:Button ID="btnAttendEvent" Width="150" runat="server" OnClick="btnAttendEvent_Click" Text="&nbsp;&nbsp;&nbsp;&nbsp;Partecipa&nbsp;&nbsp;&nbsp;&nbsp;" CssClass="btn btn-info btn-xs" /></div></center>
+                                                        <center><div><asp:Button ID="btnAttendEvent" Width="120px" runat="server" OnClick="btnAttendEvent_Click" Text="&nbsp;&nbsp;&nbsp;&nbsp;Partecipa&nbsp;&nbsp;&nbsp;&nbsp;" CssClass="btn btn-info btn-xs" /></div></center>
                                                     </ItemTemplate>
                                                     <HeaderStyle Width="100px" />
                                                     <ItemStyle Width="100px" />
