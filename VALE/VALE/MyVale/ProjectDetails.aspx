@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:FormView OnDataBound="ProjectDetail_DataBound" runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetProject">
+                            <asp:FormView Width="100%" OnDataBound="ProjectDetail_DataBound" runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetProject">
                                 <ItemTemplate>
                                     <asp:Label runat="server"><%#: String.Format("Titolo:\t{0}", Item.ProjectName.ToUpper()) %></asp:Label><br />
                                     <asp:Label runat="server"><%#: "Pubblico: " %></asp:Label><asp:CheckBox ID="checkboxPublic" runat="server" AutoPostBack="true" OnCheckedChanged="checkboxPublic_CheckedChanged" /><br />

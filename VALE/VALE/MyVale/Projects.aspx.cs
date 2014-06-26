@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -52,9 +53,10 @@ namespace VALE.MyVale
 
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
-            int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            string id = OpenedProjectList.DataKeys[rowID].Value.ToString();
-            Response.Redirect("/MyVale/ProjectDetails?projectId=" + id);
+            string projectId = ((Button)sender).CommandArgument;
+            //int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
+            //string id = OpenedProjectList.DataKeys[rowID].Value.ToString();
+            Response.Redirect("/MyVale/ProjectDetails?projectId=" + projectId);
         }
 
         protected void OpenedProjectList_Sorting(object sender, GridViewSortEventArgs e)
@@ -64,24 +66,28 @@ namespace VALE.MyVale
             else
                 GridViewSortDirection = SortDirection.Ascending;
             
-            OpenedProjectList.DataSource = GetSortedData(e.SortExpression);
+            //OpenedProjectList.DataSource = GetSortedData(e.SortExpression);
+            using (var actions = new ProjectActions())
+            {
+                OpenedProjectList.DataSource = actions.GetSortedData(e.SortExpression, (List<Project>)ViewState["lstProject"], GridViewSortDirection);
+            }
             OpenedProjectList.DataBind();
         }
 
-        private List<Project> GetSortedData(string sortExpression)
-        {
-            var result = (List<Project>)ViewState["lstProject"];
+        //private List<Project> GetSortedData(string sortExpression)
+        //{
+        //    var result = (List<Project>)ViewState["lstProject"];
 
-            var param = Expression.Parameter(typeof(Project), sortExpression);
-            var sortBy = Expression.Lambda<Func<Project, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+        //    var param = Expression.Parameter(typeof(Project), sortExpression);
+        //    var sortBy = Expression.Lambda<Func<Project, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
 
-            if (GridViewSortDirection == SortDirection.Descending)
-                result = result.AsQueryable<Project>().OrderByDescending(sortBy).ToList();
-            else
-                result = result.AsQueryable<Project>().OrderBy(sortBy).ToList();
-            ViewState["lstProject"] = result;
-            return result;
-        }
+        //    if (GridViewSortDirection == SortDirection.Descending)
+        //        result = result.AsQueryable<Project>().OrderByDescending(sortBy).ToList();
+        //    else
+        //        result = result.AsQueryable<Project>().OrderBy(sortBy).ToList();
+        //    ViewState["lstProject"] = result;
+        //    return result;
+        //}
 
         public SortDirection GridViewSortDirection
         {
@@ -97,20 +103,24 @@ namespace VALE.MyVale
 
         protected void btnFilterProjects_Click(object sender, EventArgs e)
         {
+            var filters = new Dictionary<string, string>();
             ViewState["lstProject"] = GetProjects();
             if (!String.IsNullOrEmpty(txtName.Text))
-                FilterByName(txtName.Text);
+                filters.Add("Name", txtName.Text);
             if (!String.IsNullOrEmpty(txtDescription.Text))
-                FilterByDescription(txtDescription.Text);
+                filters.Add("Description", txtDescription.Text);
             if (!String.IsNullOrEmpty(txtCreationDate.Text))
-                FilterByCreationDate(txtCreationDate.Text);
+                filters.Add("CreationDate", txtCreationDate.Text);
             if (!String.IsNullOrEmpty(txtLastModifiedDate.Text))
-                FilterByLastModifiedDate(txtLastModifiedDate.Text);
+                filters.Add("LastModifiedDate", txtLastModifiedDate.Text);
             if (ddlStatus.SelectedValue != "Tutti")
-                FilterByProjectStatus(ddlStatus.SelectedValue);
-            var result = (List<Project>)ViewState["lstProject"];
-            OpenedProjectList.DataSource = result;
-            OpenedProjectList.DataBind();
+                filters.Add("ProjectStatus", ddlStatus.SelectedValue);
+            using (var actions = new ProjectActions())
+            {
+                var result = actions.GetFilteredData(filters, (List<Project>)ViewState["lstProject"]);
+                OpenedProjectList.DataSource = result;
+                OpenedProjectList.DataBind();
+            }
         }
 
         protected void btnClearFilters_Click(object sender, EventArgs e)
@@ -132,81 +142,87 @@ namespace VALE.MyVale
             filterPanel.Visible = !filterPanel.Visible;
         }
 
-        private void FilterByName(string name)
-        {
-            var result = (List<Project>)ViewState["lstProject"];
-            result = result.Where(p => p.ProjectName.ToLower().Contains(name.ToLower())).ToList();
-            ViewState["lstProject"] = result;
-        }
+        //private void FilterByName(string name)
+        //{
+        //    var result = (List<Project>)ViewState["lstProject"];
+        //    result = result.Where(p => p.ProjectName.ToLower().Contains(name.ToLower())).ToList();
+        //    ViewState["lstProject"] = result;
+        //}
 
-        private void FilterByDescription(string description)
-        {
-            var result = (List<Project>)ViewState["lstProject"];
-            result = result.Where(p => p.Description.ToLower().Contains(description.ToLower())).ToList();
-            ViewState["lstProject"] = result;
-        }
+        //private void FilterByDescription(string description)
+        //{
+        //    var result = (List<Project>)ViewState["lstProject"];
+        //    result = result.Where(p => p.Description.ToLower().Contains(description.ToLower())).ToList();
+        //    ViewState["lstProject"] = result;
+        //}
 
-        private void FilterByCreationDate(string creationDate)
-        {
-            var result = (List<Project>)ViewState["lstProject"];
-            result = result.Where(p => p.CreationDate.ToShortDateString() == creationDate).ToList();
-            ViewState["lstProject"] = result;
-        }
+        //private void FilterByCreationDate(string creationDate)
+        //{
+        //    var result = (List<Project>)ViewState["lstProject"];
+        //    result = result.Where(p => p.CreationDate.ToShortDateString() == creationDate).ToList();
+        //    ViewState["lstProject"] = result;
+        //}
 
-        private void FilterByLastModifiedDate(string lastModified)
-        {
-            var result = (List<Project>)ViewState["lstProject"];
-            result = result.Where(p => p.LastModified.ToShortDateString() == lastModified).ToList();
-            ViewState["lstProject"] = result;
-        }
+        //private void FilterByLastModifiedDate(string lastModified)
+        //{
+        //    var result = (List<Project>)ViewState["lstProject"];
+        //    result = result.Where(p => p.LastModified.ToShortDateString() == lastModified).ToList();
+        //    ViewState["lstProject"] = result;
+        //}
 
-        private void FilterByProjectStatus(string status)
-        {
-            var result = (List<Project>)ViewState["lstProject"];
-            result = result.Where(p => p.Status.ToUpper() == status.ToUpper()).ToList();
-            ViewState["lstProject"] = result;
-        }
+        //private void FilterByProjectStatus(string status)
+        //{
+        //    var result = (List<Project>)ViewState["lstProject"];
+        //    result = result.Where(p => p.Status.ToUpper() == status.ToUpper()).ToList();
+        //    ViewState["lstProject"] = result;
+        //}
 
         protected void btnWorkOnThis_Click(object sender, EventArgs e)
         {
-            int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            int projectId = (int)OpenedProjectList.DataKeys[rowID].Value;
-            var db = new UserOperationsContext();
-            UserData user = db.UsersData.First(u => u.UserName == _currentUser);
-            Project thisProject = db.Projects.First(ev => ev.ProjectId == projectId);
-            Button btnAttend = (Button)sender;
-            if (btnAttend.CssClass == "btn btn-info btn-xs")
+            int projectId = Convert.ToInt32(((Button)sender).CommandArgument);
+            using(var actions = new ProjectActions())
             {
-                thisProject.InvolvedUsers.Add(user);
-                user.AttendingProjects.Add(thisProject);
-                db.SaveChanges();
+                actions.AddOrRemoveUser(projectId, _currentUser);
+                OpenedProjectList.DataSource = (List<Project>)ViewState["lstProject"];
+                OpenedProjectList.DataBind();
             }
-            else
-            {
-                thisProject.InvolvedUsers.Remove(user);
-                user.AttendingProjects.Remove(thisProject);
-                db.SaveChanges();
-            }
-            OpenedProjectList.DataSource = (List<Project>)ViewState["lstProject"];
-            OpenedProjectList.DataBind();
+            //var db = new UserOperationsContext();
+            //UserData user = db.UsersData.First(u => u.UserName == _currentUser);
+            //Project thisProject = db.Projects.First(ev => ev.ProjectId == projectId);
+            //Button btnAttend = (Button)sender;
+            //if (btnAttend.CssClass == "btn btn-info btn-xs")
+            //{
+            //    thisProject.InvolvedUsers.Add(user);
+            //    user.AttendingProjects.Add(thisProject);
+            //    db.SaveChanges();
+            //}
+            //else
+            //{
+            //    thisProject.InvolvedUsers.Remove(user);
+            //    user.AttendingProjects.Remove(thisProject);
+            //    db.SaveChanges();
+            //}
+            
         }
 
         protected void OpenedProjectList_DataBound(object sender, EventArgs e)
         {
-            var dbData = new UserOperationsContext();
-            for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
+            using (var actions = new ProjectActions())
             {
-                Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
-                int projectId = (int)OpenedProjectList.DataKeys[i].Value;
-                if (dbData.UsersData.First(u => u.UserName == _currentUser).AttendingProjects.Contains(dbData.Projects.First(p => p.ProjectId == projectId)))
+                for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
                 {
-                    btnAttend.CssClass = "btn btn-success btn-xs";
-                    btnAttend.Text = "Stai partecipando";
-                }
-                else
-                {
-                    btnAttend.CssClass = "btn btn-info btn-xs";
-                    btnAttend.Text = "Partecipa";
+                    Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
+                    int projectId = (int)OpenedProjectList.DataKeys[i].Value;
+                    if (actions.IsUserRelated(projectId, _currentUser))
+                    {
+                        btnAttend.CssClass = "btn btn-success btn-xs";
+                        btnAttend.Text = "Stai partecipando";
+                    }
+                    else
+                    {
+                        btnAttend.CssClass = "btn btn-info btn-xs";
+                        btnAttend.Text = "Partecipa";
+                    }
                 }
             }
         }

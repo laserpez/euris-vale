@@ -32,9 +32,9 @@
                                         </asp:Panel>
 
                                         <div runat="server" id="filterPanel" class="panel-body">
-                                            <asp:Label AssociatedControlID="txtName" CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
+                                            <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
                                             <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
-                                            <asp:Label AssociatedControlID="txtDescription" CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
+                                            <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
                                             <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
                                             <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Creato il"></asp:Label>
                                             <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtCreationDate"></asp:TextBox>

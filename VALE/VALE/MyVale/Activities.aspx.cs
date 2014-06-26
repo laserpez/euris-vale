@@ -29,18 +29,24 @@ namespace VALE.MyVale
 
         public string GetStatus(Activity anActivity)
         {
-            if (anActivity.Status == ActivityStatus.ToBePlanned)
-                return "Da pianificare";
-            if (anActivity.Status == ActivityStatus.Suspended)
-                return "Sospesa";
-            if (anActivity.Status == ActivityStatus.Ongoing)
-                return "In corso";
-            if (anActivity.Status == ActivityStatus.Done)
-                return "Terminata";
-            if (anActivity.Status == ActivityStatus.Deleted)
-                return "Cancellata";
+            string status;
+            using (var activityActions = new ActivityActions())
+            {
+                status = activityActions.GetStatus(anActivity);
+            }
+            return status;
+            //if (anActivity.Status == ActivityStatus.ToBePlanned)
+            //    return "Da pianificare";
+            //if (anActivity.Status == ActivityStatus.Suspended)
+            //    return "Sospesa";
+            //if (anActivity.Status == ActivityStatus.Ongoing)
+            //    return "In corso";
+            //if (anActivity.Status == ActivityStatus.Done)
+            //    return "Terminata";
+            //if (anActivity.Status == ActivityStatus.Deleted)
+            //    return "Cancellata";
 
-            return null;
+            //return null;
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -62,41 +68,53 @@ namespace VALE.MyVale
 
         public IQueryable<Activity> GetCurrentActivities([Control]string txtName, [Control]string txtDescription, [Control]string ddlStatus)
         {
-            var db = new UserOperationsContext();
-            var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
-            var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId));
-            if (txtName != null)
-                activities = activities.Where(a => a.ActivityName.ToUpper().Contains(txtName.ToUpper()));
-            if(txtDescription != null)
-                activities = activities.Where(a => a.Description.ToUpper().Contains(txtDescription.ToUpper()));
-            if(ddlStatus != null && ddlStatus != "Tutte")
+            IQueryable<Activity> activities;
+            using (var activityActions = new ActivityActions())
             {
-                ActivityStatus statusFilter = ActivityStatus.Deleted;
-                switch(ddlStatus)
-                {
-                    case "Da pianificare":
-                        statusFilter = ActivityStatus.ToBePlanned;
-                        break;
-                    case "In corso":
-                        statusFilter = ActivityStatus.Ongoing;
-                        break;
-                    case "Sospese":
-                        statusFilter = ActivityStatus.Suspended;
-                        break;
-                    case "Terminata":
-                        statusFilter = ActivityStatus.Done;
-                        break;
-                }
-                activities = activities.Where(a => a.Status == statusFilter);
+                activities = activityActions.GetCurrentActivities(txtName,txtDescription,ddlStatus,_currentUserName);
             }
             return activities;
+            //var db = new UserOperationsContext();
+            //var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
+            //var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId));
+            //if (txtName != null)
+            //    activities = activities.Where(a => a.ActivityName.ToUpper().Contains(txtName.ToUpper()));
+            //if(txtDescription != null)
+            //    activities = activities.Where(a => a.Description.ToUpper().Contains(txtDescription.ToUpper()));
+            //if(ddlStatus != null && ddlStatus != "Tutte")
+            //{
+            //    ActivityStatus statusFilter = ActivityStatus.Deleted;
+            //    switch(ddlStatus)
+            //    {
+            //        case "Da pianificare":
+            //            statusFilter = ActivityStatus.ToBePlanned;
+            //            break;
+            //        case "In corso":
+            //            statusFilter = ActivityStatus.Ongoing;
+            //            break;
+            //        case "Sospese":
+            //            statusFilter = ActivityStatus.Suspended;
+            //            break;
+            //        case "Terminata":
+            //            statusFilter = ActivityStatus.Done;
+            //            break;
+            //    }
+            //    activities = activities.Where(a => a.Status == statusFilter);
+            //}
+            //return activities;
         }
 
         public IQueryable<Activity> GetPendingActivities()
         {
-            var db = new UserOperationsContext();
-            var activities = db.UsersData.First(u => u.UserName == _currentUserName).PendingActivity.AsQueryable();
+            IQueryable<Activity> activities;
+            using(var activityActions = new ActivityActions())
+            {
+                activities = activityActions.GetPendingActivities(_currentUserName);
+            }
             return activities;
+            //var db = new UserOperationsContext();
+            //var activities = db.UsersData.First(u => u.UserName == _currentUserName).PendingActivity.AsQueryable();
+            //return activities;
         }
 
         protected void btnCreateActivity_Click(object sender, EventArgs e)
@@ -146,35 +164,12 @@ namespace VALE.MyVale
 
         public void ExportToCSV(List<string> usersNames)
         {
-            List<Activity> activities;
-            using (var activityActions = new ActivityActions())
+            using (var exportToCSV = new ExportToCSV())
             {
                 string name = usersNames.Count == 1 ? usersNames[0] : "Gruppo Utenti";
                 Response.AddHeader("content-disposition", string.Format("attachment; filename=ListActivities({0}).csv", name));
                 Response.ContentType = "application/text";
-                StringBuilder strbldr = new StringBuilder();
-                //separting header columns text with comma operator
-                strbldr.Append("Utente;Id;Nome Attività;Data Inizio;Data Fine;Ore Di Lavoro;Stato");
-                //appending new line for gridview header row
-                strbldr.Append("\n");
-                foreach (var userName in usersNames)
-                {
-                    activities = activityActions.GetActivities(userName);
-                    foreach (var activity in activities)
-                    {
-                        strbldr.Append(userName + ';');
-                        strbldr.Append(activity.ActivityId.ToString() + ';');
-                        strbldr.Append(activity.ActivityName + ';');
-                        strbldr.Append(activity.StartDate.Value.ToShortDateString() + ';');
-                        if (activity.ExpireDate.HasValue)
-                            strbldr.Append(activity.ExpireDate.Value.ToShortDateString() + ';');
-                        else
-                            strbldr.Append("Non definito;");
-                        strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId).ToString() + ';');
-                        strbldr.Append(activity.Status + ';');
-                        strbldr.Append("\n");
-                    }
-                }
+                StringBuilder strbldr = exportToCSV.ExportActivities(usersNames);
                 Response.Write(strbldr.ToString());
                 Response.End();
             }

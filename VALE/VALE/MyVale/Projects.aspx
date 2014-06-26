@@ -108,7 +108,7 @@
                                                                 <center><div><asp:Label runat="server" ID="labelAttend"><span  class="glyphicon glyphicon-thumbs-up"></span> Partecipa</asp:Label></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <center><div><asp:Button runat="server" Width="150" Text="Partecipa" CssClass="btn btn-info btn-xs" ID="btnWorkOnThis"  OnClick="btnWorkOnThis_Click" /></div></center>
+                                                        <center><div><asp:Button runat="server" CommandArgument="<%#: Item.ProjectId %>" Width="150" Text="Partecipa" CssClass="btn btn-info btn-xs" ID="btnWorkOnThis"  OnClick="btnWorkOnThis_Click" /></div></center>
                                                     </ItemTemplate>
                                                     <HeaderStyle Width="100px" />
                                                     <ItemStyle Width="100px" />
@@ -118,7 +118,7 @@
                                                         <center><div><asp:Label runat="server" ID="labelDetails"><span  class="glyphicon glyphicon-open"></span> Dettagli</asp:Label></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <center><div><asp:Button runat="server" Width="90" Text="Visualizza" CssClass="btn btn-info btn-xs" ID="btnViewDetails" OnClick="btnViewDetails_Click" /></div></center>
+                                                        <center><div><asp:Button CommandArgument="<%#: Item.ProjectId %>" runat="server" Width="90" Text="Visualizza" CssClass="btn btn-info btn-xs" ID="btnViewDetails" OnClick="btnViewDetails_Click" /></div></center>
                                                     </ItemTemplate>
                                                     <HeaderStyle Width="90px" />
                                                     <ItemStyle Width="90px" />
