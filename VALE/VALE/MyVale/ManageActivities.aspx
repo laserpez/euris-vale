@@ -102,8 +102,8 @@
                                     <div class="col-md-12">
                                         <br />
                                     </div>
-                                    <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-sm" />
-                                    <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-sm" />
+                                    <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-xs" />
+                                    <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
                                 </div>
                             </div>
                             <div class="row">
@@ -112,38 +112,41 @@
                                         <div class="panel-heading">
                                             <span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;Da Pianificare
                                                      <div class="navbar-right">
-                                                         <button type="button" runat="server" class="btn btn-success btn-xs" onserverclick="btnCreateActivityToBePlannedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
+                                                         <button type="button" runat="server" class="btn btn-success btn-xs" title="Crea nuova attività (stato: da pianificare)" onserverclick="btnCreateActivityToBePlannedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                      </div>
                                         </div>
                                         <div class="panel-body" style="max-height: 170px; overflow: auto;">
-                                            <asp:GridView ID="ToBePlannedGridView0" runat="server" AutoGenerateColumns="False"
-                                                ItemType="VALE.Models.Activity"
-                                                CssClass="table table-striped table-bordered"
-                                                SelectMethod="ToBePlannedGridViewGetData"
-                                                ShowHeaderWhenEmpty="true">
-                                                <Columns>
-                                                    <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemStyle Font-Bold="true"></ItemStyle>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
-                                                        </HeaderTemplate>
-                                                        <HeaderStyle Width="115px"></HeaderStyle>
-                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
+                                            <asp:UpdatePanel runat="server">
+                                                <ContentTemplate>
+                                                    <asp:GridView ID="ToBePlannedGridView0" runat="server" AutoGenerateColumns="False"
+                                                        ItemType="VALE.Models.Activity" AllowSorting="true" OnSorting="GridView_Sorting"
+                                                        CssClass="table table-striped table-bordered"
+                                                        ShowHeaderWhenEmpty="true">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="ActivityId" HeaderText="ID" />
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemStyle Font-Bold="true"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <HeaderStyle Width="115px"></HeaderStyle>
+                                                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                         </div>
                                     </div>
                                 </div>
@@ -152,38 +155,41 @@
                                         <div class="panel-heading">
                                             <span class="glyphicon glyphicon-play"></span>&nbsp;&nbsp;In Corso
                                                     <div class="navbar-right">
-                                                        <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivityOngoingStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
+                                                        <button type="button" class="btn btn-success btn-xs" runat="server" title="Crea nuova attività (stato: in corso)" onserverclick="btnCreateActivityOngoingStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                     </div>
                                         </div>
                                         <div class="panel-body" style="max-height: 170px; overflow: auto;">
-                                            <asp:GridView ID="OngoingGridView1" runat="server" AutoGenerateColumns="False"
-                                                ItemType="VALE.Models.Activity"
-                                                CssClass="table table-striped table-bordered"
-                                                SelectMethod="OngoingGridViewGetData"
-                                                ShowHeaderWhenEmpty="true">
-                                                <Columns>
-                                                    <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemStyle Font-Bold="true"></ItemStyle>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
-                                                        </HeaderTemplate>
-                                                        <HeaderStyle Width="115px"></HeaderStyle>
-                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
+                                            <asp:UpdatePanel runat="server">
+                                                <ContentTemplate>
+                                                    <asp:GridView ID="OngoingGridView1" runat="server" AutoGenerateColumns="False"
+                                                        ItemType="VALE.Models.Activity" AllowSorting="true" OnSorting="GridView_Sorting"
+                                                        CssClass="table table-striped table-bordered"
+                                                        ShowHeaderWhenEmpty="true">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="ActivityId" HeaderText="ID" />
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemStyle Font-Bold="true"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <HeaderStyle Width="115px"></HeaderStyle>
+                                                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                         </div>
                                     </div>
                                 </div>
@@ -194,38 +200,42 @@
                                         <div class="panel-heading">
                                             <span class="glyphicon glyphicon-pause"></span>&nbsp;&nbsp;Sospeso
                                                      <div class="navbar-right">
-                                                         <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivitySuspendedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
+                                                         <button type="button" class="btn btn-success btn-xs" runat="server" title="Crea nuova attività (stato: sospeso)" onserverclick="btnCreateActivitySuspendedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                      </div>
                                         </div>
                                         <div class="panel-body" style="max-height: 170px; overflow: auto;">
-                                            <asp:GridView ID="SuspendedGridView2" runat="server" AutoGenerateColumns="False"
-                                                ItemType="VALE.Models.Activity"
-                                                CssClass="table table-striped table-bordered"
-                                                SelectMethod="SuspendedGridViewGetData"
-                                                ShowHeaderWhenEmpty="true">
-                                                <Columns>
-                                                    <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemStyle Font-Bold="true"></ItemStyle>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server" ><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
-                                                        </HeaderTemplate>
-                                                        <HeaderStyle Width="115px"></HeaderStyle>
-                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
+                                            <asp:UpdatePanel runat="server">
+                                                <ContentTemplate>
+                                                    <asp:GridView ID="SuspendedGridView2" runat="server" AutoGenerateColumns="False"
+                                                        ItemType="VALE.Models.Activity"
+                                                        CssClass="table table-striped table-bordered"
+                                                        AllowSorting ="true" OnSorting="GridView_Sorting"
+                                                        ShowHeaderWhenEmpty="true">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="ActivityId" HeaderText="ID" />
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemStyle Font-Bold="true"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server" ><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <HeaderStyle Width="115px"></HeaderStyle>
+                                                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                         </div>
                                     </div>
                                 </div>
@@ -234,38 +244,42 @@
                                         <div class="panel-heading">
                                             <span class="glyphicon glyphicon-stop"></span>&nbsp;&nbsp;Terminato
                                                      <div class="navbar-right">
-                                                         <button type="button" class="btn btn-success btn-xs" runat="server" onserverclick="btnCreateActivityDoneStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
+                                                         <button type="button" class="btn btn-success btn-xs" runat="server" title="Crea nuova attività (stato: terminato)" onserverclick="btnCreateActivityDoneStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                      </div>
                                         </div>
                                         <div class="panel-body" style="max-height: 170px; overflow: auto;">
-                                            <asp:GridView ID="DoneGridView3" runat="server" AutoGenerateColumns="False"
-                                                ItemType="VALE.Models.Activity"
-                                                CssClass="table table-striped table-bordered"
-                                                SelectMethod="DoneGridViewGetData"
-                                                ShowHeaderWhenEmpty="true">
-                                                <Columns>
-                                                    <asp:BoundField DataField="ActivityId" HeaderText="ID" />
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><span  class="glyphicon glyphicon-credit-card"></span> Nome</div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemStyle Font-Bold="true"></ItemStyle>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
-                                                        </HeaderTemplate>
-                                                        <HeaderStyle Width="115px"></HeaderStyle>
-                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
+                                            <asp:UpdatePanel runat="server">
+                                                <ContentTemplate>
+                                                    <asp:GridView ID="DoneGridView3" runat="server" AutoGenerateColumns="False"
+                                                        ItemType="VALE.Models.Activity"
+                                                        CssClass="table table-striped table-bordered"
+                                                        AllowSorting="true" OnSorting="GridView_Sorting"
+                                                        ShowHeaderWhenEmpty="true">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="ActivityId" HeaderText="ID" />
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemStyle Font-Bold="true"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <HeaderStyle Width="115px"></HeaderStyle>
+                                                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                         </div>
                                     </div>
                                 </div>
