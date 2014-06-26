@@ -44,37 +44,6 @@
                                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="La data è obbligatoria" />
                                 </div>
-                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Carica file</asp:Label>
-                                <div class="col-md-10">
-                                    <asp:FileUpload AllowMultiple="false" ID="FileUploadControl" runat="server" />
-                                    <asp:Label runat="server" ID="StatusLabel" Text="" />
-                                    <asp:Button runat="server" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info btn-xs" OnClick="btnUploadFile_Click" />
-                                </div>
-                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">File caricati</asp:Label>
-                                <asp:UpdatePanel runat="server">
-                                    <ContentTemplate>
-                                        <div class="col-md-10">
-                                            <asp:GridView OnRowCommand="grdFilesUploaded_RowCommand" CssClass="table table-striped table-bordered" EmptyDataText="Nessun file caricato."
-                                                ID="grdFilesUploaded" runat="server">
-                                                <Columns>
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <center>
-                                        <div>
-                                             <asp:Button CausesValidation="false" Width="90" CssClass="btn btn-danger btn-xs" runat="server" CommandName="DeleteFile"
-                                                 CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Elimina" />
-                                        </div>
-                                    </center>
-                                                        </ItemTemplate>
-                                                        <HeaderStyle Width="100px" />
-                                                        <ItemStyle Width="100px" />
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                        </div>
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
-
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">E' un evento pubblico?</asp:Label>
                                 <div class="col-md-10">
                                     <asp:CheckBox runat="server" ID="chkPublic" />
