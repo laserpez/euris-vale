@@ -57,7 +57,7 @@ namespace VALE.Account
                 }
                 else
                 {
-                    FailureText.Text = "Invalid username or password.";
+                    FailureText.Text = "Username o password non valide.";
                     ErrorMessage.Visible = true;
                 }
             }
