@@ -38,8 +38,8 @@
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <h4>Collabora</h4>
-                                            <asp:Button runat="server" ID="btnWorkOnThis" OnClick="btnWorkOnThis_Click" />
-                                            <asp:Button runat="server" ID="btnAddIntervention" OnClick="btnAddIntervention_Click" />
+                                            <asp:Button CausesValidation="false" runat="server" ID="btnWorkOnThis" OnClick="btnWorkOnThis_Click" />
+                                            <asp:Button CausesValidation="false"  runat="server" ID="btnAddIntervention" OnClick="btnAddIntervention_Click" />
                                             <h4>Interventi</h4>
                                             <asp:GridView OnRowCommand="grdInterventions_RowCommand" DataKeyNames="InterventionId" ItemType="VALE.Models.Intervention" GridLines="Both" AllowSorting="true"
                                                 SelectMethod="GetInterventions" runat="server" ID="grdInterventions" AutoGenerateColumns="false" CssClass="table table-striped table-bordered">
@@ -134,7 +134,7 @@
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <h4>Eventi correlati</h4>
-                                            <asp:Button CssClass="btn btn-success btn-sm" Text="Aggiungi evento" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
+                                            <asp:Button CausesValidation="false" CssClass="btn btn-success btn-sm" Text="Aggiungi evento" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
                                             <asp:GridView ItemType="VALE.Models.Event" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                 SelectMethod="GetRelatedEvents" DataKeyNames="EventId" runat="server" ID="GridView1" CssClass="table table-striped table-bordered">
                                                 <Columns>
@@ -214,9 +214,9 @@
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
 
-                                    <asp:Label runat="server" ID="attachmentsLabel" Text="Allegati" CssClass="h4"></asp:Label>
+                                    <%--<asp:Label runat="server" ID="attachmentsLabel" Text="Allegati" CssClass="h4"></asp:Label>
                                     <asp:ListBox runat="server" CssClass="form-control" Width="400px" ID="lstDocuments" SelectMethod="GetRelatedDocuments"></asp:ListBox>
-                                    <asp:Button runat="server" Text="Scarica" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
+                                    <asp:Button runat="server" Text="Scarica" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />--%>
 
                                     <%--****************************************************PARTE UPLOAD FILE**********************************************--%>
                                     <h4>Documenti Allegati</h4>
@@ -256,7 +256,7 @@
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Azione" HeaderStyle-Width="50px" ItemStyle-Width="50px">
                                                                         <ItemTemplate>
-                                                                            <center><div <%#: AllowDelete(Item) %>="display:none"><asp:Button  runat="server" Text="Cancella"  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.AttachedFileID %>" CommandName="DELETE" CausesValidation="false" /></div></center>
+                                                                            <center><div><asp:Button  runat="server" Text="Cancella"  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.AttachedFileID %>" CommandName="Cancella" CausesValidation="false" /></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="50px"></HeaderStyle>
                                                                         <ItemStyle Width="50px"></ItemStyle>
@@ -276,7 +276,7 @@
                                                                         <asp:FileUpload ID="FileUpload" runat="server" CssClass="form-control input-sm" />
                                                                     </div>
                                                                     <span class="input-group-btn">
-                                                                        <asp:Button runat="server" ID="AddFileNameButton" CssClass="btn btn-default btn-sm" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
+                                                                        <asp:Button runat="server" ID="AddFileNameButton" ValidationGroup="UploadFile" CssClass="btn btn-default btn-sm" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -284,7 +284,7 @@
                                                         <div class="col-lg-12">
                                                             <asp:Label ID="Label1" runat="server" Text="Label">Deacrizione * </asp:Label>
                                                             <asp:TextBox ID="txtFileDescription" runat="server" CssClass="form-control" Width="300px"></asp:TextBox>
-                                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
+                                                            <asp:RequiredFieldValidator runat="server"  ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
                                                         </div>
                                                     </div>
                                                 </div>
