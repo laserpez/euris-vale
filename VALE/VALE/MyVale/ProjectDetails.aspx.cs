@@ -27,10 +27,16 @@ namespace VALE.MyVale
             
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+
+            FileUploader uploader = (FileUploader)ProjectDetail.FindControl("FileUploader");
+            uploader.DataActions = new ProjectActions();
+            uploader.DataId = _currentProjectId;
+
             if (!IsPostBack)
             {
                 DataBindControls();
                 ShowHideControls();
+                uploader.DataBind();
             }
         }
 

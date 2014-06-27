@@ -79,20 +79,51 @@ namespace VALE.Logic
             }
         }
 
-        public bool AddAttachment(int attachmentId)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool RemoveAttachment(int attachmentId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var db = new UserOperationsContext();
+                var anAttachment = db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
+                db.AttachedFiles.Remove(anAttachment);
+
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public void Dispose()
         {
             if (_db != null)
                 _db = null;
+        }
+
+
+        public bool AddAttachment(int dataId, AttachedFile file)
+        {
+            try
+            {
+                var db = new UserOperationsContext();
+                var project = db.Projects.First(p => p.ProjectId == dataId);
+                project.AttachedFiles.Add(file);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public List<AttachedFile> GetAttachments(int dataId)
+        {
+            var db = new UserOperationsContext();
+            var project = db.Projects.First(p => p.ProjectId == dataId);
+            return project.AttachedFiles;
         }
     }
 }
