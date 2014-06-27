@@ -101,8 +101,10 @@
                                             <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <center><div><asp:Button runat="server" CausesValidation="false" CommandArgument="<%#: Item.UserName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseUser" OnClick="btnChooseUser_Click" /></div></center>
+                                            <center><div><asp:Button runat="server" Width="120" CausesValidation="false" CommandArgument="<%#: Item.UserName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseUser" OnClick="btnChooseUser_Click" /></div></center>
                                         </ItemTemplate>
+                                        <HeaderStyle Width="120" />
+                                        <ItemStyle Width="120" />
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
