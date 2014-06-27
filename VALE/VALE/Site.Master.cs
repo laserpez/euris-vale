@@ -81,6 +81,44 @@ namespace VALE
         protected void Page_PreRender(object sender, EventArgs e)
         {
 
+            SetNotification();
+            SetUserLink();
+            SetAdminLink();
+
+        }
+
+        private void SetAdminLink()
+        {
+            if (HttpContext.Current.User.IsInRole("Amministratore") ||
+                HttpContext.Current.User.IsInRole("Membro del consiglio"))
+            {
+                UserList.Visible = false;
+                adminLink.Visible = true;
+                boardLink.Visible = true;
+            }
+        }
+
+        private void SetUserLink()
+        {
+            if (HttpContext.Current.User.IsInRole("Amministratore") ||
+                HttpContext.Current.User.IsInRole("Membro del consiglio") ||
+                HttpContext.Current.User.IsInRole("Socio"))
+            {
+                createProjectLink.Visible = true;
+                createEventLink.Visible = true;
+                createActivityLink.Visible = true;
+                createBlogArticle.Visible = true;
+            }
+        }
+
+        public void UpdateNavbar()
+        {
+            OnPreRender(null);
+        }
+
+
+        private void SetNotification()
+        {
             int waitingUsersNotifications = AdminActions.GetWaitingUsers();
             int waitingArticlesNotifications = AdminActions.GetWaitingArticles();
             int totalNotifications = waitingUsersNotifications + waitingArticlesNotifications;
@@ -96,7 +134,7 @@ namespace VALE
                 NotificationArticlesRequest.InnerText = waitingArticlesNotifications.ToString();
             else
                 NotificationArticlesRequest.Visible = false;
-            if (HttpContext.Current.User.Identity.IsAuthenticated) 
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 using (ActivityActions activityActions = new ActivityActions())
                 {
@@ -107,24 +145,6 @@ namespace VALE
                         NotificationActivitiesRequest.Visible = false;
                 }
             }
-           
-            if (HttpContext.Current.User.IsInRole("Amministratore") ||
-                HttpContext.Current.User.IsInRole("Membro del consiglio") ||
-                HttpContext.Current.User.IsInRole("Socio") )
-            {
-                createProjectLink.Visible = true;
-                createEventLink.Visible = true;
-                createActivityLink.Visible = true;
-                createBlogArticle.Visible = true;
-            }
-            if (HttpContext.Current.User.IsInRole("Amministratore") || 
-                HttpContext.Current.User.IsInRole("Membro del consiglio") )
-            {
-                UserList.Visible = false;
-                adminLink.Visible = true;
-                boardLink.Visible = true;
-            }
-
         }
     }
 }

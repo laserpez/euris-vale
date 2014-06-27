@@ -18,10 +18,7 @@ namespace VALE.Admin
             if (!IsPostBack)
             {
                 grdUsers.Columns[7].Visible = false;
-                
-                var lstUsers = GetUsers();
-                grdUsers.DataSource = lstUsers;
-                grdUsers.DataBind();
+                LoadData();
             }
 
             if (GetWaitingUsers().Count() == 0)
@@ -70,31 +67,33 @@ namespace VALE.Admin
                     //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "Your associated account has been confirmed", "Account confirmed");
                 }
             }
+
+            //((SiteMaster)Master).UpdateNavbar();
             grdUsers.DataBind();
         }
 
         protected void btnChangeUser_Click(object sender, EventArgs e)
         {
             LinkButton button = (LinkButton)sender;
-            if (button.Text == "Amministratore")
+            if (button.CommandName == "Administrator")
             {
                 lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Amministratore");
                 if (lblChangeRole.Text != "")
                     lblChangeRole.Visible = true;
             }
-            else if (button.Text == "Membro del consiglio")
+            else if (button.CommandName == "BoardMember")
             {
                 lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Membro del consiglio");
                 if (lblChangeRole.Text != "")
                     lblChangeRole.Visible = true;
             }
-            else if (button.Text == "Socio")
+            else if (button.CommandName == "Associated")
             {
                 lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Socio");
                 if (lblChangeRole.Text != "")
                     lblChangeRole.Visible = true;
             }
-            Response.Redirect("~/Admin/ManageUsers");
+            LoadData();
         }
 
         private void PreparePanelForRegistrationRequest()
@@ -168,7 +167,6 @@ namespace VALE.Admin
         {
             var db = new ApplicationDbContext();
             List<ApplicationUser> list = new List<ApplicationUser>();
-
             switch (ListUsersType.Text)
             {
                 case "Tutti":
@@ -190,6 +188,7 @@ namespace VALE.Admin
                     list = db.Users.Where(u => u.NeedsApproval == true).ToList();
                     break;
                 default:
+                    list = db.Users.ToList();
                     break;
             }
                     grdUsers.DataSource = list;
