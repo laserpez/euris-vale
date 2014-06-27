@@ -20,9 +20,9 @@ namespace VALE.Logic
 
         public EventActions(){}
 
-        public List<Event> GetSortedData(string sortExpression, SortDirection direction, List<Event> events)
+        public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
-            var result = events;
+            var result = data.Cast<Event>();
 
             var param = Expression.Parameter(typeof(Event), sortExpression);
             var sortBy = Expression.Lambda<Func<Event, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
@@ -32,10 +32,10 @@ namespace VALE.Logic
             else
                 result = result.AsQueryable<Event>().OrderBy(sortBy).ToList();
 
-            return result;
+            return (List<T>)result;
         }
 
-        public List<Event> GetFilteredData(Dictionary<string, string> filters, List<Event> events)
+        public List<T> GetFilteredData<T>(Dictionary<string, string> filters, List<T> data)
         {
             var fromDateStr = "";
             var toDateStr = "";
@@ -54,27 +54,38 @@ namespace VALE.Logic
             }
             var fromDate = DateTime.Parse(fromDateStr);
             var toDate = DateTime.Parse(toDateStr);
-            var filteredEvents = events.Where(ev => ev.EventDate >= fromDate && ev.EventDate <= toDate);
-            return filteredEvents.ToList();
+            var filteredEvents = data.Cast<Event>().Where(ev => ev.EventDate >= fromDate && ev.EventDate <= toDate).ToList();
+            return filteredEvents as List<T>;
         }
 
-        public bool IsUserAttendingThisEvent(int eventId, string currentUser)
+        public bool AddOrRemoveUserData<T>(T data, UserData user)
         {
-            return _db.Events.First(a => a.EventId == eventId).RegisteredUsers.Select(u => u.UserName).Contains(currentUser);
-        }
-
-        public bool AddOrRemoveUser(Event anEvent, UserData currentUser)
-        {
+            var anEvent = data as Event;
             bool added = false;
-            if (!IsUserAttendingThisEvent(anEvent.EventId, currentUser.UserName))
+            if (!IsUserRelated(anEvent.EventId, user.UserName))
             {
-                anEvent.RegisteredUsers.Add(currentUser);
+                anEvent.RegisteredUsers.Add(user);
                 added = true;
             }
             else
-                anEvent.RegisteredUsers.Remove(currentUser);
+                anEvent.RegisteredUsers.Remove(user);
 
             return added;
+        }
+
+        public bool IsUserRelated(int dataId, string username)
+        {
+            return _db.Events.First(a => a.EventId == dataId).RegisteredUsers.Select(u => u.UserName).Contains(username);
+        }
+
+        public bool AddAttachment(int attachmentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveAttachment(int attachmentId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
