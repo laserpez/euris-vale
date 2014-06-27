@@ -8,32 +8,31 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
-    public class ProjectActions : IDisposable
+    public class ProjectActions : IDisposable, IActions
     {
         UserOperationsContext _db = new UserOperationsContext();
 
-        public List<Project> GetSortedData(string property, List<Project> projects, SortDirection direction)
+        public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
-            var result = projects;
+            var result = data.Cast<Project>();
 
-            var param = Expression.Parameter(typeof(Project), property);
-            var sortBy = Expression.Lambda<Func<Project, object>>(Expression.Convert(Expression.Property(param, property), typeof(object)), param);
+            var param = Expression.Parameter(typeof(Project), sortExpression);
+            var sortBy = Expression.Lambda<Func<Project, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
 
             if (direction == SortDirection.Descending)
                 result = result.AsQueryable<Project>().OrderByDescending(sortBy).ToList();
             else
                 result = result.AsQueryable<Project>().OrderBy(sortBy).ToList();
-            
-            return result;
+
+            return (List<T>)result;
         }
 
-
-        public List<Project> GetFilteredData( Dictionary<string, string> filters, List<Project> projects)
+        public List<T> GetFilteredData<T>(Dictionary<string, string> filters, List<T> data)
         {
-            var result = projects;
-            foreach(var filter in filters)
+            var result = data.Cast<Project>();
+            foreach (var filter in filters)
             {
-                switch(filter.Key)
+                switch (filter.Key)
                 {
                     case "Name":
                         result = result.Where(p => p.ProjectName.ToLower().Contains(filter.Value.ToLower())).ToList();
@@ -54,25 +53,7 @@ namespace VALE.Logic
                         break;
                 }
             }
-            return result;
-
-        }
-              
-
-        public Project AddOrRemoveUser(Project project, UserData user)
-        {
-            if (IsUserRelated(project.ProjectId, user.UserName))
-            {
-                project.InvolvedUsers.Remove(user);
-                user.AttendingProjects.Remove(project);
-            }
-            else
-            {
-                project.InvolvedUsers.Add(user);
-                user.AttendingProjects.Add(project);
-            }
-            return project;
-
+            return (List<T>)result;
         }
 
         public bool IsUserRelated(int projectId, string userName)
@@ -81,10 +62,32 @@ namespace VALE.Logic
             return project.InvolvedUsers.Select(u => u.UserName).Contains(userName);
         }
 
-        //public bool IsUserRelated(Project project, UserData user)
-        //{
-        //    return project.InvolvedUsers.Select(u => u.UserName).Contains(user.UserName);
-        //}
+        public bool AddOrRemoveUserData<T>(T data, UserData user)
+        {
+            var project = data as Project;
+            if (IsUserRelated(project.ProjectId, user.UserName))
+            {
+                project.InvolvedUsers.Remove(user);
+                user.AttendingProjects.Remove(project);
+                return false;
+            }
+            else
+            {
+                project.InvolvedUsers.Add(user);
+                user.AttendingProjects.Add(project);
+                return true;
+            }
+        }
+
+        public bool AddAttachment(int attachmentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveAttachment(int attachmentId)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Dispose()
         {

@@ -286,7 +286,7 @@ namespace VALE.MyVale
             var user = db.UsersData.First(u => u.UserName == _currentUserName);
             using (var actions = new ProjectActions())
             {
-                actions.AddOrRemoveUser(project, user);
+                actions.AddOrRemoveUserData(project, user);
                 db.SaveChanges();
                 grdUsers.DataBind();
                 SetWorkOnProjectSection(project);
