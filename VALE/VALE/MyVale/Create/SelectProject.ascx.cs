@@ -49,7 +49,7 @@ namespace VALE.MyVale.Create
         public IQueryable<Project> GetProjects()
         {
             var _db = new UserOperationsContext();
-            return _db.Projects.OrderBy(p => p.ProjectName);
+            return _db.Projects.Where(pr => pr.Status != "Chiuso").OrderBy(p => p.ProjectName);
         }
 
         protected void btnChooseProject_Click(object sender, EventArgs e)

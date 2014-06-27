@@ -77,8 +77,10 @@
                                             <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <center><div><asp:Button runat="server" CausesValidation="false" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-sm" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>
+                                            <center><div><asp:Button runat="server" CausesValidation="false" Width="120" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>
                                         </ItemTemplate>
+                                        <HeaderStyle Width="120" />
+                                        <ItemStyle Width="120" />
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
