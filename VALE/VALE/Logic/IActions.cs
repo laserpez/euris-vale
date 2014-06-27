@@ -14,7 +14,7 @@ namespace VALE.Logic
         List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data);
         List<T> GetFilteredData<T>(Dictionary<string, string> filters, List<T>data);
         bool AddOrRemoveUserData<T>(T data, UserData user);
-        
+        bool IsUserRelated(int dataId, string username);
         bool AddAttachment(int attachmentId);
         bool RemoveAttachment(int attachmentId);
     }
