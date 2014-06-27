@@ -13,24 +13,15 @@ namespace VALE.MyVale
     public partial class ProjectCreate : System.Web.UI.Page
     {
         private string _currentUser;
-        private string _temporaryPath;
-
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUser = User.Identity.GetUserName();
-            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUser + "/";
             
             if (!IsPostBack)
             {
-                if (!String.IsNullOrEmpty(_temporaryPath))
-                {
-                    if (Directory.Exists(Server.MapPath(_temporaryPath)))
-                        Directory.Delete(Server.MapPath(_temporaryPath), true);
-                    Directory.CreateDirectory(Server.MapPath(_temporaryPath));
-                }
                 var usersList = new List<string>();
                 ViewState["usersIds"] = usersList;
-                //PopulateGridView();
                 calendarFrom.StartDate = DateTime.Now;
             }
         }
@@ -57,10 +48,7 @@ namespace VALE.MyVale
             };
             dbData.Projects.Add(project);
             dbData.SaveChanges();
-            dbData.SaveChanges();
             Response.Redirect("/MyVale/Projects");
         }
-
-    
     }
 }
