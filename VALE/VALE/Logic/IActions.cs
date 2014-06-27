@@ -10,6 +10,7 @@ namespace VALE.Logic
 {
     interface IActions
     {
+
         List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data);
         List<T> GetFilteredData<T>(Dictionary<string, string> filters, List<T>data);
         bool AddOrRemoveUserData<T>(T data, UserData user);
