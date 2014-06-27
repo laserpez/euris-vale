@@ -8,7 +8,7 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
-    interface IActions
+    public interface IActions
     {
 
         List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data);

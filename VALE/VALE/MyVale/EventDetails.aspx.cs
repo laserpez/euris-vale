@@ -24,6 +24,10 @@ namespace VALE.MyVale
             if (Request.QueryString.HasKeys())
                 _currentEventId = Convert.ToInt32(Request.QueryString["eventId"]);
             _currentUser = User.Identity.GetUserName();
+            FileUploader uploader = (FileUploader)EventDetail.FindControl("FileUploader");
+            uploader.DataActions = new EventActions();
+            uploader.DataId = _currentEventId;
+
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
