@@ -43,7 +43,7 @@ namespace VALE.MyVale
 
                 int eventId = (int)grdPlannedEvent.DataKeys[i].Value;
                 var eventActions = new EventActions();
-                if (eventActions.IsUserAttendingThisEvent(eventId, _currentUser))
+                if (eventActions.IsUserRelated(eventId, _currentUser))
                 {
                     btnAttend.CssClass = "btn btn-success btn-xs";
                     btnAttend.Text = "Stai partecipando";
@@ -106,7 +106,7 @@ namespace VALE.MyVale
             Button btnAttend = (Button)sender;
 
             var eventActions = new EventActions();
-            if(eventActions.AddOrRemoveUser(thisEvent, user) == true)
+            if(eventActions.AddOrRemoveUserData(thisEvent, user) == true)
             {
                     // MAIL
                     //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);

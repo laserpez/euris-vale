@@ -30,7 +30,7 @@ namespace VALE.MyVale
         {
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
-            if(eventActions.IsUserAttendingThisEvent(_currentEventId, _currentUser))
+            if(eventActions.IsUserRelated(_currentEventId, _currentUser))
             {
                 btnAttend.CssClass = "btn btn-success";
                 btnAttend.Text = "Stai partecipando";
@@ -69,7 +69,7 @@ namespace VALE.MyVale
             Event thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
-            if (eventActions.AddOrRemoveUser(thisEvent, user) == true)
+            if (eventActions.AddOrRemoveUserData(thisEvent, user) == true)
             {
                 // MAIL
                 //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
