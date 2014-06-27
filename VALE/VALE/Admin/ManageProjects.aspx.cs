@@ -93,8 +93,8 @@ namespace VALE.Admin
                     if (Directory.Exists(Server.MapPath(project.DocumentsPath)))
                         Directory.Delete(Server.MapPath(project.DocumentsPath), true);
                 }
-                DeleteFolders(project.Events.Select(ev => ev.DocumentsPath).ToList());
-                DeleteFolders(project.Interventions.Select(i => i.DocumentsPath).ToList());
+                //DeleteFolders(project.Events.Select(ev => ev.DocumentsPath).ToList());
+                //DeleteFolders(project.Interventions.Select(i => i.DocumentsPath).ToList());
                 dbData.Projects.Remove(project);
                 dbData.SaveChanges();
                 ViewState["lstProject"] = GetProjects();

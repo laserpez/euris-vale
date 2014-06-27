@@ -28,6 +28,8 @@ namespace VALE.Models
         public int? InterventionId { get; set; }
         public virtual Intervention RelatedIntervention { get; set; }
 
-
+        [ForeignKey("RelatedBODReport")]
+        public int? BODReportId { get; set; }
+        public virtual Intervention RelatedBODReport { get; set; }
     }
 }

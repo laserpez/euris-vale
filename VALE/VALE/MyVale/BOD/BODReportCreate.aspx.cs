@@ -77,15 +77,7 @@ namespace VALE.MyVale.BOD
             };
             db.BODReports.Add(report);
             db.SaveChanges();
-            report.DocumentsPath = "/MyVale/Documents/BODReports/" + report.BODReportId + "/";
-            string serverPath = Server.MapPath(report.DocumentsPath);
-            string tempPath = Server.MapPath(_temporaryPath);
-            if (!Directory.Exists(Server.MapPath("/MyVale/Documents/BODReports/")))
-                Directory.CreateDirectory(Server.MapPath("/MyVale/Documents/BODReports/"));
-            Directory.Move(tempPath, serverPath);
-            db.SaveChanges();
-
-            Response.Redirect("/MyVale/BOD/BODReports");
+            
 
         }
 

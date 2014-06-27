@@ -12,7 +12,7 @@ namespace VALE.Models
         public string Text { get; set; }
         public DateTime MeetingDate { get; set; }
         public string Location { get; set; }
-        public string DocumentsPath { get; set; }
         public DateTime PublishingDate { get; set; }
+        public virtual List<AttachedFile> AttachedFiles { get; set; }
     }
 }

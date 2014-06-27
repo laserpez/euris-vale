@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using VALE.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using VALE.Logic;
 
 namespace VALE.Admin
 {
@@ -51,15 +52,12 @@ namespace VALE.Admin
             if (user != null)
             {
                 var dbData = new UserOperationsContext();
-
                 int eventId = Convert.ToInt32(EventID.Text);
 
                 var thisEvent = dbData.Events.First(ev => ev.EventId == eventId);
-                if (!String.IsNullOrEmpty(thisEvent.DocumentsPath))
-                {
-                    if (Directory.Exists(Server.MapPath(thisEvent.DocumentsPath)))
-                        Directory.Delete(Server.MapPath(thisEvent.DocumentsPath), true);
-                }
+                var eventActions = new EventActions();
+                eventActions.RemoveAllAttachments(eventId);
+
                 dbData.Events.Remove(thisEvent);
                 dbData.SaveChanges();
                 grdEventList.DataBind();

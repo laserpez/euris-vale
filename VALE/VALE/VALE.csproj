@@ -473,6 +473,7 @@
     <Compile Include="Logic\IActions.cs" />
     <Compile Include="Logic\MailHelper.cs" />
     <Compile Include="Logic\ProjectActions.cs" />
+    <Compile Include="Logic\ReportActions.cs" />
     <Compile Include="Logic\RoleActions.cs" />
     <Compile Include="Logic\UserActions.cs" />
     <Compile Include="Models\Activity.cs" />
