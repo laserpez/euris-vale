@@ -30,6 +30,21 @@ namespace VALE.MyVale
             if (!IsPostBack)
             {
                 DataBindControls();
+                ShowHideControls();
+            }
+        }
+
+        private void ShowHideControls()
+        {
+            var _db = new UserOperationsContext();
+            var aProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            if (aProject.Status == "Chiuso")
+            {
+                var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
+                btnAddEvent.Visible = false;
+
+                var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
+                btnAddActivity.Visible = false;
             }
         }
 
@@ -60,18 +75,12 @@ namespace VALE.MyVale
 
         public string GetStatus(Activity anActivity)
         {
-            if (anActivity.Status == ActivityStatus.ToBePlanned)
-                return "Da pianificare";
-            if (anActivity.Status == ActivityStatus.Suspended)
-                return "Sospesa";
-            if (anActivity.Status == ActivityStatus.Ongoing)
-                return "In corso";
-            if (anActivity.Status == ActivityStatus.Done)
-                return "Terminata";
-            if (anActivity.Status == ActivityStatus.Deleted)
-                return "Cancellata";
-
-            return null;
+            string status;
+            using (var activityActions = new ActivityActions())
+            {
+                status = activityActions.GetStatus(anActivity);
+            }
+            return status;
         }
 
         public Project GetProject([QueryString("projectId")] int? projectId)
