@@ -22,11 +22,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body" style="overflow: auto;">
+                        <div class="panel-body">
 
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
-                                    <div class="row">
+                                    <div class="col-md-12 row">
                                         <div class="col-md-2">
                                             <asp:Label runat="server" Text="Da" CssClass="control-label"></asp:Label>
                                             <asp:TextBox runat="server" ID="txtFromDate" CssClass="form-control" OnTextChanged="txtFromDate_TextChanged" AutoPostBack="true"></asp:TextBox>
@@ -35,13 +35,18 @@
                                         </div>
                                         <div class="col-md-2">
                                             <asp:Label runat="server" Text="A" CssClass="control-label"></asp:Label>
-                                            <asp:TextBox runat="server" ID="txtToDate" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox runat="server" ID="txtToDate" CssClass="form-control" Enabled="false"></asp:TextBox>
                                             <asp:RequiredFieldValidator ErrorMessage="* obbligatorio" runat="server" ControlToValidate="txtToDate"></asp:RequiredFieldValidator>
-                                            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtToDate"></asp:CalendarExtender>
+                                            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtToDate"></asp:CalendarExtender>    
+                                        </div>
+                                        <div class="col-md-8">
+                                        <br />
+                                        <asp:Label ID="txtToDateLabel" runat="server" CssClass="text-danger"></asp:Label>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <asp:Button CausesValidation="true" runat="server" ID="btnShowEvents" CssClass="btn btn-primary btn-xs" Text="Mostra eventi" OnClick="btnShowEvents_Click" />
+                                        <asp:Button CausesValidation="false" runat="server" ID="btnShowAllEvents" CssClass="btn btn-primary btn-xs" Text="Tutti gli eventi" OnClick="btnShowAllEvents_Click" />
                                     </div>
                                     <div class="col-md-12">
                                         <br />

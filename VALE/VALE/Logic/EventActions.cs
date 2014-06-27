@@ -76,5 +76,10 @@ namespace VALE.Logic
 
             return added;
         }
+
+        public List<Event> GetAllEvents()
+        {
+            return _db.Events.ToList();
+        }
     }
 }
