@@ -28,7 +28,11 @@
                             <asp:FormView Width="100%" OnDataBound="ProjectDetail_DataBound" runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetProject">
                                 <ItemTemplate>
                                     <asp:Label runat="server"><%#: String.Format("Titolo:\t{0}", Item.ProjectName.ToUpper()) %></asp:Label><br />
-                                    <asp:Label runat="server"><%#: "Pubblico: " %></asp:Label><asp:CheckBox ID="checkboxPublic" runat="server" AutoPostBack="true" OnCheckedChanged="checkboxPublic_CheckedChanged" /><br />
+                                    <asp:UpdatePanel runat="server">
+                                        <ContentTemplate>
+                                            <asp:Label runat="server"><%#: "Pubblico: " %></asp:Label><asp:CheckBox ID="checkboxPublic" runat="server" AutoPostBack="true" OnCheckedChanged="checkboxPublic_CheckedChanged" /><br />
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                     <asp:Label runat="server"><%#: String.Format("Stato:\t{0}", Item.Status.ToUpperInvariant()) %></asp:Label><br />
                                     <asp:Label runat="server"><%#: String.Format("Descrizione:\t{0}", Item.Description) %></asp:Label><br />
                                     <asp:Label runat="server"><%#: String.Format("Creatore:\t{0}", Item.Organizer.FullName) %></asp:Label><br />
