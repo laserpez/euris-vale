@@ -79,11 +79,7 @@
                                         </ItemTemplate>
                                     </asp:FormView>
                                     <br />
-                                    <%--<asp:Label runat="server" ID="AttachmentsLabel" Text="Documenti" CssClass="h4"></asp:Label>
-                                    <asp:ListBox runat="server" CssClass="form-control" Width="400px" ID="lstDocuments" SelectMethod="GetRelatedDocuments"></asp:ListBox>
-                                    <asp:Button runat="server" Text="Scarica" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />--%>
                                     <uc:FileUploader runat="server" ID="FileUploader" />
-
                                 </ItemTemplate>
                             </asp:FormView>
                         </div>

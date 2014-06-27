@@ -27,6 +27,8 @@ namespace VALE.MyVale
             FileUploader uploader = (FileUploader)EventDetail.FindControl("FileUploader");
             uploader.DataActions = new EventActions();
             uploader.DataId = _currentEventId;
+            if(!IsPostBack)
+                uploader.DataBind();
 
         }
 

@@ -31,7 +31,7 @@ namespace VALE.MyVale
                 attachedFile.FileData = FileUpload.FileBytes;
                 attachedFile.Owner = HttpContext.Current.User.Identity.Name;
                 attachedFile.CreationDate = DateTime.Now;
-                //DataActions.AddAttachment(DataId, attachedFile);
+                DataActions.AddAttachment(DataId, attachedFile);
                 txtFileDescription.Text = "";
                 DocumentsGridView.DataBind();
             }
@@ -39,7 +39,8 @@ namespace VALE.MyVale
 
         public IQueryable<AttachedFile> DocumentsGridView_GetData()
         {
-            //DataActions.GetAttachments(DataId);
+            if(DataActions != null)
+                return DataActions.GetAttachments(DataId).AsQueryable();
             return null;
         }
 
@@ -54,6 +55,7 @@ namespace VALE.MyVale
                     break;
                 case "Cancella":
                     DataActions.RemoveAttachment(id);
+                    DocumentsGridView.DataBind();
                     break;
             }
         }
