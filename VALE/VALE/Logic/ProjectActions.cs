@@ -83,11 +83,10 @@ namespace VALE.Logic
         {
             try
             {
-                var db = new UserOperationsContext();
-                var anAttachment = db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
-                db.AttachedFiles.Remove(anAttachment);
+                var anAttachment = _db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
+                _db.AttachedFiles.Remove(anAttachment);
 
-                db.SaveChanges();
+                _db.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -107,10 +106,9 @@ namespace VALE.Logic
         {
             try
             {
-                var db = new UserOperationsContext();
-                var project = db.Projects.First(p => p.ProjectId == dataId);
+                var project = _db.Projects.First(p => p.ProjectId == dataId);
                 project.AttachedFiles.Add(file);
-                db.SaveChanges();
+                _db.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -121,9 +119,23 @@ namespace VALE.Logic
 
         public List<AttachedFile> GetAttachments(int dataId)
         {
-            var db = new UserOperationsContext();
-            var project = db.Projects.First(p => p.ProjectId == dataId);
+            var project = _db.Projects.First(p => p.ProjectId == dataId);
             return project.AttachedFiles;
+        }
+
+        public bool RemoveAllAttachments(int dataId)
+        {
+            try
+            {
+                var project = _db.Projects.First(p => p.ProjectId == dataId);
+                _db.AttachedFiles.RemoveRange(project.AttachedFiles);
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
