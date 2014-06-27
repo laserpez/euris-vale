@@ -7,43 +7,26 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Models;
 using Microsoft.AspNet.Identity;
+using VALE.Logic;
 
 namespace VALE.MyVale.BOD
 {
     public partial class BODReportCreate : System.Web.UI.Page
     {
         private string _currentUserId;
-        private int _currentProjectId;
-        private string _temporaryPath;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserId = User.Identity.GetUserId();
-            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUserId + "/";
-            if (Request.QueryString.HasKeys())
-                _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+            FileUploader.DataActions = new BODReportActions();
             if (!IsPostBack)
             {
-                if (!String.IsNullOrEmpty(_temporaryPath))
-                {
-                    if (Directory.Exists(Server.MapPath(_temporaryPath)))
-                        Directory.Delete(Server.MapPath(_temporaryPath), true);
-                    Directory.CreateDirectory(Server.MapPath(_temporaryPath));
-                }
+                ViewState["reportId"] = 0;
                 CalendarMeetingDate.StartDate = DateTime.Now;
                 CalendarPublishDate.StartDate = DateTime.Now;
             }
+            FileUploader.DataId = Convert.ToInt32(ViewState["reportId"]);
         }
-
-
-        protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            GridView grid = (GridView)sender;
-            int index = Convert.ToInt32(e.CommandArgument);
-            string fileToRemove = grid.Rows[index].Cells[1].Text;
-            File.Delete(Server.MapPath(_temporaryPath) + fileToRemove);
-        }
-
         
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
@@ -58,9 +41,17 @@ namespace VALE.MyVale.BOD
             };
             db.BODReports.Add(report);
             db.SaveChanges();
+            ViewState["reportId"] = report.BODReportId;
+            ShowFileUploader();
+            
+        }
+
+        private void ShowFileUploader()
+        {
             lblUploadFile.Visible = true;
             FileUploader.Visible = true;
-
+            FileUploader.DataId = Convert.ToInt32(ViewState["reportId"]);
+            
         }
 
         protected void txtMeetingDate_TextChanged(object sender, EventArgs e)
