@@ -61,15 +61,13 @@ namespace VALE.MyVale
         public void FilterEvents()
         {
             var events = (List<Event>)ViewState["lstEvent"];
-            
-            using (var eventActions = new EventActions())
-            {
+
+            var eventActions = new EventActions();
                 var filters = new Dictionary<string, string>();
                 filters.Add("fromDate", txtFromDate.Text);
                 filters.Add("toDate", txtToDate.Text);
 
                 ViewState["lstEvent"] = eventActions.GetFilteredData(filters, events);
-            }
         }
 
         protected void btnShowEvents_Click(object sender, EventArgs e)
@@ -137,12 +135,10 @@ namespace VALE.MyVale
             else
                 GridViewSortDirection = SortDirection.Ascending;
 
-            using (var eventActions = new EventActions())
-            {
-                var events = (List<Event>)ViewState["lstEvent"];
-                ViewState["lstEvent"] = eventActions.GetSortedData(sortExpression, GridViewSortDirection, events);
-                UpdateGridView();
-            }
+            var eventActions = new EventActions();
+            var events = (List<Event>)ViewState["lstEvent"];
+            ViewState["lstEvent"] = eventActions.GetSortedData(sortExpression, GridViewSortDirection, events);
+            UpdateGridView();
         }
 
         public SortDirection GridViewSortDirection

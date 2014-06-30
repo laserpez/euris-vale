@@ -93,10 +93,8 @@ namespace VALE.Admin
                 {
                     actions.RemoveAllAttachments(Id);
                 }
-                using (var eventActions = new EventActions())
-                {
+                var eventActions = new EventActions();
                     project.Events.ForEach(ev => eventActions.RemoveAllAttachments(ev.EventId));
-                }
 
                 dbData.Projects.Remove(project);
                 dbData.SaveChanges();

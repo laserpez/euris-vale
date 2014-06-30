@@ -137,5 +137,15 @@ namespace VALE.Logic
                 return false;
             }
         }
+
+        //public bool AddUser()
+        //{
+
+        //}
+
+        //public bool RemoveUser()
+        //{
+
+        //}
     }
 }
