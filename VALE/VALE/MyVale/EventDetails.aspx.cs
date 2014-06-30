@@ -25,11 +25,8 @@ namespace VALE.MyVale
             if (Request.QueryString.HasKeys())
                 _currentEventId = Convert.ToInt32(Request.QueryString["eventId"]);
             _currentUser = User.Identity.GetUserName();
-            FileUploader uploader = (FileUploader)EventDetail.FindControl("FileUploader");
-            uploader.DataActions = new EventActions();
-            uploader.DataId = _currentEventId;
-            if(!IsPostBack)
-                uploader.DataBind();
+           
+            
 
         }
 
@@ -85,6 +82,15 @@ namespace VALE.MyVale
             }
             _db.SaveChanges();
             Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
+        }
+
+        protected void EventDetail_DataBound(object sender, EventArgs e)
+        {
+            FileUploader uploader = (FileUploader)EventDetail.FindControl("FileUploader");
+            uploader.DataActions = new EventActions();
+            uploader.DataId = _currentEventId;
+            if (!IsPostBack)
+                uploader.DataBind();
         }
     }
 }

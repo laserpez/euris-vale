@@ -8,16 +8,9 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
-    public class EventActions : IDisposable, IActions
+    [Serializable]
+    public class EventActions : IActions
     {
-        UserOperationsContext _db = new UserOperationsContext();
-
-        public void Dispose()
-        {
-            if (_db != null)
-                _db = null;
-        }
-
         public EventActions(){}
 
         public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
@@ -75,6 +68,7 @@ namespace VALE.Logic
 
         public bool IsUserRelated(int dataId, string username)
         {
+            var _db = new UserOperationsContext();
             return _db.Events.First(a => a.EventId == dataId).RegisteredUsers.Select(u => u.UserName).Contains(username);
         }
 
@@ -82,6 +76,7 @@ namespace VALE.Logic
         {
             try
             {
+                var _db = new UserOperationsContext();
                 var anAttachment = _db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
                 _db.AttachedFiles.Remove(anAttachment);
                 _db.SaveChanges();
@@ -97,6 +92,7 @@ namespace VALE.Logic
         {
             try
             {
+                var _db = new UserOperationsContext();
                 var anEvent = _db.Events.First(e => e.EventId == dataId);
                 anEvent.AttachedFiles.Add(file);
                 _db.SaveChanges();
@@ -110,6 +106,7 @@ namespace VALE.Logic
 
         public List<AttachedFile> GetAttachments(int dataId)
         {
+            var _db = new UserOperationsContext();
             var anEvent = _db.Events.First(e => e.EventId == dataId);
             return anEvent.AttachedFiles;
         }
@@ -119,6 +116,7 @@ namespace VALE.Logic
         {
             try
             {
+                var _db = new UserOperationsContext();
                 var anEvent = _db.Events.First(e => e.EventId == dataId);
                 var attachments = anEvent.AttachedFiles;
                 _db.AttachedFiles.RemoveRange(attachments);

@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:FormView runat="server" ID="EventDetail" ItemType="VALE.Models.Event" SelectMethod="GetEvent">
+                            <asp:FormView  OnDataBound="EventDetail_DataBound" runat="server" ID="EventDetail" ItemType="VALE.Models.Event" SelectMethod="GetEvent" >
                                 <ItemTemplate>
                                     <h3><%#: Item.Name %></h3>
                                     <asp:Button ID="btnAttend" Text="Partecipa" runat="server" OnClick="btnAttend_Click" /><br />
@@ -35,8 +35,10 @@
                                     <asp:Label runat="server"><%#: Item.Public ? "Pubblico" : "Privato" %></asp:Label>
                                     <br />
                                     <asp:Label runat="server"><%#: String.Format("Descrizione: {0}", Item.Description) %></asp:Label><br />
-                                    <h4>Partecipanti</h4>
+
                                     <ux:SelectUser runat="server" ID="SelectUserControl" />
+                                    <h4>Partecipanti</h4>
+                                    
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
@@ -82,6 +84,7 @@
                                     </asp:FormView>
                                     <br />
                                     <uc:FileUploader runat="server" ID="FileUploader" AllowUpload="true" />
+                                    
                                 </ItemTemplate>
                             </asp:FormView>
                         </div>

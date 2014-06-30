@@ -12,8 +12,16 @@ namespace VALE.MyVale
 {
     public partial class FileUploader : System.Web.UI.UserControl
     {
-        public IActions DataActions { get; set; }
-        public int DataId { get; set; }
+        public IActions DataActions
+        {
+            get { return (IActions)ViewState["dataActions"]; }
+            set { ViewState["dataActions"] = value; }
+        }
+        public int DataId
+        {
+            get { return (int)ViewState["dataId"]; }
+            set { ViewState["dataId"] = value; }
+        }
 
         public bool AllowUpload { get; set; }
 
@@ -41,7 +49,7 @@ namespace VALE.MyVale
 
         public IQueryable<AttachedFile> DocumentsGridView_GetData()
         {
-            if(DataActions != null)
+            if (DataActions != null)
                 return DataActions.GetAttachments(DataId).AsQueryable();
             return null;
         }
