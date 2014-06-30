@@ -15,6 +15,8 @@ namespace VALE.MyVale
         public IActions DataActions { get; set; }
         public int DataId { get; set; }
 
+        public bool AllowUpload { get; set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 

@@ -79,7 +79,7 @@
                                         </ItemTemplate>
                                     </asp:FormView>
                                     <br />
-                                    <uc:FileUploader runat="server" ID="FileUploader" />
+                                    <uc:FileUploader runat="server" ID="FileUploader" AllowUpload="true" />
                                 </ItemTemplate>
                             </asp:FormView>
                         </div>
