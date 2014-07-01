@@ -30,16 +30,28 @@ namespace VALE.MyVale
                 _dataActions = new EventActions();
         }
 
-        public IQueryable<UserData> UsersGridView_GetData([Control]string txtSearchUsers)
+
+        public IQueryable<UserData> UsersGridView_GetData([Control]string txtSearchUsers, [Control]string lblCurrentSelection)
         {
             var db = new UserOperationsContext();
             IQueryable<UserData> resultList = null;
-            
-             var   listUsers = _dataActions.GetRelatedUsers(_dataId);
-            if (String.IsNullOrEmpty(txtSearchUsers))
-                resultList = db.UsersData.ToList().Except(listUsers).AsQueryable();
-            else
-                resultList = db.UsersData.ToList().Except(listUsers).Where(u => u.FullName.ToLower().Contains(txtSearchUsers.ToLower())).AsQueryable();
+
+            switch(lblCurrentSelection)
+            {
+                case "UnrelatedUsers":
+                    var listUsers = _dataActions.GetRelatedUsers(_dataId);
+                    resultList = db.UsersData.ToList().Except(listUsers).AsQueryable();
+                    break;
+                case "RelatedUsers":
+                    resultList = _dataActions.GetRelatedUsers(_dataId);
+                    break;
+                default:
+                    break;
+            }
+             
+            if (!String.IsNullOrEmpty(txtSearchUsers))
+                resultList = resultList.Where(u => u.FullName.ToLower().Contains(txtSearchUsers.ToLower()));
+
             return resultList;
         }
 
@@ -51,6 +63,20 @@ namespace VALE.MyVale
         protected void btnReturn_Click(object sender, EventArgs e)
         {
             Response.Redirect(_returnUrl);
+        }
+
+        protected void btnSelectUsers_Click(object sender, EventArgs e)
+        {
+            LinkButton button = (LinkButton)sender;
+
+            btnCurrentView.InnerHtml = button.Text + " <span class=\"caret\"></span>";
+            lblCurrentSelection.Text = button.CommandArgument;
+            UsersGridView.DataBind();
+        }
+
+        protected void btnAddUsers_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
