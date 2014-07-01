@@ -76,11 +76,6 @@ namespace VALE.MyVale
 
         protected void btnAddUsers_Click(object sender, EventArgs e)
         {
-
-        }
-
-        protected void btnAddUsers_Click(object sender, EventArgs e)
-        {
             var btn = (Button)sender;
             _dataActions.AddOrRemoveUserData(_dataId, btn.CommandName);
             UsersGridView.DataBind();

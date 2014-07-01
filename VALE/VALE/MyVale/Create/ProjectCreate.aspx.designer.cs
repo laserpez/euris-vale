@@ -76,15 +76,6 @@ namespace VALE.MyVale {
         protected global::VALE.MyVale.Create.SelectProject SelectProject;
         
         /// <summary>
-        /// SelectUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::VALE.MyVale.Create.SelectUser SelectUser;
-        
-        /// <summary>
         /// btnSaveActivity control.
         /// </summary>
         /// <remarks>
