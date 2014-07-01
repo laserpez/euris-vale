@@ -19,6 +19,18 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    <div class="navbar-right">
+                                        <div class="btn-group">
+                                            <asp:Label runat="server" Visible="false" ID="lblCurrentSelection" Text="UnrelatedUsers"></asp:Label>
+                                            <button type="button" id="btnCurrentView" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" runat="server">Tutti <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <asp:LinkButton ID="btnAllUsers" CommandArgument="UnrelatedUsers" runat="server" OnClick="btnSelectUsers_Click">Tutti</asp:LinkButton></li>
+                                                <li>
+                                                    <asp:LinkButton ID="btnRelatedUsers" CommandArgument="RelatedUsers" runat="server" OnClick="btnSelectUsers_Click">Registrati</asp:LinkButton></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
