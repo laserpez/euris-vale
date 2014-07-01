@@ -147,5 +147,19 @@ namespace VALE.Logic
         //{
 
         //}
+
+
+        public IQueryable<UserData> GetRelatedUsers(int dataId)
+        {
+            var _db = new UserOperationsContext();
+            var project = _db.Projects.First(p => p.ProjectId == dataId);
+            return project.InvolvedUsers.AsQueryable(); 
+        }
+
+
+        public bool AddOrRemoveUserData(int dataId, string username)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

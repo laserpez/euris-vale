@@ -18,11 +18,6 @@ namespace VALE.Logic
             return null;
         }
 
-        public bool AddOrRemoveUserData<T>(T data, Models.UserData user)
-        {
-            return false;
-        }
-
         public bool IsUserRelated(int dataId, string username)
         {
             return false;
@@ -72,6 +67,29 @@ namespace VALE.Logic
         public bool RemoveAllAttachments(int dataId)
         {
             return false;
+        }
+
+
+        public IQueryable<UserData> GetRelatedUsers(int dataId)
+        {
+            return null;
+        }
+
+
+        public bool AddOrRemoveUserData(int dataId, UserData user)
+        {
+            return false;
+        }
+
+
+        public bool AddOrRemoveUserData<T>(T data, UserData user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddOrRemoveUserData(int dataId, string username)
+        {
+            throw new NotImplementedException();
         }
     }
 }
