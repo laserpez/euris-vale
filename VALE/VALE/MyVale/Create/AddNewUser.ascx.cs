@@ -1,23 +1,35 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using VALE.Models;
-using System.Collections.Generic;
 using VALE.StateInfo;
-using System.Text.RegularExpressions;
+using VALE.Logic;
 
-namespace VALE.Account
+namespace VALE.MyVale.Create
 {
-    public partial class Register : Page
+    public partial class AddNewUser : System.Web.UI.UserControl
     {
-        protected void Page_PreRender(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
+            {
                 SetRegionDropDownList();
+                SetRoleDropDownList();
+            }
+        }
+
+        private void SetRoleDropDownList()
+        {
+            List<string> init = new List<string> { "Seleziona", "Amministratore", "Membro del Consiglio", "Socio"};
+            DropDownSelectRole.DataSource = init;
+            DropDownSelectRole.DataBind();
         }
 
         private void ClearDropDownList()
@@ -62,6 +74,7 @@ namespace VALE.Account
                 DropDownProvince.DataSource = provinces;
                 DropDownProvince.DataBind();
             }
+            ModalPopup.Show();
         }
 
         protected void State_SelectedIndexChanged(object sender, EventArgs e)
@@ -81,11 +94,21 @@ namespace VALE.Account
                 DropDownCity.DataSource = citys;
                 DropDownCity.DataBind();
             }
+            ModalPopup.Show();
+        }
+
+        protected void CloseButton_Click(object sender, EventArgs e)
+        {
+            ModalPopup.Hide();
+        }
+
+        protected void AddNewUser_Click(object sender, EventArgs e)
+        {
+            ModalPopup.Show();
         }
 
         protected void CreateUser_Click(object sender, EventArgs e)
         {
-
 
             var db = new UserOperationsContext();
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -101,15 +124,17 @@ namespace VALE.Account
                 Province = DropDownProvince.SelectedValue,
                 City = DropDownCity.SelectedValue,
                 CF = TextCF.Text,
-                NeedsApproval = checkAssociated.Checked,
+                NeedsApproval= false,
                 Email = Email.Text
             };
+
             var passwordValidator = new PasswordValidator();
             //per la password sono richiesti solo sei caratteri
             passwordValidator.RequiredLength = 6;
             manager.PasswordValidator = passwordValidator;
 
             IdentityResult result = manager.Create(user, Password.Text);
+
             if (result.Succeeded)
             {
                 db.UsersData.Add(new UserData
@@ -119,14 +144,21 @@ namespace VALE.Account
                     FullName = user.FirstName + " " + user.LastName
                 });
                 db.SaveChanges();
-                IdentityHelper.SignIn(manager, user, isPersistent: false);
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                //string code = manager.GenerateEmailConfirmationToken(user.Id);
-                //string callbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id);
-                //manager.SendEmail(user.Id, "Conferma il tuo account", "Per favore conferma il tuo account cliccando <a href=\"" + callbackUrl + "\">qui</a>.");
-
-                IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                if (UserActions.ChangeUserRole(user.UserName, DropDownSelectRole.SelectedValue))
+                {
+                    //string code = manager.GenerateEmailConfirmationToken(user.Id);
+                    //string callbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id);
+                    //string body = "Benvenuto in VALE! La password di default con cui effettuare il Log In è:" + Password.Text + ". <br/> Potrai cambiarla una volta confermato l'account cliccando <a href=\"http://localhost:59959/Admin/ResetPassword.aspx/\"> qui <a/>";
+                    //MailHelper.SendMail(user.Email, "Conferma account", body);
+                    Response.Redirect("~/Admin/ManageUsers");
+                }
+                else
+                {
+                    SelectRole.Text = "Errore nella modifica dell'utente " + user.UserName + ".";
+                    SelectRole.ForeColor = System.Drawing.Color.Red;
+                    SelectRole.Visible = true;
+                }
             }
             else
             {
