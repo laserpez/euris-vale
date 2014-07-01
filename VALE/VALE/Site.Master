@@ -13,7 +13,14 @@
     </asp:PlaceHolder>
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
+    <style type="text/css">
+        .modalBackground
+        {
+            background-color: Black;
+            filter: alpha(opacity=60);
+            opacity: 0.2;
+        }
+    </style>
 </head>
 <body>
     <form runat="server">
