@@ -22,14 +22,19 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-
-                            <asp:TextBox ID="txtSearchUsers" runat="server"></asp:TextBox>
-
-                            <asp:GridView ID="UsersGridView" EmptyDataText="Nessun utente" runat="server" AutoGenerateColumns="true" ItemType="VALE.Models.UserData" AllowPaging="true" AllowSorting="true" SelectMethod="UsersGridView_GetData">
+                            <asp:UpdatePanel runat="server">
+                                <ContentTemplate>
+                                    <asp:TextBox ID="txtSearchUsers" runat="server"></asp:TextBox>
+                                    <asp:Button CssClass="btn btn-info" ID="btnSearchUsers" runat="server" Text="Cerca utente" OnClick="btnSearchUsers_Click" />
+                            <asp:GridView CssClass="table table-striped table-bordered" ID="UsersGridView" EmptyDataText="Nessun utente" runat="server" AutoGenerateColumns="true" ItemType="VALE.Models.UserData" AllowPaging="true" AllowSorting="true" SelectMethod="UsersGridView_GetData">
 
 
                                 
                             </asp:GridView>
+                                    <asp:Button CssClass="btn btn-info" ID="btnReturn" runat="server" Text="Fine" OnClick="btnReturn_Click" />
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            
 
                         </div>
                     </div>
