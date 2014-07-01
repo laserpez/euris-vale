@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EventDetails.aspx.cs" Inherits="VALE.MyVale.EventDetails" %>
 <%@ Register Src="~/MyVale/FileUploader.ascx" TagPrefix="uc" TagName="FileUploader" %>
-<%@ Register Src="~/MyVale/Create/SelectUser.ascx" TagPrefix="ux" TagName="SelectUser" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -36,10 +35,10 @@
                                     <br />
                                     <asp:Label runat="server"><%#: String.Format("Descrizione: {0}", Item.Description) %></asp:Label><br />
 
-                                    <ux:SelectUser runat="server" ID="SelectUserControl" />
-                                    <h4>Partecipanti</h4>
                                     
-                                    <asp:UpdatePanel runat="server">
+                                    <%--<h4>Partecipanti</h4>--%>
+                                    
+                                    <%--<asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                 SelectMethod="GetRegisteredUsers" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
@@ -74,7 +73,8 @@
                                                 </EmptyDataTemplate>
                                             </asp:GridView>
                                         </ContentTemplate>
-                                    </asp:UpdatePanel>
+                                    </asp:UpdatePanel>--%>
+                                    <asp:Button id="addUsers" runat="server" OnClick="addUsers_Click" Text="Gestione utenti" />
                                     <h4>Progetto correlato</h4>
                                     <asp:FormView runat="server" ID="ProjectDetail" EmptyDataText="Nessun progetto correlato." ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
                                         <ItemTemplate>

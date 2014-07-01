@@ -25,9 +25,9 @@ namespace VALE.MyVale
             if (Request.QueryString.HasKeys())
                 _currentEventId = Convert.ToInt32(Request.QueryString["eventId"]);
             _currentUser = User.Identity.GetUserName();
-           
-            
 
+
+            
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -91,6 +91,11 @@ namespace VALE.MyVale
             uploader.DataId = _currentEventId;
             if (!IsPostBack)
                 uploader.DataBind();
+        }
+
+        protected void addUsers_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentEventId + "&dataType=event");
         }
     }
 }

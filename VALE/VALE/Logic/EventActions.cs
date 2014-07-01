@@ -128,5 +128,19 @@ namespace VALE.Logic
                 return false;
             }
         }
+
+
+        public IQueryable<UserData> GetRelatedUsers(int dataId)
+        {
+            var _db = new UserOperationsContext();
+            var anEvent = _db.Events.First(e => e.EventId == dataId);
+            return anEvent.RegisteredUsers.AsQueryable();
+        }
+
+
+        public bool AddOrRemoveUserData(int dataId, string username)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

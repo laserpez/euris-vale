@@ -224,6 +224,7 @@
     <Content Include="MyVale\FileUploader.ascx" />
     <Content Include="MyVale\PersonalArticles.aspx" />
     <Content Include="MyVale\UserList.aspx" />
+    <Content Include="MyVale\UserSelector.aspx" />
     <Content Include="MyVale\ViewArticle.aspx" />
     <Content Include="MyVale\CreateIntervention.aspx" />
     <Content Include="MyVale\Create\ActivityCreate.aspx" />
@@ -551,6 +552,13 @@
     </Compile>
     <Compile Include="MyVale\UserList.aspx.designer.cs">
       <DependentUpon>UserList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyVale\UserSelector.aspx.cs">
+      <DependentUpon>UserSelector.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\UserSelector.aspx.designer.cs">
+      <DependentUpon>UserSelector.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\ViewArticle.aspx.cs">
       <DependentUpon>ViewArticle.aspx</DependentUpon>
