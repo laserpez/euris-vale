@@ -79,7 +79,41 @@
                                                             <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Azione</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Button ID="btnAddUsers" Width="90" CssClass="btn btn-info btn-xs" Text= '<%#: IsUserRelated(Item.UserName) ? "Rimuovi" : "Aggiungi" %>' runat="server" OnClick="btnAddUsers_Click" CommandName="<%# Item.UserName %>" /></div></center>
+                                                            <center><div><asp:Button ID="btnAddUsers" Width="90" CssClass='<%#: IsUserRelated(Item.UserName) ? "btn btn-danger btn-xs" : "btn btn-success btn-xs" %>' Text= '<%#: IsUserRelated(Item.UserName) ? "Rimuovi" : "Aggiungi" %>' runat="server" OnClick="btnAddUsers_Click" CommandName="<%# Item.UserName %>" /></div></center>
+                                                        </ItemTemplate>
+                                                        <HeaderStyle Width="90px" />
+                                                        <ItemStyle Width="90px" />
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                                <EmptyDataTemplate>
+                                                    <asp:Label runat="server">Nessun utente da aggiungere.</asp:Label>
+                                                </EmptyDataTemplate>
+                                            </asp:GridView>
+
+                                            <asp:GridView AutoGenerateColumns="false" ID="GroupsGridView" runat="server" ItemType="VALE.Models.Group" AllowPaging="false" PageSize="10" AllowSorting="false" SelectMethod="GroupsGridView_GetData" CssClass="table table-striped table-bordered">
+                                                <Columns>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="GroupName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.GroupName  %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                     <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Azione</asp:Label></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Button ID="btnAddGroup" Width="90" CssClass='<%#: IsGroupRelated(Item.GroupId) ? "btn btn-danger btn-xs" : "btn btn-success btn-xs" %>' CommandName='<%#: IsGroupRelated(Item.GroupId) ? "Remove" : "Add" %>' Text= '<%#: IsGroupRelated(Item.GroupId) ? "Rimuovi" : "Aggiungi" %>' runat="server" OnClick="btnAddGroup_Click" CommandArgument="<%# Item.GroupId %>" /></div></center>
                                                         </ItemTemplate>
                                                         <HeaderStyle Width="90px" />
                                                         <ItemStyle Width="90px" />

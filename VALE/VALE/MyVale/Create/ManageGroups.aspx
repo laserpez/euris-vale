@@ -52,7 +52,7 @@
                                             <asp:UpdatePanel runat="server">
                                                 <ContentTemplate>
                                                     <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" GridLines="Both" SelectMethod="grdUsers_GetData"
-                                                        ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered">
+                                                        ItemType="VALE.Models.UserData" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered">
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>
@@ -75,10 +75,10 @@
                                                                     <center><div><asp:LinkButton runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
-                                                                    <center><div><asp:Label runat="server"><%#: Item.FirstName %></asp:Label></div></center>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField>
+                                                            <%--<asp:TemplateField>
                                                                 <HeaderTemplate>
                                                                     <center><div><asp:LinkButton runat="server" ID="labelLastName"><span  class="glyphicon glyphicon-user"></span> Cognome</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
@@ -93,7 +93,7 @@
                                                                 <ItemTemplate>
                                                                     <center><div><%# GetRoleName(Item.Id) %></div></center>
                                                                 </ItemTemplate>
-                                                            </asp:TemplateField>
+                                                            </asp:TemplateField>--%>
                                                         </Columns>
                                                     </asp:GridView>
                                                 </ContentTemplate>
