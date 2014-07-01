@@ -22,9 +22,10 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-
-                            <asp:TextBox ID="txtSearchUsers" runat="server"></asp:TextBox>
-
+                            <asp:UpdatePanel runat="server">
+                                <ContentTemplate>
+                                    <asp:TextBox ID="txtSearchUsers" runat="server"></asp:TextBox>
+                                    <asp:Button CssClass="btn btn-info" ID="btnSearchUsers" runat="server" Text="Cerca utente" OnClick="btnSearchUsers_Click" />
                             <asp:GridView ID="UsersGridView" runat="server" ItemType="VALE.Models.UserData" AllowPaging="true" PageSize="10" AllowSorting="true" SelectMethod="UsersGridView_GetData">
                                 <Columns>
                                     <asp:TemplateField>
@@ -58,6 +59,10 @@
                                     <asp:Label runat="server">Nessun utente da aggiungere.</asp:Label>
                                 </EmptyDataTemplate>
                             </asp:GridView>
+                                    <asp:Button CssClass="btn btn-info" ID="btnReturn" runat="server" Text="Fine" OnClick="btnReturn_Click" />
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            
 
                         </div>
                     </div>

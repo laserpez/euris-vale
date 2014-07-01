@@ -6,19 +6,22 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Logic;
 using VALE.Models;
+using System.Web.ModelBinding;
 
 namespace VALE.MyVale
 {
     public partial class UserSelector : System.Web.UI.Page
     {
-        int _dataId;
-        string _dataType;
+        private int _dataId;
+        private string _dataType;
+        private string _returnUrl;
         private IActions _dataActions;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _dataId = Convert.ToInt32(Request.QueryString["dataId"]);
             _dataType = Request.QueryString["dataType"];
+            _returnUrl = Request.QueryString["returnUrl"];
 
             //Inizializza IActions
             if (_dataType == "project")
@@ -27,20 +30,27 @@ namespace VALE.MyVale
                 _dataActions = new EventActions();
         }
 
-        public IQueryable<UserData> UsersGridView_GetData()
+        public IQueryable<UserData> UsersGridView_GetData([Control]string txtSearchUsers)
         {
             var db = new UserOperationsContext();
-            var listUsers = _dataActions.GetRelatedUsers(_dataId);
-            var resultList = db.UsersData.ToList().Except(listUsers);
-            return resultList.AsQueryable();
+            IQueryable<UserData> resultList = null;
+            
+             var   listUsers = _dataActions.GetRelatedUsers(_dataId);
+            if (String.IsNullOrEmpty(txtSearchUsers))
+                resultList = db.UsersData.ToList().Except(listUsers).AsQueryable();
+            else
+                resultList = db.UsersData.ToList().Except(listUsers).Where(u => u.FullName.ToLower().Contains(txtSearchUsers.ToLower())).AsQueryable();
+            return resultList;
         }
 
-        protected void btnAddUsers_Click(object sender, EventArgs e)
+        protected void btnSearchUsers_Click(object sender, EventArgs e)
         {
-            var btn = (Button)sender;
-            _dataActions.AddOrRemoveUserData(_dataId, btn.CommandName);
-
             UsersGridView.DataBind();
+        }
+
+        protected void btnReturn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(_returnUrl);
         }
     }
 }
