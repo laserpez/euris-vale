@@ -24,6 +24,6 @@ namespace VALE.Logic
         List<AttachedFile> GetAttachments(int dataId);
         bool RemoveAllAttachments(int dataId);
 
-        List<UserData> GetRelatedUsers(string _dataId);
+        IQueryable<UserData> GetRelatedUsers(int _dataId);
     }
 }

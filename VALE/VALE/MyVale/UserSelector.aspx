@@ -13,7 +13,7 @@
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
-                                                    <asp:Label ID="HeaderName" runat="server" Text="To do"></asp:Label>
+                                                    <asp:Label ID="HeaderName" runat="server" Text="Scelta utenti"></asp:Label>
                                                 </h4>
                                             </li>
                                         </ul>
@@ -25,7 +25,9 @@
 
                             <asp:TextBox ID="txtSearchUsers" runat="server"></asp:TextBox>
 
-                            <asp:GridView ID="UsersGridView" runat="server" ItemType="VALE.Models.UserData" AllowPaging="true" AllowSorting="true" SelectMethod="UsersGridView_GetData">
+                            <asp:GridView ID="UsersGridView" EmptyDataText="Nessun utente" runat="server" AutoGenerateColumns="true" ItemType="VALE.Models.UserData" AllowPaging="true" AllowSorting="true" SelectMethod="UsersGridView_GetData">
+
+
                                 
                             </asp:GridView>
 

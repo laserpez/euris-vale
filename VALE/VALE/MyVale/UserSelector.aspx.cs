@@ -11,23 +11,28 @@ namespace VALE.MyVale
 {
     public partial class UserSelector : System.Web.UI.Page
     {
-        string _dataId;
+        int _dataId;
         string _dataType;
-        private IActions dataActions;
+        private IActions _dataActions;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _dataId = Request.QueryString["dataId"];
+            _dataId = Convert.ToInt32(Request.QueryString["dataId"]);
             _dataType = Request.QueryString["dataType"];
 
             //Inizializza IActions
+            if (_dataType == "project")
+                _dataActions = new ProjectActions();
+            else
+                _dataActions = new EventActions();
         }
 
-        public IQueryable UsersGridView_GetData()
+        public IQueryable<UserData> UsersGridView_GetData()
         {
             var db = new UserOperationsContext();
-            var listUsers = dataActions.GetRelatedUsers(_dataId);
-            return db.UsersData.Except(listUsers);
+            var listUsers = _dataActions.GetRelatedUsers(_dataId);//.Select(u => u.UserName);
+            var resultList = db.UsersData.ToList().Except(listUsers);//.Where(u => listUsers.Contains(u.UserName) == false);
+            return resultList.AsQueryable();
         }
     }
 }
