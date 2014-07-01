@@ -35,7 +35,7 @@ namespace VALE.MyVale
             }
         }
 
-        protected void btnSaveEvent_Click(object sender, EventArgs e)
+        protected void btnAddUsers_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
             var user = db.UsersData.FirstOrDefault(u => u.UserName == _currentUser);
@@ -53,12 +53,15 @@ namespace VALE.MyVale
             db.Events.Add(newEvent);
             db.SaveChanges();
 
+            var redirectURL = "";
             if (Session["callingProjectId"] != null)
-                Response.Redirect("/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString());
+                redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
             else if (Session["requestFrom"] != null)
-                Response.Redirect(Session["requestFrom"].ToString());
+                redirectURL = Session["requestFrom"].ToString();
             else
-                Response.Redirect("/MyVale/Events");
+                redirectURL = "/MyVale/Events";
+
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newEvent.EventId + "&dataType=event&returnUrl=" + redirectURL);
         }
     }
 }
