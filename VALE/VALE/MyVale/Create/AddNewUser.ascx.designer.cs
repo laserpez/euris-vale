@@ -7,10 +7,64 @@
 // </generato automaticamente>
 //------------------------------------------------------------------------------
 
-namespace VALE.Account {
+namespace VALE.MyVale.Create {
     
     
-    public partial class Register {
+    public partial class AddNewUser {
+        
+        /// <summary>
+        /// Controllo UpdatePanelAdd.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelAdd;
+        
+        /// <summary>
+        /// Controllo AddUser.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddUser;
+        
+        /// <summary>
+        /// Controllo lnkDummy.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkDummy;
+        
+        /// <summary>
+        /// Controllo ModalPopup.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopup;
+        
+        /// <summary>
+        /// Controllo TitleModalView.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label TitleModalView;
+        
+        /// <summary>
+        /// Controllo CloseButton.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CloseButton;
         
         /// <summary>
         /// Controllo ErrorMessage.
@@ -20,15 +74,6 @@ namespace VALE.Account {
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ErrorMessage;
-        
-        /// <summary>
-        /// Controllo ValidationSummary1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generato automaticamente.
-        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ValidationSummary ValidationSummary1;
         
         /// <summary>
         /// Controllo TextUserName.
@@ -193,12 +238,30 @@ namespace VALE.Account {
         protected global::System.Web.UI.WebControls.TextBox ConfirmPassword;
         
         /// <summary>
-        /// Controllo checkAssociated.
+        /// Controllo DropDownSelectRole.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox checkAssociated;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownSelectRole;
+        
+        /// <summary>
+        /// Controllo SelectRole.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SelectRole;
+        
+        /// <summary>
+        /// Controllo CreateUser.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CreateUser;
     }
 }

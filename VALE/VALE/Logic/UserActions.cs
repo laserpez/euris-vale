@@ -37,7 +37,7 @@ namespace VALE.Logic
             }
         }
 
-        public static string ChangeUserRole(string userName, string role)
+        public static bool ChangeUserRole(string userName, string role)
         {
             IdentityResult IdUserResult;
             ApplicationDbContext db = new ApplicationDbContext();
@@ -53,22 +53,17 @@ namespace VALE.Logic
                 oldRoleName = db.Roles.Where(o => o.Id == oldRole).FirstOrDefault().Name;
                 IdUserResult = userManager.RemoveFromRole(appUser.Id, oldRoleName);
                 if (!IdUserResult.Succeeded)
-                    return "Impossibile eliminarlo dal vecchio ruolo.";
+                    return false;
             }
 
             IdUserResult = userManager.AddToRole(appUser.Id, role);
             if (IdUserResult.Succeeded)
-               return "Ruolo di " + appUser.UserName + " modificato in " + role + ".";
+                return true;
+            //return "Ruolo di " + appUser.UserName + " modificato in " + role + ".";
             else
-                return "Errore nella modifica dell'utente " + appUser.UserName + ".";
+                return false;
+                //return "Errore nella modifica dell'utente " + appUser.UserName + ".";
 
         }
-
-        //public static string GetUserFullName(string userId)
-        //{
-        //    var db = new ApplicationDbContext();
-        //    var user = db.Users.First(u => u.Id == userId);
-        //    return user.FirstName + " " + user.LastName;
-        //}
     }
 }

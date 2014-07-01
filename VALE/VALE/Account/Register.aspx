@@ -10,13 +10,13 @@
     <div class="form-horizontal">
         <h4>Crea un nuovo account.</h4>
         <hr />
-        <!--<asp:ValidationSummary runat="server" CssClass="text-danger" />-->
+        <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="text-danger" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Submit" />
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="TextUserName" CssClass="col-md-1 control-label">UserName</asp:Label>
             <div class="col-md-3">
                 <asp:TextBox runat="server" ID="TextUserName" CssClass="form-control" />
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="TextUserName"
-                    CssClass="text-danger" ErrorMessage="Il campo UserName è obbligatorio." />
+                    CssClass="text-danger" ValidationGroup="Submit" ErrorMessage="Il campo UserName è obbligatorio." />
             </div>
             <asp:Label runat="server" AssociatedControlID="Email" CssClass="col-md-1 control-label">Email</asp:Label>
             <div class="col-md-3">
@@ -68,21 +68,21 @@
 
                     <asp:Label runat="server" AssociatedControlID="DropDownRegion" CssClass="col-md-1 control-label">Regione</asp:Label>
                     <div class="col-md-3">
-                        <asp:DropDownList runat="server" class="form-control" ID="DropDownRegion" AutoPostBack="True" OnSelectedIndexChanged="Region_SelectedIndexChanged">
+                        <asp:DropDownList runat="server" CssClass="form-control" ID="DropDownRegion" AutoPostBack="True" OnSelectedIndexChanged="Region_SelectedIndexChanged">
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator InitialValue="Seleziona" runat="server" ControlToValidate="DropDownRegion"
                             CssClass="text-danger" ErrorMessage="Seleziona la Regione." />
                     </div>
                     <asp:Label runat="server" AssociatedControlID="DropDownProvince" CssClass="col-md-1 control-label">Provincia</asp:Label>
                     <div class="col-md-3">
-                        <asp:DropDownList runat="server" class="form-control" ID="DropDownProvince" AutoPostBack="True" OnSelectedIndexChanged="State_SelectedIndexChanged">
+                        <asp:DropDownList runat="server" CssClass="form-control" ID="DropDownProvince" AutoPostBack="True" OnSelectedIndexChanged="State_SelectedIndexChanged">
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator InitialValue="Seleziona" runat="server" ControlToValidate="DropDownProvince"
                             CssClass="text-danger" ErrorMessage="Seleziona la Provincia." />
                     </div>
                     <asp:Label runat="server" AssociatedControlID="DropDownCity" CssClass="col-md-1 control-label">Città</asp:Label>
                     <div class="col-md-3">
-                        <asp:DropDownList runat="server" class="form-control" ID="DropDownCity">
+                        <asp:DropDownList runat="server" CssClass="form-control" ID="DropDownCity">
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator InitialValue="Seleziona" runat="server" ControlToValidate="DropDownCity"
                             CssClass="text-danger" ErrorMessage="Seleziona la Città." />

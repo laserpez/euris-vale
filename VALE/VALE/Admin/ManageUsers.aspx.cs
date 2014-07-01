@@ -64,7 +64,7 @@ namespace VALE.Admin
                     string userName = ((Label)grdUsers.Rows[i].Cells[0].FindControl("labelUserName")).Text;
                     AdminActions.ConfirmUser(userName);
 
-                    //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "Your associated account has been confirmed", "Account confirmed");
+                    //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "La tua richiesta di associazione è stata confermata.", "Account confermato");
                 }
             }
 
@@ -77,21 +77,30 @@ namespace VALE.Admin
             LinkButton button = (LinkButton)sender;
             if (button.CommandName == "Administrator")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Amministratore");
-                if (lblChangeRole.Text != "")
+                if (!UserActions.ChangeUserRole(button.CommandArgument, "Amministratore"))
+                {
+                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
+                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
                     lblChangeRole.Visible = true;
+                }
             }
             else if (button.CommandName == "BoardMember")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Membro del consiglio");
-                if (lblChangeRole.Text != "")
+                if (!UserActions.ChangeUserRole(button.CommandArgument, "Membro del consiglio"))
+                {
+                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
+                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
                     lblChangeRole.Visible = true;
+                }
             }
             else if (button.CommandName == "Associated")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Socio");
-                if (lblChangeRole.Text != "")
+                if (!UserActions.ChangeUserRole(button.CommandArgument, "Socio"))
+                {
+                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
+                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
                     lblChangeRole.Visible = true;
+                }
             }
             LoadData();
         }
@@ -120,58 +129,53 @@ namespace VALE.Admin
             GetRequestsdButton.Visible = false;
         }
 
-        protected void GetAllUsers_Click(object sender, EventArgs e)
+        protected void GetSelectedUsers_Click(object sender, EventArgs e)
         {
             PreparePanelForManage();
-            ListUsersType.Text = "Tutti";
-            GetAllUsersButton.Visible = true;
+            string input = ((LinkButton)sender).Text;
+            ListUsersType.Text = CleanSender(input);
+
+            switch (ListUsersType.Text)
+            { 
+                //case "Tutti":
+                //    GetAllUsersButton.Visible = true;
+                //    break;
+                case "Soci":
+                    GetPartnersButton.Visible = true;
+                    break;
+                case "Amministratori":
+                    GetAdminButton.Visible = true;
+                    break;
+                case "Membri":
+                    GetDirectivPartnersButton.Visible = true;
+                    break;
+                case "Richieste":
+                    GetAllUsersButton.Visible = false;
+                    GetAdminButton.Visible = false;
+                    GetPartnersButton.Visible = false;
+                    GetDirectivPartnersButton.Visible = false;
+                    GetRequestsdButton.Visible = true;
+                    break;
+                default :
+                    GetAllUsersButton.Visible = true;
+                    break;
+            }
             LoadData();
         }
 
-        protected void GetPartners_Click(object sender, EventArgs e)
+        private string CleanSender(string input)
         {
-            PreparePanelForManage();
-            ListUsersType.Text = "Soci";
-            GetPartnersButton.Visible = true;
-            LoadData();
+            Char[] separators = new Char[] { ' ' };
+            string[] splittedInput = input.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            return splittedInput.LastOrDefault();
         }
 
-        protected void GetAdmin_Click(object sender, EventArgs e)
-        {
-            PreparePanelForManage();
-            ListUsersType.Text = "Amministratori";
-            GetAdminButton.Visible = true;
-            LoadData();
-        }
-
-        protected void GetDirectivPartners_Click(object sender, EventArgs e)
-        {
-            PreparePanelForManage();
-            ListUsersType.Text = "Membri";
-            GetDirectivPartnersButton.Visible = true;
-            LoadData();
-        }
-
-        protected void GetRequests_Click(object sender, EventArgs e)
-        {
-            PreparePanelForRegistrationRequest();
-            GetAllUsersButton.Visible = false;
-            GetAdminButton.Visible = false;
-            GetPartnersButton.Visible = false;
-            GetDirectivPartnersButton.Visible = false;
-            ListUsersType.Text = "Richieste";
-            GetRequestsdButton.Visible = true;
-            LoadData();
-        }
         private void LoadData()
         {
             var db = new ApplicationDbContext();
             List<ApplicationUser> list = new List<ApplicationUser>();
             switch (ListUsersType.Text)
             {
-                case "Tutti":
-                    list = db.Users.ToList();
-                    break;
                 case "Amministratori":
                     var rolesA = db.Roles.Where(p => p.Name == "Amministratore").Select(k => k.Id).FirstOrDefault();
                     list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesA).ToList();

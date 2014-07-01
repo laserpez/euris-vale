@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageUsers.aspx.cs" Inherits="VALE.Admin.ManageUsers" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/Create/AddNewUser.ascx" TagPrefix="uc" TagName="AddNewUser" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -12,7 +13,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-10">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4><span class="badge" runat="server" id="NotificationNumber"></span>
@@ -31,21 +32,25 @@
                                             <button type="button" visible="false" id="GetRequestsdButton" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Richieste  <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    <asp:LinkButton runat="server" OnClick="GetAllUsers_Click"><span class="glyphicon glyphicon-hdd btn-sm"></span> Tutti</asp:LinkButton></li>
+                                                    <asp:LinkButton runat="server" OnClick="GetSelectedUsers_Click" CausesValidation="false"><span class="glyphicon glyphicon-hdd btn-sm"></span> Tutti</asp:LinkButton></li>
                                                 <li>
-                                                    <asp:LinkButton runat="server" OnClick="GetAdmin_Click"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratori  </asp:LinkButton></li>
+                                                    <asp:LinkButton runat="server" OnClick="GetSelectedUsers_Click" CausesValidation="false"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratori  </asp:LinkButton></li>
                                                 <li>
-                                                    <asp:LinkButton runat="server" OnClick="GetPartners_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Soci  </asp:LinkButton></li>
+                                                    <asp:LinkButton runat="server" OnClick="GetSelectedUsers_Click" CausesValidation="false"><span class="glyphicon glyphicon-user btn-sm"></span> Soci  </asp:LinkButton></li>
                                                 <li>
-                                                    <asp:LinkButton runat="server" OnClick="GetDirectivPartners_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Consiglio Direttivo</asp:LinkButton></li>
+                                                    <asp:LinkButton runat="server" OnClick="GetSelectedUsers_Click" CausesValidation="false"><span class="glyphicon glyphicon-user btn-sm"></span> Consiglio Direttivo</asp:LinkButton></li>
                                                 <li>
-                                                    <asp:LinkButton runat="server" OnClick="GetRequests_Click"><span class="glyphicon glyphicon-plus-sign btn-sm"></span>  Richieste  </asp:LinkButton></li>
+                                                    <asp:LinkButton runat="server" OnClick="GetSelectedUsers_Click" CausesValidation="false"><span class="glyphicon glyphicon-plus-sign btn-sm"></span>  Richieste  </asp:LinkButton></li>
                                             </ul>
+                                        </div>
+                                        <div class="btn-group" runat="server" id="AddNewUserMenagement">
+                                            <uc:AddNewUser runat="server" ID="AddNewUser" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="panel-body">
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
