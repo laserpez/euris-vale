@@ -95,7 +95,7 @@ namespace VALE.MyVale
 
         protected void addUsers_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentEventId + "&dataType=event");
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentEventId + "&dataType=event&returnUrl=/MyVale/EventDetails?eventId=" +_currentEventId);
         }
     }
 }
