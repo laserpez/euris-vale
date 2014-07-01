@@ -89,12 +89,12 @@ namespace VALE.Admin
                 var dbData = new UserOperationsContext();
                 int Id = Convert.ToInt32(ProjectID.Text);
                 var project = dbData.Projects.First(p => p.ProjectId == Id);
-                using(var actions = new ProjectActions())
-                {
-                    actions.RemoveAllAttachments(Id);
-                }
+                var actions = new ProjectActions();
+                
+                actions.RemoveAllAttachments(Id);
+                
                 var eventActions = new EventActions();
-                    project.Events.ForEach(ev => eventActions.RemoveAllAttachments(ev.EventId));
+                project.Events.ForEach(ev => eventActions.RemoveAllAttachments(ev.EventId));
 
                 dbData.Projects.Remove(project);
                 dbData.SaveChanges();
