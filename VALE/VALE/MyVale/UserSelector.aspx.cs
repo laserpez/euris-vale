@@ -59,5 +59,10 @@ namespace VALE.MyVale
             _dataActions.AddOrRemoveUserData(_dataId, btn.CommandName);
             UsersGridView.DataBind();
         }
+
+        public bool IsUserRelated(string username)
+        {
+            return _dataActions.IsUserRelated(_dataId, username);
+        }
     }
 }
