@@ -140,7 +140,19 @@ namespace VALE.Logic
 
         public bool AddOrRemoveUserData(int dataId, string username)
         {
-            throw new NotImplementedException();
+            var _db = new UserOperationsContext();
+            var anEvent = _db.Events.First(e => e.EventId == dataId);
+            var user = _db.UsersData.FirstOrDefault(u => u.UserName == username);
+            bool added = false;
+            if (!IsUserRelated(anEvent.EventId, username))
+            {   
+                anEvent.RegisteredUsers.Add(user);
+                added = true;
+            }
+            else
+                anEvent.RegisteredUsers.Remove(user);
+            _db.SaveChanges();
+            return added;
         }
     }
 }

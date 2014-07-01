@@ -25,10 +25,38 @@
 
                             <asp:TextBox ID="txtSearchUsers" runat="server"></asp:TextBox>
 
-                            <asp:GridView ID="UsersGridView" EmptyDataText="Nessun utente" runat="server" AutoGenerateColumns="true" ItemType="VALE.Models.UserData" AllowPaging="true" AllowSorting="true" SelectMethod="UsersGridView_GetData">
-
-
-                                
+                            <asp:GridView ID="UsersGridView" runat="server" ItemType="VALE.Models.UserData" AllowPaging="true" PageSize="10" AllowSorting="true" SelectMethod="UsersGridView_GetData">
+                                <Columns>
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <center><div><asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField>
+                                        <HeaderTemplate>
+                                            <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Azione</asp:Label></div></center>
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <center><div><asp:Button ID="btnAddUsers" Width="90" CssClass="btn btn-info btn-xs" Text="Aggiungi" runat="server" OnClick="btnAddUsers_Click" CommandName="<%# Item.UserName %>" /></div></center>
+                                        </ItemTemplate>
+                                        <HeaderStyle Width="90px" />
+                                        <ItemStyle Width="90px" />
+                                    </asp:TemplateField>
+                                </Columns>
+                                <EmptyDataTemplate>
+                                    <asp:Label runat="server">Nessun utente da aggiungere.</asp:Label>
+                                </EmptyDataTemplate>
                             </asp:GridView>
 
                         </div>

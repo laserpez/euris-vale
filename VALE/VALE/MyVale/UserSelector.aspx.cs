@@ -30,9 +30,17 @@ namespace VALE.MyVale
         public IQueryable<UserData> UsersGridView_GetData()
         {
             var db = new UserOperationsContext();
-            var listUsers = _dataActions.GetRelatedUsers(_dataId);//.Select(u => u.UserName);
-            var resultList = db.UsersData.ToList().Except(listUsers);//.Where(u => listUsers.Contains(u.UserName) == false);
+            var listUsers = _dataActions.GetRelatedUsers(_dataId);
+            var resultList = db.UsersData.ToList().Except(listUsers);
             return resultList.AsQueryable();
+        }
+
+        protected void btnAddUsers_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            _dataActions.AddOrRemoveUserData(_dataId, btn.CommandName);
+
+            UsersGridView.DataBind();
         }
     }
 }
