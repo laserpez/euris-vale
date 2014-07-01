@@ -65,7 +65,7 @@
                                                             <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Azione</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Button ID="btnAddUsers" Width="90" CssClass="btn btn-info btn-xs" Text="Aggiungi" runat="server" OnClick="btnAddUsers_Click" CommandName="<%# Item.UserName %>" /></div></center>
+                                                            <center><div><asp:Button ID="btnAddUsers" Width="90" CssClass="btn btn-info btn-xs" Text= '<%#: IsUserRelated(Item.UserName) ? "Rimuovi" : "Aggiungi" %>' runat="server" OnClick="btnAddUsers_Click" CommandName="<%# Item.UserName %>" /></div></center>
                                                         </ItemTemplate>
                                                         <HeaderStyle Width="90px" />
                                                         <ItemStyle Width="90px" />
