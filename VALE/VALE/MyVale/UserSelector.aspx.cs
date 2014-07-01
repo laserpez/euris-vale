@@ -52,5 +52,12 @@ namespace VALE.MyVale
         {
             Response.Redirect(_returnUrl);
         }
+
+        protected void btnAddUsers_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            _dataActions.AddOrRemoveUserData(_dataId, btn.CommandName);
+            UsersGridView.DataBind();
+        }
     }
 }

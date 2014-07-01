@@ -36,11 +36,11 @@
                                     <asp:Label runat="server"><%#: String.Format("Descrizione: {0}", Item.Description) %></asp:Label><br />
 
                                     
-                                    <%--<h4>Partecipanti</h4>--%>
+                                    <h4>Partecipanti</h4>
                                     
-                                    <%--<asp:UpdatePanel runat="server">
+                                    <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
-                                            <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                            <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true" AllowPaging="true" PageSize="5"
                                                 SelectMethod="GetRegisteredUsers" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
@@ -73,8 +73,8 @@
                                                 </EmptyDataTemplate>
                                             </asp:GridView>
                                         </ContentTemplate>
-                                    </asp:UpdatePanel>--%>
-                                    <asp:Button id="addUsers" runat="server" OnClick="addUsers_Click" Text="Gestione utenti" />
+                                    </asp:UpdatePanel>
+                                    <asp:Button id="addUsers" runat="server" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Gestione utenti" />
                                     <h4>Progetto correlato</h4>
                                     <asp:FormView runat="server" ID="ProjectDetail" EmptyDataText="Nessun progetto correlato." ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
                                         <ItemTemplate>
