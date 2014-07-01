@@ -10,7 +10,6 @@ namespace VALE.MyVale.Create
 {
     public partial class ManageGroups : System.Web.UI.Page
     {
-        ApplicationDbContext _AppDb = new ApplicationDbContext();
         UserOperationsContext _db = new UserOperationsContext();
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -56,9 +55,9 @@ namespace VALE.MyVale.Create
                 return "Utente";
         }
 
-        public IQueryable<VALE.Models.ApplicationUser> grdUsers_GetData()
+        public IQueryable<VALE.Models.UserData> grdUsers_GetData()
         {
-            return _AppDb.Users;
+            return _db.UsersData;
         }
 
         protected void btnGroupsListButton_Click(object sender, EventArgs e)

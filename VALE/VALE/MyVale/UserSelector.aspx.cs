@@ -85,5 +85,44 @@ namespace VALE.MyVale
         {
             return _dataActions.IsUserRelated(_dataId, username);
         }
+
+        public bool IsGroupRelated(int groupId)
+        {
+            var db = new UserOperationsContext();
+
+            var group = db.Groups.First(g => g.GroupId == groupId);
+
+            var usersRelated = _dataActions.GetRelatedUsers(_dataId);
+
+            return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
+
+        }
+
+        public IQueryable<Group> GroupsGridView_GetData()
+        {
+            var db = new UserOperationsContext();
+            return db.Groups;
+        }
+
+        protected void btnAddGroup_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            var groupId = Convert.ToInt32(btn.CommandArgument);
+
+            var db = new UserOperationsContext();
+            var group = db.Groups.First(g => g.GroupId == groupId);
+
+            foreach(var user in group.Users)
+            {
+                if( (btn.CommandName == "Add" &&  !_dataActions.IsUserRelated(_dataId, user.UserName)) ||
+                    (btn.CommandName == "Remove" && _dataActions.IsUserRelated(_dataId, user.UserName)) )
+                {
+                    _dataActions.AddOrRemoveUserData(_dataId, user.UserName);
+                }
+            }
+
+            UsersGridView.DataBind();
+            GroupsGridView.DataBind();
+        }
     }
 }
