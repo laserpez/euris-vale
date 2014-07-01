@@ -290,13 +290,13 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
             var user = db.UsersData.First(u => u.UserName == _currentUserName);
-            using (var actions = new ProjectActions())
-            {
-                actions.AddOrRemoveUserData(project, user);
-                db.SaveChanges();
-                grdUsers.DataBind();
-                SetWorkOnProjectSection(project);
-            }
+            var actions = new ProjectActions();
+            
+            actions.AddOrRemoveUserData(project, user);
+            db.SaveChanges();
+            grdUsers.DataBind();
+            SetWorkOnProjectSection(project);
+            
         }
 
         protected void btnAddIntervention_Click(object sender, EventArgs e)
@@ -342,6 +342,11 @@ namespace VALE.MyVale
                 _db.SaveChanges();
             }
 
+        }
+
+        protected void addUsers_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentProjectId + "&dataType=project&returnUrl=/MyVale/ProjectDetails?projectId=" + _currentProjectId);
         }
     }
 }
