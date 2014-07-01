@@ -124,7 +124,7 @@
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-
+                                    <asp:Button id="addUsers" runat="server" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Gestione utenti" />
                                     <h4>Progetto correlato</h4>
                                     <asp:FormView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
                                         <EmptyDataTemplate>
