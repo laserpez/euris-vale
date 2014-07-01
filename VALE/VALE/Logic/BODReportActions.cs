@@ -91,5 +91,11 @@ namespace VALE.Logic
         {
             throw new NotImplementedException();
         }
+
+
+        public List<UserData> GetRelatedUsers(string _dataId)
+        {
+            return null;
+        }
     }
 }
