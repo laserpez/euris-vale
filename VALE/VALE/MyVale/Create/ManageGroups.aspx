@@ -73,14 +73,14 @@
                                         <div class="panel-heading">
                                             <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Utenti
                                                      <div class="navbar-right">
-                                                         <%--<button type="button" runat="server" class="btn btn-success btn-xs" title="Crea nuova attività (stato: da pianificare)"><span class="glyphicon glyphicon-plus"></span></button>--%>
+                                                         <button type="button" runat="server" class="btn btn-success btn-xs" title="Crea nuovo utente"><span class="glyphicon glyphicon-plus"></span></button>
                                                      </div>
                                         </div>
                                         <div class="panel-body" style="max-height: 170px; overflow: auto;">
                                             <asp:UpdatePanel runat="server">
                                                 <ContentTemplate>
                                                     <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" SelectMethod="grdUsers_GetData"
-                                                        ItemType="VALE.Models.UserData"  CssClass="table table-striped table-bordered">
+                                                        ItemType="VALE.Models.UserData"  CssClass="table table-striped table-bordered" ShowHeaderWhenEmpty="true">
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using VALE.Logic;
 using VALE.Models;
 
 namespace VALE.MyVale.Create
@@ -32,7 +33,21 @@ namespace VALE.MyVale.Create
 
         private void ManageGroup(string action, string userName, int groupId)
         {
-            
+            using(var groupActions = new GroupActions())
+            {
+                if (action == "Add") 
+                {
+                    if (!groupActions.IsUserRelated(groupId, userName))
+                        groupActions.AddUserToGroup(groupId, userName);
+                }
+                else if (action == "Remove")
+                {
+                    groupActions.RemoveUserFromGroup(groupId, userName);
+                }
+                    
+                grdGroupUsers.DataBind();
+                grdUsers.DataBind();
+            }
         }
 
         protected void btnManageGroupLinkButton_Click(object sender, EventArgs e)
@@ -78,6 +93,14 @@ namespace VALE.MyVale.Create
 
         public IQueryable<VALE.Models.UserData> grdUsers_GetData()
         {
+            if (lblGroupId.Value != "")
+            {
+                var groupActions = new GroupActions();
+                var id = Convert.ToInt32(lblGroupId.Value);
+                var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
+                if (group != null)
+                    return _db.UsersData.ToList().Except(group.Users).AsQueryable();
+            }
             return _db.UsersData;
         }
 
@@ -95,9 +118,11 @@ namespace VALE.MyVale.Create
 
         protected void btnGroupsListButton_Click(object sender, EventArgs e)
         {
+            lblGroupId.Value = "";
             grdGroupUsers.Visible = false;
             grdGroups.Visible = true;
             grdGroups.DataBind();
+            grdUsers.DataBind();
             btnAddGroupButton.Visible = true;
             btnGroupsListButton.Visible = false;
             lblHeaderGroupPanel.Text = "Gruppi";
@@ -171,6 +196,7 @@ namespace VALE.MyVale.Create
                 lblGroupId.Value = id + "";
                 grdGroupUsers.Visible = true;
                 grdGroupUsers.DataBind();
+                grdUsers.DataBind();
                 grdGroups.Visible = false;
                 btnAddGroupButton.Visible = false;
                 btnGroupsListButton.Visible = true;
@@ -211,8 +237,6 @@ namespace VALE.MyVale.Create
             });";
             ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "dragAndDrop", dragAndDrop, true);
         }
-
-
 
         private void DeleteGroup(int id)
         {
