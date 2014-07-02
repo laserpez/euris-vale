@@ -3,19 +3,94 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
+using System.Web.UI.WebControls;
 using VALE.Models;
 
 namespace VALE.Logic
 {
-    public static class UserActions
+    public class UserActions : IDisposable
     {
-        public static void CreateAdministrator()
+        ApplicationDbContext _db = new ApplicationDbContext();
+
+
+        public List<ApplicationUser> GetUsers()
         {
-            var db = new ApplicationDbContext();
+            var users = _db.Users.ToList();
+            return users;
+        }
+
+        public string GetRole(string userId)
+        {
+            var user = _db.Users.First(u => u.Id == userId);
+            if (user.Roles.Count != 0)
+            {
+                var roleId = user.Roles.First().RoleId;
+                var roleName = _db.Roles.FirstOrDefault(o => o.Id == roleId).Name;
+                return roleName;
+            }
+            else
+                return "Utente";
+        }
+
+        public List<ApplicationUser> GetSortedData(string property, SortDirection direction)
+        {
+            var result = GetUsers();
+            if (property != "Ruolo")
+            {
+                var param = Expression.Parameter(typeof(ApplicationUser), property);
+                var sortBy = Expression.Lambda<Func<ApplicationUser, object>>(Expression.Convert(Expression.Property(param, property), typeof(object)), param);
+
+                if (direction == SortDirection.Descending)
+                    result = result.AsQueryable<ApplicationUser>().OrderByDescending(sortBy).ToList();
+                else
+                    result = result.AsQueryable<ApplicationUser>().OrderBy(sortBy).ToList();
+            }
+            else
+            {
+                if (direction == SortDirection.Descending)
+                    result = result.AsQueryable<ApplicationUser>().OrderByDescending(u => GetRole(u.Id)).ToList();
+                else
+                    result = result.AsQueryable<ApplicationUser>().OrderBy(u => GetRole(u.Id)).ToList();
+            }
+
+            return result;
+        }
+
+        public List<ApplicationUser> GetFilteredData(string ListUsersType)
+        {
+            List<ApplicationUser> list = new List<ApplicationUser>();
+            switch (ListUsersType)
+            {
+                case "Administrators":
+                    var rolesA = _db.Roles.Where(p => p.Name == "Amministratore").Select(k => k.Id).FirstOrDefault();
+                    list = _db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesA).ToList();
+                    break;
+                case "Associates":
+                    var rolesS = _db.Roles.Where(p => p.Name == "Socio").Select(k => k.Id).FirstOrDefault();
+                    list = _db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesS).ToList();
+                    break;
+                case "Board":
+                    var rolesM = _db.Roles.Where(p => p.Name == "Membro del consiglio").Select(k => k.Id).FirstOrDefault();
+                    list = _db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesM).ToList();
+                    break;
+                case "Requests":
+                    list = _db.Users.Where(u => u.NeedsApproval == true).ToList();
+                    break;
+                default:
+                    list = _db.Users.ToList();
+                    break;
+            }
+            return list;
+        }
+
+        public void CreateAdministrator()
+        {
+            //var db = new ApplicationDbContext();
             var dbData = new UserOperationsContext();
 
-            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_db));
             var adminUser = new ApplicationUser
             {
                 UserName = "Admin",
@@ -37,10 +112,10 @@ namespace VALE.Logic
             }
         }
 
-        public static string ChangeUserRole(string userName, string role)
+        public bool ChangeUserRole(string userName, string role)
         {
             IdentityResult IdUserResult;
-            ApplicationDbContext db = new ApplicationDbContext();
+            //ApplicationDbContext db = new ApplicationDbContext();
             string oldRoleName = "";
 
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
@@ -50,25 +125,23 @@ namespace VALE.Logic
 
             if (oldRole != null)
             {
-                oldRoleName = db.Roles.Where(o => o.Id == oldRole).FirstOrDefault().Name;
+                oldRoleName = _db.Roles.Where(o => o.Id == oldRole).FirstOrDefault().Name;
                 IdUserResult = userManager.RemoveFromRole(appUser.Id, oldRoleName);
                 if (!IdUserResult.Succeeded)
-                    return "Impossibile eliminarlo dal vecchio ruolo.";
+                    return false;
             }
 
             IdUserResult = userManager.AddToRole(appUser.Id, role);
             if (IdUserResult.Succeeded)
-               return "Ruolo di " + appUser.UserName + " modificato in " + role + ".";
+                return true;
             else
-                return "Errore nella modifica dell'utente " + appUser.UserName + ".";
-
+                return false;
         }
 
-        //public static string GetUserFullName(string userId)
-        //{
-        //    var db = new ApplicationDbContext();
-        //    var user = db.Users.First(u => u.Id == userId);
-        //    return user.FirstName + " " + user.LastName;
-        //}
+        public void Dispose()
+        {
+            if (_db != null)
+                _db = null;
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -17,8 +18,10 @@ namespace VALE.MyVale
 
         public IQueryable<BlogArticle> GetAllArticles()
         {
-            var db = new UserOperationsContext();
-            return db.BlogArticles;
+            using (var actions = new ArticleActions())
+            {
+                return actions.GetArticles();
+            }
         }
 
         protected void grdAllArticles_RowCommand(object sender, GridViewCommandEventArgs e)

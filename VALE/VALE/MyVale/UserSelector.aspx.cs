@@ -133,7 +133,7 @@ namespace VALE.MyVale
             }
 
             if (!String.IsNullOrEmpty(txtSearchByName))
-                resultList = resultList.Where(g => g.GroupName.ToLower().Contains(txtSearchByName.ToLower()));
+                resultList = resultList.Where(g => g.GroupName.ToLower().Contains(txtSearchByName.ToLower()) && g.Users.Count != 0);
             return resultList;
         }
 

@@ -22,7 +22,10 @@ namespace VALE
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             RoleActions.CreateRoles();
-            UserActions.CreateAdministrator();
+            using (var actions = new UserActions())
+            {
+                actions.CreateAdministrator();
+            }
 
             //var timer = new Timer();
             //timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);

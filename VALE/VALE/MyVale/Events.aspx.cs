@@ -21,14 +21,17 @@ namespace VALE.MyVale
             
             if (!IsPostBack)
             {
-                txtFromDate.Text = DateTime.Today.ToShortDateString();
-                txtToDate.Text = DateTime.Today.AddDays(7).ToShortDateString();
+                //txtFromDate.Text = DateTime.Today.ToShortDateString();
+                //txtToDate.Text = DateTime.Today.AddDays(7).ToShortDateString();
 
-                var dbData = new UserOperationsContext();
-                ViewState["lstEvent"] = dbData.Events.ToList();
+                //var dbData = new UserOperationsContext();
+                //ViewState["lstEvent"] = dbData.Events.ToList();
 
-                FilterEvents();
-                UpdateGridView();
+                //FilterEvents();
+                //UpdateGridView();
+
+                GetAllEvents();
+                ChangeCalendars();
             }
         }
 
@@ -54,8 +57,6 @@ namespace VALE.MyVale
                     btnAttend.Text = "Partecipa";
                 }
             }
-
-            
         }
 
         public void FilterEvents()
@@ -74,16 +75,9 @@ namespace VALE.MyVale
         {
             var dbData = new UserOperationsContext();
             ViewState["lstEvent"] = dbData.Events.ToList();
-
             FilterEvents();
             UpdateGridView();
-        }
 
-        public List<Event> GetAttendingEvents()
-        {
-            var dbData = new UserOperationsContext();
-            var events = dbData.UsersData.First(u => u.UserName == _currentUserName).AttendingEvents;
-            return events;
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)
@@ -114,11 +108,45 @@ namespace VALE.MyVale
 
         protected void txtFromDate_TextChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtFromDate.Text))
+            //if (!string.IsNullOrEmpty(txtFromDate.Text))
+            //{
+            //    calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text); //.AddDays(7);
+            //    //txtToDate.Text = calendarTo.StartDate.Value.ToShortDateString();
+            //}
+            ChangeCalendars();
+        }
+
+        private void ChangeCalendars()
+        {
+            txtToDateLabel.Text = "";
+
+            if (txtFromDate.Text != "" && CheckDate())
             {
-                calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text).AddDays(7);
-                txtToDate.Text = calendarTo.StartDate.Value.ToShortDateString();
+                txtToDate.Enabled = true;
+                calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text);
             }
+            if (txtFromDate.Text == "")
+            {
+                txtToDate.Text = "";
+                txtToDate.Enabled = false;
+            }
+        }
+
+        private bool CheckDate()
+        {
+            if (!String.IsNullOrEmpty(txtToDate.Text))
+            {
+                var startDate = Convert.ToDateTime(txtFromDate.Text);
+                var endDate = Convert.ToDateTime(txtToDate.Text);
+                if (startDate > endDate)
+                {
+                    txtToDate.Text = "";
+                    calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text);
+                    txtToDateLabel.Text = "La data di fine deve essere maggiore o uguale della data d'inizio.";
+                    return false;
+                }
+            }
+            return true;
         }
 
         protected void grdPlannedEvent_Sorting(object sender, GridViewSortEventArgs e)
@@ -148,20 +176,20 @@ namespace VALE.MyVale
             set { ViewState["sortDirection"] = value; }
         }
 
-        //private List<Event> GetSortedData(string sortExpression)
-        //{
-        //    var result = (List<Event>)ViewState["lstEvent"];
+        protected void btnShowAllEvents_Click(object sender, EventArgs e)
+        {
+            GetAllEvents();
 
-        //    var param = Expression.Parameter(typeof(Event), sortExpression);
-        //    var sortBy = Expression.Lambda<Func<Event, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
+            txtFromDate.Text = "";
+            txtToDate.Text = "";
+            txtToDateLabel.Text = "";
+        }
 
-        //    if (GridViewSortDirection == SortDirection.Descending)
-        //        result = result.AsQueryable<Event>().OrderByDescending(sortBy).ToList();
-        //    else
-        //        result = result.AsQueryable<Event>().OrderBy(sortBy).ToList();
-        //    ViewState["lstEvent"] = result;
-        //    PopulateGridView(DateTime.Today, DateTime.Today.AddDays(7));
-        //    return result;
-        //}
+        private void GetAllEvents()
+        {
+            var dbData = new UserOperationsContext();
+            ViewState["lstEvent"] = dbData.Events.ToList();
+            UpdateGridView();
+        }
     }
 }
