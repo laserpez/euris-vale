@@ -21,7 +21,7 @@ namespace VALE.MyVale
         public IQueryable<Event> GetAttendingEvents()
         {
             var db = new UserOperationsContext();
-            return db.UsersData.First(u => u.UserName == _currentUser).AttendingEvents.AsQueryable();
+            return db.UserDatas.First(u => u.UserName == _currentUser).AttendingEvents.AsQueryable();
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)

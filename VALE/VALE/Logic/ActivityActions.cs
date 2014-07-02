@@ -44,7 +44,7 @@ namespace VALE.Logic
 
         public int GetActivitiesRequest(string userName)
         {
-            return _db.UsersData.First(u => u.UserName == userName).PendingActivity.Count;
+            return _db.UserDatas.First(u => u.UserName == userName).PendingActivity.Count;
 
         }
 
@@ -107,7 +107,7 @@ namespace VALE.Logic
 
         internal IQueryable<Activity> GetPendingActivities(string currentUserName)
         {
-            return _db.UsersData.First(u => u.UserName == currentUserName).PendingActivity.AsQueryable();
+            return _db.UserDatas.First(u => u.UserName == currentUserName).PendingActivity.AsQueryable();
         }
 
         internal List<ActivityReport> Sort(SortDirection GridViewSortDirection, List<ActivityReport> result, string sortExpression)

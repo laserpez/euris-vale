@@ -136,7 +136,7 @@ namespace VALE.MyVale.Create
 
             if (result.Succeeded)
             {
-                db.UsersData.Add(new UserData
+                db.UserDatas.Add(new UserData
                 {
                     UserName = user.UserName,
                     Email = user.Email,

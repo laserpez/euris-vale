@@ -102,7 +102,7 @@ namespace VALE.Logic
             {
                 userManager.Create(adminUser, "Pa$$word");
                 userManager.AddToRole(adminUser.Id, "Amministratore");
-                dbData.UsersData.Add(new UserData 
+                dbData.UserDatas.Add(new UserData 
                 { 
                     UserName = adminUser.UserName, 
                     Email = adminUser.Email, 
