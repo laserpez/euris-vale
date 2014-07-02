@@ -14,10 +14,10 @@ namespace VALE.MyVale
 {
     public partial class Projects : System.Web.UI.Page
     {
-        private string _currentUser;
+        private string _currentUserName;
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUser = User.Identity.GetUserName();
+            _currentUserName = User.Identity.GetUserName();
             if(!IsPostBack)
             {
 
@@ -46,7 +46,7 @@ namespace VALE.MyVale
         {
             var dbData = new UserOperationsContext();
             //var currentUserData = dbData.UsersData.FirstOrDefault(u => u.UserName == _currentUser);
-            var projects =  dbData.Projects.Where(p => p.Public == true || p.OrganizerUserName == _currentUser || p.InvolvedUsers.Select(u => u.UserName).Contains(_currentUser)).ToList();
+            var projects =  dbData.Projects.Where(p => p.Public == true || p.OrganizerUserName == _currentUserName || p.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName)).ToList();
             return projects;
             
         }
@@ -145,13 +145,8 @@ namespace VALE.MyVale
         protected void btnWorkOnThis_Click(object sender, EventArgs e)
         {
             int projectId = Convert.ToInt32(((Button)sender).CommandArgument);
-            var db = new UserOperationsContext();
-            var thisProject = db.Projects.First(p => p.ProjectId == projectId);
-            var user = db.UsersData.First(u => u.UserName == User.Identity.Name);
             var actions = new ProjectActions();
-            
-            actions.AddOrRemoveUserData(thisProject, user);
-            db.SaveChanges();
+            actions.AddOrRemoveUserData(projectId, _currentUserName);
             OpenedProjectList.DataSource = (List<Project>)ViewState["lstProject"];
             OpenedProjectList.DataBind();
         }
@@ -164,7 +159,7 @@ namespace VALE.MyVale
             {
                 Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
                 int projectId = (int)OpenedProjectList.DataKeys[i].Value;
-                if (actions.IsUserRelated(projectId, _currentUser))
+                if (actions.IsUserRelated(projectId, _currentUserName))
                 {
                     btnAttend.CssClass = "btn btn-success btn-xs";
                     btnAttend.Text = "Stai partecipando";
