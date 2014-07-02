@@ -9,7 +9,7 @@ using VALE.Models;
 namespace VALE.Logic
 {
     [Serializable]
-    public class ProjectActions : IActions
+    public class ProjectActions : IActions, IFileActions, IFilterable
     {
         //UserOperationsContext _db = new UserOperationsContext();
 
@@ -62,23 +62,6 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             var project = db.Projects.First(p => p.ProjectId == projectId);
             return project.InvolvedUsers.Select(u => u.UserName).Contains(userName);
-        }
-
-        public bool AddOrRemoveUserData<T>(T data, UserData user)
-        {
-            var project = data as Project;
-            if (IsUserRelated(project.ProjectId, user.UserName))
-            {
-                project.InvolvedUsers.Remove(user);
-                user.AttendingProjects.Remove(project);
-                return false;
-            }
-            else
-            {
-                project.InvolvedUsers.Add(user);
-                user.AttendingProjects.Add(project);
-                return true;
-            }
         }
 
         public bool RemoveAttachment(int attachmentId)

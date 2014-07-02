@@ -74,7 +74,7 @@
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-                                    <asp:Button id="addUsers" runat="server" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Gestione utenti" />
+                                    <asp:Button id="btnAddUsers" runat="server" Visible="false" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Gestione utenti" />
                                     <h4>Progetto correlato</h4>
                                     <asp:FormView runat="server" ID="ProjectDetail" EmptyDataText="Nessun progetto correlato." ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
                                         <ItemTemplate>

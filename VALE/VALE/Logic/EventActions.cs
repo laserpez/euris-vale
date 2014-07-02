@@ -9,10 +9,8 @@ using VALE.Models;
 namespace VALE.Logic
 {
     [Serializable]
-    public class EventActions : IActions
+    public class EventActions : IFileActions, IActions
     {
-        public EventActions(){}
-
         public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
             var result = data.Cast<Event>();
@@ -49,21 +47,6 @@ namespace VALE.Logic
             var toDate = DateTime.Parse(toDateStr);
             var filteredEvents = data.Cast<Event>().Where(ev => ev.EventDate >= fromDate && ev.EventDate <= toDate).ToList();
             return filteredEvents as List<T>;
-        }
-
-        public bool AddOrRemoveUserData<T>(T data, UserData user)
-        {
-            var anEvent = data as Event;
-            bool added = false;
-            if (!IsUserRelated(anEvent.EventId, user.UserName))
-            {
-                anEvent.RegisteredUsers.Add(user);
-                added = true;
-            }
-            else
-                anEvent.RegisteredUsers.Remove(user);
-
-            return added;
         }
 
         public bool IsUserRelated(int dataId, string username)
