@@ -9,7 +9,7 @@ using VALE.Models;
 namespace VALE.Logic
 {
     [Serializable]
-    public class ProjectActions : IActions, IFileActions, IFilterable
+    public class ProjectActions : IActions, IFileActions
     {
         //UserOperationsContext _db = new UserOperationsContext();
 
