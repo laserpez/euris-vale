@@ -25,6 +25,8 @@ namespace VALE.Models
 
         public virtual List<Intervention> Interventions { get; set; }
 
+        public virtual List<Group> JoinedGroups { get; set; }
+
         public override bool Equals(object obj)
         {
             var userData = (UserData)obj;

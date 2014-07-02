@@ -482,6 +482,11 @@
     <Compile Include="Logic\BODReportActions.cs" />
     <Compile Include="Logic\RoleActions.cs" />
     <Compile Include="Logic\UserActions.cs" />
+    <Compile Include="Migrations\201407021409148_AddManyToManyRelation.cs" />
+    <Compile Include="Migrations\201407021409148_AddManyToManyRelation.Designer.cs">
+      <DependentUpon>201407021409148_AddManyToManyRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\ActivityReport.cs" />
     <Compile Include="Models\AttachedFile.cs" />
@@ -539,7 +544,6 @@
     <Compile Include="MyVale\Create\ManageGroups.aspx.designer.cs">
       <DependentUpon>ManageGroups.aspx</DependentUpon>
     </Compile>
-
     <Compile Include="MyVale\Create\SelectProject.ascx.cs">
       <DependentUpon>SelectProject.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -742,6 +746,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201407021409148_AddManyToManyRelation.resx">
+      <DependentUpon>201407021409148_AddManyToManyRelation.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

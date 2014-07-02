@@ -67,6 +67,16 @@ namespace VALE.Models
                     m.ToTable("PendingActivitiesUsers");
                 });
 
+            modelBuilder.Entity<Group>()
+                .HasMany(g => g.Users)
+                .WithMany(u => u.JoinedGroups)
+                .Map(m =>
+                {
+                    m.MapLeftKey("GroupId");
+                    m.MapRightKey("UserDataId");
+                    m.ToTable("GroupsUsers");
+                });
+
         }
     }
 }
