@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VALE.Logic;
+using VALE.Models;
 
 namespace VALE.Test
 {
@@ -23,6 +24,27 @@ namespace VALE.Test
         public void TearDown()
         {
            //.VerifyAllExpectations();
+        }
+
+        [Test]
+        public void should_return_anActivity_null()
+        {
+            Activity anActivity = new Activity();
+            Assert.IsNull(activityActions.GetStatus(anActivity));
+        }
+
+        [Test]
+        public void should_return_anActivity()
+        {
+            Activity anActivity = new Activity();
+            anActivity.Status = ActivityStatus.Deleted;
+            Assert.AreEqual(activityActions.GetStatus(anActivity), "Cancellata");
+
+            anActivity.Status = ActivityStatus.ToBePlanned;
+            Assert.AreEqual(activityActions.GetStatus(anActivity), "Da pianificare");
+
+            anActivity.Status = ActivityStatus.Ongoing;
+            Assert.AreEqual(activityActions.GetStatus(anActivity), "In corso");
         }
 
     }

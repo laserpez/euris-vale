@@ -52,6 +52,11 @@ namespace VALE.MyVale
                 var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
                 btnAddActivity.Visible = false;
             }
+
+            if(aProject.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore"))
+            {
+                ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
+            }
         }
 
         private void DataBindControls()
@@ -163,19 +168,22 @@ namespace VALE.MyVale
             if (_currentProjectId != 0)
             {
                 var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
-                SetWorkOnProjectSection(project);
-                SetManageProjectSection(project);
+                SetWorkOnProjectSection();
+                SetManageProjectSection();
             }
         }
 
-        private void SetWorkOnProjectSection(Project project)
+        private void SetWorkOnProjectSection()
         {
+            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
+            var actions = new ProjectActions();
+
             Button btnWork = (Button)ProjectDetail.FindControl("btnWorkOnThis");
             Button btnAddIntervention = (Button)ProjectDetail.FindControl("btnAddIntervention");
             
             if (project.Status == "Aperto")
             {
-                if (project.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName))
+                if (actions.IsUserRelated(_currentProjectId, _currentUserName))
                 {
                     btnWork.Enabled = true;
                     btnWork.CssClass = "btn btn-success";
@@ -203,8 +211,9 @@ namespace VALE.MyVale
             }
         }
 
-        private void SetManageProjectSection(Project project)
+        private void SetManageProjectSection()
         {
+            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
             Button btnSuspend = (Button)ProjectDetail.FindControl("btnSuspendProject");
             Button btnClose = (Button)ProjectDetail.FindControl("btnCloseProject");
             Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
@@ -287,16 +296,11 @@ namespace VALE.MyVale
         protected void btnWorkOnThis_Click(object sender, EventArgs e)
         {
             GridView grdUsers = (GridView)ProjectDetail.FindControl("lstUsers");
-            var db = new UserOperationsContext();
-            var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
-            var user = db.UsersData.First(u => u.UserName == _currentUserName);
-            using (var actions = new ProjectActions())
-            {
-                actions.AddOrRemoveUserData(project, user);
-                db.SaveChanges();
-                grdUsers.DataBind();
-                SetWorkOnProjectSection(project);
-            }
+            var actions = new ProjectActions();
+            actions.AddOrRemoveUserData(_currentProjectId, _currentUserName);
+            grdUsers.DataBind();
+            SetWorkOnProjectSection();
+            
         }
 
         protected void btnAddIntervention_Click(object sender, EventArgs e)
@@ -342,6 +346,11 @@ namespace VALE.MyVale
                 _db.SaveChanges();
             }
 
+        }
+
+        protected void addUsers_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentProjectId + "&dataType=project&returnUrl=/MyVale/ProjectDetails?projectId=" + _currentProjectId);
         }
     }
 }
