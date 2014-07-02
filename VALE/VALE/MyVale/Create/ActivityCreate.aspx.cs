@@ -62,6 +62,7 @@ namespace VALE.MyVale
                 }
                 calendarFrom.StartDate = DateTime.Now;
                 calendarTo.StartDate = calendarFrom.StartDate.Value.AddDays(1);
+                ChangeCalendars();
             } 
         }
 
@@ -141,9 +142,44 @@ namespace VALE.MyVale
 
         protected void txtStartDate_TextChanged(object sender, EventArgs e)
         {
-            DateTime startDate;
-            if (DateTime.TryParse(txtStartDate.Text, out startDate))
-                calendarTo.StartDate = startDate.AddDays(1);
+            //DateTime startDate;
+            //if (DateTime.TryParse(txtStartDate.Text, out startDate))
+            //    calendarTo.StartDate = startDate.AddDays(1);
+
+            ChangeCalendars();
+        }
+
+        private void ChangeCalendars()
+        {
+            //txtStartDate.Text = "";
+
+            if (txtStartDate.Text != "" && CheckDate())
+            {
+                txtEndDate.Enabled = true;
+                calendarTo.StartDate = Convert.ToDateTime(txtStartDate.Text).AddDays(1);
+            }
+            if (txtStartDate.Text == "")
+            {
+                txtEndDate.Text = "";
+                txtEndDate.Enabled = false;
+            }
+        }
+
+        private bool CheckDate()
+        {
+            if (!String.IsNullOrEmpty(txtEndDate.Text))
+            {
+                var startDate = Convert.ToDateTime(txtStartDate.Text);
+                var endDate = Convert.ToDateTime(txtEndDate.Text);
+                if (startDate > endDate)
+                {
+                    txtEndDate.Text = "";
+                    calendarTo.StartDate = Convert.ToDateTime(txtStartDate.Text);
+                    //txtToDateLabel.Text = "La data di fine deve essere maggiore o uguale della data d'inizio.";
+                    return false;
+                }
+            }
+            return true;
         }
 
         protected void ToBePlannedStatus_Click(object sender, EventArgs e)

@@ -35,18 +35,6 @@ namespace VALE.MyVale
                 status = activityActions.GetStatus(anActivity);
             }
             return status;
-            //if (anActivity.Status == ActivityStatus.ToBePlanned)
-            //    return "Da pianificare";
-            //if (anActivity.Status == ActivityStatus.Suspended)
-            //    return "Sospesa";
-            //if (anActivity.Status == ActivityStatus.Ongoing)
-            //    return "In corso";
-            //if (anActivity.Status == ActivityStatus.Done)
-            //    return "Terminata";
-            //if (anActivity.Status == ActivityStatus.Deleted)
-            //    return "Cancellata";
-
-            //return null;
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -74,34 +62,6 @@ namespace VALE.MyVale
                 activities = activityActions.GetCurrentActivities(txtName,txtDescription,ddlStatus,_currentUserName);
             }
             return activities;
-            //var db = new UserOperationsContext();
-            //var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
-            //var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId));
-            //if (txtName != null)
-            //    activities = activities.Where(a => a.ActivityName.ToUpper().Contains(txtName.ToUpper()));
-            //if(txtDescription != null)
-            //    activities = activities.Where(a => a.Description.ToUpper().Contains(txtDescription.ToUpper()));
-            //if(ddlStatus != null && ddlStatus != "Tutte")
-            //{
-            //    ActivityStatus statusFilter = ActivityStatus.Deleted;
-            //    switch(ddlStatus)
-            //    {
-            //        case "Da pianificare":
-            //            statusFilter = ActivityStatus.ToBePlanned;
-            //            break;
-            //        case "In corso":
-            //            statusFilter = ActivityStatus.Ongoing;
-            //            break;
-            //        case "Sospese":
-            //            statusFilter = ActivityStatus.Suspended;
-            //            break;
-            //        case "Terminata":
-            //            statusFilter = ActivityStatus.Done;
-            //            break;
-            //    }
-            //    activities = activities.Where(a => a.Status == statusFilter);
-            //}
-            //return activities;
         }
 
         public IQueryable<Activity> GetPendingActivities()

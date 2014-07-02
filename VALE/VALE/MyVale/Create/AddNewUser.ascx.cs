@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using System.Web;
@@ -145,11 +144,13 @@ namespace VALE.MyVale.Create
                 });
                 db.SaveChanges();
 
-                if (UserActions.ChangeUserRole(user.UserName, DropDownSelectRole.SelectedValue))
+                var actions = new UserActions();
+
+                if (actions.ChangeUserRole(user.UserName, DropDownSelectRole.SelectedValue))
                 {
                     //string code = manager.GenerateEmailConfirmationToken(user.Id);
                     //string callbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id);
-                    //string body = "Benvenuto in VALE! La password di default con cui effettuare il Log In è:" + Password.Text + ". <br/> Potrai cambiarla una volta confermato l'account cliccando <a href=\"http://localhost:59959/Admin/ResetPassword.aspx/\"> qui <a/>";
+                    string body = "Benvenuto in VALE! La password di default con cui effettuare il Log In è:" + Password.Text + ". <br/> Potrai cambiarla una volta confermato l'account cliccando <a href=\"http://localhost:59959/Admin/ResetPassword.aspx" + "\"> qui <a/>";
                     //MailHelper.SendMail(user.Email, "Conferma account", body);
                     Response.Redirect("~/Admin/ManageUsers");
                 }
