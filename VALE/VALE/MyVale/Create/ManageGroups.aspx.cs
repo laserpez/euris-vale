@@ -57,7 +57,7 @@ namespace VALE.MyVale.Create
 
         public IQueryable<VALE.Models.UserData> grdUsers_GetData()
         {
-            return _db.UsersData;
+            return _db.UserDatas;
         }
 
         protected void btnGroupsListButton_Click(object sender, EventArgs e)

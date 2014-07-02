@@ -38,7 +38,7 @@ namespace VALE.MyVale
         protected void btnAddUsers_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
-            var user = db.UsersData.FirstOrDefault(u => u.UserName == _currentUser);
+            var user = db.UserDatas.FirstOrDefault(u => u.UserName == _currentUser);
             var registeredUsers = new List<UserData>() { user };
             var newEvent = new Event
             {

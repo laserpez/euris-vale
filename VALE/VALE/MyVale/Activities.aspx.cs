@@ -98,7 +98,7 @@ namespace VALE.MyVale
             int activityId = Convert.ToInt32(grdPendingActivities.DataKeys[index].Value);
             var db = new UserOperationsContext();
             var activity = db.Activities.First(a => a.ActivityId == activityId);
-            var user = db.UsersData.First(u => u.UserName == _currentUserName);
+            var user = db.UserDatas.First(u => u.UserName == _currentUserName);
             if (e.CommandName == "AcceptActivity")
             {
                 db.Reports.Add(new ActivityReport 

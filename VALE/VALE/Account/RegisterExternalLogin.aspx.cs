@@ -192,7 +192,7 @@ namespace VALE.Account
                 result = manager.AddLogin(user.Id, loginInfo.Login);
                 if (result.Succeeded)
                 {
-                    db.UsersData.Add(new UserData
+                    db.UserDatas.Add(new UserData
                     {
                         UserName = user.UserName,
                         Email = user.Email,
