@@ -23,7 +23,7 @@
                                             </div>
                                             <div class="navbar-right">
                                                 <div class="btn-group">
-                                                    <button type="button" id="btnCurrentView" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" runat="server">Tutti <span class="caret"></span></button>
+                                                    <button type="button" id="btnCurrentView" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" runat="server">Utenti <span class="caret"></span></button>
                                                     <ul class="dropdown-menu">
                                                         <li>
                                                             <asp:LinkButton ID="btnUsers" CommandArgument="Users" runat="server" OnClick="btnSelectUsers_Click">Utenti</asp:LinkButton></li>
@@ -45,13 +45,13 @@
                                                     <asp:TextBox ID="txtSearchByName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
 
                                                     <span class="input-group-btn">
-                                                        <asp:Button CssClass="btn btn-info btn-sm" ID="btnSearchUsers" runat="server" Text="Cerca utente" OnClick="btnSearchUsers_Click" />
+                                                        <asp:Button CssClass="btn btn-info btn-sm" ID="btnSearchUsers" runat="server" Text="Cerca" OnClick="btnSearchUsers_Click" />
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <asp:DropDownList ID="ddlFilterGrids" runat="server" CssClass="form-control input-sm">
+                                            <asp:DropDownList AutoPostBack="true" ID="ddlFilterGrids" runat="server" CssClass="form-control input-sm">
                                                 <asp:ListItem Text="Tutti" Value="all" Selected="True"></asp:ListItem>
                                                 <asp:ListItem Text="Aggiunti" Value="related" Selected="False"></asp:ListItem>
                                                 <asp:ListItem Text="Da aggiungere" Value="unrelated" Selected="False"></asp:ListItem>
