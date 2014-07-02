@@ -125,7 +125,7 @@ namespace VALE.Logic
         {
             var _db = new UserOperationsContext();
             var anEvent = _db.Events.First(e => e.EventId == dataId);
-            var user = _db.UsersData.FirstOrDefault(u => u.UserName == username);
+            var user = _db.UserDatas.FirstOrDefault(u => u.UserName == username);
             bool added = false;
             if (!IsUserRelated(anEvent.EventId, username))
             {   

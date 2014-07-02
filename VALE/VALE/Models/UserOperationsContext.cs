@@ -15,7 +15,7 @@ namespace VALE.Models
         public DbSet<Event> Events { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<UserData> UsersData { get; set; }
+        public DbSet<UserData> UserDatas { get; set; }
         public DbSet<ActivityReport> Reports { get; set; }
         public DbSet<Intervention> Interventions { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -24,7 +24,6 @@ namespace VALE.Models
         public DbSet<BODReport> BODReports { get; set; }
         public DbSet<AttachedFile> AttachedFiles { get; set; }
         public DbSet<Group> Groups { get; set; }
-
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

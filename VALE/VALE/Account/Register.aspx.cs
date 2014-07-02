@@ -112,7 +112,7 @@ namespace VALE.Account
             IdentityResult result = manager.Create(user, Password.Text);
             if (result.Succeeded)
             {
-                db.UsersData.Add(new UserData
+                db.UserDatas.Add(new UserData
                 {
                     UserName = user.UserName,
                     Email = user.Email,

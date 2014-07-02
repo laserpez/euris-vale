@@ -43,7 +43,7 @@ namespace VALE.MyVale.Create
         public IQueryable<UserData> GetUsers()
         {
             var _db = new UserOperationsContext();
-            var result = _db.UsersData.OrderBy(u => u.UserName);
+            var result = _db.UserDatas.OrderBy(u => u.UserName);
             return result;
         }
 
@@ -80,7 +80,7 @@ namespace VALE.MyVale.Create
         {
             var db = new UserOperationsContext();
             string userName = txtUserName.Text;
-            var user = db.UsersData.FirstOrDefault(p => p.FullName == userName);
+            var user = db.UserDatas.FirstOrDefault(p => p.FullName == userName);
             if (user != null)
             {
                 lblResultSearchUser.Text = String.Format("L'utente {0} ora partecipa al progetto", txtUserName.Text);

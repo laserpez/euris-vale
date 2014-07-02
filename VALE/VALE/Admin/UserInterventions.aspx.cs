@@ -52,7 +52,7 @@ namespace VALE.Admin
         public string GetWorkerName()
         {
             var db = new UserOperationsContext();
-            return db.UsersData.First(u => u.Email == _userEmail).FullName;
+            return db.UserDatas.First(u => u.Email == _userEmail).FullName;
         }
 
         public string GetProject()

@@ -43,13 +43,13 @@ namespace VALE.MyVale
             {
                 case "unrelated":
                     var listUsers = _dataActions.GetRelatedUsers(_dataId);
-                    resultList = db.UsersData.ToList().Except(listUsers).AsQueryable();
+                    resultList = db.UserDatas.ToList().Except(listUsers).AsQueryable();
                     break;
                 case "related":
                     resultList = _dataActions.GetRelatedUsers(_dataId);
                     break;
                 case "all":
-                    resultList = db.UsersData;
+                    resultList = db.UserDatas;
                     break;
                 default:
                     break;
