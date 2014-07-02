@@ -162,15 +162,24 @@ namespace VALE.Logic
             return added;
         }
 
+        public IQueryable<Group> GetRelatedGroups(int dataId)
+        {
+            var db = new UserOperationsContext();
+            var result = new List<Group>();
+            foreach(var group in db.Groups)
+            {
+                if (IsGroupRelated(dataId, group.GroupId))
+                    result.Add(group);
+            }
+            return result.AsQueryable();
+        }
 
         public bool IsGroupRelated(int dataId, int groupId)
         {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Group> GetRelatedGroups(int _dataId)
-        {
-            throw new NotImplementedException();
+            var db = new UserOperationsContext();
+            var group = db.Groups.First(g => g.GroupId == groupId);
+            var usersRelated = GetRelatedUsers(dataId);
+            return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
         }
     }
 }
