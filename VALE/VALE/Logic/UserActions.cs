@@ -63,19 +63,19 @@ namespace VALE.Logic
             List<ApplicationUser> list = new List<ApplicationUser>();
             switch (ListUsersType)
             {
-                case "Amministratori":
+                case "Administrators":
                     var rolesA = _db.Roles.Where(p => p.Name == "Amministratore").Select(k => k.Id).FirstOrDefault();
                     list = _db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesA).ToList();
                     break;
-                case "Soci":
+                case "Associates":
                     var rolesS = _db.Roles.Where(p => p.Name == "Socio").Select(k => k.Id).FirstOrDefault();
                     list = _db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesS).ToList();
                     break;
-                case "Membri":
+                case "Board":
                     var rolesM = _db.Roles.Where(p => p.Name == "Membro del consiglio").Select(k => k.Id).FirstOrDefault();
                     list = _db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesM).ToList();
                     break;
-                case "Richieste":
+                case "Requests":
                     list = _db.Users.Where(u => u.NeedsApproval == true).ToList();
                     break;
                 default:

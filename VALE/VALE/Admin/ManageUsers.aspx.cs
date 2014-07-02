@@ -33,13 +33,6 @@ namespace VALE.Admin
             return users;
         }
 
-        //public List<ApplicationUser> GetUsers()
-        //{
-        //    var db = new ApplicationDbContext();
-        //    var users = db.Users.ToList();
-        //    return users;
-        //}
-
         public string GetRoleName(string userId)
         {
             using (var actions = new UserActions())
@@ -47,16 +40,6 @@ namespace VALE.Admin
                 return actions.GetRole(userId);
             }
 
-            //var db = new ApplicationDbContext();
-            //var user = db.Users.First(u => u.Id == userId);
-            //if (user.Roles.Count != 0)
-            //{
-            //    var roleId = user.Roles.First().RoleId;
-            //    var roleName = db.Roles.FirstOrDefault(o => o.Id == roleId).Name;
-            //    return roleName;
-            //}
-            //else
-            //    return "Utente";
         }
 
         protected void btnConfimUser_Click(object sender, EventArgs e)
@@ -73,7 +56,6 @@ namespace VALE.Admin
                 }
             }
 
-            //((SiteMaster)Master).UpdateNavbar();
             grdUsers.DataBind();
         }
 
@@ -128,76 +110,29 @@ namespace VALE.Admin
             btnConfirmUser.Visible = false;
             HeaderName.Text = " Gestione Utenti";
 
-            GetAllUsersButton.Visible = false;
-            GetAdminButton.Visible = false;
-            GetPartnersButton.Visible = false;
-            GetDirectivPartnersButton.Visible = false;
-            GetRequestsdButton.Visible = false;
         }
 
         protected void GetSelectedUsers_Click(object sender, EventArgs e)
         {
             PreparePanelForManage();
-            string input = ((LinkButton)sender).Text;
-            ListUsersType.Text = CleanSender(input);
+            var button = (LinkButton)sender;
+            string argument = button.CommandArgument;
+            ListUsersType.Text = argument;
 
-            switch (ListUsersType.Text)
-            { 
-                case "Soci":
-                    GetPartnersButton.Visible = true;
-                    break;
-                case "Amministratori":
-                    GetAdminButton.Visible = true;
-                    break;
-                case "Membri":
-                    GetDirectivPartnersButton.Visible = true;
-                    break;
-                case "Richieste":
-                    GetAllUsersButton.Visible = false;
-                    GetAdminButton.Visible = false;
-                    GetPartnersButton.Visible = false;
-                    GetDirectivPartnersButton.Visible = false;
-                    GetRequestsdButton.Visible = true;
-                    break;
-                default :
-                    GetAllUsersButton.Visible = true;
-                    break;
-            }
+            if(argument == "Requests")
+                PreparePanelForRegistrationRequest();
+            btnSelectUsersType.InnerHtml = GetButtonName(button.Text) + " <span class=\"caret\">";
             LoadData();
         }
 
-        private string CleanSender(string input)
+        private string GetButtonName(string html)
         {
-            Char[] separators = new Char[] { ' ' };
-            string[] splittedInput = input.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-            return splittedInput.LastOrDefault();
+            string[] lineTokens = html.Split('>');
+            return lineTokens[2].Trim();
         }
 
         private void LoadData()
         {
-            //var db = new ApplicationDbContext();
-            //List<ApplicationUser> list = new List<ApplicationUser>();
-            //switch (ListUsersType.Text)
-            //{
-            //    case "Amministratori":
-            //        var rolesA = db.Roles.Where(p => p.Name == "Amministratore").Select(k => k.Id).FirstOrDefault();
-            //        list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesA).ToList();
-            //        break;
-            //    case "Soci":
-            //        var rolesS = db.Roles.Where(p => p.Name == "Socio").Select(k => k.Id).FirstOrDefault();
-            //        list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesS ).ToList();
-            //        break;
-            //    case "Membri":
-            //        var rolesM = db.Roles.Where(p => p.Name == "Membro del consiglio").Select(k => k.Id).FirstOrDefault();
-            //        list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesM).ToList();
-            //        break;
-            //    case "Richieste":
-            //        list = db.Users.Where(u => u.NeedsApproval == true).ToList();
-            //        break;
-            //    default:
-            //        list = db.Users.ToList();
-            //        break;
-            //}
             using (var actions = new UserActions())
             {
                 grdUsers.DataSource = actions.GetFilteredData(ListUsersType.Text);
@@ -212,38 +147,12 @@ namespace VALE.Admin
             else
                 GridViewSortDirection = SortDirection.Ascending;
 
-            //grdUsers.DataSource = GetSortedData(e.SortExpression);
-
             using (var actions = new UserActions())
             {
                 grdUsers.DataSource = actions.GetSortedData(e.SortExpression, GridViewSortDirection);
             }
             grdUsers.DataBind();
         }
-
-        //private List<ApplicationUser> GetSortedData(string sortExpression)
-        //{
-        //    var result = GetUsers();
-        //    if (sortExpression != "Ruolo")
-        //    {
-        //        var param = Expression.Parameter(typeof(ApplicationUser), sortExpression);
-        //        var sortBy = Expression.Lambda<Func<ApplicationUser, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
-
-        //        if (GridViewSortDirection == SortDirection.Descending)
-        //            result = result.AsQueryable<ApplicationUser>().OrderByDescending(sortBy).ToList();
-        //        else
-        //            result = result.AsQueryable<ApplicationUser>().OrderBy(sortBy).ToList();
-        //    }
-        //    else
-        //    {
-        //        if (GridViewSortDirection == SortDirection.Descending)
-        //            result = result.AsQueryable<ApplicationUser>().OrderByDescending(u => GetRoleName(u.Id)).ToList();
-        //        else
-        //            result = result.AsQueryable<ApplicationUser>().OrderBy(u => GetRoleName(u.Id)).ToList();
-        //    }
-
-        //    return result;
-        //}
 
         public SortDirection GridViewSortDirection
         {

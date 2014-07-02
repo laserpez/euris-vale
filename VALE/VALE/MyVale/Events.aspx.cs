@@ -73,24 +73,12 @@ namespace VALE.MyVale
 
         protected void btnShowEvents_Click(object sender, EventArgs e)
         {
-            //var dbData = new UserOperationsContext();
-            //ViewState["lstEvent"] = dbData.Events.ToList();
-
-            using (var eventActions = new EventActions())
-            {
-                ViewState["lstEvent"] = eventActions.GetAllEvents();
-            }
-
+            var dbData = new UserOperationsContext();
+            ViewState["lstEvent"] = dbData.Events.ToList();
             FilterEvents();
             UpdateGridView();
-        }
 
-        //public List<Event> GetAttendingEvents()
-        //{
-        //    var dbData = new UserOperationsContext();
-        //    var events = dbData.UsersData.First(u => u.UserName == _currentUserName).AttendingEvents;
-        //    return events;
-        //}
+        }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
@@ -199,10 +187,8 @@ namespace VALE.MyVale
 
         private void GetAllEvents()
         {
-            using (var eventActions = new EventActions())
-            {
-                ViewState["lstEvent"] = eventActions.GetAllEvents();
-            }
+            var dbData = new UserOperationsContext();
+            ViewState["lstEvent"] = dbData.Events.ToList();
             UpdateGridView();
         }
     }
