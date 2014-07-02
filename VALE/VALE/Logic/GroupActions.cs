@@ -21,7 +21,7 @@ namespace VALE.Logic
             {
                 var group = _db.Groups.FirstOrDefault(g => g.GroupId == groupId);
                
-                var userData = db.UserDatas.FirstOrDefault(u => u.UserName == username);
+                var userData = _db.UserDatas.FirstOrDefault(u => u.UserName == username);
                 if (!group.Users.Contains(userData))
                 {
                     group.Users.Add(userData);
@@ -42,7 +42,7 @@ namespace VALE.Logic
             try
             {
                 var group = _db.Groups.FirstOrDefault(g => g.GroupId == groupId);
-                var usersData = db.UserDatas.Where(u => users.Contains(u.UserName));
+                var usersData = _db.UserDatas.Where(u => users.Contains(u.UserName));
                 var filteredUsers = usersData.Except(group.Users);
                 group.Users.AddRange(filteredUsers);
                 _db.SaveChanges();
@@ -58,7 +58,7 @@ namespace VALE.Logic
             try
             {
                 var group = _db.Groups.FirstOrDefault(g => g.GroupId == groupId);
-                var userData = db.UserDatas.FirstOrDefault(u => u.UserName == username);
+                var userData = _db.UserDatas.FirstOrDefault(u => u.UserName == username);
                 if (!group.Users.Contains(userData))
                 {
                     group.Users.Remove(userData);
