@@ -6,12 +6,12 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
-    public class GroupActions
+    public class GroupActions : IDisposable
     {
+        UserOperationsContext _db = new UserOperationsContext();
         public bool IsUserRelated(int groupId, string username)
         {
-            var db = new UserOperationsContext();
-            var group = db.Groups.FirstOrDefault(g => g.GroupId == groupId);
+            var group = _db.Groups.FirstOrDefault(g => g.GroupId == groupId);
             return group.Users.Select(u => u.UserName).Contains(username);
         }
 
@@ -19,12 +19,12 @@ namespace VALE.Logic
         {
             try
             {
-                var db = new UserOperationsContext();
-                var group = db.Groups.FirstOrDefault(g => g.GroupId == groupId);
-                var userData = db.UsersData.FirstOrDefault(u => u.UserName == username);
+                var group = _db.Groups.FirstOrDefault(g => g.GroupId == groupId);
+                var userData = _db.UsersData.FirstOrDefault(u => u.UserName == username);
                 if (!group.Users.Contains(userData))
                 {
                     group.Users.Add(userData);
+                    _db.SaveChanges();
                     return true;
                 }
                 else
@@ -40,11 +40,11 @@ namespace VALE.Logic
         {
             try
             {
-                var db = new UserOperationsContext();
-                var group = db.Groups.FirstOrDefault(g => g.GroupId == groupId);
-                var usersData = db.UsersData.Where(u => users.Contains(u.UserName));
+                var group = _db.Groups.FirstOrDefault(g => g.GroupId == groupId);
+                var usersData = _db.UsersData.Where(u => users.Contains(u.UserName));
                 var filteredUsers = usersData.Except(group.Users);
                 group.Users.AddRange(filteredUsers);
+                _db.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -52,16 +52,16 @@ namespace VALE.Logic
                 return false;
             }
         }
-        public bool RemoveUserToGroup(int groupId, string username) 
+        public bool RemoveUserFromGroup(int groupId, string username) 
         {
             try
             {
-                var db = new UserOperationsContext();
-                var group = db.Groups.FirstOrDefault(g => g.GroupId == groupId);
-                var userData = db.UsersData.FirstOrDefault(u => u.UserName == username);
-                if (!group.Users.Contains(userData))
+                var group = _db.Groups.FirstOrDefault(g => g.GroupId == groupId);
+                var userData = _db.UsersData.FirstOrDefault(u => u.UserName == username);
+                if (group.Users.Contains(userData))
                 {
                     group.Users.Remove(userData);
+                    _db.SaveChanges();
                     return true;
                 }
                 else
@@ -71,6 +71,12 @@ namespace VALE.Logic
             {
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
+            if (_db != null)
+                _db = null;
         }
     }
 }
