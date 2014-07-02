@@ -36,7 +36,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Azione" HeaderStyle-Width="50px" ItemStyle-Width="50px">
                                     <ItemTemplate>
-                                        <center><div><asp:Button  runat="server" Text="Cancella"  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.AttachedFileID %>" CommandName="Cancella" CausesValidation="false" /></div></center>
+                                        <center><div><asp:Button  runat="server" Text="Cancella" Enabled='<%# AllowDelete(Convert.ToInt32(Eval("AttachedFileID"))) %>'  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.AttachedFileID %>" CommandName="Cancella" CausesValidation="false" /></div></center>
                                     </ItemTemplate>
                                     <HeaderStyle Width="50px"></HeaderStyle>
                                     <ItemStyle Width="50px"></ItemStyle>

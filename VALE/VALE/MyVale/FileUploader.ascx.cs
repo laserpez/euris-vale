@@ -70,18 +70,20 @@ namespace VALE.MyVale
             }
         }
 
-        //public string AllowDelete(AttachedFile attachedFile)
-        //{
-        //    //if (attachedFile.Owner == _currentUserName)
-        //    //    return "";
-        //    //if (HttpContext.Current.User.IsInRole("Amministratore"))
-        //    //    return "";
-        //    //var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-        //    //if (currentProject != null)
-        //    //    if (currentProject.OrganizerUserName == _currentUserName)
-        //    //        return "";
-        //    //return "style";
-
-        //}
+        public bool AllowDelete(int attachedFileId)
+        {
+            var db = new UserOperationsContext();
+            var attachedFile = db.AttachedFiles.First(a => a.AttachedFileID == attachedFileId);
+            var relatedPrj = attachedFile.RelatedProject;
+            var currentUsername = HttpContext.Current.User.Identity.Name;
+            if (attachedFile.Owner == currentUsername)
+                return true;
+            if (HttpContext.Current.User.IsInRole("Amministratore"))
+                return true;
+            if (relatedPrj != null)
+                if (relatedPrj.OrganizerUserName == currentUsername)
+                    return true;
+            return false;
+        }
     }
 }

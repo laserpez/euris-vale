@@ -9,10 +9,8 @@ using VALE.Models;
 namespace VALE.Logic
 {
     [Serializable]
-    public class ProjectActions : IActions, IFileActions, IFilterable
+    public class ProjectActions : IActions, IFileActions
     {
-        //UserOperationsContext _db = new UserOperationsContext();
-
         public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
             var result = data.Cast<Project>();
