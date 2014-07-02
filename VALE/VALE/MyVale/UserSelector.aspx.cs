@@ -28,36 +28,42 @@ namespace VALE.MyVale
                 _dataActions = new ProjectActions();
             else
                 _dataActions = new EventActions();
+
+            if (!IsPostBack)
+                SetGridViewsVisibility("Users");
         }
 
 
-        public IQueryable<UserData> UsersGridView_GetData([Control]string txtSearchUsers, [Control]string lblCurrentSelection)
+        public IQueryable<UserData> UsersGridView_GetData([Control]string txtSearchByName, [Control]string ddlFilterGrids)
         {
             var db = new UserOperationsContext();
             IQueryable<UserData> resultList = null;
 
-            switch(lblCurrentSelection)
+            switch(ddlFilterGrids)
             {
-                case "UnrelatedUsers":
+                case "unrelated":
                     var listUsers = _dataActions.GetRelatedUsers(_dataId);
                     resultList = db.UsersData.ToList().Except(listUsers).AsQueryable();
                     break;
-                case "RelatedUsers":
+                case "related":
                     resultList = _dataActions.GetRelatedUsers(_dataId);
+                    break;
+                case "all":
+                    resultList = db.UsersData;
                     break;
                 default:
                     break;
             }
-             
-            if (!String.IsNullOrEmpty(txtSearchUsers))
-                resultList = resultList.Where(u => u.FullName.ToLower().Contains(txtSearchUsers.ToLower()));
+
+            if (!String.IsNullOrEmpty(txtSearchByName))
+                resultList = resultList.Where(u => u.FullName.ToLower().Contains(txtSearchByName.ToLower()));
 
             return resultList;
         }
 
         protected void btnSearchUsers_Click(object sender, EventArgs e)
         {
-            UsersGridView.DataBind();
+            DataBindGridViews();
         }
 
         protected void btnReturn_Click(object sender, EventArgs e)
@@ -70,25 +76,90 @@ namespace VALE.MyVale
             LinkButton button = (LinkButton)sender;
 
             btnCurrentView.InnerHtml = button.Text + " <span class=\"caret\"></span>";
-            lblCurrentSelection.Text = button.CommandArgument;
-            UsersGridView.DataBind();
+
+            SetGridViewsVisibility(button.CommandArgument);
+            txtSearchByName.Text = "";
+            DataBindGridViews();
         }
 
-        protected void btnAddUsers_Click(object sender, EventArgs e)
+        private void SetGridViewsVisibility(string commandArgument)
         {
-
+            UsersGridView.Visible = commandArgument == "Users";
+            GroupsGridView.Visible = commandArgument == "Groups";
         }
 
-        protected void btnAddUsers_Click(object sender, EventArgs e)
+        protected void btnAddOrRemoveUsers_Click(object sender, EventArgs e)
         {
             var btn = (Button)sender;
             _dataActions.AddOrRemoveUserData(_dataId, btn.CommandName);
+            DataBindGridViews();
+        }
+
+        private void DataBindGridViews()
+        {
             UsersGridView.DataBind();
+            GroupsGridView.DataBind();
         }
 
         public bool IsUserRelated(string username)
         {
             return _dataActions.IsUserRelated(_dataId, username);
+        }
+
+        public bool IsGroupRelated(int groupId)
+        {
+            return _dataActions.IsGroupRelated(_dataId, groupId);
+        }
+
+        public IQueryable<Group> GroupsGridView_GetData([Control]string txtSearchByName, [Control]string ddlFilterGrids)
+        {
+            var db = new UserOperationsContext();
+            
+            IQueryable<Group> resultList = null;
+            switch (ddlFilterGrids)
+            {
+                case "unrelated":
+                    var listGroups = _dataActions.GetRelatedGroups(_dataId);
+                    resultList = db.Groups.ToList().Except(listGroups).AsQueryable();
+                    break;
+                case "related":
+                    resultList = _dataActions.GetRelatedGroups(_dataId);
+                    break;
+                case "all":
+                    resultList = db.Groups;
+                    break;
+                default:
+                    break;
+            }
+
+            if (!String.IsNullOrEmpty(txtSearchByName))
+                resultList = resultList.Where(g => g.GroupName.ToLower().Contains(txtSearchByName.ToLower()));
+            return resultList;
+        }
+
+        protected void btnAddGroup_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            var groupId = Convert.ToInt32(btn.CommandArgument);
+
+            var db = new UserOperationsContext();
+            var group = db.Groups.First(g => g.GroupId == groupId);
+
+            foreach(var user in group.Users)
+            {
+                if( (btn.CommandName == "Add" &&  !_dataActions.IsUserRelated(_dataId, user.UserName)) ||
+                    (btn.CommandName == "Remove" && _dataActions.IsUserRelated(_dataId, user.UserName)) )
+                {
+                    _dataActions.AddOrRemoveUserData(_dataId, user.UserName);
+                }
+            }
+            DataBindGridViews();
+        }
+
+        protected void ddlFilterGrids_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtSearchByName.Text = "";
+            DataBindGridViews();
         }
     }
 }

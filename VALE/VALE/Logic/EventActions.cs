@@ -9,10 +9,8 @@ using VALE.Models;
 namespace VALE.Logic
 {
     [Serializable]
-    public class EventActions : IActions
+    public class EventActions : IFileActions, IActions
     {
-        public EventActions(){}
-
         public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
             var result = data.Cast<Event>();
@@ -49,21 +47,6 @@ namespace VALE.Logic
             var toDate = DateTime.Parse(toDateStr);
             var filteredEvents = data.Cast<Event>().Where(ev => ev.EventDate >= fromDate && ev.EventDate <= toDate).ToList();
             return filteredEvents as List<T>;
-        }
-
-        public bool AddOrRemoveUserData<T>(T data, UserData user)
-        {
-            var anEvent = data as Event;
-            bool added = false;
-            if (!IsUserRelated(anEvent.EventId, user.UserName))
-            {
-                anEvent.RegisteredUsers.Add(user);
-                added = true;
-            }
-            else
-                anEvent.RegisteredUsers.Remove(user);
-
-            return added;
         }
 
         public bool IsUserRelated(int dataId, string username)
@@ -153,6 +136,32 @@ namespace VALE.Logic
                 anEvent.RegisteredUsers.Remove(user);
             _db.SaveChanges();
             return added;
+        }
+
+
+        public IQueryable<Group> GetRelatedGroups(int _dataId)
+        {
+            var db = new UserOperationsContext();
+            var groups = db.Groups;
+            List<Group> result = new List<Group>();
+            foreach (var group in groups)
+            {
+                if (IsGroupRelated(_dataId, group.GroupId))
+                    result.Add(group);
+            }
+            return result.AsQueryable();
+        }
+
+
+        public bool IsGroupRelated(int dataId, int groupId)
+        {
+            var db = new UserOperationsContext();
+            var anEvent = db.Events.First(e => e.EventId == dataId);
+            var group = db.Groups.First(g => g.GroupId == groupId);
+
+            var usersRelated = anEvent.RegisteredUsers;
+
+            return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
         }
     }
 }

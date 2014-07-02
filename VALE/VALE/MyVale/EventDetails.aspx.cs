@@ -16,7 +16,7 @@ namespace VALE.MyVale
     public partial class EventDetails : System.Web.UI.Page
     {
         private int _currentEventId;
-        private string _currentUser;
+        private string _currentUserName;
         private UserOperationsContext _db;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -24,17 +24,22 @@ namespace VALE.MyVale
             _db = new UserOperationsContext();
             if (Request.QueryString.HasKeys())
                 _currentEventId = Convert.ToInt32(Request.QueryString["eventId"]);
-            _currentUser = User.Identity.GetUserName();
+            _currentUserName = User.Identity.GetUserName();
 
-
-            
+            if (!IsPostBack)
+            {
+                var currentEvent = _db.Events.FirstOrDefault(ev => ev.EventId == _currentEventId);
+                var addUsersBtn = EventDetail.FindControl("btnAddUsers");
+                if (currentEvent.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore"))
+                    addUsersBtn.Visible = true;
+            }
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
-            if(eventActions.IsUserRelated(_currentEventId, _currentUser))
+            if(eventActions.IsUserRelated(_currentEventId, _currentUserName))
             {
                 btnAttend.CssClass = "btn btn-success";
                 btnAttend.Text = "Stai partecipando";
@@ -69,11 +74,9 @@ namespace VALE.MyVale
 
         protected void btnAttend_Click(object sender, EventArgs e)
         {
-            UserData user = _db.UsersData.First(u => u.UserName == _currentUser);
-            Event thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
-            if (eventActions.AddOrRemoveUserData(thisEvent, user) == true)
+            if (eventActions.AddOrRemoveUserData(_currentEventId, _currentUserName) == true)
             {
                 // MAIL
                 //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);

@@ -8,10 +8,9 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
-    public class ProjectActions : IDisposable, IActions
+    [Serializable]
+    public class ProjectActions : IActions, IFileActions
     {
-        UserOperationsContext _db = new UserOperationsContext();
-
         public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
             var result = data.Cast<Project>();
@@ -58,35 +57,20 @@ namespace VALE.Logic
 
         public bool IsUserRelated(int projectId, string userName)
         {
-            var project = _db.Projects.First(p => p.ProjectId == projectId);
+            var db = new UserOperationsContext();
+            var project = db.Projects.First(p => p.ProjectId == projectId);
             return project.InvolvedUsers.Select(u => u.UserName).Contains(userName);
-        }
-
-        public bool AddOrRemoveUserData<T>(T data, UserData user)
-        {
-            var project = data as Project;
-            if (IsUserRelated(project.ProjectId, user.UserName))
-            {
-                project.InvolvedUsers.Remove(user);
-                user.AttendingProjects.Remove(project);
-                return false;
-            }
-            else
-            {
-                project.InvolvedUsers.Add(user);
-                user.AttendingProjects.Add(project);
-                return true;
-            }
         }
 
         public bool RemoveAttachment(int attachmentId)
         {
             try
             {
-                var anAttachment = _db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
-                _db.AttachedFiles.Remove(anAttachment);
+                var db = new UserOperationsContext();
+                var anAttachment = db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
+                db.AttachedFiles.Remove(anAttachment);
 
-                _db.SaveChanges();
+                db.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -95,20 +79,14 @@ namespace VALE.Logic
             }
         }
 
-        public void Dispose()
-        {
-            if (_db != null)
-                _db = null;
-        }
-
-
         public bool AddAttachment(int dataId, AttachedFile file)
         {
             try
             {
-                var project = _db.Projects.First(p => p.ProjectId == dataId);
+                var db = new UserOperationsContext();
+                var project = db.Projects.First(p => p.ProjectId == dataId);
                 project.AttachedFiles.Add(file);
-                _db.SaveChanges();
+                db.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -119,7 +97,8 @@ namespace VALE.Logic
 
         public List<AttachedFile> GetAttachments(int dataId)
         {
-            var project = _db.Projects.First(p => p.ProjectId == dataId);
+            var db = new UserOperationsContext();
+            var project = db.Projects.First(p => p.ProjectId == dataId);
             return project.AttachedFiles;
         }
 
@@ -127,9 +106,10 @@ namespace VALE.Logic
         {
             try
             {
-                var project = _db.Projects.First(p => p.ProjectId == dataId);
-                _db.AttachedFiles.RemoveRange(project.AttachedFiles);
-                _db.SaveChanges();
+                var db = new UserOperationsContext();
+                var project = db.Projects.First(p => p.ProjectId == dataId);
+                db.AttachedFiles.RemoveRange(project.AttachedFiles);
+                db.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -138,34 +118,49 @@ namespace VALE.Logic
             }
         }
 
-        //public bool AddUser()
-        //{
-
-        //}
-
-        //public bool RemoveUser()
-        //{
-
-        //}
-
-
         public IQueryable<UserData> GetRelatedUsers(int dataId)
         {
-            var _db = new UserOperationsContext();
-            var project = _db.Projects.First(p => p.ProjectId == dataId);
+            var db = new UserOperationsContext();
+            var project = db.Projects.First(p => p.ProjectId == dataId);
             return project.InvolvedUsers.AsQueryable(); 
         }
 
 
         public bool AddOrRemoveUserData(int dataId, string username)
         {
-            throw new NotImplementedException();
+            var db = new UserOperationsContext();
+            var aProject = db.Projects.First(p => p.ProjectId == dataId);
+            var user = db.UsersData.FirstOrDefault(u => u.UserName == username);
+            bool added = false;
+            if (!IsUserRelated(aProject.ProjectId, username))
+            {
+                aProject.InvolvedUsers.Add(user);
+                added = true;
+            }
+            else
+                aProject.InvolvedUsers.Remove(user);
+            db.SaveChanges();
+            return added;
         }
 
-
-        public List<UserData> GetRelatedUsers(string _dataId)
+        public IQueryable<Group> GetRelatedGroups(int dataId)
         {
-            throw new NotImplementedException();
+            var db = new UserOperationsContext();
+            var result = new List<Group>();
+            foreach(var group in db.Groups)
+            {
+                if (IsGroupRelated(dataId, group.GroupId))
+                    result.Add(group);
+            }
+            return result.AsQueryable();
+        }
+
+        public bool IsGroupRelated(int dataId, int groupId)
+        {
+            var db = new UserOperationsContext();
+            var group = db.Groups.First(g => g.GroupId == groupId);
+            var usersRelated = GetRelatedUsers(dataId);
+            return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
         }
     }
 }

@@ -23,6 +23,8 @@ namespace VALE.Models
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<BODReport> BODReports { get; set; }
         public DbSet<AttachedFile> AttachedFiles { get; set; }
+        public DbSet<Group> Groups { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

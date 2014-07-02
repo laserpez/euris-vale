@@ -51,7 +51,7 @@
                                 <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
                                 <uc:SelectProject runat="server" ID="SelectProject" />
                                 <div class="col-md-12">
-                                    <asp:Button runat="server" Text="Crea evento" ID="btnSaveActivity" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnSaveEvent_Click" />
+                                    <asp:Button runat="server" Text="Avanti" ID="btnAddUsers" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnAddUsers_Click" />
                                 </div>
                             </div>
                         </div>
