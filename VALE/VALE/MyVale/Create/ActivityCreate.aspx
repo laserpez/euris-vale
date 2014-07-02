@@ -38,8 +38,8 @@
                                     <asp:TextBox TextMode="MultiLine" runat="server" ID="txtDescription" CssClass="form-control" Height="145px" Width="404px" />
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="La descrizione è obbligatoria" />
                                 </div>
-                                <asp:UpdatePanel runat="server">
-                                    <ContentTemplate>
+                                <%--<asp:UpdatePanel runat="server">
+                                    <ContentTemplate>--%>
                                         <asp:Label runat="server" CssClass="col-md-2 control-label">Stato</asp:Label>
                                         <div class="col-md-10">
                                             <button type="button" visible="false" id="ToBePlannedStatusButtonDisabled" class="btn btn-primary disabled" runat="server">Da Pianificare  <span class="caret"></span></button>
@@ -67,6 +67,8 @@
                                         <div class="col-md-12">
                                             <br />
                                         </div>
+                                <asp:UpdatePanel runat="server">
+                                    <ContentTemplate>
                                         <asp:Label runat="server" CssClass="col-md-2 control-label">Data inizio</asp:Label>
                                         <div class="col-md-10">
                                             <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" OnTextChanged="txtStartDate_TextChanged" AutoPostBack="true" />

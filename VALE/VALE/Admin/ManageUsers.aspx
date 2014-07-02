@@ -125,11 +125,11 @@
                                                             <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server">Cambia Ruolo<span class="caret"></span></button>
                                                             <ul class="dropdown-menu" style="text-align: initial">
                                                                 <li>
-                                                                    <asp:LinkButton ID="btnAdministrator" CommandName="Administrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratore</asp:LinkButton></li>
+                                                                    <asp:LinkButton ID="btnAdministrator" CommandName="Administrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratore</asp:LinkButton></li>
                                                                 <li>
-                                                                    <asp:LinkButton ID="btnBoard" CommandName="BoardMember" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Membro del consiglio</asp:LinkButton></li>
+                                                                    <asp:LinkButton ID="btnBoard" CommandName="BoardMember" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-user btn-sm"></span> Membro del consiglio</asp:LinkButton></li>
                                                                 <li>
-                                                                    <asp:LinkButton ID="btnAssociated" CommandName="Associated" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click"><span class="glyphicon glyphicon-user btn-sm"></span> Socio</asp:LinkButton></li>
+                                                                    <asp:LinkButton ID="btnAssociated" CommandName="Associated" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-user btn-sm"></span> Socio</asp:LinkButton></li>
                                                             </ul>
                                                         </div>
                                                     </div>

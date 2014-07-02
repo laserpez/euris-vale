@@ -24,6 +24,46 @@ namespace VALE
                 string statusNumber = Request.QueryString["status"];
                 ChangeStatus(id, statusNumber);
             }
+
+            if (!IsPostBack)
+            {
+                ChangeCalendars();
+            }
+        }
+
+        protected void txtFromDate_TextChanged(object sender, EventArgs e)
+        {
+            ChangeCalendars();
+        }
+
+        private void ChangeCalendars()
+        {
+            if (txtFromDate.Text != "" && CheckDate())
+            {
+                txtToDate.Enabled = true;
+                calendarModifiedDate.StartDate = Convert.ToDateTime(txtFromDate.Text).AddDays(1);
+            }
+            if (txtFromDate.Text == "")
+            {
+                txtToDate.Text = "";
+                txtToDate.Enabled = false;
+            }
+        }
+
+        private bool CheckDate()
+        {
+            if (!String.IsNullOrEmpty(txtToDate.Text))
+            {
+                var startDate = Convert.ToDateTime(txtFromDate.Text);
+                var endDate = Convert.ToDateTime(txtToDate.Text);
+                if (startDate > endDate)
+                {
+                    txtToDate.Text = "";
+                    calendarModifiedDate.StartDate = Convert.ToDateTime(txtFromDate.Text);
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void HideIdColumns()

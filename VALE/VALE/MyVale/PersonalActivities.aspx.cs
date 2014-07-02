@@ -54,9 +54,13 @@ namespace VALE.MyVale
 
         public List<Activity> GetPersonalActivities()
         {
-            var db = new UserOperationsContext();
-            var activityIds = db.Reports.Where(r => r.WorkerUserName == _currentUser).GroupBy(r => r.ActivityId).Select(o => o.Key);
-            return db.Activities.Where(a => activityIds.Contains(a.ActivityId)).ToList();
+            //var db = new UserOperationsContext();
+            //var activityIds = db.Reports.Where(r => r.WorkerUserName == _currentUser).GroupBy(r => r.ActivityId).Select(o => o.Key);
+            //return db.Activities.Where(a => activityIds.Contains(a.ActivityId)).ToList();
+            using (var actions = new ActivityActions())
+            {
+                return actions.GetActivities(_currentUser);
+            }
         }
 
         protected void bnViewReports_Click(object sender, EventArgs e)
@@ -99,21 +103,11 @@ namespace VALE.MyVale
             else
                 GridViewSortDirection = SortDirection.Ascending;
 
-            grdActivityReport.DataSource = GetSortedData(e.SortExpression);
-            grdActivityReport.DataBind();
-        }
-
-        private List<ActivityReport> GetSortedData(string sortExpression)
-        {
-            var result = (List<ActivityReport>)ViewState["lstActivities"];
-
-            
-            using (var activityActions = new ActivityActions())
+            using (var actions = new ActivityActions())
             {
-                result = activityActions.Sort(GridViewSortDirection, result, sortExpression);
+                grdActivityReport.DataSource = actions.Sort(GridViewSortDirection, (List<ActivityReport>)ViewState["lstActivities"], e.SortExpression);
             }
-            ViewState["lstActivities"] = result;
-            return result;
+            grdActivityReport.DataBind();
         }
     }
 }

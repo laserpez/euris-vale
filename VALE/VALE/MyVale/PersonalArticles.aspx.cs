@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Models;
+using VALE.Logic;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -31,17 +32,21 @@ namespace VALE.MyVale
             {
                 int index = Convert.ToInt32(e.CommandArgument);
                 var articleId = (int)grdPersonalArticles.DataKeys[index].Value;
-                var dbData = new UserOperationsContext();
                 ArticleID.Text = articleId.ToString();
-                ArticleName.Text = dbData.BlogArticles.Where(o => o.BlogArticleId == articleId).FirstOrDefault().Title;
+                using (var actions = new ArticleActions())
+                {
+                    ArticleName.Text = actions.GetTitle(articleId);
+                }
                 ModalPopup.Show();
             }
         }
 
         public IQueryable<BlogArticle> GetPersonalArticles()
         {
-            var db = new UserOperationsContext();
-            return db.BlogArticles.Where(a => a.CreatorUserName == _currentUser);
+            using (var actions = new ArticleActions())
+            {
+                return actions.GetArticles(_currentUser);
+            }
         }
 
         protected void CloseButton_Click(object sender, EventArgs e)
@@ -55,13 +60,11 @@ namespace VALE.MyVale
             ApplicationUser user = manager.Find(User.Identity.Name, PassTextBox.Text);
             if (user != null)
             {
-
-                var dbData = new UserOperationsContext();
-                int Id = Convert.ToInt32(ArticleID.Text);
-                var article = dbData.BlogArticles.First(a => a.BlogArticleId == Id);
-                dbData.BlogArticles.Remove(article);
-                dbData.SaveChanges();
-                Response.Redirect("/MyVale/PersonalArticles.aspx");
+                using (var actions = new ArticleActions())
+                {
+                    if (actions.DeleteArticle(Convert.ToInt32(ArticleID.Text)))
+                        grdPersonalArticles.DataBind();
+                }
             }
             else
             {

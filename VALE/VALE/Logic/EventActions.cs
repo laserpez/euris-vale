@@ -8,7 +8,7 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
-    public class EventActions : IDisposable, IActions
+    public class EventActions : IDisposable
     {
         UserOperationsContext _db = new UserOperationsContext();
 
