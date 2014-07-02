@@ -12,9 +12,9 @@ namespace VALE.MyVale
 {
     public partial class FileUploader : System.Web.UI.UserControl
     {
-        public IActions DataActions
+        public IFileActions DataActions
         {
-            get { return (IActions)ViewState["dataActions"]; }
+            get { return (IFileActions)ViewState["dataActions"]; }
             set { ViewState["dataActions"] = value; }
         }
         public int DataId
