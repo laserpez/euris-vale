@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.Admin
 {
@@ -12,13 +13,14 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
         }
 
         public IQueryable<BlogArticle> GetArticles()
         {
-            var db = new UserOperationsContext();
-            return db.BlogArticles;
+            using (var actions = new ArticleActions())
+            {
+                return actions.GetArticles();
+            }
         }
 
         protected void grdArticleList_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -35,14 +37,12 @@ namespace VALE.Admin
                 int index = Convert.ToInt32(e.CommandArgument);
                 int articleId = (int)grdArticleList.DataKeys[index].Value;
                 string newStatus = e.CommandName == "AcceptArticle" ? "accepted" : "rejected";
-                var db = new UserOperationsContext();
-                var article = db.BlogArticles.First(a => a.BlogArticleId == articleId);
-                article.Status = newStatus;
-                db.SaveChanges();
-                grdArticleList.DataBind();
-                // Reload the page.
-                string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
-                Response.Redirect(pageUrl);
+
+                using (var actions = new ArticleActions())
+                {
+                    if (actions.ChangeStatus(articleId, newStatus))
+                        grdArticleList.DataBind();
+                }
             }
         }
     }

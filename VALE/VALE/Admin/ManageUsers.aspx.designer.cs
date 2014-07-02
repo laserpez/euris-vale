@@ -40,15 +40,6 @@ namespace VALE.Admin {
         protected global::System.Web.UI.WebControls.Label TypeOfListUsers;
         
         /// <summary>
-        /// ListActivityDiv control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ListActivityDiv;
-        
-        /// <summary>
         /// ListUsersType control.
         /// </summary>
         /// <remarks>
@@ -58,49 +49,31 @@ namespace VALE.Admin {
         protected global::System.Web.UI.WebControls.Label ListUsersType;
         
         /// <summary>
-        /// GetAllUsersButton control.
+        /// btnSelectUsersType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton GetAllUsersButton;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnSelectUsersType;
         
         /// <summary>
-        /// GetAdminButton control.
+        /// AddNewUserMenagement control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton GetAdminButton;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl AddNewUserMenagement;
         
         /// <summary>
-        /// GetPartnersButton control.
+        /// AddNewUser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton GetPartnersButton;
-        
-        /// <summary>
-        /// GetDirectivPartnersButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton GetDirectivPartnersButton;
-        
-        /// <summary>
-        /// GetRequestsdButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton GetRequestsdButton;
+        protected global::VALE.MyVale.Create.AddNewUser AddNewUser;
         
         /// <summary>
         /// grdUsers control.

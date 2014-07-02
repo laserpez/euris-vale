@@ -33,25 +33,13 @@ namespace VALE.Admin
             return users;
         }
 
-        public List<ApplicationUser> GetUsers()
-        {
-            var db = new ApplicationDbContext();
-            var users = db.Users.ToList();
-            return users;
-        }
-
         public string GetRoleName(string userId)
         {
-            var db = new ApplicationDbContext();
-            var user = db.Users.First(u => u.Id == userId);
-            if (user.Roles.Count != 0)
+            using (var actions = new UserActions())
             {
-                var roleId = user.Roles.First().RoleId;
-                var roleName = db.Roles.FirstOrDefault(o => o.Id == roleId).Name;
-                return roleName;
+                return actions.GetRole(userId);
             }
-            else
-                return "Utente";
+
         }
 
         protected void btnConfimUser_Click(object sender, EventArgs e)
@@ -64,34 +52,43 @@ namespace VALE.Admin
                     string userName = ((Label)grdUsers.Rows[i].Cells[0].FindControl("labelUserName")).Text;
                     AdminActions.ConfirmUser(userName);
 
-                    //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "Your associated account has been confirmed", "Account confirmed");
+                    //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "La tua richiesta di associazione è stata confermata.", "Account confermato");
                 }
             }
 
-            //((SiteMaster)Master).UpdateNavbar();
             grdUsers.DataBind();
         }
 
         protected void btnChangeUser_Click(object sender, EventArgs e)
         {
             LinkButton button = (LinkButton)sender;
+            var actions = new UserActions();
             if (button.CommandName == "Administrator")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Amministratore");
-                if (lblChangeRole.Text != "")
+                if (!actions.ChangeUserRole(button.CommandArgument, "Amministratore"))
+                {
+                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
+                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
                     lblChangeRole.Visible = true;
+                }
             }
             else if (button.CommandName == "BoardMember")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Membro del consiglio");
-                if (lblChangeRole.Text != "")
+                if (!actions.ChangeUserRole(button.CommandArgument, "Membro del consiglio"))
+                {
+                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
+                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
                     lblChangeRole.Visible = true;
+                }
             }
             else if (button.CommandName == "Associated")
             {
-                lblChangeRole.Text = UserActions.ChangeUserRole(button.CommandArgument, "Socio");
-                if (lblChangeRole.Text != "")
+                if (!actions.ChangeUserRole(button.CommandArgument, "Socio"))
+                {
+                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
+                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
                     lblChangeRole.Visible = true;
+                }
             }
             LoadData();
         }
@@ -113,86 +110,34 @@ namespace VALE.Admin
             btnConfirmUser.Visible = false;
             HeaderName.Text = " Gestione Utenti";
 
-            GetAllUsersButton.Visible = false;
-            GetAdminButton.Visible = false;
-            GetPartnersButton.Visible = false;
-            GetDirectivPartnersButton.Visible = false;
-            GetRequestsdButton.Visible = false;
         }
 
-        protected void GetAllUsers_Click(object sender, EventArgs e)
+        protected void GetSelectedUsers_Click(object sender, EventArgs e)
         {
             PreparePanelForManage();
-            ListUsersType.Text = "Tutti";
-            GetAllUsersButton.Visible = true;
+            var button = (LinkButton)sender;
+            string argument = button.CommandArgument;
+            ListUsersType.Text = argument;
+
+            if(argument == "Requests")
+                PreparePanelForRegistrationRequest();
+            btnSelectUsersType.InnerHtml = GetButtonName(button.Text) + " <span class=\"caret\">";
             LoadData();
         }
 
-        protected void GetPartners_Click(object sender, EventArgs e)
+        private string GetButtonName(string html)
         {
-            PreparePanelForManage();
-            ListUsersType.Text = "Soci";
-            GetPartnersButton.Visible = true;
-            LoadData();
+            string[] lineTokens = html.Split('>');
+            return lineTokens[2].Trim();
         }
 
-        protected void GetAdmin_Click(object sender, EventArgs e)
-        {
-            PreparePanelForManage();
-            ListUsersType.Text = "Amministratori";
-            GetAdminButton.Visible = true;
-            LoadData();
-        }
-
-        protected void GetDirectivPartners_Click(object sender, EventArgs e)
-        {
-            PreparePanelForManage();
-            ListUsersType.Text = "Membri";
-            GetDirectivPartnersButton.Visible = true;
-            LoadData();
-        }
-
-        protected void GetRequests_Click(object sender, EventArgs e)
-        {
-            PreparePanelForRegistrationRequest();
-            GetAllUsersButton.Visible = false;
-            GetAdminButton.Visible = false;
-            GetPartnersButton.Visible = false;
-            GetDirectivPartnersButton.Visible = false;
-            ListUsersType.Text = "Richieste";
-            GetRequestsdButton.Visible = true;
-            LoadData();
-        }
         private void LoadData()
         {
-            var db = new ApplicationDbContext();
-            List<ApplicationUser> list = new List<ApplicationUser>();
-            switch (ListUsersType.Text)
+            using (var actions = new UserActions())
             {
-                case "Tutti":
-                    list = db.Users.ToList();
-                    break;
-                case "Amministratori":
-                    var rolesA = db.Roles.Where(p => p.Name == "Amministratore").Select(k => k.Id).FirstOrDefault();
-                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesA).ToList();
-                    break;
-                case "Soci":
-                    var rolesS = db.Roles.Where(p => p.Name == "Socio").Select(k => k.Id).FirstOrDefault();
-                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesS ).ToList();
-                    break;
-                case "Membri":
-                    var rolesM = db.Roles.Where(p => p.Name == "Membro del consiglio").Select(k => k.Id).FirstOrDefault();
-                    list = db.Users.Where(o => o.Roles.Select(k => k.RoleId).FirstOrDefault() == rolesM).ToList();
-                    break;
-                case "Richieste":
-                    list = db.Users.Where(u => u.NeedsApproval == true).ToList();
-                    break;
-                default:
-                    list = db.Users.ToList();
-                    break;
+                grdUsers.DataSource = actions.GetFilteredData(ListUsersType.Text);
             }
-                    grdUsers.DataSource = list;
-                    grdUsers.DataBind();
+            grdUsers.DataBind();
         }
 
         protected void grdUsers_Sorting(object sender, GridViewSortEventArgs e)
@@ -202,32 +147,11 @@ namespace VALE.Admin
             else
                 GridViewSortDirection = SortDirection.Ascending;
 
-            grdUsers.DataSource = GetSortedData(e.SortExpression);
+            using (var actions = new UserActions())
+            {
+                grdUsers.DataSource = actions.GetSortedData(e.SortExpression, GridViewSortDirection);
+            }
             grdUsers.DataBind();
-        }
-
-        private List<ApplicationUser> GetSortedData(string sortExpression)
-        {
-            var result = GetUsers();
-            if (sortExpression != "Ruolo")
-            {
-                var param = Expression.Parameter(typeof(ApplicationUser), sortExpression);
-                var sortBy = Expression.Lambda<Func<ApplicationUser, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
-
-                if (GridViewSortDirection == SortDirection.Descending)
-                    result = result.AsQueryable<ApplicationUser>().OrderByDescending(sortBy).ToList();
-                else
-                    result = result.AsQueryable<ApplicationUser>().OrderBy(sortBy).ToList();
-            }
-            else
-            {
-                if (GridViewSortDirection == SortDirection.Descending)
-                    result = result.AsQueryable<ApplicationUser>().OrderByDescending(u => GetRoleName(u.Id)).ToList();
-                else
-                    result = result.AsQueryable<ApplicationUser>().OrderBy(u => GetRoleName(u.Id)).ToList();
-            }
-
-            return result;
         }
 
         public SortDirection GridViewSortDirection
