@@ -97,5 +97,16 @@ namespace VALE.Logic
         {
             return null;
         }
+
+
+        public bool IsGroupRelated(int dataId, int groupId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Group> GetRelatedGroups(int _dataId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

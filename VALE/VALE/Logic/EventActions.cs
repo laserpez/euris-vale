@@ -154,5 +154,31 @@ namespace VALE.Logic
             _db.SaveChanges();
             return added;
         }
+
+
+        public IQueryable<Group> GetRelatedGroups(int _dataId)
+        {
+            var db = new UserOperationsContext();
+            var groups = db.Groups;
+            List<Group> result = new List<Group>();
+            foreach (var group in groups)
+            {
+                if (IsGroupRelated(_dataId, group.GroupId))
+                    result.Add(group);
+            }
+            return result.AsQueryable();
+        }
+
+
+        public bool IsGroupRelated(int dataId, int groupId)
+        {
+            var db = new UserOperationsContext();
+            var anEvent = db.Events.First(e => e.EventId == dataId);
+            var group = db.Groups.First(g => g.GroupId == groupId);
+
+            var usersRelated = anEvent.RegisteredUsers;
+
+            return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
+        }
     }
 }

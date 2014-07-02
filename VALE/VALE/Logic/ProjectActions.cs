@@ -161,5 +161,16 @@ namespace VALE.Logic
             db.SaveChanges();
             return added;
         }
+
+
+        public bool IsGroupRelated(int dataId, int groupId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Group> GetRelatedGroups(int _dataId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
