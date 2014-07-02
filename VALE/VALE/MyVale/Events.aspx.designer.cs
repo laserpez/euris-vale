@@ -58,6 +58,15 @@ namespace VALE.MyVale {
         protected global::AjaxControlToolkit.CalendarExtender calendarTo;
         
         /// <summary>
+        /// txtToDateLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label txtToDateLabel;
+        
+        /// <summary>
         /// btnShowEvents control.
         /// </summary>
         /// <remarks>
@@ -65,6 +74,15 @@ namespace VALE.MyVale {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnShowEvents;
+        
+        /// <summary>
+        /// btnShowAllEvents control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnShowAllEvents;
         
         /// <summary>
         /// grdPlannedEvent control.

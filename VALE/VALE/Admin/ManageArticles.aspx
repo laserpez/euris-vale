@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
+                            <asp:UpdatePanel ID="UpdatePanelArticles" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
                                 <ContentTemplate>
                                     <asp:GridView ID="grdArticleList" DataKeyNames="BlogArticleId" AllowSorting="true" OnRowCommand="grdArticleList_RowCommand" SelectMethod="GetArticles" runat="server" AutoGenerateColumns="false" GridLines="Both"
                                         ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo presente." CssClass="table table-striped table-bordered">

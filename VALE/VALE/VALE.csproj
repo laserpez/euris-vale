@@ -219,6 +219,7 @@
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
     <Content Include="MyVale\BOD\BODReports.aspx" />
     <Content Include="MyVale\BOD\ViewBODReport.aspx" />
+    <Content Include="MyVale\Create\AddNewUser.ascx" />
     <Content Include="MyVale\Create\SelectProject.ascx" />
     <Content Include="MyVale\Create\SelectUser.ascx" />
     <Content Include="MyVale\FileUploader.ascx" />
@@ -469,6 +470,7 @@
     </Compile>
     <Compile Include="Logic\ActivityActions.cs" />
     <Compile Include="Logic\AdminActions.cs" />
+    <Compile Include="Logic\ArticleActions.cs" />
     <Compile Include="Logic\EventActions.cs" />
     <Compile Include="Logic\ExportToCSV.cs" />
     <Compile Include="Logic\IActions.cs" />
@@ -517,6 +519,13 @@
     </Compile>
     <Compile Include="MyVale\BOD\ViewBODReport.aspx.designer.cs">
       <DependentUpon>ViewBODReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyVale\Create\AddNewUser.ascx.cs">
+      <DependentUpon>AddNewUser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\Create\AddNewUser.ascx.designer.cs">
+      <DependentUpon>AddNewUser.ascx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\Create\SelectProject.ascx.cs">
       <DependentUpon>SelectProject.ascx</DependentUpon>
