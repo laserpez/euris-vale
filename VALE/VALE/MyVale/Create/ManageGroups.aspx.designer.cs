@@ -58,15 +58,6 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.WebControls.LinkButton btnManageSetGroupsLinkButton;
         
         /// <summary>
-        /// lblMode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMode;
-        
-        /// <summary>
         /// lblGroupAction control.
         /// </summary>
         /// <remarks>
@@ -74,15 +65,6 @@ namespace VALE.MyVale.Create {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblGroupAction;
-        
-        /// <summary>
-        /// lblGroupId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblGroupId;
         
         /// <summary>
         /// pnlManageGroupPanel control.
@@ -101,6 +83,33 @@ namespace VALE.MyVale.Create {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdUsers;
+        
+        /// <summary>
+        /// lblGroupId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField lblGroupId;
+        
+        /// <summary>
+        /// lblMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField lblMode;
+        
+        /// <summary>
+        /// lblHeaderGroupPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblHeaderGroupPanel;
         
         /// <summary>
         /// btnAddGroupButton control.
@@ -128,6 +137,15 @@ namespace VALE.MyVale.Create {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdGroups;
+        
+        /// <summary>
+        /// grdGroupUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdGroupUsers;
         
         /// <summary>
         /// pnlManageSetGroupsPanel control.

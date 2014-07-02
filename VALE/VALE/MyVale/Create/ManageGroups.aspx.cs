@@ -13,7 +13,26 @@ namespace VALE.MyVale.Create
         UserOperationsContext _db = new UserOperationsContext();
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.QueryString["Mode"] != null) 
+            {
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                string action = Request.QueryString["Action"];
+                if (Request.QueryString["Mode"] == "Group")
+                {
+                    int groupId = Convert.ToInt16(Request.QueryString["GroupId"]);
+                    string userName = Request.QueryString["UserName"];
+                    ManageGroup(action, userName, groupId);
+                }
+                else if (Request.QueryString["Mode"] == "SetGroups")
+                {
+                    
+                }
+            }
+        }
 
+        private void ManageGroup(string action, string userName, int groupId)
+        {
+            
         }
 
         protected void btnManageGroupLinkButton_Click(object sender, EventArgs e)
@@ -31,20 +50,22 @@ namespace VALE.MyVale.Create
 
         private void ManageGroupLoadData() 
         {
+            lblMode.Value = "Group"; 
             pnlManageSetGroupsPanel.Visible = false;
             pnlManageGroupPanel.Visible = true;
         }
 
         private void ManageSetGroupsLoadData()
         {
+            lblMode.Value = "SetGroups";
             pnlManageSetGroupsPanel.Visible = true;
             pnlManageGroupPanel.Visible = false;
         }
 
-        public string GetRoleName(string userId)
+        public string GetRoleName(string userName)
         {
             var db = new ApplicationDbContext();
-            var user = db.Users.First(u => u.Id == userId);
+            var user = db.Users.First(u => u.UserName == userName);
             if (user.Roles.Count != 0)
             {
                 var roleId = user.Roles.First().RoleId;
@@ -60,20 +81,26 @@ namespace VALE.MyVale.Create
             return _db.UsersData;
         }
 
-        protected void btnGroupsListButton_Click(object sender, EventArgs e)
+        public IQueryable<VALE.Models.UserData> grdGroupUsers_GetData()
         {
-
+            int id = 0;
+            if (int.TryParse(lblGroupId.Value, out id)) 
+            {
+                var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
+                if (group != null)
+                    return group.Users.AsQueryable();
+            }
+            return null;
         }
 
-        protected void btnAddGroupButton_Click(object sender, EventArgs e)
+        protected void btnGroupsListButton_Click(object sender, EventArgs e)
         {
-            btnOkGroupButton.Text = "Crea"; 
-            NameTextBox.CssClass = "form-control input-sm";
-            DescriptionTextarea.Disabled = false;
-            NameTextBox.Text = "";
-            DescriptionTextarea.InnerText= "";
-            lblGroupAction.Text = "Add";
-            ModalPopup.Show();
+            grdGroupUsers.Visible = false;
+            grdGroups.Visible = true;
+            grdGroups.DataBind();
+            btnAddGroupButton.Visible = true;
+            btnGroupsListButton.Visible = false;
+            lblHeaderGroupPanel.Text = "Gruppi";
         }
 
         protected void btnOkForNewGroupButton_Click(object sender, EventArgs e)
@@ -91,7 +118,15 @@ namespace VALE.MyVale.Create
             }
             else if (action == "Edit")
             {
-
+                var id = Convert.ToInt16(lblGroupId.Value);
+                var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
+                if (group != null)
+                {
+                    group.GroupName = NameTextBox.Text;
+                    group.Description = DescriptionTextarea.InnerText;
+                    _db.SaveChanges();
+                    grdGroups.DataBind();
+                }
             }
             else if (action == "Details")
                 ModalPopup.Hide();
@@ -114,16 +149,70 @@ namespace VALE.MyVale.Create
             {
                 case "ShowGroup":
                 default:
-                    ShowGroup(Convert.ToInt16(e.CommandArgument));
+                    ShowGroup(Convert.ToInt32(e.CommandArgument));
                     break;
                 case "EditGroup":
-                    EditGroup(Convert.ToInt16(e.CommandArgument));
+                    EditGroup(Convert.ToInt32(e.CommandArgument));
                     break;
                 case "DeleteGroup":
-                    DeleteGroup(Convert.ToInt16(e.CommandArgument));
+                    DeleteGroup(Convert.ToInt32(e.CommandArgument));
+                    break;
+                case "OpenGroup":
+                    OpenGroup(Convert.ToInt32(e.CommandArgument));
                     break;
             }
         }
+
+        private void OpenGroup(int id)
+        {
+            var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
+            if (group != null) 
+            {
+                lblGroupId.Value = id + "";
+                grdGroupUsers.Visible = true;
+                grdGroupUsers.DataBind();
+                grdGroups.Visible = false;
+                btnAddGroupButton.Visible = false;
+                btnGroupsListButton.Visible = true;
+                lblHeaderGroupPanel.Text = group.GroupName;
+                ApplyDragAndDrop();
+            }
+            
+        }
+
+        private void ApplyDragAndDrop()
+        {
+            string dragAndDrop = @"$(function () {
+            $('.table').sortable({
+                items: 'tr:not(tr:first-child)',
+                cursor: 'crosshair',
+                connectWith: '.table',
+                dropOnEmpty: true,
+                receive: function (e, ui) {
+                    $(this).find('tbody').append(ui.item);
+                   
+                    var mode = document.getElementById('MainContent_lblMode').value;
+                    var receverTableId = this.id;
+                    var action = '';
+                    if(mode == 'Group')
+                    {
+                        var userName = ui.item.find('td')[1].innerText;
+                        var groupId = document.getElementById('MainContent_lblGroupId').value;
+                        if(receverTableId == 'MainContent_grdGroupUsers')
+                            action = 'Add';
+                        if(receverTableId == 'MainContent_grdUsers')
+                            action = 'Remove';
+                        ManageGroup(action, userName, groupId);
+                    }
+                    else
+                        alert('Boohhhh');
+                    }
+                });
+            });";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "dragAndDrop", dragAndDrop, true);
+        }
+
+
 
         private void DeleteGroup(int id)
         {
@@ -141,13 +230,15 @@ namespace VALE.MyVale.Create
             var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
             if (group != null) 
             {
+                btnClosePopUpButton.Visible = true;
                 btnOkGroupButton.Text = "Salva";
+                NameTextBox.Enabled = true;
                 NameTextBox.CssClass = "form-control input-sm";
                 DescriptionTextarea.Disabled = false;
                 NameTextBox.Text = group.GroupName;
                 DescriptionTextarea.InnerText = group.Description;
                 lblGroupAction.Text = "Edit";
-                lblGroupId.Text = "" + id;
+                lblGroupId.Value = "" + id;
                 ModalPopup.Show();
             }
         }
@@ -157,7 +248,9 @@ namespace VALE.MyVale.Create
             var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
             if (group != null)
             {
-                btnOkGroupButton.Text = "Ok";
+                btnClosePopUpButton.Visible = false;
+                btnOkGroupButton.Text = "Chiudi";
+                NameTextBox.Enabled = false;
                 NameTextBox.CssClass = "form-control input-sm disabled";
                 DescriptionTextarea.Disabled = true;
                 NameTextBox.Text = group.GroupName;
@@ -165,6 +258,19 @@ namespace VALE.MyVale.Create
                 lblGroupAction.Text = "Details";
                 ModalPopup.Show();
             }
+        }
+
+        protected void btnAddGroupButton_Click(object sender, EventArgs e)
+        {
+            btnOkGroupButton.Text = "Crea";
+            btnClosePopUpButton.Visible = true;
+            NameTextBox.Enabled = true;
+            NameTextBox.CssClass = "form-control input-sm";
+            DescriptionTextarea.Disabled = false;
+            NameTextBox.Text = "";
+            DescriptionTextarea.InnerText = "";
+            lblGroupAction.Text = "Add";
+            ModalPopup.Show();
         }
 
         

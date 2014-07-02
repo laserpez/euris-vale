@@ -1,7 +1,37 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageGroups.aspx.cs" Inherits="VALE.MyVale.Create.ManageGroups" %>
-
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js" type="text/javascript"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
+    <script type="text/javascript">
+        function ManageGroup(action, userName, groupId) {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var url = "ManageGroups.aspx?Mode=Group&Action=" + action + "&UserName=" + userName + "&GroupId=" + groupId;
+            xmlhttp.open("Get", url, false);
+            xmlhttp.send(null);
+            var result = xmlhttp.responseText;
+        }
+
+        function ManageSetGroups(action, groupId, setGroupsId) {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var url = "ManageGroups.aspx?Mode=SetGroups&Action=" + action + "&GroupId=" + groupId + "&SetGroupsId=" + setGroupsId;
+            xmlhttp.open("Get", url, false);
+            xmlhttp.send(null);
+            var result = xmlhttp.responseText;
+        }
+    </script>
     <div class="container">
         <div class="bs-docs-section">
             <br />
@@ -36,9 +66,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="max-height: 700px; overflow: auto;">
-                            <asp:Label ID="lblMode" runat="server" Visible="false" Text="None"></asp:Label>
                             <asp:Label ID="lblGroupAction" runat="server" Visible="false" Text=""></asp:Label>
-                            <asp:Label ID="lblGroupId" runat="server"  Visible="false" Text=""></asp:Label>
                             <div class="row" runat="server" id="pnlManageGroupPanel">
                                 <div class="col-sm-6 col-md-6">
                                     <div class="panel panel-default">
@@ -51,8 +79,8 @@
                                         <div class="panel-body" style="max-height: 170px; overflow: auto;">
                                             <asp:UpdatePanel runat="server">
                                                 <ContentTemplate>
-                                                    <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" GridLines="Both" SelectMethod="grdUsers_GetData"
-                                                        ItemType="VALE.Models.UserData" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered">
+                                                    <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" SelectMethod="grdUsers_GetData"
+                                                        ItemType="VALE.Models.UserData"  CssClass="table table-striped table-bordered">
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>
@@ -72,18 +100,10 @@
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>
-                                                                    <center><div><asp:LinkButton runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
+                                                                    <center><div><asp:LinkButton runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-user"></span> Nome Cognome</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
                                                                     <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <%--<asp:TemplateField>
-                                                                <HeaderTemplate>
-                                                                    <center><div><asp:LinkButton runat="server" ID="labelLastName"><span  class="glyphicon glyphicon-user"></span> Cognome</asp:LinkButton></div></center>
-                                                                </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <center><div><asp:Label runat="server"><%#: Item.LastName %></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
@@ -91,9 +111,9 @@
                                                                     <center><div><asp:LinkButton  runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
-                                                                    <center><div><%# GetRoleName(Item.Id) %></div></center>
+                                                                    <center><div><%# GetRoleName(Item.UserName) %></div></center>
                                                                 </ItemTemplate>
-                                                            </asp:TemplateField>--%>
+                                                            </asp:TemplateField>
                                                         </Columns>
                                                     </asp:GridView>
                                                 </ContentTemplate>
@@ -101,18 +121,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-md-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <span class="glyphicon glyphicon-th-large"></span>&nbsp;&nbsp;Gruppi
+                                <asp:UpdatePanel runat="server">
+                                    <ContentTemplate>
+                                        <asp:HiddenField ID="lblGroupId" runat="server" />
+                                        <asp:HiddenField ID="lblMode" runat="server" Value="Group" />
+                                        <div class="col-sm-6 col-md-6">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <span class="glyphicon glyphicon-th-large"></span>&nbsp;&nbsp;<asp:Label ID="lblHeaderGroupPanel" runat="server" Text="Gruppi"></asp:Label>
                                                     <div class="navbar-right">
                                                         <asp:Button ID="btnAddGroupButton" CssClass="btn btn-success btn-xs" runat="server" Text="Aggiungi" OnClick="btnAddGroupButton_Click" />
                                                         <asp:Button ID="btnGroupsListButton" CssClass="btn btn-default btn-xs" runat="server" Text="Gruppi" Visible="false" OnClick="btnGroupsListButton_Click" />
                                                     </div>
-                                        </div>
-                                        <div class="panel-body" style="max-height: 170px; overflow: auto;">
-                                            <asp:UpdatePanel runat="server">
-                                                <ContentTemplate>
+                                                </div>
+                                                <div class="panel-body" style="max-height: 170px; overflow: auto;">
                                                     <asp:GridView ID="grdGroups" runat="server" AutoGenerateColumns="False"
                                                         ItemType="VALE.Models.Group"
                                                         CssClass="table table-striped table-bordered"
@@ -122,12 +144,12 @@
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <center><div><asp:LinkButton runat="server"  CommandName="ShowGroup" CommandArgument="<%#: Item.GroupId %>"> <%#: Item.GroupName %></asp:LinkButton></div></center>
+                                                                    <center><div><asp:LinkButton runat="server"  CommandName="OpenGroup" CommandArgument="<%#: Item.GroupId %>"> <%#: Item.GroupName %></asp:LinkButton></div></center>
                                                                 </ItemTemplate>
                                                                 <HeaderTemplate>
                                                                     <center><div><asp:LinkButton runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
-                                                                <ItemStyle Font-Bold="true"/>
+                                                                <ItemStyle Font-Bold="true" />
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
@@ -165,11 +187,48 @@
                                                             </asp:TemplateField>
                                                         </Columns>
                                                     </asp:GridView>
-                                                </ContentTemplate>
-                                            </asp:UpdatePanel>
+                                                    <asp:GridView ID="grdGroupUsers" runat="server" AutoGenerateColumns="false"  SelectMethod="grdGroupUsers_GetData"
+                                                        ItemType="VALE.Models.UserData"  CssClass="table table-striped table-bordered" ShowHeaderWhenEmpty="true">
+                                                        <Columns>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><span  class="glyphicon glyphicon-screenshot"></span></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <asp:CheckBox runat="server" ID="chkSelectUser" />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton  runat="server" ID="labelUserName"><span  class="glyphicon glyphicon-credit-card"></span> UserName</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label ID="labelUserName" runat="server" Text="<%#: Item.UserName %>"></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-user"></span> Nome Cognome</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton  runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><%# GetRoleName(Item.UserName) %></div></center>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                             </div>
                             <div class="row" runat="server" id="pnlManageSetGroupsPanel" visible="false">
                                 <div class="col-sm-6 col-md-6">
