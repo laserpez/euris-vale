@@ -28,6 +28,9 @@ namespace VALE.MyVale
                 _dataActions = new ProjectActions();
             else
                 _dataActions = new EventActions();
+
+            if (!IsPostBack)
+                SetGridViewsVisibility("Users");
         }
 
 
@@ -73,11 +76,16 @@ namespace VALE.MyVale
             LinkButton button = (LinkButton)sender;
 
             btnCurrentView.InnerHtml = button.Text + " <span class=\"caret\"></span>";
-            
-            UsersGridView.Visible = button.CommandArgument == "Users";
-            GroupsGridView.Visible = button.CommandArgument == "Groups";
 
+            SetGridViewsVisibility(button.CommandArgument);
+            txtSearchByName.Text = "";
             DataBindGridViews();
+        }
+
+        private void SetGridViewsVisibility(string commandArgument)
+        {
+            UsersGridView.Visible = commandArgument == "Users";
+            GroupsGridView.Visible = commandArgument == "Groups";
         }
 
         protected void btnAddOrRemoveUsers_Click(object sender, EventArgs e)
@@ -145,6 +153,12 @@ namespace VALE.MyVale
                     _dataActions.AddOrRemoveUserData(_dataId, user.UserName);
                 }
             }
+            DataBindGridViews();
+        }
+
+        protected void ddlFilterGrids_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtSearchByName.Text = "";
             DataBindGridViews();
         }
     }
