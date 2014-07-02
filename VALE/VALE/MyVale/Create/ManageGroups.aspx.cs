@@ -99,9 +99,9 @@ namespace VALE.MyVale.Create
                 var id = Convert.ToInt32(lblGroupId.Value);
                 var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
                 if (group != null)
-                    return _db.UsersData.ToList().Except(group.Users).AsQueryable();
+                    return _db.UserDatas.ToList().Except(group.Users).AsQueryable();
             }
-            return _db.UsersData;
+            return _db.UserDatas;
         }
 
         public IQueryable<VALE.Models.UserData> grdGroupUsers_GetData()

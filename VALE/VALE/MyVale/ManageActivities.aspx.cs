@@ -324,7 +324,7 @@ namespace VALE
         {
             var db = new UserOperationsContext();
             var userName = User.Identity.Name;
-            var projects = db.UsersData.First(u => u.UserName == userName).AttendingProjects;
+            var projects = db.UserDatas.First(u => u.UserName == userName).AttendingProjects;
             projects.Insert(0, new Project { ProjectName = "-- Seleziona progetto --", ProjectId = 0});
             return projects;
         }

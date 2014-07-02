@@ -90,7 +90,7 @@ namespace VALE.MyVale
             var dbData = new UserOperationsContext();
 
             var userControl = (SelectUser)ActivityDetail.FindControl("SelectUser");
-            var users = dbData.UsersData.Where(u => userControl.SelectedUsers.Contains(u.UserName)).ToList();
+            var users = dbData.UserDatas.Where(u => userControl.SelectedUsers.Contains(u.UserName)).ToList();
 
             foreach (var user in users)
             {
