@@ -9,6 +9,7 @@ using VALE.Models;
 using System.Web.ModelBinding;
 using VALE.Logic;
 using System.IO;
+using VALE.MyVale.Create;
 
 namespace VALE.MyVale
 {
@@ -24,13 +25,16 @@ namespace VALE.MyVale
             if (Request.QueryString.HasKeys())
                 _currentEventId = Convert.ToInt32(Request.QueryString["eventId"]);
             _currentUser = User.Identity.GetUserName();
+
+
+            
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
-            if(eventActions.IsUserAttendingThisEvent(_currentEventId, _currentUser))
+            if(eventActions.IsUserRelated(_currentEventId, _currentUser))
             {
                 btnAttend.CssClass = "btn btn-success";
                 btnAttend.Text = "Stai partecipando";
@@ -69,7 +73,7 @@ namespace VALE.MyVale
             Event thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
-            if (eventActions.AddOrRemoveUser(thisEvent, user) == true)
+            if (eventActions.AddOrRemoveUserData(thisEvent, user) == true)
             {
                 // MAIL
                 //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
@@ -80,59 +84,18 @@ namespace VALE.MyVale
             Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
         }
 
-        public List<string> GetRelatedDocuments([QueryString("eventId")] int? eventId)
+        protected void EventDetail_DataBound(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var thisEvent = db.Events.First(p => p.EventId == eventId);
-            if (!String.IsNullOrEmpty(thisEvent.DocumentsPath))
-            {
-                var dir = new DirectoryInfo(Server.MapPath(thisEvent.DocumentsPath));
-                var files = dir.GetFiles().Select(f => f.Name).ToList();
-                if (files.Count == 0)
-                {
-                    HideLabel("AttachmentsLabel");
-                    HideListBox("lstDocuments");
-                    HideButton("btnViewDocument");
-                }
-                return files;
-            }
-            else
-            {
-                HideLabel("AttachmentsLabel");
-                HideListBox("lstDocuments");
-                HideButton("btnViewDocument");
-                return null;
-            }
+            FileUploader uploader = (FileUploader)EventDetail.FindControl("FileUploader");
+            uploader.DataActions = new EventActions();
+            uploader.DataId = _currentEventId;
+            if (!IsPostBack)
+                uploader.DataBind();
         }
 
-
-        private void HideListBox(string name)
+        protected void addUsers_Click(object sender, EventArgs e)
         {
-            ListBox list = (ListBox)EventDetail.FindControl(name);
-            list.Visible = false;
-        }
-
-        private void HideLabel(string name)
-        {
-            Label nameLabel = (Label)EventDetail.FindControl(name);
-            nameLabel.Visible = false;
-        }
-
-        private void HideButton(string name)
-        {
-            Button nameButton = (Button)EventDetail.FindControl(name);
-            nameButton.Visible = false;
-        }
-
-        protected void btnViewDocument_Click(object sender, EventArgs e)
-        {
-            var thisEvent = _db.Events.First(ev => ev.EventId == _currentEventId);
-            var lstDocument = (ListBox)EventDetail.FindControl("lstDocuments");
-            if(lstDocument.SelectedIndex > -1)
-            {
-                var file = thisEvent.DocumentsPath + lstDocument.SelectedValue;
-                Response.Redirect("/DownloadFile.ashx?filePath=" + file + "&fileName=" + lstDocument.SelectedValue);
-            }
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentEventId + "&dataType=event&returnUrl=/MyVale/EventDetails?eventId=" +_currentEventId);
         }
     }
 }

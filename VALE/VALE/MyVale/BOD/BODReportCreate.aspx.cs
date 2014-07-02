@@ -7,63 +7,27 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Models;
 using Microsoft.AspNet.Identity;
+using VALE.Logic;
 
 namespace VALE.MyVale.BOD
 {
     public partial class BODReportCreate : System.Web.UI.Page
     {
         private string _currentUserId;
-        private int _currentProjectId;
-        private string _temporaryPath;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserId = User.Identity.GetUserId();
-            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUserId + "/";
-            if (Request.QueryString.HasKeys())
-                _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+            FileUploader.DataActions = new BODReportActions();
             if (!IsPostBack)
             {
-                if (!String.IsNullOrEmpty(_temporaryPath))
-                {
-                    if (Directory.Exists(Server.MapPath(_temporaryPath)))
-                        Directory.Delete(Server.MapPath(_temporaryPath), true);
-                    Directory.CreateDirectory(Server.MapPath(_temporaryPath));
-                }
-                PopulateGridView();
+                ViewState["reportId"] = 0;
                 CalendarMeetingDate.StartDate = DateTime.Now;
                 CalendarPublishDate.StartDate = DateTime.Now;
             }
+            FileUploader.DataId = Convert.ToInt32(ViewState["reportId"]);
         }
-
-        protected void btnUploadFile_Click(object sender, EventArgs e)
-        {
-            if (FileUploadControl.HasFiles)
-            {
-                FileUploadControl.SaveAs(Server.MapPath(_temporaryPath + Path.GetFileName(FileUploadControl.PostedFile.FileName)));
-            }
-            PopulateGridView();
-        }
-
-        protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            GridView grid = (GridView)sender;
-            int index = Convert.ToInt32(e.CommandArgument);
-            string fileToRemove = grid.Rows[index].Cells[1].Text;
-            File.Delete(Server.MapPath(_temporaryPath) + fileToRemove);
-            PopulateGridView();
-        }
-
-        private void PopulateGridView()
-        {
-            DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath(_temporaryPath));
-            if (dirInfo.Exists)
-                grdFilesUploaded.DataSource = dirInfo.GetFiles().Select(o => new { Filename = o.Name });
-            else
-                grdFilesUploaded.DataSource = null;
-            grdFilesUploaded.DataBind();
-        }
-
+        
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
@@ -77,16 +41,17 @@ namespace VALE.MyVale.BOD
             };
             db.BODReports.Add(report);
             db.SaveChanges();
-            report.DocumentsPath = "/MyVale/Documents/BODReports/" + report.BODReportId + "/";
-            string serverPath = Server.MapPath(report.DocumentsPath);
-            string tempPath = Server.MapPath(_temporaryPath);
-            if (!Directory.Exists(Server.MapPath("/MyVale/Documents/BODReports/")))
-                Directory.CreateDirectory(Server.MapPath("/MyVale/Documents/BODReports/"));
-            Directory.Move(tempPath, serverPath);
-            db.SaveChanges();
+            ViewState["reportId"] = report.BODReportId;
+            ShowFileUploader();
+            
+        }
 
-            Response.Redirect("/MyVale/BOD/BODReports");
-
+        private void ShowFileUploader()
+        {
+            lblUploadFile.Visible = true;
+            FileUploader.Visible = true;
+            FileUploader.DataId = Convert.ToInt32(ViewState["reportId"]);
+            
         }
 
         protected void txtMeetingDate_TextChanged(object sender, EventArgs e)

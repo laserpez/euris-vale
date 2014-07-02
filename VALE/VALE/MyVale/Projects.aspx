@@ -70,7 +70,7 @@
                                                         <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
+                                                        <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label></div></center>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>

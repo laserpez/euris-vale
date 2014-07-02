@@ -9,6 +9,7 @@ using VALE.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Linq.Expressions;
+using VALE.Logic;
 
 namespace VALE.Admin
 {
@@ -88,13 +89,13 @@ namespace VALE.Admin
                 var dbData = new UserOperationsContext();
                 int Id = Convert.ToInt32(ProjectID.Text);
                 var project = dbData.Projects.First(p => p.ProjectId == Id);
-                if (!String.IsNullOrEmpty(project.DocumentsPath))
+                using(var actions = new ProjectActions())
                 {
-                    if (Directory.Exists(Server.MapPath(project.DocumentsPath)))
-                        Directory.Delete(Server.MapPath(project.DocumentsPath), true);
+                    actions.RemoveAllAttachments(Id);
                 }
-                DeleteFolders(project.Events.Select(ev => ev.DocumentsPath).ToList());
-                DeleteFolders(project.Interventions.Select(i => i.DocumentsPath).ToList());
+                var eventActions = new EventActions();
+                    project.Events.ForEach(ev => eventActions.RemoveAllAttachments(ev.EventId));
+
                 dbData.Projects.Remove(project);
                 dbData.SaveChanges();
                 ViewState["lstProject"] = GetProjects();

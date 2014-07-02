@@ -69,7 +69,7 @@ namespace VALE.MyVale
             //OpenedProjectList.DataSource = GetSortedData(e.SortExpression);
             using (var actions = new ProjectActions())
             {
-                OpenedProjectList.DataSource = actions.GetSortedData(e.SortExpression, (List<Project>)ViewState["lstProject"], GridViewSortDirection);
+                OpenedProjectList.DataSource = actions.GetSortedData(e.SortExpression, GridViewSortDirection, (List<Project>)ViewState["lstProject"]);
             }
             OpenedProjectList.DataBind();
         }
@@ -185,7 +185,7 @@ namespace VALE.MyVale
             var user = db.UsersData.First(u => u.UserName == User.Identity.Name);
             using(var actions = new ProjectActions())
             {
-                actions.AddOrRemoveUser(thisProject, user);
+                actions.AddOrRemoveUserData(thisProject, user);
                 db.SaveChanges();
                 OpenedProjectList.DataSource = (List<Project>)ViewState["lstProject"];
                 OpenedProjectList.DataBind();

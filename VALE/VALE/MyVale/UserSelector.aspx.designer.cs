@@ -10,7 +10,7 @@
 namespace VALE.MyVale {
     
     
-    public partial class Activities {
+    public partial class UserSelector {
         
         /// <summary>
         /// HeaderName control.
@@ -22,111 +22,75 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// btnExportCSV control.
+        /// lblCurrentSelection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExportCSV;
+        protected global::System.Web.UI.WebControls.Label lblCurrentSelection;
         
         /// <summary>
-        /// ExternalPanelDefault control.
+        /// btnCurrentView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ExternalPanelDefault;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnCurrentView;
         
         /// <summary>
-        /// InternalPanelHeading control.
+        /// btnAllUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel InternalPanelHeading;
+        protected global::System.Web.UI.WebControls.LinkButton btnAllUsers;
         
         /// <summary>
-        /// btnShowFilters control.
+        /// btnRelatedUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnShowFilters;
+        protected global::System.Web.UI.WebControls.LinkButton btnRelatedUsers;
         
         /// <summary>
-        /// filterPanel control.
+        /// txtSearchUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl filterPanel;
+        protected global::System.Web.UI.WebControls.TextBox txtSearchUsers;
         
         /// <summary>
-        /// txtName control.
+        /// btnSearchUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtName;
+        protected global::System.Web.UI.WebControls.Button btnSearchUsers;
         
         /// <summary>
-        /// txtDescription control.
+        /// UsersGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDescription;
+        protected global::System.Web.UI.WebControls.GridView UsersGridView;
         
         /// <summary>
-        /// ddlStatus control.
+        /// btnReturn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
-        
-        /// <summary>
-        /// btnFilterProjects control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilterProjects;
-        
-        /// <summary>
-        /// btnClearFilters control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearFilters;
-        
-        /// <summary>
-        /// grdCurrentActivities control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdCurrentActivities;
-        
-        /// <summary>
-        /// grdPendingActivities control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdPendingActivities;
+        protected global::System.Web.UI.WebControls.Button btnReturn;
     }
 }

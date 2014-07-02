@@ -18,7 +18,6 @@ namespace VALE.Models
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastModified { get; set; }
-        public string DocumentsPath { get; set; }
         public string Status { get; set; }
         public bool Public { get; set; }
         public virtual List<AttachedFile> AttachedFiles { get; set; }

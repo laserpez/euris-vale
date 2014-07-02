@@ -67,7 +67,7 @@
                                                     <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
+                                                    <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 20 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label></div></center>
                                                 </ItemTemplate>
                                                 <HeaderStyle Width="120px" />
                                                 <ItemStyle Width="120px" />

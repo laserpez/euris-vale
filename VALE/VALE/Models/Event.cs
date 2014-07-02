@@ -17,7 +17,6 @@ namespace VALE.Models
         public string Description { get; set; }
         public bool Public { get; set; }
         public DateTime EventDate { get; set; }
-        public string DocumentsPath { get; set; }
         public virtual List<AttachedFile> AttachedFiles { get; set; }
 
         // Nullable FK, cascade deleting is set in modelBuilder

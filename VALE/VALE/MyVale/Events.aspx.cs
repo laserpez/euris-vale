@@ -46,7 +46,7 @@ namespace VALE.MyVale
 
                 int eventId = (int)grdPlannedEvent.DataKeys[i].Value;
                 var eventActions = new EventActions();
-                if (eventActions.IsUserAttendingThisEvent(eventId, _currentUser))
+                if (eventActions.IsUserRelated(eventId, _currentUser))
                 {
                     btnAttend.CssClass = "btn btn-success btn-xs";
                     btnAttend.Text = "Stai partecipando";
@@ -62,15 +62,13 @@ namespace VALE.MyVale
         public void FilterEvents()
         {
             var events = (List<Event>)ViewState["lstEvent"];
-            
-            using (var eventActions = new EventActions())
-            {
+
+            var eventActions = new EventActions();
                 var filters = new Dictionary<string, string>();
                 filters.Add("fromDate", txtFromDate.Text);
                 filters.Add("toDate", txtToDate.Text);
 
                 ViewState["lstEvent"] = eventActions.GetFilteredData(filters, events);
-            }
         }
 
         protected void btnShowEvents_Click(object sender, EventArgs e)
@@ -112,7 +110,7 @@ namespace VALE.MyVale
             Button btnAttend = (Button)sender;
 
             var eventActions = new EventActions();
-            if(eventActions.AddOrRemoveUser(thisEvent, user) == true)
+            if(eventActions.AddOrRemoveUserData(thisEvent, user) == true)
             {
                     // MAIL
                     //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
@@ -177,12 +175,10 @@ namespace VALE.MyVale
             else
                 GridViewSortDirection = SortDirection.Ascending;
 
-            using (var eventActions = new EventActions())
-            {
-                var events = (List<Event>)ViewState["lstEvent"];
-                ViewState["lstEvent"] = eventActions.GetSortedData(sortExpression, GridViewSortDirection, events);
-                UpdateGridView();
-            }
+            var eventActions = new EventActions();
+            var events = (List<Event>)ViewState["lstEvent"];
+            ViewState["lstEvent"] = eventActions.GetSortedData(sortExpression, GridViewSortDirection, events);
+            UpdateGridView();
         }
 
         public SortDirection GridViewSortDirection

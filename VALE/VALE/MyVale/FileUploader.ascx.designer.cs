@@ -10,123 +10,96 @@
 namespace VALE.MyVale {
     
     
-    public partial class Activities {
+    public partial class FileUploader {
         
         /// <summary>
-        /// HeaderName control.
+        /// allowDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label HeaderName;
+        protected global::System.Web.UI.WebControls.Label allowDelete;
         
         /// <summary>
-        /// btnExportCSV control.
+        /// action control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExportCSV;
+        protected global::System.Web.UI.WebControls.Label action;
         
         /// <summary>
-        /// ExternalPanelDefault control.
+        /// id control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ExternalPanelDefault;
+        protected global::System.Web.UI.WebControls.Label id;
         
         /// <summary>
-        /// InternalPanelHeading control.
+        /// DocumentsGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel InternalPanelHeading;
+        protected global::System.Web.UI.WebControls.GridView DocumentsGridView;
         
         /// <summary>
-        /// btnShowFilters control.
+        /// FooterDocuments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnShowFilters;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FooterDocuments;
         
         /// <summary>
-        /// filterPanel control.
+        /// FileTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl filterPanel;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FileTextBox;
         
         /// <summary>
-        /// txtName control.
+        /// FileUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtName;
+        protected global::System.Web.UI.WebControls.FileUpload FileUpload;
         
         /// <summary>
-        /// txtDescription control.
+        /// AddFileNameButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDescription;
+        protected global::System.Web.UI.WebControls.Button AddFileNameButton;
         
         /// <summary>
-        /// ddlStatus control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
+        protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// btnFilterProjects control.
+        /// txtFileDescription control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilterProjects;
-        
-        /// <summary>
-        /// btnClearFilters control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearFilters;
-        
-        /// <summary>
-        /// grdCurrentActivities control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdCurrentActivities;
-        
-        /// <summary>
-        /// grdPendingActivities control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdPendingActivities;
+        protected global::System.Web.UI.WebControls.TextBox txtFileDescription;
     }
 }

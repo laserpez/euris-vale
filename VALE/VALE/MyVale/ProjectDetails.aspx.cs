@@ -27,10 +27,16 @@ namespace VALE.MyVale
             
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+
+            FileUploader uploader = (FileUploader)ProjectDetail.FindControl("FileUploader");
+            uploader.DataActions = new ProjectActions();
+            uploader.DataId = _currentProjectId;
+
             if (!IsPostBack)
             {
                 DataBindControls();
                 ShowHideControls();
+                uploader.DataBind();
             }
         }
 
@@ -286,7 +292,7 @@ namespace VALE.MyVale
             var user = db.UsersData.First(u => u.UserName == _currentUserName);
             using (var actions = new ProjectActions())
             {
-                actions.AddOrRemoveUser(project, user);
+                actions.AddOrRemoveUserData(project, user);
                 db.SaveChanges();
                 grdUsers.DataBind();
                 SetWorkOnProjectSection(project);
@@ -337,78 +343,5 @@ namespace VALE.MyVale
             }
 
         }
-
-        //*****************************PARTE DI UPLOAD FILE************************************************
-
-        protected void AddFileNameButton_Click(object sender, EventArgs e)
-        {
-            AttachedFile attachedFile = new AttachedFile();
-            FileUpload fileUpload = (FileUpload)ProjectDetail.FindControl("FileUpload");
-            GridView documentsGridView = (GridView)ProjectDetail.FindControl("DocumentsGridView");
-            TextBox txtFileDescription = (TextBox)ProjectDetail.FindControl("txtFileDescription");
-            if (fileUpload.HasFile)
-            {
-                attachedFile.FileName = fileUpload.PostedFile.FileName;
-                attachedFile.FileDescription = txtFileDescription.Text;
-                attachedFile.FileExtension = Path.GetExtension(fileUpload.PostedFile.FileName);
-                attachedFile.FileData = fileUpload.FileBytes;
-                attachedFile.Owner = User.Identity.Name;
-                attachedFile.CreationDate = DateTime.Now;
-                 var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-                 if (currentProject != null)
-                 {
-                     currentProject.AttachedFiles.Add(attachedFile);
-                 }
-                _db.SaveChanges();
-                txtFileDescription.Text = "";
-                documentsGridView.DataBind();
-            }
-        }
-
-        public IQueryable<AttachedFile> DocumentsGridView_GetData()
-        {
-            var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-            if (currentProject != null)
-                return currentProject.AttachedFiles.AsQueryable();
-            return null;
-        }
-
-        protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            GridView documentsGridView = (GridView)ProjectDetail.FindControl("DocumentsGridView");
-            GridView grid = (GridView)sender;
-            int id = Convert.ToInt32(e.CommandArgument);
-            switch (e.CommandName)
-            {
-                case "DOWNLOAD":
-                default:
-                    Response.Redirect("/DownloadFile.ashx?fileId=" + id);
-                    break;
-                case "Cancella":
-                    var attachedFile = _db.AttachedFiles.FirstOrDefault(f => f.AttachedFileID == id);
-                    if (attachedFile != null)
-                    {
-                        _db.AttachedFiles.Remove(attachedFile);
-                        _db.SaveChanges();
-                        documentsGridView.DataBind();
-                    }
-                    break;
-            }
-        }
-
-        public string AllowDelete(AttachedFile attachedFile) 
-        {
-            if (attachedFile.Owner == _currentUserName)
-                return "";
-            if(HttpContext.Current.User.IsInRole("Amministratore"))
-                return "";
-            var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-            if (currentProject != null)
-                if (currentProject.OrganizerUserName == _currentUserName)
-                    return "";
-            return "style";
-        }
-
-        //*****************************PARTE DI UPLOAD FILE************************************************
     }
 }

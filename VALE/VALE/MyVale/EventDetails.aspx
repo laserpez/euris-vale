@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EventDetails.aspx.cs" Inherits="VALE.MyVale.EventDetails" %>
+<%@ Register Src="~/MyVale/FileUploader.ascx" TagPrefix="uc" TagName="FileUploader" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -22,7 +23,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:FormView runat="server" ID="EventDetail" ItemType="VALE.Models.Event" SelectMethod="GetEvent">
+                            <asp:FormView  OnDataBound="EventDetail_DataBound" runat="server" ID="EventDetail" ItemType="VALE.Models.Event" SelectMethod="GetEvent" >
                                 <ItemTemplate>
                                     <h3><%#: Item.Name %></h3>
                                     <asp:Button ID="btnAttend" Text="Partecipa" runat="server" OnClick="btnAttend_Click" /><br />
@@ -33,10 +34,13 @@
                                     <asp:Label runat="server"><%#: Item.Public ? "Pubblico" : "Privato" %></asp:Label>
                                     <br />
                                     <asp:Label runat="server"><%#: String.Format("Descrizione: {0}", Item.Description) %></asp:Label><br />
+
+                                    
                                     <h4>Partecipanti</h4>
+                                    
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
-                                            <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                            <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true" AllowPaging="true" PageSize="5"
                                                 SelectMethod="GetRegisteredUsers" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
@@ -70,6 +74,7 @@
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
+                                    <asp:Button id="addUsers" runat="server" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Gestione utenti" />
                                     <h4>Progetto correlato</h4>
                                     <asp:FormView runat="server" ID="ProjectDetail" EmptyDataText="Nessun progetto correlato." ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
                                         <ItemTemplate>
@@ -78,9 +83,8 @@
                                         </ItemTemplate>
                                     </asp:FormView>
                                     <br />
-                                    <asp:Label runat="server" ID="AttachmentsLabel" Text="Documenti" CssClass="h4"></asp:Label>
-                                    <asp:ListBox runat="server" CssClass="form-control" Width="400px" ID="lstDocuments" SelectMethod="GetRelatedDocuments"></asp:ListBox>
-                                    <asp:Button runat="server" Text="Scarica" CssClass="btn btn-info" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
+                                    <uc:FileUploader runat="server" ID="FileUploader" AllowUpload="true" />
+                                    
                                 </ItemTemplate>
                             </asp:FormView>
                         </div>

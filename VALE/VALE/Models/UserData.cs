@@ -24,6 +24,16 @@ namespace VALE.Models
         public virtual List<Activity> PendingActivity { get; set; }
 
         public virtual List<Intervention> Interventions { get; set; }
-        
+
+        public override bool Equals(object obj)
+        {
+            var userData = (UserData)obj;
+            return this.UserName == userData.UserName;
+        }
+
+        public override int GetHashCode()
+        {
+            return UserName.GetHashCode();
+        }
     }
 }

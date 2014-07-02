@@ -222,8 +222,10 @@
     <Content Include="MyVale\Create\AddNewUser.ascx" />
     <Content Include="MyVale\Create\SelectProject.ascx" />
     <Content Include="MyVale\Create\SelectUser.ascx" />
+    <Content Include="MyVale\FileUploader.ascx" />
     <Content Include="MyVale\PersonalArticles.aspx" />
     <Content Include="MyVale\UserList.aspx" />
+    <Content Include="MyVale\UserSelector.aspx" />
     <Content Include="MyVale\ViewArticle.aspx" />
     <Content Include="MyVale\CreateIntervention.aspx" />
     <Content Include="MyVale\Create\ActivityCreate.aspx" />
@@ -474,6 +476,7 @@
     <Compile Include="Logic\IActions.cs" />
     <Compile Include="Logic\MailHelper.cs" />
     <Compile Include="Logic\ProjectActions.cs" />
+    <Compile Include="Logic\BODReportActions.cs" />
     <Compile Include="Logic\RoleActions.cs" />
     <Compile Include="Logic\UserActions.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -538,6 +541,13 @@
     <Compile Include="MyVale\Create\SelectUser.ascx.designer.cs">
       <DependentUpon>SelectUser.ascx</DependentUpon>
     </Compile>
+    <Compile Include="MyVale\FileUploader.ascx.cs">
+      <DependentUpon>FileUploader.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\FileUploader.ascx.designer.cs">
+      <DependentUpon>FileUploader.ascx</DependentUpon>
+    </Compile>
     <Compile Include="MyVale\PersonalArticles.aspx.cs">
       <DependentUpon>PersonalArticles.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -551,6 +561,13 @@
     </Compile>
     <Compile Include="MyVale\UserList.aspx.designer.cs">
       <DependentUpon>UserList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyVale\UserSelector.aspx.cs">
+      <DependentUpon>UserSelector.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\UserSelector.aspx.designer.cs">
+      <DependentUpon>UserSelector.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\ViewArticle.aspx.cs">
       <DependentUpon>ViewArticle.aspx</DependentUpon>
