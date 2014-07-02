@@ -22,15 +22,6 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// lblCurrentSelection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCurrentSelection;
-        
-        /// <summary>
         /// btnCurrentView control.
         /// </summary>
         /// <remarks>
@@ -40,31 +31,40 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.HtmlControls.HtmlButton btnCurrentView;
         
         /// <summary>
-        /// btnAllUsers control.
+        /// btnUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnAllUsers;
+        protected global::System.Web.UI.WebControls.LinkButton btnUsers;
         
         /// <summary>
-        /// btnRelatedUsers control.
+        /// btnGroups control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnRelatedUsers;
+        protected global::System.Web.UI.WebControls.LinkButton btnGroups;
         
         /// <summary>
-        /// txtSearchUsers control.
+        /// btnGroupsOfGroups control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSearchUsers;
+        protected global::System.Web.UI.WebControls.LinkButton btnGroupsOfGroups;
+        
+        /// <summary>
+        /// txtSearchByName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSearchByName;
         
         /// <summary>
         /// btnSearchUsers control.
@@ -76,6 +76,15 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Button btnSearchUsers;
         
         /// <summary>
+        /// ddlFilterGrids control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFilterGrids;
+        
+        /// <summary>
         /// UsersGridView control.
         /// </summary>
         /// <remarks>
@@ -83,6 +92,15 @@ namespace VALE.MyVale {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView UsersGridView;
+        
+        /// <summary>
+        /// GroupsGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GroupsGridView;
         
         /// <summary>
         /// btnReturn control.

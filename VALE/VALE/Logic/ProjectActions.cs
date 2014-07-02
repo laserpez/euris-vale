@@ -9,10 +9,8 @@ using VALE.Models;
 namespace VALE.Logic
 {
     [Serializable]
-    public class ProjectActions : IActions
+    public class ProjectActions : IActions, IFileActions
     {
-        //UserOperationsContext _db = new UserOperationsContext();
-
         public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
             var result = data.Cast<Project>();
@@ -62,23 +60,6 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             var project = db.Projects.First(p => p.ProjectId == projectId);
             return project.InvolvedUsers.Select(u => u.UserName).Contains(userName);
-        }
-
-        public bool AddOrRemoveUserData<T>(T data, UserData user)
-        {
-            var project = data as Project;
-            if (IsUserRelated(project.ProjectId, user.UserName))
-            {
-                project.InvolvedUsers.Remove(user);
-                user.AttendingProjects.Remove(project);
-                return false;
-            }
-            else
-            {
-                project.InvolvedUsers.Add(user);
-                user.AttendingProjects.Add(project);
-                return true;
-            }
         }
 
         public bool RemoveAttachment(int attachmentId)
@@ -160,6 +141,26 @@ namespace VALE.Logic
                 aProject.InvolvedUsers.Remove(user);
             db.SaveChanges();
             return added;
+        }
+
+        public IQueryable<Group> GetRelatedGroups(int dataId)
+        {
+            var db = new UserOperationsContext();
+            var result = new List<Group>();
+            foreach(var group in db.Groups)
+            {
+                if (IsGroupRelated(dataId, group.GroupId))
+                    result.Add(group);
+            }
+            return result.AsQueryable();
+        }
+
+        public bool IsGroupRelated(int dataId, int groupId)
+        {
+            var db = new UserOperationsContext();
+            var group = db.Groups.First(g => g.GroupId == groupId);
+            var usersRelated = GetRelatedUsers(dataId);
+            return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
         }
     }
 }

@@ -472,7 +472,9 @@
     <Compile Include="Logic\AdminActions.cs" />
     <Compile Include="Logic\EventActions.cs" />
     <Compile Include="Logic\ExportToCSV.cs" />
+    <Compile Include="Logic\GroupActions.cs" />
     <Compile Include="Logic\IActions.cs" />
+    <Compile Include="Logic\IFileActions.cs" />
     <Compile Include="Logic\MailHelper.cs" />
     <Compile Include="Logic\ProjectActions.cs" />
     <Compile Include="Logic\BODReportActions.cs" />

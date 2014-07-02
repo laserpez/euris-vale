@@ -13,11 +13,11 @@ namespace VALE.MyVale
 {
     public partial class Events : System.Web.UI.Page
     {
-        private string _currentUser;
+        private string _currentUserName;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUser = User.Identity.GetUserName();
+            _currentUserName = User.Identity.GetUserName();
             
             if (!IsPostBack)
             {
@@ -43,7 +43,7 @@ namespace VALE.MyVale
 
                 int eventId = (int)grdPlannedEvent.DataKeys[i].Value;
                 var eventActions = new EventActions();
-                if (eventActions.IsUserRelated(eventId, _currentUser))
+                if (eventActions.IsUserRelated(eventId, _currentUserName))
                 {
                     btnAttend.CssClass = "btn btn-success btn-xs";
                     btnAttend.Text = "Stai partecipando";
@@ -82,7 +82,7 @@ namespace VALE.MyVale
         public List<Event> GetAttendingEvents()
         {
             var dbData = new UserOperationsContext();
-            var events = dbData.UsersData.First(u => u.UserName == _currentUser).AttendingEvents;
+            var events = dbData.UsersData.First(u => u.UserName == _currentUserName).AttendingEvents;
             return events;
         }
 
@@ -98,21 +98,16 @@ namespace VALE.MyVale
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
             
             int eventId = (int)grdPlannedEvent.DataKeys[rowID].Value;
-            var db = new UserOperationsContext();
-            UserData user = db.UsersData.First(u => u.UserName == _currentUser);
-            Event thisEvent = db.Events.First(ev => ev.EventId == eventId);
             Button btnAttend = (Button)sender;
 
             var eventActions = new EventActions();
-            if(eventActions.AddOrRemoveUserData(thisEvent, user) == true)
+            if(eventActions.AddOrRemoveUserData(eventId, _currentUserName) == true)
             {
                     // MAIL
                     //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
                     //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
                     //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
             }
-            db.SaveChanges();
-
             FilterEvents();
             UpdateGridView();
         }
