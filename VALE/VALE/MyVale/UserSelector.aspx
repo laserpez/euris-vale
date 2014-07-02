@@ -43,21 +43,24 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <asp:TextBox ID="txtSearchByName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
-                                                    <asp:DropDownList ID="ddlFilterGrids" runat="server" CssClass="form-control input-sm">
-                                                        <asp:ListItem Text="Tutti" Value="all" Selected="True"></asp:ListItem>
-                                                        <asp:ListItem Text="Aggiunti" Value="related" Selected="False"></asp:ListItem>
-                                                        <asp:ListItem Text="Da aggiungere" Value="unrelated" Selected="False"></asp:ListItem>
-                                                    </asp:DropDownList>
+
                                                     <span class="input-group-btn">
                                                         <asp:Button CssClass="btn btn-info btn-sm" ID="btnSearchUsers" runat="server" Text="Cerca utente" OnClick="btnSearchUsers_Click" />
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-4">
+                                            <asp:DropDownList ID="ddlFilterGrids" runat="server" CssClass="form-control input-sm">
+                                                <asp:ListItem Text="Tutti" Value="all" Selected="True"></asp:ListItem>
+                                                <asp:ListItem Text="Aggiunti" Value="related" Selected="False"></asp:ListItem>
+                                                <asp:ListItem Text="Da aggiungere" Value="unrelated" Selected="False"></asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <asp:GridView AutoGenerateColumns="false" ID="UsersGridView" runat="server" ItemType="VALE.Models.UserData" AllowPaging="true" PageSize="10" AllowSorting="true" SelectMethod="UsersGridView_GetData" CssClass="table table-striped table-bordered">
+                                            <asp:GridView AutoGenerateColumns="false" ID="UsersGridView" runat="server" ItemType="VALE.Models.UserData" AllowPaging="false" PageSize="10" AllowSorting="false" SelectMethod="UsersGridView_GetData" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>

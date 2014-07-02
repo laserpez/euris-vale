@@ -67,15 +67,6 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.TextBox txtSearchByName;
         
         /// <summary>
-        /// ddlFilterGrids control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFilterGrids;
-        
-        /// <summary>
         /// btnSearchUsers control.
         /// </summary>
         /// <remarks>
@@ -83,6 +74,15 @@ namespace VALE.MyVale {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearchUsers;
+        
+        /// <summary>
+        /// ddlFilterGrids control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFilterGrids;
         
         /// <summary>
         /// UsersGridView control.
