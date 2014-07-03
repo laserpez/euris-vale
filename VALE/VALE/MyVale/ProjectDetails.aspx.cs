@@ -1,0 +1,359 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.ModelBinding;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using VALE.Models;
+using VALE.Logic;
+using AjaxControlToolkit;
+
+namespace VALE.MyVale
+{
+    public partial class ProjectDetails : System.Web.UI.Page
+    {
+        private int _currentProjectId;
+        private string _currentUserName;
+        private UserOperationsContext _db;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            _db = new UserOperationsContext();
+            _currentUserName = User.Identity.GetUserName();
+            
+            if (Request.QueryString.HasKeys())
+                _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+
+            FileUploader uploader = (FileUploader)ProjectDetail.FindControl("FileUploader");
+            uploader.DataActions = new ProjectActions();
+            uploader.DataId = _currentProjectId;
+
+            if (!IsPostBack)
+            {
+                DataBindControls();
+                ShowHideControls();
+                uploader.DataBind();
+            }
+        }
+
+        private void ShowHideControls()
+        {
+            var _db = new UserOperationsContext();
+            var aProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            if (aProject.Status == "Chiuso")
+            {
+                //var btnAddUsers = (Button)ProjectDetail.FindControl("btnAddUsers");
+                //btnAddUsers.Visible = false;
+
+                var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
+                btnAddEvent.Visible = false;
+
+                var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
+                btnAddActivity.Visible = false;
+            }
+
+            if ((aProject.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore")) && aProject.Status != "Chiuso")
+            {
+                ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
+            }
+        }
+
+        private void DataBindControls()
+        {
+            if (_currentProjectId != 0)
+            {
+                var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+
+                if (currentProject != null)
+                {
+                    var isPublic = currentProject.Public;
+                    var checkBox = (CheckBox)ProjectDetail.FindControl("checkboxPublic");
+                    if (checkBox != null)
+                    {
+                        if (isPublic == true)
+                            checkBox.Checked = true;
+                        else
+                            checkBox.Checked = false;
+                    }
+                    if (currentProject.Status == "Chiuso")
+                        checkBox.Enabled = false;
+                    else
+                        checkBox.Enabled = true;
+                }
+            }
+        }
+
+        public string GetStatus(Activity anActivity)
+        {
+            string status;
+            using (var activityActions = new ActivityActions())
+            {
+                status = activityActions.GetStatus(anActivity);
+            }
+            return status;
+        }
+
+        public Project GetProject([QueryString("projectId")] int? projectId)
+        {
+            if (projectId.HasValue)
+                return _db.Projects.Where(a => a.ProjectId == projectId).First();
+            else
+                return null;
+        }
+
+        public Project GetRelatedProject([QueryString("projectId")] int? projectId)
+        {
+            if (projectId.HasValue)
+                return _db.Projects.Where(a => a.ProjectId == projectId).Select(p => p.RelatedProject).FirstOrDefault();
+            else
+                return null;
+        }
+
+        public IQueryable<Event> GetRelatedEvents([QueryString("projectId")] int? projectId)
+        {
+            if (projectId.HasValue)
+                return _db.Projects.First(p => p.ProjectId == projectId).Events.AsQueryable();
+            else
+                return null;
+        }
+
+        public IQueryable<Activity> GetRelatedActivities([QueryString("projectId")] int? projectId)
+        {
+            if (projectId.HasValue)
+                return _db.Projects.First(p => p.ProjectId == projectId).Activities.AsQueryable();
+            else
+                return null;
+        }
+
+        public IQueryable<UserData> GetRelatedUsers([QueryString("projectId")] int? projectId)
+        {
+            if (projectId.HasValue)
+                return _db.Projects.Where(a => a.ProjectId == projectId).FirstOrDefault().InvolvedUsers.AsQueryable();
+            else
+                return null;
+        }
+
+        public IQueryable<Intervention> GetInterventions([QueryString("projectId")] int? projectId)
+        {
+
+            if (projectId.HasValue)
+                return _db.Interventions.Where(i => i.ProjectId == projectId);
+            else
+                return null;
+        }
+
+        protected void btnSuspendProject_Click(object sender, EventArgs e)
+        {
+            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
+            if (project.Status == "Sospeso")
+                label.Text = "RIPRENDI";
+            else
+                label.Text = "SOSPENDI";
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Show();
+        }
+
+        protected void btnCloseProject_Click(object sender, EventArgs e)
+        {
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
+            label.Text = "CHIUDI";
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Show();
+        }
+
+        protected void ProjectDetail_DataBound(object sender, EventArgs e)
+        {
+            if (_currentProjectId != 0)
+            {
+                var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
+                SetWorkOnProjectSection();
+                SetManageProjectSection();
+            }
+        }
+
+        private void SetWorkOnProjectSection()
+        {
+            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
+            var actions = new ProjectActions();
+
+            Button btnWork = (Button)ProjectDetail.FindControl("btnWorkOnThis");
+            Button btnAddIntervention = (Button)ProjectDetail.FindControl("btnAddIntervention");
+            
+            if (project.Status == "Aperto")
+            {
+                if (actions.IsUserRelated(_currentProjectId, _currentUserName))
+                {
+                    btnWork.Enabled = true;
+                    btnWork.CssClass = "btn btn-success";
+                    btnWork.Text = "Stai lavorando";
+                    btnAddIntervention.Enabled = true;
+                    btnAddIntervention.CssClass = "btn btn-info";
+                    btnAddIntervention.Text = "Aggiungi intervento";
+                }
+                else
+                {
+                    btnWork.Enabled = true;
+                    btnWork.CssClass = "btn btn-info";
+                    btnWork.Text = "Lavora al progetto";
+                    btnAddIntervention.Enabled = false;
+                    btnAddIntervention.CssClass = "btn btn-info disable";
+                    btnAddIntervention.Text = "Non puoi aggiungere interventi";
+                }
+            }
+            else
+            {
+                btnWork.Enabled = false;
+                btnWork.CssClass = "btn btn-info disable";
+                btnWork.Text = "Non puoi lavorare al progetto";
+                btnAddIntervention.Visible = false;
+            }
+        }
+
+        private void SetManageProjectSection()
+        {
+            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
+            Button btnSuspend = (Button)ProjectDetail.FindControl("btnSuspendProject");
+            Button btnClose = (Button)ProjectDetail.FindControl("btnCloseProject");
+            Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
+            if (project.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore"))
+            {
+                if (project.Status == "Aperto")
+                {
+                    btnSuspend.Text = "Sospendi progetto";
+                    btnSuspend.Enabled = true;
+                    btnSuspend.CssClass = "btn btn-warning";
+                    btnClose.Text = "Chiudi progetto";
+                    btnClose.Enabled = true;
+                    btnClose.CssClass = "btn btn-danger";
+                }
+                else if (project.Status == "Sospeso")
+                {
+                    btnSuspend.Text = "Riprendi progetto";
+                    btnSuspend.Enabled = true;
+                    btnSuspend.CssClass = "btn btn-warning";
+                    btnClose.Text = "Chiudi progetto";
+                    btnClose.Enabled = true;
+                    btnClose.CssClass = "btn btn-danger";
+                }
+                else
+                {
+                    btnSuspend.Text = "Il progetto è chiuso";
+                    btnSuspend.Enabled = false;
+                    btnSuspend.CssClass = "btn btn-warning disabled";
+                    btnClose.Text = "Il progetto è chiuso";
+                    btnClose.Enabled = false;
+                    btnClose.CssClass = "btn btn-danger disabled";
+                }
+            }
+            else
+            {
+                btnSuspend.Visible = false;
+                btnClose.Visible = false;
+                lblInfo.Text = "Solo il creatore può gestire lo stato del progetto";
+            }
+        }
+
+        protected void CloseButton_Click(object sender, EventArgs e)
+        {
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Hide();
+        }
+        protected void btnModifyProject_Click(object sender, EventArgs e)
+        {
+            
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var passTextbox = (TextBox)ProjectDetail.FindControl("Password");
+            var password = passTextbox.Text;
+            if (!string.IsNullOrEmpty(password))
+            {
+                ApplicationUser user = manager.Find(_currentUserName, password);
+                if (user != null)
+                {
+                    var db = new UserOperationsContext();
+                    var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
+
+                    switch (label.Text)
+                    {
+                        case "SOSPENDI":
+                            project.Status = "Sospeso";
+                            break;
+                        case "CHIUDI":
+                            project.Status = "Chiuso";
+                            break;
+                        case "RIPRENDI":
+                            project.Status = "Aperto";
+                            break;
+                    }
+                    db.SaveChanges();
+                    Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
+                }
+            }
+        }
+
+        protected void btnWorkOnThis_Click(object sender, EventArgs e)
+        {
+            GridView grdUsers = (GridView)ProjectDetail.FindControl("lstUsers");
+            var actions = new ProjectActions();
+            actions.AddOrRemoveUserData(_currentProjectId, _currentUserName);
+            grdUsers.DataBind();
+            SetWorkOnProjectSection();
+            
+        }
+
+        protected void btnAddIntervention_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/CreateIntervention?projectId=" + _currentProjectId);
+        }
+
+        protected void grdInterventions_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridView grid = (GridView)sender;
+            if (e.CommandName == "ViewIntervention")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                var grdInterventions = (GridView)ProjectDetail.FindControl("grdInterventions");
+                string interventionID = grdInterventions.DataKeys[index].Value.ToString();
+                Response.Redirect("/MyVale/InterventionDetails?interventionId=" + interventionID);
+            }
+        }
+
+        public bool ContainsDocuments(string path)
+        {
+            DirectoryInfo dir = new DirectoryInfo(Server.MapPath(path));
+            return dir.GetFiles().Count() > 0;
+        }
+
+        protected void btnAddActivity_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/Create/ActivityCreate?projectId=" + _currentProjectId);
+        }
+
+        protected void btnAddEvent_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/Create/EventCreate?projectId=" + _currentProjectId);
+        }
+
+        protected void checkboxPublic_CheckedChanged(object sender, EventArgs e)
+        {
+            var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            if (currentProject != null)
+            {
+                var checbox = (CheckBox)sender;
+                currentProject.Public = checbox.Checked;
+                _db.SaveChanges();
+            }
+
+        }
+
+        protected void addUsers_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentProjectId + "&dataType=project&returnUrl=/MyVale/ProjectDetails?projectId=" + _currentProjectId);
+        }
+    }
+}
