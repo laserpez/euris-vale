@@ -87,10 +87,8 @@ namespace VALE.MyVale
         public string GetStatus(Activity anActivity)
         {
             string status;
-            using (var activityActions = new ActivityActions())
-            {
+            var activityActions = new ActivityActions();
                 status = activityActions.GetStatus(anActivity);
-            }
             return status;
         }
 
