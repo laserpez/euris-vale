@@ -14,6 +14,13 @@ namespace VALE.MyVale.Create
         UserOperationsContext _db = new UserOperationsContext();
         protected void Page_Load(object sender, EventArgs e)
         {
+           
+            if (!IsPostBack) 
+            {
+                grdGroupUsersDataBind();
+                grdUsersDataBind();
+                Session["ManageGroupsMode"] = "Group";
+            }
             if (Request.QueryString["Mode"] != null) 
             {
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -31,8 +38,16 @@ namespace VALE.MyVale.Create
             }
         }
 
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+
+            if (lblAllowDragAndDrop.Text == "true")
+                ApplyDragAndDrop();
+        }
+
         private void ManageGroup(string action, string userName, int groupId)
         {
+            Response.Clear();
             using(var groupActions = new GroupActions())
             {
                 if (action == "Add") 
@@ -44,10 +59,23 @@ namespace VALE.MyVale.Create
                 {
                     groupActions.RemoveUserFromGroup(groupId, userName);
                 }
-                    
-                grdGroupUsers.DataBind();
-                grdUsers.DataBind();
+                grdGroupUsersDataBind();
+                grdUsersDataBind();
+                //Response.Write("True");
+                //Response.End();
             }
+        }
+
+        private void grdUsersDataBind() 
+        {
+            grdUsers.DataSource = grdUsers_GetData();
+            grdUsers.DataBind();
+        }
+
+        private void grdGroupUsersDataBind()
+        {
+            grdGroupUsers.DataSource = grdGroupUsers_GetData();
+            grdGroupUsers.DataBind();
         }
 
         protected void btnManageGroupLinkButton_Click(object sender, EventArgs e)
@@ -56,6 +84,7 @@ namespace VALE.MyVale.Create
             btnManageGroupButton.Visible = true;
             btnManageSetGroupsButton.Visible = false;
         }
+
         protected void btnManageSetGroupsLinkButton_Click(object sender, EventArgs e)
         {
             ManageSetGroupsLoadData();
@@ -91,41 +120,48 @@ namespace VALE.MyVale.Create
                 return "Utente";
         }
 
-        public IQueryable<VALE.Models.UserData> grdUsers_GetData()
+        public List<VALE.Models.UserData> grdUsers_GetData()
         {
-            if (lblGroupId.Value != "")
+            if (Session["ManageGroupsGroupId"] != null)
             {
                 var groupActions = new GroupActions();
-                var id = Convert.ToInt32(lblGroupId.Value);
+                var id = Convert.ToInt32(Session["ManageGroupsGroupId"].ToString());
                 var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
                 if (group != null)
-                    return _db.UsersData.ToList().Except(group.Users).AsQueryable();
+                {
+                    var list = _db.UsersData.ToList().Except(group.Users).ToList();
+                    return list;
+                }
+
             }
-            return _db.UsersData;
+            return _db.UsersData.ToList();
         }
 
-        public IQueryable<VALE.Models.UserData> grdGroupUsers_GetData()
+        public List<VALE.Models.UserData> grdGroupUsers_GetData()
         {
-            int id = 0;
-            if (int.TryParse(lblGroupId.Value, out id)) 
+            if (Session["ManageGroupsGroupId"] != null)
             {
+                var id = Convert.ToInt32(Session["ManageGroupsGroupId"].ToString());
                 var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
                 if (group != null)
-                    return group.Users.AsQueryable();
+                    return group.Users.ToList();
             }
             return null;
         }
 
         protected void btnGroupsListButton_Click(object sender, EventArgs e)
         {
+            btnAddSelectedUsersToGroupButton.CssClass = "btn btn-primary btn-xs disabled";
+            Session["ManageGroupsGroupId"] = null;
             lblGroupId.Value = "";
             grdGroupUsers.Visible = false;
             grdGroups.Visible = true;
             grdGroups.DataBind();
-            grdUsers.DataBind();
+            grdUsersDataBind();
             btnAddGroupButton.Visible = true;
             btnGroupsListButton.Visible = false;
             lblHeaderGroupPanel.Text = "Gruppi";
+            lblAllowDragAndDrop.Text = "false";
         }
 
         protected void btnOkForNewGroupButton_Click(object sender, EventArgs e)
@@ -140,6 +176,8 @@ namespace VALE.MyVale.Create
                 _db.Groups.Add(group);
                 _db.SaveChanges();
                 grdGroups.DataBind();
+                grdGroupUsers.Visible = false;
+                grdGroups.Visible = true;
             }
             else if (action == "Edit")
             {
@@ -151,6 +189,8 @@ namespace VALE.MyVale.Create
                     group.Description = DescriptionTextarea.InnerText;
                     _db.SaveChanges();
                     grdGroups.DataBind();
+                    grdGroupUsers.Visible = false;
+                    grdGroups.Visible = true;
                 }
             }
             else if (action == "Details")
@@ -193,15 +233,17 @@ namespace VALE.MyVale.Create
             var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
             if (group != null) 
             {
-                lblGroupId.Value = id + "";
+                btnAddSelectedUsersToGroupButton.CssClass = "btn btn-primary btn-xs";
+                Session["ManageGroupsGroupId"] = id.ToString();
+                lblGroupId.Value = id.ToString();
                 grdGroupUsers.Visible = true;
-                grdGroupUsers.DataBind();
-                grdUsers.DataBind();
+                grdGroupUsersDataBind();
+                grdUsersDataBind();
                 grdGroups.Visible = false;
                 btnAddGroupButton.Visible = false;
                 btnGroupsListButton.Visible = true;
                 lblHeaderGroupPanel.Text = group.GroupName;
-                ApplyDragAndDrop();
+                lblAllowDragAndDrop.Text = "true";
             }
             
         }
@@ -245,6 +287,8 @@ namespace VALE.MyVale.Create
             {
                 _db.Groups.Remove(group);
                 _db.SaveChanges();
+                grdGroupUsers.Visible = false;
+                grdGroups.Visible = true;
                 grdGroups.DataBind();
             }
         }
@@ -297,6 +341,27 @@ namespace VALE.MyVale.Create
             ModalPopup.Show();
         }
 
+        protected void btnAddSelectedUsersToGroupButton_Click(object sender, EventArgs e)
+        {
+            var groupId = Convert.ToInt16(lblGroupId.Value);
+            using (var groupActions = new GroupActions())
+            {
+                for (int i = 0; i < grdUsers.Rows.Count; i++)
+                {
+                    CheckBox chkBox = (CheckBox)grdUsers.Rows[i].Cells[0].FindControl("chkSelectUser");
+                    if (chkBox.Checked)
+                    {
+                        string userName = ((Label)grdUsers.Rows[i].Cells[1].FindControl("labelUserName")).Text;
+                        groupActions.AddUserToGroup(groupId, userName);
+                    }
+                }
+                grdUsersDataBind();
+                grdGroupUsersDataBind();
+                grdGroupUsers.Visible = true;
+                grdGroups.Visible = false;
+            }
+            
+        }
         
     }
 }

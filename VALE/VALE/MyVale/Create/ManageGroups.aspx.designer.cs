@@ -67,6 +67,15 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.WebControls.Label lblGroupAction;
         
         /// <summary>
+        /// lblAllowDragAndDrop control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAllowDragAndDrop;
+        
+        /// <summary>
         /// pnlManageGroupPanel control.
         /// </summary>
         /// <remarks>
@@ -83,6 +92,15 @@ namespace VALE.MyVale.Create {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdUsers;
+        
+        /// <summary>
+        /// btnAddSelectedUsersToGroupButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddSelectedUsersToGroupButton;
         
         /// <summary>
         /// lblGroupId control.
