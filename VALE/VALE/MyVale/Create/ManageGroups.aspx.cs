@@ -129,12 +129,12 @@ namespace VALE.MyVale.Create
                 var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
                 if (group != null)
                 {
-                    var list = _db.UsersData.ToList().Except(group.Users).ToList();
+                    var list = _db.UserDatas.ToList().Except(group.Users).ToList();
                     return list;
                 }
 
             }
-            return _db.UsersData.ToList();
+            return _db.UserDatas.ToList();
         }
 
         public List<VALE.Models.UserData> grdGroupUsers_GetData()
