@@ -30,10 +30,8 @@ namespace VALE.MyVale
         public string GetStatus(Activity anActivity)
         {
             string status;
-            using (var activityActions = new ActivityActions())
-            {
+            var activityActions = new ActivityActions();
                 status = activityActions.GetStatus(anActivity);
-            }
             return status;
         }
 
@@ -46,31 +44,26 @@ namespace VALE.MyVale
         {
             if (grdCurrentActivities.Rows.Count == 0 && grdPendingActivities.Rows.Count == 0)
             {
-                filterPanel.Visible = false;
-                btnShowFilters.Visible = false;
-                ExternalPanelDefault.Visible = false;
-                InternalPanelHeading.Visible = false;
-                btnExportCSV.Visible = false;
+                //filterPanel.Visible = false;
+                //ExternalPanelDefault.Visible = false;
+                //InternalPanelHeading.Visible = false;
+                //btnExportCSV.Visible = false;
             }
         }
 
         public IQueryable<Activity> GetCurrentActivities([Control]string txtName, [Control]string txtDescription, [Control]string ddlStatus)
         {
             IQueryable<Activity> activities;
-            using (var activityActions = new ActivityActions())
-            {
+            var activityActions = new ActivityActions();
                 activities = activityActions.GetCurrentActivities(txtName,txtDescription,ddlStatus,_currentUserName);
-            }
             return activities;
         }
 
         public IQueryable<Activity> GetPendingActivities()
         {
             IQueryable<Activity> activities;
-            using(var activityActions = new ActivityActions())
-            {
+            var activityActions = new ActivityActions();
                 activities = activityActions.GetPendingActivities(_currentUserName);
-            }
             return activities;
             //var db = new UserOperationsContext();
             //var activities = db.UsersData.First(u => u.UserName == _currentUserName).PendingActivity.AsQueryable();
@@ -98,7 +91,7 @@ namespace VALE.MyVale
             int activityId = Convert.ToInt32(grdPendingActivities.DataKeys[index].Value);
             var db = new UserOperationsContext();
             var activity = db.Activities.First(a => a.ActivityId == activityId);
-            var user = db.UsersData.First(u => u.UserName == _currentUserName);
+            var user = db.UserDatas.First(u => u.UserName == _currentUserName);
             if (e.CommandName == "AcceptActivity")
             {
                 db.Reports.Add(new ActivityReport 
@@ -107,7 +100,7 @@ namespace VALE.MyVale
                     WorkerUserName = _currentUserName, 
                     HoursWorked = 0,
                     Date = DateTime.Today, 
-                    ActivityDescription = "Attività accettata da un altro utente."
+                    ActivityDescription = "Attività ricevuta da un altro utente."
                 });
             }
             user.PendingActivity.Remove(activity);

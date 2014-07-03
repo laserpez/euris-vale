@@ -83,7 +83,7 @@
                                                             <center><div><asp:Label runat="server" ID="labelDetail"><span  class="glyphicon glyphicon-open"></span> Azione</asp:Label></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Button ID="btnAddUsers" Width="90" CssClass='<%#: IsUserRelated(Item.UserName) ? "btn btn-danger btn-xs" : "btn btn-success btn-xs" %>' Text= '<%#: IsUserRelated(Item.UserName) ? "Rimuovi" : "Aggiungi" %>' runat="server" OnClick="btnAddOrRemoveUsers_Click" CommandName="<%# Item.UserName %>" /></div></center>
+                                                            <center><div><asp:Button ID="btnAddUsers" Width="90" Enabled='<%# this.CanRemove || (!this.CanRemove && !IsUserRelated(Eval("UserName").ToString())) %>' CssClass='<%#: IsUserRelated(Item.UserName) ? "btn btn-danger btn-xs" : "btn btn-success btn-xs" %>' Text= '<%#: IsUserRelated(Item.UserName) ? "Rimuovi" : "Aggiungi" %>' runat="server" OnClick="btnAddOrRemoveUsers_Click" CommandName="<%# Item.UserName %>" /></div></center>
                                                         </ItemTemplate>
                                                         <HeaderStyle Width="90px" />
                                                         <ItemStyle Width="90px" />

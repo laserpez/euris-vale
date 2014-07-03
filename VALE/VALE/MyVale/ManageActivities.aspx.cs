@@ -150,10 +150,8 @@ namespace VALE
         {
             Response.Clear();
             ActivityStatus status = (ActivityStatus)Convert.ToInt16(statusNumber);
-            using (var activityActions = new ActivityActions())
-            {
+            var activityActions = new ActivityActions();
                 activityActions.SetActivityStatus(id, status);
-            }
             //BindAllGrids();
             Response.Write("True");
             Response.End();
@@ -200,34 +198,26 @@ namespace VALE
 
         public List<Activity> ToBePlannedGridViewGetData()
         {
-            using (ActivityActions activityActions = new ActivityActions())
-            {
+            ActivityActions activityActions = new ActivityActions();
                 return ApplyFilters(activityActions.GetActivities(HttpContext.Current.User.Identity.Name, ActivityStatus.ToBePlanned));
-            }
         }
 
         public List<Activity> OngoingGridViewGetData()
         {
-            using (ActivityActions activityActions = new ActivityActions())
-            {
+            ActivityActions activityActions = new ActivityActions();
                 return ApplyFilters(activityActions.GetActivities(HttpContext.Current.User.Identity.Name, ActivityStatus.Ongoing));
-            }
         }
 
         public List<Activity> DoneGridViewGetData()
         {
-            using (ActivityActions activityActions = new ActivityActions())
-            {
+            ActivityActions activityActions = new ActivityActions();
                 return ApplyFilters(activityActions.GetActivities(HttpContext.Current.User.Identity.Name, ActivityStatus.Done));
-            }
         }
 
         public List<Activity> SuspendedGridViewGetData()
         {
-            using (ActivityActions activityActions = new ActivityActions())
-            {
-                return ApplyFilters(activityActions.GetActivities(HttpContext.Current.User.Identity.Name, ActivityStatus.Suspended));
-            }
+            ActivityActions activityActions = new ActivityActions();
+            return ApplyFilters(activityActions.GetActivities(HttpContext.Current.User.Identity.Name, ActivityStatus.Suspended));
         }
 
         protected void LinkButtonAllActivities_Click(object sender, EventArgs e)
@@ -324,7 +314,7 @@ namespace VALE
         {
             var db = new UserOperationsContext();
             var userName = User.Identity.Name;
-            var projects = db.UsersData.First(u => u.UserName == userName).AttendingProjects;
+            var projects = db.UserDatas.First(u => u.UserName == userName).AttendingProjects;
             projects.Insert(0, new Project { ProjectName = "-- Seleziona progetto --", ProjectId = 0});
             return projects;
         }

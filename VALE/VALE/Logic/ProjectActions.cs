@@ -130,7 +130,7 @@ namespace VALE.Logic
         {
             var db = new UserOperationsContext();
             var aProject = db.Projects.First(p => p.ProjectId == dataId);
-            var user = db.UsersData.FirstOrDefault(u => u.UserName == username);
+            var user = db.UserDatas.FirstOrDefault(u => u.UserName == username);
             bool added = false;
             if (!IsUserRelated(aProject.ProjectId, username))
             {

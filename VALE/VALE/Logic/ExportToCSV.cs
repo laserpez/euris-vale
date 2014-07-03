@@ -14,8 +14,7 @@ namespace VALE.Logic
             StringBuilder strbldr = new StringBuilder();
             List<Activity> activities;
 
-            using (var activityActions = new ActivityActions())
-            {
+            var activityActions = new ActivityActions();
                 //separting header columns text with comma operator
                 strbldr.Append("Utente;Id;Nome Attività;Data Inizio;Data Fine;Ore Di Lavoro;Stato");
                 //appending new line for gridview header row
@@ -38,7 +37,6 @@ namespace VALE.Logic
                         strbldr.Append("\n");
                     }
                 }
-            }
            
             return strbldr;
         }

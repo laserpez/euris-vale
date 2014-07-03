@@ -27,6 +27,7 @@
                         </div>
                         <div class="panel-body" style="overflow: auto;">
                             <div class="col-md-12 form-group">
+                                <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Nome progetto *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox runat="server" ID="txtName" CssClass="form-control" />
