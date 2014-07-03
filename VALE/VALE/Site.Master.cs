@@ -136,14 +136,12 @@ namespace VALE
                 NotificationArticlesRequest.Visible = false;
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                using (ActivityActions activityActions = new ActivityActions())
-                {
+                ActivityActions activityActions = new ActivityActions();
                     int activitiesRequestNotifications = activityActions.GetActivitiesRequest(HttpContext.Current.User.Identity.Name);
                     if (activitiesRequestNotifications > 0)
                         NotificationActivitiesRequest.InnerText = activitiesRequestNotifications.ToString();
                     else
                         NotificationActivitiesRequest.Visible = false;
-                }
             }
         }
     }

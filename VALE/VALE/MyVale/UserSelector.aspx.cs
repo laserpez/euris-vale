@@ -16,6 +16,12 @@ namespace VALE.MyVale
         private string _dataType;
         private string _returnUrl;
         private IActions _dataActions;
+        private bool _canRemove = true;
+
+        public bool CanRemove
+        {
+            get { return _canRemove; }
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,11 +29,16 @@ namespace VALE.MyVale
             _dataType = Request.QueryString["dataType"];
             _returnUrl = Request.QueryString["returnUrl"];
 
+            if (!String.IsNullOrEmpty(Request.QueryString["canRemove"]))
+                _canRemove = Convert.ToBoolean(Request.QueryString["canRemove"]);
+
             //Inizializza IActions
             if (_dataType == "project")
                 _dataActions = new ProjectActions();
-            else
+            else if (_dataType == "event")
                 _dataActions = new EventActions();
+            else
+                _dataActions = new ActivityActions();
 
             if (!IsPostBack)
                 SetGridViewsVisibility("Users");

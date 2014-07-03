@@ -23,14 +23,7 @@ namespace VALE.Test
         [TearDown]
         public void TearDown()
         {
-           //.VerifyAllExpectations();
-        }
-
-        [Test]
-        public void should_return_anActivity_null()
-        {
-            Activity anActivity = new Activity();
-            Assert.IsNull(activityActions.GetStatus(anActivity));
+          
         }
 
         [Test]

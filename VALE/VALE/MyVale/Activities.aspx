@@ -42,15 +42,16 @@
                                             <br />
                                             <br />
                                             <br />
-                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-xs" />
-                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
+                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-sm" />
+                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-sm" />
                                         </div>
                                     </asp:Panel>
                                     <h3>Attività in corso</h3>
                                     <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" DataKeyNames="ActivityId" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
-                                        ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="Nessuna attività in corso." CssClass="table table-striped table-bordered">
+                                        ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="Nessuna attività in corso." 
+                                        CssClass="table table-striped table-bordered" AllowPaging="true" PageSize="10">
                                         <Columns>
-
+                                            
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
                                                     <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>

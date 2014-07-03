@@ -25,23 +25,32 @@ namespace VALE.MyVale
         {
             var dbData = new UserOperationsContext();
 
-            var project = new Project
+            var RelatedProjectSelected = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
+            if (SelectProject.ProjectNameTextBox.Text != "" && RelatedProjectSelected == null)
             {
-                CreationDate = Convert.ToDateTime(txtStartDate.Text),
-                OrganizerUserName = _currentUser,
-                Description = txtDescription.Text,
-                ProjectName = txtName.Text,
-                LastModified = Convert.ToDateTime(txtStartDate.Text),
-                Status = "Aperto",
-                Public = chkPublic.Checked,
-                Activities = new List<Activity>(),
-                Events = new List<Event>(),
-                InvolvedUsers = new List<UserData>(),
-                RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text),
-            };
-            dbData.Projects.Add(project);
-            dbData.SaveChanges();
-            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + project.ProjectId + "&dataType=project&returnUrl=/MyVale/Projects");
+                ModelState.AddModelError("", "Nome Progetto errato");
+            }
+            else
+            {
+
+                var project = new Project
+                {
+                    CreationDate = Convert.ToDateTime(txtStartDate.Text),
+                    OrganizerUserName = _currentUser,
+                    Description = txtDescription.Text,
+                    ProjectName = txtName.Text,
+                    LastModified = Convert.ToDateTime(txtStartDate.Text),
+                    Status = "Aperto",
+                    Public = chkPublic.Checked,
+                    Activities = new List<Activity>(),
+                    Events = new List<Event>(),
+                    InvolvedUsers = new List<UserData>(),
+                    RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text),
+                };
+                dbData.Projects.Add(project);
+                dbData.SaveChanges();
+                Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + project.ProjectId + "&dataType=project&returnUrl=/MyVale/Projects");
+            }
         }
     }
 }
