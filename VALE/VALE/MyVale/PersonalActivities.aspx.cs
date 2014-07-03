@@ -57,10 +57,8 @@ namespace VALE.MyVale
             //var db = new UserOperationsContext();
             //var activityIds = db.Reports.Where(r => r.WorkerUserName == _currentUser).GroupBy(r => r.ActivityId).Select(o => o.Key);
             //return db.Activities.Where(a => activityIds.Contains(a.ActivityId)).ToList();
-            using (var actions = new ActivityActions())
-            {
+            var actions = new ActivityActions();
                 return actions.GetActivities(_currentUser);
-            }
         }
 
         protected void bnViewReports_Click(object sender, EventArgs e)
@@ -103,10 +101,8 @@ namespace VALE.MyVale
             else
                 GridViewSortDirection = SortDirection.Ascending;
 
-            using (var actions = new ActivityActions())
-            {
+            var actions = new ActivityActions();
                 grdActivityReport.DataSource = actions.Sort(GridViewSortDirection, (List<ActivityReport>)ViewState["lstActivities"], e.SortExpression);
-            }
             grdActivityReport.DataBind();
         }
     }

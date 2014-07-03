@@ -25,8 +25,8 @@ namespace VALE.MyVale
         private void ShowHideControls()
         {
             var db = new UserOperationsContext();
-            var organizedPrj = db.UsersData.Where(u => u.UserName == _currentUser).First().OrganizedProjects;
-            var attendingPrj = db.UsersData.Where(u => u.UserName == _currentUser).First().AttendingProjects;
+            var organizedPrj = db.UserDatas.Where(u => u.UserName == _currentUser).First().OrganizedProjects;
+            var attendingPrj = db.UserDatas.Where(u => u.UserName == _currentUser).First().AttendingProjects;
 
             if (organizedPrj.Count() != 0 || attendingPrj.Count() != 0)
             {
@@ -66,13 +66,13 @@ namespace VALE.MyVale
         public IQueryable<Project> GetOrganizedProjects()
         {
             var db = new UserOperationsContext();
-            return db.UsersData.Where(u => u.UserName == _currentUser).First().OrganizedProjects.AsQueryable();
+            return db.UserDatas.Where(u => u.UserName == _currentUser).First().OrganizedProjects.AsQueryable();
         }
 
         public IQueryable<Project> GetAttendingProjects()
         {
             var db = new UserOperationsContext();
-            return db.UsersData.Where(u => u.UserName == _currentUser).First().AttendingProjects.AsQueryable();
+            return db.UserDatas.Where(u => u.UserName == _currentUser).First().AttendingProjects.AsQueryable();
         }
 
         protected void grid_RowCommand(object sender, GridViewCommandEventArgs e)

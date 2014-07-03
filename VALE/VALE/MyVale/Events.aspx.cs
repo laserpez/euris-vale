@@ -18,80 +18,20 @@ namespace VALE.MyVale
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserName = User.Identity.GetUserName();
-            
-            if (!IsPostBack)
-            {
-                //txtFromDate.Text = DateTime.Today.ToShortDateString();
-                //txtToDate.Text = DateTime.Today.AddDays(7).ToShortDateString();
-
-                //var dbData = new UserOperationsContext();
-                //ViewState["lstEvent"] = dbData.Events.ToList();
-
-                //FilterEvents();
-                //UpdateGridView();
-
-                GetAllEvents();
-                ChangeCalendars();
-            }
-        }
-
-        private void UpdateGridView()
-        {
-            grdPlannedEvent.DataSource = ViewState["lstEvent"];
-            grdPlannedEvent.DataBind();
-
-            for (int i = 0; i < grdPlannedEvent.Rows.Count; i++)
-            {
-                Button btnAttend = (Button)grdPlannedEvent.Rows[i].FindControl("btnAttendEvent");
-
-                int eventId = (int)grdPlannedEvent.DataKeys[i].Value;
-                var eventActions = new EventActions();
-                if (eventActions.IsUserRelated(eventId, _currentUserName))
-                {
-                    btnAttend.CssClass = "btn btn-success btn-xs";
-                    btnAttend.Text = "Stai partecipando";
-                }
-                else
-                {
-                    btnAttend.CssClass = "btn btn-info btn-xs";
-                    btnAttend.Text = "Partecipa";
-                }
-            }
-        }
-
-        public void FilterEvents()
-        {
-            var events = (List<Event>)ViewState["lstEvent"];
-
-            var eventActions = new EventActions();
-                var filters = new Dictionary<string, string>();
-                filters.Add("fromDate", txtFromDate.Text);
-                filters.Add("toDate", txtToDate.Text);
-
-                ViewState["lstEvent"] = eventActions.GetFilteredData(filters, events);
-        }
-
-        protected void btnShowEvents_Click(object sender, EventArgs e)
-        {
-            var dbData = new UserOperationsContext();
-            ViewState["lstEvent"] = dbData.Events.ToList();
-            FilterEvents();
-            UpdateGridView();
-
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            string id = grdPlannedEvent.DataKeys[rowID].Value.ToString(); 
+            string id = grdEvents.DataKeys[rowID].Value.ToString(); 
             Response.Redirect("/MyVale/EventDetails?eventId=" + id);
         }
 
         protected void btnAttendEvent_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            
-            int eventId = (int)grdPlannedEvent.DataKeys[rowID].Value;
+
+            int eventId = (int)grdEvents.DataKeys[rowID].Value;
             Button btnAttend = (Button)sender;
 
             var eventActions = new EventActions();
@@ -102,33 +42,45 @@ namespace VALE.MyVale
                     //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
                     //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
             }
-            FilterEvents();
-            UpdateGridView();
+            grdEvents.DataBind();
         }
 
         protected void txtFromDate_TextChanged(object sender, EventArgs e)
         {
-            //if (!string.IsNullOrEmpty(txtFromDate.Text))
-            //{
-            //    calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text); //.AddDays(7);
-            //    //txtToDate.Text = calendarTo.StartDate.Value.ToShortDateString();
-            //}
-            ChangeCalendars();
+            SetCalendarDateTo();
+        }
+
+        private void SetCalendarDateTo()
+        {
+            
+            DateTime valueFrom = DateTime.MinValue;
+            bool successFrom = DateTime.TryParse(txtFromDate.Text, out valueFrom);
+            if (successFrom)
+            {
+                calendarTo.StartDate = valueFrom;
+                DateTime valueTo = DateTime.MaxValue;
+                bool successTo = DateTime.TryParse(txtToDate.Text, out valueTo);
+                if (successTo)
+                {
+                    if (valueFrom > valueTo)
+                        txtToDate.Text = "";
+                }
+                else
+                    txtToDate.Text = "";
+            }
+            else
+                calendarTo.StartDate = DateTime.MinValue;
         }
 
         private void ChangeCalendars()
         {
-            txtToDateLabel.Text = "";
-
             if (txtFromDate.Text != "" && CheckDate())
             {
-                txtToDate.Enabled = true;
                 calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text);
             }
             if (txtFromDate.Text == "")
             {
                 txtToDate.Text = "";
-                txtToDate.Enabled = false;
             }
         }
 
@@ -142,54 +94,60 @@ namespace VALE.MyVale
                 {
                     txtToDate.Text = "";
                     calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text);
-                    txtToDateLabel.Text = "La data di fine deve essere maggiore o uguale della data d'inizio.";
                     return false;
                 }
             }
             return true;
         }
 
-        protected void grdPlannedEvent_Sorting(object sender, GridViewSortEventArgs e)
+        protected void btnShowFilters_Click(object sender, EventArgs e)
         {
-            string sortExpression = e.SortExpression;
-
-            if (GridViewSortDirection == SortDirection.Ascending)
-                GridViewSortDirection = SortDirection.Descending;
-            else
-                GridViewSortDirection = SortDirection.Ascending;
-
-            var eventActions = new EventActions();
-            var events = (List<Event>)ViewState["lstEvent"];
-            ViewState["lstEvent"] = eventActions.GetSortedData(sortExpression, GridViewSortDirection, events);
-            UpdateGridView();
+            filterPanel.Visible = !filterPanel.Visible;
         }
 
-        public SortDirection GridViewSortDirection
+        protected void btnFilterEvents_Click(object sender, EventArgs e)
         {
-            get
-            {
-                if (ViewState["sortDirection"] == null)
-                    ViewState["sortDirection"] = SortDirection.Ascending;
-
-                return (SortDirection)ViewState["sortDirection"];
-            }
-            set { ViewState["sortDirection"] = value; }
+            grdEvents.DataBind();
         }
 
-        protected void btnShowAllEvents_Click(object sender, EventArgs e)
+        protected void btnClearFilters_Click(object sender, EventArgs e)
         {
-            GetAllEvents();
-
             txtFromDate.Text = "";
             txtToDate.Text = "";
-            txtToDateLabel.Text = "";
+            grdEvents.DataBind();
         }
 
-        private void GetAllEvents()
+        public IQueryable<Event> grdEvents_GetData()
         {
-            var dbData = new UserOperationsContext();
-            ViewState["lstEvent"] = dbData.Events.ToList();
-            UpdateGridView();
+            return GetFilteredData();
+        }
+
+        private IQueryable<Event> GetFilteredData()
+        {
+            var eventActions = new EventActions();
+            var fromDateTxt = "";
+            if(!string.IsNullOrEmpty(txtFromDate.Text))
+                fromDateTxt = txtFromDate.Text;
+            else
+                fromDateTxt = DateTime.MinValue.ToShortDateString();
+            var toDateTxt = "";
+            if(!string.IsNullOrEmpty(txtToDate.Text))
+                toDateTxt = txtToDate.Text;
+            else
+                toDateTxt = DateTime.MaxValue.ToShortDateString();
+            var filters = new Dictionary<string, string>();
+            filters.Add("fromDate", fromDateTxt);
+            filters.Add("toDate", toDateTxt);
+            var db = new UserOperationsContext();
+            var events = db.Events.ToList();
+            return eventActions.GetFilteredData(filters, events).AsQueryable();
+        }
+
+
+        public bool IsUserRelated(int eventId)
+        {
+            var eventActions = new EventActions();
+            return eventActions.IsUserRelated(eventId, _currentUserName);
         }
     }
 }

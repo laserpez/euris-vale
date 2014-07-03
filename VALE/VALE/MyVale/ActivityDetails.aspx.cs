@@ -30,12 +30,8 @@ namespace VALE.MyVale
 
         public string GetStatus(Activity anActivity)
         {
-            string status;
-            using(var activityActions = new ActivityActions())
-            {
-                status = activityActions.GetStatus(anActivity);
-            }
-            return status;
+            var activityActions = new ActivityActions();
+            return activityActions.GetStatus(anActivity);
         }
 
         private LinkButton FindButton(string name)
@@ -71,10 +67,8 @@ namespace VALE.MyVale
         public string GetHoursWorked()
         {
             int hours;
-            using (var activityActions = new ActivityActions())
-            {
+            var activityActions = new ActivityActions();
                 hours = activityActions.GetHoursWorked(_currentUser, _currentActivityId);
-            }
             return String.Format("Ore lavorate su quest'attività: {0}", hours);
         }
 
@@ -84,44 +78,9 @@ namespace VALE.MyVale
             return project;
         }
 
-        protected void btnSearchUser_Click(object sender, EventArgs e)
+        protected void btnInviteUser_Click(object sender, EventArgs e)
         {
-            var btnAddUser = (Button)sender;
-            var dbData = new UserOperationsContext();
-
-            var userControl = (SelectUser)ActivityDetail.FindControl("SelectUser");
-            var users = dbData.UsersData.Where(u => userControl.SelectedUsers.Contains(u.UserName)).ToList();
-
-            foreach (var user in users)
-            {
-                if (user != null)
-                {
-                    Activity activity = dbData.Activities.Where(a => a.ActivityId == _currentActivityId).First();
-
-                    if (user.PendingActivity.Contains(activity) == true)
-                    {
-                        Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
-                        statusLabel.Text = "L'attività è già stata invitata all'utente: " + user.UserName;
-                        btnAddUser.CssClass = "btn btn-warning btn-xs";
-                    }
-                    else
-                    {
-                        MailHelper.SendMail(user.Email, "Sei stato invitato all'attività " + activity.ActivityName, "Invio attività");
-                        user.PendingActivity.Add(activity);
-
-                        dbData.SaveChanges();
-                        Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
-                        statusLabel.Text = "Richiesta inviata agli utenti invitati.";
-                        btnAddUser.CssClass = "btn btn-success btn-xs";
-                    }
-                }
-                else
-                {
-                    Label statusLabel = (Label)ActivityDetail.FindControl("lblResultSearchUser");
-                    statusLabel.Text = "L'utente non esiste.";
-                    btnAddUser.CssClass = "btn btn-warning btn-xs";
-                }
-            }
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentActivityId + "&dataType=activity&canRemove=false&returnUrl=/MyVale/ActivityDetails?activityId=" + _currentActivityId);
         }
 
         protected void btnAddReport_Click(object sender, EventArgs e)

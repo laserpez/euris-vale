@@ -74,7 +74,7 @@ namespace VALE.MyVale
             {
                 ModelState.AddModelError("", "Nome Progetto errato");
             }
-            else 
+            else
             {
                 DateTime? expireDate = null;
                 if (!String.IsNullOrEmpty(txtEndDate.Text))
@@ -129,12 +129,17 @@ namespace VALE.MyVale
                 });
                 db.SaveChanges();
 
+                string returnUrl = "";
+
                 if (Session["callingProjectId"] != null)
-                    Response.Redirect("/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString());
+                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
                 else if (Session["requestFrom"] != null)
-                    Response.Redirect(Session["requestFrom"].ToString());
+                    returnUrl = Session["requestFrom"].ToString();
                 else
-                    Response.Redirect("/MyVale/Activities");
+                    returnUrl = "/MyVale/Activities";
+
+
+                Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newActivity.ActivityId + "&dataType=activity&returnUrl=" + returnUrl);
             }
         }
 

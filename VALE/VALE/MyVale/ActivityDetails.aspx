@@ -67,6 +67,9 @@
                                                     <asp:Label runat="server">Nessun collaboratore</asp:Label>
                                         </EmptyDataTemplate>
                                     </asp:GridView>
+
+                                    <asp:Button runat="server" Text="Invita collaboratori" ID="btnInviteUser" CssClass="btn btn-info btn-xs" CausesValidation="false" OnClick="btnInviteUser_Click" />
+
                                     <h4>Lavoro svolto per l'attività</h4>
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
@@ -84,26 +87,6 @@
 
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-                                    <div class="col-md-12">
-                                        <br />
-                                    </div>
-
-                                    <h4>Invia l'attività ad un altro utente</h4>
-                                    <div class="col-md-12">
-                                        <asp:UpdatePanel runat="server" ID="SearchUserPanel">
-                                            <ContentTemplate>
-                                                <asp:Label runat="server" CssClass="col-md-12 control-label"></asp:Label>
-                                                <ux:SelectUser runat="server" ID="SelectUser" />
-                                                <div class="col-md-2"></div>
-                                                <div class="col-md-10">
-                                                    <asp:Button runat="server" Text="Invita utenti" ID="btnSearchUser" CssClass="btn btn-info btn-xs" CausesValidation="false" OnClick="btnSearchUser_Click" />
-                                                    <asp:Label runat="server" ID="lblResultSearchUser" CssClass="control-label"></asp:Label>
-                                                </div>
-                                            </ContentTemplate>
-                                        </asp:UpdatePanel>
-                                    </div>
-                                    <br />
-                                    <br />
                                     <div class="col-md-12">
                                         <br />
                                     </div>
