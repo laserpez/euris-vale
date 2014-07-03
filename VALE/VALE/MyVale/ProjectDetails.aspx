@@ -211,7 +211,7 @@
                                                     </asp:TemplateField>
                                                 </Columns>
                                                 <EmptyDataTemplate>
-                                                    <asp:Label runat="server">Nessuna ttività correlata.</asp:Label>
+                                                    <asp:Label runat="server">Nessuna attività correlata.</asp:Label>
                                                 </EmptyDataTemplate>
                                             </asp:GridView>
 
