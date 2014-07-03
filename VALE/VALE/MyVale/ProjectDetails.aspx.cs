@@ -46,6 +46,9 @@ namespace VALE.MyVale
             var aProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
             if (aProject.Status == "Chiuso")
             {
+                //var btnAddUsers = (Button)ProjectDetail.FindControl("btnAddUsers");
+                //btnAddUsers.Visible = false;
+
                 var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
                 btnAddEvent.Visible = false;
 
@@ -53,7 +56,7 @@ namespace VALE.MyVale
                 btnAddActivity.Visible = false;
             }
 
-            if(aProject.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore"))
+            if ((aProject.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore")) && aProject.Status != "Chiuso")
             {
                 ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
             }

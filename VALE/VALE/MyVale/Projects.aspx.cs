@@ -159,6 +159,11 @@ namespace VALE.MyVale
             {
                 Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
                 int projectId = (int)OpenedProjectList.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                if (db.Projects.Where(p => p.ProjectId == projectId).Select(pr => pr.Status).FirstOrDefault() == "Chiuso")
+                    btnAttend.Enabled = false;
+
                 if (actions.IsUserRelated(projectId, _currentUserName))
                 {
                     btnAttend.CssClass = "btn btn-success btn-xs";
