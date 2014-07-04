@@ -63,15 +63,15 @@ namespace VALE.Logic
             }
         }
 
-        public bool SaveData<T>(T data)
+        public bool SaveData<T>(T data, UserOperationsContext db)
         {
             try
             {
-                var db = new UserOperationsContext();
                 var newEvent = data as Event;
+                
                 db.Events.Add(newEvent);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = newEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato", DataType = "Evento", Date = DateTime.Now, Description = "" });
+                logger.Write(new LogEntry() { DataId = newEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato", DataType = "Evento", Date = DateTime.Now, Description = newEvent.Name });
                 return true;
             }
             catch (Exception)

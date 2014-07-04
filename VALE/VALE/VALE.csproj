@@ -215,6 +215,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\logoVALE.png" />
+    <Content Include="Account\MenageProfile.aspx" />
+    <Content Include="Images\User.jpg" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
     <Content Include="MyVale\BOD\BODReports.aspx" />
@@ -260,8 +262,10 @@
     <Content Include="DownloadFile.ashx" />
     <Content Include="MyVale\ManageActivities.aspx" />
     <Content Include="PopUpPassword.aspx" />
+    <Content Include="ImageHandler.ashx" />
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="Account\Profile.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
@@ -463,6 +467,9 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ImageHandler.ashx.cs">
+      <DependentUpon>ImageHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="DownloadFile.ashx.cs">
       <DependentUpon>DownloadFile.ashx</DependentUpon>
     </Compile>
@@ -486,6 +493,13 @@
     <Compile Include="Logic\BODReportActions.cs" />
     <Compile Include="Logic\RoleActions.cs" />
     <Compile Include="Logic\UserActions.cs" />
+    <Compile Include="Account\MenageProfile.aspx.cs">
+      <DependentUpon>MenageProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\MenageProfile.aspx.designer.cs">
+      <DependentUpon>MenageProfile.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\ActivityReport.cs" />
     <Compile Include="Models\AttachedFile.cs" />
@@ -703,6 +717,13 @@
     </Compile>
     <Compile Include="PopUpPassword.aspx.designer.cs">
       <DependentUpon>PopUpPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MyVale\ManageActivities.aspx.cs">

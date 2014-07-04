@@ -54,7 +54,7 @@ namespace VALE.MyVale
             };
             var eventActions = new EventActions();
             
-            eventActions.SaveData(newEvent);
+            eventActions.SaveData(newEvent, db);
             
             var redirectURL = "";
             if (Session["callingProjectId"] != null)

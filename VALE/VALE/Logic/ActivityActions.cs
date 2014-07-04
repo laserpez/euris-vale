@@ -11,6 +11,13 @@ namespace VALE.Logic
 {
     public class ActivityActions : IActions
     {
+        public ILogger logger { get; set; }
+
+        public ActivityActions()
+        {
+            logger = LogFactory.GetCurrentLogger();
+        }
+
         public List<Activity> GetActivities(string userName, ActivityStatus status)
         {
             var db = new UserOperationsContext();
@@ -38,6 +45,7 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             db.Activities.First(a => a.ActivityId == id).Status = status;
             db.SaveChanges();
+            logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato", DataType = "Attività", Date = DateTime.Now, Description = status.ToString() });
         }
 
         public int GetActivitiesRequest(string userName)
@@ -62,16 +70,6 @@ namespace VALE.Logic
                 return "Cancellata";
 
             return null;
-        }
-
-        public void ChangeStatusClick(string statusString, int currentActivityId)
-        {
-            var db = new UserOperationsContext();
-            var activity = db.Activities.First(a => a.ActivityId == currentActivityId);
-            ActivityStatus newStatus;
-            Enum.TryParse(statusString, out newStatus);
-            activity.Status = newStatus;
-            db.SaveChanges();
         }
 
         internal IQueryable<Activity> GetCurrentActivities(string txtName, string txtDescription, string ddlStatus, string currentUserName)
@@ -140,6 +138,7 @@ namespace VALE.Logic
                 added = false;
             }
             db.SaveChanges();
+            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added?"Aggiunto utente":"Rimosso utente", DataType = "Attività", Date = DateTime.Now, Description = username });
             return added;
         }
 
@@ -190,6 +189,23 @@ namespace VALE.Logic
                     result.Add(group);
             }
             return result.AsQueryable();
+        }
+
+
+        public bool SaveData<T>(T data, UserOperationsContext db)
+        {
+            try
+            {
+                var newActivity = data as Activity;
+                db.Activities.Add(newActivity);
+                db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Now, Description = newActivity.ActivityName });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
 
