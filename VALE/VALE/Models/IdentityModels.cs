@@ -24,6 +24,9 @@ namespace VALE.Models
         public string Telephone { get; set; }
         public string CellPhone { get; set; }
         public bool NeedsApproval { get; set; }
+        public string Description { get; set; }
+        public byte[] Document { get; set; }
+        public byte[] PhotoProfile { get; set; }
 
         public Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager manager)
         {
