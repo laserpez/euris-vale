@@ -43,10 +43,17 @@ namespace VALE.Logic
                         break;
                 }
             }
-            var fromDate = DateTime.Parse(fromDateStr);
-            var toDate = DateTime.Parse(toDateStr);
-            var filteredEvents = data.Cast<Event>().Where(ev => ev.EventDate >= fromDate && ev.EventDate <= toDate).ToList();
-            return filteredEvents as List<T>;
+            try
+            {
+                var fromDate = DateTime.Parse(fromDateStr);
+                var toDate = DateTime.Parse(toDateStr);
+                var filteredEvents = data.Cast<Event>().Where(ev => ev.EventDate >= fromDate && ev.EventDate <= toDate).ToList();
+                return filteredEvents as List<T>;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public bool IsUserRelated(int dataId, string username)

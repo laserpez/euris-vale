@@ -27,7 +27,7 @@ namespace VALE.Test
         }
 
         [Test]
-        public void should_get_filteredData_withEmptyDisctionary()
+        public void project_should_get_filteredData_withEmptyDisctionary()
         {
             List<Project> projs = new List<Project>();
             var dictionary = new Dictionary<string, string>();
@@ -41,7 +41,7 @@ namespace VALE.Test
         }
 
         [Test]
-        public void should_get_filteredData_wrongValue()
+        public void project_should_get_filteredData_wrongValue()
         {
             List<Project> projs = new List<Project>();
             var dictionary = new Dictionary<string, string>();
@@ -57,7 +57,7 @@ namespace VALE.Test
         }
 
         [Test]
-        public void should_get_filteredData_byName()
+        public void project_should_get_filteredData_byName()
         {
             List<Project> projs = new List<Project>();
             var dictionary = new Dictionary<string, string>();
@@ -79,7 +79,7 @@ namespace VALE.Test
         }
 
         [Test]
-        public void should_get_filteredData_byDescription()
+        public void project_should_get_filteredData_byDescription()
         {
             List<Project> projs = new List<Project>();
             var dictionary = new Dictionary<string, string>();
@@ -101,7 +101,7 @@ namespace VALE.Test
         }
 
         [Test]
-        public void should_get_filteredData_byCreationDate()
+        public void project_should_get_filteredData_byCreationDate()
         {
 
             List<Project> projs = new List<Project>();
@@ -124,7 +124,7 @@ namespace VALE.Test
         }
 
         [Test]
-        public void should_get_filteredData_byLastModifiedDate()
+        public void project_should_get_filteredData_byLastModifiedDate()
         {
 
             List<Project> projs = new List<Project>();
@@ -148,7 +148,7 @@ namespace VALE.Test
         }
 
         [Test]
-        public void should_get_filteredData_byProjectStatus()
+        public void project_should_get_filteredData_byProjectStatus()
         {
             List<Project> projs = new List<Project>();
             var dictionary = new Dictionary<string, string>();
@@ -169,7 +169,7 @@ namespace VALE.Test
         }
 
         [Test]
-        public void shoul_get_filter_concat()
+        public void project_should_get_filter_concat()
         {
             List<Project> projs = new List<Project>();
             projs.Add(new Project { ProjectName = "primo progetto", 
