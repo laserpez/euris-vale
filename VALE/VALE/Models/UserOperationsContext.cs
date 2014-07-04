@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using VALE.Logic;
 
 namespace VALE.Models
 {
@@ -24,6 +25,7 @@ namespace VALE.Models
         public DbSet<BODReport> BODReports { get; set; }
         public DbSet<AttachedFile> AttachedFiles { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<LogEntry> LogEntries { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

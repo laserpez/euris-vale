@@ -11,6 +11,13 @@ namespace VALE.Logic
     [Serializable]
     public class EventActions : IFileActions, IActions
     {
+        public ILogger logger { get; set; }
+
+        public EventActions()
+        {
+            logger = LogFactory.GetCurrentLogger();
+        }
+
         public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
             var result = data.Cast<Event>();
@@ -50,9 +57,26 @@ namespace VALE.Logic
                 var filteredEvents = data.Cast<Event>().Where(ev => ev.EventDate >= fromDate && ev.EventDate <= toDate).ToList();
                 return filteredEvents as List<T>;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public bool SaveData<T>(T data)
+        {
+            try
+            {
+                var db = new UserOperationsContext();
+                var newEvent = data as Event;
+                db.Events.Add(newEvent);
+                db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = newEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato", DataType = "Evento", Date = DateTime.Now, Description = "" });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -68,8 +92,10 @@ namespace VALE.Logic
             {
                 var _db = new UserOperationsContext();
                 var anAttachment = _db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
+                var eventId = anAttachment.RelatedEvent.EventId;
                 _db.AttachedFiles.Remove(anAttachment);
                 _db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = eventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimosso documento", DataType = "Evento", Date = DateTime.Now, Description = anAttachment.FileName });
                 return true;
             }
             catch (Exception)
@@ -86,6 +112,7 @@ namespace VALE.Logic
                 var anEvent = _db.Events.First(e => e.EventId == dataId);
                 anEvent.AttachedFiles.Add(file);
                 _db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento", DataType = "Evento", Date = DateTime.Now, Description = file.FileName });
                 return true;
             }
             catch (Exception)
@@ -111,6 +138,7 @@ namespace VALE.Logic
                 var attachments = anEvent.AttachedFiles;
                 _db.AttachedFiles.RemoveRange(attachments);
                 _db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Evento", Date = DateTime.Now, Description = "" });
                 return true;
             }
             catch (Exception)
@@ -142,6 +170,8 @@ namespace VALE.Logic
             else
                 anEvent.RegisteredUsers.Remove(user);
             _db.SaveChanges();
+
+            logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username });
             return added;
         }
 

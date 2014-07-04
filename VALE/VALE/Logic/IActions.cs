@@ -15,7 +15,7 @@ namespace VALE.Logic
         bool IsUserRelated(int dataId, string username);
         bool IsGroupRelated(int dataId, int groupId);
 
-
+        bool SaveData<T>(T data);
         
         IQueryable<UserData> GetRelatedUsers(int _dataId);
         IQueryable<Group> GetRelatedGroups(int _dataId);
