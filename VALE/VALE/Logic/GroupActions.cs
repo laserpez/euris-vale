@@ -59,7 +59,7 @@ namespace VALE.Logic
             {
                 var group = _db.Groups.FirstOrDefault(g => g.GroupId == groupId);
                 var userData = _db.UserDatas.FirstOrDefault(u => u.UserName == username);
-                if (!group.Users.Contains(userData))
+                if (group.Users.Contains(userData))
                 {
                     group.Users.Remove(userData);
                     _db.SaveChanges();
