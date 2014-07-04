@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
 using System.IO;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -40,6 +41,7 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var user = db.UserDatas.FirstOrDefault(u => u.UserName == _currentUser);
             var registeredUsers = new List<UserData>() { user };
+            
             var newEvent = new Event
             {
                 Name = txtName.Text,
@@ -50,9 +52,10 @@ namespace VALE.MyVale
                 RegisteredUsers = registeredUsers,
                 RelatedProject = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text)
             };
-            db.Events.Add(newEvent);
-            db.SaveChanges();
-
+            var eventActions = new EventActions();
+            
+            eventActions.SaveData(newEvent);
+            
             var redirectURL = "";
             if (Session["callingProjectId"] != null)
                 redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
