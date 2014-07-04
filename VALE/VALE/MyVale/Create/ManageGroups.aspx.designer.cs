@@ -22,114 +22,6 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// btnManageGroupButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnManageGroupButton;
-        
-        /// <summary>
-        /// btnManageSetGroupsButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnManageSetGroupsButton;
-        
-        /// <summary>
-        /// btnManageGroupLinkButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnManageGroupLinkButton;
-        
-        /// <summary>
-        /// btnManageSetGroupsLinkButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnManageSetGroupsLinkButton;
-        
-        /// <summary>
-        /// lblGroupAction control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblGroupAction;
-        
-        /// <summary>
-        /// lblAllowDragAndDrop control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAllowDragAndDrop;
-        
-        /// <summary>
-        /// pnlManageGroupPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlManageGroupPanel;
-        
-        /// <summary>
-        /// grdUsers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdUsers;
-        
-        /// <summary>
-        /// btnAddSelectedUsersToGroupButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddSelectedUsersToGroupButton;
-        
-        /// <summary>
-        /// lblGroupId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField lblGroupId;
-        
-        /// <summary>
-        /// lblMode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField lblMode;
-        
-        /// <summary>
-        /// lblHeaderGroupPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHeaderGroupPanel;
-        
-        /// <summary>
         /// btnAddGroupButton control.
         /// </summary>
         /// <remarks>
@@ -148,6 +40,24 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.WebControls.Button btnGroupsListButton;
         
         /// <summary>
+        /// lblGroupAction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblGroupAction;
+        
+        /// <summary>
+        /// pnlGroupList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlGroupList;
+        
+        /// <summary>
         /// grdGroups control.
         /// </summary>
         /// <remarks>
@@ -157,6 +67,60 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.WebControls.GridView grdGroups;
         
         /// <summary>
+        /// pnlManageGroupPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlManageGroupPanel;
+        
+        /// <summary>
+        /// btnAddSelectedUsersToGroupButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddSelectedUsersToGroupButton;
+        
+        /// <summary>
+        /// grdUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdUsers;
+        
+        /// <summary>
+        /// lblGroupId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField lblGroupId;
+        
+        /// <summary>
+        /// btnRemoveSelectedUsersFromGroupButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRemoveSelectedUsersFromGroupButton;
+        
+        /// <summary>
+        /// lblHeaderGroupPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblHeaderGroupPanel;
+        
+        /// <summary>
         /// grdGroupUsers control.
         /// </summary>
         /// <remarks>
@@ -164,15 +128,6 @@ namespace VALE.MyVale.Create {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdGroupUsers;
-        
-        /// <summary>
-        /// pnlManageSetGroupsPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlManageSetGroupsPanel;
         
         /// <summary>
         /// ModalPopup control.
