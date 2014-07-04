@@ -191,5 +191,11 @@ namespace VALE.Logic
             }
             return result.AsQueryable();
         }
+
+
+        public bool SaveData<T>(T data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

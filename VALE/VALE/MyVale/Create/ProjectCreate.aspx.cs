@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -47,8 +48,9 @@ namespace VALE.MyVale
                     InvolvedUsers = new List<UserData>(),
                     RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text),
                 };
-                dbData.Projects.Add(project);
-                dbData.SaveChanges();
+
+                var projectActions = new ProjectActions();
+                projectActions.SaveData(project, dbData);
                 Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + project.ProjectId + "&dataType=project&returnUrl=/MyVale/Projects");
             }
         }

@@ -11,6 +11,14 @@ namespace VALE.Logic
     [Serializable]
     public class ProjectActions : IActions, IFileActions
     {
+        public ILogger logger { get; set; }
+
+        public ProjectActions()
+        {
+            logger = LogFactory.GetCurrentLogger();
+
+        }
+
         public List<T> GetSortedData<T>(string sortExpression, SortDirection direction, List<T> data)
         {
             var result = data.Cast<Project>();
@@ -69,8 +77,9 @@ namespace VALE.Logic
                 var db = new UserOperationsContext();
                 var anAttachment = db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
                 db.AttachedFiles.Remove(anAttachment);
-
+                anAttachment.RelatedProject.LastModified = DateTime.Now;
                 db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = anAttachment.RelatedProject.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimosso documento", DataType = "Progetto", Date = DateTime.Now, Description = anAttachment.FileName });
                 return true;
             }
             catch (Exception)
@@ -86,7 +95,9 @@ namespace VALE.Logic
                 var db = new UserOperationsContext();
                 var project = db.Projects.First(p => p.ProjectId == dataId);
                 project.AttachedFiles.Add(file);
+                project.LastModified = DateTime.Now;
                 db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento", DataType = "Progetto", Date = DateTime.Now, Description = file.FileName });
                 return true;
             }
             catch (Exception)
@@ -110,6 +121,7 @@ namespace VALE.Logic
                 var project = db.Projects.First(p => p.ProjectId == dataId);
                 db.AttachedFiles.RemoveRange(project.AttachedFiles);
                 db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = dataId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Progetto", Date = DateTime.Now, Description = "" });
                 return true;
             }
             catch (Exception)
@@ -140,6 +152,8 @@ namespace VALE.Logic
             else
                 aProject.InvolvedUsers.Remove(user);
             db.SaveChanges();
+
+            logger.Write(new LogEntry() { DataId = dataId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = username });
             return added;
         }
 
@@ -161,6 +175,23 @@ namespace VALE.Logic
             var group = db.Groups.First(g => g.GroupId == groupId);
             var usersRelated = GetRelatedUsers(dataId);
             return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
+        }
+
+
+        public bool SaveData<T>(T data, UserOperationsContext db)
+        {
+            try
+            {
+                var project = data as Project;
+                db.Projects.Add(project);
+                db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato", DataType = "Progetto", Date = DateTime.Now, Description = "" });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
