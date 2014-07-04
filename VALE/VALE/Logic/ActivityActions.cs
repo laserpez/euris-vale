@@ -207,11 +207,5 @@ namespace VALE.Logic
                 return false;
             }
         }
-
-
-        public bool SaveData<T>(T data)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

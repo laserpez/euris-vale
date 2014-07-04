@@ -193,10 +193,5 @@ namespace VALE.Logic
                 return false;
             }
         }
-
-        public bool SaveData<T>(T data, UserOperationsContext db)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

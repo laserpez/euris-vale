@@ -262,7 +262,6 @@
     <Content Include="DownloadFile.ashx" />
     <Content Include="MyVale\ManageActivities.aspx" />
     <Content Include="PopUpPassword.aspx" />
-    <Content Include="ImageHandler.ashx" />
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Account\Profile.aspx" />
@@ -466,9 +465,6 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ImageHandler.ashx.cs">
-      <DependentUpon>ImageHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="DownloadFile.ashx.cs">
       <DependentUpon>DownloadFile.ashx</DependentUpon>
