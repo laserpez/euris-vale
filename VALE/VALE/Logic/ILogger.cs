@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VALE.Logic
 {
-    interface ILogger
+    public interface ILogger
     {
         List<LogEntry> Read(string filter, int count);
         bool Write(LogEntry log);

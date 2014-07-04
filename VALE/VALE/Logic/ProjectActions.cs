@@ -162,5 +162,10 @@ namespace VALE.Logic
             var usersRelated = GetRelatedUsers(dataId);
             return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
         }
+
+        public bool SaveData<T>(T data, UserOperationsContext db)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

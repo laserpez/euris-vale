@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -116,8 +117,9 @@ namespace VALE.MyVale
                     PendingUsers = new List<UserData>(),
                     CreatorUserName = User.Identity.GetUserName()
                 };
-                db.Activities.Add(newActivity);
-                db.SaveChanges();
+                var activityActions = new ActivityActions();
+                activityActions.SaveData(newActivity, db);
+                
                 db.Reports.Add(new ActivityReport
                 {
                     ActivityId = newActivity.ActivityId,
