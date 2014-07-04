@@ -15,95 +15,6 @@ namespace VALE.MyVale.Create
         protected void Page_Load(object sender, EventArgs e)
         {
            
-            if (!IsPostBack) 
-            {
-                grdGroupUsersDataBind();
-                grdUsersDataBind();
-                Session["ManageGroupsMode"] = "Group";
-            }
-            if (Request.QueryString["Mode"] != null) 
-            {
-                Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                string action = Request.QueryString["Action"];
-                if (Request.QueryString["Mode"] == "Group")
-                {
-                    int groupId = Convert.ToInt16(Request.QueryString["GroupId"]);
-                    string userName = Request.QueryString["UserName"];
-                    ManageGroup(action, userName, groupId);
-                }
-                else if (Request.QueryString["Mode"] == "SetGroups")
-                {
-                    
-                }
-            }
-        }
-
-        protected void Page_PreRender(object sender, EventArgs e)
-        {
-
-            if (lblAllowDragAndDrop.Text == "true")
-                ApplyDragAndDrop();
-        }
-
-        private void ManageGroup(string action, string userName, int groupId)
-        {
-            Response.Clear();
-            using(var groupActions = new GroupActions())
-            {
-                if (action == "Add") 
-                {
-                    if (!groupActions.IsUserRelated(groupId, userName))
-                        groupActions.AddUserToGroup(groupId, userName);
-                }
-                else if (action == "Remove")
-                {
-                    groupActions.RemoveUserFromGroup(groupId, userName);
-                }
-                grdGroupUsersDataBind();
-                grdUsersDataBind();
-                //Response.Write("True");
-                //Response.End();
-            }
-        }
-
-        private void grdUsersDataBind() 
-        {
-            grdUsers.DataSource = grdUsers_GetData();
-            grdUsers.DataBind();
-        }
-
-        private void grdGroupUsersDataBind()
-        {
-            grdGroupUsers.DataSource = grdGroupUsers_GetData();
-            grdGroupUsers.DataBind();
-        }
-
-        protected void btnManageGroupLinkButton_Click(object sender, EventArgs e)
-        {
-            ManageGroupLoadData();
-            btnManageGroupButton.Visible = true;
-            btnManageSetGroupsButton.Visible = false;
-        }
-
-        protected void btnManageSetGroupsLinkButton_Click(object sender, EventArgs e)
-        {
-            ManageSetGroupsLoadData();
-            btnManageGroupButton.Visible = false;
-            btnManageSetGroupsButton.Visible = true;
-        }
-
-        private void ManageGroupLoadData() 
-        {
-            lblMode.Value = "Group"; 
-            pnlManageSetGroupsPanel.Visible = false;
-            pnlManageGroupPanel.Visible = true;
-        }
-
-        private void ManageSetGroupsLoadData()
-        {
-            lblMode.Value = "SetGroups";
-            pnlManageSetGroupsPanel.Visible = true;
-            pnlManageGroupPanel.Visible = false;
         }
 
         public string GetRoleName(string userName)
@@ -120,48 +31,43 @@ namespace VALE.MyVale.Create
                 return "Utente";
         }
 
-        public List<VALE.Models.UserData> grdUsers_GetData()
+        public IQueryable<VALE.Models.UserData> grdUsers_GetData()
         {
-            if (Session["ManageGroupsGroupId"] != null)
+            if (lblGroupId.Value != "")
             {
                 var groupActions = new GroupActions();
-                var id = Convert.ToInt32(Session["ManageGroupsGroupId"].ToString());
+                var id = Convert.ToInt32(lblGroupId.Value);
                 var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
                 if (group != null)
                 {
-                    var list = _db.UsersData.ToList().Except(group.Users).ToList();
+                    var list = _db.UserDatas.ToList().Except(group.Users).AsQueryable();
                     return list;
                 }
 
             }
-            return _db.UsersData.ToList();
+            return _db.UserDatas;
         }
 
-        public List<VALE.Models.UserData> grdGroupUsers_GetData()
+        public IQueryable<VALE.Models.UserData> grdGroupUsers_GetData()
         {
-            if (Session["ManageGroupsGroupId"] != null)
+            if (lblGroupId.Value != "")
             {
-                var id = Convert.ToInt32(Session["ManageGroupsGroupId"].ToString());
+                var id = Convert.ToInt32(lblGroupId.Value);
                 var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
                 if (group != null)
-                    return group.Users.ToList();
+                    return group.Users.AsQueryable();
             }
             return null;
         }
 
         protected void btnGroupsListButton_Click(object sender, EventArgs e)
         {
-            btnAddSelectedUsersToGroupButton.CssClass = "btn btn-primary btn-xs disabled";
-            Session["ManageGroupsGroupId"] = null;
+            pnlGroupList.Visible = true;
+            pnlManageGroupPanel.Visible = false;
             lblGroupId.Value = "";
-            grdGroupUsers.Visible = false;
-            grdGroups.Visible = true;
             grdGroups.DataBind();
-            grdUsersDataBind();
             btnAddGroupButton.Visible = true;
             btnGroupsListButton.Visible = false;
-            lblHeaderGroupPanel.Text = "Gruppi";
-            lblAllowDragAndDrop.Text = "false";
         }
 
         protected void btnOkForNewGroupButton_Click(object sender, EventArgs e)
@@ -213,7 +119,6 @@ namespace VALE.MyVale.Create
             switch (e.CommandName)
             {
                 case "ShowGroup":
-                default:
                     ShowGroup(Convert.ToInt32(e.CommandArgument));
                     break;
                 case "EditGroup":
@@ -233,51 +138,18 @@ namespace VALE.MyVale.Create
             var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
             if (group != null) 
             {
-                btnAddSelectedUsersToGroupButton.CssClass = "btn btn-primary btn-xs";
-                Session["ManageGroupsGroupId"] = id.ToString();
                 lblGroupId.Value = id.ToString();
                 grdGroupUsers.Visible = true;
-                grdGroupUsersDataBind();
-                grdUsersDataBind();
-                grdGroups.Visible = false;
+                grdGroupUsers.DataBind();
+                grdUsers.DataBind();
+                pnlGroupList.Visible = false;
+                pnlManageGroupPanel.Visible = true;
                 btnAddGroupButton.Visible = false;
                 btnGroupsListButton.Visible = true;
                 lblHeaderGroupPanel.Text = group.GroupName;
-                lblAllowDragAndDrop.Text = "true";
+          
             }
             
-        }
-
-        private void ApplyDragAndDrop()
-        {
-            string dragAndDrop = @"$(function () {
-            $('.table').sortable({
-                items: 'tr:not(tr:first-child)',
-                cursor: 'crosshair',
-                connectWith: '.table',
-                dropOnEmpty: true,
-                receive: function (e, ui) {
-                    $(this).find('tbody').append(ui.item);
-                   
-                    var mode = document.getElementById('MainContent_lblMode').value;
-                    var receverTableId = this.id;
-                    var action = '';
-                    if(mode == 'Group')
-                    {
-                        var userName = ui.item.find('td')[1].innerText;
-                        var groupId = document.getElementById('MainContent_lblGroupId').value;
-                        if(receverTableId == 'MainContent_grdGroupUsers')
-                            action = 'Add';
-                        if(receverTableId == 'MainContent_grdUsers')
-                            action = 'Remove';
-                        ManageGroup(action, userName, groupId);
-                    }
-                    else
-                        alert('Boohhhh');
-                    }
-                });
-            });";
-            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "dragAndDrop", dragAndDrop, true);
         }
 
         private void DeleteGroup(int id)
@@ -343,25 +215,54 @@ namespace VALE.MyVale.Create
 
         protected void btnAddSelectedUsersToGroupButton_Click(object sender, EventArgs e)
         {
-            var groupId = Convert.ToInt16(lblGroupId.Value);
             using (var groupActions = new GroupActions())
             {
+                var groupId = Convert.ToInt32(lblGroupId.Value);
                 for (int i = 0; i < grdUsers.Rows.Count; i++)
                 {
                     CheckBox chkBox = (CheckBox)grdUsers.Rows[i].Cells[0].FindControl("chkSelectUser");
                     if (chkBox.Checked)
                     {
-                        string userName = ((Label)grdUsers.Rows[i].Cells[1].FindControl("labelUserName")).Text;
+                        chkBox.Checked = false;
+                        var userName = ((Label)grdUsers.Rows[i].Cells[1].FindControl("labelUserName")).Text;
                         groupActions.AddUserToGroup(groupId, userName);
                     }
                 }
-                grdUsersDataBind();
-                grdGroupUsersDataBind();
-                grdGroupUsers.Visible = true;
-                grdGroups.Visible = false;
+                grdGroupUsers.DataBind();
+                grdUsers.DataBind();
+         
             }
             
         }
-        
+
+        protected void btnRemoveSelectedUsersFromGroupButton_Click(object sender, EventArgs e)
+        {
+            using (var groupActions = new GroupActions())
+            {
+                var groupId = Convert.ToInt32(lblGroupId.Value);
+                for (int i = 0; i < grdGroupUsers.Rows.Count; i++)
+                {
+                    CheckBox chkBox = (CheckBox)grdGroupUsers.Rows[i].Cells[0].FindControl("chkSelectUser");
+                    if (chkBox.Checked)
+                    {
+                        var userName = ((Label)grdGroupUsers.Rows[i].Cells[1].FindControl("labelUserName")).Text;
+                        groupActions.RemoveUserFromGroup(groupId, userName);
+                    }
+                }
+                grdGroupUsers.DataBind();
+                grdUsers.DataBind();
+
+            }
+
+        }
+
+        protected void LinkButton1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < grdUsers.Rows.Count; i++)
+            {
+                CheckBox chkBox = (CheckBox)grdUsers.Rows[i].Cells[0].FindControl("chkSelectUser");
+                chkBox.Checked = true;
+            }
+        }
     }
 }
