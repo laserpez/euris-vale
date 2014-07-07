@@ -220,6 +220,7 @@
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
     <Content Include="MyVale\BOD\BODReports.aspx" />
+    <Content Include="MyVale\BOD\VALEDocuments.aspx" />
     <Content Include="MyVale\BOD\ViewBODReport.aspx" />
     <Content Include="MyVale\Create\AddNewUser.ascx" />
     <Content Include="MyVale\Create\ManageGroups.aspx" />
@@ -519,6 +520,7 @@
     <Compile Include="Models\SetGroups.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\UserOperationsContext.cs" />
+    <Compile Include="Models\ValeFile.cs" />
     <Compile Include="MyVale\Activities.aspx.cs">
       <DependentUpon>Activities.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -539,6 +541,13 @@
     </Compile>
     <Compile Include="MyVale\BOD\BODReports.aspx.designer.cs">
       <DependentUpon>BODReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyVale\BOD\VALEDocuments.aspx.cs">
+      <DependentUpon>VALEDocuments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\BOD\VALEDocuments.aspx.designer.cs">
+      <DependentUpon>VALEDocuments.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\BOD\ViewBODReport.aspx.cs">
       <DependentUpon>ViewBODReport.aspx</DependentUpon>
