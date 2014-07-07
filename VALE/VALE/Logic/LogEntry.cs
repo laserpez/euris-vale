@@ -23,9 +23,9 @@ namespace VALE.Logic
                 switch(DataType)
                 {
                     case "Evento":
-                        return "glyphicon glyphicon-inbox";
-                    case "Progetto":
                         return "glyphicon glyphicon-flash";
+                    case "Progetto":
+                        return "glyphicon glyphicon-inbox";
                     case "Attività":
                         return "glyphicon glyphicon-list";
                     default:

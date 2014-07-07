@@ -17,10 +17,26 @@ namespace VALE
         {
             HttpRequest request = HttpContext.Current.Request;
             int fileId = Convert.ToInt16(request.QueryString["fileId"]);
-            using (var _db = new UserOperationsContext()) 
+            string page = request.QueryString["page"];
+
+            if (page == "VALEDocuments")
+            {
+                ValeFile(fileId);
+            }
+            else
+            {
+                AttachedFile(fileId);
+            }
+
+            
+        }
+
+        private void AttachedFile(int fileId)
+        {
+            using (var _db = new UserOperationsContext())
             {
                 var file = _db.AttachedFiles.FirstOrDefault(f => f.AttachedFileID == fileId);
-                if (file != null) 
+                if (file != null)
                 {
                     HttpResponse response = HttpContext.Current.Response;
                     response.ClearContent();
@@ -31,7 +47,26 @@ namespace VALE
                     response.Flush();
                     response.End();
                 }
-            } 
+            }
+        }
+
+        private void ValeFile(int fileId)
+        {
+            using (var _db = new UserOperationsContext())
+            {
+                var file = _db.VALEFiles.FirstOrDefault(f => f.ValeFileID == fileId);
+                if (file != null)
+                {
+                    HttpResponse response = HttpContext.Current.Response;
+                    response.ClearContent();
+                    response.Clear();
+                    response.ContentType = "application/octet-stream";
+                    response.AddHeader("Content-Disposition", "attachment; filename=" + file.FileName + ";");
+                    response.BinaryWrite(file.FileData);
+                    response.Flush();
+                    response.End();
+                }
+            }
         }
 
         public bool IsReusable
