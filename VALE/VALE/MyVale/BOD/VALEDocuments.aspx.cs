@@ -14,11 +14,7 @@ namespace VALE.MyVale.BOD
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
-            {
-                FooterDocuments.Visible = true;
-            }
-            else
+            if (!HttpContext.Current.User.IsInRole("Amministratore") && !HttpContext.Current.User.IsInRole("Membro del consiglio"))
             {
                 FooterDocuments.Visible = false;
             }
@@ -42,9 +38,10 @@ namespace VALE.MyVale.BOD
         {
             var db = new UserOperationsContext();
             var attachedFile = new ValeFile();
+            var fileName = FileUpload.PostedFile.FileName.Split(new char[]{'/','\\'});
             if (FileUpload.HasFile)
             {
-                attachedFile.FileName = FileUpload.PostedFile.FileName;
+                attachedFile.FileName = fileName[fileName.Length - 1];
                 attachedFile.FileDescription = txtFileDescription.Text;
                 attachedFile.FileExtension = Path.GetExtension(FileUpload.PostedFile.FileName);
                 attachedFile.FileData = FileUpload.FileBytes;

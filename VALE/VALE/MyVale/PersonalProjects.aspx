@@ -9,7 +9,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-8">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
@@ -18,25 +18,26 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    <div class="navbar-right">
+
+                                        <div class="btn-group">
+                                            <button type="button" id="btnCurrentView" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Progetti <%--<span class="caret"></span>--%></button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <asp:LinkButton ID="btnAttending" CommandArgument="Attending" runat="server" OnClick="btnViewProjects_Click">A cui sei registrato</asp:LinkButton></li>
+                                                <li>
+                                                    <asp:LinkButton ID="btnCreated" CommandArgument="Created" runat="server" OnClick="btnViewProjects_Click">Creati da te</asp:LinkButton></li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <%--<p>--%>
                                 <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
                                     <ContentTemplate>
-                                        <asp:Label ID="labelSelect" runat="server" Text="Seleziona: "></asp:Label>
-                                        <div class="btn-group">
-                                            <button type="button" id="btnCurrentView" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" runat="server">Progetti <%--<span class="caret"></span>--%></button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <asp:LinkButton ID="btnAttending" CommandArgument="Attending" runat="server" OnClick="btnViewProjects_Click">a cui sei registrato</asp:LinkButton></li>
-                                                <li>
-                                                    <asp:LinkButton ID="btnCreated" CommandArgument="Created" runat="server" OnClick="btnViewProjects_Click">creati da te</asp:LinkButton></li>
-                                            </ul>
-                                        </div>
-                                        <%--<br />
-                                        <br />--%>
+                                      
                                         <asp:GridView OnRowCommand="grid_RowCommand" ID="grdProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                             ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto pianificato." CssClass="table table-striped table-bordered" SelectMethod="GetPersonalProjects" AllowPaging="true" PageSize="2">
                                             <Columns>

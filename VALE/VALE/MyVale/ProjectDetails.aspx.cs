@@ -179,35 +179,35 @@ namespace VALE.MyVale
             var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
             var actions = new ProjectActions();
 
-            Button btnWork = (Button)ProjectDetail.FindControl("btnWorkOnThis");
+           // Button btnWork = (Button)ProjectDetail.FindControl("btnWorkOnThis");
             Button btnAddIntervention = (Button)ProjectDetail.FindControl("btnAddIntervention");
             
             if (project.Status == "Aperto")
             {
                 if (actions.IsUserRelated(_currentProjectId, _currentUserName))
                 {
-                    btnWork.Enabled = true;
-                    btnWork.CssClass = "btn btn-success";
-                    btnWork.Text = "Stai lavorando";
+                    btnWorkOnThis.Enabled = true;
+                    btnWorkOnThis.CssClass = "btn btn-success";
+                    btnWorkOnThis.Text = "Stai lavorando";
                     btnAddIntervention.Enabled = true;
-                    btnAddIntervention.CssClass = "btn btn-info";
+                    btnAddIntervention.CssClass = "btn btn-success btn-sm";
                     btnAddIntervention.Text = "Aggiungi intervento";
                 }
                 else
                 {
-                    btnWork.Enabled = true;
-                    btnWork.CssClass = "btn btn-info";
-                    btnWork.Text = "Lavora al progetto";
+                    btnWorkOnThis.Enabled = true;
+                    btnWorkOnThis.CssClass = "btn btn-info";
+                    btnWorkOnThis.Text = "Lavora al progetto";
                     btnAddIntervention.Enabled = false;
-                    btnAddIntervention.CssClass = "btn btn-info disable";
+                    btnAddIntervention.CssClass = "btn btn-success btn-sm disable";
                     btnAddIntervention.Text = "Non puoi aggiungere interventi";
                 }
             }
             else
             {
-                btnWork.Enabled = false;
-                btnWork.CssClass = "btn btn-info disable";
-                btnWork.Text = "Non puoi lavorare al progetto";
+                btnWorkOnThis.Enabled = false;
+                btnWorkOnThis.CssClass = "btn btn-success btn-sm disable";
+                btnWorkOnThis.Text = "Non puoi lavorare al progetto";
                 btnAddIntervention.Visible = false;
             }
         }

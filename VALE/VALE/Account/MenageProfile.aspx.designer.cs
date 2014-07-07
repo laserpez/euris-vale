@@ -121,6 +121,78 @@ namespace VALE {
         protected global::System.Web.UI.WebControls.Button AddCVButton;
         
         /// <summary>
+        /// Controllo CurrentPasswordLabel.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label CurrentPasswordLabel;
+        
+        /// <summary>
+        /// Controllo CurrentPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox CurrentPassword;
+        
+        /// <summary>
+        /// Controllo NewPasswordLabel.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label NewPasswordLabel;
+        
+        /// <summary>
+        /// Controllo NewPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox NewPassword;
+        
+        /// <summary>
+        /// Controllo ConfirmNewPasswordLabel.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ConfirmNewPasswordLabel;
+        
+        /// <summary>
+        /// Controllo ConfirmNewPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox ConfirmNewPassword;
+        
+        /// <summary>
+        /// Controllo requestAssociation.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel requestAssociation;
+        
+        /// <summary>
+        /// Controllo btnRequestAssociation.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRequestAssociation;
+        
+        /// <summary>
         /// Controllo SaveChangesProfile.
         /// </summary>
         /// <remarks>

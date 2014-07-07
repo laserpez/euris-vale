@@ -19,6 +19,7 @@ namespace VALE.MyVale
             if (!IsPostBack)
             {
                 ShowHideControls();
+
             }
         }
 
@@ -30,12 +31,10 @@ namespace VALE.MyVale
 
             if (organizedPrj.Count() != 0 || attendingPrj.Count() != 0)
             {
-                labelSelect.Visible = true;
                 btnCurrentView.Visible = true;
             }
             else
             {
-                labelSelect.Visible = false;
                 btnCurrentView.Visible = false;
             }
         }

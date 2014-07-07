@@ -1,6 +1,25 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UserSelector.aspx.cs" Inherits="VALE.MyVale.UserSelector" %>
 
+
+
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+
+    <script type="text/javascript">
+        var canExit = false;
+
+        $(window).on('beforeunload', function () {
+            if(!canExit)
+                return 'Stai abbandonando la pagina, sicuro di aver aggiunto/rimosso tutti gli utenti che volevi?';
+        });
+
+        function changeCanExit() {
+            canExit = true;
+        }
+    </script>
+
+
     <div class="container">
         <div class="bs-docs-section">
             <br />
@@ -29,8 +48,6 @@
                                                             <asp:LinkButton ID="btnUsers" CommandArgument="Users" runat="server" OnClick="btnSelectUsers_Click">Utenti</asp:LinkButton></li>
                                                         <li>
                                                             <asp:LinkButton ID="btnGroups" CommandArgument="Groups" runat="server" OnClick="btnSelectUsers_Click">Gruppi</asp:LinkButton></li>
-                                                        <li>
-                                                            <asp:LinkButton ID="btnGroupsOfGroups" CommandArgument="GroupsOfGroups" runat="server" OnClick="btnSelectUsers_Click">Gruppi di gruppi</asp:LinkButton></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -39,11 +56,10 @@
                                 </div>
                                 <div class="panel-body" style="overflow: auto;">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <asp:TextBox ID="txtSearchByName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
-
                                                     <span class="input-group-btn">
                                                         <asp:Button CssClass="btn btn-info btn-sm" ID="btnSearchUsers" runat="server" Text="Cerca" OnClick="btnSearchUsers_Click" />
                                                     </span>
@@ -128,7 +144,7 @@
                                             </asp:GridView>
                                         </div>
                                     </div>
-                                    <asp:Button CssClass="btn btn-info" ID="btnReturn" runat="server" Text="Fine" OnClick="btnReturn_Click" />
+                                    <asp:Button OnClientClick="changeCanExit()" CssClass="btn btn-info" ID="btnReturn" runat="server" Text="Fine" OnClick="btnReturn_Click" />
                                 </div>
                             </div>
                             </div>

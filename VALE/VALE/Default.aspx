@@ -145,8 +145,11 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
+                <div class="col-md-12"  style="font-size:24px">
+                    Ultime attività
+                </div>
                 <div class="col-md-12">
-                    <h3>Ultime attività</h3>
+                    <br />
                 </div>
             </div>
 
@@ -159,7 +162,7 @@
                                 <asp:BoundField HeaderStyle-Width="10%" DataFormatString="{0:d}" DataField="Date" HeaderText="Data" SortExpression="Date" />
                                 <asp:TemplateField HeaderText="Tipo" SortExpression="DataType" HeaderStyle-Width="5%" HeaderStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <center><div><span class="<%#:Item.DataTypeUrl %>"></span></div></center>
+                                        <span title="<%#: Item.DataType %>" class="<%#:Item.DataTypeUrl %>" ></span>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />

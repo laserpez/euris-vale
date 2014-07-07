@@ -223,6 +223,7 @@
                                 <label class="col-lg-12 control-label">Nome Gruppo *</label>
                                 <div class="col-lg-10">
                                     <asp:TextBox runat="server" class="form-control input-sm" ID="NameTextBox" />
+                                    <asp:RequiredFieldValidator runat="server" ValidationGroup="AddGroup" ControlToValidate="NameTextBox" CssClass="text-danger" ErrorMessage="Il campo Nome Gruppo è richiesto." />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -230,6 +231,7 @@
                                 <label class="col-lg-12 control-label">Descrizione *</label>
                                 <div class="col-lg-12">
                                     <textarea runat="server" class="form-control input-sm" rows="3" id="DescriptionTextarea"></textarea>
+                                    <asp:RequiredFieldValidator runat="server" ValidationGroup="AddGroup" ControlToValidate="DescriptionTextarea" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
                                 </div>
                             </div>
                         </div>
@@ -241,7 +243,7 @@
                             <br />
                         </div>
                         <div class="col-md-offset-9 col-md-10">
-                            <asp:Button runat="server" Text="Crea" ID="btnOkGroupButton" CssClass="btn btn-success btn-sm" OnClick="btnOkForNewGroupButton_Click" />
+                            <asp:Button runat="server" Text="Crea" ID="btnOkGroupButton" CssClass="btn btn-success btn-sm" CausesValidation="true" ValidationGroup="AddGroup" OnClick="btnOkForNewGroupButton_Click" />
                             <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" OnClick="btnClosePopUpButton_Click" />
                         </div>
 
