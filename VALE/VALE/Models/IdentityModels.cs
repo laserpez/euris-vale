@@ -25,6 +25,7 @@ namespace VALE.Models
         public string CellPhone { get; set; }
         public bool NeedsApproval { get; set; }
         public string Description { get; set; }
+        public string CVName { get; set; }
         public byte[] Document { get; set; }
         public byte[] PhotoProfile { get; set; }
 

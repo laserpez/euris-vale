@@ -94,7 +94,7 @@ namespace VALE
             {
                 UserList.Visible = false;
                 adminLink.Visible = true;
-                boardLink.Visible = true;
+                createBODLink.Visible = true;
             }
         }
 
@@ -105,6 +105,7 @@ namespace VALE
                 HttpContext.Current.User.IsInRole("Socio"))
             {
                 createProjectLink.Visible = true;
+                boardLink.Visible = true;
                 createEventLink.Visible = true;
                 createActivityLink.Visible = true;
                 createBlogArticle.Visible = true;

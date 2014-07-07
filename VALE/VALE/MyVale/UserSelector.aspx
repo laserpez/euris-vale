@@ -1,6 +1,25 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UserSelector.aspx.cs" Inherits="VALE.MyVale.UserSelector" %>
 
+
+
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+
+    <script type="text/javascript">
+        var canExit = false;
+
+        $(window).on('beforeunload', function () {
+            if(!canExit)
+                return 'Stai abbandonando la pagina, sicuro di aver aggiunto/rimosso tutti gli utenti che volevi?';
+        });
+
+        function changeCanExit() {
+            canExit = true;
+        }
+    </script>
+
+
     <div class="container">
         <div class="bs-docs-section">
             <br />
@@ -125,7 +144,7 @@
                                             </asp:GridView>
                                         </div>
                                     </div>
-                                    <asp:Button CssClass="btn btn-info" ID="btnReturn" runat="server" Text="Fine" OnClick="btnReturn_Click" />
+                                    <asp:Button OnClientClick="changeCanExit()" CssClass="btn btn-info" ID="btnReturn" runat="server" Text="Fine" OnClick="btnReturn_Click" />
                                 </div>
                             </div>
                             </div>
