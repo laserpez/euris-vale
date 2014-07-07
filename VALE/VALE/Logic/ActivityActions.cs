@@ -175,8 +175,6 @@ namespace VALE.Logic
             var pendingUsers = db.Activities.First(a => a.ActivityId == dataId).PendingUsers;
 
             workerUsers.AddRange(pendingUsers);
-
-
             return workerUsers.AsQueryable();
         }
 
