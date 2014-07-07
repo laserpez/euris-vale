@@ -29,8 +29,6 @@
                                                             <asp:LinkButton ID="btnUsers" CommandArgument="Users" runat="server" OnClick="btnSelectUsers_Click">Utenti</asp:LinkButton></li>
                                                         <li>
                                                             <asp:LinkButton ID="btnGroups" CommandArgument="Groups" runat="server" OnClick="btnSelectUsers_Click">Gruppi</asp:LinkButton></li>
-                                                        <li>
-                                                            <asp:LinkButton ID="btnGroupsOfGroups" CommandArgument="GroupsOfGroups" runat="server" OnClick="btnSelectUsers_Click">Gruppi di gruppi</asp:LinkButton></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -39,11 +37,10 @@
                                 </div>
                                 <div class="panel-body" style="overflow: auto;">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <asp:TextBox ID="txtSearchByName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
-
                                                     <span class="input-group-btn">
                                                         <asp:Button CssClass="btn btn-info btn-sm" ID="btnSearchUsers" runat="server" Text="Cerca" OnClick="btnSearchUsers_Click" />
                                                     </span>

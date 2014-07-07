@@ -145,8 +145,11 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
+                <div class="col-md-12"  style="font-size:24px">
+                    Ultime attività
+                </div>
                 <div class="col-md-12">
-                    <h3>Ultime attività</h3>
+                    <br />
                 </div>
             </div>
 

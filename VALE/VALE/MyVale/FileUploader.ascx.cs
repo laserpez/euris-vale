@@ -36,13 +36,12 @@ namespace VALE.MyVale
             if (FileUpload.HasFile)
             {
                 attachedFile.FileName = FileUpload.PostedFile.FileName;
-                attachedFile.FileDescription = txtFileDescription.Text;
+                attachedFile.FileDescription = txtFileDescription.Value;
                 attachedFile.FileExtension = Path.GetExtension(FileUpload.PostedFile.FileName);
                 attachedFile.FileData = FileUpload.FileBytes;
                 attachedFile.Owner = HttpContext.Current.User.Identity.Name;
                 attachedFile.CreationDate = DateTime.Now;
                 DataActions.AddAttachment(DataId, attachedFile);
-                txtFileDescription.Text = "";
                 DocumentsGridView.DataBind();
             }
         }
