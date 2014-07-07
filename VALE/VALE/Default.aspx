@@ -126,4 +126,25 @@
 
     </div>
 
+    <br />
+    <div>
+        <h3>Ultimè attività</h3>
+    </div>
+    <div class="row" id="log">
+        <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+                <asp:GridView ID="grdLog" CssClass="table table-striped table-hover" runat="server" ItemType="VALE.Logic.LogEntry" AutoGenerateColumns="false" SelectMethod="GetLogEntry"
+                    AllowSorting="true" GridLines="None">
+                    <Columns>
+                        <asp:BoundField DataField="Date" HeaderText="Data" SortExpression="Date" />
+                        <asp:BoundField DataField="DataType" HeaderText="Tipo" SortExpression="DataType" />
+                        <asp:BoundField DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
+                        <asp:BoundField DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
+                        <asp:BoundField DataField="Username" HeaderText="Utente" SortExpression="Username" />
+                    </Columns>
+                </asp:GridView>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
+    </div>
 </asp:Content>
