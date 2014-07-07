@@ -32,7 +32,7 @@
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-8">
                                                 <ul class="nav nav-pills">
                                                     <li>
                                                         <h4>
