@@ -142,9 +142,9 @@ namespace VALE.MyVale
                 default:
                     break;
             }
-
+            resultList = resultList.Where(g => g.Users.Count != 0);
             if (!String.IsNullOrEmpty(txtSearchByName))
-                resultList = resultList.Where(g => g.GroupName.ToLower().Contains(txtSearchByName.ToLower()) && g.Users.Count != 0);
+                resultList = resultList.Where(g => g.GroupName.ToLower().Contains(txtSearchByName.ToLower()));
             return resultList;
         }
 
