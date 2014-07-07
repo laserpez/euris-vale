@@ -137,8 +137,12 @@
                 <asp:GridView ID="grdLog" CssClass="table table-striped table-hover" runat="server" ItemType="VALE.Logic.LogEntry" AutoGenerateColumns="false" SelectMethod="GetLogEntry"
                      GridLines="None" AllowPaging="true" AllowSorting="true" PageSize="10">
                     <Columns>
-                        <asp:BoundField DataField="Date" HeaderText="Data" SortExpression="Date" />
-                        <asp:BoundField DataField="DataType" HeaderText="Tipo" SortExpression="DataType" />
+                        <asp:BoundField HeaderStyle-Width="10%" DataFormatString="{0:d}" DataField="Date" HeaderText="Data" SortExpression="Date" />
+                        <asp:TemplateField HeaderText="Tipo" SortExpression="DataType" HeaderStyle-Width="5%">
+                            <ItemTemplate>
+                                <center><div><span class="<%#:Item.DataTypeUrl %>"></span></div></center>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
                         <asp:BoundField DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
                         <asp:BoundField DataField="Username" HeaderText="Utente" SortExpression="Username" />
