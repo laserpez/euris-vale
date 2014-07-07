@@ -42,9 +42,10 @@ namespace VALE.MyVale.BOD
         {
             var db = new UserOperationsContext();
             var attachedFile = new ValeFile();
+            var fileName = FileUpload.PostedFile.FileName.Split(new char[]{'/','\\'});
             if (FileUpload.HasFile)
             {
-                attachedFile.FileName = FileUpload.PostedFile.FileName;
+                attachedFile.FileName = fileName[fileName.Length - 1];
                 attachedFile.FileDescription = txtFileDescription.Text;
                 attachedFile.FileExtension = Path.GetExtension(FileUpload.PostedFile.FileName);
                 attachedFile.FileData = FileUpload.FileBytes;
