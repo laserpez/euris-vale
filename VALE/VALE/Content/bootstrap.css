@@ -4380,6 +4380,7 @@ a.list-group-item.active > .badge,
 }
 .container .jumbotron {
   border-radius: 6px;
+    height: 27px;
 }
 .jumbotron .container {
   max-width: 100%;

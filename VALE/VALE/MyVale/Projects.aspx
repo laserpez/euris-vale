@@ -124,6 +124,7 @@
                                                     <ItemStyle Width="90px" />
                                                 </asp:TemplateField>
                                             </Columns>
+                                            <PagerStyle CssClass="pagination pagination-sm" />
                                         </asp:GridView>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>

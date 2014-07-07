@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <p>
+                            <%--<p>--%>
                                 <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
                                     <ContentTemplate>
                                         <asp:Label ID="labelSelect" runat="server" Text="Seleziona: "></asp:Label>
@@ -35,8 +35,8 @@
                                                     <asp:LinkButton ID="btnCreated" CommandArgument="Created" runat="server" OnClick="btnViewProjects_Click">creati da te</asp:LinkButton></li>
                                             </ul>
                                         </div>
-                                        <br />
-                                        <br />
+                                        <%--<br />
+                                        <br />--%>
                                         <asp:GridView OnRowCommand="grid_RowCommand" ID="grdProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                             ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto pianificato." CssClass="table table-striped table-bordered" SelectMethod="GetPersonalProjects">
                                             <Columns>
@@ -101,7 +101,7 @@
                                         </asp:GridView>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
-                            </p>
+                            <%--</p>--%>
                         </div>
                     </div>
                 </div>
