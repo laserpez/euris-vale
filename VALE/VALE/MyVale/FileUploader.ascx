@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="FileUploader.ascx.cs" Inherits="VALE.MyVale.FileUploader" %>
-<h4>Documenti Allegati</h4>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -49,22 +48,31 @@
             <div class="panel-footer" id="FooterDocuments" runat="server">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="form-group col-lg-5">
-                            <div class="input-group">
-                                <span class="input-group-addon input-sm"><span class="glyphicon glyphicon-file"></span></span>
-                                <div runat="server" id="FileTextBox">
-                                    <asp:FileUpload ID="FileUpload" runat="server" CssClass="form-control input-sm" />
-                                </div>
-                                <span class="input-group-btn">
-                                    <asp:Button runat="server" ID="AddFileNameButton" ValidationGroup="UploadFile" CssClass="btn btn-default btn-sm" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
-                                </span>
+                        <div class="col-lg-6">
+                            <div class="col-lg-12">
+                                <br />
                             </div>
+                            <div class="form-group col-lg-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-sm"><span class="glyphicon glyphicon-file"></span></span>
+                                    <div runat="server" id="FileTextBox">
+                                        <asp:FileUpload ID="FileUpload" runat="server" CssClass="form-control input-sm" />
+                                    </div>
+                                    <span class="input-group-btn">
+                                        <asp:Button runat="server" ID="AddFileNameButton" ValidationGroup="UploadFile" CssClass="btn btn-default btn-sm" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
+                                    </span>
+                                </div>
+                            </div>
+                           
                         </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <asp:Label ID="Label1" runat="server" Text="Label">Descrizione * </asp:Label>
-                        <asp:TextBox ID="txtFileDescription" runat="server" CssClass="form-control" Width="300px"></asp:TextBox>
-                        <asp:RequiredFieldValidator runat="server" ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
+                        <div class="col-lg-6">
+                                <asp:Label ID="Label1" runat="server" Text="Label" CssClass="col-lg-3">Descrizione * </asp:Label>
+                                <div class="col-lg-9">
+                                    <%--<asp:TextBox ID="txtFileDescription" runat="server" CssClass="form-control input-sm"></asp:TextBox>--%>
+                                    <textarea runat="server" class="form-control input-sm" rows="3" id="txtFileDescription"></textarea>
+                                    <asp:RequiredFieldValidator Display="Dynamic" runat="server" ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>

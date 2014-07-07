@@ -89,7 +89,7 @@
                                 <p>&nbsp;</p>
                             </div>
                             <p></p>
-                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Salva attività" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveActivity_Click" />
+                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Avanti" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveActivity_Click" />
                             <br />
                         </div>
                     </div>
