@@ -159,7 +159,7 @@
                                 <asp:BoundField HeaderStyle-Width="10%" DataFormatString="{0:d}" DataField="Date" HeaderText="Data" SortExpression="Date" />
                                 <asp:TemplateField HeaderText="Tipo" SortExpression="DataType" HeaderStyle-Width="5%" HeaderStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <center><div><span class="<%#:Item.DataTypeUrl %>"></span></div></center>
+                                        <span title="<%#: Item.DataType %>" class="<%#:Item.DataTypeUrl %>" ></span>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
