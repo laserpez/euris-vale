@@ -472,6 +472,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GridPager.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Logic\ActivityActions.cs" />
     <Compile Include="Logic\AdminActions.cs" />
     <Compile Include="Logic\ArticleActions.cs" />
