@@ -47,7 +47,7 @@
                                         </div>
                                     </asp:Panel>
                                     <h3>Attività in corso</h3>
-                                    <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" DataKeyNames="ActivityId" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
+                                    <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" DataKeyNames="ActivityId" ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false"
                                         ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="Nessuna attività in corso." 
                                         CssClass="table table-striped table-bordered" AllowPaging="true" PageSize="10">
                                         <Columns>
@@ -59,8 +59,6 @@
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="120px" />
-                                                <ItemStyle Width="120px" />
                                             </asp:TemplateField>
 
                                             <asp:TemplateField>
@@ -70,8 +68,6 @@
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 20 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="120px" />
-                                                <ItemStyle Width="120px" />
                                             </asp:TemplateField>
 
                                             <asp:TemplateField>
