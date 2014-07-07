@@ -1,4 +1,5 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="VALE._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -142,6 +143,9 @@
                         <asp:BoundField DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
                         <asp:BoundField DataField="Username" HeaderText="Utente" SortExpression="Username" />
                     </Columns>
+                    <PagerTemplate>
+                        <asp:Gr
+                    </PagerTemplate>
                 </asp:GridView>
             </ContentTemplate>
         </asp:UpdatePanel>

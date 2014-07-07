@@ -1,12 +1,14 @@
-﻿namespace VALE
-{
-    using System;
-    using System.Globalization;
-    using System.Web.UI;
-    using System.Web.UI.WebControls;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
-    [ToolboxData(@"<{0}:GridPager runat=""server"" PersistentDataSource=true></{0}:GridPager>")]
-    public class GridPager : UserControl
+namespace VALE.MyVale
+{
+    public partial class GridPager : System.Web.UI.UserControl
     {
         #region Properties
 
@@ -88,7 +90,7 @@
             {
                 if (control is GridView)
                 {
-                    TheGrid = (GridView) control;
+                    TheGrid = (GridView)control;
                     break;
                 }
                 control = control.Parent;
@@ -100,10 +102,10 @@
         /// </summary>
         protected override void CreateChildControls()
         {
-            
+
             Controls.Add(new Literal { Text = "<div class=\"pagination text-center\"><ul>" });
 
-            int min = Math.Min(Math.Max(0, TheGrid.PageIndex - ( PageLinksToShow/2 )),
+            int min = Math.Min(Math.Max(0, TheGrid.PageIndex - (PageLinksToShow / 2)),
                                Math.Max(0, TheGrid.PageCount - PageLinksToShow + 1));
             int max = Math.Min(TheGrid.PageCount, min + PageLinksToShow);
 
@@ -130,8 +132,8 @@
             {
                 AddLink(LastText ?? "Last", "lastPage", TheGrid.PageIndex < TheGrid.PageCount - 1, "Last");
             }
-            Controls.Add(new Literal {Text = "</ul></div>"});
-            
+            Controls.Add(new Literal { Text = "</ul></div>" });
+
         }
 
 
@@ -144,7 +146,7 @@
         /// <param name="commandArgument">The command argument.</param>
         private void AddLink(String text, String cssClass, bool addAsLink, string commandArgument)
         {
-            Controls.Add(new Literal {Text = "<li>"});
+            Controls.Add(new Literal { Text = "<li>" });
             if (addAsLink)
             {
                 LinkButton button = new LinkButton
@@ -159,9 +161,9 @@
             }
             else
             {
-                Controls.Add(new Label {Text = text, CssClass = cssClass});
+                Controls.Add(new Label { Text = text, CssClass = cssClass });
             }
-            Controls.Add(new Literal {Text = "</li>"});
+            Controls.Add(new Literal { Text = "</li>" });
         }
     }
 }
