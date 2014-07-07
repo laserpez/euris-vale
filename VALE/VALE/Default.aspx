@@ -1,8 +1,9 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="VALE._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="jumbotron">
+    <div>
         <h2>Benvenuto in VALE, ambiente virtuale di collaborazione</h2>
     </div>
 
@@ -10,11 +11,9 @@
         <div class="col-md-10" style="font-size: x-large">
             <p>
                 &nbsp;Fai il log-in per accedere alle sezioni interne <a runat="server" href="~/Account/Login">Qui</a>.
-                <br />
-                &nbsp;Puoi anche fare il log-in attraverso google, facebook, twitter o linkedin.
             </p>
             <p>
-                &nbsp;Se non sei ancora registrato clicca <a runat="server" href="~/Account/Register">Qui</a>
+                &nbsp;Se non sei ancora registrato clicca <a runat="server" href="~/Account/Register">Qui</a>.
             </p>
         </div>
     </div>
@@ -128,4 +127,30 @@
 
     </div>
 
+    <br />
+    <div>
+        <h3>Ultime attività</h3>
+    </div>
+    <div class="row" id="log">
+        <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+                <asp:GridView ID="grdLog" CssClass="table table-striped table-hover" runat="server" ItemType="VALE.Logic.LogEntry" AutoGenerateColumns="false" SelectMethod="GetLogEntry"
+                     GridLines="None" AllowPaging="true" AllowSorting="true" PageSize="10">
+                    <Columns>
+                        <asp:BoundField DataField="Date" HeaderText="Data" SortExpression="Date" />
+                        <asp:BoundField DataField="DataType" HeaderText="Tipo" SortExpression="DataType" />
+                        <asp:BoundField DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
+                        <asp:BoundField DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
+                        <asp:BoundField DataField="Username" HeaderText="Utente" SortExpression="Username" />
+                    </Columns>
+                    <PagerTemplate>
+                        <asp:GridPager runat="server"
+                             ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                            NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                    </PagerTemplate>
+                </asp:GridView>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
+    </div>
 </asp:Content>

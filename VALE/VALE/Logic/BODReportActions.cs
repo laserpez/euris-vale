@@ -6,6 +6,7 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
+    [Serializable]
     public class BODReportActions : IFileActions
     {
         public bool AddAttachment(int dataId, Models.AttachedFile file)
