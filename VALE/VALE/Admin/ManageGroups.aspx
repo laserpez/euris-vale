@@ -90,6 +90,8 @@
                                         </div>
                                     </div>
                                     <div class="row" runat="server" id="pnlManageGroupPanel" visible="false">
+                                        <asp:Label ID="grdUsersSelectAllLabel" runat="server" Visible="false" Text="False"></asp:Label>
+                                        <asp:Label ID="grdGroupUsersSelectAllLabel" runat="server" Visible="false" Text="False"></asp:Label>
                                         <div class="col-sm-6 col-md-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
@@ -105,7 +107,7 @@
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>
-                                                                    <center><div><asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click"><span  class="glyphicon glyphicon-screenshot"></span></asp:LinkButton></div></center>
+                                                                    <center><div><asp:LinkButton  runat="server" OnClick="grdUsersSelectDeselectAllLinkButton_Click"><span  class="glyphicon glyphicon-screenshot"></span></asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
                                                                     <center><div><asp:CheckBox runat="server" ID="chkSelectUser"/></div></center>
@@ -159,7 +161,7 @@
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
-                                                                            <center><div><span  class="glyphicon glyphicon-screenshot"></span></div></center>
+                                                                            <center><div><asp:LinkButton  runat="server" OnClick="grdGroupUsersSelectDeselectAllLinkButton_Click"><span  class="glyphicon glyphicon-screenshot"></span></asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:CheckBox runat="server" ID="chkSelectUser" /></div></center>

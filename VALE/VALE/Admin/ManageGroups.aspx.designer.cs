@@ -76,6 +76,24 @@ namespace VALE.MyVale.Create {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnlManageGroupPanel;
         
         /// <summary>
+        /// grdUsersSelectAllLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label grdUsersSelectAllLabel;
+        
+        /// <summary>
+        /// grdGroupUsersSelectAllLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label grdGroupUsersSelectAllLabel;
+        
+        /// <summary>
         /// btnAddSelectedUsersToGroupButton control.
         /// </summary>
         /// <remarks>
