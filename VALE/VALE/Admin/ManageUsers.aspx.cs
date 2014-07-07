@@ -23,7 +23,6 @@ namespace VALE.Admin
 
             if (GetWaitingUsers().Count() == 0)
                 btnConfirmUser.Enabled = false;
-
         }
 
         public IQueryable<ApplicationUser> GetWaitingUsers()
@@ -51,12 +50,11 @@ namespace VALE.Admin
                 {
                     string userName = ((Label)grdUsers.Rows[i].Cells[0].FindControl("labelUserName")).Text;
                     AdminActions.ConfirmUser(userName);
-
                     //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "La tua richiesta di associazione è stata confermata.", "Account confermato");
                 }
             }
-
-            grdUsers.DataBind();
+            string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
+            Response.Redirect(pageUrl);
         }
 
         protected void btnChangeUser_Click(object sender, EventArgs e)

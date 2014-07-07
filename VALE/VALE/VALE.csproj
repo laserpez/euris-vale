@@ -223,7 +223,7 @@
     <Content Include="MyVale\BOD\VALEDocuments.aspx" />
     <Content Include="MyVale\BOD\ViewBODReport.aspx" />
     <Content Include="MyVale\Create\AddNewUser.ascx" />
-    <Content Include="MyVale\Create\ManageGroups.aspx" />
+    <Content Include="Admin\ManageGroups.aspx" />
     <Content Include="MyVale\Create\SelectProject.ascx" />
     <Content Include="MyVale\Create\SelectUser.ascx" />
     <Content Include="MyVale\FileUploader.ascx" />
@@ -564,11 +564,11 @@
     <Compile Include="MyVale\Create\AddNewUser.ascx.designer.cs">
       <DependentUpon>AddNewUser.ascx</DependentUpon>
     </Compile>
-    <Compile Include="MyVale\Create\ManageGroups.aspx.cs">
+    <Compile Include="Admin\ManageGroups.aspx.cs">
       <DependentUpon>ManageGroups.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MyVale\Create\ManageGroups.aspx.designer.cs">
+    <Compile Include="Admin\ManageGroups.aspx.designer.cs">
       <DependentUpon>ManageGroups.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\Create\SelectProject.ascx.cs">
