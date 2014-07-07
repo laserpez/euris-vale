@@ -89,22 +89,13 @@ namespace VALE.MyVale
         {
             int index = Convert.ToInt32(e.CommandArgument);
             int activityId = Convert.ToInt32(grdPendingActivities.DataKeys[index].Value);
-            var db = new UserOperationsContext();
-            var activity = db.Activities.First(a => a.ActivityId == activityId);
-            var user = db.UserDatas.First(u => u.UserName == _currentUserName);
+            var activityActions = new ActivityActions();
+            var accept = false;
             if (e.CommandName == "AcceptActivity")
-            {
-                db.Reports.Add(new ActivityReport 
-                { 
-                    ActivityId = activityId,
-                    WorkerUserName = _currentUserName, 
-                    HoursWorked = 0,
-                    Date = DateTime.Today, 
-                    ActivityDescription = "Attività ricevuta da un altro utente."
-                });
-            }
-            user.PendingActivity.Remove(activity);
-            db.SaveChanges();
+                accept = true;
+
+            activityActions.AddOrRefusePendingActivity(activityId, accept);
+
             grdCurrentActivities.DataBind();
             grdPendingActivities.DataBind();
         }

@@ -264,6 +264,9 @@
     <Content Include="DownloadFile.ashx" />
     <Content Include="MyVale\ManageActivities.aspx" />
     <Content Include="PopUpPassword.aspx" />
+    <Content Include="MyVale\BOD\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Account\Profile.aspx" />

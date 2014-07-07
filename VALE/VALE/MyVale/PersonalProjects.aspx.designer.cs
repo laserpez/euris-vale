@@ -22,24 +22,6 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// ProjectGrid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel ProjectGrid;
-        
-        /// <summary>
-        /// labelSelect control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelSelect;
-        
-        /// <summary>
         /// btnCurrentView control.
         /// </summary>
         /// <remarks>
@@ -65,6 +47,15 @@ namespace VALE.MyVale {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCreated;
+        
+        /// <summary>
+        /// ProjectGrid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel ProjectGrid;
         
         /// <summary>
         /// grdProjectList control.
