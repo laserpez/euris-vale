@@ -65,7 +65,7 @@ namespace VALE
         public IQueryable<LogEntry> GetLogEntry()
         {
             var db = new UserOperationsContext();
-            return db.LogEntries.OrderBy(e => e.Date);
+            return db.LogEntries.OrderByDescending(e => e.Date);
         }
        
 
