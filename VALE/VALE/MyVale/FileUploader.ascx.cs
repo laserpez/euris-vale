@@ -33,16 +33,16 @@ namespace VALE.MyVale
         protected void AddFileNameButton_Click(object sender, EventArgs e)
         {
             var attachedFile = new AttachedFile();
+            var fileName = FileUpload.PostedFile.FileName.Split(new char[] { '/', '\\' });
             if (FileUpload.HasFile)
             {
-                attachedFile.FileName = FileUpload.PostedFile.FileName;
-                attachedFile.FileDescription = txtFileDescription.Text;
+                attachedFile.FileName = fileName[fileName.Length - 1];
+                attachedFile.FileDescription = txtFileDescription.Value;
                 attachedFile.FileExtension = Path.GetExtension(FileUpload.PostedFile.FileName);
                 attachedFile.FileData = FileUpload.FileBytes;
                 attachedFile.Owner = HttpContext.Current.User.Identity.Name;
                 attachedFile.CreationDate = DateTime.Now;
                 DataActions.AddAttachment(DataId, attachedFile);
-                txtFileDescription.Text = "";
                 DocumentsGridView.DataBind();
             }
         }
