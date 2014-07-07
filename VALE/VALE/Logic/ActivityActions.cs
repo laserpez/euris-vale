@@ -43,9 +43,10 @@ namespace VALE.Logic
         public void SetActivityStatus(int id, ActivityStatus status)
         {
             var db = new UserOperationsContext();
+            var anActivity = db.Activities.First(a => a.ActivityId == id);
             db.Activities.First(a => a.ActivityId == id).Status = status;
             db.SaveChanges();
-            logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato", DataType = "Attività", Date = DateTime.Now, Description = status.ToString() });
+            logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato attività", DataType = "Attività", Date = DateTime.Now, Description = "\"" + anActivity.ActivityName + "\"" + " ha ora lo stato: " + status.ToString() });
         }
 
         public int GetActivitiesRequest(string userName)
@@ -138,7 +139,7 @@ namespace VALE.Logic
                 added = false;
             }
             db.SaveChanges();
-            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added?"Aggiunto utente":"Rimosso utente", DataType = "Attività", Date = DateTime.Now, Description = username });
+            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Attività", Date = DateTime.Now, Description = username + (added ? " è stato invitato a \"" : " non collabora più a \"") + activity.ActivityName + "\"" });
             return added;
         }
 
@@ -199,13 +200,34 @@ namespace VALE.Logic
                 var newActivity = data as Activity;
                 db.Activities.Add(newActivity);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Now, Description = newActivity.ActivityName });
+                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Now, Description = "Nome attività: \"" + newActivity.ActivityName + "\"" });
                 return true;
             }
             catch (Exception)
             {
                 return false;
             }
+        }
+
+        internal void AddOrRefusePendingActivity(int activityId, bool accept)
+        {
+            var db = new UserOperationsContext();
+            var activity = db.Activities.First(a => a.ActivityId == activityId);
+            var user = db.UserDatas.First(u => u.UserName == HttpContext.Current.User.Identity.Name);
+            if (accept == true)
+            {
+                db.Reports.Add(new ActivityReport
+                {
+                    ActivityId = activityId,
+                    WorkerUserName = user.UserName,
+                    HoursWorked = 0,
+                    Date = DateTime.Today,
+                    ActivityDescription = "Attività ricevuta da un altro utente."
+                });
+            }
+            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = accept ? "Accettato attività" : "Rifiutato attività", DataType = "Attività", Date = DateTime.Now, Description = user.UserName + (accept ? " partecipa ora a \"" : " non ha accettato di partecipare a \"") + activity.ActivityName + "\"" });
+            user.PendingActivity.Remove(activity);
+            db.SaveChanges();
         }
     }
 }

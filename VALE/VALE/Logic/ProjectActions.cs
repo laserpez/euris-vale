@@ -79,7 +79,7 @@ namespace VALE.Logic
                 db.AttachedFiles.Remove(anAttachment);
                 anAttachment.RelatedProject.LastModified = DateTime.Now;
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = anAttachment.RelatedProject.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimosso documento", DataType = "Progetto", Date = DateTime.Now, Description = anAttachment.FileName });
+                logger.Write(new LogEntry() { DataId = anAttachment.RelatedProject.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimosso documento da \"" + anAttachment.RelatedProject.ProjectName + "\"", DataType = "Progetto", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
                 return true;
             }
             catch (Exception)
@@ -97,7 +97,7 @@ namespace VALE.Logic
                 project.AttachedFiles.Add(file);
                 project.LastModified = DateTime.Now;
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento", DataType = "Progetto", Date = DateTime.Now, Description = file.FileName });
+                logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento a \"" + project.ProjectName + "\"", DataType = "Progetto", Date = DateTime.Now, Description = "Nome documento: \"" + file.FileName + "\"" });
                 return true;
             }
             catch (Exception)
@@ -121,7 +121,7 @@ namespace VALE.Logic
                 var project = db.Projects.First(p => p.ProjectId == dataId);
                 db.AttachedFiles.RemoveRange(project.AttachedFiles);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = dataId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Progetto", Date = DateTime.Now, Description = "" });
+                logger.Write(new LogEntry() { DataId = dataId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Progetto", Date = DateTime.Now, Description = "Rimossi tutti i documenti da \"" + project.ProjectName + "\"" });
                 return true;
             }
             catch (Exception)
@@ -153,7 +153,7 @@ namespace VALE.Logic
                 aProject.InvolvedUsers.Remove(user);
             db.SaveChanges();
 
-            logger.Write(new LogEntry() { DataId = dataId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = username });
+            logger.Write(new LogEntry() { DataId = dataId, Username = user.UserName, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = user.UserName + (added ? " è stato invitato a \"" : " non collabora più a \"") + aProject.ProjectName + "\"" });
             return added;
         }
 
@@ -185,7 +185,7 @@ namespace VALE.Logic
                 var project = data as Project;
                 db.Projects.Add(project);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato", DataType = "Progetto", Date = DateTime.Now, Description = "" });
+                logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo progetto", DataType = "Progetto", Date = DateTime.Now, Description ="Nome progetto: \"" + project.ProjectName + "\"" });
                 return true;
             }
             catch (Exception)
