@@ -79,7 +79,7 @@ namespace VALE.Logic
                     list = _db.Users.Where(u => u.NeedsApproval == true).ToList();
                     break;
                 default:
-                    list = _db.Users.ToList();
+                    list = _db.Users.Where(u => u.NeedsApproval == false).ToList();
                     break;
             }
             return list;

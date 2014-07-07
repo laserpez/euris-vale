@@ -23,32 +23,37 @@
             <h3>Progetti</h3>
             <asp:ListView ID="lstProgetti" runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjects">
                 <ItemTemplate>
-                    <table>
-                        <tr>
-                            <td style="width: 150px">
-                                <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.ProjectName %></asp:Label><br />
-                            </td>
-                            <td rowspan="3">
-                                <asp:Button runat="server" Text="Visualizza" ID="btnViewProjectDetails" CommandArgument='<%#: String.Format("ProjectDetails?projectId={0}", Item.ProjectId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Label Font-Underline="true" runat="server"><%#: Item.OrganizerUserName %></asp:Label><br />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 20 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-8">
+                                    <ul class="nav nav-pills">
+                                        <li>
+                                            <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.ProjectName %></asp:Label></li>
+                                    </ul>
+                                </div>
+                                <div class="navbar-right">
+                                    <asp:Button runat="server" Text="Visualizza" ID="btnViewProjectDetails" CommandArgument='<%#: String.Format("ProjectDetails?projectId={0}", Item.ProjectId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <asp:Label Font-Underline="true" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
+                            </div>
+                            <div class="col-md-12">
+                                <asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label>
+                            </div>
+                        </div>
+                    </div>
                 </ItemTemplate>
                 <ItemSeparatorTemplate>
                     <br />
                 </ItemSeparatorTemplate>
                 <EmptyDataTemplate>
-                    Nessun progetto creato.
+                    <div class="well">
+                        Nessun progetto creato.
+                    </div>
                 </EmptyDataTemplate>
             </asp:ListView>
             <br />
@@ -58,32 +63,37 @@
             <h3>Eventi</h3>
             <asp:ListView ID="lstEvents" runat="server" ItemType="VALE.Models.Event" SelectMethod="GetEvents">
                 <ItemTemplate>
-                    <table>
-                        <tr>
-                            <td style="width: 150px">
-                                <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.Name %></asp:Label><br />
-                            </td>
-                            <td rowspan="3">
-                                <asp:Button runat="server" Text="Visualizza" ID="btnViewEventDetails" CommandArgument='<%#: String.Format("EventDetails?eventId={0}", Item.EventId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click"  />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Label Font-Underline="true" runat="server"><%#: Item.OrganizerUserName %></asp:Label><br />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 20 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-8">
+                                    <ul class="nav nav-pills">
+                                        <li>
+                                            <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.Name %></asp:Label></li>
+                                    </ul>
+                                </div>
+                                <div class="navbar-right">
+                                    <asp:Button runat="server" Text="Visualizza" ID="Button3" CommandArgument='<%#: String.Format("EventDetails?eventId={0}", Item.EventId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click"  />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <asp:Label Font-Underline="true" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
+                            </div>
+                            <div class="col-md-12">
+                                <asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label>
+                            </div>
+                        </div>
+                    </div>
                 </ItemTemplate>
                 <ItemSeparatorTemplate>
                     <br />
                 </ItemSeparatorTemplate>
                 <EmptyDataTemplate>
-                    Nessun evento creato. 
+                    <div class="well">
+                        Nessun evento creato.
+                    </div>
                 </EmptyDataTemplate>
             </asp:ListView>
             <br />
@@ -93,32 +103,37 @@
             <h3>Attività</h3>
             <asp:ListView ID="lstActivities" runat="server" ItemType="VALE.Models.Activity" SelectMethod="GetActivities">
                 <ItemTemplate>
-                    <table>
-                        <tr>
-                            <td style="width: 150px">
-                                <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.ActivityName %></asp:Label><br />
-                            </td>
-                            <td rowspan="3">
-                                <asp:Button runat="server" Text="Visualizza" ID="btnViewActivity" CommandArgument='<%#: String.Format("ActivityDetails?activityId={0}", Item.ActivityId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Label Font-Underline="true" runat="server"><%#: Item.CreatorUserName %></asp:Label><br />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 20 ? Item.Description.Substring(0,20) + "..." : Item.Description %></asp:Label>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-8">
+                                    <ul class="nav nav-pills">
+                                        <li>
+                                            <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.ActivityName %></asp:Label>
+                                    </ul>
+                                </div>
+                                <div class="navbar-right">
+                                    <asp:Button runat="server" Text="Visualizza" ID="Button4" CommandArgument='<%#: String.Format("ActivityDetails?activityId={0}", Item.ActivityId) %>' CssClass="btn btn-primary btn-sm" OnClick="btnViewDetails_Click" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <asp:Label Font-Underline="true" runat="server"><%#: Item.CreatorUserName %></asp:Label>
+                            </div>
+                            <div class="col-md-12">
+                                <asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label>
+                            </div>
+                        </div>
+                    </div>
                 </ItemTemplate>
                 <ItemSeparatorTemplate>
                     <br />
                 </ItemSeparatorTemplate>
                 <EmptyDataTemplate>
-                    Nessuna attività creata.
+                    <div class="well">
+                        Nessuna attività creata.
+                    </div>
                 </EmptyDataTemplate>
             </asp:ListView>
             <br />
@@ -126,31 +141,40 @@
         </div>
 
     </div>
-
     <br />
-    <div>
-        <h3>Ultime attività</h3>
-    </div>
-    <div class="row" id="log">
-        <asp:UpdatePanel runat="server">
-            <ContentTemplate>
-                <asp:GridView ID="grdLog" CssClass="table table-striped table-hover" runat="server" ItemType="VALE.Logic.LogEntry" AutoGenerateColumns="false" SelectMethod="GetLogEntry"
-                     GridLines="None" AllowPaging="true" AllowSorting="true" PageSize="10">
-                    <Columns>
-                        <asp:BoundField DataField="Date" HeaderText="Data" SortExpression="Date" />
-                        <asp:BoundField DataField="DataType" HeaderText="Tipo" SortExpression="DataType" />
-                        <asp:BoundField DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
-                        <asp:BoundField DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
-                        <asp:BoundField DataField="Username" HeaderText="Utente" SortExpression="Username" />
-                    </Columns>
-                    <PagerTemplate>
-                        <asp:GridPager runat="server"
-                             ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                            NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                    </PagerTemplate>
-                </asp:GridView>
-            </ContentTemplate>
-        </asp:UpdatePanel>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Ultime attività</h3>
+                </div>
+            </div>
 
+            <div class="row" id="log">
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <asp:GridView ID="grdLog" CssClass="table table-striped table-hover" runat="server" ItemType="VALE.Logic.LogEntry" AutoGenerateColumns="false" SelectMethod="GetLogEntry"
+                            GridLines="None" AllowPaging="true" AllowSorting="true" PageSize="10">
+                            <Columns>
+                                <asp:BoundField HeaderStyle-Width="10%" DataFormatString="{0:d}" DataField="Date" HeaderText="Data" SortExpression="Date" />
+                                <asp:TemplateField HeaderText="Tipo" SortExpression="DataType" HeaderStyle-Width="5%" HeaderStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <center><div><span class="<%#:Item.DataTypeUrl %>"></span></div></center>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
+                                <asp:BoundField DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
+                                <asp:BoundField DataField="Username" HeaderText="Utente" SortExpression="Username" />
+                            </Columns>
+                            <PagerTemplate>
+                                <asp:GridPager runat="server"
+                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                            </PagerTemplate>
+                        </asp:GridView>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </div>
     </div>
 </asp:Content>

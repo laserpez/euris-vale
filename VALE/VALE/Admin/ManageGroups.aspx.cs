@@ -251,18 +251,47 @@ namespace VALE.MyVale.Create
                 }
                 grdGroupUsers.DataBind();
                 grdUsers.DataBind();
-
             }
 
         }
 
-        protected void LinkButton1_Click(object sender, EventArgs e)
+        protected void grdUsersSelectDeselectAllLinkButton_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < grdUsers.Rows.Count; i++)
+            if (grdUsersSelectAllLabel.Text == "False")
             {
-                CheckBox chkBox = (CheckBox)grdUsers.Rows[i].Cells[0].FindControl("chkSelectUser");
-                chkBox.Checked = true;
+                SelectDeselectAllCheckBox(grdUsers, true);
+                grdUsersSelectAllLabel.Text = "True";
+            }
+            else 
+            {
+                SelectDeselectAllCheckBox(grdUsers, false);
+                grdUsersSelectAllLabel.Text = "False";
             }
         }
+
+        protected void grdGroupUsersSelectDeselectAllLinkButton_Click(object sender, EventArgs e)
+        {
+            if (grdGroupUsersSelectAllLabel.Text == "False")
+            {
+                SelectDeselectAllCheckBox(grdGroupUsers, true);
+                grdGroupUsersSelectAllLabel.Text = "True";
+            }
+            else 
+            {
+                SelectDeselectAllCheckBox(grdGroupUsers, false);
+                grdGroupUsersSelectAllLabel.Text = "False";
+            }
+        }
+
+        private void SelectDeselectAllCheckBox(GridView gridView, bool select)
+        {
+            for (int i = 0; i < gridView.Rows.Count; i++)
+            {
+                CheckBox chkBox = (CheckBox)gridView.Rows[i].Cells[0].FindControl("chkSelectUser");
+                chkBox.Checked = select;
+            }
+        }
+
+       
     }
 }
