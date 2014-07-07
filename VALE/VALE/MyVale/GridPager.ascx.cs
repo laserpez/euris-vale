@@ -103,7 +103,7 @@ namespace VALE.MyVale
         protected override void CreateChildControls()
         {
 
-            Controls.Add(new Literal { Text = "<div class=\"pagination text-center\"><ul>" });
+            Controls.Add(new Literal { Text = "<div><center><ul class=\"pagination pagination-sm\">" });
 
             int min = Math.Min(Math.Max(0, TheGrid.PageIndex - (PageLinksToShow / 2)),
                                Math.Max(0, TheGrid.PageCount - PageLinksToShow + 1));
@@ -132,7 +132,7 @@ namespace VALE.MyVale
             {
                 AddLink(LastText ?? "Last", "lastPage", TheGrid.PageIndex < TheGrid.PageCount - 1, "Last");
             }
-            Controls.Add(new Literal { Text = "</ul></div>" });
+            Controls.Add(new Literal { Text = "</ul></center></div>" });
 
         }
 
