@@ -6,6 +6,7 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
+    [Serializable]
     class DBLogger: ILogger
     {
         public List<LogEntry> Read(string filter, int count)

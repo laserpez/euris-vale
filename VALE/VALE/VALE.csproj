@@ -227,6 +227,7 @@
     <Content Include="MyVale\Create\SelectProject.ascx" />
     <Content Include="MyVale\Create\SelectUser.ascx" />
     <Content Include="MyVale\FileUploader.ascx" />
+    <Content Include="MyVale\GridPager.ascx" />
     <Content Include="MyVale\PersonalArticles.aspx" />
     <Content Include="MyVale\UserList.aspx" />
     <Content Include="MyVale\UserSelector.aspx" />
@@ -472,6 +473,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="MyVale\GridPager.ascx.cs">
+      <DependentUpon>GridPager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\GridPager.ascx.designer.cs">
+      <DependentUpon>GridPager.ascx</DependentUpon>
     </Compile>
     <Compile Include="Logic\ActivityActions.cs" />
     <Compile Include="Logic\AdminActions.cs" />

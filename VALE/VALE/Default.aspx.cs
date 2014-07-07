@@ -62,6 +62,11 @@ namespace VALE
             Response.Redirect(uri);
         }
 
+        public IQueryable<LogEntry> GetLogEntry()
+        {
+            var db = new UserOperationsContext();
+            return db.LogEntries.OrderBy(e => e.Date);
+        }
        
 
         
