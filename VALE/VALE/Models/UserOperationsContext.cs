@@ -24,6 +24,7 @@ namespace VALE.Models
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<BODReport> BODReports { get; set; }
         public DbSet<AttachedFile> AttachedFiles { get; set; }
+        public DbSet<ValeFile> VALEFiles { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<LogEntry> LogEntries { get; set; }
 
