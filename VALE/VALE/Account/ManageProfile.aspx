@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Menage Profile" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MenageProfile.aspx.cs" Inherits="VALE.MenageProfile" %>
+﻿<%@ Page Title="Manage Profile" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageProfile.aspx.cs" Inherits="VALE.ManageProfile" %>
 <%@ Register Src="~/MyVale/FileUploader.ascx" TagPrefix="uc" TagName="FileUploader" %>
 <%@ Register Src="~/Account/OpenAuthProviders.ascx" TagPrefix="uc" TagName="OpenAuthProviders" %>
 
@@ -204,7 +204,7 @@
                                     </ItemTemplate>
                                 </asp:ListView>
                                 <div class="col-md-12"><br /></div>
-                                <uc:OpenAuthProviders runat="server" ReturnUrl="~/Account/MenageProfile" />
+                                <uc:OpenAuthProviders runat="server" ReturnUrl="~/Account/ManageProfile" />
                             </section>
 
                             <br />

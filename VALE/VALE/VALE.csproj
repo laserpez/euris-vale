@@ -215,7 +215,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\logoVALE.png" />
-    <Content Include="Account\MenageProfile.aspx" />
+    <Content Include="Account\ManageProfile.aspx" />
     <Content Include="Images\User.jpg" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
@@ -501,12 +501,12 @@
     <Compile Include="Logic\BODReportActions.cs" />
     <Compile Include="Logic\RoleActions.cs" />
     <Compile Include="Logic\UserActions.cs" />
-    <Compile Include="Account\MenageProfile.aspx.cs">
-      <DependentUpon>MenageProfile.aspx</DependentUpon>
+    <Compile Include="Account\ManageProfile.aspx.cs">
+      <DependentUpon>ManageProfile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Account\MenageProfile.aspx.designer.cs">
-      <DependentUpon>MenageProfile.aspx</DependentUpon>
+    <Compile Include="Account\ManageProfile.aspx.designer.cs">
+      <DependentUpon>ManageProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\ActivityReport.cs" />

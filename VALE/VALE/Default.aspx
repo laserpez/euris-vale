@@ -142,7 +142,7 @@
 
     </div>
     <br />
-    <div class="panel panel-default">
+    <div id="log" class="panel panel-default" runat="server">
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12"  style="font-size:24px">
@@ -153,7 +153,7 @@
                 </div>
             </div>
 
-            <div class="row" id="log">
+            <div class="row" >
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
                         <asp:GridView ID="grdLog" CssClass="table table-striped table-hover" runat="server" ItemType="VALE.Logic.LogEntry" AutoGenerateColumns="false" SelectMethod="GetLogEntry"
