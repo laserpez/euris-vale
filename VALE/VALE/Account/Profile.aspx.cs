@@ -65,7 +65,7 @@ namespace VALE
 
         protected void EditProfile_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/Account/MenageProfile?currentUser=" + _currentUser);
+            Response.Redirect("~/Account/ManageProfile?currentUser=" + _currentUser);
         }
 
         protected void CVAttachment_Click(object sender, EventArgs e)

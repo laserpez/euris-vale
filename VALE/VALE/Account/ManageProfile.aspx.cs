@@ -13,7 +13,7 @@ using System.IO;
 
 namespace VALE
 {
-    public partial class MenageProfile : System.Web.UI.Page
+    public partial class ManageProfile : System.Web.UI.Page
     {
         private string _currentUser = HttpContext.Current.User.Identity.Name;
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -107,18 +107,19 @@ namespace VALE
 
             IdentityResult result = manager.ChangePassword(User.Identity.GetUserId(), CurrentPassword.Text, NewPassword.Text);
             var user = manager.FindById(User.Identity.GetUserId());
-            if (user != null)
+            var modifiedUser = db.Users.First(u => u.UserName == _currentUser);
+            if (modifiedUser != null)
             {
                 if (ViewState["imageBytes"] != null)
-                    user.PhotoProfile = (byte[])ViewState["imageBytes"];
-                user.Email = Email.Text;
-                user.Telephone = Telephone.Text;
-                user.CellPhone = CellPhone.Text;
-                user.Address = Address.Text;
-                user.Region = Region.Text;
-                user.Province = Province.Text;
-                user.City = City.Text;
-                user.Description = Description.Text;
+                    modifiedUser.PhotoProfile = (byte[])ViewState["imageBytes"];
+                modifiedUser.Email = Email.Text;
+                modifiedUser.Telephone = Telephone.Text;
+                modifiedUser.CellPhone = CellPhone.Text;
+                modifiedUser.Address = Address.Text;
+                modifiedUser.Region = Region.Text;
+                modifiedUser.Province = Province.Text;
+                modifiedUser.City = City.Text;
+                modifiedUser.Description = Description.Text;
 
                 db.SaveChanges();
             }
@@ -159,7 +160,7 @@ namespace VALE
                 IdentityHelper.SignIn(manager, user, isPersistent: false);
                 msg = "?m=RemoveLoginSuccess";
             }
-            Response.Redirect("~/Account/MenageProfile");
+            Response.Redirect("~/Account/ManageProfile");
         }
 
         private void AddErrors(IdentityResult result)

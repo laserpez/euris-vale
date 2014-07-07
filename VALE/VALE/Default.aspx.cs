@@ -19,6 +19,7 @@ namespace VALE
             _db = new UserOperationsContext();
             notLoggedUser.Visible = !HttpContext.Current.User.Identity.IsAuthenticated;
             loggedUser.Visible = HttpContext.Current.User.Identity.IsAuthenticated;
+            log.Visible = HttpContext.Current.User.Identity.IsAuthenticated;
             _currentUser = _db.UserDatas.FirstOrDefault(u => u.UserName == User.Identity.Name);
         }
 
