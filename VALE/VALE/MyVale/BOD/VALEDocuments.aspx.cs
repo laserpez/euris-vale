@@ -14,11 +14,7 @@ namespace VALE.MyVale.BOD
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
-            {
-                FooterDocuments.Visible = true;
-            }
-            else
+            if (!HttpContext.Current.User.IsInRole("Amministratore") && !HttpContext.Current.User.IsInRole("Membro del consiglio"))
             {
                 FooterDocuments.Visible = false;
             }
