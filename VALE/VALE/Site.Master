@@ -71,7 +71,7 @@
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-tasks"></span> Consiglio<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/BOD/BODReports.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Vedi verbali</a></li>
-                                <li><a href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>
+                                <li><a runat="server" id="createBODLink" visible="false" href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>
                                 <li><a href="/MyVale/BOD/VALEDocuments.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Documenti dell'associazione</a></li>
                             </ul>
                         </li>
