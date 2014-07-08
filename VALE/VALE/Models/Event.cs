@@ -15,6 +15,8 @@ namespace VALE.Models
 
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Site { get; set; }
+        public string Durata { get; set; }
         public bool Public { get; set; }
         public DateTime EventDate { get; set; }
         public virtual List<AttachedFile> AttachedFiles { get; set; }
