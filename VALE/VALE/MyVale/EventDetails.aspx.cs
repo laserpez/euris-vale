@@ -37,18 +37,22 @@ namespace VALE.MyVale
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            setBtnAttend();
+        }
+        public void setBtnAttend()
+        {
             var eventActions = new EventActions();
-            if(eventActions.IsUserRelated(_currentEventId, _currentUserName))
+            if (eventActions.IsUserRelated(_currentEventId, _currentUserName))
             {
                 btnAttend.CssClass = "btn btn-success";
                 btnAttend.Text = "Stai partecipando";
             }
             else
             {
-                btnAttend.CssClass = "btn btn-info";
+                btnAttend.CssClass = "btn btn-info"; 
+                btnAttend.Text = "Partecipa";
             }
         }
-
         public Event GetEvent([QueryString("eventId")] int? eventId)
         {
             if (eventId.HasValue)
@@ -83,7 +87,8 @@ namespace VALE.MyVale
                 //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
             }
             _db.SaveChanges();
-            Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
+            //Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
+            setBtnAttend();
         }
 
         protected void EventDetail_DataBound(object sender, EventArgs e)
