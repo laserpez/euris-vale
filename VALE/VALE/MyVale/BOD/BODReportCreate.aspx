@@ -1,5 +1,4 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
-<%@ Register Src="~/MyVale/FileUploader.ascx" TagPrefix="uc" TagName="FileUploader" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="BODReportCreate.aspx.cs" Inherits="VALE.MyVale.BOD.BODReportCreate" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -60,15 +59,9 @@
                                     <br />
                                 </div>
 
-                                
-                                
                                 <div class="col-md-12">
                                     <asp:Button runat="server" ID="btnSubmit" Text="Salva verbale" CssClass="btn btn-primary" OnClick="btnSubmit_Click" />
                                 </div>
-
-                                <asp:Label Visible="false" ID="lblUploadFile" runat="server" Text="Se vuoi puoi caricare dei documenti relativi a questo verbale"></asp:Label>
-                                <uc:FileUploader runat="server" ID="FileUploader" Visible="false" />
-
 
                             </div>
                         </div>
