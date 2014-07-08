@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using VALE.Models;
 using VALE.Logic;
 using System.IO;
+using VALE.StateInfo;
 
 namespace VALE
 {
@@ -17,6 +18,12 @@ namespace VALE
     {
         private string _currentUser = HttpContext.Current.User.Identity.Name;
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        protected string SuccessMessage
+        {
+            get;
+            private set;
+        }
 
         protected bool CanRemoveExternalLogins
         {
@@ -40,9 +47,27 @@ namespace VALE
                 var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 CanRemoveExternalLogins = manager.GetLogins(User.Identity.GetUserId()).Count() > 1;
 
+                SetRegionDropDownList();
+                SetInitialValueForDropDownList();
                 SetAssociationStatus();
                 SetImage();
                 SetCV();
+            }
+        }
+
+        protected void Page_PreRender(EventArgs e)
+        {
+            var message = Request.QueryString["m"];
+            if (message != null)
+            {
+                // Strip the query string from action
+                Form.Action = ResolveUrl("~/Account/Manage");
+
+                SuccessMessage =
+                    message == "ChangePwdSuccess" ? "La tua password è stata modificata."
+                    : message == "RemoveLoginSuccess" ? "L'account è stato rimosso."
+                    : String.Empty;
+                successMessage.Visible = !String.IsNullOrEmpty(SuccessMessage);
             }
         }
 
@@ -67,7 +92,6 @@ namespace VALE
 
         public ApplicationUser GetUserData()
         {
-            var db = new ApplicationDbContext();
             return db.Users.FirstOrDefault(u => u.UserName == _currentUser);
         }
 
@@ -79,6 +103,27 @@ namespace VALE
             }
         }
 
+        private void SetInitialValueForDropDownList()
+        {
+            var DropDownRegion = (DropDownList)PersonalDataFormView.FindControl("DropDownRegion");
+            var DropDownProvince = (DropDownList)PersonalDataFormView.FindControl("DropDownProvince");
+            var DropDownCity = (DropDownList)PersonalDataFormView.FindControl("DropDownCity");
+
+            var user = db.Users.FirstOrDefault(u => u.UserName == _currentUser);
+            if (user.Region != null)
+            {
+                DropDownRegion.SelectedValue = user.Region;
+                Region_SelectedIndexChanged(this, EventArgs.Empty);
+            }
+            if (user.Province != null)
+            {
+                DropDownProvince.SelectedValue = user.Province;
+                State_SelectedIndexChanged(this, EventArgs.Empty);
+            }
+            if (user.City != null)
+                DropDownCity.SelectedValue = user.City;
+        }
+
         protected void AddFileNameButton_Click(object sender, EventArgs e)
         {
             if (FileUploadPhoto.HasFile)
@@ -88,25 +133,120 @@ namespace VALE
             }
         }
 
+        private void ClearDropDownList()
+        {
+            var DropDownProvince = (DropDownList)PersonalDataFormView.FindControl("DropDownProvince");
+            var DropDownCity = (DropDownList)PersonalDataFormView.FindControl("DropDownCity");
+
+            List<string> init = new List<string> { "Seleziona" };
+            DropDownProvince.DataSource = init;
+            DropDownProvince.DataBind();
+            DropDownCity.DataSource = init;
+            DropDownCity.DataBind();
+        }
+
+        private void SetRegionDropDownList()
+        {
+            var DropDownRegion = (DropDownList)PersonalDataFormView.FindControl("DropDownRegion");
+
+            ClearDropDownList();
+            String path = Server.MapPath("~/StateInfo/regioni_province_comuni.xml");
+            StateInfoXML.GetInstance().FileName = path;
+            var list = StateInfoXML.GetInstance().LoadData();
+            var regions = (from r in list where r.depth == "0" orderby r.name select r.name).ToList();
+            regions.Insert(0, "Seleziona");
+            DropDownRegion.DataSource = regions;
+            DropDownRegion.DataBind();
+
+            
+        }
+
+        protected void Region_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var DropDownRegion = (DropDownList)PersonalDataFormView.FindControl("DropDownRegion");
+            var DropDownProvince = (DropDownList)PersonalDataFormView.FindControl("DropDownProvince");
+            var DropDownCity = (DropDownList)PersonalDataFormView.FindControl("DropDownCity");
+
+            if (DropDownRegion.SelectedIndex == 0)
+            {
+                List<string> init = new List<string> { "Seleziona" };
+                DropDownProvince.DataSource = init;
+                DropDownProvince.DataBind();
+                DropDownCity.DataSource = init;
+                DropDownCity.DataBind();
+            }
+            else
+            {
+                ClearDropDownList();
+
+                var list = StateInfoXML.GetInstance().LoadData();
+                var tid = (from r in list where r.depth == "0" && r.name == DropDownRegion.SelectedValue select r.tid).FirstOrDefault();
+                var provinces = (from r in list where r.depth == "1" && r.parent == tid orderby r.name select r.name).ToList();
+                provinces.Insert(0, "Seleziona");
+                DropDownProvince.DataSource = provinces;
+                DropDownProvince.DataBind();
+            }
+        }
+
+        protected void State_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var DropDownProvince = (DropDownList)PersonalDataFormView.FindControl("DropDownProvince");
+            var DropDownCity = (DropDownList)PersonalDataFormView.FindControl("DropDownCity");
+
+            if (DropDownProvince.SelectedIndex == 0)
+            {
+                List<string> init = new List<string> { "Seleziona" };
+                DropDownCity.DataSource = init;
+                DropDownCity.DataBind();
+            }
+            else
+            {
+                var list = StateInfoXML.GetInstance().LoadData();
+                var tid = (from r in list where r.depth == "1" && r.name == DropDownProvince.SelectedValue select r.tid).FirstOrDefault();
+                var citys = (from r in list where r.depth == "2" && r.parent == tid orderby r.name select r.name).ToList();
+                citys.Insert(0, "Seleziona");
+                DropDownCity.DataSource = citys;
+                DropDownCity.DataBind();
+            }
+        }
+
+        protected void ChangePassword_Click(object sender, EventArgs e)
+        {
+            if (IsValid)
+            {
+                var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                var passwordValidator = new PasswordValidator();
+                //per la password sono richiesti solo sei caratteri
+                passwordValidator.RequiredLength = 6;
+                manager.PasswordValidator = passwordValidator;
+
+                IdentityResult result = manager.ChangePassword(User.Identity.GetUserId(), CurrentPassword.Text, NewPassword.Text);
+                if (result.Succeeded)
+                {
+                    var user = manager.FindById(User.Identity.GetUserId());
+                    IdentityHelper.SignIn(manager, user, isPersistent: false);
+                    Response.Redirect("~/Account/ManageProfile?m=ChangePwdSuccess");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+        }
+
         protected void SaveChangesProfile_Click(object sender, EventArgs e)
         {
+
             var Email = (TextBox)PersonalDataFormView.FindControl("EditEmail");
             var Telephone = (TextBox)PersonalDataFormView.FindControl("EditTelephone");
             var CellPhone = (TextBox)PersonalDataFormView.FindControl("EditCellPhone");
             var Address = (TextBox)PersonalDataFormView.FindControl("EditAdress");
-            var Region = (TextBox)PersonalDataFormView.FindControl("EditRegion");
-            var Province = (TextBox)PersonalDataFormView.FindControl("EditProvince");
-            var City = (TextBox)PersonalDataFormView.FindControl("EditCity");
+            var DropDownRegion = (DropDownList)PersonalDataFormView.FindControl("DropDownRegion");
+            var DropDownProvince = (DropDownList)PersonalDataFormView.FindControl("DropDownProvince");
+            var DropDownCity = (DropDownList)PersonalDataFormView.FindControl("DropDownCity");
             var Description = (TextBox)PersonalDataFormView.FindControl("EditDescription");
 
-            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-            var passwordValidator = new PasswordValidator();
-            passwordValidator.RequiredLength = 6;
-            manager.PasswordValidator = passwordValidator;
-
-            IdentityResult result = manager.ChangePassword(User.Identity.GetUserId(), CurrentPassword.Text, NewPassword.Text);
-            var user = manager.FindById(User.Identity.GetUserId());
             var modifiedUser = db.Users.First(u => u.UserName == _currentUser);
             if (modifiedUser != null)
             {
@@ -116,9 +256,9 @@ namespace VALE
                 modifiedUser.Telephone = Telephone.Text;
                 modifiedUser.CellPhone = CellPhone.Text;
                 modifiedUser.Address = Address.Text;
-                modifiedUser.Region = Region.Text;
-                modifiedUser.Province = Province.Text;
-                modifiedUser.City = City.Text;
+                modifiedUser.Region = DropDownRegion.Text;
+                modifiedUser.Province = DropDownProvince.Text;
+                modifiedUser.City = DropDownCity.Text;
                 modifiedUser.Description = Description.Text;
 
                 db.SaveChanges();
@@ -199,7 +339,7 @@ namespace VALE
                 }
                 else
                 {
-                    btnRequestAssociation.CssClass = "btn btn-info";
+                    btnRequestAssociation.CssClass = "btn btn-info btn-xs";
                     btnRequestAssociation.Text = "Associazione richiesta";
                 }
             }
