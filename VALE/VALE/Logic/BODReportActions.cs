@@ -52,7 +52,18 @@ namespace VALE.Logic
 
         public bool RemoveAllAttachments(int dataId)
         {
-            return false;
+            try
+            {
+                var db = new UserOperationsContext();
+                var BODReport = db.BODReports.First(b => b.BODReportId == dataId);
+                db.AttachedFiles.RemoveRange(BODReport.AttachedFiles);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
