@@ -37,7 +37,6 @@ namespace VALE.MyVale
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
             if(eventActions.IsUserRelated(_currentEventId, _currentUserName))
             {
