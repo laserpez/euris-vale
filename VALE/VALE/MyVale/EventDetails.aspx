@@ -52,7 +52,10 @@
                                     <br />
                                     <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label runat="server"><%#: String.Format("{0}", Item.Description) %></asp:Label>
                                     <br />
-                                    <asp:FormView runat="server" ID="ProjectDetail" EmptyDataText="Nessun progetto correlato." ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
+                                    <asp:FormView runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
+                                        <EmptyDataTemplate>
+                                            <asp:Label runat="server" Font-Bold="true">Progetto correlato: </asp:Label><asp:Label  runat="server" Text="Nessun progetto correlato"></asp:Label>
+                                        </EmptyDataTemplate>
                                         <ItemTemplate>
                                             <asp:Label runat="server" Font-Bold="true">Progetto correlato: </asp:Label>
                                             <a href="ProjectDetails.aspx?projectId=<%#:Item.ProjectId %>"><%#: Item.ProjectName %></a>
