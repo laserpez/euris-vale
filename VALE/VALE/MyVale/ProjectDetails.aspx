@@ -34,7 +34,7 @@
                         <div class="panel-body" style="overflow: auto;">
                             <asp:FormView Width="100%" OnDataBound="ProjectDetail_DataBound" runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetProject">
                                 <ItemTemplate>
-                                    <asp:Label runat="server"  Font-Bold="true">Titolo: </asp:Label> <asp:Label runat="server" ><%#: Item.ProjectName.ToUpper() %></asp:Label><br />
+                                    <h3><%#: Item.ProjectName.ToUpper() %></h3><br />
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <asp:Label runat="server"><asp:Label runat="server"  Font-Bold="true">Pubblico: </asp:Label></asp:Label><asp:CheckBox ID="checkboxPublic" runat="server" AutoPostBack="true" OnCheckedChanged="checkboxPublic_CheckedChanged" /><br />
