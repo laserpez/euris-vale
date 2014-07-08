@@ -64,6 +64,7 @@
                                 <li><a href="/Admin/ManageUsers.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci utenti <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
                                 <li><a href="/Admin/ManageProjects.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci progetti </a></li>
                                 <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci eventi</a></li>
+                                <li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci verbali del Consiglio</a></li>
                                 <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
                                 <li><a href="/Admin/ManageGroups.aspx"><span  class="glyphicon glyphicon-star"></span> Gestisci Gruppi</a></li>
                             </ul>

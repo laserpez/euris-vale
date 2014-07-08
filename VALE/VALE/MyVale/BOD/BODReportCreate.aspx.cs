@@ -18,14 +18,12 @@ namespace VALE.MyVale.BOD
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUserId = User.Identity.GetUserId();
-            FileUploader.DataActions = new BODReportActions();
             if (!IsPostBack)
             {
                 ViewState["reportId"] = 0;
                 CalendarMeetingDate.StartDate = DateTime.Now;
                 CalendarPublishDate.StartDate = DateTime.Now;
             }
-            FileUploader.DataId = Convert.ToInt32(ViewState["reportId"]);
         }
         
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -42,16 +40,7 @@ namespace VALE.MyVale.BOD
             db.BODReports.Add(report);
             db.SaveChanges();
             ViewState["reportId"] = report.BODReportId;
-            ShowFileUploader();
-            
-        }
-
-        private void ShowFileUploader()
-        {
-            lblUploadFile.Visible = true;
-            FileUploader.Visible = true;
-            FileUploader.DataId = Convert.ToInt32(ViewState["reportId"]);
-            
+            Response.Redirect("~/MyVale/BOD/BODReports");
         }
 
         protected void txtMeetingDate_TextChanged(object sender, EventArgs e)
