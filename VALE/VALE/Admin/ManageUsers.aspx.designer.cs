@@ -40,24 +40,6 @@ namespace VALE.Admin {
         protected global::System.Web.UI.WebControls.Label TypeOfListUsers;
         
         /// <summary>
-        /// ListUsersType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ListUsersType;
-        
-        /// <summary>
-        /// btnSelectUsersType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnSelectUsersType;
-        
-        /// <summary>
         /// AddNewUserMenagement control.
         /// </summary>
         /// <remarks>
@@ -74,6 +56,24 @@ namespace VALE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::VALE.MyVale.Create.AddNewUser AddNewUser;
+        
+        /// <summary>
+        /// ListUsersType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ListUsersType;
+        
+        /// <summary>
+        /// btnSelectUsersType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnSelectUsersType;
         
         /// <summary>
         /// grdUsers control.

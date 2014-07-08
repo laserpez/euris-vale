@@ -76,6 +76,15 @@ namespace VALE {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor createBODLink;
         
         /// <summary>
+        /// projectsLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl projectsLink;
+        
+        /// <summary>
         /// createProjectLink control.
         /// </summary>
         /// <remarks>
@@ -85,6 +94,15 @@ namespace VALE {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor createProjectLink;
         
         /// <summary>
+        /// eventsLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl eventsLink;
+        
+        /// <summary>
         /// createEventLink control.
         /// </summary>
         /// <remarks>
@@ -92,6 +110,15 @@ namespace VALE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor createEventLink;
+        
+        /// <summary>
+        /// activitiesLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl activitiesLink;
         
         /// <summary>
         /// NotificationActivitiesRequest control.
@@ -110,6 +137,15 @@ namespace VALE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor createActivityLink;
+        
+        /// <summary>
+        /// blogsLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl blogsLink;
         
         /// <summary>
         /// createBlogArticle control.

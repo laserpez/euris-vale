@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageGroups.aspx.cs" Inherits="VALE.MyVale.Create.ManageGroups" %>
-
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -36,7 +35,6 @@
                                             <asp:GridView ID="grdGroups" runat="server" AutoGenerateColumns="False"
                                                 ItemType="VALE.Models.Group"
                                                 CssClass="table table-striped table-bordered"
-                                                ShowHeaderWhenEmpty="true"
                                                 SelectMethod="grdGroups_GetData"
                                                 AllowSorting="true"
                                                 OnRowCommand="grdGroups_RowCommand">
@@ -49,7 +47,7 @@
                                                             <center><div><asp:Linkbutton runat="server" id="labelname" commandargument="groupid" commandname="sort"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:Linkbutton></div></center>
                                                         </HeaderTemplate>
                                                         <HeaderStyle Width="20%" />
-                                                        <ItemStyle Font-Bold="true" Width="20%"/>
+                                                        <ItemStyle Font-Bold="true" Width="20%" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
@@ -86,6 +84,9 @@
                                                         <ItemStyle Width="100px"></ItemStyle>
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <EmptyDataTemplate>
+                                                    <asp:Label runat="server">Non ci sono Gruppi</asp:Label>
+                                                </EmptyDataTemplate>
                                             </asp:GridView>
                                         </div>
                                     </div>
@@ -103,7 +104,7 @@
                                                 <div class="panel-body">
 
                                                     <asp:GridView ID="grdUsers" runat="server" AllowSorting="true" AutoGenerateColumns="false"
-                                                        ItemType="VALE.Models.UserData" CssClass="table table-striped table-bordered" ShowHeaderWhenEmpty="true" SelectMethod="grdUsers_GetData">
+                                                        ItemType="VALE.Models.UserData" CssClass="table table-striped table-bordered" SelectMethod="grdUsers_GetData">
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>
@@ -138,10 +139,13 @@
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                         </Columns>
+                                                        <EmptyDataTemplate>
+                                                            <asp:Label runat="server">Non ci sono utenti</asp:Label>
+                                                        </EmptyDataTemplate>
                                                     </asp:GridView>
 
                                                 </div>
-                       
+
                                             </div>
                                         </div>
                                         <asp:UpdatePanel runat="server">
@@ -150,14 +154,14 @@
                                                 <div class="col-sm-6 col-md-6">
                                                     <div class="panel panel-default">
                                                         <div class="panel-heading">
-                                                           <asp:Button ID="btnRemoveSelectedUsersFromGroupButton" CssClass="btn btn-danger btn-xs" runat="server" Text="<-Rimuovi" OnClick="btnRemoveSelectedUsersFromGroupButton_Click" />
+                                                            <asp:Button ID="btnRemoveSelectedUsersFromGroupButton" CssClass="btn btn-danger btn-xs" runat="server" Text="<-Rimuovi" OnClick="btnRemoveSelectedUsersFromGroupButton_Click" />
                                                             <div class="navbar-right">
                                                                 <asp:Label ID="lblHeaderGroupPanel" runat="server" Text="Gruppi"></asp:Label>&nbsp;&nbsp;<span class="glyphicon glyphicon-th-large"></span>
                                                             </div>
                                                         </div>
-                                                        <div class="panel-body" >
+                                                        <div class="panel-body">
                                                             <asp:GridView ID="grdGroupUsers" AllowSorting="true" runat="server" AutoGenerateColumns="false"
-                                                                ItemType="VALE.Models.UserData" CssClass="table table-striped table-bordered" ShowHeaderWhenEmpty="true" SelectMethod="grdGroupUsers_GetData">
+                                                                ItemType="VALE.Models.UserData" CssClass="table table-striped table-bordered" SelectMethod="grdGroupUsers_GetData">
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
@@ -192,6 +196,9 @@
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
+                                                                <EmptyDataTemplate>
+                                                                    <asp:Label runat="server">Non ci sono utenti nel gruppo</asp:Label>
+                                                                </EmptyDataTemplate>
                                                             </asp:GridView>
                                                         </div>
                                                     </div>

@@ -69,7 +69,7 @@
                                                                     <div class="col-md-8">
                                                                         <ul class="nav nav-pills">
                                                                             <li>
-                                                                                <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Interventi</li>
+                                                                                <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Conversazioni</li>
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
@@ -127,7 +127,7 @@
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
-                                                                    <asp:Label runat="server">Non ci sono interventi</asp:Label>
+                                                                    <asp:Label runat="server">Non ci sono conversazioni</asp:Label>
                                                                 </EmptyDataTemplate>
                                                             </asp:GridView>
                                                         </div>
@@ -183,8 +183,6 @@
                                             </div>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-                                    
-                                    
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <div class="row">

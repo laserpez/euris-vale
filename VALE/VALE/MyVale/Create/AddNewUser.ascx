@@ -4,7 +4,7 @@
 <%--PopUp--%>
 <asp:UpdatePanel ID="UpdatePanelAdd" runat="server">
     <ContentTemplate>
-        <asp:Button runat="server" CausesValidation="false" ID="AddUser" Text="Aggiungi un nuovo utente" Width="170" CssClass="btn btn-primary dropdown-toggle btn-sm" OnClick="AddNewUser_Click" />
+        <asp:Button runat="server" CausesValidation="false" ID="AddUser" Text="Aggiungi un nuovo utente" Width="170" CssClass="btn btn-success dropdown-toggle btn-sm" OnClick="AddNewUser_Click" />
 
         <asp:LinkButton ID="lnkDummy" runat="server"></asp:LinkButton>
         <asp:ModalPopupExtender ID="ModalPopup" BehaviorID="mpe" runat="server"

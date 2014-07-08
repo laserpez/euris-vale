@@ -25,6 +25,9 @@
                                             </div>
                                             <asp:Label ID="TypeOfListUsers" runat="server" Visible="false"></asp:Label>
                                             <div class="navbar-right">
+                                                <div class="btn-group" runat="server" id="AddNewUserMenagement" >
+                                                    <uc:AddNewUser runat="server" ID="AddNewUser" />
+                                                </div>
                                                 <div class="btn-group">
                                                     <asp:Label ID="ListUsersType" Visible="false" runat="server" Text=""></asp:Label>
                                                     <button type="button" visible="true" id="btnSelectUsersType" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" runat="server">Tutti  <span class="caret"></span></button>
@@ -40,9 +43,6 @@
                                                         <li>
                                                             <asp:LinkButton CommandArgument="Requests" runat="server" OnClick="GetSelectedUsers_Click" CausesValidation="false"><span class="glyphicon glyphicon-plus-sign btn-sm"></span>  Richieste  </asp:LinkButton></li>
                                                     </ul>
-                                                </div>
-                                                <div class="btn-group" runat="server" id="AddNewUserMenagement">
-                                                    <uc:AddNewUser runat="server" ID="AddNewUser" />
                                                 </div>
                                             </div>
                                         </div>
@@ -105,20 +105,10 @@
                                                 <HeaderTemplate>
                                                     <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
-                                                <ItemTemplate>
-                                                    <center><div><%# GetRoleName(Item.Id) %></div></center>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <ItemTemplate>
-                                                    <asp:CheckBox runat="server" ID="chkSelectUser" />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <ItemTemplate>
-                                                    <div class="navbar-right">
+                                                 <ItemTemplate>
+                                                    <center><div>
                                                         <div class="btn-group">
-                                                            <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server">Cambia Ruolo<span class="caret"></span></button>
+                                                            <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server"><center><div><%# GetRoleName(Item.Id) %><span class="caret"></div></center></span></button>
                                                             <ul class="dropdown-menu" style="text-align: initial">
                                                                 <li>
                                                                     <asp:LinkButton ID="btnAdministrator" CommandName="Administrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratore</asp:LinkButton></li>
@@ -128,16 +118,20 @@
                                                                     <asp:LinkButton ID="btnAssociated" CommandName="Associated" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-user btn-sm"></span> Socio</asp:LinkButton></li>
                                                             </ul>
                                                         </div>
-                                                    </div>
+                                                    </div></center>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="100px" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:CheckBox runat="server" ID="chkSelectUser" />
+                                                </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
                                     </asp:GridView>
                                     <asp:Button ID="btnConfirmUser" Visible="false" runat="server" Text="Conferma utenti selezionati" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnConfimUser_Click" />
                                     <asp:Label ID="lblChangeRole" runat="server" Visible="false" Text="" />
                                 </div>
-
                             </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>

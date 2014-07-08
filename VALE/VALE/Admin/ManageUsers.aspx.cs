@@ -93,7 +93,7 @@ namespace VALE.Admin
 
         private void PreparePanelForRegistrationRequest()
         {
-            grdUsers.Columns[8].Visible = false;
+            //grdUsers.Columns[8].Visible = false;
             grdUsers.Columns[7].Visible = true;
             NotificationNumber.Visible = true;
             btnConfirmUser.Visible = true;
@@ -102,7 +102,7 @@ namespace VALE.Admin
 
         private void PreparePanelForManage()
         {
-            grdUsers.Columns[8].Visible = true;
+            //grdUsers.Columns[8].Visible = true;
             grdUsers.Columns[7].Visible = false;
             NotificationNumber.Visible = false;
             btnConfirmUser.Visible = false;

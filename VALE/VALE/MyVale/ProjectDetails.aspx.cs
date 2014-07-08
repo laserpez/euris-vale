@@ -24,7 +24,6 @@ namespace VALE.MyVale
         {
             _db = new UserOperationsContext();
             _currentUserName = User.Identity.GetUserName();
-            
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
 
@@ -46,9 +45,6 @@ namespace VALE.MyVale
             var aProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
             if (aProject.Status == "Chiuso")
             {
-                //var btnAddUsers = (Button)ProjectDetail.FindControl("btnAddUsers");
-                //btnAddUsers.Visible = false;
-
                 var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
                 btnAddEvent.Visible = false;
 
@@ -178,8 +174,6 @@ namespace VALE.MyVale
         {
             var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
             var actions = new ProjectActions();
-
-           // Button btnWork = (Button)ProjectDetail.FindControl("btnWorkOnThis");
             Button btnAddIntervention = (Button)ProjectDetail.FindControl("btnAddIntervention");
             
             if (project.Status == "Aperto")
@@ -191,7 +185,7 @@ namespace VALE.MyVale
                     btnWorkOnThis.Text = "Stai lavorando";
                     btnAddIntervention.Enabled = true;
                     btnAddIntervention.CssClass = "btn btn-success btn-sm";
-                    btnAddIntervention.Text = "Aggiungi intervento";
+                    btnAddIntervention.Text = "Aggiungi conversazione";
                 }
                 else
                 {
@@ -200,7 +194,7 @@ namespace VALE.MyVale
                     btnWorkOnThis.Text = "Lavora al progetto";
                     btnAddIntervention.Enabled = false;
                     btnAddIntervention.CssClass = "btn btn-success btn-sm disable";
-                    btnAddIntervention.Text = "Non puoi aggiungere interventi";
+                    btnAddIntervention.Text = "Non puoi aggiungere conversazioni";
                 }
             }
             else

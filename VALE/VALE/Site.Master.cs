@@ -71,6 +71,16 @@ namespace VALE
         protected void Page_Load(object sender, EventArgs e)
         {
             this.LogoImage.ImageUrl = ConfigurationManager.AppSettings["testKey"];
+            if (!HttpContext.Current.User.Identity.IsAuthenticated) 
+            {
+                adminLink.Visible = false;
+                boardLink.Visible = false;
+                projectsLink.Visible = false;
+                eventsLink.Visible = false;
+                activitiesLink.Visible = false;
+                blogsLink.Visible = false;
+                UserList.Visible = false;
+            }
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
