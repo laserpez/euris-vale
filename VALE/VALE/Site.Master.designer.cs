@@ -94,24 +94,6 @@ namespace VALE {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor createProjectLink;
         
         /// <summary>
-        /// eventsLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl eventsLink;
-        
-        /// <summary>
-        /// createEventLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor createEventLink;
-        
-        /// <summary>
         /// activitiesLink control.
         /// </summary>
         /// <remarks>
@@ -137,6 +119,24 @@ namespace VALE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor createActivityLink;
+        
+        /// <summary>
+        /// eventsLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl eventsLink;
+        
+        /// <summary>
+        /// createEventLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor createEventLink;
         
         /// <summary>
         /// blogsLink control.

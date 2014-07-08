@@ -50,13 +50,13 @@
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="TextTelephone" CssClass="col-md-1 control-label">Telefono</asp:Label>
             <div class="col-md-3">
-                <asp:TextBox TextMode="Number" runat="server" ID="TextTelephone" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="TextTelephone" CssClass="form-control" />
                 <asp:RegularExpressionValidator runat="server" ControlToValidate="TextTelephone" CssClass="text-danger" 
                     ValidationExpression="[0-9]{8,11}" ErrorMessage="Numero non valido." ></asp:RegularExpressionValidator>
             </div>
             <asp:Label  runat="server" AssociatedControlID="TextCellPhone" CssClass="col-md-1 control-label">Cellulare</asp:Label>
             <div class="col-md-3">
-                <asp:TextBox TextMode="Number" runat="server" ID="TextCellPhone" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="TextCellPhone" CssClass="form-control" />
                 <asp:RegularExpressionValidator runat="server" ControlToValidate="TextCellPhone" CssClass="text-danger" 
                     ValidationExpression="[0-9]{8,11}" ErrorMessage="Numero non valido." ></asp:RegularExpressionValidator>
             </div>

@@ -151,7 +151,7 @@ namespace VALE
             Response.Clear();
             ActivityStatus status = (ActivityStatus)Convert.ToInt16(statusNumber);
             var activityActions = new ActivityActions();
-                activityActions.SetActivityStatus(id, status);
+            activityActions.SetActivityStatus(id, status);
             //BindAllGrids();
             Response.Write("True");
             Response.End();

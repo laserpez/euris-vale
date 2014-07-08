@@ -84,21 +84,21 @@
                                 <li><a runat="server" visible="false" id="createProjectLink" href="/MyVale/Create/ProjectCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea progetto</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown" id="activitiesLink" runat="server">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Attività  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Da fare</a></li>
+                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Gestisci attività</a></li>
+                                <li><a href="/MyVale/PersonalActivities.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Repilogo interventi</a></li>
+                                <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown" id="eventsLink" runat="server">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-flash"></span> Eventi<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Events.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Calendario eventi</a></li>
                                 <li><a href="/MyVale/PersonalEvents.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Eventi personali</a></li>
                                 <li><a runat="server" visible="false" id="createEventLink" href="/MyVale/Create/EventCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea evento</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown" id="activitiesLink" runat="server">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Attività  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> To do</a></li>
-                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Gestisci attività</a></li>
-                                <li><a href="/MyVale/PersonalActivities.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Report attività</a></li>
-                                <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>
                             </ul>
                         </li>
                         <li class="dropdown" id="blogsLink" runat="server">
