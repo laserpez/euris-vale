@@ -7,10 +7,10 @@
 // </generato automaticamente>
 //------------------------------------------------------------------------------
 
-namespace VALE.MyVale.BOD {
+namespace VALE.Admin {
     
     
-    public partial class BODReportCreate {
+    public partial class ManageBODReports {
         
         /// <summary>
         /// Controllo HeaderName.
@@ -22,84 +22,111 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// Controllo txtReportName.
+        /// Controllo grdBODReport.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtReportName;
+        protected global::System.Web.UI.WebControls.GridView grdBODReport;
         
         /// <summary>
-        /// Controllo txtLocation.
+        /// Controllo UpdatePanelDelete.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocation;
+        protected global::System.Web.UI.UpdatePanel UpdatePanelDelete;
         
         /// <summary>
-        /// Controllo MeetingDateUpdatePanel.
+        /// Controllo lnkDummy.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel MeetingDateUpdatePanel;
+        protected global::System.Web.UI.WebControls.LinkButton lnkDummy;
         
         /// <summary>
-        /// Controllo txtMeetingDate.
+        /// Controllo ModalPopup.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMeetingDate;
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopup;
         
         /// <summary>
-        /// Controllo CalendarMeetingDate.
+        /// Controllo TitleModalView.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::AjaxControlToolkit.CalendarExtender CalendarMeetingDate;
+        protected global::System.Web.UI.WebControls.Label TitleModalView;
         
         /// <summary>
-        /// Controllo txtPublishDate.
+        /// Controllo Div1.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPublishDate;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
         
         /// <summary>
-        /// Controllo CalendarPublishDate.
+        /// Controllo Name.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::AjaxControlToolkit.CalendarExtender CalendarPublishDate;
+        protected global::System.Web.UI.WebControls.Label Name;
         
         /// <summary>
-        /// Controllo txtReportText.
+        /// Controllo BODReportId.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtReportText;
+        protected global::System.Web.UI.WebControls.Label BODReportId;
         
         /// <summary>
-        /// Controllo btnSubmit.
+        /// Controllo PasswordDiv.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmit;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PasswordDiv;
+        
+        /// <summary>
+        /// Controllo PassTextBox.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox PassTextBox;
+        
+        /// <summary>
+        /// Controllo DeleteButton.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeleteButton;
+        
+        /// <summary>
+        /// Controllo ErrorDeleteLabel.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ErrorDeleteLabel;
     }
 }
