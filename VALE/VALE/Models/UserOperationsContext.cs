@@ -12,7 +12,6 @@ namespace VALE.Models
     public class UserOperationsContext :DbContext
     {
         public UserOperationsContext() : base("VALEData") { }
-
         public DbSet<Event> Events { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Project> Projects { get; set; }
@@ -27,7 +26,8 @@ namespace VALE.Models
         public DbSet<ValeFile> VALEFiles { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<LogEntry> LogEntries { get; set; }
-
+        public DbSet<ActivityType> ActivityTypes { get; set; }
+        public DbSet<ProjectType> ProjectTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -78,6 +78,8 @@ namespace VALE.Models
                     m.MapRightKey("UserDataId");
                     m.ToTable("GroupsUsers");
                 });
+
+           
 
         }
     }
