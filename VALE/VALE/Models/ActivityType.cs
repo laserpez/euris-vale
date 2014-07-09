@@ -5,13 +5,13 @@ using System.Web;
 
 namespace VALE.Models
 {
+    [Serializable]
     public class ActivityType
     {
         public int ActivityTypeId { get; set; }
         public string ActivityTypeName { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
-        public virtual List<Activity> Activities { get; set; }
 
         public override bool Equals(object obj)
         {
