@@ -204,7 +204,7 @@ namespace VALE.Logic
                 var newActivity = data as Activity;
                 db.Activities.Add(newActivity);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Now, Description = "Nome attività: \"" + newActivity.ActivityName + "\"" });
+                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Now, Description = "E' stata creata la nuova attività \"" + newActivity.ActivityName + "\"" });
                 return true;
             }
             catch (Exception)
