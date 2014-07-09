@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:FormView runat="server" ID="BODReportDetail" ItemType="VALE.Models.BODReport" SelectMethod="GetBODReport">
+                            <asp:FormView runat="server" ID="BODReportDetail" OnDataBound="BODReportDetail_DataBound" ItemType="VALE.Models.BODReport" SelectMethod="GetBODReport">
                                 <ItemTemplate>
                                     <h4>Sommario</h4>
                                     <asp:Label runat="server">Nome: </asp:Label>
@@ -34,8 +34,8 @@
                                     <asp:Label runat="server"><%#: Item.MeetingDate.ToShortDateString() %></asp:Label><br />
                                     <asp:Label runat="server">Data di pubblicazione: </asp:Label>
                                     <asp:Label runat="server"><%#: Item.PublishingDate.ToShortDateString() %></asp:Label><br />
-                                    <asp:Label runat="server">Testo: </asp:Label>
-                                    <asp:Label runat="server"><%#: Item.Text %></asp:Label><br />
+                                    <asp:Label runat="server"><br /></asp:Label>
+                                    <p><asp:Label ID="lblContent" runat="server"></asp:Label></p><br />
                                     <br />
                                     <%--<uc:FileUploader ID="FileUploader" runat="server" Visible="false" />--%>
                                 </ItemTemplate>
