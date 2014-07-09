@@ -54,7 +54,9 @@
                                 <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
 
                                 <div class="col-md-12">
-                                    <asp:Button runat="server" CssClass="btn btn-primary" Text="Avanti" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveProject_Click" />
+                                    <asp:Button runat="server" Text="Invita persone" ID="btnAddUsers" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnAddUsers_Click" />
+                                    
+                                    <asp:Button runat="server" Text="Salva e Chiudi" ID="btnSaveProject" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnSaveProject_Click" />
                                 </div>
                             </div>
                         </div>

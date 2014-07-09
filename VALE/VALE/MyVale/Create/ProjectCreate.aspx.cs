@@ -53,8 +53,42 @@ namespace VALE.MyVale
 
                 var projectActions = new ProjectActions();
                 projectActions.SaveData(project, dbData);
+                Response.Redirect("~/MyVale/Projects");
+            }
+        }
+
+        protected void btnAddUsers_Click(object sender, EventArgs e)
+        {
+            var dbData = new UserOperationsContext();
+
+            var RelatedProjectSelected = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
+            if (SelectProject.ProjectNameTextBox.Text != "" && RelatedProjectSelected == null)
+            {
+                ModelState.AddModelError("", "Nome Progetto errato");
+            }
+            else
+            {
+
+                var project = new Project
+                {
+                    CreationDate = Convert.ToDateTime(txtStartDate.Text),
+                    OrganizerUserName = _currentUser,
+                    Description = txtDescription.Text,
+                    ProjectName = txtName.Text,
+                    LastModified = Convert.ToDateTime(txtStartDate.Text),
+                    Status = "Aperto",
+                    Public = chkPublic.Checked,
+                    Activities = new List<Activity>(),
+                    Events = new List<Event>(),
+                    InvolvedUsers = new List<UserData>(),
+                    RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text),
+                };
+
+                var projectActions = new ProjectActions();
+                projectActions.SaveData(project, dbData);
                 Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + project.ProjectId + "&dataType=project&returnUrl=/MyVale/Projects");
             }
         }
+
     }
 }

@@ -76,12 +76,21 @@ namespace VALE.MyVale {
         protected global::VALE.MyVale.Create.SelectProject SelectProject;
         
         /// <summary>
-        /// Controllo btnSaveActivity.
+        /// Controllo btnAddUsers.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveActivity;
+        protected global::System.Web.UI.WebControls.Button btnAddUsers;
+        
+        /// <summary>
+        /// Controllo btnSaveProject.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveProject;
     }
 }
