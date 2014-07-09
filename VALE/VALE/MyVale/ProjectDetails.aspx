@@ -42,6 +42,7 @@
                                     </asp:UpdatePanel>
                                     <asp:Label runat="server"  Font-Bold="true">Stato: </asp:Label><asp:Label runat="server" ><%#: Item.Status.ToUpperInvariant() %></asp:Label><br />
                                     <asp:Label runat="server"  Font-Bold="true">Descrizione: </asp:Label><asp:Label runat="server" ><%#: Item.Description %></asp:Label><br />
+                                    <asp:Label runat="server"  Font-Bold="true">Tipo: </asp:Label><asp:Label runat="server" ><%#: Item.Type %></asp:Label><br />
                                     <asp:Label runat="server"  Font-Bold="true">Creatore: </asp:Label><asp:Label runat="server" ><%#: Item.Organizer.FullName %></asp:Label><br />
                                     <asp:Label runat="server"  Font-Bold="true">Data: </asp:Label><asp:Label runat="server" ><%#: Item.CreationDate.ToShortDateString() %></asp:Label><br />
                                     <asp:Label runat="server"  Font-Bold="true">Ultima modifica: </asp:Label><asp:Label runat="server" ><%#: Item.LastModified.ToShortDateString() %></asp:Label><br />

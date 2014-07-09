@@ -13,14 +13,13 @@ namespace VALE.Models
 
         // Primary key
         public int ProjectId { get; set; }
-
         public string ProjectName { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastModified { get; set; }
         public string Status { get; set; }
         public bool Public { get; set; }
-        public ProjectType Type { get; set; }
+        public string Type { get; set; }
         public virtual List<AttachedFile> AttachedFiles { get; set; }
         // 0-n relationship with table Activity
         public virtual List<Activity> Activities { get; set; }

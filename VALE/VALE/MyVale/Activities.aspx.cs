@@ -119,6 +119,16 @@ namespace VALE.MyVale
             }
         }
 
+        public string GetType(string typeId) 
+        {
+            var Id = Convert.ToInt32(typeId);
+            var db = new UserOperationsContext();
+            var type = db.ActivityTypes.FirstOrDefault(t => t.ActivityTypeId == Id);
+            if (type != null)
+                return type.ActivityTypeName;
+            return "Generico";
+        }
+
         protected void btnShowFilters_Click(object sender, EventArgs e)
         {
             filterPanel.Visible = !filterPanel.Visible;
