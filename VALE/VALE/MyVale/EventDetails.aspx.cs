@@ -112,24 +112,66 @@ namespace VALE.MyVale
 
         protected void btnClosePopUpButton_Click(object sender, EventArgs e)
         {
-            ModalPopup.Hide();
+            ModalPopupEvent.Hide();
         }
 
         protected void btnModifyEvent_Click(object sender, EventArgs e)
         {
+            var db = new UserOperationsContext();
+            var events = db.Events.Where(o => o.EventId == _currentEventId).FirstOrDefault();
             btnConfirmModify.Text = "Modifica";
             btnClosePopUpButton.Visible = true;
-            NameTextBox.Enabled = true;
-            NameTextBox.CssClass = "form-control input-sm";
-            DescriptionTextarea.Disabled = false;
-            NameTextBox.Text = "";
-            DescriptionTextarea.InnerText = "";
-            ModalPopup.Show();
+            txtName.Enabled = true;
+            txtName.CssClass = "form-control input-sm";
+            txtDescription.Disabled = false;
+            txtName.Text = events.Name;
+            txtDescription.InnerText = events.Description;
+            txtStartDate.Text = events.EventDate.ToShortDateString();
+            txtHour.Text = events.EventDate.Hour.ToString("00");
+            txtMin.Text = events.EventDate.Minute.ToString("00");
+            txtDurata.Text = events.Durata.ToString();
+            txtSite.Text = events.Site;
+            chkPublic.Checked = events.Public;
+            if(events.RelatedProject != null)
+                txtProjectName.Text = events.RelatedProject.ProjectName;
+            ModalPopupEvent.Show();
         }
 
         protected void btnConfirmModify_Click(object sender, EventArgs e)
         {
+            var db = new UserOperationsContext();
+            var events = db.Events.Where(o => o.EventId == _currentEventId).FirstOrDefault();
+            events.Name = txtName.Text;
+            events.Description = txtDescription.InnerText;
+            events.EventDate = Convert.ToDateTime(txtStartDate.Text+" "+txtHour.Text+":"+txtMin.Text);
+            events.Durata = txtDurata.Text;
+            events.Site =  txtSite.Text;
+            events.Public = chkPublic.Checked;
 
+            if (txtProjectName.Text != "")
+                events.RelatedProject = db.Projects.Where(o => o.ProjectName == txtProjectName.Text ).FirstOrDefault();
+
+            db.SaveChanges();
+            Response.Redirect("~/MyVale/EventDetails.aspx?eventId="+_currentEventId);
+        }
+
+        protected void btnShowPopup_Click(object sender, EventArgs e)
+        {
+            showChooseProject.Visible = !showChooseProject.Visible;
+            ModalPopupEvent.Show();
+        }
+
+        protected void btnChooseProject_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            txtProjectName.Text = btn.CommandArgument;
+            ModalPopupEvent.Show();
+        }
+
+        public IQueryable<Project> GetProjects()
+        {
+            var _db = new UserOperationsContext();
+            return _db.Projects.Where(pr => pr.Status != "Chiuso").OrderBy(p => p.ProjectName);
         }
     }
 }
