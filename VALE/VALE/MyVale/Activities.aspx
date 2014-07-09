@@ -70,16 +70,16 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
-                                            <%--<asp:TemplateField>
+                                            <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                    <center><div><asp:LinkButton runat="server" ID="labelDescription"  CommandArgument="Type" CommandName="sort"><span  class="glyphicon glyphicon-th"></span> Tipo</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.Type.ActivityTypeName %></asp:Label></div></center>
+                                                    <center><div><asp:Label runat="server"><%#: Item.Type.Length >= 20 ? Item.Type.Substring(0,20) + "..." : Item.Type %></asp:Label></div></center>
                                                 </ItemTemplate>
                                                 <HeaderStyle Width="90px" />
                                                 <ItemStyle Width="90px" />
-                                            </asp:TemplateField>--%>
+                                            </asp:TemplateField>
 
                                             <asp:TemplateField>
                                                 <HeaderTemplate>

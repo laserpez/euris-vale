@@ -40,7 +40,7 @@
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Attività</asp:Label>
                                 <div class="col-md-10">
-                                    <asp:DropDownList  class="form-control" runat="server"  ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeId"></asp:DropDownList>
+                                    <asp:DropDownList  class="form-control" runat="server"  ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeName"></asp:DropDownList>
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="il è obbligatorio" />
                                 </div>
                                 <%--<asp:UpdatePanel runat="server">
@@ -94,7 +94,8 @@
                                 <p>&nbsp;</p>
                             </div>
                             <p></p>
-                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Avanti" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveActivity_Click" />
+                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Invita persone" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveActivity_Click" />
+                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Salva e Chiudi" ID="Button1" CausesValidation="true"  OnClick="btnSaveActivityAndSelectUsers_Click" />
                             <br />
                         </div>
                     </div>
