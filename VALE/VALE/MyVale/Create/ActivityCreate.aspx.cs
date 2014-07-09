@@ -61,8 +61,7 @@ namespace VALE.MyVale
                     var projectName = db.Projects.First(p => p.ProjectId == projectId).ProjectName;
                     SelectProject.DisableControl(projectName);
                 }
-                calendarFrom.StartDate = DateTime.Now;
-                calendarTo.StartDate = calendarFrom.StartDate.Value.AddDays(1);
+                calendarTo.StartDate = calendarFrom.StartDate.Value;
                 ChangeCalendars();
             } 
         }
