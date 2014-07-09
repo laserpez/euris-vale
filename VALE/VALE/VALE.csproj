@@ -218,6 +218,7 @@
     <Content Include="Images\logoVALE.png" />
     <Content Include="Account\ManageProfile.aspx" />
     <Content Include="Images\User.jpg" />
+    <Content Include="MessagePage.aspx" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
     <Content Include="MyVale\BOD\BODReports.aspx" />
@@ -484,6 +485,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="MessagePage.aspx.cs">
+      <DependentUpon>MessagePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MessagePage.aspx.designer.cs">
+      <DependentUpon>MessagePage.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\GridPager.ascx.cs">
       <DependentUpon>GridPager.ascx</DependentUpon>
