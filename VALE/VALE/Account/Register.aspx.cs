@@ -119,14 +119,19 @@ namespace VALE.Account
                     FullName = user.FirstName + " " + user.LastName
                 });
                 db.SaveChanges();
-                IdentityHelper.SignIn(manager, user, isPersistent: false);
+                //IdentityHelper.SignIn(manager, user, isPersistent: false);
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 //string code = manager.GenerateEmailConfirmationToken(user.Id);
                 //string callbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id);
                 //manager.SendEmail(user.Id, "Conferma il tuo account", "Per favore conferma il tuo account cliccando <a href=\"" + callbackUrl + "\">qui</a>.");
 
-                IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                //IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+
+                string titleMessage = string.Format("Grazie {0} {1},", user.FirstName, user.LastName);
+                string message = string.Format("Abbiamo registrato la Sua richiesta, una mail di conferma viene mandato all'indirizzo {0} appena viene accettata", user.Email);
+                string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
+                Response.Redirect(url);
             }
             else
             {

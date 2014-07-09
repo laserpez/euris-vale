@@ -24,24 +24,10 @@ namespace VALE.MyVale.BOD
                 _currentReportId = Convert.ToInt32(Request.QueryString["reportId"]);
 
             ShowFileUploader();
-
-            //FileUploader uploader = (FileUploader)BODReportDetail.FindControl("FileUploader");
-            //uploader.DataActions = new BODReportActions();
-            //uploader.DataId = _currentReportId;
-
-            //if (!IsPostBack)
-            //    uploader.DataBind();
         }
 
         private void ShowFileUploader()
         {
-            //if (User.IsInRole("Amministratore") || User.IsInRole("Membro del consiglio"))
-            //{
-            //    FileUploader uploader = (FileUploader)BODReportDetail.FindControl("FileUploader");
-            //    uploader.Visible = true;
-            //    uploader.DataId = Convert.ToInt32(ViewState["reportId"]);
-            //}
-
             if (!HttpContext.Current.User.IsInRole("Amministratore") && !HttpContext.Current.User.IsInRole("Membro del consiglio"))
             {
                 FooterDocuments.Visible = false;
@@ -116,5 +102,12 @@ namespace VALE.MyVale.BOD
             return list.AsQueryable();
         }
 
+        protected void BODReportDetail_DataBound(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            string result = db.BODReports.First(b => b.BODReportId == _currentReportId).Text;
+            Label lblContent = (Label)BODReportDetail.FindControl("lblContent");
+            lblContent.Text = result;
+        }
     }
 }
