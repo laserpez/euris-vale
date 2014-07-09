@@ -41,10 +41,7 @@ namespace VALE.MyVale
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            LinkButton btnOngoing = FindButton("btnOngoing");
-            LinkButton btnSuspended = FindButton("btnSuspended");
-            HtmlButton btnChangeStatus = (HtmlButton)ActivityDetail.FindControl("btnChangeStatus");
-            Label lblInfoChangeStatus = (Label)ActivityDetail.FindControl("lblInfoChangeStatus");
+            
         }
 
         public Activity GetActivity([QueryString("activityId")] int? activityId)

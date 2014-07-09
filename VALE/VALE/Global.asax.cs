@@ -20,26 +20,17 @@ namespace VALE
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            // Initialize the product database.
+            Database.SetInitializer(new DatabaseInitializer());
             RoleActions.CreateRoles();
             using (var actions = new UserActions())
             {
                 actions.CreateAdministrator();
             }
 
-            //var timer = new Timer();
-            //timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            //timer.Interval = 21600000; // 6 hour
-            //timer.Enabled = true;
+        
         }
 
-        //private static void OnTimedEvent(object source, ElapsedEventArgs e)
-        //{
-        //    var db = new UserOperationsContext();
-        //    using(var actions = new ActivityActions())
-        //    {
-        //        actions.SetActivitiesStatus();
-        //    }
-        //}
+        
     }
 }
