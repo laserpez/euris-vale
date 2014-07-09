@@ -50,7 +50,7 @@
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Durata(ore): </asp:Label><asp:Label runat="server"><%#: String.Format("{0}", Item.Durata) %></asp:Label>
                                         <br />
-                                        <asp:Label runat="server" Font-Bold="true">Stato: </asp:Label><asp:Label runat="server"><%#: Item.Public ? "Pubblico" : "Privato" %></asp:Label>
+                                        <asp:Label runat="server" Font-Bold="true">Visibilita': </asp:Label><asp:Label runat="server"><%#: Item.Public ? "Pubblica" : "Privata" %></asp:Label>
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Luogo: </asp:Label><asp:Label runat="server"><%#: String.Format("{0}", Item.Site) %></asp:Label>
                                         <br />
@@ -65,7 +65,7 @@
                                                 <a href="ProjectDetails.aspx?projectId=<%#:Item.ProjectId %>"><%#: Item.ProjectName %></a>
                                             </ItemTemplate>
                                         </asp:FormView>
-                                    <br />
+                                        <br />
                                     </div>
                                     <div class="col-md-1">
                                         <asp:UpdatePanel runat="server">
@@ -74,6 +74,7 @@
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                     </div>
+
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="panel panel-default">

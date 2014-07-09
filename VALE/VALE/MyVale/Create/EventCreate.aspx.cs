@@ -20,6 +20,9 @@ namespace VALE.MyVale
             _currentUser = User.Identity.GetUserName();
             if (!IsPostBack)
             {
+                
+                txtHour.Text = "00";
+                txtMin.Text = "00";
                 chkPublic.Checked = true;
                 if (Request.QueryString["ProjectId"] != null)
                     Session["callingProjectId"] = Request.QueryString["ProjectId"];
