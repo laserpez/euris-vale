@@ -19,7 +19,6 @@ namespace VALE.MyVale
             if (!IsPostBack)
             {
                 ShowHideControls();
-
             }
         }
 

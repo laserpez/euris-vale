@@ -21,7 +21,6 @@ namespace VALE.MyVale.BOD
             if (!IsPostBack)
             {
                 ViewState["reportId"] = 0;
-                CalendarMeetingDate.StartDate = DateTime.Now;
                 CalendarPublishDate.StartDate = DateTime.Now;
             }
         }
@@ -45,7 +44,7 @@ namespace VALE.MyVale.BOD
 
         protected void txtMeetingDate_TextChanged(object sender, EventArgs e)
         {
-            CalendarPublishDate.StartDate = Convert.ToDateTime(txtMeetingDate.Text).AddDays(1);
+            CalendarPublishDate.StartDate = Convert.ToDateTime(txtMeetingDate.Text);
         }
 
     }

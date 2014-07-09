@@ -295,7 +295,6 @@ namespace VALE.MyVale
             actions.AddOrRemoveUserData(_currentProjectId, _currentUserName);
             grdUsers.DataBind();
             SetWorkOnProjectSection();
-            
         }
 
         protected void btnAddIntervention_Click(object sender, EventArgs e)

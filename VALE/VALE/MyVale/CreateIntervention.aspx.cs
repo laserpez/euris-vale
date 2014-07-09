@@ -19,53 +19,53 @@ namespace VALE.MyVale
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _currentUser = User.Identity.GetUserName();
-            _temporaryPath = "/MyVale/Documents/Temp/" + _currentUser + "/";
-            if (Request.QueryString.HasKeys())
-                _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
-            if (!IsPostBack)
-            {
-                if (!String.IsNullOrEmpty(_temporaryPath))
-                {
-                    if (Directory.Exists(Server.MapPath(_temporaryPath)))
-                        Directory.Delete(Server.MapPath(_temporaryPath), true);
-                    Directory.CreateDirectory(Server.MapPath(_temporaryPath));
-                }
+            //_currentUser = User.Identity.GetUserName();
+            //_temporaryPath = "/MyVale/Documents/Temp/" + _currentUser + "/";
+            //if (Request.QueryString.HasKeys())
+            //    _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+            //if (!IsPostBack)
+            //{
+            //    if (!String.IsNullOrEmpty(_temporaryPath))
+            //    {
+            //        if (Directory.Exists(Server.MapPath(_temporaryPath)))
+            //            Directory.Delete(Server.MapPath(_temporaryPath), true);
+            //        Directory.CreateDirectory(Server.MapPath(_temporaryPath));
+            //    }
 
-                PopulateGridView();
-            }
+            //    PopulateGridView();
+            //}
         }
 
         protected void btnSaveIntervention_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var intervention = new Intervention
-            {
-                CreatorUserName = _currentUser,
-                ProjectId = _currentProjectId,
-                InterventionText = txtComment.Text,
-                Date = DateTime.Today
-            };
-            db.Interventions.Add(intervention);
-            db.SaveChanges();
-            intervention.DocumentsPath = "/MyVale/Documents/Interventions/" + intervention.InterventionId + "/";
-            string serverPath = Server.MapPath(intervention.DocumentsPath);
-            string tempPath = Server.MapPath(_temporaryPath);
-            if (!Directory.Exists(Server.MapPath("/MyVale/Documents/Interventions/")))
-                Directory.CreateDirectory(Server.MapPath("/MyVale/Documents/Interventions/"));
-            Directory.Move(tempPath, serverPath);
-            db.SaveChanges();
+            //var db = new UserOperationsContext();
+            //var intervention = new Intervention
+            //{
+            //    CreatorUserName = _currentUser,
+            //    ProjectId = _currentProjectId,
+            //    InterventionText = txtComment.Text,
+            //    Date = DateTime.Today
+            //};
+            //db.Interventions.Add(intervention);
+            //db.SaveChanges();
+            //intervention.DocumentsPath = "/MyVale/Documents/Interventions/" + intervention.InterventionId + "/";
+            //string serverPath = Server.MapPath(intervention.DocumentsPath);
+            //string tempPath = Server.MapPath(_temporaryPath);
+            //if (!Directory.Exists(Server.MapPath("/MyVale/Documents/Interventions/")))
+            //    Directory.CreateDirectory(Server.MapPath("/MyVale/Documents/Interventions/"));
+            //Directory.Move(tempPath, serverPath);
+            //db.SaveChanges();
 
-            Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
+            //Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
         }
 
         protected void btnUploadFile_Click(object sender, EventArgs e)
         {
-            if (FileUploadControl.HasFiles)
-            {
-                FileUploadControl.SaveAs(Server.MapPath(_temporaryPath + Path.GetFileName(FileUploadControl.PostedFile.FileName)));
-            }
-            PopulateGridView();
+            //if (FileUploadControl.HasFiles)
+            //{
+            //    FileUploadControl.SaveAs(Server.MapPath(_temporaryPath + Path.GetFileName(FileUploadControl.PostedFile.FileName)));
+            //}
+            //PopulateGridView();
         }
 
         protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)

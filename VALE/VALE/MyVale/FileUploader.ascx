@@ -14,7 +14,7 @@
                             CssClass="table table-striped table-bordered"
                             OnRowCommand="grdFilesUploaded_RowCommand">
                             <Columns>
-                                <asp:TemplateField HeaderText="FileName" HeaderStyle-Width="25%">
+                                <asp:TemplateField HeaderText="File" HeaderStyle-Width="25%">
                                     <ItemTemplate>
                                         <center><div><asp:LinkButton  runat="server" CommandArgument="<%# Item.AttachedFileID %>" CommandName="DOWNLOAD" CausesValidation="false"><%#: Item.FileName %></asp:LinkButton></div></center>
                                     </ItemTemplate>

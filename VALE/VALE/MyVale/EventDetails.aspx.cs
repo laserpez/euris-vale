@@ -30,8 +30,13 @@ namespace VALE.MyVale
             {
                 var currentEvent = _db.Events.FirstOrDefault(ev => ev.EventId == _currentEventId);
                 var addUsersBtn = EventDetail.FindControl("btnAddUsers");
-                if (currentEvent.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore"))
+                var btnModify = (Button)EventDetail.FindControl("btnModifyEvent");
+                if (currentEvent.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore") || User.IsInRole("Membro del consiglio"))
+                {
                     addUsersBtn.Visible = true;
+                    btnModify.Visible = true;
+                }
+
             }
         }
 
@@ -103,6 +108,28 @@ namespace VALE.MyVale
         protected void addUsers_Click(object sender, EventArgs e)
         {
             Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentEventId + "&dataType=event&returnUrl=/MyVale/EventDetails?eventId=" +_currentEventId);
+        }
+
+        protected void btnClosePopUpButton_Click(object sender, EventArgs e)
+        {
+            ModalPopup.Hide();
+        }
+
+        protected void btnModifyEvent_Click(object sender, EventArgs e)
+        {
+            btnConfirmModify.Text = "Modifica";
+            btnClosePopUpButton.Visible = true;
+            NameTextBox.Enabled = true;
+            NameTextBox.CssClass = "form-control input-sm";
+            DescriptionTextarea.Disabled = false;
+            NameTextBox.Text = "";
+            DescriptionTextarea.InnerText = "";
+            ModalPopup.Show();
+        }
+
+        protected void btnConfirmModify_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

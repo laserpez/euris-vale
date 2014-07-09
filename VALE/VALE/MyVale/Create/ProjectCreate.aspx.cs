@@ -19,7 +19,9 @@ namespace VALE.MyVale
         {
             _currentUser = User.Identity.GetUserName();
             if (!IsPostBack)
-                calendarFrom.StartDate = DateTime.Now;
+            {
+                chkPublic.Checked = true;
+            }
         }
 
         protected void btnSaveProject_Click(object sender, EventArgs e)
