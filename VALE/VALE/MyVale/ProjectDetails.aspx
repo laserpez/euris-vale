@@ -87,7 +87,7 @@
                                                                             <center><div><asp:LinkButton CommandArgument="InterventionText" CommandName="sort" runat="server" ID="labelInterventionText"><span  class="glyphicon glyphicon-credit-card"></span> Intervento</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.InterventionText %></asp:Label></div></center>
+                                                                            <center><div><asp:Label runat="server"><%#: String.IsNullOrEmpty(Item.InterventionText) ? "Nessun commento scritto inserito." : Item.InterventionText %></asp:Label></div></center>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
@@ -111,7 +111,7 @@
                                                                             <center><div><asp:LinkButton CommandArgument="DocumentsPath" CommandName="sort" runat="server" ID="labelDocumentsPath"><span  class="glyphicon glyphicon-paperclip"></span> Ha allegati</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: ContainsDocuments(Item.DocumentsPath) ? "SI" : "NO" %></asp:Label></div></center>
+                                                                            <center><div><asp:Label runat="server"><%#: ContainsDocuments(Item.InterventionId) ? "SI" : "NO" %></asp:Label></div></center>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>

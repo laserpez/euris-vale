@@ -34,29 +34,23 @@ namespace VALE.MyVale
                 return null;
         }
 
-        public List<String> GetRelatedDocuments([QueryString("interventionId")] int? interventionId)
+        public IQueryable<AttachedFile> DocumentsGridView_GetData()
         {
-            if (interventionId.HasValue)
+            var actions = new InterventionActions();
+            var list = actions.GetAttachments(_currentInterventionId);
+            return list.AsQueryable();
+        }
+
+        protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            var db = new UserOperationsContext();
+            int id = Convert.ToInt32(e.CommandArgument);
+            switch (e.CommandName)
             {
-                var thisEvent = _db.Interventions.First(p => p.InterventionId == interventionId);
-                if (!String.IsNullOrEmpty(thisEvent.DocumentsPath))
-                {
-                    var dir = new DirectoryInfo(Server.MapPath(thisEvent.DocumentsPath));
-                    var files = dir.GetFiles().Select(f => f.Name).ToList();
-                    if (files.Count == 0)
-                        HideAttchmentBox("lstDocuments");
-                    return files;
-                }
-                else
-                {
-                    HideAttchmentBox("lstDocuments");
-                    return null;
-                }
-            }
-            else
-            {
-                HideAttchmentBox("lstDocuments");
-                return null;
+                case "DOWNLOAD":
+                default:
+                    Response.Redirect("/DownloadFile.ashx?fileId=" + id);
+                    break;
             }
         }
 
@@ -94,16 +88,6 @@ namespace VALE.MyVale
             }
             else
                 return null;
-        }
-        protected void btnViewDocument_Click(object sender, EventArgs e)
-        {
-            var intervention = _db.Interventions.First(i => i.InterventionId == _currentInterventionId);
-            var lstDocument = (ListBox)InterventionDetail.FindControl("lstDocuments");
-            if (lstDocument.SelectedIndex > -1)
-            {
-                var file = intervention.DocumentsPath + lstDocument.SelectedValue;
-                Response.Redirect("/DownloadFile.ashx?filePath=" + file + "&fileName=" + lstDocument.SelectedValue);
-            }
         }
 
     }

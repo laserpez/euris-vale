@@ -46,15 +46,6 @@ namespace VALE.Admin
             return dbData.Projects.ToList();
         }
 
-        private void DeleteFolders(List<string> foldersList)
-        {
-            foreach(var folder in foldersList)
-            {
-                if(!String.IsNullOrEmpty(folder))
-                    Directory.Delete(Server.MapPath(folder), true);
-            }
-        }
-
         protected void ProjectList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "DeleteProject")

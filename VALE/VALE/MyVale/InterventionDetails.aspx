@@ -29,9 +29,33 @@
                                     <asp:Label runat="server"><%#: String.Format("Testo: {0}", String.IsNullOrEmpty(Item.InterventionText) ? "Nessun commento scritto inserito." : Item.InterventionText) %></asp:Label><br />
                                     <p></p>
                                     <asp:Label ID="labelAttachment" runat="server" Text="Documenti allegati" CssClass="h4"></asp:Label>
-                                    <asp:ListBox runat="server" ID="lstDocuments" CssClass="form-control" SelectMethod="GetRelatedDocuments"></asp:ListBox>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Documenti Allegati</div>
+                                                <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                    <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
+                                                        ItemType="VALE.Models.AttachedFile" EmptyDataText="Nessun allegato."
+                                                        CssClass="table table-striped table-bordered"
+                                                        OnRowCommand="grdFilesUploaded_RowCommand">
+                                                        <Columns>
+                                                            <asp:TemplateField HeaderText="FileName" HeaderStyle-Width="25%">
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:LinkButton  runat="server" CommandArgument="<%# Item.AttachedFileID %>" CommandName="DOWNLOAD" CausesValidation="false"><%#: Item.FileName %></asp:LinkButton></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle Width="50px"></HeaderStyle>
+                                                                <ItemStyle Width="50px"></ItemStyle>
+                                                            </asp:TemplateField>
+                                                            <asp:BoundField DataField="FileDescription" HeaderText="Descrizione" HeaderStyle-Width="70%" />
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <p></p>
-                                    <asp:Button runat="server" Text="Scarica" CssClass="btn btn-info btn-xs" ID="btnViewDocument" OnClick="btnViewDocument_Click" />
                                 </ItemTemplate>
                             </asp:FormView>
                             <p></p>

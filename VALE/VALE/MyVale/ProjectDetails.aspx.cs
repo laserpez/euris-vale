@@ -314,10 +314,10 @@ namespace VALE.MyVale
             }
         }
 
-        public bool ContainsDocuments(string path)
+        public bool ContainsDocuments(int interventionID)
         {
-            DirectoryInfo dir = new DirectoryInfo(Server.MapPath(path));
-            return dir.GetFiles().Count() > 0;
+            var actions = new InterventionActions();
+            return actions.GetAttachments(interventionID).Count > 0;
         }
 
         protected void btnAddActivity_Click(object sender, EventArgs e)

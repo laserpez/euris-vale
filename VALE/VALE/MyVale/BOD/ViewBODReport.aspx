@@ -37,7 +37,6 @@
                                     <asp:Label runat="server"><br /></asp:Label>
                                     <p><asp:Label ID="lblContent" runat="server"></asp:Label></p><br />
                                     <br />
-                                    <%--<uc:FileUploader ID="FileUploader" runat="server" Visible="false" />--%>
                                 </ItemTemplate>
                             </asp:FormView>
 

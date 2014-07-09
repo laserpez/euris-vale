@@ -35,13 +35,13 @@ namespace VALE.Admin
                 return null;
         }
 
-        public IQueryable<string> GetDocuments([Control("ItemId")] int interventionId)
-        {
-            var db = new UserOperationsContext();
-            var path = db.Interventions.First(i => i.InterventionId == interventionId).DocumentsPath;
-            DirectoryInfo dir = new DirectoryInfo(Server.MapPath(path));
-            return dir.GetFiles().Select(f => f.Name).AsQueryable();
-        }
+        //public IQueryable<string> GetDocuments([Control("ItemId")] int interventionId)
+        //{
+        //    var db = new UserOperationsContext();
+        //    var path = db.Interventions.First(i => i.InterventionId == interventionId).DocumentsPath;
+        //    DirectoryInfo dir = new DirectoryInfo(Server.MapPath(path));
+        //    return dir.GetFiles().Select(f => f.Name).AsQueryable();
+        //}
 
         protected void lstInterventions_DataBound(object sender, EventArgs e)
         {

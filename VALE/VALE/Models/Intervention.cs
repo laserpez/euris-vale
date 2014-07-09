@@ -11,7 +11,6 @@ namespace VALE.Models
     {
         public int InterventionId { get; set; }
         public string InterventionText { get; set; }
-        public string DocumentsPath { get; set; }
         public DateTime Date { get; set; }
 
         [Required, ForeignKey("Creator")]
@@ -23,5 +22,7 @@ namespace VALE.Models
         public virtual Project RelatedProject { get; set; }
 
         public virtual List<Comment> Comments { get; set; }
+
+        public virtual List<AttachedFile> AttachedFiles { get; set; }
     }
 }

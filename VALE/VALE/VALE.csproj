@@ -486,6 +486,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\InterventionActions.cs" />
     <Compile Include="MessagePage.aspx.cs">
       <DependentUpon>MessagePage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

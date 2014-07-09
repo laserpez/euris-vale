@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CreateIntervention.aspx.cs" Inherits="VALE.MyVale.CreateIntervention" %>
+<%@ Register Src="~/MyVale/FileUploader.ascx" TagPrefix="uc" TagName="FileUploader" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -13,7 +14,7 @@
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
-                                                    <asp:Label ID="HeaderName" runat="server" Text="Crea un intervento"></asp:Label>
+                                                    <asp:Label ID="HeaderName" runat="server" Text="Aggiungi conversazione"></asp:Label>
                                                 </h4>
                                             </li>
                                         </ul>
@@ -31,13 +32,14 @@
                             <div class="col-md-12">
                                 <br />
                             </div>
-                            <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Aggiungi file</asp:Label>
+                            <%--<asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Aggiungi file</asp:Label>--%>
                             <div class="col-md-10">
-                                <asp:FileUpload AllowMultiple="false" ID="FileUploadControl" runat="server" />
+                                <%--<asp:FileUpload AllowMultiple="false" ID="FileUploadControl" runat="server" />
                                 <asp:Label runat="server" ID="StatusLabel" Text="" />
-                                <asp:Button runat="server" CausesValidation="false" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info btn-xs" OnClick="btnUploadFile_Click" />
+                                <asp:Button runat="server" CausesValidation="false" Text="Carica" ID="btnUploadFile" CssClass="btn btn-info btn-xs" OnClick="btnUploadFile_Click" />--%>
+                                <uc:FileUploader ID="FileUploader" Visible="false" runat="server" AllowUpload="true" />
                             </div>
-                            <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">File caricati</asp:Label>
+                            <%--<asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">File caricati</asp:Label>
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
                                     <div class="col-md-10">
@@ -60,11 +62,14 @@
                                         </asp:GridView>
                                     </div>
                                 </ContentTemplate>
-                            </asp:UpdatePanel>
+                            </asp:UpdatePanel>--%>
                             <div class="col-md-12">
                                 <br />
                             </div>
-                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Salva intervento" ID="btnSaveIntervention" OnClick="btnSaveIntervention_Click" />
+                            <div class="col-md-12">
+                            <asp:Button runat="server" CssClass="btn btn-primary" CausesValidation="false" Text="Aggiungi allegati" ID="btnSaveInterventionWithAttachment" OnClick="btnSaveInterventionWithAttachment_Click" />
+                            <asp:Button runat="server" CssClass="btn btn-primary" CausesValidation="false" Text="Salva conversazione" ID="btnSaveIntervention" OnClick="btnSaveIntervention_Click" />
+                            </div>
                         </div>
                     </div>
                 </div>
