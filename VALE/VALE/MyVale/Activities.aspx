@@ -70,6 +70,17 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 
+                                            <%--<asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label runat="server"><%#: Item.Type.ActivityTypeName %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
+                                            </asp:TemplateField>--%>
+
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
                                                     <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data di inizio</asp:LinkButton></div></center>
@@ -99,8 +110,8 @@
                                                 <ItemTemplate>
                                                     <center><div><asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label></div></center>
                                                 </ItemTemplate>
-                                                <HeaderStyle Width="90px" />
-                                                <ItemStyle Width="90px" />
+                                                <HeaderStyle Width="150px" />
+                                                <ItemStyle Width="150px" />
                                             </asp:TemplateField>
 
                                             <asp:TemplateField>

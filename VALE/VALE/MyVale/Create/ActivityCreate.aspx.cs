@@ -61,11 +61,16 @@ namespace VALE.MyVale
                     var projectName = db.Projects.First(p => p.ProjectId == projectId).ProjectName;
                     SelectProject.DisableControl(projectName);
                 }
-                calendarTo.StartDate = calendarFrom.StartDate.Value;
+                
                 ChangeCalendars();
             } 
         }
 
+        public List<ActivityType> GetTypes()
+        {
+            var db = new UserOperationsContext();
+            return db.ActivityTypes.ToList();
+        }
         protected void btnSaveActivity_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
@@ -103,7 +108,8 @@ namespace VALE.MyVale
                         status = ActivityStatus.ToBePlanned;
                         break;
                 }
-
+                var typeId = Convert.ToInt32(ddlSelectType.SelectedValue);
+                var type = db.ActivityTypes.FirstOrDefault(t => t.ActivityTypeId == typeId);
                 var newActivity = new Activity
                 {
                     ActivityName = txtName.Text,
@@ -114,7 +120,8 @@ namespace VALE.MyVale
                     ExpireDate = expireDate,
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
-                    CreatorUserName = User.Identity.GetUserName()
+                    CreatorUserName = User.Identity.GetUserName(),
+                    Type = type,
                 };
                 var activityActions = new ActivityActions();
                 activityActions.SaveData(newActivity, db);

@@ -20,6 +20,7 @@ namespace VALE.Models
         public DateTime LastModified { get; set; }
         public string Status { get; set; }
         public bool Public { get; set; }
+        public ProjectType Type { get; set; }
         public virtual List<AttachedFile> AttachedFiles { get; set; }
         // 0-n relationship with table Activity
         public virtual List<Activity> Activities { get; set; }
