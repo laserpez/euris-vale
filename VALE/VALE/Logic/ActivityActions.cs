@@ -18,6 +18,12 @@ namespace VALE.Logic
             logger = LogFactory.GetCurrentLogger();
         }
 
+        /// <summary>
+        /// Gets the activities.
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="status">The status.</param>
+        /// <returns></returns>
         public List<Activity> GetActivities(string userName, ActivityStatus status)
         {
             var db = new UserOperationsContext();

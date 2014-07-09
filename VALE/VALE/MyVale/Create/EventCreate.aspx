@@ -24,26 +24,49 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body" style="overflow: auto;">
+                        <div class="panel-body" >
                             <div class="col-md-12 form-group">
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Nome evento *</asp:Label>
                                 <div class="col-md-10">
-                                    <asp:TextBox runat="server" ID="txtName" CssClass="form-control" />
+                                    <asp:TextBox runat="server" Width="350px" ID="txtName" CssClass="form-control"  />
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" CssClass="text-danger" ErrorMessage="Il nome è obbligatorio" />
                                 </div>
 
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Descrizione evento *</asp:Label>
                                 <div class="col-md-10">
-                                    <asp:TextBox TextMode="MultiLine" runat="server" ID="txtDescription" CssClass="form-control" Height="145px" Width="404px" />
+                                    <asp:TextBox TextMode="MultiLine" runat="server" ID="txtDescription" CssClass="form-control" Height="145px" Width="350px" />
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="La descrizione è obbligatoria" />
                                 </div>
 
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Data *</asp:Label>
-                                <div class="col-md-10">
-                                    <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" />
+                                <div class="col-md-4">
+                                    <asp:TextBox runat="server" Width="350px" ID="txtStartDate" CssClass="form-control"  />
                                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="La data è obbligatoria" />
                                 </div>
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Ore</asp:Label>
+                                <div class="col-md-2">
+                                    <asp:TextBox ID="txtHour" TextMode="Number" Width="100" runat="server" CssClass="form-control"></asp:TextBox> 
+                                </div>
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Min</asp:Label>
+                                <div class="col-md-2">
+                                    <asp:TextBox ID="txtMin" TextMode="Number" Width="100" runat="server" CssClass="form-control"></asp:TextBox> 
+                                    <br />
+                                </div>
+
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Luogo *</asp:Label>
+                                <div class="col-md-10">
+                                    <asp:TextBox  runat="server" ID="txtSite" CssClass="form-control"  />
+                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtSite" CssClass="text-danger" ErrorMessage="Il luogo è obbligatorio" /> 
+                                    <br />
+                                </div>
+
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Durata(in ore)</asp:Label>
+                                <div class="col-md-10">
+                                    <asp:TextBox ID="txtDurata" Width="280px" TextMode="Number" runat="server" CssClass="form-control"></asp:TextBox> 
+                                    <br />
+                                </div>
+
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">E' un evento pubblico?</asp:Label>
                                 <div class="col-md-10">
                                     <asp:CheckBox runat="server" ID="chkPublic" />
@@ -51,7 +74,9 @@
                                 <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
                                 <uc:SelectProject runat="server" ID="SelectProject" />
                                 <div class="col-md-12">
-                                    <asp:Button runat="server" Text="Avanti" ID="btnAddUsers" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnAddUsers_Click" />
+                                    <asp:Button runat="server" Text="Invita persone" ID="btnAddUsers" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnAddUsers_Click" />
+                                    
+                                    <asp:Button runat="server" Text="Salva e Chiudi" ID="caefa" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnAdd_Click" />
                                 </div>
                             </div>
                         </div>
