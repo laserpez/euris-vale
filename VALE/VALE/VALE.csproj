@@ -199,10 +199,12 @@
     <Content Include="Account\ResetPassword.aspx" />
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Admin\EventReport.aspx" />
+    <Content Include="Admin\ManageActivityTypes.aspx" />
     <Content Include="Admin\ManageArticles.aspx" />
     <Content Include="Admin\ManageBODReports.aspx" />
     <Content Include="Admin\ManageEvents.aspx" />
     <Content Include="Admin\ManageProjects.aspx" />
+    <Content Include="Admin\ManageProjectTypes.aspx" />
     <Content Include="Admin\ManageUsers.aspx" />
     <Content Include="Admin\ProjectReport.aspx" />
     <Content Include="Admin\UserActivities.aspx" />
@@ -395,6 +397,13 @@
     <Compile Include="Admin\EventReport.aspx.designer.cs">
       <DependentUpon>EventReport.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ManageActivityTypes.aspx.cs">
+      <DependentUpon>ManageActivityTypes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageActivityTypes.aspx.designer.cs">
+      <DependentUpon>ManageActivityTypes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ManageArticles.aspx.cs">
       <DependentUpon>ManageArticles.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -422,6 +431,13 @@
     </Compile>
     <Compile Include="Admin\ManageProjects.aspx.designer.cs">
       <DependentUpon>ManageProjects.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageProjectTypes.aspx.cs">
+      <DependentUpon>ManageProjectTypes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageProjectTypes.aspx.designer.cs">
+      <DependentUpon>ManageProjectTypes.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ManageUsers.aspx.cs">
       <DependentUpon>ManageUsers.aspx</DependentUpon>
@@ -494,6 +510,9 @@
     <Compile Include="MessagePage.aspx.designer.cs">
       <DependentUpon>MessagePage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ActivityType.cs" />
+    <Compile Include="Models\DatabaseInitializer.cs" />
+    <Compile Include="Models\ProjectType.cs" />
     <Compile Include="MyVale\GridPager.ascx.cs">
       <DependentUpon>GridPager.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
