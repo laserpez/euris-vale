@@ -33,7 +33,7 @@ namespace VALE.MyVale
 
             if (!IsPostBack)
             {
-                DataBindControls();
+
                 ShowHideControls();
                 uploader.DataBind();
             }
@@ -52,34 +52,11 @@ namespace VALE.MyVale
                 btnAddActivity.Visible = false;
             }
 
+            var btnModify = (Button)ProjectDetail.FindControl("btnModifyProject");
             if ((aProject.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore")) && aProject.Status != "Chiuso")
             {
                 ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
-            }
-        }
-
-        private void DataBindControls()
-        {
-            if (_currentProjectId != 0)
-            {
-                var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-
-                if (currentProject != null)
-                {
-                    var isPublic = currentProject.Public;
-                    var checkBox = (CheckBox)ProjectDetail.FindControl("checkboxPublic");
-                    if (checkBox != null)
-                    {
-                        if (isPublic == true)
-                            checkBox.Checked = true;
-                        else
-                            checkBox.Checked = false;
-                    }
-                    if (currentProject.Status == "Chiuso")
-                        checkBox.Enabled = false;
-                    else
-                        checkBox.Enabled = true;
-                }
+                btnModify.Visible = true;
             }
         }
 
@@ -255,7 +232,7 @@ namespace VALE.MyVale
             ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
             popUp.Hide();
         }
-        protected void btnModifyProject_Click(object sender, EventArgs e)
+        protected void btnModifyStatusProject_Click(object sender, EventArgs e)
         {
             
             Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
@@ -345,6 +322,65 @@ namespace VALE.MyVale
         protected void addUsers_Click(object sender, EventArgs e)
         {
             Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentProjectId + "&dataType=project&returnUrl=/MyVale/ProjectDetails?projectId=" + _currentProjectId);
+        }
+
+        protected void btnClosePopUpButton_Click(object sender, EventArgs e)
+        {
+            ModalPopupProject.Hide();
+        }
+
+        protected void btnModifyProject_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            var project = db.Projects.Where(o => o.ProjectId == _currentProjectId).FirstOrDefault();
+            btnConfirmModify.Text = "Modifica";
+            btnClosePopUpButton.Visible = true;
+            txtName.Enabled = true;
+            txtName.CssClass = "form-control input-sm";
+            txtDescription.Disabled = false;
+            txtName.Text = project.ProjectName;
+            txtDescription.InnerText = project.Description;
+            txtStartDate.Text = project.CreationDate.ToShortDateString();
+            chkPublic.Checked = project.Public;
+            if (project.RelatedProject != null)
+                txtProjectName.Text = project.RelatedProject.ProjectName;
+            ModalPopupProject.Show();
+        }
+
+        protected void btnConfirmModify_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            var project = db.Projects.Where(o => o.ProjectId == _currentProjectId).FirstOrDefault();
+            project.ProjectName = txtName.Text;
+            project.Description = txtDescription.InnerText;
+            project.CreationDate = Convert.ToDateTime(txtStartDate.Text);
+            project.LastModified = DateTime.Now;
+            project.Public = chkPublic.Checked;
+
+            if (txtProjectName.Text != "")
+                project.RelatedProject = db.Projects.Where(o => o.ProjectName == txtProjectName.Text).FirstOrDefault();
+
+            db.SaveChanges();
+            Response.Redirect("~/MyVale/ProjectDetails.aspx?projectId=" + _currentProjectId);
+        }
+
+        protected void btnShowPopup_Click(object sender, EventArgs e)
+        {
+            showChooseProject.Visible = !showChooseProject.Visible;
+            ModalPopupProject.Show();
+        }
+
+        protected void btnChooseProject_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            txtProjectName.Text = btn.CommandArgument;
+            ModalPopupProject.Show();
+        }
+
+        public IQueryable<Project> GetProjects()
+        {
+            var _db = new UserOperationsContext();
+            return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
         }
     }
 }
