@@ -6,7 +6,7 @@ using System.Web;
 
 namespace VALE.Models
 {
-    public class DatabaseInitializer : DropCreateDatabaseAlways<UserOperationsContext>
+    public class DatabaseInitializer : DropCreateDatabaseIfModelChanges<UserOperationsContext>
     {
 
         protected override void Seed(UserOperationsContext context)

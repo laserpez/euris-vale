@@ -28,19 +28,24 @@
                             <p>&nbsp;</p>
                             <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                             <div class="form-group">
-                                <asp:Label runat="server" CssClass="col-md-2 control-label">Nome attività *</asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Nome attività *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox runat="server" ID="txtName" CssClass="form-control" />
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" CssClass="text-danger" ErrorMessage="Il nome è obbligatorio" />
                                 </div>
-                                <asp:Label runat="server" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
+                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox TextMode="MultiLine" runat="server" ID="txtDescription" CssClass="form-control" Height="145px" Width="404px" />
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="La descrizione è obbligatoria" />
                                 </div>
+                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Attività</asp:Label>
+                                <div class="col-md-10">
+                                    <asp:DropDownList  class="form-control" runat="server"  ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeId"></asp:DropDownList>
+                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="il è obbligatorio" />
+                                </div>
                                 <%--<asp:UpdatePanel runat="server">
                                     <ContentTemplate>--%>
-                                        <asp:Label runat="server" CssClass="col-md-2 control-label">Stato</asp:Label>
+                                        <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Stato</asp:Label>
                                         <div class="col-md-10">
                                             <button type="button" visible="false" id="ToBePlannedStatusButtonDisabled" class="btn btn-primary disabled" runat="server">Da Pianificare  <span class="caret"></span></button>
                                             <button type="button" visible="false" id="OngoingStatusButtonDisabled" class="btn btn-success disabled" runat="server">In Corso  <span class="caret"></span></button>
@@ -69,13 +74,13 @@
                                         </div>
                                 <asp:UpdatePanel runat="server">
                                     <ContentTemplate>
-                                        <asp:Label runat="server" CssClass="col-md-2 control-label">Data inizio</asp:Label>
+                                        <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Data inizio</asp:Label>
                                         <div class="col-md-10">
                                             <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" OnTextChanged="txtStartDate_TextChanged" AutoPostBack="true" />
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
                                             <br />
                                         </div>
-                                        <asp:Label runat="server" CssClass="col-md-2 control-label">Data fine</asp:Label>
+                                        <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Data fine</asp:Label>
                                         <div class="col-md-10">
                                             <asp:TextBox runat="server" ID="txtEndDate" CssClass="form-control" />
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtEndDate"></asp:CalendarExtender>
