@@ -70,6 +70,10 @@ namespace VALE.MyVale
             {
                 ModelState.AddModelError("", "Nome Progetto errato");
             }
+            else if (dbData.Projects.Where(o => o.ProjectName == txtName.Text).FirstOrDefault() != null)
+            {
+                ModelState.AddModelError("", "Nome Progetto già esistente");
+            }
             else
             {
 
