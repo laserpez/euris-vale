@@ -79,7 +79,7 @@ namespace VALE.Logic
                 db.AttachedFiles.Remove(anAttachment);
                 anAttachment.RelatedProject.LastModified = DateTime.Now;
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = anAttachment.RelatedProject.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimosso documento da \"" + anAttachment.RelatedProject.ProjectName + "\"", DataType = "Progetto", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
+                logger.Write(new LogEntry() { DataId = anAttachment.RelatedProject.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedProject.ProjectName + "\"", DataType = "Progetto", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
                 return true;
             }
             catch (Exception)
@@ -153,7 +153,7 @@ namespace VALE.Logic
                 aProject.InvolvedUsers.Remove(user);
             db.SaveChanges();
 
-            logger.Write(new LogEntry() { DataId = dataId, Username = user.UserName, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = user.UserName + (added ? " è stato invitato a \"" : " non collabora più a \"") + aProject.ProjectName + "\"" });
+            logger.Write(new LogEntry() { DataId = dataId, Username = user.UserName, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = user.UserName + (added ? " è stato invitato al progetto \"" : " non collabora più al progetto \"") + aProject.ProjectName + "\"" });
             return added;
         }
 
@@ -185,7 +185,7 @@ namespace VALE.Logic
                 var project = data as Project;
                 db.Projects.Add(project);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo progetto", DataType = "Progetto", Date = DateTime.Now, Description ="Nome progetto: \"" + project.ProjectName + "\"" });
+                logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo progetto", DataType = "Progetto", Date = DateTime.Now, Description ="E' stato creato il nuovo progetto \"" + project.ProjectName + "\"" });
                 return true;
             }
             catch (Exception)

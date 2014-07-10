@@ -53,8 +53,8 @@ namespace VALE.MyVale
                     InterventionText = txtComment.Text,
                     Date = DateTime.Today
                 };
-                db.Interventions.Add(intervention);
-                db.SaveChanges();
+                var actions = new InterventionActions();
+                actions.SaveData(intervention, db);
 
                 Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
             }
@@ -73,8 +73,9 @@ namespace VALE.MyVale
                 InterventionText = txtComment.Text,
                 Date = DateTime.Today
             };
-            db.Interventions.Add(intervention);
-            db.SaveChanges();
+
+            var actions = new InterventionActions();
+            actions.SaveData(intervention, db);
 
             FileUploader.Visible = true;
             FileUploader.DataActions = new InterventionActions();
