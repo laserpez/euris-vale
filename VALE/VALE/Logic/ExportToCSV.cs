@@ -33,7 +33,7 @@ namespace VALE.Logic
                         else
                             strbldr.Append("Non definito;");
                         strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId).ToString() + ';');
-                        strbldr.Append(activity.Status + ';');
+                        strbldr.Append(activity.Status.ToString() + ';');
                         strbldr.Append("\n");
                     }
                 }

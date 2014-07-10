@@ -62,6 +62,12 @@
                                                 <br />
                                                 <asp:Label runat="server" Font-Bold="true">Stato: </asp:Label><asp:Label runat="server"><%#:  GetStatus(Item) %></asp:Label>
                                                 <br />
+                                                 <asp:Label runat="server" Font-Bold="true">Budget: </asp:Label><asp:Label runat="server"><%#:  Item.Budget.ToString() %> Ore</asp:Label>
+                                                <br />
+                                                <%--<asp:Label runat="server" Font-Bold="true">Avanzamento: </asp:Label>
+                                                <div class="progress">
+                                                    <div class="progress-bar" style="width: 60%;"></div>
+                                                </div>--%>
                                                 <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label runat="server"><%#: Item.Description %></asp:Label>
                                                 <br />
                                                 

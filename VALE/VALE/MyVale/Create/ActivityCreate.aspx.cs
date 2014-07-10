@@ -108,6 +108,8 @@ namespace VALE.MyVale
                         status = ActivityStatus.ToBePlanned;
                         break;
                 }
+                int budget = 0;
+                int.TryParse(txtBudget.Text, out budget);
                 var newActivity = new Activity
                 {
                     ActivityName = txtName.Text,
@@ -116,6 +118,7 @@ namespace VALE.MyVale
                     CreationDate = DateTime.Today,
                     StartDate = startDate,
                     ExpireDate = expireDate,
+                    Budget = budget,
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
                     CreatorUserName = User.Identity.GetUserName(),
@@ -185,6 +188,8 @@ namespace VALE.MyVale
                         status = ActivityStatus.ToBePlanned;
                         break;
                 }
+                int budget = 0;
+                int.TryParse(txtBudget.Text, out budget);
                 var newActivity = new Activity
                 {
                     ActivityName = txtName.Text,
@@ -193,6 +198,7 @@ namespace VALE.MyVale
                     CreationDate = DateTime.Today,
                     StartDate = startDate,
                     ExpireDate = expireDate,
+                    Budget = budget,
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
                     CreatorUserName = User.Identity.GetUserName(),
