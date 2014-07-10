@@ -71,7 +71,7 @@ namespace VALE.Logic
                 
                 db.Events.Add(newEvent);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = newEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo evento", DataType = "Evento", Date = DateTime.Now, Description = "Nome evento: \"" + newEvent.Name + "\"" });
+                logger.Write(new LogEntry() { DataId = newEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo evento", DataType = "Evento", Date = DateTime.Now, Description = "E' stato creato il nuovo evento \"" + newEvent.Name + "\"" });
                 return true;
             }
             catch (Exception)
@@ -95,7 +95,7 @@ namespace VALE.Logic
                 var eventId = anAttachment.RelatedEvent.EventId;
                 _db.AttachedFiles.Remove(anAttachment);
                 _db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = eventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimosso documento da \"" + anAttachment.RelatedEvent.Name + "\"", DataType = "Evento", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
+                logger.Write(new LogEntry() { DataId = eventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedEvent.Name + "\"", DataType = "Evento", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
                 return true;
             }
             catch (Exception)
@@ -171,7 +171,7 @@ namespace VALE.Logic
                 anEvent.RegisteredUsers.Remove(user);
             _db.SaveChanges();
 
-            logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato a \"" : " non collabora più a \"") + anEvent.Name + "\"" });
+            logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'evento \"" : " non collabora più all'evento \"") + anEvent.Name + "\"" });
             return added;
         }
 

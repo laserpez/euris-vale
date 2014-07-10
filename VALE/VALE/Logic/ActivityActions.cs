@@ -145,7 +145,7 @@ namespace VALE.Logic
                 added = false;
             }
             db.SaveChanges();
-            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Attività", Date = DateTime.Now, Description = username + (added ? " è stato invitato a \"" : " non collabora più a \"") + activity.ActivityName + "\"" });
+            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Attività", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'attività \"" : " non collabora più all'attività \"") + activity.ActivityName + "\"" });
             return added;
         }
 
@@ -204,7 +204,7 @@ namespace VALE.Logic
                 var newActivity = data as Activity;
                 db.Activities.Add(newActivity);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Now, Description = "Nome attività: \"" + newActivity.ActivityName + "\"" });
+                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Now, Description = "E' stata creata la nuova attività \"" + newActivity.ActivityName + "\"" });
                 return true;
             }
             catch (Exception)
@@ -229,7 +229,7 @@ namespace VALE.Logic
                     ActivityDescription = "Attività ricevuta da un altro utente."
                 });
             }
-            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = accept ? "Accettato attività" : "Rifiutato attività", DataType = "Attività", Date = DateTime.Now, Description = user.UserName + (accept ? " partecipa ora a \"" : " non ha accettato di partecipare a \"") + activity.ActivityName + "\"" });
+            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = accept ? "Accettato attività" : "Rifiutato attività", DataType = "Attività", Date = DateTime.Now, Description = user.UserName + (accept ? " partecipa ora all'attività \"" : " non ha accettato di partecipare all'attività \"") + activity.ActivityName + "\"" });
             user.PendingActivity.Remove(activity);
             db.SaveChanges();
         }
