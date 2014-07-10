@@ -51,7 +51,6 @@
                                         ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetCurrentActivities" EmptyDataText="Nessuna attività in corso." 
                                         CssClass="table table-striped table-bordered" AllowPaging="true" PageSize="10">
                                         <Columns>
-                                            
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
                                                     <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>

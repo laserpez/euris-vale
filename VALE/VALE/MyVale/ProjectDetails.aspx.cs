@@ -274,6 +274,12 @@ namespace VALE.MyVale
             SetWorkOnProjectSection();
         }
 
+        public List<ProjectType> GetTypes()
+        {
+            var db = new UserOperationsContext();
+            return db.ProjectTypes.ToList();
+        }
+
         protected void btnAddIntervention_Click(object sender, EventArgs e)
         {
             Response.Redirect("/MyVale/CreateIntervention?projectId=" + _currentProjectId);
@@ -336,9 +342,10 @@ namespace VALE.MyVale
             btnConfirmModify.Text = "Modifica";
             btnClosePopUpButton.Visible = true;
             txtName.Enabled = true;
-            txtName.CssClass = "form-control input-sm";
+            txtName.CssClass = "form-control";
             txtDescription.Disabled = false;
             txtName.Text = project.ProjectName;
+            ddlSelectType.SelectedValue = project.Type;
             txtDescription.InnerText = project.Description;
             txtStartDate.Text = project.CreationDate.ToShortDateString();
             chkPublic.Checked = project.Public;
@@ -359,7 +366,7 @@ namespace VALE.MyVale
 
             if (txtProjectName.Text != "")
                 project.RelatedProject = db.Projects.Where(o => o.ProjectName == txtProjectName.Text).FirstOrDefault();
-
+            project.Type = ddlSelectType.SelectedValue;
             db.SaveChanges();
             Response.Redirect("~/MyVale/ProjectDetails.aspx?projectId=" + _currentProjectId);
         }
@@ -374,6 +381,7 @@ namespace VALE.MyVale
         {
             Button btn = (Button)sender;
             txtProjectName.Text = btn.CommandArgument;
+            showChooseProject.Visible = false;
             ModalPopupProject.Show();
         }
 

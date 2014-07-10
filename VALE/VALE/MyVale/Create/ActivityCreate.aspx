@@ -94,7 +94,7 @@
                                 <p>&nbsp;</p>
                             </div>
                             <p></p>
-                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Invita persone" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveActivity_Click" />
+                            <asp:Button runat="server" CssClass="btn btn-primary" Text="Invita collaboratori" ID="btnSaveActivity" CausesValidation="true" OnClick="btnSaveActivity_Click" />
                             <asp:Button runat="server" CssClass="btn btn-primary" Text="Salva e Chiudi" ID="Button1" CausesValidation="true"  OnClick="btnSaveActivityAndSelectUsers_Click" />
                             <br />
                         </div>
