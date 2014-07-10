@@ -153,7 +153,7 @@ namespace VALE.Logic
                 aProject.InvolvedUsers.Remove(user);
             db.SaveChanges();
 
-            logger.Write(new LogEntry() { DataId = dataId, Username = user.UserName, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = user.UserName + (added ? " è stato invitato a \"" : " non collabora più a \"") + aProject.ProjectName + "\"" });
+            logger.Write(new LogEntry() { DataId = dataId, Username = user.UserName, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = user.UserName + (added ? " è stato invitato al progetto \"" : " non collabora più al progetto \"") + aProject.ProjectName + "\"" });
             return added;
         }
 

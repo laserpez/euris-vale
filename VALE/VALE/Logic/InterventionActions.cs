@@ -9,6 +9,33 @@ namespace VALE.Logic
     [Serializable]
     public class InterventionActions : IFileActions
     {
+        public ILogger logger { get; set; }
+
+        public InterventionActions()
+        {
+            logger = LogFactory.GetCurrentLogger();
+        }
+
+        public bool SaveData<T>(T data, UserOperationsContext db)
+        {
+            try
+            {
+                var newIntervention = data as Intervention;
+
+                db.Interventions.Add(newIntervention);
+                db.SaveChanges();
+
+                var RelatedProjectName = db.Projects.Where(pr => pr.ProjectId == newIntervention.ProjectId).Select(pro => pro.ProjectName).FirstOrDefault();
+                var textToView = newIntervention.InterventionText.Length >= 30 ? newIntervention.InterventionText.Substring(0, 30) + "..." : newIntervention.InterventionText;
+                logger.Write(new LogEntry() { DataId = newIntervention.InterventionId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunta nuova conversazione in " + RelatedProjectName, DataType = "Conversazione", Date = DateTime.Now, Description = newIntervention.CreatorUserName + " ha aggiunto una conversazione: \"" + textToView + "\"" });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public bool AddAttachment(int dataId, Models.AttachedFile file)
         {
             try

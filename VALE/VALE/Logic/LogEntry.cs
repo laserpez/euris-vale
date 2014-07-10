@@ -28,6 +28,10 @@ namespace VALE.Logic
                         return "glyphicon glyphicon-inbox";
                     case "Attività":
                         return "glyphicon glyphicon-list";
+                    case "Verbale":
+                        return "glyphicon glyphicon-tasks";
+                    case "Conversazione":
+                        return "glyphicon glyphicon-comment";
                     default:
                         return "glyphicon glyphicon-remove";
                 };

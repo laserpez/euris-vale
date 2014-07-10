@@ -165,9 +165,9 @@
                                         <span title="<%#: Item.DataType %>" class="<%#:Item.DataTypeUrl %>" ></span>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
-                                <asp:BoundField DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
-                                <asp:BoundField DataField="Username" HeaderText="Utente" SortExpression="Username" />
+                                <asp:BoundField HeaderStyle-Width="20%" DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
+                                <asp:BoundField HeaderStyle-Width="55%" DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
+                                <asp:BoundField HeaderStyle-Width="10%" DataField="Username" HeaderText="Utente" SortExpression="Username" />
                             </Columns>
                             <PagerTemplate>
                                 <asp:GridPager runat="server"

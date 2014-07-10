@@ -246,7 +246,8 @@ namespace VALE.MyVale
             {
                 btnSuspend.Visible = false;
                 btnClose.Visible = false;
-                lblInfo.Text = "Solo il creatore può gestire lo stato del progetto";
+                var lblInfoOperation = (Label)ProjectDetail.FindControl("lblInfoOperation");
+                lblInfoOperation.Text = "Solo il creatore può gestire lo stato del progetto";
             }
         }
 
@@ -312,6 +313,31 @@ namespace VALE.MyVale
                 string interventionID = grdInterventions.DataKeys[index].Value.ToString();
                 Response.Redirect("/MyVale/InterventionDetails?interventionId=" + interventionID);
             }
+            else if (e.CommandName == "DeleteIntervention")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                var grdInterventions = (GridView)ProjectDetail.FindControl("grdInterventions");
+                int interventionID = Convert.ToInt32(grdInterventions.DataKeys[index].Value.ToString());
+
+                if (DeleteIntervention(interventionID))
+                    grid.DataBind();
+            }
+        }
+
+        private bool DeleteIntervention(int interventionID)
+        {
+            var anIntervention = _db.Interventions.FirstOrDefault(i => i.InterventionId == interventionID);
+            var actions = new InterventionActions();
+
+            if (anIntervention != null)
+            {
+                actions.RemoveAllAttachments(interventionID);
+                _db.Interventions.Remove(anIntervention);
+                _db.SaveChanges();
+                return true;
+            }
+            else
+                return false;
         }
 
         public bool ContainsDocuments(int interventionID)
@@ -345,6 +371,20 @@ namespace VALE.MyVale
         protected void addUsers_Click(object sender, EventArgs e)
         {
             Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentProjectId + "&dataType=project&returnUrl=/MyVale/ProjectDetails?projectId=" + _currentProjectId);
+        }
+
+        protected void grdInterventions_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            var grdInterventions = (GridView)sender;
+            var dbData = new UserOperationsContext();
+            _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+            var currentProject = dbData.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName)
+            {
+                DataControlField dataControlField = grdInterventions.Columns.Cast<DataControlField>().SingleOrDefault(x => x.HeaderText == "DELETE ROW");
+                if (dataControlField != null)
+                    dataControlField.Visible = true;
+            }
         }
     }
 }
