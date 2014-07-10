@@ -10,7 +10,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-10">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
@@ -19,11 +19,29 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    <div class="navbar-right">
+                                        <asp:Button runat="server" Text="Esporta CSV"  CssClass="btn btn-info" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
+                                        <div class="btn-group">
+                                            <asp:Label ID="ActivityListType" runat="server" Text="AllActivities" Visible="false"></asp:Label>
+                                            <asp:Label ID="ListUsersType" Visible="false" runat="server" Text=""></asp:Label>
+                                            <button type="button" visible="true" id="btnStatus" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutti <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <asp:LinkButton CommandArgument="AllActivities" runat="server" OnClick="ChangeSelectedActivities_Click" CausesValidation="false"><span class="glyphicon glyphicon-hdd"></span> Tutte  </asp:LinkButton></li>
+                                                <li>
+                                                    <asp:LinkButton CommandArgument="DoneActivities" runat="server" OnClick="ChangeSelectedActivities_Click" CausesValidation="false"><span class="glyphicon glyphicon-ok-sign"></span> Richieste</asp:LinkButton></li>
+                                              <li>
+                                                    <asp:LinkButton CommandArgument="ProjectActivities" runat="server" OnClick="ChangeSelectedActivities_Click" CausesValidation="false"><span class="glyphicon glyphicon-inbox"></span> Per Progetto</asp:LinkButton></li>
+                                              <li>
+                                                    <asp:LinkButton CommandArgument="NotRelatedActivities" runat="server" OnClick="ChangeSelectedActivities_Click" CausesValidation="false"><span class="glyphicon glyphicon-resize-full"></span> Non Correlate</asp:LinkButton></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:Button runat="server" Text="Esporta CSV" Width="90" CssClass="btn btn-info btn-xs" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
+                            
                             <p></p>
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>

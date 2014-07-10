@@ -55,17 +55,17 @@
                                                 <asp:Label ID="LabelActivityStatus" runat="server" value="ToBePlanned" Visible="false"></asp:Label>
                                                 <button type="button" visible="true" id="ToBePlannedStatusButton" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Da Pianificare  <span class="caret"></span></button>
                                                 <button type="button" visible="false" id="OngoingStatusButton" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">In Corso  <span class="caret"></span></button>
-                                                <button type="button" visible="false" id="SuspendedStatusButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Sospeso  <span class="caret"></span></button>
-                                                <button type="button" visible="false" id="DoneStatusButton" class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server">Terminato  <span class="caret"></span></button>
+                                                <button type="button" visible="false" id="SuspendedStatusButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Sospesa  <span class="caret"></span></button>
+                                                <button type="button" visible="false" id="DoneStatusButton" class="btn btn-default dropdown-toggle" data-toggle="dropdown" runat="server">Terminata  <span class="caret"></span></button>
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <asp:LinkButton runat="server" OnClick="ToBePlannedStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-share-alt"></span> Da Pianificare</asp:LinkButton></li>
                                                     <li>
                                                         <asp:LinkButton runat="server" OnClick="OngoingStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-play"></span>  In Corso  </asp:LinkButton></li>
                                                     <li>
-                                                        <asp:LinkButton runat="server" OnClick="SuspendedStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-pause"></span> Sospeso  </asp:LinkButton></li>
+                                                        <asp:LinkButton runat="server" OnClick="SuspendedStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-pause"></span> Sospesa  </asp:LinkButton></li>
                                                     <li>
-                                                        <asp:LinkButton runat="server" OnClick="DoneStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-stop"></span> Terminato</asp:LinkButton></li>
+                                                        <asp:LinkButton runat="server" OnClick="DoneStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-stop"></span> Terminata</asp:LinkButton></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -82,12 +82,20 @@
                                         </div>
                                         <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Data fine</asp:Label>
                                         <div class="col-md-10">
-                                            <asp:TextBox runat="server" ID="txtEndDate" CssClass="form-control" />
+                                            <asp:TextBox runat="server" ID="txtEndDate" CssClass="form-control"  />
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtEndDate"></asp:CalendarExtender>
                                             <br />
                                         </div>
+                                        
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
+                                <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Budget</asp:Label>
+                                <div class="col-md-10">
+                                            <asp:TextBox TextMode="Number" runat="server" ID="txtBudget" CssClass="form-control" Width="100px"/>
+                                        </div>
+                                <div class="col-md-12">
+                                            <br />
+                                        </div>
                                 <div>
                                     <uc:SelectProject runat="server" ID="SelectProject" />
                                 </div>

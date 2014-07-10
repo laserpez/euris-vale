@@ -151,5 +151,25 @@ namespace VALE.MyVale
         {
             return new List<string>() { "Tutte", "Da pianificare", "In corso", "Sospese", "Terminate" };
         }
+
+        protected void ChangeSelectedActivities_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            switch (button.CommandName)
+            {
+                case "AllActivities":
+                    ActivityListType.Text = "AllActivities";
+                    break;
+                case "DoneActivities":
+                    ActivityListType.Text = "DoneActivities";
+                    break;
+                case "ProjectActivities":
+                    ActivityListType.Text = "ProjectActivities";
+                    break;
+                case "NotRelatedActivities":
+                    ActivityListType.Text = "NotRelatedActivities";
+                    break;
+            }
+        }
     }
 }
