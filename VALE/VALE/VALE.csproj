@@ -523,6 +523,7 @@
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\DatabaseInitializer.cs" />
     <Compile Include="Models\ProjectType.cs" />
+    <Compile Include="Models\XmlRoles.cs" />
     <Compile Include="MyVale\GridPager.ascx.cs">
       <DependentUpon>GridPager.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

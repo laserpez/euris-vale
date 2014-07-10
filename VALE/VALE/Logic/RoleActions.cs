@@ -21,6 +21,8 @@ namespace VALE.Logic
             {
                 roleManager.Create(new IdentityRole(roleName));
             }
+
+
         }
 
         private static void CreateAdministratorRole()
