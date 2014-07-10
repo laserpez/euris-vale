@@ -171,7 +171,7 @@ namespace VALE.Logic
                 anEvent.RegisteredUsers.Remove(user);
             _db.SaveChanges();
 
-            logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato a \"" : " non collabora più a \"") + anEvent.Name + "\"" });
+            logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'evento \"" : " non collabora più all'evento \"") + anEvent.Name + "\"" });
             return added;
         }
 

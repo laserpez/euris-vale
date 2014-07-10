@@ -36,8 +36,10 @@ namespace VALE.MyVale.BOD
                 Location = txtLocation.Text,
                 Text= txtReportText.Text
             };
-            db.BODReports.Add(report);
-            db.SaveChanges();
+
+            var actions = new BODReportActions();
+            actions.SaveData(report, db);
+
             ViewState["reportId"] = report.BODReportId;
             Response.Redirect("~/MyVale/BOD/BODReports");
         }
