@@ -9,6 +9,13 @@ namespace VALE.Logic
     [Serializable]
     public class BODReportActions : IFileActions
     {
+        public ILogger logger { get; set; }
+
+        public BODReportActions()
+        {
+            logger = LogFactory.GetCurrentLogger();
+        }
+
         public bool AddAttachment(int dataId, Models.AttachedFile file)
         {
             try
@@ -29,11 +36,12 @@ namespace VALE.Logic
         {
             try
             {
-                var db = new UserOperationsContext();
-                var anAttachment = db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
-                db.AttachedFiles.Remove(anAttachment);
-
-                db.SaveChanges();
+                var _db = new UserOperationsContext();
+                var anAttachment = _db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
+                var BODReportId = anAttachment.RelatedBODReport.BODReportId;
+                _db.AttachedFiles.Remove(anAttachment);
+                _db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = BODReportId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedEvent.Name + "\"", DataType = "Verbale", Date = DateTime.Now, Description = "E' stato rimosso il documento \"" + anAttachment.FileName + "\"" });
                 return true;
             }
             catch (Exception)
@@ -42,7 +50,7 @@ namespace VALE.Logic
             }
         }
 
-        public List<Models.AttachedFile> GetAttachments(int dataId)
+        public List<AttachedFile> GetAttachments(int dataId)
         {
             var db = new UserOperationsContext();
             var report = db.BODReports.First(r => r.BODReportId == dataId);
@@ -58,6 +66,23 @@ namespace VALE.Logic
                 var BODReport = db.BODReports.First(b => b.BODReportId == dataId);
                 db.AttachedFiles.RemoveRange(BODReport.AttachedFiles);
                 db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool SaveData<T>(T data, UserOperationsContext db)
+        {
+            try
+            {
+                var newBODReport = data as BODReport;
+
+                db.BODReports.Add(newBODReport);
+                db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = newBODReport.BODReportId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo verbale del consiglio", DataType = "Verbale", Date = DateTime.Now, Description = "E' stato creato il nuovo evento \"" + newBODReport.Name + "\"" });
                 return true;
             }
             catch (Exception)
