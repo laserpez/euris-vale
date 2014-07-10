@@ -12,7 +12,7 @@ namespace VALE.Models
         public string ProjectTypeName { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
-
+        
         public override bool Equals(object obj)
         {
             var projectType = (ProjectType)obj;
