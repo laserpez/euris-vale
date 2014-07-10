@@ -99,7 +99,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView OnRowCommand="grdInterventions_RowCommand" DataKeyNames="InterventionId" ItemType="VALE.Models.Intervention" GridLines="Both" AllowSorting="true"
+                                                            <asp:GridView OnRowCommand="grdInterventions_RowCommand" OnRowCreated="grdInterventions_RowCreated" DataKeyNames="InterventionId" ItemType="VALE.Models.Intervention" GridLines="Both" AllowSorting="true"
                                                                 SelectMethod="GetInterventions" runat="server" ID="grdInterventions" AutoGenerateColumns="false" CssClass="table table-striped table-bordered">
                                                                 <Columns>
                                                                     <asp:TemplateField>
@@ -107,7 +107,7 @@
                                                                             <center><div><asp:LinkButton CommandArgument="InterventionText" CommandName="sort" runat="server" ID="labelInterventionText"><span  class="glyphicon glyphicon-credit-card"></span> Intervento</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: String.IsNullOrEmpty(Item.InterventionText) ? "Nessun commento scritto inserito." : Item.InterventionText %></asp:Label></div></center>
+                                                                            <center><div><asp:Label runat="server"><%#: String.IsNullOrEmpty(Item.InterventionText) ? "Nessun commento scritto inserito." : (Item.InterventionText.Length >= 40 ? Item.InterventionText.Substring(0,40) + "..." : Item.InterventionText) %></asp:Label></div></center>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
@@ -128,7 +128,7 @@
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="DocumentsPath" CommandName="sort" runat="server" ID="labelDocumentsPath"><span  class="glyphicon glyphicon-paperclip"></span> Ha allegati</asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton CommandArgument="AttachedFiles" CommandName="sort" runat="server" ID="labelDocumentsPath"><span  class="glyphicon glyphicon-paperclip"></span> Ha allegati</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label runat="server"><%#: ContainsDocuments(Item.InterventionId) ? "SI" : "NO" %></asp:Label></div></center>
@@ -141,6 +141,17 @@
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Button CssClass="btn btn-info btn-xs" Width="90" runat="server" CommandName="ViewIntervention"
                                                                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Visualizza" /></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="90px" />
+                                                                        <ItemStyle Width="90px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField Visible="false" HeaderText="DELETE ROW">
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-remove"></span> Cancella</asp:Label></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Button CssClass="btn btn-danger btn-xs" Width="90" runat="server" CommandName="DeleteIntervention"
+                                                                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Cancella" /></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="90px" />
                                                                         <ItemStyle Width="90px" />
@@ -240,7 +251,7 @@
                                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label></div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -303,7 +314,7 @@
                                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label></div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>

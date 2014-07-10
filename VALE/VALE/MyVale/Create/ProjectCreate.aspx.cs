@@ -102,6 +102,5 @@ namespace VALE.MyVale
                 Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + project.ProjectId + "&dataType=project&returnUrl=/MyVale/Projects");
             }
         }
-
     }
 }
