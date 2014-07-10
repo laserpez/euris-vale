@@ -108,8 +108,6 @@ namespace VALE.MyVale
                         status = ActivityStatus.ToBePlanned;
                         break;
                 }
-                var typeId = Convert.ToInt32(ddlSelectType.SelectedValue);
-                var type = db.ActivityTypes.FirstOrDefault(t => t.ActivityTypeId == typeId);
                 var newActivity = new Activity
                 {
                     ActivityName = txtName.Text,
@@ -121,11 +119,10 @@ namespace VALE.MyVale
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
                     CreatorUserName = User.Identity.GetUserName(),
-                    Type = type,
+                    Type = ddlSelectType.SelectedValue,
                 };
                 var activityActions = new ActivityActions();
                 activityActions.SaveData(newActivity, db);
-                
                 db.Reports.Add(new ActivityReport
                 {
                     ActivityId = newActivity.ActivityId,
@@ -151,6 +148,74 @@ namespace VALE.MyVale
             }
         }
 
+        protected void btnSaveActivityAndSelectUsers_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            var project = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
+            if (SelectProject.ProjectNameTextBox.Text != "" && project == null)
+            {
+                ModelState.AddModelError("", "Nome Progetto errato");
+            }
+            else
+            {
+                DateTime? expireDate = null;
+                if (!String.IsNullOrEmpty(txtEndDate.Text))
+                    expireDate = Convert.ToDateTime(txtEndDate.Text);
+
+                DateTime? startDate = null;
+                if (!String.IsNullOrEmpty(txtStartDate.Text))
+                    startDate = Convert.ToDateTime(txtStartDate.Text);
+
+                ActivityStatus status;
+                switch (LabelActivityStatus.Text)
+                {
+                    case "ToBePlanned":
+                        status = ActivityStatus.ToBePlanned;
+                        break;
+                    case "Ongoing":
+                        status = ActivityStatus.Ongoing;
+                        break;
+                    case "Suspended":
+                        status = ActivityStatus.Suspended;
+                        break;
+                    case "Done":
+                        status = ActivityStatus.Done;
+                        break;
+                    default:
+                        status = ActivityStatus.ToBePlanned;
+                        break;
+                }
+                var newActivity = new Activity
+                {
+                    ActivityName = txtName.Text,
+                    Description = txtDescription.Text,
+                    Status = status,
+                    CreationDate = DateTime.Today,
+                    StartDate = startDate,
+                    ExpireDate = expireDate,
+                    RelatedProject = project,
+                    PendingUsers = new List<UserData>(),
+                    CreatorUserName = User.Identity.GetUserName(),
+                    Type = ddlSelectType.SelectedValue,
+                };
+                var activityActions = new ActivityActions();
+                activityActions.SaveData(newActivity, db);
+                db.Reports.Add(new ActivityReport
+                {
+                    ActivityId = newActivity.ActivityId,
+                    WorkerUserName = User.Identity.GetUserName(),
+                    HoursWorked = 0,
+                    ActivityDescription = "Creazione attività",
+                    Date = DateTime.Today
+
+                });
+                db.SaveChanges();
+                Response.Redirect("/MyVale/Activities");
+            }
+        }
+
+        
+
 
 
         protected void txtStartDate_TextChanged(object sender, EventArgs e)
@@ -169,7 +234,7 @@ namespace VALE.MyVale
             if (txtStartDate.Text != "" && CheckDate())
             {
                 txtEndDate.Enabled = true;
-                calendarTo.StartDate = Convert.ToDateTime(txtStartDate.Text).AddDays(1);
+                calendarTo.StartDate = Convert.ToDateTime(txtStartDate.Text);
             }
             if (txtStartDate.Text == "")
             {

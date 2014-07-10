@@ -39,12 +39,12 @@ namespace VALE.MyVale
             }
             else
             {
-
                 var project = new Project
                 {
                     CreationDate = Convert.ToDateTime(txtStartDate.Text),
                     OrganizerUserName = _currentUser,
                     Description = txtDescription.Text,
+                    Type = ddlSelectType.SelectedValue,
                     ProjectName = txtName.Text,
                     LastModified = Convert.ToDateTime(txtStartDate.Text),
                     Status = "Aperto",
@@ -59,6 +59,11 @@ namespace VALE.MyVale
                 projectActions.SaveData(project, dbData);
                 Response.Redirect("~/MyVale/Projects");
             }
+        }
+        public List<ProjectType> GetTypes()
+        {
+            var db = new UserOperationsContext();
+            return db.ProjectTypes.ToList();
         }
 
         protected void btnAddUsers_Click(object sender, EventArgs e)
