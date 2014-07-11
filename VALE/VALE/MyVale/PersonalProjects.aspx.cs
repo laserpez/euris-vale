@@ -49,7 +49,7 @@ namespace VALE.MyVale
                 var keys = btnCurrentView.Attributes.Keys;
 
                 var aValue = btnCurrentView.Attributes["btnPressed"];
-                
+
                 if (!string.IsNullOrEmpty(aValue))
                 {
                     if (aValue == "btnAttending")
@@ -57,8 +57,22 @@ namespace VALE.MyVale
                     else
                         result = GetOrganizedProjects();
                 }
+                else
+                {
+                    result = GetAllPersonalProjects();
+                }
             }
+            
             return result;
+        }
+
+        public IQueryable<Project> GetAllPersonalProjects()
+        {
+            var db = new UserOperationsContext();
+            var listOrganizedProjects = GetOrganizedProjects().ToList();
+            var listAttendingProjects = GetAttendingProjects().ToList();
+            var concatProjects = listAttendingProjects.Concat(listOrganizedProjects);
+            return concatProjects.AsQueryable();
         }
 
         public IQueryable<Project> GetOrganizedProjects()
@@ -97,6 +111,20 @@ namespace VALE.MyVale
             
             grdProjectList.DataBind();
 
+        }
+
+        protected void grdProjectList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < grdProjectList.Rows.Count; i++)
+            {
+                int projectId = (int)grdProjectList.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContent = (Label)grdProjectList.Rows[i].FindControl("lblContent");
+                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
+                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
+                lblContent.Text = textToSee;
+            }
         }
     }
 }
