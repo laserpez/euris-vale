@@ -89,7 +89,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView ItemType="VALE.Models.Project" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                            <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId" OnRowDataBound="grdRelatedProject_RowDataBound" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                                 SelectMethod="GetRelatedProjectList" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
                                                                 <Columns>
                                                                     <asp:TemplateField>
@@ -106,7 +106,7 @@
                                                                             <center><div><asp:LinkButton  runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label></div></center>
+                                                                            <center><div><asp:Label ID="lblDescription" runat="server"></asp:Label></div></center>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
@@ -208,7 +208,7 @@
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Button CssClass="btn btn-info btn-xs" Width="90" runat="server" CommandName="ViewIntervention"
-                                                                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Visualizza" /></div></center>
+                                                                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Visualizza" CausesValidation="false" /></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="90px" />
                                                                         <ItemStyle Width="90px" />
@@ -219,7 +219,7 @@
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Button CssClass="btn btn-danger btn-xs" Width="90" runat="server" CommandName="DeleteIntervention"
-                                                                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Cancella" /></div></center>
+                                                                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Cancella" CausesValidation="false" /></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="90px" />
                                                                         <ItemStyle Width="90px" />
