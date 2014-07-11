@@ -92,7 +92,7 @@
                                                     <HeaderStyle Width="150px" />
                                                     <ItemStyle Width="150px" />
                                                 </asp:TemplateField>
-                                                <asp:TemplateField>
+                                                <%--<asp:TemplateField>
                                                     <HeaderTemplate>
                                                         <center><div><asp:LinkButton runat="server" ID="labelDescription"  CommandArgument="Type" CommandName="sort"><span  class="glyphicon glyphicon-th"></span> Tipo</asp:LinkButton></div></center>
                                                     </HeaderTemplate>
@@ -101,7 +101,7 @@
                                                     </ItemTemplate>
                                                     <HeaderStyle Width="90px" />
                                                     <ItemStyle Width="90px" />
-                                                </asp:TemplateField>
+                                                </asp:TemplateField>--%>
                                                 <asp:TemplateField>
                                                     <HeaderTemplate>
                                                         <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>

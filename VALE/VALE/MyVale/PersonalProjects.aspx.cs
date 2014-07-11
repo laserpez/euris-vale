@@ -69,10 +69,16 @@ namespace VALE.MyVale
         public IQueryable<Project> GetAllPersonalProjects()
         {
             var db = new UserOperationsContext();
-            var listOrganizedProjects = GetOrganizedProjects().ToList();
-            var listAttendingProjects = GetAttendingProjects().ToList();
-            var concatProjects = listAttendingProjects.Concat(listOrganizedProjects);
-            return concatProjects.AsQueryable();
+            List<Project> listOrganizedProjects = GetOrganizedProjects().ToList();
+            List<Project> listAttendingProjects = GetAttendingProjects().ToList();
+            List<Project> tempList = new List<Project>();
+            foreach (var project in listOrganizedProjects)
+            {
+                if (!listAttendingProjects.Contains(project))
+                    tempList.Add(project);
+            }
+            List<Project> allPersonalProjects = listOrganizedProjects.Union(tempList).ToList();
+            return allPersonalProjects.AsQueryable();
         }
 
         public IQueryable<Project> GetOrganizedProjects()
