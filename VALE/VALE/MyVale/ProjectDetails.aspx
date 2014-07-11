@@ -352,7 +352,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button CssClass="btn btn-success btn-sm" Text="Aggiungi attività" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
+                                                                        <asp:Button CssClass="btn btn-success btn-sm" Text="Aggiungi attività" CausesValidation="false" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -569,7 +569,7 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <asp:GridView SelectMethod="GetProjectsList" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                            <asp:GridView SelectMethod="GetProjectsList" ID="OpenedProjectList" DataKeyNames="ProjectId" OnDataBound="OpenedProjectList_DataBound" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:TemplateField>
@@ -585,7 +585,7 @@
                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
+                                            <center><div><asp:Label ID="lblOpenedProjects" runat="server"></asp:Label></div></center>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField>

@@ -216,7 +216,17 @@ namespace VALE.MyVale
 
                 });
                 db.SaveChanges();
-                Response.Redirect("/MyVale/Activities");
+
+                string returnUrl = "";
+
+                if (Session["callingProjectId"] != null)
+                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
+                else if (Session["requestFrom"] != null)
+                    returnUrl = Session["requestFrom"].ToString();
+                else
+                    returnUrl = "/MyVale/Activities";
+
+                Response.Redirect(returnUrl);
             }
         }
 

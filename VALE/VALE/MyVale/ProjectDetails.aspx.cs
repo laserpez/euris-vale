@@ -533,6 +533,22 @@ namespace VALE.MyVale
                 lblDescription.Text = textToSee;
             }
         }
+
+        protected void OpenedProjectList_DataBound(object sender, EventArgs e)
+        {
+            var OpenedProjectList = (GridView)sender;
+
+            for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
+            {
+                int projectId = (int)OpenedProjectList.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblOpenedProjects = (Label)OpenedProjectList.Rows[i].FindControl("lblOpenedProjects");
+                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
+                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
+                lblOpenedProjects.Text = textToSee;
+            }
+        }
       
     }
 }
