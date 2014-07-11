@@ -39,7 +39,7 @@
                                     <ContentTemplate>
                                       
                                         <asp:GridView OnRowCommand="grid_RowCommand" DataKeyNames="ProjectId" OnRowDataBound="grdProjectList_RowDataBound" ID="grdProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                            ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto pianificato." CssClass="table table-striped table-bordered" SelectMethod="GetPersonalProjects" AllowPaging="true" PageSize="2">
+                                            ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto pianificato." CssClass="table table-striped table-bordered" SelectMethod="GetPersonalProjects" AllowPaging="true">
                                             <Columns>
                                                 <asp:TemplateField>
                                                     <HeaderTemplate>

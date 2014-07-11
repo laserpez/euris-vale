@@ -171,5 +171,33 @@ namespace VALE.MyVale
                     break;
             }
         }
+
+        protected void grdCurrentActivities_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < grdCurrentActivities.Rows.Count; i++)
+            {
+                int activityId = (int)grdCurrentActivities.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContent = (Label)grdCurrentActivities.Rows[i].FindControl("lblContent");
+                string activityDescription = db.Activities.FirstOrDefault(a => a.ActivityId == activityId).Description;
+                var textToSee = activityDescription.Length >= 65 ? activityDescription.Substring(0, 65) + "..." : activityDescription;
+                lblContent.Text = textToSee;
+            }
+        }
+
+        protected void grdPendingActivities_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < grdPendingActivities.Rows.Count; i++)
+            {
+                int activityId = (int)grdPendingActivities.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContentPendingActivity = (Label)grdPendingActivities.Rows[i].FindControl("lblContentPendingActivity");
+                string activityDescription = db.Activities.FirstOrDefault(a => a.ActivityId == activityId).Description;
+                var textToSee = activityDescription.Length >= 65 ? activityDescription.Substring(0, 65) + "..." : activityDescription;
+                lblContentPendingActivity.Text = textToSee;
+            }
+        }
     }
 }

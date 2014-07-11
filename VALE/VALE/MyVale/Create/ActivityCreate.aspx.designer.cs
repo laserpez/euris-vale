@@ -166,16 +166,16 @@ namespace VALE.MyVale {
         protected global::AjaxControlToolkit.CalendarExtender calendarTo;
         
         /// <summary>
-        /// txtBudget control.
-        /// Controllo SelectProject.
+        /// Controllo txtBudget.
         /// </summary>
         /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBudget;
         
         /// <summary>
+        /// Controllo SelectProject.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.

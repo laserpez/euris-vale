@@ -371,6 +371,46 @@ namespace VALE.MyVale
             }
             return null;
         }
+
+        protected void ActivityDetail_DataBound(object sender, EventArgs e)
+        {
+            if (_currentActivityId != 0)
+            {
+                string result = _db.Activities.FirstOrDefault(ac => ac.ActivityId == _currentActivityId).Description;
+                Label lblContent = (Label)ActivityDetail.FindControl("lblContent");
+                lblContent.Text = result;
+            }
+        }
+
+        protected void grdRelatedProject_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            var grdRelatedProject = (GridView)sender;
+
+            for (int i = 0; i < grdRelatedProject.Rows.Count; i++)
+            {
+                int projectId = (int)grdRelatedProject.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContentRelatedProject = (Label)grdRelatedProject.Rows[i].FindControl("lblContentRelatedProject");
+                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
+                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
+                lblContentRelatedProject.Text = textToSee;
+            }
+        }
+
+        protected void OpenedProjectList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
+            {
+                int projectId = (int)OpenedProjectList.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContentOpenProjects = (Label)OpenedProjectList.Rows[i].FindControl("lblContentOpenProjects");
+                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
+                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
+                lblContentOpenProjects.Text = textToSee;
+            }
+        }
       
 
         //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
