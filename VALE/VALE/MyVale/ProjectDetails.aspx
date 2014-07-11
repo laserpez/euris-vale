@@ -50,6 +50,8 @@
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Stato: </asp:Label><asp:Label runat="server"><%#: Item.Status.ToUpperInvariant() %></asp:Label>
                                         <br />
+                                        <asp:Label runat="server" Font-Bold="true">Budget: </asp:Label><asp:Label runat="server"><%#:  Item.Budget.ToString() %> Ore</asp:Label>
+                                        <br />
                                         <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                         <br />
 
@@ -218,7 +220,7 @@
                                                                             <center><div><asp:Label runat="server" ID="labelDelete"><span  class="glyphicon glyphicon-remove"></span> Cancella</asp:Label></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Button CssClass="btn btn-danger btn-xs" Width="90" runat="server" CommandName="DeleteIntervention"
+                                                                            <center><div><asp:Button ID="btnDeleteIntervention" Visible="false" CssClass="btn btn-danger btn-xs" Width="90" runat="server" CommandName="DeleteIntervention"
                                                                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Cancella" CausesValidation="false" /></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="90px" />
