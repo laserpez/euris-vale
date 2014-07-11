@@ -149,5 +149,19 @@ namespace VALE.MyVale
             var eventActions = new EventActions();
             return eventActions.IsUserRelated(eventId, _currentUserName);
         }
+
+        protected void grdEvents_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < grdEvents.Rows.Count; i++)
+            {
+                int eventId = (int)grdEvents.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContent = (Label)grdEvents.Rows[i].FindControl("lblContent");
+                string eventDescription = db.Events.FirstOrDefault(ev => ev.EventId == eventId).Description;
+                var textToSee = eventDescription.Length >= 65 ? eventDescription.Substring(0, 65) + "..." : eventDescription;
+                lblContent.Text = textToSee;
+            }
+        }
     }
 }

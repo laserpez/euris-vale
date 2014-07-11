@@ -68,6 +68,48 @@ namespace VALE
             var db = new UserOperationsContext();
             return db.LogEntries.OrderByDescending(e => e.Date);
         }
+
+        protected void lstProgetti_DataBound(object sender, EventArgs e)
+        {
+            //for (int i = 0; i < lstProgetti.Items.Count; i++)
+            //{
+            //    int projectId = (int)lstProgetti.DataKeys[i].Value;
+            //    var db = new UserOperationsContext();
+
+            //    Label lblContent = (Label)lstProgetti.Items[i].FindControl("lblContent");
+            //    string projectDescription = db.Projects.Where(p => p.ProjectId == projectId).Select(pr => pr.Description).FirstOrDefault();
+            //    var textToSee = projectDescription.Length >= 30 ? projectDescription.Substring(0, 30) + "..." : projectDescription;
+            //    lblContent.Text = textToSee;
+            //}
+        }
+
+        protected void lstEvents_DataBound(object sender, EventArgs e)
+        {
+            //for (int i = 0; i < lstEvents.Items.Count; i++)
+            //{
+            //    int eventId = (int)lstEvents.DataKeys[i].Value;
+            //    var db = new UserOperationsContext();
+
+            //    Label lblContentEvent = (Label)lstEvents.Items[i].FindControl("lblContentEvent");
+            //    string eventDescription = db.Events.FirstOrDefault(ev => ev.EventId == eventId).Description;
+            //    var textToSee = eventDescription.Length >= 30 ? eventDescription.Substring(0, 30) + "..." : eventDescription;
+            //    lblContentEvent.Text = textToSee;
+            //}
+        }
+
+        protected void lstActivities_DataBound(object sender, EventArgs e)
+        {
+            //for (int i = 0; i < lstActivities.Items.Count; i++)
+            //{
+            //    int activityId = (int)lstActivities.DataKeys[i].Value;
+            //    var db = new UserOperationsContext();
+
+            //    Label lblContentActivity = (Label)lstActivities.Items[i].FindControl("lblContentActivity");
+            //    string activityDescription = db.Activities.FirstOrDefault(ac => ac.ActivityId == activityId).Description;
+            //    var textToSee = activityDescription.Length >= 30 ? activityDescription.Substring(0, 30) + "..." : activityDescription;
+            //    lblContentActivity.Text = textToSee;
+            //}
+        }
        
 
         

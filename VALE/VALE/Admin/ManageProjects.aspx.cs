@@ -203,5 +203,19 @@ namespace VALE.Admin
             }
             set { ViewState["sortDirection"] = value; }
         }
+
+        protected void ProjectList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < ProjectList.Rows.Count; i++)
+            {
+                int projectId = (int)ProjectList.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContent = (Label)ProjectList.Rows[i].FindControl("lblContent");
+                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
+                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
+                lblContent.Text = textToSee;
+            }
+        }
     }
 }
