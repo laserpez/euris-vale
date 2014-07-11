@@ -67,6 +67,15 @@ namespace VALE.Admin {
         protected global::System.Web.UI.WebControls.LinkButton lnkDummy;
         
         /// <summary>
+        /// lblPopupName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPopupName;
+        
+        /// <summary>
         /// NameTextBox control.
         /// </summary>
         /// <remarks>
@@ -74,6 +83,15 @@ namespace VALE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox NameTextBox;
+        
+        /// <summary>
+        /// ErrorPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ErrorPopup;
         
         /// <summary>
         /// AmministrazioneVisibile control.
