@@ -220,11 +220,9 @@ namespace VALE.MyVale
 
         protected void txtStartDate_TextChanged(object sender, EventArgs e)
         {
-            //DateTime startDate;
-            //if (DateTime.TryParse(txtStartDate.Text, out startDate))
-            //    calendarTo.StartDate = startDate.AddDays(1);
-
-            ChangeCalendars();
+            DateTime dData;
+            if (DateTime.TryParse(txtStartDate.Text, out dData))
+                ChangeCalendars();
         }
 
         private void ChangeCalendars()
