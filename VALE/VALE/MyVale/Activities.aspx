@@ -103,15 +103,12 @@
                                                         <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Stato"></asp:Label>
                                                         <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control input-sm" ID="ddlStatus" runat="server"></asp:DropDownList>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <br />
-                                                    </div>
-                                                    
+                                                   
                                                 </div>
                                             </div>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-                                    <div class="row">
+                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
@@ -120,9 +117,9 @@
                                                             <div class="col-lg-10">
                                                                 <ul class="nav nav-pills">
                                                                     <li>
-                                                                        <h4>
-                                                                            <%--<asp:Label ID="ActivityListName" runat="server" Text="Tutte"></asp:Label>--%>
-                                                                        </h4>
+                                                                        
+                                                                            <asp:Label ID="ActivityListName" runat="server" Text="Attività"></asp:Label>
+                                                                        
                                                                     </li>
                                                                 </ul>
                                                             </div>

@@ -52,23 +52,12 @@
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                         <br />
-                                        <asp:FormView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
-                                            <EmptyDataTemplate>
-                                                <asp:Label runat="server" Font-Bold="true">Progetto correlato: </asp:Label><asp:Label runat="server" Text="Nessun progetto correlato"></asp:Label>
-                                            </EmptyDataTemplate>
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" Font-Bold="true">Progetto correlato: </asp:Label>
-                                                <a href="ProjectDetails.aspx?projectId=<%#: Item.ProjectId %>">
-                                                    
-                                                    <asp:Label runat="server" Text="<%#: Item.ProjectName %>"></asp:Label></a><br />
-                                            </ItemTemplate>
-                                        </asp:FormView>
 
                                     </div>
                                     <div class="col-md-1">
                                         <asp:UpdatePanel runat="server">
                                             <ContentTemplate>
-                                                <asp:Button CausesValidation="false" ID="btnModifyProject" Visible="false" CssClass="btn btn-danger" runat="server" Text="Modifica" OnClick="btnModifyProject_Click" />
+                                                <asp:Button CausesValidation="false" ID="btnModifyProject" Visible="false" CssClass="btn btn-primary" runat="server" Text="Modifica" OnClick="btnModifyProject_Click" />
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                     </div>
@@ -79,7 +68,86 @@
                                                 <div class="col-md-12">
                                                     <br />
                                                 </div>
-                                            </div>      
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-8">
+                                                                        <ul class="nav nav-pills">
+                                                                            <li>
+                                                                                <span class="glyphicon glyphicon-inbox"></span>&nbsp;&nbsp;Progetto correlato</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="navbar-right">
+                                                                        <asp:Button runat="server" Text="Ellimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
+                                                                        <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                            <asp:GridView ItemType="VALE.Models.Project" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                                SelectMethod="GetRelatedProjectList" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton  runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><a href="ProjectDetails.aspx?projectId=<%#: Item.ProjectId %>">
+                                                                    <asp:Label runat="server" Text="<%#: Item.ProjectName %>"></asp:Label></a></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton  runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton  runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-calendar"></span> Data Creazione</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="150px" />
+                                                                        <ItemStyle Width="150px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton runat="server" ID="labelType"><span  class="glyphicon glyphicon-th"></span> Tipo</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.Type.Length >= 20 ? Item.Type.Substring(0,20) + "..." : Item.Type %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="90px" />
+                                                                        <ItemStyle Width="90px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="90px" />
+                                                                        <ItemStyle Width="90px" />
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <EmptyDataTemplate>
+                                                                    <asp:Label runat="server">Nessun Progetto correlato </asp:Label>
+                                                                </EmptyDataTemplate>
+                                                            </asp:GridView>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>     
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
@@ -369,8 +437,8 @@
                                                             <br />
                                                         </div>
                                                         <div class="col-md-offset-8 col-md-10">
-                                                            <asp:Button runat="server" Text="Ok" ID="btnFilterProjects" CssClass="btn btn-success btn-xs" OnClick="btnModifyStatusProject_Click" />
-                                                            <asp:Button runat="server" Text="Annulla" ID="btnClearFilters" CssClass="btn btn-danger btn-xs" OnClick="CloseButton_Click" />
+                                                            <asp:Button runat="server" Text="Ok" ID="btnFilterProjects" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnModifyStatusProject_Click" />
+                                                            <asp:Button runat="server" Text="Annulla" ID="btnClearFilters" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="CloseButton_Click" />
                                                         </div>
 
                                                     </div>
@@ -386,9 +454,6 @@
             </div>
         </div>
     </div>
-  
-
-
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
             <asp:ModalPopupExtender ID="ModalPopupProject" runat="server"
@@ -396,38 +461,49 @@
             </asp:ModalPopupExtender>
             <asp:LinkButton ID="lnkDummyProject" runat="server"></asp:LinkButton>
             <div class="well bs-component" id="pnlPopupProject" style="width: 80%;">
-                
                 <div class="row">
                     <div class="col-md-12">
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
                             <legend>Modifica Progetto</legend>
                             <div class="form-group">
-                                <label class="col-lg-12 control-label">Nome</label>
-                                <div class="col-lg-10">
+                                <label class="col-md-2 control-label">Nome *</label>
+                                <div class="col-md-10">
                                     <asp:TextBox runat="server" CssClass="form-control" ID="txtName" />
+                                    <asp:RequiredFieldValidator ValidationGroup="ModifyProject" runat="server" ControlToValidate="txtName" CssClass="text-danger" ErrorMessage="Il campo Nome progetto è obbligatorio." />
                                 </div>
                             </div>
                            <div class="form-group">
-                                <br />
-                                <Label class="col-lg-7 control-label">Data</Label>
-                                <div class="col-lg-7">
+                                <Label class="col-md-2 control-label">Data di inizio *</Label>
+                                <div class="col-md-10"">
                                     <asp:TextBox runat="server" Width="280px" ID="txtStartDate" CssClass="form-control"  />
                                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
-                                </div>
-                                <br />
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-12 control-label">Progetto pubblico?</label>
-                                <div class="col-lg-10">
-                                    <asp:CheckBox runat="server" ID="chkPublic" />
+                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="Il campo Data di inizio è obbligatorio." /><br />
+                                    <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtStartDate" Display="Dynamic"></asp:RegularExpressionValidator>
                                 </div>
                             </div>
+                           <%-- <div class="row">
+                                <div class="col-md-12">
+                                    <br />
+                                </div>
+                            </div>--%>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Progetto pubblico?</label>
+                                        <div class="col-md-10">
+                                            <asp:CheckBox runat="server" ID="chkPublic" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="form-group">
                                 <br />
-                                <label class="col-lg-12 control-label">Descrizione</label>
-                                <div class="col-lg-12">
+                                <label class="col-md-2 control-label">Descrizione</label>
+                                <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control input-sm" TextMode="MultiLine" Height="150px" ID="txtDescription" runat="server"></asp:TextBox>
+                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ValidationGroup="ModifyProject" ErrorMessage="Il campo Descrizione è obbligatorio." />
                                     <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
@@ -446,48 +522,54 @@
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
                                     </asp:HtmlEditorExtender>
+                                    
                             </div>
-                            <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Progetto</asp:Label>
-                                <div class="col-md-12">
-                                    <asp:DropDownList  class="form-control" runat="server"  ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ProjectType" DataTextField="ProjectTypeName" DataValueField="ProjectTypeName"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="" />
-                                </div>
-                            <br />
-                            <br />
                             <div class="form-group">
-                                <br />
-                                <label class="col-lg-12 control-label">Progetto correlato</label>
-                                <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
-                                    <ContentTemplate>
-                                        <div class="col-lg-12">
-                                            <div class="input-group col-md-3">
-                                                <div class="form-group">
-                                                    <asp:TextBox runat="server" Width="250px" ID="txtProjectName" CssClass="form-control" />
-
-                                                </div>
-                                                <div class="input-group-btn">
-                                                    <asp:Button CssClass="btn btn-primary" ID="Button1" runat="server" Text="Lista" OnClick="btnShowPopup_Click" CausesValidation="false" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <asp:AutoCompleteExtender
-                                            ServiceMethod="GetProjectNames" ServicePath="/AutoComplete.asmx"
-                                            ID="txtProjectAutoCompleter" runat="server"
-                                            Enabled="True" TargetControlID="txtProjectName" UseContextKey="True"
-                                            MinimumPrefixLength="2">
-                                        </asp:AutoCompleteExtender>
-                                        <br />
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
-                            </div>
+                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Progetto</asp:Label>
+                                    <div class="col-md-10">
+                                        <asp:DropDownList  class="form-control" runat="server"  ID="ddlSelectType" SelectMethod="GetTypes" Width="300px" ItemType="VALE.Models.ProjectType" DataTextField="ProjectTypeName" DataValueField="ProjectTypeName"></asp:DropDownList>
+                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="ModifyProject" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="" />
+                                    </div>
+                                </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <br />
-                                    </div>
+                                </div>
                             </div>
-                            <div runat="server" visible="false" id="showChooseProject" class="panel panel-default" style="max-height: 200px; overflow: auto;">
-                                <div class="panel-body">
-                                    <asp:GridView SelectMethod="GetProjects" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <br />
+                            </div>
+                            <div class="col-md-offset-9 col-md-12">
+                                <asp:Button runat="server" Text="Salva" ID="btnConfirmModify" CssClass="btn btn-success btn-sm" ValidationGroup="ModifyProject" CausesValidation="true" OnClick="btnConfirmModify_Click" />
+                                <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="btnClosePopUpButton_Click" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <asp:ModalPopupExtender ID="ModalPopupListProject" runat="server"
+                PopupControlID="pnlListProject" TargetControlID="lnkDummy1" BackgroundCssClass="modalBackground">
+            </asp:ModalPopupExtender>
+            <asp:LinkButton ID="lnkDummy1" runat="server"></asp:LinkButton>
+            <div class="panel panel-primary" id="pnlListProject" style="width: 80%;">
+                <div class="panel-heading">
+                    <asp:Label ID="TitleMpdalView" runat="server" Text="Lista progetti"></asp:Label>
+                    <asp:Button runat="server" CssClass="close" CausesValidation="false" OnClick="Unnamed_Click" Text="x" />
+                </div>
+                <div class="panel-body" style="max-height: 500px; overflow: auto;">
+                    <div>
+                        <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
+                        <div class="form-group">
+                            <asp:GridView SelectMethod="GetProjectsList" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:TemplateField>
@@ -538,22 +620,7 @@
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
-                                </div>
-                                
-                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            <br />
-                        </div>
-                        <div class="col-md-offset-9 col-md-10">
-                            <asp:Button runat="server" Text="Crea" ID="btnConfirmModify" CssClass="btn btn-success btn-sm" CausesValidation="false" OnClick="btnConfirmModify_Click" />
-                            <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" OnClick="btnClosePopUpButton_Click" />
-                        </div>
-
                     </div>
                 </div>
             </div>
