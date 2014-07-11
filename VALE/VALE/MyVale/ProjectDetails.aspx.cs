@@ -393,8 +393,6 @@ namespace VALE.MyVale
             ddlSelectType.SelectedValue = project.Type;
             txtStartDate.Text = project.CreationDate.ToShortDateString();
             chkPublic.Checked = project.Public;
-            if (project.RelatedProject != null)
-                txtProjectName.Text = project.RelatedProject.ProjectName;
             ModalPopupProject.Show();
         }
 
@@ -407,27 +405,13 @@ namespace VALE.MyVale
             project.CreationDate = Convert.ToDateTime(txtStartDate.Text);
             project.LastModified = DateTime.Now;
             project.Public = chkPublic.Checked;
-
-            if (txtProjectName.Text != "")
-                project.RelatedProject = db.Projects.Where(o => o.ProjectName == txtProjectName.Text).FirstOrDefault();
             project.Type = ddlSelectType.SelectedValue;
             db.SaveChanges();
             Response.Redirect("~/MyVale/ProjectDetails.aspx?projectId=" + _currentProjectId);
         }
 
-        protected void btnShowPopup_Click(object sender, EventArgs e)
-        {
-            showChooseProject.Visible = !showChooseProject.Visible;
-            ModalPopupProject.Show();
-        }
-
-        protected void btnChooseProject_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            txtProjectName.Text = btn.CommandArgument;
-            showChooseProject.Visible = false;
-            ModalPopupProject.Show();
-        }
+        
+       
 
         public IQueryable<Project> GetProjects()
         {
@@ -464,5 +448,75 @@ namespace VALE.MyVale
                 lblContentActivity.Text = textToSee;
             }
         }
+
+        //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
+        protected void btnDeleteRelatedProject_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Hide();
+            var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
+            currentProject.RelatedProject = null;
+            _db.SaveChanges();
+            GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
+            grdRelatedProject.DataBind();
+        }
+
+        protected void btnAddRelatedProject_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Show();
+        }
+
+        public IQueryable<Project> GetProjectsList()
+        {
+            var _db = new UserOperationsContext();
+            return _db.Projects.Where(pr => pr.Status != "Chiuso").OrderBy(p => p.ProjectName);
+        }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Hide();
+        }
+
+        protected void btnChooseProject_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectName == btn.CommandArgument);
+            if (project != null)
+            {
+                var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
+                currentProject.RelatedProject = project;
+                _db.SaveChanges();
+                GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
+                grdRelatedProject.DataBind();
+                Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
+            }
+
+        }
+
+        //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
+        public IQueryable<Project> GetRelatedProjectList([QueryString("projectId")] int? PprojectId)
+        {
+            ModalPopupListProject.Hide();
+            if (PprojectId.HasValue)
+            {
+                Button btnDeleteRelatedProject = (Button)ProjectDetail.FindControl("btnDeleteRelatedProject");
+                Button btnAddRelatedProject = (Button)ProjectDetail.FindControl("btnAddRelatedProject");
+                var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
+                var project = currentProject.RelatedProject;
+                if (project != null)
+                {
+                    btnDeleteRelatedProject.Visible = true;
+                    btnAddRelatedProject.Visible = false;
+                    var list = new List<Project> { project };
+                    return list.AsQueryable();
+                }
+                else
+                {
+                    btnDeleteRelatedProject.Visible = false;
+                    btnAddRelatedProject.Visible = true;
+                }
+            }
+            return null;
+        }
+      
     }
 }

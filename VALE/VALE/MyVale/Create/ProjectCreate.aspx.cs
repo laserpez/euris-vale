@@ -84,6 +84,7 @@ namespace VALE.MyVale
 
                 var project = new Project
                 {
+                    Type = ddlSelectType.SelectedValue,
                     CreationDate = Convert.ToDateTime(txtStartDate.Text),
                     OrganizerUserName = _currentUser,
                     Description = txtDescription.Text,

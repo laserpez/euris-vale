@@ -39,6 +39,8 @@ namespace VALE.Logic
                 var _db = new UserOperationsContext();
                 var anAttachment = _db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
                 var BODReportId = anAttachment.RelatedBODReport.BODReportId;
+                var aBODReport = _db.BODReports.Where(b => b.BODReportId == BODReportId).FirstOrDefault();
+                aBODReport.AttachedFiles.Remove(anAttachment);
                 _db.AttachedFiles.Remove(anAttachment);
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = BODReportId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedEvent.Name + "\"", DataType = "Verbale", Date = DateTime.Now, Description = "E' stato rimosso il documento \"" + anAttachment.FileName + "\"" });

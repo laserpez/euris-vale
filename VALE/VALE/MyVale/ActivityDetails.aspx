@@ -423,8 +423,6 @@
     </asp:UpdatePanel>
     <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
         <ContentTemplate>
-           
-
             <asp:ModalPopupExtender ID="ModalPopupListProject" runat="server"
                 PopupControlID="pnlListProject" TargetControlID="lnkDummy1" BackgroundCssClass="modalBackground">
             </asp:ModalPopupExtender>
