@@ -50,6 +50,8 @@
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Stato: </asp:Label><asp:Label runat="server"><%#: Item.Status.ToUpperInvariant() %></asp:Label>
                                         <br />
+                                        <asp:Label runat="server" Font-Bold="true">Budget: </asp:Label><asp:Label runat="server"><%#:  Item.Budget.ToString() %> Ore</asp:Label>
+                                        <br />
                                         <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                         <br />
 
