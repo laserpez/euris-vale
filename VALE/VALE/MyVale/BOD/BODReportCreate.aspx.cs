@@ -46,7 +46,9 @@ namespace VALE.MyVale.BOD
 
         protected void txtMeetingDate_TextChanged(object sender, EventArgs e)
         {
-            CalendarPublishDate.StartDate = Convert.ToDateTime(txtMeetingDate.Text);
+            DateTime dData;
+            if (DateTime.TryParse(txtMeetingDate.Text, out dData))
+                CalendarPublishDate.StartDate = Convert.ToDateTime(txtMeetingDate.Text);
         }
 
     }

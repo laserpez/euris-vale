@@ -23,7 +23,7 @@
                         </div>
                         <div class="panel-body" style="overflow: auto;">
 
-                            <asp:FormView runat="server" ID="EventDetail" ItemType="VALE.Models.Event" SelectMethod="GetEvent">
+                            <asp:FormView runat="server" OnDataBound="EventDetail_DataBound" ID="EventDetail" ItemType="VALE.Models.Event" SelectMethod="GetEvent">
                                 <ItemTemplate>
 
                                     <asp:Label runat="server"><%#: String.Format("Titolo: {0}", Item.Name) %></asp:Label>
@@ -34,7 +34,7 @@
                                     <br />
                                     <asp:Label runat="server"><%#: Item.Public ? "Evento pubblico" : "Evento privato" %></asp:Label>
                                     <br />
-                                    <asp:Label runat="server"><%#: String.Format("Descrizione: {0}", Item.Description) %></asp:Label><br />
+                                    <asp:Label ID="lblContent" runat="server"></asp:Label><br />
                                     <h4>Utenti registrati</h4>
                                     <asp:ListView ItemType="VALE.Models.UserData" SelectMethod="GetRegisteredUsers" runat="server" ID="lstUsers">
                                         <ItemTemplate>

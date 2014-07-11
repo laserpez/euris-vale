@@ -30,5 +30,19 @@ namespace VALE.MyVale
             int eventId = (int)grdPlannedEvent.DataKeys[rowID].Value;
             Response.Redirect("/MyVale/EventDetails?eventId=" + eventId);
         }
+
+        protected void grdPlannedEvent_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < grdPlannedEvent.Rows.Count; i++)
+            {
+                int eventId = (int)grdPlannedEvent.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContent = (Label)grdPlannedEvent.Rows[i].FindControl("lblContent");
+                string eventDescription = db.Events.FirstOrDefault(ev => ev.EventId == eventId).Description;
+                var textToSee = eventDescription.Length >= 65 ? eventDescription.Substring(0, 65) + "..." : eventDescription;
+                lblContent.Text = textToSee;
+            }
+        }
     }
 }

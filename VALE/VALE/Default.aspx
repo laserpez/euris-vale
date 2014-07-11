@@ -19,9 +19,9 @@
     </div>
 
     <div id="loggedUser" runat="server" class="row">
-        <div class="col-md-4" style="max-height: 600px; overflow: auto">
+        <div class="col-md-4" style="max-height: 600px;">
             <h3>Progetti</h3>
-            <asp:ListView ID="lstProgetti" runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjects">
+            <asp:ListView ID="lstProgetti" OnDataBound="lstProgetti_DataBound" DataKeyNames="ProjectId" runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjects">
                 <ItemTemplate>
                     <div class="well">
                         <div class="row">
@@ -41,9 +41,9 @@
                             <div class="col-md-12">
                                 <asp:Label Font-Underline="true" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
                             </div>
-                            <div class="col-md-12">
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label>
-                            </div>
+                            <%--<div class="col-md-12">
+                                <asp:Label ID="lblContent" runat="server"></asp:Label>
+                            </div>--%>
                         </div>
                     </div>
                 </ItemTemplate>
@@ -59,9 +59,9 @@
             <br />
             <asp:Button CommandArgument="Projects" Text="Vedi tutti" CssClass="btn btn-info btn-sm" ID="btnViewAll" OnClick="btnViewAll_Click" runat="server" />
         </div>
-        <div class="col-md-4" style="max-height: 600px; overflow: auto">
+        <div class="col-md-4" style="max-height: 600px;">
             <h3>Eventi</h3>
-            <asp:ListView ID="lstEvents" runat="server" ItemType="VALE.Models.Event" SelectMethod="GetEvents">
+            <asp:ListView ID="lstEvents" DataKeyNames="EventId" OnDataBound="lstEvents_DataBound" runat="server" ItemType="VALE.Models.Event" SelectMethod="GetEvents">
                 <ItemTemplate>
                     <div class="well">
                         <div class="row">
@@ -81,9 +81,9 @@
                             <div class="col-md-12">
                                 <asp:Label Font-Underline="true" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
                             </div>
-                            <div class="col-md-12">
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label>
-                            </div>
+                            <%--<div class="col-md-12">
+                                <asp:Label ID="lblContentEvent" runat="server"></asp:Label>
+                            </div>--%>
                         </div>
                     </div>
                 </ItemTemplate>
@@ -99,9 +99,9 @@
             <br />
             <asp:Button CommandArgument="Events" Text="Vedi tutti" CssClass="btn btn-info btn-sm" ID="Button1" OnClick="btnViewAll_Click" runat="server" />
         </div>
-        <div class="col-md-4" style="max-height: 600px; overflow: auto">
+        <div class="col-md-4" style="max-height: 600px;">
             <h3>Attività</h3>
-            <asp:ListView ID="lstActivities" runat="server" ItemType="VALE.Models.Activity" SelectMethod="GetActivities">
+            <asp:ListView ID="lstActivities" DataKeyNames="ActivityId" OnDataBound="lstActivities_DataBound" runat="server" ItemType="VALE.Models.Activity" SelectMethod="GetActivities">
                 <ItemTemplate>
                     <div class="well">
                         <div class="row">
@@ -121,9 +121,9 @@
                             <div class="col-md-12">
                                 <asp:Label Font-Underline="true" runat="server"><%#: Item.CreatorUserName %></asp:Label>
                             </div>
-                            <div class="col-md-12">
-                                <asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label>
-                            </div>
+                            <%--<div class="col-md-12">
+                                <asp:Label ID="lblContentActivity" runat="server"></asp:Label>
+                            </div>--%>
                         </div>
                     </div>
                 </ItemTemplate>
