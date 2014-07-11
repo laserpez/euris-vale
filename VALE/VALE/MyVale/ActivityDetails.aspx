@@ -9,7 +9,7 @@
             <br />
             <div class="row">
                 <div class="col-lg-12">
-                    <asp:FormView runat="server" ID="ActivityDetail" Width="100%" ItemType="VALE.Models.Activity" SelectMethod="GetActivity">
+                    <asp:FormView runat="server" ID="ActivityDetail" OnDataBound="ActivityDetail_DataBound" Width="100%" ItemType="VALE.Models.Activity" SelectMethod="GetActivity">
                         <ItemTemplate>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -68,7 +68,7 @@
                                                 <div class="progress">
                                                     <div class="progress-bar" style="width: 60%;"></div>
                                                 </div>--%>
-                                                <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label runat="server"><%#: Item.Description %></asp:Label>
+                                                <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                                 <br />
                                                 
                                                 <br />
@@ -108,7 +108,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                    <asp:GridView ItemType="VALE.Models.Project"  AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                    <asp:GridView ItemType="VALE.Models.Project" OnRowDataBound="grdRelatedProject_RowDataBound" DataKeyNames="ProjectId"  AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                         SelectMethod="GetRelatedProject" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
                                                         <Columns>
                                                             <asp:TemplateField>
@@ -125,7 +125,7 @@
                                                                     <center><div><asp:LinkButton  runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
-                                                                    <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label></div></center>
+                                                                    <center><div><asp:Label ID="lblContentRelatedProject" runat="server"></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
@@ -373,7 +373,25 @@
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
-                                    <asp:TextBox TextMode="MultiLine" runat="server" ID="txtActDescription" CssClass="form-control" Height="145px" Width="404px" />
+                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="145px" Width="404px" ID="txtActDescription" runat="server"></asp:TextBox>
+                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtActDescription">
+                                        <Toolbar>
+                                            <ajaxToolkit:Undo />
+                                            <ajaxToolkit:Redo />
+                                            <ajaxToolkit:Bold />
+                                            <ajaxToolkit:Italic />
+                                            <ajaxToolkit:Underline />
+                                            <ajaxToolkit:StrikeThrough />
+                                            <ajaxToolkit:Subscript />
+                                            <ajaxToolkit:Superscript />
+                                            <ajaxToolkit:InsertOrderedList />
+                                            <ajaxToolkit:InsertUnorderedList />
+                                            <ajaxToolkit:CreateLink />
+                                            <ajaxToolkit:Cut />
+                                            <ajaxToolkit:Copy />
+                                            <ajaxToolkit:Paste />
+                                        </Toolbar>
+                                    </asp:HtmlEditorExtender>
                                     <asp:RequiredFieldValidator runat="server" ValidationGroup="ModifyActivity" ControlToValidate="txtActDescription" CssClass="text-danger" ErrorMessage="La descrizione è obbligatoria" />
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Attività</asp:Label>
@@ -438,7 +456,7 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <asp:GridView SelectMethod="GetProjects" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                            <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" OnRowDataBound="OpenedProjectList_RowDataBound" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:TemplateField>
@@ -454,7 +472,7 @@
                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
+                                            <center><div><asp:Label ID="lblContentOpenProjects" runat="server"></asp:Label></div></center>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField>
