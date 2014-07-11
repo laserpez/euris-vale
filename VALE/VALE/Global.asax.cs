@@ -22,7 +22,7 @@ namespace VALE
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             // Initialize the product database.
             Database.SetInitializer(new DatabaseInitializer());
-            RoleActions.CreateRoles();
+            RoleActions.LoadRoles();
             using (var actions = new UserActions())
             {
                 actions.CreateAdministrator();

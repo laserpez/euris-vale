@@ -58,13 +58,13 @@
                                                         <ItemTemplate>
                                                             <center>
                                                                 <div>
-                                                                    <asp:LinkButton runat="server" CommandName="EditRole" CommandArgument="<%#: Item.Name %>"><span class="label label-success">Aggiorna</span></asp:LinkButton>
-                                                                    <%--<asp:LinkButton runat="server" CommandName="DeleteRole" CommandArgument="<%#: Item.Name %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>--%>
+                                                                    <asp:LinkButton runat="server" CommandName="EditRole" CommandArgument="<%#: Item.Name %>" OnClick="BtnModifyRole_Click"><span class="label label-success">Modifica</span></asp:LinkButton>
+                                                                    <asp:LinkButton runat="server" CommandName="DeleteRole" CommandArgument="<%#: Item.Name %>" OnClick="Delete_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
                                                                 </div>
                                                             </center>
                                                         </ItemTemplate>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton runat="server" ID="labelBtnRole"><span  class="glyphicon glyphicon-cog"></span> Modifica</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton runat="server" ID="labelBtnRole" Width="100px"><span  class="glyphicon glyphicon-cog"></span> Modifica</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <HeaderStyle Width="100px"></HeaderStyle>
                                                         <ItemStyle Width="100px"></ItemStyle>
@@ -98,12 +98,13 @@
 
                         <div class="form-group">
 
-                            <legend>Nuovo Ruolo</legend>
+                            <legend> <asp:Label runat="server" ID="lblPopupName" Text="" ></asp:Label> </legend>
                             <div class="form-group">
 
                                 <label class="col-lg-12 control-label">Nome Ruolo *</label>
                                 <div class="col-lg-12">
                                     <asp:TextBox runat="server" class="form-control input-sm" ID="NameTextBox" />
+                                    <asp:Label runat="server" CssClass="text-danger" ID="ErrorPopup" Text=""></asp:Label>
                                     <asp:RequiredFieldValidator runat="server" ValidationGroup="AddRole" ControlToValidate="NameTextBox" CssClass="text-danger" ErrorMessage="Il campo Nome Ruolo è richiesto." />
                                 </div>
                             </div>

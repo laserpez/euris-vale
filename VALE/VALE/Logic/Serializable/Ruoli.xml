@@ -1,13 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfXmlRoles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <XmlRoles>
-    <Name>prova</Name>
+    <Name>Amministratore</Name>
     <Amministrazione>
       <Visible>true</Visible>
     </Amministrazione>
+    <DocumentiAssociazione>
+      <Visible>true</Visible>
+    </DocumentiAssociazione>
+    <Home>
+      <Visible>true</Visible>
+    </Home>
+    <ListaUtenti>
+      <Visible>true</Visible>
+    </ListaUtenti>
     <Consiglio>
       <Visible>true</Visible>
       <Creation>true</Creation>
     </Consiglio>
+    <Progetti>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Progetti>
+    <Attivita>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Attivita>
+    <Eventi>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Eventi>
+    <Articoli>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Articoli>
+  </XmlRoles>
+  <XmlRoles>
+    <Name>Socio</Name>
+    <Amministrazione>
+      <Visible>false</Visible>
+    </Amministrazione>
+    <DocumentiAssociazione>
+      <Visible>true</Visible>
+    </DocumentiAssociazione>
+    <Home>
+      <Visible>true</Visible>
+    </Home>
+    <ListaUtenti>
+      <Visible>true</Visible>
+    </ListaUtenti>
+    <Consiglio>
+      <Visible>false</Visible>
+      <Creation>false</Creation>
+    </Consiglio>
+    <Progetti>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Progetti>
+    <Attivita>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Attivita>
+    <Eventi>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Eventi>
+    <Articoli>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Articoli>
+  </XmlRoles>
+  <XmlRoles>
+    <Name>capo</Name>
+    <Amministrazione>
+      <Visible>true</Visible>
+    </Amministrazione>
+    <DocumentiAssociazione>
+      <Visible>true</Visible>
+    </DocumentiAssociazione>
+    <Home>
+      <Visible>true</Visible>
+    </Home>
+    <ListaUtenti>
+      <Visible>true</Visible>
+    </ListaUtenti>
+    <Consiglio>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Consiglio>
+    <Progetti>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Progetti>
+    <Attivita>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Attivita>
+    <Eventi>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Eventi>
+    <Articoli>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Articoli>
   </XmlRoles>
 </ArrayOfXmlRoles>
