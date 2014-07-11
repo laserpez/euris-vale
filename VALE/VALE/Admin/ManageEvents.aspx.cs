@@ -78,5 +78,19 @@ namespace VALE.Admin
             var db = new UserOperationsContext();
             return db.Events.AsQueryable();
         }
+
+        protected void grdEventList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            for (int i = 0; i < grdEventList.Rows.Count; i++)
+            {
+                int eventId = (int)grdEventList.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContent = (Label)grdEventList.Rows[i].FindControl("lblContent");
+                string eventDescription = db.Events.FirstOrDefault(ev => ev.EventId == eventId).Description;
+                var textToSee = eventDescription.Length >= 65 ? eventDescription.Substring(0, 65) + "..." : eventDescription;
+                lblContent.Text = textToSee;
+            }
+        }
     }
 }

@@ -142,6 +142,11 @@ namespace VALE.MyVale
             if (_currentProjectId != 0)
             {
                 var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
+
+                string result = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId).Description;
+                Label lblContent = (Label)ProjectDetail.FindControl("lblContent");
+                lblContent.Text = result;
+
                 SetWorkOnProjectSection();
                 SetManageProjectSection();
             }
@@ -377,9 +382,8 @@ namespace VALE.MyVale
             btnClosePopUpButton.Visible = true;
             txtName.Enabled = true;
             txtName.CssClass = "form-control input-sm";
-            txtDescription.Disabled = false;
             txtName.Text = project.ProjectName;
-            txtDescription.InnerText = project.Description;
+            txtDescription.Text = project.Description;
             txtStartDate.Text = project.CreationDate.ToShortDateString();
             chkPublic.Checked = project.Public;
             if (project.RelatedProject != null)
@@ -392,7 +396,7 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var project = db.Projects.Where(o => o.ProjectId == _currentProjectId).FirstOrDefault();
             project.ProjectName = txtName.Text;
-            project.Description = txtDescription.InnerText;
+            project.Description = txtDescription.Text;
             project.CreationDate = Convert.ToDateTime(txtStartDate.Text);
             project.LastModified = DateTime.Now;
             project.Public = chkPublic.Checked;
@@ -421,6 +425,36 @@ namespace VALE.MyVale
         {
             var _db = new UserOperationsContext();
             return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
+        }
+
+        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            GridView eventGridView = (GridView)sender;
+            for (int i = 0; i < eventGridView.Rows.Count; i++)
+            {
+                int eventId = (int)eventGridView.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContentEvent = (Label)eventGridView.Rows[i].FindControl("lblContentEvent");
+                string eventDescription = db.Events.FirstOrDefault(ev => ev.EventId == eventId).Description;
+                var textToSee = eventDescription.Length >= 40 ? eventDescription.Substring(0, 40) + "..." : eventDescription;
+                lblContentEvent.Text = textToSee;
+            }
+        }
+
+        protected void ActivitiesGridView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            GridView ActivitiesGridView = (GridView)sender;
+            for (int i = 0; i < ActivitiesGridView.Rows.Count; i++)
+            {
+                int activityId = (int)ActivitiesGridView.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblContentActivity = (Label)ActivitiesGridView.Rows[i].FindControl("lblContentActivity");
+                string activityDescription = db.Activities.FirstOrDefault(ac => ac.ActivityId == activityId).Description;
+                var textToSee = activityDescription.Length >= 40 ? activityDescription.Substring(0, 40) + "..." : activityDescription;
+                lblContentActivity.Text = textToSee;
+            }
         }
     }
 }

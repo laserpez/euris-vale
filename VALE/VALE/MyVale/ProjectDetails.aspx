@@ -49,7 +49,7 @@
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Stato: </asp:Label><asp:Label runat="server"><%#: Item.Status.ToUpperInvariant() %></asp:Label>
                                         <br />
-                                        <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label runat="server"><%#: Item.Description %></asp:Label>
+                                        <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                         <br />
                                         <asp:FormView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
                                             <EmptyDataTemplate>
@@ -234,7 +234,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView ItemType="VALE.Models.Event" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                            <asp:GridView ItemType="VALE.Models.Event" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                 SelectMethod="GetRelatedEvents" DataKeyNames="EventId" runat="server" ID="GridView1" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
@@ -250,7 +250,7 @@
                                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="lblContentEvent"></asp:Label></div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -289,8 +289,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView ItemType="VALE.Models.Activity" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                SelectMethod="GetRelatedActivities" runat="server" ID="ActivitiesGridView" CssClass="table table-striped table-bordered">
+                                                            <asp:GridView ItemType="VALE.Models.Activity" OnRowDataBound="ActivitiesGridView_RowDataBound" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                SelectMethod="GetRelatedActivities" runat="server" DataKeyNames="ActivityId" ID="ActivitiesGridView" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
@@ -313,7 +313,7 @@
                                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 40 ? Item.Description.Substring(0,40) + "..." : Item.Description %></asp:Label></div></center>
+                                                            <center><div><asp:Label runat="server" ID="lblContentActivity"></asp:Label></div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -424,7 +424,25 @@
                                 <br />
                                 <label class="col-lg-12 control-label">Descrizione</label>
                                 <div class="col-lg-12">
-                                    <textarea runat="server" class="form-control input-sm" rows="3" id="txtDescription"></textarea>
+                                    <asp:TextBox CssClass="form-control input-sm" TextMode="MultiLine" Height="150px" ID="txtDescription" runat="server"></asp:TextBox>
+                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
+                                        <Toolbar>
+                                            <ajaxToolkit:Undo />
+                                            <ajaxToolkit:Redo />
+                                            <ajaxToolkit:Bold />
+                                            <ajaxToolkit:Italic />
+                                            <ajaxToolkit:Underline />
+                                            <ajaxToolkit:StrikeThrough />
+                                            <ajaxToolkit:Subscript />
+                                            <ajaxToolkit:Superscript />
+                                            <ajaxToolkit:InsertOrderedList />
+                                            <ajaxToolkit:InsertUnorderedList />
+                                            <ajaxToolkit:CreateLink />
+                                            <ajaxToolkit:Cut />
+                                            <ajaxToolkit:Copy />
+                                            <ajaxToolkit:Paste />
+                                        </Toolbar>
+                                    </asp:HtmlEditorExtender>
                                 </div>
                             </div>
                             <br />

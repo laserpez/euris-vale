@@ -45,7 +45,6 @@ namespace VALE.MyVale
         public List<Project> GetProjects()
         {
             var dbData = new UserOperationsContext();
-            //var currentUserData = dbData.UsersData.FirstOrDefault(u => u.UserName == _currentUser);
             var projects =  dbData.Projects.Where(p => p.Public == true || p.OrganizerUserName == _currentUserName || p.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName)).ToList();
             return projects;
             
@@ -54,8 +53,6 @@ namespace VALE.MyVale
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
             string projectId = ((Button)sender).CommandArgument;
-            //int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-            //string id = OpenedProjectList.DataKeys[rowID].Value.ToString();
             Response.Redirect("/MyVale/ProjectDetails?projectId=" + projectId);
         }
 
@@ -66,28 +63,12 @@ namespace VALE.MyVale
             else
                 GridViewSortDirection = SortDirection.Ascending;
             
-            //OpenedProjectList.DataSource = GetSortedData(e.SortExpression);
             var actions = new ProjectActions();
             
             OpenedProjectList.DataSource = actions.GetSortedData(e.SortExpression, GridViewSortDirection, (List<Project>)ViewState["lstProject"]);
             
             OpenedProjectList.DataBind();
         }
-
-        //private List<Project> GetSortedData(string sortExpression)
-        //{
-        //    var result = (List<Project>)ViewState["lstProject"];
-
-        //    var param = Expression.Parameter(typeof(Project), sortExpression);
-        //    var sortBy = Expression.Lambda<Func<Project, object>>(Expression.Convert(Expression.Property(param, sortExpression), typeof(object)), param);
-
-        //    if (GridViewSortDirection == SortDirection.Descending)
-        //        result = result.AsQueryable<Project>().OrderByDescending(sortBy).ToList();
-        //    else
-        //        result = result.AsQueryable<Project>().OrderBy(sortBy).ToList();
-        //    ViewState["lstProject"] = result;
-        //    return result;
-        //}
 
         public SortDirection GridViewSortDirection
         {
@@ -157,9 +138,15 @@ namespace VALE.MyVale
             
             for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
             {
-                Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
                 int projectId = (int)OpenedProjectList.DataKeys[i].Value;
                 var db = new UserOperationsContext();
+
+                Label lblContent = (Label)OpenedProjectList.Rows[i].FindControl("lblContent");
+                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
+                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
+                lblContent.Text = textToSee;
+
+                Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
 
                 if (db.Projects.Where(p => p.ProjectId == projectId).Select(pr => pr.Status).FirstOrDefault() == "Chiuso")
                     btnAttend.Enabled = false;
