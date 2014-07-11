@@ -517,6 +517,22 @@ namespace VALE.MyVale
             }
             return null;
         }
+
+        protected void grdRelatedProject_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            var grdRelatedProject = (GridView)sender;
+
+            for (int i = 0; i < grdRelatedProject.Rows.Count; i++)
+            {
+                int projectId = (int)grdRelatedProject.DataKeys[i].Value;
+                var db = new UserOperationsContext();
+
+                Label lblDescription = (Label)grdRelatedProject.Rows[i].FindControl("lblDescription");
+                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
+                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
+                lblDescription.Text = textToSee;
+            }
+        }
       
     }
 }
