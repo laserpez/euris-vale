@@ -45,5 +45,13 @@ namespace VALE.Admin
             else
                 return null;
         }
+
+        protected void EventDetail_DataBound(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            string result = db.Events.First(ev => ev.EventId == _currentEventId).Description;
+            Label lblContent = (Label)EventDetail.FindControl("lblContent");
+            lblContent.Text = result;
+        }
     }
 }

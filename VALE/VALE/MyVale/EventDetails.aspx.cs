@@ -103,6 +103,11 @@ namespace VALE.MyVale
             uploader.DataId = _currentEventId;
             if (!IsPostBack)
                 uploader.DataBind();
+
+            var db = new UserOperationsContext();
+            string result = db.Events.First(b => b.EventId == _currentEventId).Description;
+            Label lblContent = (Label)EventDetail.FindControl("lblContent");
+            lblContent.Text = result;
         }
 
         protected void addUsers_Click(object sender, EventArgs e)
@@ -123,9 +128,8 @@ namespace VALE.MyVale
             btnClosePopUpButton.Visible = true;
             txtName.Enabled = true;
             txtName.CssClass = "form-control input-sm";
-            txtDescription.Disabled = false;
             txtName.Text = events.Name;
-            txtDescription.InnerText = events.Description;
+            txtDescription.Text = events.Description;
             txtStartDate.Text = events.EventDate.ToShortDateString();
             txtHour.Text = events.EventDate.Hour.ToString("00");
             txtMin.Text = events.EventDate.Minute.ToString("00");
@@ -142,7 +146,7 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var events = db.Events.Where(o => o.EventId == _currentEventId).FirstOrDefault();
             events.Name = txtName.Text;
-            events.Description = txtDescription.InnerText;
+            events.Description = txtDescription.Text;
             events.EventDate = Convert.ToDateTime(txtStartDate.Text+" "+txtHour.Text+":"+txtMin.Text);
             events.Durata = txtDurata.Text;
             events.Site =  txtSite.Text;

@@ -78,12 +78,14 @@
                                         <div class="col-md-10">
                                             <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" OnTextChanged="txtStartDate_TextChanged" AutoPostBack="true" />
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
+                                            <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtStartDate" Display="Dynamic"></asp:RegularExpressionValidator>
                                             <br />
                                         </div>
                                         <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Data fine</asp:Label>
                                         <div class="col-md-10">
                                             <asp:TextBox runat="server" ID="txtEndDate" CssClass="form-control"  />
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtEndDate"></asp:CalendarExtender>
+                                            <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtEndDate" Display="Dynamic"></asp:RegularExpressionValidator>
                                             <br />
                                         </div>
                                         

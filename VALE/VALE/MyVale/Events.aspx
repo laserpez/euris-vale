@@ -51,7 +51,7 @@
                                         
                                     </asp:Panel>
                                     <div class="col-md-12">
-                                        <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato"
+                                        <asp:GridView runat="server" OnRowDataBound="grdEvents_RowDataBound" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato"
                                             CssClass="table table-striped table-bordered" ID="grdEvents" SelectMethod="grdEvents_GetData" AllowPaging="true">
                                             <Columns>
                                                 <asp:TemplateField>
@@ -77,7 +77,7 @@
                                                         <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelEventDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 90 ? Item.Description.Substring(0,90) + "..." : Item.Description %></asp:Label></div></center>
+                                                        <center><div><asp:Label ID="lblContent" runat="server"></asp:Label></div></center>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
