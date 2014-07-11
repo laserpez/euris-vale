@@ -363,16 +363,29 @@ namespace VALE.MyVale
         
         protected void grdInterventions_RowCreated(object sender, GridViewRowEventArgs e)
         {
+            var db = new UserOperationsContext();
             var grdInterventions = (GridView)sender;
             var dbData = new UserOperationsContext();
+            DataControlField dataControlField = grdInterventions.Columns.Cast<DataControlField>().SingleOrDefault(x => x.HeaderText == "DELETE ROW");
             _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
             var currentProject = dbData.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-            if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName)
+            for (int i = 0; i < grdInterventions.Rows.Count; i++)
             {
-                DataControlField dataControlField = grdInterventions.Columns.Cast<DataControlField>().SingleOrDefault(x => x.HeaderText == "DELETE ROW");
-                if (dataControlField != null)
+                int interventionId = Convert.ToInt32(grdInterventions.DataKeys[i].Value);
+                if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName || db.Interventions.Where(o => o.InterventionId == interventionId).FirstOrDefault().Creator.UserName == _currentUserName)
+                {
                     dataControlField.Visible = true;
+                    Button delIntervention = (Button)grdInterventions.Rows[i].FindControl("btnDeleteIntervention");
+                    delIntervention.Visible = true;
+                }
+
+
             }
+                if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName)
+                {
+                    if (dataControlField != null)
+                        dataControlField.Visible = true;
+                }
         }
         
         protected void btnClosePopUpButton_Click(object sender, EventArgs e)
@@ -468,7 +481,7 @@ namespace VALE.MyVale
         public IQueryable<Project> GetProjectsList()
         {
             var _db = new UserOperationsContext();
-            return _db.Projects.Where(pr => pr.Status != "Chiuso").OrderBy(p => p.ProjectName);
+            return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)
