@@ -69,7 +69,7 @@ namespace VALE.Admin
         {
             var serializer = new XmlSerializable();
             LinkButton button = (LinkButton)sender;
-            serializer.RemoveRoleFromData(button.CommandArgument,"Ruoli");
+            RoleActions.DeleteRole(button.CommandArgument);
 
             grdRoles.DataBind();
         }
@@ -113,7 +113,7 @@ namespace VALE.Admin
                 ruolo.Home = new SourceVisibleOnly() { Visible = HomeVisibile.Checked };
                 ruolo.DocumentiAssociazione = new SourceVisibleOnly() { Visible = DocumentiAssociazioneVisibiile.Checked };
 
-                serializer.AddRoleData(ruolo, "Ruoli");
+                RoleActions.CreateRole(ruolo);
                 ErrorPopup.Text = "";
 
             }

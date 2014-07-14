@@ -43,37 +43,5 @@ namespace VALE.Logic.Serializable
             }
             return data;
         }
-
-        public void AddRoleData(XmlRoles dato, string nomeFile)
-        {
-            RoleActions.CreateRole(dato.Name);
-            List<XmlRoles> dati = CheckDataAndRemoveIfExist(dato.Name, nomeFile);
-            dati.Add(dato);
-
-            CreateData<List<XmlRoles>>(dati, nomeFile);
-        }
-
-        public void RemoveRoleFromData(string nomeDato, string nomeFile)
-        {
-            RoleActions.DeleteRole(nomeDato);
-            List<XmlRoles> dati = CheckDataAndRemoveIfExist(nomeDato, nomeFile);
-
-            CreateData<List<XmlRoles>>(dati, nomeFile);
-        }
-
-        private List<XmlRoles> CheckDataAndRemoveIfExist(string nomeDato, string nomeFile)
-        {
-            List<XmlRoles> dati = ReadData<List<XmlRoles>>(nomeFile);
-            if (dati == null)
-                dati = new List<XmlRoles>();
-            else
-            {
-                var dataInXmlFile = dati.Find(o => o.Name == nomeDato);
-                if (dataInXmlFile != null)
-                    dati.Remove(dataInXmlFile);
-            }
-
-            return dati;
-        }
     }
 }
