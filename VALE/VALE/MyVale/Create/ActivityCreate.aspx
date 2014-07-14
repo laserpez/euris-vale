@@ -24,7 +24,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body" style="max-height: 700px; overflow: auto;">
+                        <div class="panel-body" >
                             <p>&nbsp;</p>
                             <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                             <div class="form-group">

@@ -248,7 +248,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button id="btnAddUsers" Visible="false" runat="server" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Gestione utenti" />
+                                                                        <asp:Button id="btnAddUsers" Visible="false" CausesValidation="false" runat="server" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Gestione utenti" />
                                                                     </div>
                                                                 </div>
                                                             </div>
