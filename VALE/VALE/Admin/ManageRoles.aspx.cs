@@ -37,13 +37,26 @@ namespace VALE.Admin
             NameTextBox.Enabled = false;
             NameTextBox.CssClass = "form-control input-sm";
             NameTextBox.Text = button.CommandArgument;
-            ModalPopup.Show();
-        }
 
-        protected void Delete_Click(object sender, EventArgs e)
-        {
-            LinkButton button = (LinkButton)sender;
-            RoleActions.DeleteRole(button.CommandArgument);
+            var list = grdRoles_GetData();
+            var dato = list.Find(o => o.Name == button.CommandArgument);
+
+            AmministrazioneVisibile.Checked = dato.Amministrazione.Visible;
+            ConsiglioVisibile.Checked = dato.Consiglio.Visible;
+            ConsiglioCreazione.Checked = dato.Consiglio.Creation;
+            ProgettiVisibile.Checked = dato.Progetti.Visible;
+            ProgettiCreazione.Checked = dato.Progetti.Creation;
+            AttivitaVisibile.Checked = dato.Attivita.Visible;
+            AttivitaCreazione.Checked = dato.Attivita.Creation;
+            EventiVisibile.Checked = dato.Eventi.Visible;
+            EventiCreazione.Checked = dato.Eventi.Creation;
+            ArticoliVisibile.Checked = dato.Articoli.Visible;
+            ArticoliCreazione.Checked = dato.Articoli.Creation;
+            UtentiVisibile.Checked = dato.ListaUtenti.Visible;
+            HomeVisibile.Checked = dato.Home.Visible;
+            DocumentiAssociazioneVisibiile.Checked = dato.DocumentiAssociazione.Visible;
+
+            ModalPopup.Show();
         }
 
         public List<XmlRoles> grdRoles_GetData()
@@ -52,70 +65,57 @@ namespace VALE.Admin
             return serializer.ReadData<List<XmlRoles>>("Ruoli");
         }
 
+        protected void Delete_Click(object sender, EventArgs e)
+        {
+            var serializer = new XmlSerializable();
+            LinkButton button = (LinkButton)sender;
+            serializer.RemoveRoleFromData(button.CommandArgument,"Ruoli");
+
+            grdRoles.DataBind();
+        }
+
         protected void btnOkForNewRoleButton_Click(object sender, EventArgs e)
         {
             var serializer = new XmlSerializable();
 
-            if (btnOkRoleButton.Text == "Crea")
-            {
-                bool condition = true;
+            bool condition = true;
 
-                var controlData = serializer.ReadData<List<XmlRoles>>("Ruoli");
-                if (controlData != null)
+            var controlData = serializer.ReadData<List<XmlRoles>>("Ruoli");
+            if (controlData != null && btnOkRoleButton.Text == "Crea")
+            {
+                foreach (var elem in controlData)
                 {
-                    foreach (var elem in controlData)
+                    if (elem.Name == NameTextBox.Text)
                     {
-                        if (elem.Name == NameTextBox.Text)
-                        {
-                            ErrorPopup.Text = "Ruolo  gia' esistente";
-                            ModalPopup.Show();
-                            condition = false;
-                        }
+                        ErrorPopup.Text = "Ruolo  gia' esistente";
+                        ModalPopup.Show();
+                        condition = false;
                     }
                 }
-
-                if (condition)
-                {
-
-                    RoleActions.CreateRole(NameTextBox.Text);
-
-                    var ruolo = new XmlRoles();
-                    ruolo.Name = NameTextBox.Text;
-
-                    ruolo.Amministrazione = new SourceVisibleOnly() { Visible = AmministrazioneVisibile.Checked };
-
-                    ruolo.Consiglio = new Source(){Visible = ConsiglioVisibile.Checked, Creation = ConsiglioCreazione.Checked};
-                    ruolo.Progetti = new Source(){Visible = ProgettiVisibile.Checked, Creation = ProgettiCreazione.Checked};
-                    ruolo.Attivita = new Source(){Visible = AttivitaVisibile.Checked, Creation = AttivitaCreazione.Checked};
-                    ruolo.Eventi = new Source() { Visible = EventiVisibile.Checked, Creation = EventiCreazione.Checked };
-                    ruolo.Articoli = new Source(){Visible = ArticoliVisibile.Checked, Creation = ArticoliCreazione.Checked};
-
-                    ruolo.ListaUtenti = new SourceVisibleOnly() { Visible = UtentiVisibile.Checked };
-                    ruolo.Home = new SourceVisibleOnly() { Visible = HomeVisibile.Checked };
-                    ruolo.DocumentiAssociazione = new SourceVisibleOnly() { Visible = DocumentiAssociazioneVisibiile.Checked };
-
-                    serializer.AddRoleData(ruolo,"Ruoli");
-                    ErrorPopup.Text = "";
-
-                }
             }
-            else if(btnOkRoleButton.Text == "Modifica")
+
+            if (condition)
             {
-                //var ruolo = new XmlRoles();
-                //ruolo.Name = NameTextBox.Text;
 
-                //ruolo.Amministrazione = new SourceVisibleOnly() { Visible = AmministrazioneVisibile.Checked };
 
-                //ruolo.Consiglio = new Source() { Visible = ConsiglioVisibile.Checked, Creation = ConsiglioCreazione.Checked };
-                //ruolo.Progetti = new Source() { Visible = ProgettiVisibile.Checked, Creation = ProgettiCreazione.Checked };
-                //ruolo.Attivita = new Source() { Visible = AttivitaVisibile.Checked, Creation = AttivitaCreazione.Checked };
-                //ruolo.Eventi = new Source() { Visible = EventiVisibile.Checked, Creation = EventiCreazione.Checked };
-                //ruolo.Articoli = new Source() { Visible = ArticoliVisibile.Checked, Creation = ArticoliCreazione.Checked };
+                var ruolo = new XmlRoles();
+                ruolo.Name = NameTextBox.Text;
 
-                //ruolo.ListaUtenti = new SourceVisibleOnly() { Visible = UtentiVisibile.Checked };
-                //ruolo.Home = new SourceVisibleOnly() { Visible = HomeVisibile.Checked };
-                //ruolo.DocumentiAssociazione = new SourceVisibleOnly() { Visible = DocumentiAssociazioneVisibiile.Checked };
-                //serializer.SaveData<XmlRoles>(ruolo,"Ruoli");
+                ruolo.Amministrazione = new SourceVisibleOnly() { Visible = AmministrazioneVisibile.Checked };
+
+                ruolo.Consiglio = new Source() { Visible = ConsiglioVisibile.Checked, Creation = ConsiglioCreazione.Checked };
+                ruolo.Progetti = new Source() { Visible = ProgettiVisibile.Checked, Creation = ProgettiCreazione.Checked };
+                ruolo.Attivita = new Source() { Visible = AttivitaVisibile.Checked, Creation = AttivitaCreazione.Checked };
+                ruolo.Eventi = new Source() { Visible = EventiVisibile.Checked, Creation = EventiCreazione.Checked };
+                ruolo.Articoli = new Source() { Visible = ArticoliVisibile.Checked, Creation = ArticoliCreazione.Checked };
+
+                ruolo.ListaUtenti = new SourceVisibleOnly() { Visible = UtentiVisibile.Checked };
+                ruolo.Home = new SourceVisibleOnly() { Visible = HomeVisibile.Checked };
+                ruolo.DocumentiAssociazione = new SourceVisibleOnly() { Visible = DocumentiAssociazioneVisibiile.Checked };
+
+                serializer.AddRoleData(ruolo, "Ruoli");
+                ErrorPopup.Text = "";
+
             }
 
             grdRoles.DataBind();
