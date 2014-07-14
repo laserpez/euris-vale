@@ -45,14 +45,14 @@
                                                         </HeaderTemplate>
                                                     </asp:TemplateField>
 
-                                                    <asp:TemplateField>
+<%--                                                    <asp:TemplateField>
                                                         <ItemTemplate>
                                                             <center><div><asp:CheckBox runat="server" ID="grdRoleAmm" /></div></center>
                                                         </ItemTemplate>
                                                         <HeaderTemplate>
                                                             <center><div><asp:LinkButton runat="server" CommandArgument="Description" CommandName="Sort" ID="labelDescription"> Amm</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
-                                                    </asp:TemplateField>
+                                                    </asp:TemplateField>--%>
 
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
@@ -64,7 +64,7 @@
                                                             </center>
                                                         </ItemTemplate>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton runat="server" ID="labelBtnRole" Width="100px"><span  class="glyphicon glyphicon-cog"></span> Modifica</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton runat="server" ID="labelBtnRole" Width="150px"><span  class="glyphicon glyphicon-cog"></span> Modifica</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <HeaderStyle Width="100px"></HeaderStyle>
                                                         <ItemStyle Width="100px"></ItemStyle>

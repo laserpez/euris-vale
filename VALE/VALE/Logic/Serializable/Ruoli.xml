@@ -36,7 +36,7 @@
     </Articoli>
   </XmlRoles>
   <XmlRoles>
-    <Name>Socio</Name>
+    <Name>Membro del consiglio</Name>
     <Amministrazione>
       <Visible>false</Visible>
     </Amministrazione>
@@ -50,8 +50,8 @@
       <Visible>true</Visible>
     </ListaUtenti>
     <Consiglio>
-      <Visible>false</Visible>
-      <Creation>false</Creation>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
     </Consiglio>
     <Progetti>
       <Visible>true</Visible>
@@ -71,9 +71,44 @@
     </Articoli>
   </XmlRoles>
   <XmlRoles>
-    <Name>capo</Name>
+    <Name>Collaboratore</Name>
     <Amministrazione>
+      <Visible>false</Visible>
+    </Amministrazione>
+    <DocumentiAssociazione>
       <Visible>true</Visible>
+    </DocumentiAssociazione>
+    <Home>
+      <Visible>true</Visible>
+    </Home>
+    <ListaUtenti>
+      <Visible>true</Visible>
+    </ListaUtenti>
+    <Consiglio>
+      <Visible>false</Visible>
+      <Creation>false</Creation>
+    </Consiglio>
+    <Progetti>
+      <Visible>true</Visible>
+      <Creation>false</Creation>
+    </Progetti>
+    <Attivita>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Attivita>
+    <Eventi>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Eventi>
+    <Articoli>
+      <Visible>true</Visible>
+      <Creation>true</Creation>
+    </Articoli>
+  </XmlRoles>
+  <XmlRoles>
+    <Name>Socio</Name>
+    <Amministrazione>
+      <Visible>false</Visible>
     </Amministrazione>
     <DocumentiAssociazione>
       <Visible>true</Visible>
@@ -86,7 +121,7 @@
     </ListaUtenti>
     <Consiglio>
       <Visible>true</Visible>
-      <Creation>true</Creation>
+      <Creation>false</Creation>
     </Consiglio>
     <Progetti>
       <Visible>true</Visible>

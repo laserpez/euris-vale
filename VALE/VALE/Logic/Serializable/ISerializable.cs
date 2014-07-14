@@ -8,7 +8,7 @@ namespace VALE.Logic.Serializable
 {
     public interface ISerializable
     {
-        void SaveData<T>(T dati, string nomeFile);
+        void CreateData<T>(T dati, string nomeFile);
         T ReadData<T>(string nomeFile);
     }
 }
