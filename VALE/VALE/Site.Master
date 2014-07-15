@@ -6,6 +6,8 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" />
+
     <title><%: Page.Title %> - VALE</title>
 
     <asp:PlaceHolder runat="server">
@@ -57,7 +59,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/"><span  class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li runat="server" id="homeLink"><a runat="server" href="~/"><span  class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li runat="server" id="adminLink" visible="false" class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-cog"></span> Amministrazione <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -67,8 +69,8 @@
                                 <li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci verbali del Consiglio</a></li>
                                 <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
                                 <li><a href="/Admin/ManageGroups.aspx"><span  class="glyphicon glyphicon-star"></span> Gestisci Gruppi</a></li>
-                                <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci tipi attività</a></li>
-                                <li><a href="/Admin/ManageProjectTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi progetto</a></li>
+                                <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi attività</a></li>
+                                <li><a href="/Admin/ManageProjectTypes.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci tipi progetto</a></li>
                             </ul>
                         </li>
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
@@ -90,7 +92,7 @@
                         <li class="dropdown" id="activitiesLink" runat="server">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Attività  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Da fare</a></li>
+                                <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Vedi Attività</a></li>
                                 <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Gestisci attività</a></li>
                                 <li><a href="/MyVale/PersonalActivities.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Repilogo interventi</a></li>
                                 <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>
@@ -114,10 +116,10 @@
                         </li>
                         <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Utenti </a></li>
                     </ul>
-                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                    <asp:LoginView runat="server" ViewStateMode="Disabled" id="loginLink">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Register">Registrati</a></li>
+                                <li><a runat="server" href="~/Account/Register" >Registrati</a></li>
                                 <li><a runat="server" href="~/Account/Login">Accedi</a></li>
                             </ul>
                         </AnonymousTemplate>

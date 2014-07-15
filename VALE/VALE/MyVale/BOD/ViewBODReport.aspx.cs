@@ -78,9 +78,9 @@ namespace VALE.MyVale.BOD
                     Response.Redirect("/DownloadFile.ashx?fileId=" + id);
                     break;
                 case "Cancella":
-                    var elem = db.AttachedFiles.Where(o => o.AttachedFileID == id).FirstOrDefault();
-                    db.AttachedFiles.Remove(elem);
-                    db.SaveChanges();
+                    //var elem = db.AttachedFiles.Where(o => o.AttachedFileID == id).FirstOrDefault();
+                    var actions = new BODReportActions();
+                    actions.RemoveAttachment(id);
                     DocumentsGridView.DataBind();
                     break;
             }

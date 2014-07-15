@@ -35,7 +35,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Azione" HeaderStyle-Width="50px" ItemStyle-Width="50px">
                                     <ItemTemplate>
-                                        <center><div><asp:Button  runat="server" Text="Cancella" Enabled='<%# AllowDelete(Convert.ToInt32(Eval("AttachedFileID"))) %>'  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.AttachedFileID %>" CommandName="Cancella" CausesValidation="false" /></div></center>
+                                        <center><div><asp:Button  runat="server" Text="Cancella" Enabled='<%# AllowDelete(Convert.ToInt32(Eval("AttachedFileID"))) %>'  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.AttachedFileID %>" CommandName="Cancella" CausesValidation="false"  /></div></center>
                                     </ItemTemplate>
                                     <HeaderStyle Width="50px"></HeaderStyle>
                                     <ItemStyle Width="50px"></ItemStyle>
@@ -49,23 +49,6 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="col-lg-6">
-                            <div class="col-lg-12">
-                                <br />
-                            </div>
-                            <div class="form-group col-lg-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-sm"><span class="glyphicon glyphicon-file"></span></span>
-                                    <div runat="server" id="FileTextBox">
-                                        <asp:FileUpload ID="FileUpload" runat="server" CssClass="form-control input-sm" />
-                                    </div>
-                                    <span class="input-group-btn">
-                                        <asp:Button runat="server" ID="AddFileNameButton" ValidationGroup="UploadFile" CssClass="btn btn-default btn-sm" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
-                                    </span>
-                                </div>
-                            </div>
-                           
-                        </div>
-                        <div class="col-lg-6">
                                 <asp:Label ID="Label1" runat="server" Text="Label" CssClass="col-lg-3">Descrizione * </asp:Label>
                                 <div class="col-lg-9">
                                     <%--<asp:TextBox ID="txtFileDescription" runat="server" CssClass="form-control input-sm"></asp:TextBox>--%>
@@ -73,6 +56,24 @@
                                     <asp:RequiredFieldValidator Display="Dynamic" runat="server" ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
                                 </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-12">
+                                <br />
+                            </div>
+                            <div class="form-group col-lg-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-file"></span></span>
+                                    <div runat="server" id="FileTextBox">
+                                        <asp:FileUpload ID="FileUpload" runat="server" CssClass="form-control input" />
+                                    </div>
+                                    <span class="input-group-btn">
+                                        <asp:Button runat="server" ID="AddFileNameButton" ValidationGroup="UploadFile" CssClass="btn btn-default" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
+                                    </span>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        
                     </div>
                 </div>
             </div>

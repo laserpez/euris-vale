@@ -34,6 +34,27 @@ namespace VALE.MyVale
             return activityActions.GetStatus(anActivity);
         }
 
+        public string GetStatusColor(ActivityStatus status)
+        {
+            if (status == ActivityStatus.ToBePlanned)
+                return "btn btn-primary dropdown-toggle";
+            if (status == ActivityStatus.Suspended)
+                return "btn btn-warning dropdown-toggle";
+            if (status == ActivityStatus.Ongoing)
+                return "btn btn-success dropdown-toggle";
+            if (status == ActivityStatus.Done)
+                return "btn btn-default dropdown-toggle";
+            if (status == ActivityStatus.Deleted)
+                return "btn btn-danger dropdown-toggle";
+            return "";
+        }
+
+        public List<ActivityType> GetTypes()
+        {
+            var db = new UserOperationsContext();
+            return db.ActivityTypes.ToList();
+        }
+
         private LinkButton FindButton(string name)
         {
             return (LinkButton)ActivityDetail.FindControl(name);
@@ -62,30 +83,32 @@ namespace VALE.MyVale
 
         public string GetHoursWorked()
         {
+            var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
             int hours;
             var activityActions = new ActivityActions();
-                hours = activityActions.GetHoursWorked(_currentUser, _currentActivityId);
-                return String.Format(" {0} Ore di lavoro", hours);
+            hours = activityActions.GetHoursWorked(_currentUser, _currentActivityId);
+          
+            if (activity != null)
+                if (activity.Budget > 0) 
+                    return String.Format("Budget Totale: {0} Erogato {1}", activity.Budget, hours);
+           return String.Format(" {0} Ore di lavoro", hours);
         }
 
-        public Project GetRelatedProject([QueryString("activityId")] int? activityId)
-        {
-            var project = _db.Activities.First(a => a.ActivityId == activityId).RelatedProject;
-            return project;
-        }
+        
 
         protected void btnInviteUser_Click(object sender, EventArgs e)
         {
             Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentActivityId + "&dataType=activity&canRemove=false&returnUrl=/MyVale/ActivityDetails?activityId=" + _currentActivityId);
         }
 
-       
 
         public IQueryable<VALE.Models.ActivityReport> grdActivityReport_GetData()
         {
             var activityId = Convert.ToInt32(_currentActivityId);
             return _db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).AsQueryable();
         }
+
+       
 
         protected void btnOkButton_Click(object sender, EventArgs e)
         {
@@ -158,7 +181,7 @@ namespace VALE.MyVale
             }
             var activityActions = new ActivityActions();
             activityActions.SetActivityStatus(_currentActivityId, status);
-            
+            ActivityDetail.DataBind();
         }
         private string GetButtonName(string html)
         {
@@ -241,5 +264,139 @@ namespace VALE.MyVale
                 ModalPopup.Show();
             }
         }
+
+        protected void btnModifyActivity_Click(object sender, EventArgs e)
+        {
+            var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
+            txtName.Text = activity.ActivityName;
+            txtActDescription.Text = activity.Description;
+            txtStartDate.Text = activity.StartDate.HasValue ? activity.StartDate.Value.ToShortDateString() : "";
+            txtEndDate.Text = activity.ExpireDate.HasValue ? activity.ExpireDate.Value.ToShortDateString() : "";
+            ddlSelectType.SelectedValue = activity.Type;
+            ModalPopupActivity.Show();
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            ModalPopup.Hide();
+        }
+
+        protected void btnConfirmModify_Click(object sender, EventArgs e)
+        {
+            var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
+            activity.ActivityName = txtName.Text;
+            activity.Description = txtActDescription.Text;
+            DateTime? expireDate = null;
+            if (!String.IsNullOrEmpty(txtEndDate.Text))
+                expireDate = Convert.ToDateTime(txtEndDate.Text);
+            DateTime? startDate = null;
+            if (!String.IsNullOrEmpty(txtStartDate.Text))
+                startDate = Convert.ToDateTime(txtStartDate.Text);
+            activity.StartDate = startDate;
+            activity.ExpireDate = expireDate;
+            activity.Type = ddlSelectType.SelectedValue;
+            _db.SaveChanges();
+            Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
+            ModalPopup.Hide();
+        }
+
+
+        //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
+        protected void btnDeleteRelatedProject_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Hide();
+            var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
+            var projectRelated = _db.Projects.FirstOrDefault(p => p.ProjectId == activity.ProjectId);
+            projectRelated.Activities.Remove(activity);
+            _db.SaveChanges();
+            GridView grdRelatedProject = (GridView)ActivityDetail.FindControl("grdRelatedProject");
+            grdRelatedProject.DataBind();
+        }
+
+        protected void btnAddRelatedProject_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Show();
+        }
+
+        public IQueryable<Project> GetProjects()
+        {
+            var _db = new UserOperationsContext();
+            return _db.Projects.Where(pr => pr.Status != "Chiuso").OrderBy(p => p.ProjectName);
+        }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Hide();
+        }
+
+        protected void btnChooseProject_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            var project = _db.Projects.FirstOrDefault(p=>p.ProjectName == btn.CommandArgument);
+            if(project != null)
+            {
+                var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
+                activity.RelatedProject = project;
+                _db.SaveChanges();
+                GridView grdRelatedProject = (GridView)ActivityDetail.FindControl("grdRelatedProject");
+                grdRelatedProject.DataBind();
+                Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
+            }
+
+        }
+
+        //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
+        public IQueryable<Project> GetRelatedProject([QueryString("activityId")] int? activityId)
+        {
+            ModalPopupListProject.Hide();
+            if (activityId.HasValue)
+            {
+                Button btnModifyRelatedProject = (Button)ActivityDetail.FindControl("btnModifyRelatedProject");
+                Button btnDeleteRelatedProject = (Button)ActivityDetail.FindControl("btnDeleteRelatedProject");
+                Button btnAddRelatedProject = (Button)ActivityDetail.FindControl("btnAddRelatedProject");
+                var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
+                var project = activity.RelatedProject;
+                if (project != null)
+                {
+                    btnDeleteRelatedProject.Visible = true;
+                    btnAddRelatedProject.Visible = false;
+                    var list = new List<Project> { project };
+                    return list.AsQueryable();
+                }
+                else
+                {
+                    btnDeleteRelatedProject.Visible = false;
+                    btnAddRelatedProject.Visible = true;
+                }
+            }
+            return null;
+        }
+
+        protected void ActivityDetail_DataBound(object sender, EventArgs e)
+        {
+            if (_currentActivityId != 0)
+            {
+                string result = _db.Activities.FirstOrDefault(ac => ac.ActivityId == _currentActivityId).Description;
+                Label lblContent = (Label)ActivityDetail.FindControl("lblContent");
+                lblContent.Text = result;
+            }
+        }
+
+        public string GetDescription(string description)
+        {
+            if (!String.IsNullOrEmpty(description))
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+            {
+                return "Nessuna descrizione presente";
+            }
+        }
+
+        //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
     }
 }

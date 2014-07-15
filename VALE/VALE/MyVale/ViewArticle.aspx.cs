@@ -62,5 +62,35 @@ namespace VALE.MyVale
                 return null;
         }
 
+        protected void deleteComment_Click(object sender, EventArgs e)
+        {
+            var btnDelete = (LinkButton)sender;
+            var blogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
+            var db = new UserOperationsContext();
+            var aCommentRelated = db.BlogComments.FirstOrDefault(c => c.BlogCommentId == blogCommentId && c.BlogArticleId == _articleId);
+            var anArticle = db.BlogArticles.FirstOrDefault(a => a.BlogArticleId == _articleId);
+            anArticle.Comments.Remove(aCommentRelated);
+            db.BlogComments.Remove(aCommentRelated);
+            db.SaveChanges();
+
+            lstComments.DataBind();
+        }
+
+        protected void lstComments_DataBound(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstComments.Items.Count; i++)
+            {
+                var btnDelete = (LinkButton)lstComments.Items[i].FindControl("deleteComment");
+                var BlogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
+
+                var db = new UserOperationsContext();
+                var currentArticle = db.BlogArticles.FirstOrDefault(a => a.BlogArticleId == _articleId);
+                if (HttpContext.Current.User.IsInRole("Amministratore") || db.BlogArticles.FirstOrDefault(c => c.BlogArticleId == BlogCommentId && c.BlogArticleId == _articleId).CreatorUserName == _currentUser || currentArticle.CreatorUserName == _currentUser)
+                {
+                    btnDelete.Visible = true;
+                }
+            }
+        }
+
     }
 }

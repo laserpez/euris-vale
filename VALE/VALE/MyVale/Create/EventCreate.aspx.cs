@@ -111,8 +111,16 @@ namespace VALE.MyVale
             var eventActions = new EventActions();
             
             eventActions.SaveData(newEvent, db);
-            
-            Response.Redirect("/MyVale/Events");
+
+            var redirectURL = "";
+            if (Session["callingProjectId"] != null)
+                redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
+            else if (Session["requestFrom"] != null)
+                redirectURL = Session["requestFrom"].ToString();
+            else
+                redirectURL = "/MyVale/Events";
+
+            Response.Redirect(redirectURL);
         }
     }
 }

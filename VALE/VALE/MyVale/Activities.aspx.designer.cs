@@ -22,6 +22,15 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
+        /// Controllo ListUsersType.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ListUsersType;
+        
+        /// <summary>
         /// Controllo btnExportCSV.
         /// </summary>
         /// <remarks>
@@ -31,22 +40,31 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Button btnExportCSV;
         
         /// <summary>
-        /// Controllo ExternalPanelDefault.
+        /// Controllo ActivityListType.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ExternalPanelDefault;
+        protected global::System.Web.UI.WebControls.Label ActivityListType;
         
         /// <summary>
-        /// Controllo InternalPanelHeading.
+        /// Controllo btnList.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel InternalPanelHeading;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnList;
+        
+        /// <summary>
+        /// Controllo filters.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl filters;
         
         /// <summary>
         /// Controllo btnShowFilters.
@@ -58,6 +76,24 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Button btnShowFilters;
         
         /// <summary>
+        /// Controllo btnFilterProjects.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnFilterProjects;
+        
+        /// <summary>
+        /// Controllo btnClearFilters.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnClearFilters;
+        
+        /// <summary>
         /// Controllo filterPanel.
         /// </summary>
         /// <remarks>
@@ -65,6 +101,24 @@ namespace VALE.MyVale {
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl filterPanel;
+        
+        /// <summary>
+        /// Controllo projectPanel.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl projectPanel;
+        
+        /// <summary>
+        /// Controllo ddlSelectProject.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSelectProject;
         
         /// <summary>
         /// Controllo txtName.
@@ -85,6 +139,42 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.TextBox txtDescription;
         
         /// <summary>
+        /// Controllo txtFromDate.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFromDate;
+        
+        /// <summary>
+        /// Controllo calendarCreationDate.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender calendarCreationDate;
+        
+        /// <summary>
+        /// Controllo txtToDate.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtToDate;
+        
+        /// <summary>
+        /// Controllo calendarModifiedDate.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender calendarModifiedDate;
+        
+        /// <summary>
         /// Controllo ddlStatus.
         /// </summary>
         /// <remarks>
@@ -94,22 +184,13 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
         
         /// <summary>
-        /// Controllo btnFilterProjects.
+        /// Controllo ActivityListName.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFilterProjects;
-        
-        /// <summary>
-        /// Controllo btnClearFilters.
-        /// </summary>
-        /// <remarks>
-        /// Campo generato automaticamente.
-        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearFilters;
+        protected global::System.Web.UI.WebControls.Label ActivityListName;
         
         /// <summary>
         /// Controllo grdCurrentActivities.

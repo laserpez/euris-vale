@@ -38,8 +38,8 @@
                                 <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
                                     <ContentTemplate>
                                       
-                                        <asp:GridView OnRowCommand="grid_RowCommand" ID="grdProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                            ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto pianificato." CssClass="table table-striped table-bordered" SelectMethod="GetPersonalProjects" AllowPaging="true" PageSize="2">
+                                        <asp:GridView OnRowCommand="grid_RowCommand" DataKeyNames="ProjectId" ID="grdProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                            ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto pianificato." CssClass="table table-striped table-bordered" SelectMethod="GetPersonalProjects" AllowPaging="true">
                                             <Columns>
                                                 <asp:TemplateField>
                                                     <HeaderTemplate>
@@ -54,7 +54,7 @@
                                                         <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <center><div><asp:Label runat="server"><%#: Item.Description.Length >= 60 ? Item.Description.Substring(0,60) + "..." : Item.Description %></asp:Label></div></center>
+                                                        <center><div><asp:Label ID="lblContent" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>

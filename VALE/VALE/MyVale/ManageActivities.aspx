@@ -64,7 +64,17 @@
                                         <ContentTemplate>
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Visualizza filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="col-lg-10">
+                                                                <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Visualizza filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
+                                                            </div>
+                                                            <div class="navbar-right">
+                                                                <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-xs" />
+                                                                <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div runat="server" id="filterPanel" class="panel-body">
                                                     <div runat="server" id="projectPanel">
@@ -107,11 +117,7 @@
                                                     <%--</ContentTemplate>
                                                 </asp:UpdatePanel>--%>
                                                 </div></center>
-                                                    <div class="col-md-12">
-                                                        <br />
-                                                    </div>
-                                                    <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-xs" />
-                                                    <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
+                                                    
                                                 </div>
                                             </div>
                                         </ContentTemplate>

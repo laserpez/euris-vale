@@ -110,9 +110,19 @@ namespace VALE.MyVale
 
         public IQueryable<Intervention> GetInterventions([QueryString("projectId")] int? projectId)
         {
-
             if (projectId.HasValue)
+            {
+                var lstInterventions = _db.Interventions.Where(i => i.ProjectId == projectId).ToList();
+                foreach (var intervention in lstInterventions)
+                {
+                    if (String.IsNullOrEmpty(intervention.InterventionText) && intervention.AttachedFiles.Count == 0)
+                    {
+                        _db.Interventions.Remove(intervention);
+                        _db.SaveChanges();
+                    }
+                }
                 return _db.Interventions.Where(i => i.ProjectId == projectId);
+            }
             else
                 return null;
         }
@@ -142,6 +152,11 @@ namespace VALE.MyVale
             if (_currentProjectId != 0)
             {
                 var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
+
+                string result = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId).Description;
+                Label lblContent = (Label)ProjectDetail.FindControl("lblContent");
+                lblContent.Text = result;
+
                 SetWorkOnProjectSection();
                 SetManageProjectSection();
             }
@@ -275,6 +290,12 @@ namespace VALE.MyVale
             SetWorkOnProjectSection();
         }
 
+        public List<ProjectType> GetTypes()
+        {
+            var db = new UserOperationsContext();
+            return db.ProjectTypes.ToList();
+        }
+
         protected void btnAddIntervention_Click(object sender, EventArgs e)
         {
             Response.Redirect("/MyVale/CreateIntervention?projectId=" + _currentProjectId);
@@ -352,16 +373,29 @@ namespace VALE.MyVale
         
         protected void grdInterventions_RowCreated(object sender, GridViewRowEventArgs e)
         {
+            var db = new UserOperationsContext();
             var grdInterventions = (GridView)sender;
             var dbData = new UserOperationsContext();
+            DataControlField dataControlField = grdInterventions.Columns.Cast<DataControlField>().SingleOrDefault(x => x.HeaderText == "DELETE ROW");
             _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
             var currentProject = dbData.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-            if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName)
+            for (int i = 0; i < grdInterventions.Rows.Count; i++)
             {
-                DataControlField dataControlField = grdInterventions.Columns.Cast<DataControlField>().SingleOrDefault(x => x.HeaderText == "DELETE ROW");
-                if (dataControlField != null)
+                int interventionId = Convert.ToInt32(grdInterventions.DataKeys[i].Value);
+                if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName || db.Interventions.Where(o => o.InterventionId == interventionId).FirstOrDefault().Creator.UserName == _currentUserName)
+                {
                     dataControlField.Visible = true;
+                    Button delIntervention = (Button)grdInterventions.Rows[i].FindControl("btnDeleteIntervention");
+                    delIntervention.Visible = true;
+                }
+
+
             }
+                if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName)
+                {
+                    if (dataControlField != null)
+                        dataControlField.Visible = true;
+                }
         }
         
         protected void btnClosePopUpButton_Click(object sender, EventArgs e)
@@ -376,14 +410,12 @@ namespace VALE.MyVale
             btnConfirmModify.Text = "Modifica";
             btnClosePopUpButton.Visible = true;
             txtName.Enabled = true;
-            txtName.CssClass = "form-control input-sm";
-            txtDescription.Disabled = false;
+            txtName.CssClass = "form-control";
             txtName.Text = project.ProjectName;
-            txtDescription.InnerText = project.Description;
+            txtDescription.Text = project.Description;
+            ddlSelectType.SelectedValue = project.Type;
             txtStartDate.Text = project.CreationDate.ToShortDateString();
             chkPublic.Checked = project.Public;
-            if (project.RelatedProject != null)
-                txtProjectName.Text = project.RelatedProject.ProjectName;
             ModalPopupProject.Show();
         }
 
@@ -392,35 +424,108 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var project = db.Projects.Where(o => o.ProjectId == _currentProjectId).FirstOrDefault();
             project.ProjectName = txtName.Text;
-            project.Description = txtDescription.InnerText;
+            project.Description = txtDescription.Text;
             project.CreationDate = Convert.ToDateTime(txtStartDate.Text);
             project.LastModified = DateTime.Now;
             project.Public = chkPublic.Checked;
-
-            if (txtProjectName.Text != "")
-                project.RelatedProject = db.Projects.Where(o => o.ProjectName == txtProjectName.Text).FirstOrDefault();
-
+            project.Type = ddlSelectType.SelectedValue;
             db.SaveChanges();
             Response.Redirect("~/MyVale/ProjectDetails.aspx?projectId=" + _currentProjectId);
         }
 
-        protected void btnShowPopup_Click(object sender, EventArgs e)
-        {
-            showChooseProject.Visible = !showChooseProject.Visible;
-            ModalPopupProject.Show();
-        }
-
-        protected void btnChooseProject_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            txtProjectName.Text = btn.CommandArgument;
-            ModalPopupProject.Show();
-        }
+        
+       
 
         public IQueryable<Project> GetProjects()
         {
             var _db = new UserOperationsContext();
             return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
         }
+
+        //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
+        protected void btnDeleteRelatedProject_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Hide();
+            var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
+            currentProject.RelatedProject = null;
+            _db.SaveChanges();
+            GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
+            grdRelatedProject.DataBind();
+        }
+
+        protected void btnAddRelatedProject_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Show();
+        }
+
+        public IQueryable<Project> GetProjectsList()
+        {
+            var _db = new UserOperationsContext();
+            return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
+        }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Hide();
+        }
+
+        protected void btnChooseProject_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectName == btn.CommandArgument);
+            if (project != null)
+            {
+                var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
+                currentProject.RelatedProject = project;
+                _db.SaveChanges();
+                GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
+                grdRelatedProject.DataBind();
+                Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
+            }
+
+        }
+
+        //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
+        public IQueryable<Project> GetRelatedProjectList([QueryString("projectId")] int? PprojectId)
+        {
+            ModalPopupListProject.Hide();
+            if (PprojectId.HasValue)
+            {
+                Button btnDeleteRelatedProject = (Button)ProjectDetail.FindControl("btnDeleteRelatedProject");
+                Button btnAddRelatedProject = (Button)ProjectDetail.FindControl("btnAddRelatedProject");
+                var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
+                var project = currentProject.RelatedProject;
+                if (project != null)
+                {
+                    btnDeleteRelatedProject.Visible = true;
+                    btnAddRelatedProject.Visible = false;
+                    var list = new List<Project> { project };
+                    return list.AsQueryable();
+                }
+                else
+                {
+                    btnDeleteRelatedProject.Visible = false;
+                    btnAddRelatedProject.Visible = true;
+                }
+            }
+            return null;
+        }
+
+        public string GetDescription(string description)
+        {
+            string result;
+            if (!String.IsNullOrEmpty(description))
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                result = doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+                result = "Nessun commento inserito";
+
+            return result;
+        }
+      
     }
 }

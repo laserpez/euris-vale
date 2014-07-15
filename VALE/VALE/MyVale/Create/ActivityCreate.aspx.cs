@@ -108,6 +108,8 @@ namespace VALE.MyVale
                         status = ActivityStatus.ToBePlanned;
                         break;
                 }
+                int budget = 0;
+                int.TryParse(txtBudget.Text, out budget);
                 var newActivity = new Activity
                 {
                     ActivityName = txtName.Text,
@@ -116,6 +118,7 @@ namespace VALE.MyVale
                     CreationDate = DateTime.Today,
                     StartDate = startDate,
                     ExpireDate = expireDate,
+                    Budget = budget,
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
                     CreatorUserName = User.Identity.GetUserName(),
@@ -185,6 +188,8 @@ namespace VALE.MyVale
                         status = ActivityStatus.ToBePlanned;
                         break;
                 }
+                int budget = 0;
+                int.TryParse(txtBudget.Text, out budget);
                 var newActivity = new Activity
                 {
                     ActivityName = txtName.Text,
@@ -193,6 +198,7 @@ namespace VALE.MyVale
                     CreationDate = DateTime.Today,
                     StartDate = startDate,
                     ExpireDate = expireDate,
+                    Budget = budget,
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
                     CreatorUserName = User.Identity.GetUserName(),
@@ -210,7 +216,17 @@ namespace VALE.MyVale
 
                 });
                 db.SaveChanges();
-                Response.Redirect("/MyVale/Activities");
+
+                string returnUrl = "";
+
+                if (Session["callingProjectId"] != null)
+                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
+                else if (Session["requestFrom"] != null)
+                    returnUrl = Session["requestFrom"].ToString();
+                else
+                    returnUrl = "/MyVale/Activities";
+
+                Response.Redirect(returnUrl);
             }
         }
 
@@ -220,11 +236,9 @@ namespace VALE.MyVale
 
         protected void txtStartDate_TextChanged(object sender, EventArgs e)
         {
-            //DateTime startDate;
-            //if (DateTime.TryParse(txtStartDate.Text, out startDate))
-            //    calendarTo.StartDate = startDate.AddDays(1);
-
-            ChangeCalendars();
+            DateTime dData;
+            if (DateTime.TryParse(txtStartDate.Text, out dData))
+                ChangeCalendars();
         }
 
         private void ChangeCalendars()

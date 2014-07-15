@@ -57,6 +57,11 @@ namespace VALE.Admin
             {
                 GetInterventions();
             }
+
+            var db = new UserOperationsContext();
+            string result = db.Projects.First(p => p.ProjectId == _currentProjectId).Description;
+            Label lblContent = (Label)frmProjectReport.FindControl("lblContent");
+            lblContent.Text = result;
         }
 
         public void GetInterventions()

@@ -22,11 +22,11 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:FormView runat="server" ID="InterventionDetail" ItemType="VALE.Models.Intervention" SelectMethod="GetIntervention">
+                            <asp:FormView runat="server" OnDataBound="InterventionDetail_DataBound" ID="InterventionDetail" ItemType="VALE.Models.Intervention" SelectMethod="GetIntervention">
                                 <ItemTemplate>
                                     <asp:Label runat="server"><%#: String.Format("Autore: {0}", Item.Creator.FullName) %></asp:Label><br />
                                     <asp:Label runat="server"><%#: String.Format("Data: {0}", Item.Date.ToShortDateString()) %></asp:Label><br />
-                                    <asp:Label runat="server"><%#: String.Format("Testo: {0}", String.IsNullOrEmpty(Item.InterventionText) ? "Nessun commento scritto inserito." : Item.InterventionText) %></asp:Label><br />
+                                    <asp:Label ID="txtDescription" runat="server"></asp:Label><br />
                                     <p></p>
                                     <asp:Label ID="labelAttachment" runat="server" Text="Documenti allegati" CssClass="h4"></asp:Label>
                                     
@@ -71,21 +71,26 @@
                                     <br />
                                     <div class="panel panel-default">
                                         <div class="panel-heading">Commenti</div>
-                                        <div class="panel-body">
-                                            <asp:ListView runat="server" ID="lstComments" ItemType="VALE.Models.Comment" SelectMethod="GetComments">
-                                                <EmptyDataTemplate>
-                                                    <asp:Label runat="server" Text="Non sono ancora presenti commenti."></asp:Label>
-                                                </EmptyDataTemplate>
-                                                <ItemTemplate>
-                                                    <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.CreatorUserName %></asp:Label>
-                                                    <asp:Label runat="server"><%#: String.Format(" - {0}", Item.Date) %></asp:Label><br />
-                                                    <asp:Label runat="server"><%#: Item.CommentText %></asp:Label><br />
-                                                </ItemTemplate>
-                                                <ItemSeparatorTemplate>
-                                                    <br />
-                                                </ItemSeparatorTemplate>
-                                            </asp:ListView>
-                                        </div>
+                                        <asp:UpdatePanel runat="server" UpdateMode="Conditional">
+                                            <ContentTemplate>
+                                                <div class="panel-body">
+                                                    <asp:ListView runat="server" ID="lstComments" OnDataBound="lstComments_DataBound" ItemType="VALE.Models.Comment" SelectMethod="GetComments">
+                                                        <EmptyDataTemplate>
+                                                            <asp:Label runat="server" Text="Non sono ancora presenti commenti."></asp:Label>
+                                                        </EmptyDataTemplate>
+                                                        <ItemTemplate>
+                                                            <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.CreatorUserName %></asp:Label>
+                                                            <asp:Label runat="server"><%#: String.Format(" - {0}", Item.Date) %></asp:Label>
+                                                            <asp:LinkButton runat="server" ID="deleteComment" ToolTip="Cancella commento" Visible="false" CommandArgument="<%#: Item.CommentId %>" CausesValidation="false" OnClick="deleteComment_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton><br />
+                                                            <asp:Label runat="server"><%#: Item.CommentText %></asp:Label>
+                                                        </ItemTemplate>
+                                                        <ItemSeparatorTemplate>
+                                                            <br />
+                                                        </ItemSeparatorTemplate>
+                                                    </asp:ListView>
+                                                </div>
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
                                     </div>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

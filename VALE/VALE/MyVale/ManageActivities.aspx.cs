@@ -43,11 +43,7 @@ namespace VALE
                 txtToDate.Enabled = true;
                 calendarModifiedDate.StartDate = Convert.ToDateTime(txtFromDate.Text).AddDays(1);
             }
-            if (txtFromDate.Text == "")
-            {
-                txtToDate.Text = "";
-                txtToDate.Enabled = false;
-            }
+            
         }
 
         private bool CheckDate()
@@ -347,6 +343,8 @@ namespace VALE
 
         private void showFilters() 
         {
+            btnFilterProjects.Visible = true;
+            btnClearFilters.Visible = true;
             filterPanel.Visible = true;
             btnShowFilters.Text = "Nascondi filtri";
             Session["ManageActivities_filterIsVisible"] = "true";
@@ -354,6 +352,8 @@ namespace VALE
 
         private void hideFilters()
         {
+            btnFilterProjects.Visible = false;
+            btnClearFilters.Visible = false;
             filterPanel.Visible = false;
             btnShowFilters.Text = "Visualizza filtri";
             Session["ManageActivities_filterIsVisible"] = null;
