@@ -28,7 +28,7 @@
                                     <asp:Label runat="server"><%#: String.Format("Nome: {0}", Item.ProjectName) %></asp:Label><br />
                                     <asp:Label runat="server"><%#: String.Format("Pubblico:\t{0}", Item.Public ? "Si" : "No") %></asp:Label><br />
                                     <asp:Label runat="server"><%#: String.Format("Stato:\t{0}", Item.Status.ToUpperInvariant()) %></asp:Label><br />
-                                    <asp:Label runat="server"><%#: String.Format("Descrizione:\t{0}", Item.Description) %></asp:Label><br />
+                                    <asp:Label ID="lblContent" runat="server"></asp:Label><br />
                                     <asp:Label runat="server"><%#: String.Format("Creatore:\t{0}", Item.Organizer.FullName) %></asp:Label><br />
                                     <asp:Label runat="server"><%#: String.Format("Data:\t{0}", Item.CreationDate.ToShortDateString()) %></asp:Label><br />
                                     <asp:Label runat="server"><%#: String.Format("Ultima modifica:\t{0}", Item.LastModified.ToShortDateString()) %></asp:Label><br />

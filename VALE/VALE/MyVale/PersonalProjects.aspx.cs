@@ -38,8 +38,6 @@ namespace VALE.MyVale
             }
         }
 
-        
-
         public IQueryable<Project> GetPersonalProjects()
         {
             IQueryable<Project> result = null;
@@ -49,7 +47,7 @@ namespace VALE.MyVale
                 var keys = btnCurrentView.Attributes.Keys;
 
                 var aValue = btnCurrentView.Attributes["btnPressed"];
-                
+
                 if (!string.IsNullOrEmpty(aValue))
                 {
                     if (aValue == "btnAttending")
@@ -57,8 +55,28 @@ namespace VALE.MyVale
                     else
                         result = GetOrganizedProjects();
                 }
+                else
+                {
+                    result = GetAllPersonalProjects();
+                }
             }
+            
             return result;
+        }
+
+        public IQueryable<Project> GetAllPersonalProjects()
+        {
+            var db = new UserOperationsContext();
+            List<Project> listOrganizedProjects = GetOrganizedProjects().ToList();
+            List<Project> listAttendingProjects = GetAttendingProjects().ToList();
+            List<Project> tempList = new List<Project>();
+            foreach (var project in listOrganizedProjects)
+            {
+                if (!listAttendingProjects.Contains(project))
+                    tempList.Add(project);
+            }
+            List<Project> allPersonalProjects = listOrganizedProjects.Union(tempList).ToList();
+            return allPersonalProjects.AsQueryable();
         }
 
         public IQueryable<Project> GetOrganizedProjects()
@@ -97,6 +115,21 @@ namespace VALE.MyVale
             
             grdProjectList.DataBind();
 
+        }
+
+        public string GetDescription(string description)
+        {
+            if (!String.IsNullOrEmpty(description))
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+            {
+                return "Nessuna descrizione presente";
+            }
         }
     }
 }

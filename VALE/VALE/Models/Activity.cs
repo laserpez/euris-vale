@@ -19,6 +19,7 @@ namespace VALE.Models
         public DateTime? ExpireDate { get; set; }
         public ActivityStatus Status { get; set; }
         public string Type { get; set; }
+        public int Budget { get; set; }
 
         // Nullable FK, cascade deleting is set in modelBuilder
         [ForeignKey("RelatedProject")]

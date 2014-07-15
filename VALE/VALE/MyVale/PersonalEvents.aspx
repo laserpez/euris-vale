@@ -50,7 +50,7 @@
                                                     <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
+                                                    <center><div><asp:Label ID="lblContent" runat="server"><%#: GetDescription(Item.Description) %></asp:Label></div></center>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField>

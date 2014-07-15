@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageArticles.aspx.cs" Inherits="VALE.Admin.ManageArticles" %>
+ <%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -25,7 +26,7 @@
                             <asp:UpdatePanel ID="UpdatePanelArticles" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
                                 <ContentTemplate>
                                     <asp:GridView ID="grdArticleList" DataKeyNames="BlogArticleId" AllowSorting="true" OnRowCommand="grdArticleList_RowCommand" SelectMethod="GetArticles" runat="server" AutoGenerateColumns="false" GridLines="Both"
-                                        ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo presente." CssClass="table table-striped table-bordered">
+                                        ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo presente." AllowPaging="true" PageSize="10" CssClass="table table-striped table-bordered">
                                         <Columns>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
@@ -97,6 +98,11 @@
                                                 <ItemStyle Width="120px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

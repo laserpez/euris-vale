@@ -203,5 +203,13 @@ namespace VALE.Admin
             }
             set { ViewState["sortDirection"] = value; }
         }
+
+        public string GetDescription(string description)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(description);
+            description = doc.DocumentNode.InnerText;
+            return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+        }
     }
 }

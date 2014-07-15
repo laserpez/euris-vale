@@ -36,9 +36,7 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="panel-body" >
-                            
                             <asp:FormView Width="100%" OnDataBound="EventDetail_DataBound" runat="server" ID="EventDetail" ItemType="VALE.Models.Event" SelectMethod="GetEvent">
                                 <ItemTemplate>
                                     <div class="col-md-11">
@@ -54,31 +52,105 @@
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Luogo: </asp:Label><asp:Label runat="server"><%#: String.Format("{0}", Item.Site) %></asp:Label>
                                         <br />
-                                        <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label runat="server"><%#: String.Format("{0}", Item.Description) %></asp:Label>
+                                        <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                         <br />
-                                        <asp:FormView runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetRelatedProject">
-                                            <EmptyDataTemplate>
-                                                <asp:Label runat="server" Font-Bold="true">Progetto correlato: </asp:Label><asp:Label runat="server" Text="Nessun progetto correlato"></asp:Label>
-                                            </EmptyDataTemplate>
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" Font-Bold="true">Progetto correlato: </asp:Label>
-                                                <a href="ProjectDetails.aspx?projectId=<%#:Item.ProjectId %>"><%#: Item.ProjectName %></a>
-                                            </ItemTemplate>
-                                        </asp:FormView>
+                                        
                                         <br />
                                     </div>
                                     <div class="col-md-1">
                                         <asp:UpdatePanel runat="server">
                                             <ContentTemplate>
-                                                <asp:Button CausesValidation="false" ID="btnModifyEvent" Visible="false" CssClass="btn btn-danger" runat="server" Text="Modifica" OnClick="btnModifyEvent_Click" />
+                                                <asp:Button CausesValidation="false" ID="btnModifyEvent" Visible="false" CssClass="btn btn-primary" runat="server" Text="Modifica" OnClick="btnModifyEvent_Click" />
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                     </div>
-
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <br />
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="panel panel-default">
-
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-8">
+                                                                <ul class="nav nav-pills">
+                                                                    <li>
+                                                                        <span class="glyphicon glyphicon-inbox"></span>&nbsp;&nbsp;Progetto correlato</li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="navbar-right">
+                                                                <asp:Button runat="server" Text="Ellimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
+                                                                <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click"  />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                    <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId"  AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                        SelectMethod="GetRelatedProject" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
+                                                        <Columns>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton  runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><a href="ProjectDetails.aspx?projectId=<%#: Item.ProjectId %>">
+                                                                    <asp:Label runat="server" Text="<%#: Item.ProjectName %>"></asp:Label></a></div></center>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton  runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label ID="lblContentRelatedProject" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton  runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-calendar"></span> Data Creazione</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle Width="150px" />
+                                                                <ItemStyle Width="150px" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton runat="server" ID="labelType"><span  class="glyphicon glyphicon-th"></span> Tipo</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.Type.Length >= 20 ? Item.Type.Substring(0,20) + "..." : Item.Type %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle Width="90px" />
+                                                                <ItemStyle Width="90px" />
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField>
+                                                                <HeaderTemplate>
+                                                                    <center><div><asp:LinkButton runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
+                                                                </ItemTemplate>
+                                                                <HeaderStyle Width="90px" />
+                                                                <ItemStyle Width="90px" />
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                        <EmptyDataTemplate>
+                                                            <asp:Label runat="server">Nessun Progetto correlato </asp:Label>
+                                                        </EmptyDataTemplate>
+                                                    </asp:GridView>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -157,7 +229,7 @@
                 PopupControlID="pnlPopupEvent" TargetControlID="lnkDummyEvent" BackgroundCssClass="modalBackground">
             </asp:ModalPopupExtender>
             <asp:LinkButton ID="lnkDummyEvent" runat="server"></asp:LinkButton>
-            <div class="well bs-component" id="pnlPopupEvent" style="width: 50%;">
+            <div class="well bs-component" id="pnlPopupEvent" style="width: 80%;">
                 <div class="row">
                     <div class="col-md-12">
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
@@ -166,7 +238,7 @@
                             <div class="form-group">
                                 <label class="col-lg-12 control-label">Nome</label>
                                 <div class="col-lg-10">
-                                    <asp:TextBox runat="server" CssClass="form-control input-sm" ID="txtName" />
+                                    <asp:TextBox runat="server" CssClass="form-control" ID="txtName" />
                                 </div>
                             </div>
                            <div class="form-group">
@@ -175,21 +247,21 @@
                                 <Label class="col-lg-2 control-label">Ore</Label>
                                 <Label class="col-lg-3 control-label">Min</Label>
                                 <div class="col-lg-7">
-                                    <asp:TextBox runat="server" Width="280px" ID="txtStartDate" CssClass="form-control input-sm"  />
+                                    <asp:TextBox runat="server" Width="280px" ID="txtStartDate" CssClass="form-control "  />
                                     <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
                                 </div>
                                 <div class="col-lg-2">
-                                    <asp:TextBox ID="txtHour" TextMode="Number" Width="50" runat="server" CssClass="form-control input-sm"></asp:TextBox> 
+                                    <asp:TextBox ID="txtHour" TextMode="Number" Width="50" runat="server" CssClass="form-control"></asp:TextBox> 
                                 </div>
                                 <div class="col-lg-3">
-                                    <asp:TextBox ID="txtMin" TextMode="Number" Width="50" runat="server" CssClass="form-control input-sm"></asp:TextBox> 
+                                    <asp:TextBox ID="txtMin" TextMode="Number" Width="50" runat="server" CssClass="form-control"></asp:TextBox> 
                                 </div>
                                 <br />
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-12 control-label">Durata(ore)</label>
                                 <div class="col-lg-10">
-                                    <asp:TextBox runat="server" TextMode="Number" Width="280" CssClass="form-control input-sm" ID="txtDurata" />
+                                    <asp:TextBox runat="server" TextMode="Number" Width="280" CssClass="form-control" ID="txtDurata" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -201,95 +273,37 @@
                             <div class="form-group">
                                 <label class="col-lg-12 control-label">Luogo</label>
                                 <div class="col-lg-10">
-                                    <asp:TextBox runat="server" CssClass="form-control input-sm" ID="txtSite" />
+                                    <asp:TextBox runat="server" CssClass="form-control" ID="txtSite" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <br />
                                 <label class="col-lg-12 control-label">Descrizione</label>
                                 <div class="col-lg-12">
-                                    <textarea runat="server" class="form-control input-sm" rows="3" id="txtDescription"></textarea>
+                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="100px" ID="txtDescription" runat="server"></asp:TextBox>
+                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
+                                        <Toolbar>
+                                            <ajaxToolkit:Undo />
+                                            <ajaxToolkit:Redo />
+                                            <ajaxToolkit:Bold />
+                                            <ajaxToolkit:Italic />
+                                            <ajaxToolkit:Underline />
+                                            <ajaxToolkit:StrikeThrough />
+                                            <ajaxToolkit:Subscript />
+                                            <ajaxToolkit:Superscript />
+                                            <ajaxToolkit:InsertOrderedList />
+                                            <ajaxToolkit:InsertUnorderedList />
+                                            <ajaxToolkit:CreateLink />
+                                            <ajaxToolkit:Cut />
+                                            <ajaxToolkit:Copy />
+                                            <ajaxToolkit:Paste />
+                                        </Toolbar>
+                                    </asp:HtmlEditorExtender>
                                 </div>
                             </div>
                             <br />
                             <br />
-                            <div class="form-group">
-                                <br />
-                                <label class="col-lg-12 control-label">Progetto correlato</label>
-                                <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
-                                    <ContentTemplate>
-                                            <div class="form-group col-lg-5">
-                                                <asp:TextBox runat="server" Width="250px" ID="txtProjectName" CssClass="form-control" />
-                                                
-                                            </div>
-                                            <div class="input-group-btn">
-                                                <asp:Button CssClass="btn btn-primary" ID="Button1" runat="server" Text="Lista" OnClick="btnShowPopup_Click" CausesValidation="false" />
-                                            </div>
-                                        <asp:AutoCompleteExtender
-                                            ServiceMethod="GetProjectNames" ServicePath="/AutoComplete.asmx"
-                                            ID="txtProjectAutoCompleter" runat="server"
-                                            Enabled="True" TargetControlID="txtProjectName" UseContextKey="True"
-                                            MinimumPrefixLength="2">
-                                        </asp:AutoCompleteExtender>
-                                        <br />
-
-
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
-                            </div>
-                            <div runat="server" visible="false" id="showChooseProject">
-                                <asp:GridView SelectMethod="GetProjects" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
-                                <Columns>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="ProjectName" CommandName="sort" runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.ProjectName %></asp:Label></div></center>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.Description %></asp:Label></div></center>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="CreationDate" CommandName="sort" runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-calendar"></span> Data Creazione</asp:LinkButton></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
-                                        </ItemTemplate>
-                                        <HeaderStyle Width="150px" />
-                                        <ItemStyle Width="150px" />
-                                    </asp:TemplateField>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
-                                        </ItemTemplate>
-                                        <HeaderStyle Width="90px" />
-                                        <ItemStyle Width="90px" />
-                                    </asp:TemplateField>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Button runat="server" CausesValidation="false" Width="120" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>
-                                        </ItemTemplate>
-                                        <HeaderStyle Width="120" />
-                                        <ItemStyle Width="120" />
-                                    </asp:TemplateField>
-                                </Columns>
-                            </asp:GridView>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -299,10 +313,86 @@
                             <br />
                         </div>
                         <div class="col-md-offset-9 col-md-10">
-                            <asp:Button runat="server" Text="Crea" ID="btnConfirmModify" CssClass="btn btn-success btn-sm" CausesValidation="false" OnClick="btnConfirmModify_Click" />
-                            <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" OnClick="btnClosePopUpButton_Click" />
+                            <asp:Button runat="server" Text="Salva" ID="btnConfirmModify" CssClass="btn btn-success btn-sm" CausesValidation="false"  OnClick="btnConfirmModify_Click" />
+                            <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="btnClosePopUpButton_Click" />
                         </div>
 
+                    </div>
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+    <asp:UpdatePanel ID="SearchProjectPanel" runat="server">
+        <ContentTemplate>
+            <asp:ModalPopupExtender ID="ModalPopupListProject" runat="server"
+                PopupControlID="pnlListProject" TargetControlID="lnkDummy1" BackgroundCssClass="modalBackground">
+            </asp:ModalPopupExtender>
+            <asp:LinkButton ID="lnkDummy1" runat="server"></asp:LinkButton>
+            <div class="panel panel-primary" id="pnlListProject" style="width: 80%;">
+                <div class="panel-heading">
+                    <asp:Label ID="TitleMpdalView" runat="server" Text="Lista progetti"></asp:Label>
+                    <asp:Button runat="server" CssClass="close" CausesValidation="false" OnClick="Unnamed_Click" Text="x" />
+                </div>
+                <div class="panel-body" style="max-height: 500px; overflow: auto;">
+                    <div>
+                        <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
+                        <div class="form-group">
+                            <asp:UpdatePanel runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                        ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
+                                        <Columns>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="ProjectName" CommandName="sort" runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label runat="server"><%#: Item.ProjectName %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label ID="lblContentOpenProjects" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="CreationDate" CommandName="sort" runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-calendar"></span> Data Creazione</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="150px" />
+                                                <ItemStyle Width="150px" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Button runat="server" CausesValidation="false" Width="120" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="120" />
+                                                <ItemStyle Width="120" />
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </div>
                     </div>
                 </div>
             </div>

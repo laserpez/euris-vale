@@ -76,8 +76,10 @@ namespace VALE.Logic
             {
                 var db = new UserOperationsContext();
                 var anAttachment = db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
+                var projectId = anAttachment.RelatedProject.ProjectId;
+                var aProject = db.Projects.Where(p => p.ProjectId == projectId).FirstOrDefault();
+                aProject.AttachedFiles.Remove(anAttachment);
                 db.AttachedFiles.Remove(anAttachment);
-                anAttachment.RelatedProject.LastModified = DateTime.Now;
                 db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = anAttachment.RelatedProject.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedProject.ProjectName + "\"", DataType = "Progetto", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
                 return true;

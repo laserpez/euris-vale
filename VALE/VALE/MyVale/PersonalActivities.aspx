@@ -31,7 +31,7 @@
                                     <asp:Button runat="server" Text="Vedi report" CssClass="btn btn-info btn-xs" ID="bnViewReports" OnClick="bnViewReports_Click" />
                                     <br />
                                     <br />
-                                    <asp:GridView runat="server" ID="grdActivityReport" ItemType="VALE.Models.ActivityReport" AutoGenerateColumns="false"
+                                    <asp:GridView runat="server" ID="grdActivityReport" DataKeyNames="ActivityId" ItemType="VALE.Models.ActivityReport" AutoGenerateColumns="false"
                                         CssClass="table table-striped table-bordered" AllowSorting="true" OnSorting="grdActivityReport_Sorting" EmptyDataText="Nessun report per questa attività">
                                         <Columns>
                                             <asp:TemplateField>
@@ -39,7 +39,7 @@
                                                     <center><div><asp:LinkButton CommandArgument="ActivityDescription" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.ActivityDescription %></asp:Label></div></center>
+                                                    <center><div><asp:Label ID="lblContent" runat="server"><%#: Item.ActivityDescription %></asp:Label></div></center>
                                                 </ItemTemplate>
                                                 <HeaderStyle Width="120px" />
                                                 <ItemStyle Width="120px" />

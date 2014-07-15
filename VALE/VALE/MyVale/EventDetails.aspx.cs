@@ -74,12 +74,6 @@ namespace VALE.MyVale
                 return null;
         }
 
-        public Project GetRelatedProject([QueryString("eventId")] int? eventId)
-        {
-            var project = _db.Events.First(e => e.EventId == eventId).RelatedProject;
-            return project;
-        }
-
         protected void btnAttend_Click(object sender, EventArgs e)
         {
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
@@ -103,6 +97,11 @@ namespace VALE.MyVale
             uploader.DataId = _currentEventId;
             if (!IsPostBack)
                 uploader.DataBind();
+
+            var db = new UserOperationsContext();
+            string result = db.Events.First(b => b.EventId == _currentEventId).Description;
+            Label lblContent = (Label)EventDetail.FindControl("lblContent");
+            lblContent.Text = result;
         }
 
         protected void addUsers_Click(object sender, EventArgs e)
@@ -123,17 +122,14 @@ namespace VALE.MyVale
             btnClosePopUpButton.Visible = true;
             txtName.Enabled = true;
             txtName.CssClass = "form-control input-sm";
-            txtDescription.Disabled = false;
             txtName.Text = events.Name;
-            txtDescription.InnerText = events.Description;
+            txtDescription.Text = events.Description;
             txtStartDate.Text = events.EventDate.ToShortDateString();
             txtHour.Text = events.EventDate.Hour.ToString("00");
             txtMin.Text = events.EventDate.Minute.ToString("00");
             txtDurata.Text = events.Durata.ToString();
             txtSite.Text = events.Site;
             chkPublic.Checked = events.Public;
-            if(events.RelatedProject != null)
-                txtProjectName.Text = events.RelatedProject.ProjectName;
             ModalPopupEvent.Show();
         }
 
@@ -142,30 +138,30 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             var events = db.Events.Where(o => o.EventId == _currentEventId).FirstOrDefault();
             events.Name = txtName.Text;
-            events.Description = txtDescription.InnerText;
+            events.Description = txtDescription.Text;
             events.EventDate = Convert.ToDateTime(txtStartDate.Text+" "+txtHour.Text+":"+txtMin.Text);
             events.Durata = txtDurata.Text;
             events.Site =  txtSite.Text;
             events.Public = chkPublic.Checked;
-
-            if (txtProjectName.Text != "")
-                events.RelatedProject = db.Projects.Where(o => o.ProjectName == txtProjectName.Text ).FirstOrDefault();
-
             db.SaveChanges();
             Response.Redirect("~/MyVale/EventDetails.aspx?eventId="+_currentEventId);
         }
 
-        protected void btnShowPopup_Click(object sender, EventArgs e)
+        //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
+        protected void btnDeleteRelatedProject_Click(object sender, EventArgs e)
         {
-            showChooseProject.Visible = !showChooseProject.Visible;
-            ModalPopupEvent.Show();
+            ModalPopupListProject.Hide();
+            var Event = _db.Events.First(a => a.EventId == _currentEventId);
+            var projectRelated = _db.Projects.FirstOrDefault(p => p.ProjectId == Event.ProjectId);
+            projectRelated.Events.Remove(Event);
+            _db.SaveChanges();
+            GridView grdRelatedProject = (GridView)EventDetail.FindControl("grdRelatedProject");
+            grdRelatedProject.DataBind();
         }
 
-        protected void btnChooseProject_Click(object sender, EventArgs e)
+        protected void btnAddRelatedProject_Click(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            txtProjectName.Text = btn.CommandArgument;
-            ModalPopupEvent.Show();
+            ModalPopupListProject.Show();
         }
 
         public IQueryable<Project> GetProjects()
@@ -173,5 +169,69 @@ namespace VALE.MyVale
             var _db = new UserOperationsContext();
             return _db.Projects.Where(pr => pr.Status != "Chiuso").OrderBy(p => p.ProjectName);
         }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            ModalPopupListProject.Hide();
+        }
+
+        protected void btnChooseProject_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectName == btn.CommandArgument);
+            if (project != null)
+            {
+                var Event = _db.Events.First(a => a.EventId == _currentEventId);
+                Event.RelatedProject = project;
+                _db.SaveChanges();
+                GridView grdRelatedProject = (GridView)EventDetail.FindControl("grdRelatedProject");
+                grdRelatedProject.DataBind();
+                Response.Redirect("/MyVale/EventDetails?eventId=" + _currentEventId);
+            }
+
+        }
+
+        //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
+        public IQueryable<Project> GetRelatedProject([QueryString("eventId")] int? eventId)
+        {
+            ModalPopupListProject.Hide();
+            if (eventId.HasValue)
+            {
+                Button btnModifyRelatedProject = (Button)EventDetail.FindControl("btnModifyRelatedProject");
+                Button btnDeleteRelatedProject = (Button)EventDetail.FindControl("btnDeleteRelatedProject");
+                Button btnAddRelatedProject = (Button)EventDetail.FindControl("btnAddRelatedProject");
+                var Event = _db.Events.First(a => a.EventId == _currentEventId);
+                var project = Event.RelatedProject;
+                if (project != null)
+                {
+                    btnDeleteRelatedProject.Visible = true;
+                    btnAddRelatedProject.Visible = false;
+                    var list = new List<Project> { project };
+                    return list.AsQueryable();
+                }
+                else
+                {
+                    btnDeleteRelatedProject.Visible = false;
+                    btnAddRelatedProject.Visible = true;
+                }
+            }
+            return null;
+        }
+
+        public string GetDescription(string description)
+        {
+            if (!String.IsNullOrEmpty(description))
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+            {
+                return "Nessuna descrizione presente";
+            }
+        }
+     
     }
 }

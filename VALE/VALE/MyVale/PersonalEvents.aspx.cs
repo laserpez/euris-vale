@@ -30,5 +30,20 @@ namespace VALE.MyVale
             int eventId = (int)grdPlannedEvent.DataKeys[rowID].Value;
             Response.Redirect("/MyVale/EventDetails?eventId=" + eventId);
         }
+
+        public string GetDescription(string description)
+        {
+            if (!String.IsNullOrEmpty(description))
+            {
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+            {
+                return "Nessuna descrizione presente";
+            }
+        }
     }
 }
