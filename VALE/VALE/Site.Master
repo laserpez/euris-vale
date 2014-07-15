@@ -63,14 +63,15 @@
                         <li runat="server" id="adminLink" visible="false" class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-cog"></span> Amministrazione <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/Admin/ManageUsers.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci utenti <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
-                                <li><a href="/Admin/ManageProjects.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci progetti </a></li>
-                                <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci eventi</a></li>
-                                <li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci verbali del Consiglio</a></li>
-                                <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
+                                <li><a href="/Admin/ManageUsers.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci Utenti <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
+                                <li><a href="/Admin/ManageRoles.aspx"><span  class="glyphicon glyphicon-ok-circle"></span> Gestisci Ruoli <span runat="server" class="badge" id="Span1"></span></a></li>
+                                <li><a href="/Admin/ManageProjects.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci Progetti </a></li>
+                                <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci Eventi</a></li>
+                                <li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci Verbali del Consiglio</a></li>
+                                <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci Articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
                                 <li><a href="/Admin/ManageGroups.aspx"><span  class="glyphicon glyphicon-star"></span> Gestisci Gruppi</a></li>
-                                <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi attività</a></li>
-                                <li><a href="/Admin/ManageProjectTypes.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci tipi progetto</a></li>
+                                <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi Attività</a></li>
+                                <li><a href="/Admin/ManageProjectTypes.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci tipi Progetto</a></li>
                             </ul>
                         </li>
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
