@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageActivityTypes.aspx.cs" Inherits="VALE.Admin.ManageActivityTypes" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -36,7 +37,7 @@
                                                 ItemType="VALE.Models.ActivityType"
                                                 CssClass="table table-striped table-bordered"
                                                 SelectMethod="grdTypes_GetData"
-                                                AllowSorting="true"
+                                                AllowSorting="true" AllowPaging="true" PageSize="10"
                                                 OnRowCommand="grdTypes_RowCommand">
                                                 <Columns>
                                                     <asp:TemplateField>
@@ -87,6 +88,11 @@
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Non ci sono tipi</asp:Label>
                                                 </EmptyDataTemplate>
+                                                <PagerTemplate>
+                                                    <asp:GridPager runat="server"
+                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                                </PagerTemplate>
                                             </asp:GridView>
                                         </div>
                                     </div>

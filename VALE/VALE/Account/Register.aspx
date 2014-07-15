@@ -35,7 +35,7 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="TextFirstName"
                     CssClass="text-danger" ErrorMessage="Il campo Nome è richiesto." /><br />
                 <asp:RegularExpressionValidator id="TextFirstNameToValidate" runat="server" ErrorMessage="Inserire solo caratteri alfabetici e\o numerici." CssClass="text-danger"
-                    ControlToValidate="TextFirstName" ValidationExpression="^[a-zA-Z]*$" Display="Dynamic"></asp:RegularExpressionValidator> 
+                    ControlToValidate="TextFirstName" ValidationExpression="^[a-zA-Z\s]+" Display="Dynamic"></asp:RegularExpressionValidator> 
             </div>
             <asp:Label runat="server" AssociatedControlID="TextLastName" CssClass="col-md-1 control-label">Cognome*</asp:Label>
             <div class="col-md-3">
@@ -43,7 +43,7 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="TextLastName"
                     CssClass="text-danger" ErrorMessage="Il campo Cognome è obbligatorio." /><br />
                 <asp:RegularExpressionValidator id="LastNameToValidate" runat="server" ErrorMessage="Inserire solo caratteri alfabetici e\o numerici." CssClass="text-danger"
-                    ControlToValidate="TextLastName" ValidationExpression="^[a-zA-Z]*$" Display="Dynamic"></asp:RegularExpressionValidator> 
+                    ControlToValidate="TextLastName" ValidationExpression="^[a-zA-Z\-'.,\s]+" Display="Dynamic"></asp:RegularExpressionValidator> 
             </div>
         </div>
 
