@@ -110,9 +110,19 @@ namespace VALE.MyVale
 
         public IQueryable<Intervention> GetInterventions([QueryString("projectId")] int? projectId)
         {
-
             if (projectId.HasValue)
+            {
+                var lstInterventions = _db.Interventions.Where(i => i.ProjectId == projectId).ToList();
+                foreach (var intervention in lstInterventions)
+                {
+                    if (String.IsNullOrEmpty(intervention.InterventionText) && intervention.AttachedFiles.Count == 0)
+                    {
+                        _db.Interventions.Remove(intervention);
+                        _db.SaveChanges();
+                    }
+                }
                 return _db.Interventions.Where(i => i.ProjectId == projectId);
+            }
             else
                 return null;
         }
