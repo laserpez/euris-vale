@@ -51,10 +51,10 @@ namespace VALE.MyVale
         {
             if (grdCurrentActivities.Rows.Count == 0 && grdPendingActivities.Rows.Count == 0)
             {
-                //filterPanel.Visible = false;
-                //ExternalPanelDefault.Visible = false;
-                //InternalPanelHeading.Visible = false;
-                //btnExportCSV.Visible = false;
+                filterPanel.Visible = false;
+                filters.Visible = false;
+                btnExportCSV.Visible = false;
+                btnList.Visible = false;
             }
         }
 
