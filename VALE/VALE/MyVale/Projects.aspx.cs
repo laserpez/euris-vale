@@ -141,11 +141,6 @@ namespace VALE.MyVale
                 int projectId = (int)OpenedProjectList.DataKeys[i].Value;
                 var db = new UserOperationsContext();
 
-                Label lblContent = (Label)OpenedProjectList.Rows[i].FindControl("lblContent");
-                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
-                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
-                lblContent.Text = textToSee;
-
                 Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
 
                 if (db.Projects.Where(p => p.ProjectId == projectId).Select(pr => pr.Status).FirstOrDefault() == "Chiuso")
@@ -162,6 +157,14 @@ namespace VALE.MyVale
                     btnAttend.Text = "Partecipa";
                 }
             }
+        }
+
+        public string GetDescription(string description)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(description);
+            description = doc.DocumentNode.InnerText;
+            return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
         }
     }
 }

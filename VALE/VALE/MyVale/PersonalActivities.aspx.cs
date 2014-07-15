@@ -105,19 +105,5 @@ namespace VALE.MyVale
                 grdActivityReport.DataSource = actions.Sort(GridViewSortDirection, (List<ActivityReport>)ViewState["lstActivities"], e.SortExpression);
             grdActivityReport.DataBind();
         }
-
-        protected void grdActivityReport_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            for (int i = 0; i < grdActivityReport.Rows.Count; i++)
-            {
-                int activityId = (int)grdActivityReport.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContent = (Label)grdActivityReport.Rows[i].FindControl("lblContent");
-                string activityDescription = db.Activities.FirstOrDefault(a => a.ActivityId == activityId).Description;
-                var textToSee = activityDescription.Length >= 65 ? activityDescription.Substring(0, 65) + "..." : activityDescription;
-                lblContent.Text = textToSee;
-            }
-        }
     }
 }

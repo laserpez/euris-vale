@@ -89,7 +89,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                    <asp:GridView ItemType="VALE.Models.Project" OnRowDataBound="grdRelatedProject_RowDataBound" DataKeyNames="ProjectId"  AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                    <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId"  AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                         SelectMethod="GetRelatedProject" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
                                                         <Columns>
                                                             <asp:TemplateField>
@@ -106,7 +106,7 @@
                                                                     <center><div><asp:LinkButton  runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
-                                                                    <center><div><asp:Label ID="lblContentRelatedProject" runat="server"></asp:Label></div></center>
+                                                                    <center><div><asp:Label ID="lblContentRelatedProject" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
@@ -337,57 +337,61 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" OnRowDataBound="OpenedProjectList_RowDataBound" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
-                                <Columns>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="ProjectName" CommandName="sort" runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.ProjectName %></asp:Label></div></center>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Label ID="lblContentOpenProjects" runat="server"></asp:Label></div></center>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="CreationDate" CommandName="sort" runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-calendar"></span> Data Creazione</asp:LinkButton></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
-                                        </ItemTemplate>
-                                        <HeaderStyle Width="150px" />
-                                        <ItemStyle Width="150px" />
-                                    </asp:TemplateField>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
-                                        </ItemTemplate>
-                                        <HeaderStyle Width="90px" />
-                                        <ItemStyle Width="90px" />
-                                    </asp:TemplateField>
-                                    <asp:TemplateField>
-                                        <HeaderTemplate>
-                                            <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <center><div><asp:Button runat="server" CausesValidation="false" Width="120" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>
-                                        </ItemTemplate>
-                                        <HeaderStyle Width="120" />
-                                        <ItemStyle Width="120" />
-                                    </asp:TemplateField>
-                                </Columns>
-                            </asp:GridView>
+                            <asp:UpdatePanel runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                        ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
+                                        <Columns>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="ProjectName" CommandName="sort" runat="server" ID="labelProjectName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label runat="server"><%#: Item.ProjectName %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label ID="lblContentOpenProjects" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="CreationDate" CommandName="sort" runat="server" ID="labelCreationDate"><span  class="glyphicon glyphicon-calendar"></span> Data Creazione</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="150px" />
+                                                <ItemStyle Width="150px" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Label runat="server"><%#: Item.Status %></asp:Label></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="90px" />
+                                                <ItemStyle Width="90px" />
+                                            </asp:TemplateField>
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><asp:Button runat="server" CausesValidation="false" Width="120" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>
+                                                </ItemTemplate>
+                                                <HeaderStyle Width="120" />
+                                                <ItemStyle Width="120" />
+                                            </asp:TemplateField>
+                                        </Columns>
+                                    </asp:GridView>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
                         </div>
                     </div>
                 </div>

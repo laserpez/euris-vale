@@ -150,17 +150,18 @@ namespace VALE.MyVale
             return eventActions.IsUserRelated(eventId, _currentUserName);
         }
 
-        protected void grdEvents_RowDataBound(object sender, GridViewRowEventArgs e)
+        public string GetDescription(string description)
         {
-            for (int i = 0; i < grdEvents.Rows.Count; i++)
+            if (!String.IsNullOrEmpty(description))
             {
-                int eventId = (int)grdEvents.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContent = (Label)grdEvents.Rows[i].FindControl("lblContent");
-                string eventDescription = db.Events.FirstOrDefault(ev => ev.EventId == eventId).Description;
-                var textToSee = eventDescription.Length >= 65 ? eventDescription.Substring(0, 65) + "..." : eventDescription;
-                lblContent.Text = textToSee;
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+            {
+                return "Nessuna descrizione presente";
             }
         }
     }

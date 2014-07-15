@@ -21,7 +21,7 @@
     <div id="loggedUser" runat="server" class="row">
         <div class="col-md-4" style="max-height: 600px; overflow:auto">
             <h3>Progetti</h3>
-            <asp:ListView ID="lstProgetti" OnDataBound="lstProgetti_DataBound" DataKeyNames="ProjectId" runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjects">
+            <asp:ListView ID="lstProgetti" DataKeyNames="ProjectId" runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjects">
                 <ItemTemplate>
                     <div class="well">
                         <div class="row">
@@ -41,9 +41,9 @@
                             <div class="col-md-12">
                                 <asp:Label Font-Underline="true" Font-Bold="false" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
                             </div>
-                            <%--<div class="col-md-12">
-                                <asp:Label ID="lblContent" runat="server"></asp:Label>
-                            </div>--%>
+                            <div class="col-md-12">
+                                <asp:Label ID="lblContentProject" runat="server"><%#: GetDescription(Item.Description) %></asp:Label>
+                            </div>
                         </div>
                     </div>
                 </ItemTemplate>
@@ -61,7 +61,7 @@
         </div>
         <div class="col-md-4" style="max-height: 600px; overflow:auto">
             <h3>Eventi</h3>
-            <asp:ListView ID="lstEvents" DataKeyNames="EventId" OnDataBound="lstEvents_DataBound" runat="server" ItemType="VALE.Models.Event" SelectMethod="GetEvents">
+            <asp:ListView ID="lstEvents" DataKeyNames="EventId" runat="server" ItemType="VALE.Models.Event" SelectMethod="GetEvents">
                 <ItemTemplate>
                     <div class="well">
                         <div class="row">
@@ -81,9 +81,9 @@
                             <div class="col-md-12">
                                 <asp:Label Font-Underline="true" Font-Bold="false" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
                             </div>
-                            <%--<div class="col-md-12">
-                                <asp:Label ID="lblContentEvent" runat="server"></asp:Label>
-                            </div>--%>
+                            <div class="col-md-12">
+                                <asp:Label ID="lblContentEvent" runat="server"><%#:GetDescription(Item.Description) %></asp:Label>
+                            </div>
                         </div>
                     </div>
                 </ItemTemplate>
@@ -101,7 +101,7 @@
         </div>
         <div class="col-md-4" style="max-height: 600px; overflow:auto">
             <h3>Attività</h3>
-            <asp:ListView ID="lstActivities" DataKeyNames="ActivityId" OnDataBound="lstActivities_DataBound" runat="server" ItemType="VALE.Models.Activity" SelectMethod="GetActivities">
+            <asp:ListView ID="lstActivities" DataKeyNames="ActivityId" runat="server" ItemType="VALE.Models.Activity" SelectMethod="GetActivities">
                 <ItemTemplate>
                     <div class="well">
                         <div class="row">
@@ -121,9 +121,9 @@
                             <div class="col-md-12">
                                 <asp:Label Font-Underline="true" Font-Bold="false" runat="server"><%#: Item.CreatorUserName %></asp:Label>
                             </div>
-                            <%--<div class="col-md-12">
-                                <asp:Label ID="lblContentActivity" runat="server"></asp:Label>
-                            </div>--%>
+                            <div class="col-md-12">
+                                <asp:Label ID="lblContentActivity" runat="server"><%#:GetDescription(Item.Description) %></asp:Label>
+                            </div>
                         </div>
                     </div>
                 </ItemTemplate>

@@ -342,31 +342,18 @@ namespace VALE.MyVale
             return true;
         }
 
-        protected void grdCurrentActivities_RowDataBound(object sender, GridViewRowEventArgs e)
+        public string GetDescription(string description)
         {
-            for (int i = 0; i < grdCurrentActivities.Rows.Count; i++)
+            if (!String.IsNullOrEmpty(description))
             {
-                int activityId = (int)grdCurrentActivities.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContent = (Label)grdCurrentActivities.Rows[i].FindControl("lblContent");
-                string activityDescription = db.Activities.FirstOrDefault(a => a.ActivityId == activityId).Description;
-                var textToSee = activityDescription.Length >= 65 ? activityDescription.Substring(0, 65) + "..." : activityDescription;
-                lblContent.Text = textToSee;
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
             }
-        }
-
-        protected void grdPendingActivities_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            for (int i = 0; i < grdPendingActivities.Rows.Count; i++)
+            else
             {
-                int activityId = (int)grdPendingActivities.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContentPendingActivity = (Label)grdPendingActivities.Rows[i].FindControl("lblContentPendingActivity");
-                string activityDescription = db.Activities.FirstOrDefault(a => a.ActivityId == activityId).Description;
-                var textToSee = activityDescription.Length >= 65 ? activityDescription.Substring(0, 65) + "..." : activityDescription;
-                lblContentPendingActivity.Text = textToSee;
+                return "Nessuna descrizione presente";
             }
         }
     }

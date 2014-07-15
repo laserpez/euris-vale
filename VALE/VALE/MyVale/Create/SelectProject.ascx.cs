@@ -24,16 +24,6 @@ namespace VALE.MyVale.Create
             var dbData = new UserOperationsContext();
             string projectName = txtProjectName.Text;
             Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
-            if (project != null)
-            {
-                //lblResultSearchProject.Text = String.Format("Questo evento è correlato al progetto {0}", txtProjectName.Text);
-                //btnSearchProject.CssClass = "btn btn-success";
-            }
-            else
-            {
-                //lblResultSearchProject.Text = "Il progetto non esiste";
-                //btnSearchProject.CssClass = "btn btn-warning";
-            }
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)
@@ -56,7 +46,6 @@ namespace VALE.MyVale.Create
         {
             Button btn = (Button)sender;
             txtProjectName.Text = btn.CommandArgument;
-            //DisableControl(txtProjectName.Text);
         }
 
         public void DisableControl(string projectName)
@@ -66,17 +55,18 @@ namespace VALE.MyVale.Create
             btnShowPopup.Enabled = false;
         }
 
-        protected void OpenedProjectList_RowDataBound(object sender, GridViewRowEventArgs e)
+        public string GetDescription(string description)
         {
-            for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
+            if (!String.IsNullOrEmpty(description))
             {
-                int projectId = (int)OpenedProjectList.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContent = (Label)OpenedProjectList.Rows[i].FindControl("lblContent");
-                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
-                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
-                lblContent.Text = textToSee;
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+            {
+                return "Nessuna descrizione presente";
             }
         }
     }

@@ -38,8 +38,6 @@ namespace VALE.MyVale
             }
         }
 
-        
-
         public IQueryable<Project> GetPersonalProjects()
         {
             IQueryable<Project> result = null;
@@ -119,17 +117,18 @@ namespace VALE.MyVale
 
         }
 
-        protected void grdProjectList_RowDataBound(object sender, GridViewRowEventArgs e)
+        public string GetDescription(string description)
         {
-            for (int i = 0; i < grdProjectList.Rows.Count; i++)
+            if (!String.IsNullOrEmpty(description))
             {
-                int projectId = (int)grdProjectList.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContent = (Label)grdProjectList.Rows[i].FindControl("lblContent");
-                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
-                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
-                lblContent.Text = textToSee;
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+            {
+                return "Nessuna descrizione presente";
             }
         }
     }

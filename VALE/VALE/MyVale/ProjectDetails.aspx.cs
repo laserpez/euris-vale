@@ -432,36 +432,6 @@ namespace VALE.MyVale
             return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
         }
 
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            GridView eventGridView = (GridView)sender;
-            for (int i = 0; i < eventGridView.Rows.Count; i++)
-            {
-                int eventId = (int)eventGridView.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContentEvent = (Label)eventGridView.Rows[i].FindControl("lblContentEvent");
-                string eventDescription = db.Events.FirstOrDefault(ev => ev.EventId == eventId).Description;
-                var textToSee = eventDescription.Length >= 40 ? eventDescription.Substring(0, 40) + "..." : eventDescription;
-                lblContentEvent.Text = textToSee;
-            }
-        }
-
-        protected void ActivitiesGridView_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            GridView ActivitiesGridView = (GridView)sender;
-            for (int i = 0; i < ActivitiesGridView.Rows.Count; i++)
-            {
-                int activityId = (int)ActivitiesGridView.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContentActivity = (Label)ActivitiesGridView.Rows[i].FindControl("lblContentActivity");
-                string activityDescription = db.Activities.FirstOrDefault(ac => ac.ActivityId == activityId).Description;
-                var textToSee = activityDescription.Length >= 40 ? activityDescription.Substring(0, 40) + "..." : activityDescription;
-                lblContentActivity.Text = textToSee;
-            }
-        }
-
         //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
         protected void btnDeleteRelatedProject_Click(object sender, EventArgs e)
         {
@@ -531,36 +501,20 @@ namespace VALE.MyVale
             return null;
         }
 
-        protected void grdRelatedProject_RowDataBound(object sender, GridViewRowEventArgs e)
+        public string GetDescription(string description)
         {
-            var grdRelatedProject = (GridView)sender;
-
-            for (int i = 0; i < grdRelatedProject.Rows.Count; i++)
+            string result;
+            if (!String.IsNullOrEmpty(description))
             {
-                int projectId = (int)grdRelatedProject.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblDescription = (Label)grdRelatedProject.Rows[i].FindControl("lblDescription");
-                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
-                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
-                lblDescription.Text = textToSee;
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                result = doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
             }
-        }
+            else
+                result = "Nessun commento inserito";
 
-        protected void OpenedProjectList_DataBound(object sender, EventArgs e)
-        {
-            var OpenedProjectList = (GridView)sender;
-
-            for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
-            {
-                int projectId = (int)OpenedProjectList.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblOpenedProjects = (Label)OpenedProjectList.Rows[i].FindControl("lblOpenedProjects");
-                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
-                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
-                lblOpenedProjects.Text = textToSee;
-            }
+            return result;
         }
       
     }

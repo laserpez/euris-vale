@@ -382,36 +382,20 @@ namespace VALE.MyVale
             }
         }
 
-        protected void grdRelatedProject_RowDataBound(object sender, GridViewRowEventArgs e)
+        public string GetDescription(string description)
         {
-            var grdRelatedProject = (GridView)sender;
-
-            for (int i = 0; i < grdRelatedProject.Rows.Count; i++)
+            if (!String.IsNullOrEmpty(description))
             {
-                int projectId = (int)grdRelatedProject.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContentRelatedProject = (Label)grdRelatedProject.Rows[i].FindControl("lblContentRelatedProject");
-                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
-                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
-                lblContentRelatedProject.Text = textToSee;
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(description);
+                description = doc.DocumentNode.InnerText;
+                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+            }
+            else
+            {
+                return "Nessuna descrizione presente";
             }
         }
-
-        protected void OpenedProjectList_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
-            {
-                int projectId = (int)OpenedProjectList.DataKeys[i].Value;
-                var db = new UserOperationsContext();
-
-                Label lblContentOpenProjects = (Label)OpenedProjectList.Rows[i].FindControl("lblContentOpenProjects");
-                string projectDescription = db.Projects.FirstOrDefault(p => p.ProjectId == projectId).Description;
-                var textToSee = projectDescription.Length >= 65 ? projectDescription.Substring(0, 65) + "..." : projectDescription;
-                lblContentOpenProjects.Text = textToSee;
-            }
-        }
-      
 
         //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
     }

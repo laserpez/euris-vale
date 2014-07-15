@@ -33,7 +33,7 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" OnRowDataBound="OpenedProjectList_RowDataBound" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                            <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:TemplateField>
@@ -49,7 +49,7 @@
                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <center><div><asp:Label ID="lblContent" runat="server"></asp:Label></div></center>
+                                            <center><div><asp:Label ID="lblContent" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField>

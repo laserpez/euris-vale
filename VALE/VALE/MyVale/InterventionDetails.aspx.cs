@@ -90,5 +90,46 @@ namespace VALE.MyVale
                 return null;
         }
 
+        protected void InterventionDetail_DataBound(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            string result = db.Interventions.First(i => i.InterventionId == _currentInterventionId).InterventionText;
+            Label txtDescription = (Label)InterventionDetail.FindControl("txtDescription");
+            if (String.IsNullOrEmpty(result))
+                txtDescription.Text = "Nessun commento inserito";
+            else
+                txtDescription.Text = HttpUtility.HtmlDecode(result).ToString();
+        }
+
+        protected void deleteComment_Click(object sender, EventArgs e)
+        {
+            var btnDelete = (LinkButton)sender;
+            var commentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
+            var db = new UserOperationsContext();
+            var aCommentRelated = db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId);
+            var anIntervention = db.Interventions.FirstOrDefault(i => i.InterventionId == _currentInterventionId);
+            anIntervention.Comments.Remove(aCommentRelated);
+            db.Comments.Remove(aCommentRelated);
+            db.SaveChanges();
+
+            lstComments.DataBind();
+        }
+
+        protected void lstComments_DataBound(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstComments.Items.Count; i++)
+            {
+                var btnDelete = (LinkButton)lstComments.Items[i].FindControl("deleteComment");
+                var commentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
+
+                var db = new UserOperationsContext();
+                var currentProject = db.Interventions.FirstOrDefault(c => c.InterventionId == _currentInterventionId).RelatedProject;
+                if (HttpContext.Current.User.IsInRole("Amministratore") || db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId).CreatorUserName == _currentUser || currentProject.OrganizerUserName == _currentUser)
+                {
+                    btnDelete.Visible = true;
+                }
+            }
+        }
+
     }
 }

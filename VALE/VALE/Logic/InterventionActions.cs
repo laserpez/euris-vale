@@ -27,7 +27,10 @@ namespace VALE.Logic
 
                 var RelatedProjectName = db.Projects.Where(pr => pr.ProjectId == newIntervention.ProjectId).Select(pro => pro.ProjectName).FirstOrDefault();
                 var textToView = newIntervention.InterventionText.Length >= 30 ? newIntervention.InterventionText.Substring(0, 30) + "..." : newIntervention.InterventionText;
-                logger.Write(new LogEntry() { DataId = newIntervention.InterventionId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunta nuova conversazione in " + RelatedProjectName, DataType = "Conversazione", Date = DateTime.Now, Description = newIntervention.CreatorUserName + " ha aggiunto una conversazione: \"" + textToView + "\"" });
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(textToView);
+                var clearedText = doc.DocumentNode.InnerText;
+                logger.Write(new LogEntry() { DataId = newIntervention.InterventionId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunta nuova conversazione in " + RelatedProjectName, DataType = "Conversazione", Date = DateTime.Now, Description = newIntervention.CreatorUserName + " ha aggiunto una conversazione: \"" + clearedText + "\"" });
                 return true;
             }
             catch (Exception)
@@ -58,6 +61,11 @@ namespace VALE.Logic
             {
                 var db = new UserOperationsContext();
                 var anAttachment = db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
+
+                var interventionId = anAttachment.RelatedIntervention.InterventionId;
+                var anIntervention = db.Interventions.Where(i => i.InterventionId == interventionId).FirstOrDefault();
+                anIntervention.AttachedFiles.Remove(anAttachment);
+
                 db.AttachedFiles.Remove(anAttachment);
 
                 db.SaveChanges();

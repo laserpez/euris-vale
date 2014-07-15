@@ -127,7 +127,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="overflow: auto;">
-                                                <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" OnRowDataBound="grdCurrentActivities_RowDataBound" DataKeyNames="ActivityId"
+                                                <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" DataKeyNames="ActivityId"
                                                 ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false"
 
                                                         ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetActivities" EmptyDataText="Nessuna attività in corso."
@@ -147,7 +147,7 @@
                                                                     <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
-                                                    <center><div><asp:Label ID="lblContent" runat="server"></asp:Label></div></center>
+                                                    <center><div><asp:Label ID="lblContent" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
 
@@ -209,7 +209,7 @@
 
                                                         </Columns>
                                                     </asp:GridView>
-                            <asp:GridView OnRowCommand="grdPendingActivities_RowCommand" OnRowDataBound="grdPendingActivities_RowDataBound" DataKeyNames="ActivityId" ID="grdPendingActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
+                            <asp:GridView OnRowCommand="grdPendingActivities_RowCommand" DataKeyNames="ActivityId" ID="grdPendingActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
                                                         ItemType="VALE.Models.Activity" SelectMethod="GetPendingActivities" EmptyDataText="Nessuna attività in attesa." CssClass="table table-striped table-bordered">
                                                         <Columns>
                                                             <asp:TemplateField>
@@ -227,7 +227,7 @@
                                                                     <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
-                                            <center><div><asp:Label ID="lblContentPendingActivity" runat="server"></asp:Label></div></center>
+                                                                    <center><div><asp:Label ID="lblContentPendingActivity" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                                 <HeaderStyle Width="120px" />
                                                                 <ItemStyle Width="120px" />

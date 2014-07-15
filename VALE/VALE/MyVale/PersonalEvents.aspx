@@ -24,7 +24,7 @@
                         <div class="panel-body" style="overflow: auto;">
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
-                                    <asp:GridView runat="server" OnRowDataBound="grdPlannedEvent_RowDataBound" DataKeyNames="EventId" ItemType="VALE.Models.Event" AutoGenerateColumns="false" AllowSorting="true" EmptyDataText="Nessun evento pianificato"
+                                    <asp:GridView runat="server" DataKeyNames="EventId" ItemType="VALE.Models.Event" AutoGenerateColumns="false" AllowSorting="true" EmptyDataText="Nessun evento pianificato"
                                         CssClass="table table-striped table-bordered" ID="grdPlannedEvent" SelectMethod="GetAttendingEvents">
                                         <Columns>
                                             <asp:TemplateField>
@@ -50,7 +50,7 @@
                                                     <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Label ID="lblContent" runat="server"></asp:Label></div></center>
+                                                    <center><div><asp:Label ID="lblContent" runat="server"><%#: GetDescription(Item.Description) %></asp:Label></div></center>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField>

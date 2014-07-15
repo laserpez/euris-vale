@@ -108,7 +108,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                    <asp:GridView ItemType="VALE.Models.Project" OnRowDataBound="grdRelatedProject_RowDataBound" DataKeyNames="ProjectId"  AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                    <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId"  AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                         SelectMethod="GetRelatedProject" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
                                                         <Columns>
                                                             <asp:TemplateField>
@@ -125,7 +125,7 @@
                                                                     <center><div><asp:LinkButton  runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
-                                                                    <center><div><asp:Label ID="lblContentRelatedProject" runat="server"></asp:Label></div></center>
+                                                                    <center><div><asp:Label ID="lblContentRelatedProject" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField>
@@ -454,7 +454,7 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" OnRowDataBound="OpenedProjectList_RowDataBound" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                            <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:TemplateField>
@@ -470,7 +470,7 @@
                                             <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <center><div><asp:Label ID="lblContentOpenProjects" runat="server"></asp:Label></div></center>
+                                            <center><div><asp:Label ID="lblContentOpenProjects" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField>

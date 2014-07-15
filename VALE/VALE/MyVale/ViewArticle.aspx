@@ -46,13 +46,14 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading">Commenti</div>
                                         <div class="panel-body">
-                                            <asp:ListView runat="server" ID="lstComments" ItemType="VALE.Models.BlogComment" SelectMethod="GetComments">
+                                            <asp:ListView runat="server" ID="lstComments" OnDataBound="lstComments_DataBound" ItemType="VALE.Models.BlogComment" SelectMethod="GetComments">
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server" Text="Nessun commento"></asp:Label>
                                                 </EmptyDataTemplate>
                                                 <ItemTemplate>
                                                     <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.Creator.FullName %></asp:Label>
-                                                    <asp:Label runat="server"><%#: String.Format(" - {0}", Item.Date) %></asp:Label><br />
+                                                    <asp:Label runat="server"><%#: String.Format(" - {0}", Item.Date) %></asp:Label>
+                                                    <asp:LinkButton runat="server" ID="deleteComment" ToolTip="Cancella commento" Visible="false" CommandArgument="<%#: Item.BlogCommentId %>" CausesValidation="false" OnClick="deleteComment_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton><br />
                                                     <asp:Label runat="server"><%#: Item.CommentText %></asp:Label><br />
                                                 </ItemTemplate>
                                                 <ItemSeparatorTemplate>
