@@ -84,8 +84,8 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button runat="server" Text="Elimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
-                                                                        <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
+                                                                        <asp:Button runat="server" Text="Elimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
+                                                                        <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-sm" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -146,6 +146,29 @@
                                                                     <asp:Label runat="server">Nessun Progetto correlato </asp:Label>
                                                                 </EmptyDataTemplate>
                                                             </asp:GridView>
+                                                        </div>
+                                                        <div class="panel-footer">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <ul class="breadcrumb" style="margin-bottom: 1px; margin-top: 1px">
+                                                                        <asp:ListView runat="server"  ItemType="VALE.Models.Project" SelectMethod="GetProjectHierarchyUp">
+                                                                            <ItemTemplate>
+                                                                                <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>"><%#: Item.ProjectName %></a></li>
+                                                                            </ItemTemplate>
+                                                                        </asp:ListView>
+                                                                        <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectForHierarchy">
+                                                                            <ItemTemplate>
+                                                                                <li><span class="label label-success"><%#: Item.ProjectName %></span></li>
+                                                                            </ItemTemplate>
+                                                                        </asp:ListView>
+                                                                        <asp:ListView runat="server" ItemType="VALE.Models.Project" ID="listViewRelatedProject" SelectMethod="GetProjectHierarchyDown">
+                                                                            <ItemTemplate>
+                                                                                <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>"><%#: Item.ProjectName %></a></li>
+                                                                            </ItemTemplate>
+                                                                        </asp:ListView>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -615,7 +638,7 @@
                                             <center><div><asp:Label runat="server" ID="labelAdd"><span  class="glyphicon glyphicon-saved"></span> Aggiungi</asp:Label></div></center>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <center><div><asp:Button runat="server" CausesValidation="false" Width="120" CommandArgument="<%#: Item.ProjectName %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>
+                                            <center><div><asp:Button runat="server" CausesValidation="false" Width="120" CommandArgument="<%#: Item.ProjectId %>" Text="Aggiungi" CssClass="btn btn-info btn-xs" ID="btnChooseProject" OnClick="btnChooseProject_Click" /></div></center>
                                         </ItemTemplate>
                                         <HeaderStyle Width="120" />
                                         <ItemStyle Width="120" />
