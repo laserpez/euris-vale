@@ -445,12 +445,9 @@ namespace VALE.MyVale
         //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
         protected void btnDeleteRelatedProject_Click(object sender, EventArgs e)
         {
-            ModalPopupListProject.Hide();
-            var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
-            currentProject.RelatedProject = null;
-            _db.SaveChanges();
-            GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
-            grdRelatedProject.DataBind();
+            ProjectActions projectActions = new ProjectActions();
+            projectActions.DeletRelatedProject(_currentProjectId);
+            UpdateRelatedProjectView();
         }
 
         protected void btnAddRelatedProject_Click(object sender, EventArgs e)
@@ -460,8 +457,8 @@ namespace VALE.MyVale
 
         public IQueryable<Project> GetProjectsList()
         {
-            var _db = new UserOperationsContext();
-            return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
+            ProjectActions projectActions = new ProjectActions();
+            return projectActions.GetCompatibleProjects(_currentProjectId).AsQueryable();
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)
@@ -472,14 +469,14 @@ namespace VALE.MyVale
         protected void btnChooseProject_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            var project = _db.Projects.FirstOrDefault(p => p.ProjectName == btn.CommandArgument);
+            var projectId = Convert.ToInt32(btn.CommandArgument);
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
             if (project != null)
             {
                 var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
                 currentProject.RelatedProject = project;
                 _db.SaveChanges();
-                GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
-                grdRelatedProject.DataBind();
+                UpdateRelatedProjectView();
                 Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
             }
 
@@ -525,6 +522,38 @@ namespace VALE.MyVale
                 result = "Nessun commento inserito";
 
             return result;
+        }
+
+        public List<Project> GetProjectHierarchyUp() 
+        {
+            ProjectActions projectActions = new ProjectActions();
+            var list = projectActions.getHierarchyUp(_currentProjectId);
+            list.Reverse();
+            return list;
+        }
+
+        public List<Project> GetProjectForHierarchy()
+        {
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            if (project != null)
+            {
+                return new List<Project> { project};
+            }
+            return null;
+        }
+
+        public List<Project> GetProjectHierarchyDown()
+        {
+            ProjectActions projectActions = new ProjectActions();
+            return projectActions.getHierarchyDown(_currentProjectId);
+        }
+
+        private void UpdateRelatedProjectView()
+        {
+            ListView listViewRelatedProject = (ListView)ProjectDetail.FindControl("listViewRelatedProject");
+            listViewRelatedProject.DataBind();
+            GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
+            grdRelatedProject.DataBind();
         }
       
     }
