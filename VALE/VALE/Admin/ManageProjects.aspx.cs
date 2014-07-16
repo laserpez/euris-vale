@@ -211,5 +211,13 @@ namespace VALE.Admin
             description = doc.DocumentNode.InnerText;
             return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
         }
+
+        protected void ProjectList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            ProjectList.PageIndex = e.NewPageIndex;
+            ProjectList.DataSource = GetProjects();
+            ProjectList.DataBind();
+        }
+
     }
 }

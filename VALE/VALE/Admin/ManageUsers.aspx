@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageUsers.aspx.cs" Inherits="VALE.Admin.ManageUsers" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
 <%@ Register Src="~/MyVale/Create/AddNewUser.ascx" TagPrefix="uc" TagName="AddNewUser" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -50,7 +51,7 @@
                                 </div>
 
                                 <div class="panel-body">
-                                    <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both"
+                                    <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both" AllowPaging="true" PageSize="2" OnPageIndexChanging="grdUsers_PageIndexChanging"
                                         ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                                         <Columns>
                                             <asp:TemplateField>
@@ -105,7 +106,7 @@
                                                 <HeaderTemplate>
                                                     <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
-                                                 <ItemTemplate>
+                                                <ItemTemplate>
                                                     <center><div>
                                                         <div class="btn-group">
                                                             <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server"><center><div><%# GetRoleName(Item.Id) %><span class="caret"></div></center></span></button>
@@ -128,12 +129,20 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                     <asp:Button ID="btnConfirmUser" Visible="false" runat="server" Text="Conferma utenti selezionati" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnConfimUser_Click" />
                                     <asp:Label ID="lblChangeRole" runat="server" Visible="false" Text="" />
                                 </div>
                             </div>
                         </ContentTemplate>
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="grdUsers" />
+                        </Triggers>
                     </asp:UpdatePanel>
                 </div>
             </div>

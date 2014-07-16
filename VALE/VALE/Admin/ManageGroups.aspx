@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageGroups.aspx.cs" Inherits="VALE.MyVale.Create.ManageGroups" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -36,7 +37,7 @@
                                                 ItemType="VALE.Models.Group"
                                                 CssClass="table table-striped table-bordered"
                                                 SelectMethod="grdGroups_GetData"
-                                                AllowSorting="true"
+                                                AllowSorting="true" AllowPaging="true" PageSize="10"
                                                 OnRowCommand="grdGroups_RowCommand">
                                                 <Columns>
                                                     <asp:TemplateField>
@@ -84,6 +85,11 @@
                                                         <ItemStyle Width="100px"></ItemStyle>
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <PagerTemplate>
+                                                    <asp:GridPager runat="server"
+                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                                </PagerTemplate>
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Non ci sono Gruppi</asp:Label>
                                                 </EmptyDataTemplate>
@@ -103,7 +109,7 @@
                                                 </div>
                                                 <div class="panel-body">
 
-                                                    <asp:GridView ID="grdUsers" runat="server" AllowSorting="true" AutoGenerateColumns="false"
+                                                    <asp:GridView ID="grdUsers" runat="server" AllowPaging="true" PageSize="10" AllowSorting="true" AutoGenerateColumns="false"
                                                         ItemType="VALE.Models.UserData" CssClass="table table-striped table-bordered" SelectMethod="grdUsers_GetData">
                                                         <Columns>
                                                             <asp:TemplateField>
@@ -139,6 +145,11 @@
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                         </Columns>
+                                                        <PagerTemplate>
+                                                            <asp:GridPager runat="server"
+                                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                                        </PagerTemplate>
                                                         <EmptyDataTemplate>
                                                             <asp:Label runat="server">Non ci sono utenti</asp:Label>
                                                         </EmptyDataTemplate>
@@ -160,7 +171,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-body">
-                                                            <asp:GridView ID="grdGroupUsers" AllowSorting="true" runat="server" AutoGenerateColumns="false"
+                                                            <asp:GridView ID="grdGroupUsers" AllowSorting="true" AllowPaging="true" PageSize="10" runat="server" AutoGenerateColumns="false"
                                                                 ItemType="VALE.Models.UserData" CssClass="table table-striped table-bordered" SelectMethod="grdGroupUsers_GetData">
                                                                 <Columns>
                                                                     <asp:TemplateField>
@@ -196,6 +207,11 @@
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
+                                                                <PagerTemplate>
+                                                                    <asp:GridPager runat="server"
+                                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                                                </PagerTemplate>
                                                                 <EmptyDataTemplate>
                                                                     <asp:Label runat="server">Non ci sono utenti nel gruppo</asp:Label>
                                                                 </EmptyDataTemplate>

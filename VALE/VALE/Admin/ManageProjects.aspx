@@ -1,4 +1,5 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageProjects.aspx.cs" Inherits="VALE.Admin.ManageProject" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -46,7 +47,7 @@
                                             <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
                                         </div>
                                     </asp:Panel>
-                                    <asp:GridView OnRowCommand="ProjectList_RowCommand" DataKeyNames="ProjectId" OnSorting="ProjectList_Sorting" AllowSorting="true" ID="ProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both"
+                                    <asp:GridView OnRowCommand="ProjectList_RowCommand" DataKeyNames="ProjectId" OnPageIndexChanging="ProjectList_PageIndexChanging" AllowPaging="true" PageSize="10" OnSorting="ProjectList_Sorting" AllowSorting="true" ID="ProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both"
                                         ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                         <Columns>
                                             <asp:TemplateField>
@@ -118,6 +119,11 @@
                                                 <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

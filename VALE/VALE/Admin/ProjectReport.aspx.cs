@@ -136,5 +136,12 @@ namespace VALE.Admin
                 GetGridView("grdActivitiesReport").DataBind();
             }
         }
+
+        protected void grd_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            var grdView = (GridView)sender;
+            grdView.PageIndex = e.NewPageIndex;
+            grdView.DataBind();
+        }
     }
 }
