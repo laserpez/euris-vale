@@ -205,6 +205,7 @@
     <Content Include="Admin\ManageEvents.aspx" />
     <Content Include="Admin\ManageProjects.aspx" />
     <Content Include="Admin\ManageProjectTypes.aspx" />
+    <Content Include="Admin\ManageRoles.aspx" />
     <Content Include="Admin\ManageUsers.aspx" />
     <Content Include="Admin\ProjectReport.aspx" />
     <Content Include="Admin\UserActivities.aspx" />
@@ -220,6 +221,7 @@
     <Content Include="Images\logoVALE.png" />
     <Content Include="Account\ManageProfile.aspx" />
     <Content Include="Images\User.jpg" />
+    <Content Include="Logic\Serializable\Ruoli.xml" />
     <Content Include="MessagePage.aspx" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
@@ -439,6 +441,13 @@
     <Compile Include="Admin\ManageProjectTypes.aspx.designer.cs">
       <DependentUpon>ManageProjectTypes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ManageRoles.aspx.cs">
+      <DependentUpon>ManageRoles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageRoles.aspx.designer.cs">
+      <DependentUpon>ManageRoles.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ManageUsers.aspx.cs">
       <DependentUpon>ManageUsers.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -503,6 +512,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\InterventionActions.cs" />
+    <Compile Include="Logic\Serializable\ISerializable.cs" />
+    <Compile Include="Logic\Serializable\XmlSerializable.cs" />
     <Compile Include="MessagePage.aspx.cs">
       <DependentUpon>MessagePage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -513,6 +524,7 @@
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\DatabaseInitializer.cs" />
     <Compile Include="Models\ProjectType.cs" />
+    <Compile Include="Models\XmlRoles.cs" />
     <Compile Include="MyVale\GridPager.ascx.cs">
       <DependentUpon>GridPager.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

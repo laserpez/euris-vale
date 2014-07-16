@@ -5,16 +5,18 @@ using System.Linq;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
+using VALE.Models;
 
 namespace VALE.Logic.Serializable
 {
     public class XmlSerializable : ISerializable
     {
-        public void SaveData<T>(T dati, string nomeFile)
+
+        public void CreateData<T>(T dati, string nomeFile)
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
             xmlWriterSettings.Indent = true;
-            using (FileStream file = new FileStream(nomeFile + ".xml", FileMode.Create))
+            using (FileStream file = new FileStream("C:\\Users\\Federico\\Desktop\\EURIS\\ValeProject\\VALE\\VALE\\Logic\\Serializable\\"+nomeFile + ".xml", FileMode.Create))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 using (XmlWriter xmlWriter = XmlWriter.Create(file, xmlWriterSettings))
@@ -29,7 +31,7 @@ namespace VALE.Logic.Serializable
             T data = default(T);
             try
             {
-                using (FileStream stream = new FileStream(nomeFile + ".xml", FileMode.OpenOrCreate))
+                using (FileStream stream = new FileStream("C:\\Users\\Federico\\Desktop\\EURIS\\ValeProject\\VALE\\VALE\\Logic\\Serializable\\" + nomeFile + ".xml", FileMode.OpenOrCreate))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(T));
                     data = (T)serializer.Deserialize(stream);

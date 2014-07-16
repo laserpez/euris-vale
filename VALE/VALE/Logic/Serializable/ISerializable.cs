@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace VALE.Logic.Serializable
 {
-    interface ISerializable
+    public interface ISerializable
     {
-        void SaveData<T>(T dati, string nomeFile);
+        void CreateData<T>(T dati, string nomeFile);
         T ReadData<T>(string nomeFile);
     }
 }
