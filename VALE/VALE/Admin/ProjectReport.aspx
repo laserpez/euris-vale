@@ -1,4 +1,5 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProjectReport.aspx.cs" Inherits="VALE.Admin.ProjectReport" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -34,7 +35,7 @@
                                     <asp:Label runat="server"><%#: String.Format("Ultima modifica:\t{0}", Item.LastModified.ToShortDateString()) %></asp:Label><br />
 
                                     <h4>Interventi</h4>
-                                    <asp:GridView ID="grdUsersInterventions" AutoGenerateColumns="false" OnRowCommand="grid_RowCommand" runat="server" ItemType="VALE.Admin.InterventionReports" CssClass="table table-striped table-bordered" EmptyDataText="Nessun intervento">
+                                    <asp:GridView ID="grdUsersInterventions" AllowPaging="true" PageSize="10" OnPageIndexChanging="grd_PageIndexChanging" AutoGenerateColumns="false" OnRowCommand="grid_RowCommand" runat="server" ItemType="VALE.Admin.InterventionReports" CssClass="table table-striped table-bordered" EmptyDataText="Nessun intervento">
                                         <Columns>
                                             <asp:TemplateField>
                                                 <ItemTemplate>
@@ -59,6 +60,11 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                     <h4>Report attività</h4>
                                     <asp:Label runat="server" ID="emptyAtcivitiesLabel" CssClass="form-control" Visible="false"></asp:Label>
@@ -70,7 +76,7 @@
                                             <asp:Button runat="server" ID="btnShowActivityReport" OnClick="btnShowActivityReport_Click" CssClass="btn btn-info btn-xs" Text="Visualizza report" />
                                             <br />
                                             <br />
-                                            <asp:GridView AutoGenerateColumns="false" OnRowCommand="grid_RowCommand" runat="server" EmptyDataText="Nessun report" ItemType="VALE.Admin.UserActivityReport" ID="grdActivitiesReport" CssClass="table table-striped table-bordered">
+                                            <asp:GridView AutoGenerateColumns="false" OnRowCommand="grid_RowCommand" AllowPaging="true" PageSize="10" OnPageIndexChanging="grd_PageIndexChanging" runat="server" EmptyDataText="Nessun report" ItemType="VALE.Admin.UserActivityReport" ID="grdActivitiesReport" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
@@ -97,6 +103,11 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <PagerTemplate>
+                                                    <asp:GridPager runat="server"
+                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                                </PagerTemplate>
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
