@@ -26,6 +26,8 @@ namespace VALE.MyVale
             _currentUser = User.Identity.GetUserName();
             if(Request.QueryString.HasKeys())
                 _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
+            if (Request.QueryString["From"] != null)
+                Session["ActivityDetailsRequestFrom"] = Request.QueryString["From"];
         }
 
         public string GetStatus(Activity anActivity)
@@ -113,11 +115,11 @@ namespace VALE.MyVale
         protected void btnOkButton_Click(object sender, EventArgs e)
         {
             var action = lblAction.Text;
+            GridView grdActivityReport = (GridView)ActivityDetail.FindControl("grdActivityReport");
+            Label lblHoursWorked = (Label)ActivityDetail.FindControl("lblHoursWorked");
             if (action == "Add")
             {
-                GridView grdActivityReport = (GridView)ActivityDetail.FindControl("grdActivityReport");
                 Button btnAdd = (Button)sender;
-                Label lblHoursWorked = (Label)ActivityDetail.FindControl("lblHoursWorked");
                 int hours = 0;
                 if (int.TryParse(txtHours.Text, out hours))
                 {
@@ -144,6 +146,8 @@ namespace VALE.MyVale
                     report.ActivityDescription = txtDescription.InnerText;
                     _db.SaveChanges();
                 }
+                lblHoursWorked.Text = GetHoursWorked();
+                grdActivityReport.DataBind();
             }
             else if (action == "Details")
                 ModalPopup.Hide();
@@ -270,6 +274,7 @@ namespace VALE.MyVale
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
             txtName.Text = activity.ActivityName;
             txtActDescription.Text = activity.Description;
+            txtBudget.Text = activity.Budget.ToString();
             txtStartDate.Text = activity.StartDate.HasValue ? activity.StartDate.Value.ToShortDateString() : "";
             txtEndDate.Text = activity.ExpireDate.HasValue ? activity.ExpireDate.Value.ToShortDateString() : "";
             ddlSelectType.SelectedValue = activity.Type;
@@ -283,8 +288,11 @@ namespace VALE.MyVale
 
         protected void btnConfirmModify_Click(object sender, EventArgs e)
         {
+            int budget = 0;
+            int.TryParse(txtBudget.Text, out budget);
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
             activity.ActivityName = txtName.Text;
+            activity.Budget = budget;
             activity.Description = txtActDescription.Text;
             DateTime? expireDate = null;
             if (!String.IsNullOrEmpty(txtEndDate.Text))
@@ -395,6 +403,17 @@ namespace VALE.MyVale
             {
                 return "Nessuna descrizione presente";
             }
+        }
+
+        protected void btnBack_ServerClick(object sender, EventArgs e)
+        {
+            string returnUrl = "";
+            if (Session["ActivityDetailsRequestFrom"] != null)
+                returnUrl = Session["ActivityDetailsRequestFrom"].ToString();
+            else
+                returnUrl = "/MyVale/Activities";
+            Session["ActivityDetailsRequestFrom"] = null;
+            Response.Redirect(returnUrl);
         }
 
         //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività

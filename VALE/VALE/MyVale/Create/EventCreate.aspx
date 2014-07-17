@@ -26,13 +26,13 @@
                         </div>
                         <div class="panel-body" >
                             <div class="col-md-12 form-group">
-                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Nome evento *</asp:Label>
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Nome *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox runat="server" Width="350px" ID="txtName" CssClass="form-control"  />
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" CssClass="text-danger" ErrorMessage="Il nome è obbligatorio" />
                                 </div>
 
-                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Descrizione evento *</asp:Label>
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtDescription" runat="server"></asp:TextBox>
                                     <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">

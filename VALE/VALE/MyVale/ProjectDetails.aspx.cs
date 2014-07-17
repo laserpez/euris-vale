@@ -413,6 +413,7 @@ namespace VALE.MyVale
             txtName.CssClass = "form-control";
             txtName.Text = project.ProjectName;
             txtDescription.Text = project.Description;
+            txtBudget.Text = project.Budget.ToString();
             ddlSelectType.SelectedValue = project.Type;
             txtStartDate.Text = project.CreationDate.ToShortDateString();
             chkPublic.Checked = project.Public;
@@ -422,11 +423,14 @@ namespace VALE.MyVale
         protected void btnConfirmModify_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
+            int budget = 0;
+            int.TryParse(txtBudget.Text, out budget);
             var project = db.Projects.Where(o => o.ProjectId == _currentProjectId).FirstOrDefault();
             project.ProjectName = txtName.Text;
             project.Description = txtDescription.Text;
             project.CreationDate = Convert.ToDateTime(txtStartDate.Text);
             project.LastModified = DateTime.Now;
+            project.Budget = budget;
             project.Public = chkPublic.Checked;
             project.Type = ddlSelectType.SelectedValue;
             db.SaveChanges();
@@ -554,6 +558,21 @@ namespace VALE.MyVale
             listViewRelatedProject.DataBind();
             GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
             grdRelatedProject.DataBind();
+        }
+
+        public string GetHoursWorked()
+        {
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            int hours;
+            var projectActions = new ProjectActions();
+            hours = projectActions.GetAllProjectHierarchyHoursWorked(_currentProjectId);
+            if (project != null) 
+            {
+                int budget = projectActions.GetProjectHierarchyBudget(_currentProjectId);
+                if (budget > 0)
+                    return String.Format("Budget Totale: {0} Erogato {1}", budget, hours);
+            }
+            return String.Format(" {0} Ore di lavoro", hours);
         }
       
     }

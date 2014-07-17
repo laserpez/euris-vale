@@ -284,6 +284,45 @@ namespace VALE.Logic
                     list.Add(project);
             }
             return list;
-        } 
+        }
+
+        public int GetAllProjectHoursWorked(Project project) 
+        {
+            int total = 0;
+            ActivityActions activityActions = new ActivityActions();
+            foreach (var activity in project.Activities)
+	        {
+                total += activityActions.GetAllActivityHoursWorked(activity.ActivityId);
+	        }
+            return total;
+        }
+
+        public int GetAllProjectHierarchyHoursWorked(int projectId)
+        {
+            int total = 0;
+            var db = new UserOperationsContext();
+            var rootProject = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            total = GetAllProjectHoursWorked(rootProject);
+            var projects = getHierarchyDown(projectId);
+            foreach (var project in projects)
+            {
+                total += GetAllProjectHoursWorked(project);
+            }
+            return total;
+        }
+
+        public int GetProjectHierarchyBudget(int projectId)
+        {
+            int total = 0;
+            var db = new UserOperationsContext();
+            var rootProject = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            total = rootProject.Budget;
+            var projects = getHierarchyDown(projectId);
+            foreach (var project in projects)
+            {
+                total += project.Budget;
+            }
+            return total;
+        }
     }
 }

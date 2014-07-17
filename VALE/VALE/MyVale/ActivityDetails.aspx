@@ -15,7 +15,7 @@
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div class="col-lg-10">
+                                            <div class="col-lg-8">
                                                 <ul class="nav nav-pills">
                                                     <li>
                                                         <h4>
@@ -25,8 +25,9 @@
                                                 </ul>
                                             </div>
                                             <div class="navbar-right">
+                                                <asp:Label ID="ListUsersType" Visible="false" runat="server" Text=""></asp:Label>
+                                                <button type="button" visible="true" id="btnBack" class="btn btn-info" runat="server" onserverclick="btnBack_ServerClick"><span class="glyphicon glyphicon-circle-arrow-left"></span> Indietro</button>
                                                 <div class="btn-group">
-                                                    <asp:Label ID="ListUsersType" Visible="false" runat="server" Text=""></asp:Label>
                                                     <button type="button" visible="true" id="btnStatus" class="<%#: GetStatusColor(Item.Status) %>" data-toggle="dropdown" runat="server"><%#: GetStatus(Item) %><span class="caret"></span></button>
                                                     <ul class="dropdown-menu">
                                                         <li>
@@ -373,7 +374,7 @@
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
-                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="145px" Width="404px" ID="txtActDescription" runat="server"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="145px"  ID="txtActDescription" runat="server"></asp:TextBox>
                                     <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtActDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
@@ -401,9 +402,7 @@
                                 </div>
                                 <%--<asp:UpdatePanel runat="server">
                                     <ContentTemplate>--%>
-                                        <div class="col-md-12">
-                                            <br />
-                                        </div>
+                                        
                                 <asp:UpdatePanel runat="server">
                                     <ContentTemplate>
                                         <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Data inizio</asp:Label>
@@ -418,6 +417,11 @@
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtEndDate"></asp:CalendarExtender>
                                             <br />
                                         </div>
+                                        <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Budget</asp:Label>
+                                        <div class="col-md-10">
+                                                <asp:TextBox TextMode="Number" runat="server" ID="txtBudget" CssClass="form-control" Width="100px"/>
+                                                <br />
+                                        </div>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                             </div>
@@ -429,7 +433,7 @@
                         <div class="col-md-12">
                             <br />
                         </div>
-                        <div class="col-md-offset-9 col-md-10">
+                        <div class="col-md-offset-10 col-md-12">
                             <asp:Button runat="server" Text="Salva" ID="btnConfirmModify" CssClass="btn btn-success btn-sm" ValidationGroup="ModifyActivity" CausesValidation="true" OnClick="btnConfirmModify_Click" />
                             <asp:Button runat="server" Text="Annulla" ID="Button2" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="Button2_Click" />
                         </div>

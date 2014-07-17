@@ -236,50 +236,62 @@
                         <div class="form-group">
                             <legend>Modifica Evento</legend>
                             <div class="form-group">
-                                <label class="col-lg-12 control-label">Nome</label>
+                                <label class="col-lg-2 control-label">Nome *</label>
                                 <div class="col-lg-10">
                                     <asp:TextBox runat="server" CssClass="form-control" ID="txtName" />
+                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" CssClass="text-danger" ErrorMessage="Il nome è obbligatorio" />
                                 </div>
                             </div>
-                           <div class="form-group">
-                                <br />
-                                <Label class="col-lg-7 control-label">Data</Label>
-                                <Label class="col-lg-2 control-label">Ore</Label>
-                                <Label class="col-lg-3 control-label">Min</Label>
-                                <div class="col-lg-7">
-                                    <asp:TextBox runat="server" Width="280px" ID="txtStartDate" CssClass="form-control "  />
-                                    <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
+                           
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Data *</label>
+                                        <div class="col-lg-4">
+                                            <asp:TextBox runat="server" Width="280px" ID="txtStartDate" CssClass="form-control " />
+                                            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
+                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="La data è obbligatoria" />
+                                            <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtStartDate" Display="Dynamic"></asp:RegularExpressionValidator>
+                                        </div>
+                                        <label class="col-lg-1 control-label">Ore</label>
+                                        <div class="col-lg-2">
+                                            <asp:TextBox ID="txtHour" TextMode="Number" Width="80" runat="server" CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                        <label class="col-lg-1 control-label">Min</label>
+                                        <div class="col-lg-2">
+                                            <asp:TextBox ID="txtMin" TextMode="Number" Width="80" runat="server" CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                        <br />
+                                    </div>
                                 </div>
-                                <div class="col-lg-2">
-                                    <asp:TextBox ID="txtHour" TextMode="Number" Width="50" runat="server" CssClass="form-control"></asp:TextBox> 
-                                </div>
-                                <div class="col-lg-3">
-                                    <asp:TextBox ID="txtMin" TextMode="Number" Width="50" runat="server" CssClass="form-control"></asp:TextBox> 
-                                </div>
-                                <br />
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-12 control-label">Durata(ore)</label>
+                                <label class="col-lg-2 control-label">Durata(ore)</label>
                                 <div class="col-lg-10">
                                     <asp:TextBox runat="server" TextMode="Number" Width="280" CssClass="form-control" ID="txtDurata" />
+                                    <br />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-12 control-label">Evento pubblico?</label>
+                                <label class="col-lg-2 control-label">Luogo *</label>
+                                <div class="col-lg-10">
+                                    <asp:TextBox runat="server" CssClass="form-control" ID="txtSite" />
+                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtSite" CssClass="text-danger" ErrorMessage="Il luogo è obbligatorio" /> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Evento pubblico?</label>
                                 <div class="col-lg-10">
                                     <asp:CheckBox runat="server" ID="chkPublic" />
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-12 control-label">Luogo</label>
-                                <div class="col-lg-10">
-                                    <asp:TextBox runat="server" CssClass="form-control" ID="txtSite" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br />
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <br />
-                                <label class="col-lg-12 control-label">Descrizione</label>
-                                <div class="col-lg-12">
+                                <div class="col-md-12">
+                                      <label class="col-lg-2 control-label">Descrizione *</label>
+                                <div class="col-lg-10">
                                     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="100px" ID="txtDescription" runat="server"></asp:TextBox>
                                     <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
                                         <Toolbar>
@@ -300,6 +312,11 @@
                                         </Toolbar>
                                     </asp:HtmlEditorExtender>
                                 </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <br />
+                              
                             </div>
                             <br />
                             <br />
@@ -312,7 +329,7 @@
                         <div class="col-md-12">
                             <br />
                         </div>
-                        <div class="col-md-offset-9 col-md-10">
+                        <div class="col-md-offset-10 col-md-12">
                             <asp:Button runat="server" Text="Salva" ID="btnConfirmModify" CssClass="btn btn-success btn-sm" CausesValidation="false"  OnClick="btnConfirmModify_Click" />
                             <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="btnClosePopUpButton_Click" />
                         </div>
