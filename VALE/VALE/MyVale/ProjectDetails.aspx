@@ -384,47 +384,55 @@
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
                                                             <asp:GridView ItemType="VALE.Models.Activity" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                SelectMethod="GetRelatedActivities" runat="server" DataKeyNames="ActivityId" ID="ActivitiesGridView" CssClass="table table-striped table-bordered">
-                                                <Columns>
-                                                    <asp:TemplateField>
-                                                        <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="CreatorUserName" CommandName="sort" runat="server" ID="labelCreatorUserName"><span  class="glyphicon glyphicon-user"></span> Creatore</asp:LinkButton></div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server" ID="lblContentActivity"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                                <EmptyDataTemplate>
-                                                    <asp:Label runat="server">Nessuna attività correlata.</asp:Label>
-                                                </EmptyDataTemplate>
-                                            </asp:GridView>
+                                                                SelectMethod="GetRelatedActivities" runat="server" DataKeyNames="ActivityId" ID="ActivitiesGridView" CssClass="table table-striped table-bordered">
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="CreatorUserName" CommandName="sort" runat="server" ID="labelCreatorUserName"><span  class="glyphicon glyphicon-user"></span> Creatore</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server" ID="lblContentActivity"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <EmptyDataTemplate>
+                                                                    <asp:Label runat="server">Nessuna attività correlata.</asp:Label>
+                                                                </EmptyDataTemplate>
+                                                            </asp:GridView>
                                                         </div>
-                                                        
+                                                        <div class="panel-footer">
+                                                            <ul class="nav nav-pills">
+                                                                <li>
+                                                                    <span runat="server" class="badge">
+                                                                        <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetHoursWorked() %></asp:Label>
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -507,6 +515,11 @@
                                     <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtStartDate" Display="Dynamic"></asp:RegularExpressionValidator>
                                 </div>
                             </div>
+                            <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Budget</asp:Label>
+                            <div class="col-md-10">
+                                    <asp:TextBox TextMode="Number" runat="server" ID="txtBudget" CssClass="form-control" Width="100px"/>
+                                    <br />
+                                </div>
                            <%-- <div class="row">
                                 <div class="col-md-12">
                                     <br />
