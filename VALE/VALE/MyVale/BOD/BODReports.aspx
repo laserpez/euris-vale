@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="BODReports.aspx.cs" Inherits="VALE.MyVale.BOD.BODReports" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -24,7 +25,7 @@
                         <div class="panel-body" style="overflow: auto;">
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
-                                    <asp:GridView OnRowCommand="grdBODReport_RowCommand" SelectMethod="GetBODReports" ID="grdBODReport" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                    <asp:GridView OnRowCommand="grdBODReport_RowCommand" SelectMethod="GetBODReports" AllowPaging="true" PageSize="10" ID="grdBODReport" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                         ItemType="VALE.Models.BODReport" EmptyDataText="Nessun verbale del consiglio direttivo." CssClass="table table-striped table-bordered">
                                         <Columns>
                                             <asp:TemplateField>
@@ -71,6 +72,11 @@
                                                 <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

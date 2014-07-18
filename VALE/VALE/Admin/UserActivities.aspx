@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UserActivities.aspx.cs" Inherits="VALE.Admin.UserActivities" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -23,7 +24,7 @@
                         </div>
                         <div class="panel-body" style="overflow: auto;">
 
-                            <asp:GridView ID="grdReports" OnDataBound="grdReports_DataBound" runat="server" SelectMethod="GetUserActivities" AutoGenerateColumns="false" GridLines="Both"
+                            <asp:GridView ID="grdReports" OnDataBound="grdReports_DataBound" AllowPaging="true" PageSize="10" runat="server" SelectMethod="GetUserActivities" AutoGenerateColumns="false" GridLines="Both"
                                 ItemType="VALE.Models.ActivityReport" EmptyDataText="Nessun progetto aperto" CssClass="table table-striped table-bordered" AllowSorting="true">
                                 <Columns>
                                     <asp:TemplateField>
@@ -57,6 +58,11 @@
                                         <ItemStyle Width="120px" />
                                     </asp:TemplateField>
                                 </Columns>
+                                <PagerTemplate>
+                                <asp:GridPager runat="server"
+                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                            </PagerTemplate>
                             </asp:GridView>
                         </div>
                     </div>

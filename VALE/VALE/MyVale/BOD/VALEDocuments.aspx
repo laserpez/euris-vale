@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="VALEDocuments.aspx.cs" Inherits="VALE.MyVale.BOD.VALEDocuments" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 <br />
 <div class="row">
@@ -12,7 +13,7 @@
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
                         <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                            ItemType="VALE.Models.ValeFile"
+                            ItemType="VALE.Models.ValeFile" AllowPaging="true" PageSize="10"
                             CssClass="table table-striped table-bordered"
                             OnRowCommand="grdFilesUploaded_RowCommand">
                             <Columns>
@@ -32,6 +33,11 @@
                                     <ItemStyle Width="50px"></ItemStyle>
                                 </asp:TemplateField>
                             </Columns>
+                            <PagerTemplate>
+                                <asp:GridPager runat="server"
+                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                            </PagerTemplate>
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>

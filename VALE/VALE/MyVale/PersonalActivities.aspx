@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PersonalActivities.aspx.cs" Inherits="VALE.MyVale.PersonalActivities" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -31,7 +32,7 @@
                                     <asp:Button runat="server" Text="Vedi report" CssClass="btn btn-info btn-xs" ID="bnViewReports" OnClick="bnViewReports_Click" />
                                     <br />
                                     <br />
-                                    <asp:GridView runat="server" ID="grdActivityReport" DataKeyNames="ActivityId" ItemType="VALE.Models.ActivityReport" AutoGenerateColumns="false"
+                                    <asp:GridView runat="server" ID="grdActivityReport" AllowPaging="true" PageSize="5" OnPageIndexChanging="grdActivityReport_PageIndexChanging" DataKeyNames="ActivityId" ItemType="VALE.Models.ActivityReport" AutoGenerateColumns="false"
                                         CssClass="table table-striped table-bordered" AllowSorting="true" OnSorting="grdActivityReport_Sorting" EmptyDataText="Nessun report per questa attività">
                                         <Columns>
                                             <asp:TemplateField>
@@ -65,6 +66,11 @@
                                                 <ItemStyle Width="120px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

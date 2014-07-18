@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UserList.aspx.cs" Inherits="VALE.MyVale.UserList" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
     <h3>Lista utenti</h3>
@@ -26,7 +27,7 @@
                             <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
                         </div>
                     </div>
-                <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" GridLines="Both"
+                <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowPaging="true" PageSize="10" OnPageIndexChanging="grdUsers_PageIndexChanging"
                     ItemType="VALE.MyVale.UserInfo" AllowSorting="true" EmptyDataText="No waiting users" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                     <Columns>
 
@@ -72,6 +73,11 @@
                         </asp:TemplateField>
 
                     </Columns>
+                    <PagerTemplate>
+                        <asp:GridPager runat="server"
+                            ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                            NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                    </PagerTemplate>
                 </asp:GridView>
 
             </ContentTemplate>

@@ -1,4 +1,5 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="Events" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Events.aspx.cs" Inherits="VALE.MyVale.Events" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -52,7 +53,7 @@
                                     </asp:Panel>
                                     <div class="col-md-12">
                                         <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato"
-                                            CssClass="table table-striped table-bordered" ID="grdEvents" SelectMethod="grdEvents_GetData" AllowPaging="true">
+                                            CssClass="table table-striped table-bordered" ID="grdEvents" SelectMethod="grdEvents_GetData" AllowPaging="true" PageSize="10">
                                             <Columns>
                                                 <asp:TemplateField>
                                                     <HeaderTemplate>
@@ -101,6 +102,11 @@
                                                     <ItemStyle Width="100px" />
                                                 </asp:TemplateField>
                                             </Columns>
+                                            <PagerTemplate>
+                                                <asp:GridPager runat="server"
+                                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                            </PagerTemplate>
                                         </asp:GridView>
                                     </div>
                                 </ContentTemplate>

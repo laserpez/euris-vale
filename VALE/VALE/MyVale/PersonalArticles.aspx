@@ -1,4 +1,5 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PersonalArticles.aspx.cs" Inherits="VALE.MyVale.PersonalArticles" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -25,7 +26,7 @@
                         <div class="panel-body" style="overflow: auto;">
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
-                                    <asp:GridView OnRowCommand="grdPersonalArticles_RowCommand" SelectMethod="GetPersonalArticles" ID="grdPersonalArticles" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                    <asp:GridView OnRowCommand="grdPersonalArticles_RowCommand" SelectMethod="GetPersonalArticles" AllowPaging="true" PageSize="10" ID="grdPersonalArticles" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                         ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo personale." CssClass="table table-striped table-bordered" DataKeyNames="BlogArticleId">
                                         <Columns>
                                             <asp:TemplateField>
@@ -79,6 +80,11 @@
                                                 <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

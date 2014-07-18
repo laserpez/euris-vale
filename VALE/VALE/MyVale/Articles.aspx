@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Blog articles" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Articles.aspx.cs" Inherits="VALE.MyVale.Articles" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -26,7 +27,7 @@
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
                                     <asp:GridView OnRowCommand="grdAllArticles_RowCommand" DataKeyNames="BlogArticleId" SelectMethod="GetAllArticles" ID="grdAllArticles" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                        ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo." CssClass="table table-striped table-bordered">
+                                        ItemType="VALE.Models.BlogArticle" AllowPaging="true" PageSize="10" EmptyDataText="Nessun articolo." CssClass="table table-striped table-bordered">
                                         <Columns>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
@@ -78,6 +79,11 @@
                                                 <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

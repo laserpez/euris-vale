@@ -54,9 +54,6 @@ namespace VALE.MyVale
 
         public List<Activity> GetPersonalActivities()
         {
-            //var db = new UserOperationsContext();
-            //var activityIds = db.Reports.Where(r => r.WorkerUserName == _currentUser).GroupBy(r => r.ActivityId).Select(o => o.Key);
-            //return db.Activities.Where(a => activityIds.Contains(a.ActivityId)).ToList();
             var actions = new ActivityActions();
                 return actions.GetActivities(_currentUser);
         }
@@ -103,6 +100,13 @@ namespace VALE.MyVale
 
             var actions = new ActivityActions();
                 grdActivityReport.DataSource = actions.Sort(GridViewSortDirection, (List<ActivityReport>)ViewState["lstActivities"], e.SortExpression);
+            grdActivityReport.DataBind();
+        }
+
+        protected void grdActivityReport_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            grdActivityReport.PageIndex = e.NewPageIndex;
+            grdActivityReport.DataSource = ViewState["lstActivities"];
             grdActivityReport.DataBind();
         }
     }

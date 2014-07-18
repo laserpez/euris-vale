@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="FileUploader.ascx.cs" Inherits="VALE.MyVale.FileUploader" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -10,7 +11,7 @@
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
                         <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                            ItemType="VALE.Models.AttachedFile"
+                            ItemType="VALE.Models.AttachedFile" AllowPaging="true" PageSize="10"
                             CssClass="table table-striped table-bordered"
                             OnRowCommand="grdFilesUploaded_RowCommand">
                             <Columns>
@@ -41,6 +42,12 @@
                                     <ItemStyle Width="50px"></ItemStyle>
                                 </asp:TemplateField>
                             </Columns>
+
+                            <PagerTemplate>
+                                <asp:GridPager runat="server"
+                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                            </PagerTemplate>
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>

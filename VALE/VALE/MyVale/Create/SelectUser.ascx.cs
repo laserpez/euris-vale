@@ -108,5 +108,10 @@ namespace VALE.MyVale.Create
             //ViewState["usersIds"] = users;
             //lstUsers.DataBind();
         }
+
+        protected void lstUsers_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            ModalPopup.Show();
+        }
     }
 }

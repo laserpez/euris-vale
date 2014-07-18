@@ -47,7 +47,6 @@ namespace VALE.MyVale
             var dbData = new UserOperationsContext();
             var projects =  dbData.Projects.Where(p => p.Public == true || p.OrganizerUserName == _currentUserName || p.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName)).ToList();
             return projects;
-            
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)
@@ -135,7 +134,6 @@ namespace VALE.MyVale
         protected void OpenedProjectList_DataBound(object sender, EventArgs e)
         {
             var actions = new ProjectActions();
-            
             for (int i = 0; i < OpenedProjectList.Rows.Count; i++)
             {
                 int projectId = (int)OpenedProjectList.DataKeys[i].Value;
@@ -165,6 +163,13 @@ namespace VALE.MyVale
             doc.LoadHtml(description);
             description = doc.DocumentNode.InnerText;
             return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+        }
+
+        protected void OpenedProjectList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            OpenedProjectList.PageIndex = e.NewPageIndex;
+            OpenedProjectList.DataSource = GetProjects();
+            OpenedProjectList.DataBind();
         }
     }
 }

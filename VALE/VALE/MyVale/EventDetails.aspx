@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EventDetails.aspx.cs" Inherits="VALE.MyVale.EventDetails" %>
 <%@ Register Src="~/MyVale/Create/SelectProject.ascx" TagPrefix="uc" TagName="SelectProject" %>
+<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Register Src="~/MyVale/FileUploader.ascx" TagPrefix="uc" TagName="FileUploader" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -90,7 +91,7 @@
                                                 </div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
                                                     <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId"  AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                        SelectMethod="GetRelatedProject" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
+                                                        SelectMethod="GetRelatedProject" AllowPaging="true" PageSize="10" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>
@@ -140,6 +141,11 @@
                                                                 <ItemStyle Width="90px" />
                                                             </asp:TemplateField>
                                                         </Columns>
+                                                        <PagerTemplate>
+                                                            <asp:GridPager runat="server"
+                                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                                        </PagerTemplate>
                                                         <EmptyDataTemplate>
                                                             <asp:Label runat="server">Nessun Progetto correlato </asp:Label>
                                                         </EmptyDataTemplate>
@@ -172,7 +178,7 @@
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
                                                     <asp:UpdatePanel runat="server">
                                                         <ContentTemplate>
-                                                            <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true" AllowPaging="true" PageSize="5"
+                                                            <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true" AllowPaging="true" PageSize="10"
                                                                 SelectMethod="GetRegisteredUsers" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
                                                                 <Columns>
                                                                     <asp:TemplateField>
@@ -200,6 +206,11 @@
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
+                                                                <PagerTemplate>
+                                                                    <asp:GridPager runat="server"
+                                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                                                </PagerTemplate>
                                                                 <EmptyDataTemplate>
                                                                     <asp:Label runat="server">Nessun utente registrato.</asp:Label>
                                                                 </EmptyDataTemplate>
@@ -339,7 +350,7 @@
                         <div class="form-group">
                             <asp:UpdatePanel runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
                                 <ContentTemplate>
-                                    <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                    <asp:GridView SelectMethod="GetProjects" AllowPaging="true" PageSize="10" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                         ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                         <Columns>
                                             <asp:TemplateField>
@@ -389,6 +400,11 @@
                                                 <ItemStyle Width="120" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerTemplate>
+                                            <asp:GridPager runat="server"
+                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
+                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
+                                        </PagerTemplate>
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

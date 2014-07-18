@@ -91,7 +91,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                            <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId" AllowPaging="true" PageSize="10" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                                 SelectMethod="GetRelatedProjectList" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
                                                                 <Columns>
                                                                     <asp:TemplateField>
@@ -142,6 +142,8 @@
                                                                         <ItemStyle Width="90px" />
                                                                     </asp:TemplateField>
                                                                 </Columns>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                                 <EmptyDataTemplate>
                                                                     <asp:Label runat="server">Nessun Progetto correlato </asp:Label>
                                                                 </EmptyDataTemplate>
@@ -169,7 +171,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView OnRowCommand="grdInterventions_RowCommand" OnRowCreated="grdInterventions_RowCreated" DataKeyNames="InterventionId" ItemType="VALE.Models.Intervention" GridLines="Both" AllowSorting="true"
+                                                            <asp:GridView OnRowCommand="grdInterventions_RowCommand" AllowPaging="true" PageSize="10" OnRowCreated="grdInterventions_RowCreated" DataKeyNames="InterventionId" ItemType="VALE.Models.Intervention" GridLines="Both" AllowSorting="true"
                                                                 SelectMethod="GetInterventions" runat="server" ID="grdInterventions" AutoGenerateColumns="false" CssClass="table table-striped table-bordered">
                                                                 <Columns>
                                                                     <asp:TemplateField>
@@ -227,6 +229,8 @@
                                                                         <ItemStyle Width="90px" />
                                                                     </asp:TemplateField>
                                                                 </Columns>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                                 <EmptyDataTemplate>
                                                                     <asp:Label runat="server">Non ci sono conversazioni</asp:Label>
                                                                 </EmptyDataTemplate>
@@ -255,7 +259,7 @@
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
                                                             <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                SelectMethod="GetRelatedUsers" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
+                                                SelectMethod="GetRelatedUsers" runat="server" ID="lstUsers" AllowPaging="true" PageSize="10" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
@@ -274,6 +278,8 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Nessun collaboratore</asp:Label>
                                                 </EmptyDataTemplate>
@@ -306,7 +312,7 @@
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
                                                             <asp:GridView ItemType="VALE.Models.Event" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                SelectMethod="GetRelatedEvents" DataKeyNames="EventId" runat="server" ID="GridView1" CssClass="table table-striped table-bordered">
+                                                SelectMethod="GetRelatedEvents" AllowPaging="true" PageSize="10" DataKeyNames="EventId" runat="server" ID="GridView1" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
@@ -333,6 +339,8 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Nessun evento correlato</asp:Label>
                                                 </EmptyDataTemplate>
@@ -360,7 +368,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView ItemType="VALE.Models.Activity" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                            <asp:GridView ItemType="VALE.Models.Activity" AllowPaging="true" PageSize="10" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                 SelectMethod="GetRelatedActivities" runat="server" DataKeyNames="ActivityId" ID="ActivitiesGridView" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
@@ -396,6 +404,8 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Nessuna attività correlata.</asp:Label>
                                                 </EmptyDataTemplate>
@@ -484,11 +494,6 @@
                                     <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtStartDate" Display="Dynamic"></asp:RegularExpressionValidator>
                                 </div>
                             </div>
-                           <%-- <div class="row">
-                                <div class="col-md-12">
-                                    <br />
-                                </div>
-                            </div>--%>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -571,7 +576,7 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <asp:GridView SelectMethod="GetProjectsList" ID="OpenedProjectList" DataKeyNames="ProjectId" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                            <asp:GridView SelectMethod="GetProjectsList" AllowPaging="true" PageSize="10" ID="OpenedProjectList" DataKeyNames="ProjectId" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:TemplateField>
@@ -621,6 +626,8 @@
                                         <ItemStyle Width="120" />
                                     </asp:TemplateField>
                                 </Columns>
+                                <PagerSettings Position="Bottom" />
+                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                             </asp:GridView>
                         </div>
                     </div>
@@ -628,4 +635,42 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+    <style type="text/css">
+        .gridview {
+            background-color: black;
+            padding: 2px;
+            margin: 2% auto;
+        }
+
+            .gridview a {
+                margin: auto 1%;
+                border-radius: 4px;
+                background-color: #3e648d;
+                color: #fff;
+                border-left: solid 1px #111;
+                padding: 3px 7px 3px 7px;
+                text-decoration: none;
+                -o-box-shadow: 1px 1px 1px #111;
+                -moz-box-shadow: 1px 1px 1px #111;
+                -webkit-box-shadow: 1px 1px 1px #111;
+                box-shadow: 1px 1px 1px #111;
+            }
+
+                .gridview a:hover {
+                    background-color: #3e648d;
+                    color: #fff;
+                }
+
+            .gridview span {
+                background-color: #3e648d;
+                color: #fff;
+                border-left: solid 1px #111;
+                -o-box-shadow: 1px 1px 1px #111;
+                -moz-box-shadow: 1px 1px 1px #111;
+                -webkit-box-shadow: 1px 1px 1px #111;
+                box-shadow: 1px 1px 1px #111;
+                border-radius: 4px;
+                padding: 3px 7px 3px 7px;
+            }
+    </style>
 </asp:Content>

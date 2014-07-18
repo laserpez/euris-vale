@@ -121,5 +121,12 @@ namespace VALE.MyVale
             }
             set { ViewState["sortDirection"] = value; }
         }
+
+        protected void grdUsers_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            grdUsers.PageIndex = e.NewPageIndex;
+            grdUsers.DataSource = (List<UserInfo>)ViewState["UserInfo"];
+            grdUsers.DataBind();
+        }
     }
 }
