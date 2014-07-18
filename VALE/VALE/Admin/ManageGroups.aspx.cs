@@ -122,7 +122,7 @@ namespace VALE.MyVale.Create
         public IQueryable<Group> grdGroups_GetData()
         {
             var _db = new UserOperationsContext();
-            return _db.Groups;
+            return _db.Groups.OrderByDescending(g => g.CreationDate).AsQueryable();
         }
 
         protected void grdGroups_RowCommand(object sender, GridViewCommandEventArgs e)

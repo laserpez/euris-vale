@@ -52,7 +52,7 @@
                                                         </div>
                                                         <div class="panel-body">
                                                             <asp:GridView runat="server" ID="grdActivityReport" DataKeyNames="ActivityId" ItemType="VALE.Models.ActivityReport" AutoGenerateColumns="false" SelectMethod="grdActivityReport_GetData"
-                                                                CssClass="table table-striped table-bordered" AllowSorting="true" EmptyDataText="Nessun intervento">
+                                                                CssClass="table table-striped table-bordered" AllowSorting="true" AllowPaging="true" PageSize="10" EmptyDataText="Nessun intervento">
                                                                 <Columns>
                                                                     <%--<asp:TemplateField>
                                                                         <HeaderTemplate>
@@ -95,6 +95,8 @@
                                                                         <ItemStyle Width="90px" />
                                                                     </asp:TemplateField>
                                                                 </Columns>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                             </asp:GridView>
                                                         </div>
                                                     </div>

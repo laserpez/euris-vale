@@ -55,6 +55,7 @@ namespace VALE.Admin
             {
                 _db.ProjectTypes.Remove(projectType);
                 _db.SaveChanges();
+                grdTypes.PageIndex = 0;
                 grdTypes.DataBind();
             }
         }
@@ -132,7 +133,7 @@ namespace VALE.Admin
 
         public IQueryable<VALE.Models.ProjectType> grdTypes_GetData()
         {
-            return _db.ProjectTypes.AsQueryable();
+            return _db.ProjectTypes.OrderByDescending(t => t.CreationDate).AsQueryable();
         }
 
         public bool AllowManage(int activityTypeId)

@@ -21,7 +21,7 @@ namespace VALE.Admin
         public IQueryable<BODReport> GetBODReports()
         {
             var db = new UserOperationsContext();
-            return db.BODReports;
+            return db.BODReports.OrderByDescending(b => b.BODReportId).AsQueryable();
         }
 
         protected void grdBODReport_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -59,6 +59,7 @@ namespace VALE.Admin
 
                 dbData.BODReports.Remove(BODReport);
                 dbData.SaveChanges();
+                grdBODReport.PageIndex = 0;
                 grdBODReport.DataBind();
                 Response.Redirect("/Admin/ManageBODReports.aspx");
             }
