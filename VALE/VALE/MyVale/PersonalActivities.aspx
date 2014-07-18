@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PersonalActivities.aspx.cs" Inherits="VALE.MyVale.PersonalActivities" %>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -66,11 +65,8 @@
                                                 <ItemStyle Width="120px" />
                                             </asp:TemplateField>
                                         </Columns>
-                                        <PagerTemplate>
-                                            <asp:GridPager runat="server"
-                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                        </PagerTemplate>
+                                        <PagerSettings Position="Bottom" />
+                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

@@ -635,42 +635,4 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
-    <style type="text/css">
-        .gridview {
-            background-color: black;
-            padding: 2px;
-            margin: 2% auto;
-        }
-
-            .gridview a {
-                margin: auto 1%;
-                border-radius: 4px;
-                background-color: #3e648d;
-                color: #fff;
-                border-left: solid 1px #111;
-                padding: 3px 7px 3px 7px;
-                text-decoration: none;
-                -o-box-shadow: 1px 1px 1px #111;
-                -moz-box-shadow: 1px 1px 1px #111;
-                -webkit-box-shadow: 1px 1px 1px #111;
-                box-shadow: 1px 1px 1px #111;
-            }
-
-                .gridview a:hover {
-                    background-color: #3e648d;
-                    color: #fff;
-                }
-
-            .gridview span {
-                background-color: #3e648d;
-                color: #fff;
-                border-left: solid 1px #111;
-                -o-box-shadow: 1px 1px 1px #111;
-                -moz-box-shadow: 1px 1px 1px #111;
-                -webkit-box-shadow: 1px 1px 1px #111;
-                box-shadow: 1px 1px 1px #111;
-                border-radius: 4px;
-                padding: 3px 7px 3px 7px;
-            }
-    </style>
 </asp:Content>

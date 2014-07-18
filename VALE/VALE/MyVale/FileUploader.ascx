@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="FileUploader.ascx.cs" Inherits="VALE.MyVale.FileUploader" %>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -42,12 +41,8 @@
                                     <ItemStyle Width="50px"></ItemStyle>
                                 </asp:TemplateField>
                             </Columns>
-
-                            <PagerTemplate>
-                                <asp:GridPager runat="server"
-                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                            </PagerTemplate>
+                            <PagerSettings Position="Bottom" />
+                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -58,7 +53,6 @@
                         <div class="col-lg-6">
                                 <asp:Label ID="Label1" runat="server" Text="Label" CssClass="col-lg-3">Descrizione * </asp:Label>
                                 <div class="col-lg-9">
-                                    <%--<asp:TextBox ID="txtFileDescription" runat="server" CssClass="form-control input-sm"></asp:TextBox>--%>
                                     <textarea runat="server" class="form-control input-sm" rows="3" id="txtFileDescription"></textarea>
                                     <asp:RequiredFieldValidator Display="Dynamic" runat="server" ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
                                 </div>
