@@ -59,7 +59,7 @@ namespace VALE
         protected void btnViewDetails_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            string uri = String.Format("/MyVale/{0}", btn.CommandArgument);
+            string uri = String.Format("/MyVale/{0}&From=/Default", btn.CommandArgument);
             Response.Redirect(uri);
         }
 

@@ -16,7 +16,7 @@ namespace VALE
         {
             ApplyDragAndDrop();
             HideIdColumns();
-            PopulateFilters();
+            
             if (Request.QueryString["Method"] == "ChangeStatus")
             {
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -27,6 +27,7 @@ namespace VALE
 
             if (!IsPostBack)
             {
+                PopulateFilters();
                 ChangeCalendars();
             }
         }
@@ -140,6 +141,7 @@ namespace VALE
                 showFilters();
             else
                 hideFilters();
+            BindAllGrids();
         }
 
         private void ChangeStatus(int id, string statusNumber)
@@ -239,6 +241,8 @@ namespace VALE
             ButtonNotRelatedActivities.Visible = false;
             Session["ManageActivities_filterType"] = "Project";
             showDropDownProject();
+            BindAllGrids();
+            ddlSelectProject.Focus();
         }
 
         protected void LinkButtonNotRelatedActivities_Click(object sender, EventArgs e)
@@ -272,6 +276,7 @@ namespace VALE
 
         protected void btnClearFilters_Click(object sender, EventArgs e)
         {
+            Session["ManageActivities_projectId"] = null;
             Session["ManageActivities_txtDescription"] = null;
             Session["ManageActivities_txtName"] = null;
             Session["ManageActivities_txtFromDate"] = null;
