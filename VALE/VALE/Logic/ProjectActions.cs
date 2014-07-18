@@ -195,5 +195,134 @@ namespace VALE.Logic
                 return false;
             }
         }
+
+        public void DeletRelatedProject(int projectId)
+        {
+            var db = new UserOperationsContext();
+            var currentProject = db.Projects.First(a => a.ProjectId == projectId);
+            db.Entry(currentProject).Reference(p => p.RelatedProject).CurrentValue = null;
+            db.SaveChanges();
+        }
+
+        public List<Project> getHierarchyUp(int projectId)
+        {
+            var db = new UserOperationsContext();
+            List<Project> list = new List<Project>();
+            var project = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            if (project != null)
+            {
+                var hasNext = true;
+                while (hasNext)
+                {
+                    var father = db.Projects.FirstOrDefault(p => p.RelatedProject.ProjectId == project.ProjectId);
+                    if (father != null)
+                    {
+                        list.Add(father);
+                        project = father;
+                    }
+                    else
+                        hasNext = false;
+                }
+            }
+            return list;
+        }
+
+        public int getRootId(int projectId)
+        {
+            var db = new UserOperationsContext();
+            int rootId = 0;
+            var project = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            if (project != null)
+            {
+                var hasNext = true;
+                while (hasNext)
+                {
+                    var father = db.Projects.FirstOrDefault(p => p.RelatedProject.ProjectId == project.ProjectId);
+                    if (father != null)
+                    {
+                        rootId = father.ProjectId;
+                        project = father;
+                    }
+                    else
+                        hasNext = false;
+                }
+            }
+            return rootId;
+        }
+
+        public List<Project> getHierarchyDown(int projectId)
+        {
+            var db = new UserOperationsContext();
+            List<Project> list = new List<Project>();
+            var project = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            while(project.RelatedProject != null)
+            {
+                list.Add(project.RelatedProject);
+                project = project.RelatedProject;
+            }
+            return list;
+        }
+
+        public bool HasFather(Project project)
+        {
+            var db = new UserOperationsContext();
+            var father = db.Projects.FirstOrDefault(p => p.RelatedProject.ProjectId == project.ProjectId);
+            if (father != null)
+                return true;
+            return false;
+        }
+
+        public List<Project> GetCompatibleProjects(int projectId)
+        {
+            var db = new UserOperationsContext();
+            List<Project> list = new List<Project>();
+            var projects = db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != projectId).ToList();
+            var rootId = getRootId(projectId);
+            foreach (var project in projects)
+            {
+                if (!HasFather(project) && project.ProjectId != rootId)
+                    list.Add(project);
+            }
+            return list;
+        }
+
+        public int GetAllProjectHoursWorked(Project project) 
+        {
+            int total = 0;
+            ActivityActions activityActions = new ActivityActions();
+            foreach (var activity in project.Activities)
+	        {
+                total += activityActions.GetAllActivityHoursWorked(activity.ActivityId);
+	        }
+            return total;
+        }
+
+        public int GetAllProjectHierarchyHoursWorked(int projectId)
+        {
+            int total = 0;
+            var db = new UserOperationsContext();
+            var rootProject = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            total = GetAllProjectHoursWorked(rootProject);
+            var projects = getHierarchyDown(projectId);
+            foreach (var project in projects)
+            {
+                total += GetAllProjectHoursWorked(project);
+            }
+            return total;
+        }
+
+        public int GetProjectHierarchyBudget(int projectId)
+        {
+            int total = 0;
+            var db = new UserOperationsContext();
+            var rootProject = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            total = rootProject.Budget;
+            var projects = getHierarchyDown(projectId);
+            foreach (var project in projects)
+            {
+                total += project.Budget;
+            }
+            return total;
+        }
     }
 }

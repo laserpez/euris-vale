@@ -118,10 +118,8 @@ namespace VALE.MyVale
         {
             var db = new UserOperationsContext();
             var events = db.Events.Where(o => o.EventId == _currentEventId).FirstOrDefault();
-            btnConfirmModify.Text = "Modifica";
             btnClosePopUpButton.Visible = true;
             txtName.Enabled = true;
-            txtName.CssClass = "form-control input-sm";
             txtName.Text = events.Name;
             txtDescription.Text = events.Description;
             txtStartDate.Text = events.EventDate.ToShortDateString();

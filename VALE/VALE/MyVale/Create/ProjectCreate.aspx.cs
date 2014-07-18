@@ -39,6 +39,8 @@ namespace VALE.MyVale
             }
             else
             {
+                int budget = 0;
+                int.TryParse(txtBudget.Text, out budget);
                 var project = new Project
                 {
                     CreationDate = Convert.ToDateTime(txtStartDate.Text),
@@ -48,6 +50,7 @@ namespace VALE.MyVale
                     ProjectName = txtName.Text,
                     LastModified = Convert.ToDateTime(txtStartDate.Text),
                     Status = "Aperto",
+                    Budget = budget,
                     Public = chkPublic.Checked,
                     Activities = new List<Activity>(),
                     Events = new List<Event>(),
@@ -81,7 +84,8 @@ namespace VALE.MyVale
             }
             else
             {
-
+                int budget = 0;
+                int.TryParse(txtBudget.Text, out budget);
                 var project = new Project
                 {
                     Type = ddlSelectType.SelectedValue,
@@ -91,6 +95,7 @@ namespace VALE.MyVale
                     ProjectName = txtName.Text,
                     LastModified = Convert.ToDateTime(txtStartDate.Text),
                     Status = "Aperto",
+                    Budget = budget,
                     Public = chkPublic.Checked,
                     Activities = new List<Activity>(),
                     Events = new List<Event>(),

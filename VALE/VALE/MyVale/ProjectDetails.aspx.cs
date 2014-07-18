@@ -416,6 +416,7 @@ namespace VALE.MyVale
             txtName.CssClass = "form-control";
             txtName.Text = project.ProjectName;
             txtDescription.Text = project.Description;
+            txtBudget.Text = project.Budget.ToString();
             ddlSelectType.SelectedValue = project.Type;
             txtStartDate.Text = project.CreationDate.ToShortDateString();
             chkPublic.Checked = project.Public;
@@ -425,11 +426,14 @@ namespace VALE.MyVale
         protected void btnConfirmModify_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
+            int budget = 0;
+            int.TryParse(txtBudget.Text, out budget);
             var project = db.Projects.Where(o => o.ProjectId == _currentProjectId).FirstOrDefault();
             project.ProjectName = txtName.Text;
             project.Description = txtDescription.Text;
             project.CreationDate = Convert.ToDateTime(txtStartDate.Text);
             project.LastModified = DateTime.Now;
+            project.Budget = budget;
             project.Public = chkPublic.Checked;
             project.Type = ddlSelectType.SelectedValue;
             db.SaveChanges();
@@ -448,12 +452,9 @@ namespace VALE.MyVale
         //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
         protected void btnDeleteRelatedProject_Click(object sender, EventArgs e)
         {
-            ModalPopupListProject.Hide();
-            var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
-            currentProject.RelatedProject = null;
-            _db.SaveChanges();
-            GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
-            grdRelatedProject.DataBind();
+            ProjectActions projectActions = new ProjectActions();
+            projectActions.DeletRelatedProject(_currentProjectId);
+            UpdateRelatedProjectView();
         }
 
         protected void btnAddRelatedProject_Click(object sender, EventArgs e)
@@ -463,8 +464,8 @@ namespace VALE.MyVale
 
         public IQueryable<Project> GetProjectsList()
         {
-            var _db = new UserOperationsContext();
-            return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
+            ProjectActions projectActions = new ProjectActions();
+            return projectActions.GetCompatibleProjects(_currentProjectId).AsQueryable();
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)
@@ -475,14 +476,14 @@ namespace VALE.MyVale
         protected void btnChooseProject_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            var project = _db.Projects.FirstOrDefault(p => p.ProjectName == btn.CommandArgument);
+            var projectId = Convert.ToInt32(btn.CommandArgument);
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
             if (project != null)
             {
                 var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
                 currentProject.RelatedProject = project;
                 _db.SaveChanges();
-                GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
-                grdRelatedProject.DataBind();
+                UpdateRelatedProjectView();
                 Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
             }
 
@@ -528,6 +529,53 @@ namespace VALE.MyVale
                 result = "Nessun commento inserito";
 
             return result;
+        }
+
+        public List<Project> GetProjectHierarchyUp() 
+        {
+            ProjectActions projectActions = new ProjectActions();
+            var list = projectActions.getHierarchyUp(_currentProjectId);
+            list.Reverse();
+            return list;
+        }
+
+        public List<Project> GetProjectForHierarchy()
+        {
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            if (project != null)
+            {
+                return new List<Project> { project};
+            }
+            return null;
+        }
+
+        public List<Project> GetProjectHierarchyDown()
+        {
+            ProjectActions projectActions = new ProjectActions();
+            return projectActions.getHierarchyDown(_currentProjectId);
+        }
+
+        private void UpdateRelatedProjectView()
+        {
+            ListView listViewRelatedProject = (ListView)ProjectDetail.FindControl("listViewRelatedProject");
+            listViewRelatedProject.DataBind();
+            GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
+            grdRelatedProject.DataBind();
+        }
+
+        public string GetHoursWorked()
+        {
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            int hours;
+            var projectActions = new ProjectActions();
+            hours = projectActions.GetAllProjectHierarchyHoursWorked(_currentProjectId);
+            if (project != null) 
+            {
+                int budget = projectActions.GetProjectHierarchyBudget(_currentProjectId);
+                if (budget > 0)
+                    return String.Format("Budget Totale: {0} Erogato {1}", budget, hours);
+            }
+            return String.Format(" {0} Ore di lavoro", hours);
         }
 
         //private void SetPageNumbers(GridView GridView1)
