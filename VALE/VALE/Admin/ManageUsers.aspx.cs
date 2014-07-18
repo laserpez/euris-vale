@@ -1,4 +1,5 @@
-﻿//using Microsoft.Ajax.Utilities;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+//using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,13 +33,18 @@ namespace VALE.Admin
             return users;
         }
 
+        public IQueryable<IdentityRole> GetRoles()
+        {
+            var db = new ApplicationDbContext();
+            return db.Roles;
+        }
+
         public string GetRoleName(string userId)
         {
             using (var actions = new UserActions())
             {
                 return actions.GetRole(userId);
             }
-
         }
 
         protected void btnConfimUser_Click(object sender, EventArgs e)
@@ -50,7 +56,7 @@ namespace VALE.Admin
                 {
                     string userName = ((Label)grdUsers.Rows[i].Cells[0].FindControl("labelUserName")).Text;
                     AdminActions.ConfirmUser(userName);
-                    //MailHelper.SendMail(WaitingUsers.Rows[i].Cells[1].Text, "La tua richiesta di associazione è stata confermata.", "Account confermato");
+                    //MailHelper.SendMail(grdUsers.Rows[i].Cells[1].Text, "La tua richiesta di associazione è stata confermata.", "VALE: Account confermato.");
                 }
             }
             string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
@@ -59,34 +65,16 @@ namespace VALE.Admin
 
         protected void btnChangeUser_Click(object sender, EventArgs e)
         {
+
             LinkButton button = (LinkButton)sender;
             var actions = new UserActions();
-            if (button.CommandName == "Administrator")
+            var rowId = ((GridViewRow)((LinkButton)sender).Parent.Parent.Parent.Parent).RowIndex;
+            var username = (string)grdUsers.DataKeys[rowId].Value;
+            if (!actions.ChangeUserRole(username,button.CommandArgument))
             {
-                if (!actions.ChangeUserRole(button.CommandArgument, "Amministratore"))
-                {
-                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
-                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
-                    lblChangeRole.Visible = true;
-                }
-            }
-            else if (button.CommandName == "BoardMember")
-            {
-                if (!actions.ChangeUserRole(button.CommandArgument, "Membro del consiglio"))
-                {
-                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
-                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
-                    lblChangeRole.Visible = true;
-                }
-            }
-            else if (button.CommandName == "Associated")
-            {
-                if (!actions.ChangeUserRole(button.CommandArgument, "Socio"))
-                {
-                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
-                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
-                    lblChangeRole.Visible = true;
-                }
+                lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
+                lblChangeRole.ForeColor = System.Drawing.Color.Red;
+                lblChangeRole.Visible = true;
             }
             LoadData();
         }
@@ -169,5 +157,12 @@ namespace VALE.Admin
             grdUsers.PageIndex = e.NewPageIndex;
             grdUsers.DataBind();
         }
+
+        // The return type can be changed to IEnumerable, however to support
+        // paging and sorting, the following parameters must be added:
+        //     int maximumRows
+        //     int startRowIndex
+        //     out int totalRowCount
+        //     string sortByExpression
     }
 }

@@ -51,7 +51,7 @@
                                 </div>
 
                                 <div class="panel-body">
-                                    <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both" AllowPaging="true" PageSize="2" OnPageIndexChanging="grdUsers_PageIndexChanging"
+                                    <asp:GridView ID="grdUsers" runat="server" DataKeyNames="UserName" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both" AllowPaging="true" PageSize="2" OnPageIndexChanging="grdUsers_PageIndexChanging"
                                         ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                                         <Columns>
                                             <asp:TemplateField>
@@ -107,19 +107,20 @@
                                                     <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div>
-                                                        <div class="btn-group">
-                                                            <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server"><center><div><%# GetRoleName(Item.Id) %><span class="caret"></div></center></span></button>
-                                                            <ul class="dropdown-menu" style="text-align: initial">
-                                                                <li>
-                                                                    <asp:LinkButton ID="btnAdministrator" CommandName="Administrator" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-star btn-sm"></span> Amministratore</asp:LinkButton></li>
-                                                                <li>
-                                                                    <asp:LinkButton ID="btnBoard" CommandName="BoardMember" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-user btn-sm"></span> Membro del consiglio</asp:LinkButton></li>
-                                                                <li>
-                                                                    <asp:LinkButton ID="btnAssociated" CommandName="Associated" CommandArgument='<%#: Item.UserName %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-user btn-sm"></span> Socio</asp:LinkButton></li>
-                                                            </ul>
+                                                    <center>
+                                                        <div class="btn-group ">
+                                                            <div class="navbar-right">
+                                                                <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server" ><center><div><%# GetRoleName(Item.Id) %><span class="caret"></div></center></span></button>
+                                                                <ul class="dropdown-menu"  style=" text-align: initial">
+                                                                    <asp:ListView runat="server" ID="roleList" ItemType="Microsoft.AspNet.Identity.EntityFramework.IdentityRole" SelectMethod="GetRoles" DataSourceID="">
+                                                                        <ItemTemplate>
+                                                                        <li><asp:LinkButton ID="btnRole" CommandArgument='<%#: Item.Name %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-star btn-sm"><%#: Item.Name %></span>  </asp:LinkButton></li>
+                                                                        </ItemTemplate>
+                                                                    </asp:ListView>
+                                                                </ul>
+                                                            </div>
                                                         </div>
-                                                    </div></center>
+                                                    </center>
                                                 </ItemTemplate>
                                                 <ItemStyle Width="100px" />
                                             </asp:TemplateField>
