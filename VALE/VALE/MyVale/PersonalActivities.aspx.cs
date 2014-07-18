@@ -19,91 +19,47 @@ namespace VALE.MyVale
         {
             _currentUser = User.Identity.GetUserName();
 
-            if (!IsPostBack)
-            {
-                ViewState["lstActivities"] = new List<ActivityReport>();
-                PopulateDropDownList();
-            }
-
         }
 
-        private void PopulateDropDownList()
+        protected void ddlSelectProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var listPersonalActivities = GetPersonalActivities();
-            if (listPersonalActivities.Count == 0)
-            {
-                SelectLabel.Text = "Non sono attualmente presenti attività di cui poter vedere il report.";
-                ddlSelectActivity.Visible = false;
-                bnViewReports.Visible = false;
-            }
-            else
-            {
-                SelectLabel.Text = "Seleziona l'attività per vedere il report personale";
-                ListItem init = new ListItem();
-                init.Text = "Seleziona";
-                ddlSelectActivity.Items.Add(init);
-                foreach (var aPersonalActivity in listPersonalActivities)
-                {
-                    ListItem li = new ListItem();
-                    li.Value = aPersonalActivity.ActivityId.ToString();
-                    li.Text = aPersonalActivity.ActivityName;
-                    ddlSelectActivity.Items.Add(li);
-                }
-            }
+            var db = new UserOperationsContext();
+            List<Activity> activities = new List<Activity>();
+            var projectId = Convert.ToInt32(ddlSelectProject.SelectedValue);
+            var project = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            if (project != null)
+                activities = project.Activities.ToList();
+            activities.Insert(0, new Activity { ActivityName = "Tutte", ActivityId = 0 });
+            ddlSelectActivity.DataSource = activities;
+            ddlSelectActivity.DataBind();
         }
 
-        public List<Activity> GetPersonalActivities()
+        public List<Project> GetProjects()
         {
-            //var db = new UserOperationsContext();
-            //var activityIds = db.Reports.Where(r => r.WorkerUserName == _currentUser).GroupBy(r => r.ActivityId).Select(o => o.Key);
-            //return db.Activities.Where(a => activityIds.Contains(a.ActivityId)).ToList();
-            var actions = new ActivityActions();
-                return actions.GetActivities(_currentUser);
+            var db = new UserOperationsContext();
+            var projects = db.UserDatas.First(u => u.UserName == _currentUser).AttendingProjects.Where(p=>p.Activities.Count > 0).ToList();
+            projects.Insert(0, new Project { ProjectName = "-- Seleziona progetto --", ProjectId = 0 });
+            return projects;
         }
 
         protected void bnViewReports_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
+            grdActivityReport.DataBind();
+        }
 
-            if (ddlSelectActivity.SelectedIndex == 0)
+
+        public IQueryable<VALE.Models.ActivityReport> grdActivityReport_GetData()
+        {
+            var db = new UserOperationsContext();
+            if (ddlSelectProject.SelectedIndex == 0)
             {
-                // Reload the page.
-                string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
-                Response.Redirect(pageUrl);
+                return db.Reports.Where(r => r.WorkerUserName == _currentUser && r.WorkedActivity.RelatedProject == null).OrderByDescending(r => r.ActivityReportId);
             }
-            else
+            else 
             {
                 var activityId = Convert.ToInt32(ddlSelectActivity.SelectedValue);
-                List<ActivityReport> reports = new List<ActivityReport>();
-                reports = db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).ToList();
-                grdActivityReport.DataSource = reports;
-                ViewState["lstActivities"] = reports;
-                grdActivityReport.DataBind();
+                return db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId);
             }
-        }
-
-        public SortDirection GridViewSortDirection
-        {
-            get
-            {
-                if (ViewState["sortDirection"] == null)
-                    ViewState["sortDirection"] = SortDirection.Ascending;
-
-                return (SortDirection)ViewState["sortDirection"];
-            }
-            set { ViewState["sortDirection"] = value; }
-        }
-
-        protected void grdActivityReport_Sorting(object sender, GridViewSortEventArgs e)
-        {
-            if (GridViewSortDirection == SortDirection.Ascending)
-                GridViewSortDirection = SortDirection.Descending;
-            else
-                GridViewSortDirection = SortDirection.Ascending;
-
-            var actions = new ActivityActions();
-                grdActivityReport.DataSource = actions.Sort(GridViewSortDirection, (List<ActivityReport>)ViewState["lstActivities"], e.SortExpression);
-            grdActivityReport.DataBind();
         }
     }
 }
