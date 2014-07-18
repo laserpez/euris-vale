@@ -60,7 +60,6 @@ namespace VALE.MyVale
             switch (e.CommandName)
             {
                 case "DOWNLOAD":
-                default:
                     Response.Redirect("/DownloadFile.ashx?fileId=" + id);
                     break;
                 case "Cancella":

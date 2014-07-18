@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UserSelector.aspx.cs" Inherits="VALE.MyVale.UserSelector" %>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <script type="text/javascript">
@@ -101,11 +100,8 @@
                                                         <ItemStyle Width="90px" />
                                                     </asp:TemplateField>
                                                 </Columns>
-                                                <PagerTemplate>
-                                                    <asp:GridPager runat="server"
-                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                </PagerTemplate>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Nessun utente da aggiungere.</asp:Label>
                                                 </EmptyDataTemplate>
@@ -139,11 +135,8 @@
                                                         <ItemStyle Width="90px" />
                                                     </asp:TemplateField>
                                                 </Columns>
-                                                <PagerTemplate>
-                                                    <asp:GridPager runat="server"
-                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                </PagerTemplate>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Nessun utente da aggiungere.</asp:Label>
                                                 </EmptyDataTemplate>
