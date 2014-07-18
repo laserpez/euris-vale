@@ -12,23 +12,20 @@ namespace VALE.MyVale
 {
     public partial class ActivityCreate : System.Web.UI.Page
     {
-        
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack) 
             {
                 if (Request.QueryString["ProjectId"] != null)
                     Session["callingProjectId"] = Request.QueryString["ProjectId"];
-                else
-                    Session["callingProjectId"] = null;
 
-                if (Request.QueryString["From"] != null) 
-                {
+                if (Request.QueryString["From"] != null)
                     Session["requestFrom"] = Request.QueryString["From"];
+                   
+                if (Request.QueryString["Status"] != null)
                     Session["statusRequested"] = Request.QueryString["Status"];
-                }
-                if (Session["requestFrom"] != null)
+                
+                if (Session["statusRequested"] != null)
                 {
                     ToBePlannedStatusButton.Visible = false;
                     switch (Session["statusRequested"].ToString())
@@ -71,7 +68,7 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             return db.ActivityTypes.ToList();
         }
-        protected void btnSaveActivity_Click(object sender, EventArgs e)
+        private int SaveActivity() 
         {
             var db = new UserOperationsContext();
             var project = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
@@ -136,103 +133,47 @@ namespace VALE.MyVale
 
                 });
                 db.SaveChanges();
+                return newActivity.ActivityId;
+            }
+            return 0;
+        }
 
+        protected void btnSaveActivity_Click(object sender, EventArgs e)
+        {
+            var newActivityId = SaveActivity();
+            if (newActivityId != 0) 
+            {
                 string returnUrl = "";
-
                 if (Session["callingProjectId"] != null)
                     returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
                 else if (Session["requestFrom"] != null)
                     returnUrl = Session["requestFrom"].ToString();
                 else
                     returnUrl = "/MyVale/Activities";
-
-
-                Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newActivity.ActivityId + "&dataType=activity&returnUrl=" + returnUrl);
+                Session["callingProjectId"] = null;
+                Session["requestFrom"] = null;
+                Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newActivityId + "&dataType=activity&returnUrl=" + returnUrl);
             }
+                
         }
 
         protected void btnSaveActivityAndSelectUsers_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var project = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
-            if (SelectProject.ProjectNameTextBox.Text != "" && project == null)
+            var newActivityId = SaveActivity();
+            if (newActivityId != 0) 
             {
-                ModelState.AddModelError("", "Nome Progetto errato");
-            }
-            else
-            {
-                DateTime? expireDate = null;
-                if (!String.IsNullOrEmpty(txtEndDate.Text))
-                    expireDate = Convert.ToDateTime(txtEndDate.Text);
-
-                DateTime? startDate = null;
-                if (!String.IsNullOrEmpty(txtStartDate.Text))
-                    startDate = Convert.ToDateTime(txtStartDate.Text);
-
-                ActivityStatus status;
-                switch (LabelActivityStatus.Text)
-                {
-                    case "ToBePlanned":
-                        status = ActivityStatus.ToBePlanned;
-                        break;
-                    case "Ongoing":
-                        status = ActivityStatus.Ongoing;
-                        break;
-                    case "Suspended":
-                        status = ActivityStatus.Suspended;
-                        break;
-                    case "Done":
-                        status = ActivityStatus.Done;
-                        break;
-                    default:
-                        status = ActivityStatus.ToBePlanned;
-                        break;
-                }
-                int budget = 0;
-                int.TryParse(txtBudget.Text, out budget);
-                var newActivity = new Activity
-                {
-                    ActivityName = txtName.Text,
-                    Description = txtDescription.Text,
-                    Status = status,
-                    CreationDate = DateTime.Today,
-                    StartDate = startDate,
-                    ExpireDate = expireDate,
-                    Budget = budget,
-                    RelatedProject = project,
-                    PendingUsers = new List<UserData>(),
-                    CreatorUserName = User.Identity.GetUserName(),
-                    Type = ddlSelectType.SelectedValue,
-                };
-                var activityActions = new ActivityActions();
-                activityActions.SaveData(newActivity, db);
-                db.Reports.Add(new ActivityReport
-                {
-                    ActivityId = newActivity.ActivityId,
-                    WorkerUserName = User.Identity.GetUserName(),
-                    HoursWorked = 0,
-                    ActivityDescription = "Creazione attività",
-                    Date = DateTime.Today
-
-                });
-                db.SaveChanges();
-
                 string returnUrl = "";
-
                 if (Session["callingProjectId"] != null)
                     returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
                 else if (Session["requestFrom"] != null)
                     returnUrl = Session["requestFrom"].ToString();
                 else
                     returnUrl = "/MyVale/Activities";
-
+                Session["callingProjectId"] = null;
+                Session["requestFrom"] = null;
                 Response.Redirect(returnUrl);
             }
         }
-
-        
-
-
 
         protected void txtStartDate_TextChanged(object sender, EventArgs e)
         {
@@ -308,6 +249,20 @@ namespace VALE.MyVale
             SuspendedStatusButton.Visible = false;
             DoneStatusButton.Visible = true;
             LabelActivityStatus.Text = "Done";
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            string returnUrl = "";
+            if (Session["callingProjectId"] != null)
+                returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
+            else if (Session["requestFrom"] != null)
+                returnUrl = Session["requestFrom"].ToString();
+            else
+                returnUrl = "/MyVale/Activities";
+            Session["callingProjectId"] = null;
+            Session["requestFrom"] = null;
+            Response.Redirect(returnUrl);
         }
     }
 }
