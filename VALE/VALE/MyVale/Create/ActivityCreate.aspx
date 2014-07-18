@@ -1,6 +1,6 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <%@ Register Src="~/MyVale/Create/SelectProject.ascx" TagPrefix="uc" TagName="SelectProject" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ActivityCreate.aspx.cs" Inherits="VALE.MyVale.ActivityCreate" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="ActivityCreate.aspx.cs" Inherits="VALE.MyVale.ActivityCreate" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -61,8 +61,8 @@
                                     <asp:DropDownList  class="form-control" runat="server" ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeName"></asp:DropDownList>
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="il è obbligatorio" />
                                 </div>
-                                <%--<asp:UpdatePanel runat="server">
-                                    <ContentTemplate>--%>
+                                <asp:UpdatePanel runat="server">
+                                    <ContentTemplate>
                                         <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Stato</asp:Label>
                                         <div class="col-md-10">
                                             <button type="button" visible="false" id="ToBePlannedStatusButtonDisabled" class="btn btn-primary disabled" runat="server">Da Pianificare  <span class="caret"></span></button>
@@ -90,6 +90,8 @@
                                         <div class="col-md-12">
                                             <br />
                                         </div>
+                                          </ContentTemplate>
+                                </asp:UpdatePanel>
                                 <asp:UpdatePanel runat="server">
                                     <ContentTemplate>
                                         <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Data inizio</asp:Label>

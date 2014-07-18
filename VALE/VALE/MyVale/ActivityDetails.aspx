@@ -437,7 +437,6 @@
                             <asp:Button runat="server" Text="Salva" ID="btnConfirmModify" CssClass="btn btn-success btn-sm" ValidationGroup="ModifyActivity" CausesValidation="true" OnClick="btnConfirmModify_Click" />
                             <asp:Button runat="server" Text="Annulla" ID="Button2" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="Button2_Click" />
                         </div>
-
                     </div>
                 </div>
             </div>
