@@ -20,8 +20,8 @@
                                         </ul>
                                     </div>
                                     <div class="navbar-right">
-                                        <asp:Label ID="ListUsersType" Visible="true" runat="server" Text=""></asp:Label>
                                         <asp:Button runat="server" Text="Esporta CSV"  CssClass="btn btn-info" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
+                                        <asp:Label ID="ListUsersType" Visible="true" runat="server" Text=""></asp:Label>
                                         <div class="btn-group">
                                             <asp:Label ID="ActivityListType" runat="server" Text="AllActivities" Visible="false"></asp:Label>
                                             <button type="button" visible="true" id="btnList" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutte <span class="caret"></span></button>
@@ -98,12 +98,21 @@
                                                     <%--</ContentTemplate>
                                                 </asp:UpdatePanel>--%>
                                                 </div></center>
-                                                    <div  class="col-md-12"><br /></div>
-                                                    <div class="col-md-6">
-                                                        <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Stato"></asp:Label>
-                                                        <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control input-sm" ID="ddlStatus" runat="server"></asp:DropDownList>
+                                                    <div class="row">
+                                                         <div  class="col-md-12"><br /></div>
+                                                        <div  class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Stato"></asp:Label>
+                                                                <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control input-sm" ID="ddlStatus" runat="server"></asp:DropDownList>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label" Text="Tipo"></asp:Label>
+                                                                <asp:DropDownList Width="250" CssClass=" col-md-10 col-md-offset-2 form-control input-sm" runat="server" ID="ddlSelectType" SelectMethod="GetTypes" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeName"></asp:DropDownList>
+                                                            </div>
+                                                        </div>
+                                                     
                                                     </div>
-                                                   
+                                                      
                                                 </div>
                                             </div>
                                         </ContentTemplate>
@@ -122,6 +131,10 @@
                                                                         
                                                                     </li>
                                                                 </ul>
+                                                            </div>
+                                                            <div class="navbar-right">
+                                                                
+                                                                <asp:Button runat="server" Text="Crea Attività"  CssClass="btn btn-success btn-xs" ID="btnAddActivity" OnClick="btnAddActivity_Click" />
                                                             </div>
                                                         </div>
                                                     </div>

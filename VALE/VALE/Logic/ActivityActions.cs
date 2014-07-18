@@ -44,7 +44,11 @@ namespace VALE.Logic
             return db.Reports.Where(r => r.ActivityId == activityId && r.WorkerUserName == userName).Sum(r => r.HoursWorked);
         }
 
-        
+        public int GetAllActivityHoursWorked(int activityId)
+        {
+            var db = new UserOperationsContext();
+            return db.Reports.Where(r => r.ActivityId == activityId).Sum(r => r.HoursWorked);
+        }
 
         public void SetActivityStatus(int id, ActivityStatus status)
         {

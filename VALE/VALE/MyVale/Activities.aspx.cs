@@ -49,13 +49,12 @@ namespace VALE.MyVale
 
         private void ShowHideControls()
         {
-            if (grdCurrentActivities.Rows.Count == 0 && grdPendingActivities.Rows.Count == 0)
-            {
-                filterPanel.Visible = false;
-                filters.Visible = false;
-                btnExportCSV.Visible = false;
-                btnList.Visible = false;
-            }
+            //if (grdCurrentActivities.Rows.Count == 0 && grdPendingActivities.Rows.Count == 0)
+            //{
+            //    filterPanel.Visible = false;
+            //    filters.Visible = false;
+            //    btnExportCSV.Visible = false;
+            //}
         }
 
         public IQueryable<Activity> GetPendingActivities()
@@ -82,6 +81,14 @@ namespace VALE.MyVale
             }
         }
 
+        public List<ActivityType> GetTypes()
+        {
+            var db = new UserOperationsContext();
+            var list = db.ActivityTypes.ToList();
+            list.Insert(0, new ActivityType {ActivityTypeName="Tutti"});
+            return list;
+        }
+
         protected void grdPendingActivities_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             int index = Convert.ToInt32(e.CommandArgument);
@@ -101,6 +108,11 @@ namespace VALE.MyVale
         {
             var db = new UserOperationsContext();
             ExportToCSV(_currentUserName);
+        }
+
+        protected void btnAddActivity_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/Create/ActivityCreate?From=~/MyVale/Activities");
         }
 
         public void ExportToCSV(string userName)
@@ -132,7 +144,7 @@ namespace VALE.MyVale
 
         public List<string> PopulateDropDown()
         {
-            return new List<string>() { "Tutte", "Da pianificare", "In corso", "Sospese", "Terminate" };
+            return new List<string>() { "Tutti", "Da pianificare", "In corso", "Sospese", "Terminate" };
         }
 
         protected void ChangeSelectedActivities_Click(object sender, EventArgs e)
@@ -183,6 +195,7 @@ namespace VALE.MyVale
             btnList.InnerHtml = "Richieste <span class=\"caret\">";
             HeaderName.Text = "Richieste";
             filters.Visible = false;
+            btnAddActivity.Visible = false;
             btnExportCSV.Visible = false;
             grdPendingActivities.Visible = true;
             grdCurrentActivities.Visible = false;
@@ -208,7 +221,7 @@ namespace VALE.MyVale
                     break;
             }
             var status = ddlStatus.SelectedValue;
-            if (status != "" && status != "Tutte")
+            if (ddlStatus.SelectedIndex > 0)
             {
                 ActivityStatus statusFilter = ActivityStatus.Deleted;
                 switch (status)
@@ -227,6 +240,11 @@ namespace VALE.MyVale
                         break;
                 }
                 activities = activities.Where(a => a.Status == statusFilter);
+            }
+            var type = ddlSelectType.SelectedValue;
+            if (ddlSelectType.SelectedIndex > 0)
+            {
+                activities = activities.Where(a => a.Type == type);
             }
 
             if (txtDescription.Text != "")
@@ -293,7 +311,7 @@ namespace VALE.MyVale
         {
             var db = new UserOperationsContext();
             var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
-            var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId));
+            var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId)).OrderByDescending(a=>a.CreationDate);
             return ApplyFilters(activities);
         }
 
@@ -308,6 +326,8 @@ namespace VALE.MyVale
             txtFromDate.Text = null;
             txtName.Text = null;
             txtToDate.Text = null;
+            ddlSelectType.SelectedIndex = 0;
+            ddlStatus.SelectedIndex = 0;
             grdCurrentActivities.DataBind();
         }
 
