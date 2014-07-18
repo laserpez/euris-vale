@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ViewBODReport.aspx.cs" Inherits="VALE.MyVale.BOD.ViewBODReport" %>
 <%@ Register Src="~/MyVale/FileUploader.ascx" TagPrefix="uc" TagName="FileUploader" %>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -52,8 +51,8 @@
                                             <asp:UpdatePanel runat="server">
                                                 <ContentTemplate>
                                                     <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                                                        ItemType="VALE.Models.AttachedFile" AllowPaging="true" PageSize="10"
-                                                        CssClass="table table-striped table-bordered"
+                                                        ItemType="VALE.Models.AttachedFile" AllowPaging="true" PageSize="10" DataKeyNames="AttachedFileID"
+                                                        CssClass="table table-striped table-bordered" EmptyDataText="Nessun documento allegato."
                                                         OnRowCommand="grdFilesUploaded_RowCommand">
                                                         <Columns>
                                                             <asp:TemplateField HeaderText="FileName" HeaderStyle-Width="25%">
@@ -72,11 +71,8 @@
                                                                 <ItemStyle Width="50px"></ItemStyle>
                                                             </asp:TemplateField>
                                                         </Columns>
-                                                        <PagerTemplate>
-                                                            <asp:GridPager runat="server"
-                                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                        </PagerTemplate>
+                                                        <PagerSettings Position="Bottom" />
+                                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                     </asp:GridView>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>

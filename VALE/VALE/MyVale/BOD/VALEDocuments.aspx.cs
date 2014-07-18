@@ -31,7 +31,7 @@ namespace VALE.MyVale.BOD
         public IQueryable<ValeFile> DocumentsGridView_GetData()
         {
             var db = new UserOperationsContext();
-            return db.VALEFiles;
+            return db.VALEFiles.OrderBy(v => v.ValeFileID).AsQueryable();
         }
 
         protected void AddFileNameButton_Click(object sender, EventArgs e)
@@ -59,13 +59,13 @@ namespace VALE.MyVale.BOD
             switch (e.CommandName)
             {
                 case "DOWNLOAD":
-                default:
                     Response.Redirect("/DownloadFile.ashx?fileId=" + id+"&page=VALEDocuments");
                     break;
                 case "Cancella":
                     var elem = db.VALEFiles.Where(o => o.ValeFileID == id).FirstOrDefault();
                     db.VALEFiles.Remove(elem);
                     db.SaveChanges();
+                    DocumentsGridView.PageIndex = 0;
                     DocumentsGridView.DataBind();
                     break;
             }

@@ -1,5 +1,4 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="Events" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Events.aspx.cs" Inherits="VALE.MyVale.Events" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -102,11 +101,8 @@
                                                     <ItemStyle Width="100px" />
                                                 </asp:TemplateField>
                                             </Columns>
-                                            <PagerTemplate>
-                                                <asp:GridPager runat="server"
-                                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                            </PagerTemplate>
+                                            <PagerSettings Position="Bottom" />
+                                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                         </asp:GridView>
                                     </div>
                                 </ContentTemplate>

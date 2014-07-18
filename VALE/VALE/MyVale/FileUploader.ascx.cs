@@ -64,6 +64,7 @@ namespace VALE.MyVale
                     break;
                 case "Cancella":
                     DataActions.RemoveAttachment(id);
+                    DocumentsGridView.PageIndex = 0;
                     DocumentsGridView.DataBind();
                     break;
             }

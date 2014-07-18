@@ -141,11 +141,8 @@
                                                                 <ItemStyle Width="90px" />
                                                             </asp:TemplateField>
                                                         </Columns>
-                                                        <PagerTemplate>
-                                                            <asp:GridPager runat="server"
-                                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                        </PagerTemplate>
+                                                        <PagerSettings Position="Bottom" />
+                                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                         <EmptyDataTemplate>
                                                             <asp:Label runat="server">Nessun Progetto correlato </asp:Label>
                                                         </EmptyDataTemplate>
@@ -206,11 +203,8 @@
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
-                                                                <PagerTemplate>
-                                                                    <asp:GridPager runat="server"
-                                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                                </PagerTemplate>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                                 <EmptyDataTemplate>
                                                                     <asp:Label runat="server">Nessun utente registrato.</asp:Label>
                                                                 </EmptyDataTemplate>
@@ -400,11 +394,8 @@
                                                 <ItemStyle Width="120" />
                                             </asp:TemplateField>
                                         </Columns>
-                                        <PagerTemplate>
-                                            <asp:GridPager runat="server"
-                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                        </PagerTemplate>
+                                        <PagerSettings Position="Bottom" />
+                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
