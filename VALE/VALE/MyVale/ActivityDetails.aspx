@@ -1,8 +1,6 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ActivityDetails.aspx.cs" Inherits="VALE.MyVale.ActivityDetails" %>
-<%@ Register Src="~/MyVale/Create/SelectUser.ascx" TagPrefix="ux" TagName="SelectUser" %>
 <%@ Register Src="~/MyVale/Create/SelectProject.ascx" TagPrefix="uc" TagName="SelectProject" %>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -160,11 +158,8 @@
                                                                 <ItemStyle Width="90px" />
                                                             </asp:TemplateField>
                                                         </Columns>
-                                                        <PagerTemplate>
-                                                            <asp:GridPager runat="server"
-                                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                        </PagerTemplate>
+                                                        <PagerSettings Position="Bottom" />
+                                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                         <EmptyDataTemplate>
                                                             <asp:Label runat="server">Nessun Progetto correlato </asp:Label>
                                                         </EmptyDataTemplate>
@@ -192,39 +187,40 @@
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                    <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                        SelectMethod="GetUsersInvolved" AllowPaging="true" PageSize="10" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
-                                                        <Columns>
-                                                            <asp:TemplateField>
-                                                                <HeaderTemplate>
-                                                                    <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
-                                                                </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
-                                                                </ItemTemplate>
-                                                                <HeaderStyle Width="528px" />
-                                                                <ItemStyle Width="528px" />
-                                                            </asp:TemplateField>
-                                                            <asp:TemplateField>
-                                                                <HeaderTemplate>
-                                                                    <center><div><asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
-                                                                </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
-                                                                </ItemTemplate>
-                                                                <HeaderStyle Width="528px" />
-                                                                <ItemStyle Width="528px" />
-                                                            </asp:TemplateField>
-                                                        </Columns>
-                                                        <PagerTemplate>
-                                                            <asp:GridPager runat="server"
-                                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                        </PagerTemplate>
-                                                        <EmptyDataTemplate>
-                                                            <asp:Label runat="server">Nessun collaboratore</asp:Label>
-                                                        </EmptyDataTemplate>
-                                                    </asp:GridView>
+                                                    <asp:UpdatePanel runat="server">
+                                                        <ContentTemplate>
+                                                            <asp:GridView ItemType="VALE.Models.UserData" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                                SelectMethod="GetUsersInvolved" AllowPaging="true" PageSize="10" runat="server" ID="lstUsers" CssClass="table table-striped table-bordered">
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="528px" />
+                                                                        <ItemStyle Width="528px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="528px" />
+                                                                        <ItemStyle Width="528px" />
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
+                                                                <EmptyDataTemplate>
+                                                                    <asp:Label runat="server">Nessun collaboratore</asp:Label>
+                                                                </EmptyDataTemplate>
+                                                            </asp:GridView>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
                                                 </div>
                                             </div>
                                         </div>
@@ -299,11 +295,8 @@
                                                                         <ItemStyle Width="110px"></ItemStyle>
                                                                     </asp:TemplateField>
                                                                 </Columns>
-                                                                <PagerTemplate>
-                                                                    <asp:GridPager runat="server"
-                                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                                </PagerTemplate>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                             </asp:GridView>
                                                         </div>
 
@@ -520,11 +513,8 @@
                                         <ItemStyle Width="120" />
                                     </asp:TemplateField>
                                 </Columns>
-                                <PagerTemplate>
-                                <asp:GridPager runat="server"
-                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                            </PagerTemplate>
+                                <PagerSettings Position="Bottom" />
+                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                             </asp:GridView>
                         </div>
                     </div>

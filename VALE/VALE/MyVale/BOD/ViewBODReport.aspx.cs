@@ -74,13 +74,12 @@ namespace VALE.MyVale.BOD
             switch (e.CommandName)
             {
                 case "DOWNLOAD":
-                default:
                     Response.Redirect("/DownloadFile.ashx?fileId=" + id);
                     break;
                 case "Cancella":
-                    //var elem = db.AttachedFiles.Where(o => o.AttachedFileID == id).FirstOrDefault();
                     var actions = new BODReportActions();
                     actions.RemoveAttachment(id);
+                    DocumentsGridView.PageIndex = 0;
                     DocumentsGridView.DataBind();
                     break;
             }

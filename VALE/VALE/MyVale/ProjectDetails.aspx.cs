@@ -318,7 +318,10 @@ namespace VALE.MyVale
                 int interventionID = Convert.ToInt32(grdInterventions.DataKeys[index].Value.ToString());
 
                 if (DeleteIntervention(interventionID))
+                {
+                    grid.PageIndex = 0;
                     grid.DataBind();
+                }
             }
         }
 

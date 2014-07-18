@@ -1,5 +1,4 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SelectProject.ascx.cs" Inherits="VALE.MyVale.Create.SelectProject" %>
 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Collega a un progetto</asp:Label>
 <div class="col-md-10">
@@ -34,7 +33,7 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <asp:GridView SelectMethod="GetProjects" AllowPaging="true" OnPageIndexChanging="OpenedProjectList_PageIndexChanging" PageSize="10" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                            <asp:GridView SelectMethod="GetProjects" AllowPaging="true" OnPageIndexChanging="OpenedProjectList_PageIndexChanging" PageSize="3" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:TemplateField>
@@ -84,11 +83,8 @@
                                         <ItemStyle Width="120" />
                                     </asp:TemplateField>
                                 </Columns>
-                                <PagerTemplate>
-                                <asp:GridPager runat="server"
-                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                            </PagerTemplate>
+                                <PagerSettings Position="Bottom" />
+                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                             </asp:GridView>
                         </div>
                     </div>
