@@ -20,6 +20,7 @@ namespace VALE.MyVale
             _currentUserName = User.Identity.GetUserName();
             if(!IsPostBack)
             {
+                
 
                 var lstProject = GetProjects();
                 OpenedProjectList.DataSource = lstProject;

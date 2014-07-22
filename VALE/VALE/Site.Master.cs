@@ -8,6 +8,8 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Logic;
+using VALE.Models;
+using System.Linq;
 
 namespace VALE
 {
@@ -112,6 +114,16 @@ namespace VALE
 
         private void SetUserLink()
         {
+            var db = new ApplicationDbContext();
+            var user = db.Users.Where(u => u.UserName == HttpContext.Current.User.Identity.Name).FirstOrDefault();
+            if (user != null)
+            {
+                using (var actions = new UserActions())
+                {
+                    var roleName = actions.GetRole(user.Id);
+                }
+            }
+
             if (HttpContext.Current.User.IsInRole("Amministratore") ||
                 HttpContext.Current.User.IsInRole("Membro del consiglio") ||
                 HttpContext.Current.User.IsInRole("Socio"))

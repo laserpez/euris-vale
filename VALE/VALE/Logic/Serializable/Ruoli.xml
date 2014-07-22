@@ -141,9 +141,9 @@
     </Articoli>
   </XmlRoles>
   <XmlRoles>
-    <Name>qwerty</Name>
+    <Name>utente</Name>
     <Amministrazione>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
     </Amministrazione>
     <DocumentiAssociazione>
       <Visible>true</Visible>
@@ -155,24 +155,24 @@
       <Visible>true</Visible>
     </ListaUtenti>
     <Consiglio>
-      <Visible>true</Visible>
-      <Creation>true</Creation>
+      <Visible>false</Visible>
+      <Creation>false</Creation>
     </Consiglio>
     <Progetti>
       <Visible>true</Visible>
-      <Creation>true</Creation>
+      <Creation>false</Creation>
     </Progetti>
     <Attivita>
       <Visible>true</Visible>
-      <Creation>true</Creation>
+      <Creation>false</Creation>
     </Attivita>
     <Eventi>
       <Visible>true</Visible>
-      <Creation>true</Creation>
+      <Creation>false</Creation>
     </Eventi>
     <Articoli>
       <Visible>true</Visible>
-      <Creation>true</Creation>
+      <Creation>false</Creation>
     </Articoli>
   </XmlRoles>
 </ArrayOfXmlRoles>

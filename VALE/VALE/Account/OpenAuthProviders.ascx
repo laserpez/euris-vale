@@ -7,7 +7,7 @@
         SelectMethod="GetProviderNames" ViewStateMode="Disabled">
         <ItemTemplate>
             <p>
-                <button type="submit" class="btn btn-default" name="provider" value="<%#: Item %>"
+                <button type="submit" id="providerBtn" class="<%#:ChangeStyle(Item) %>" name="provider" value="<%#: Item %>"
                     title="Loggarsi con il proprio account <%#: Item %> .">
                     <%#: Item %>
                 </button>
