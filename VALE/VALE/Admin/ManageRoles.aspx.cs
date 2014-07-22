@@ -14,6 +14,22 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+                int i;
+                for (i = 0; i < grdRoles.Rows.Count; i++)
+                {
+                    var deleteButton = (LinkButton)grdRoles.Rows[i].Cells[1].FindControl("deleteButton");
+                    var rolelabel = ((Label)grdRoles.Rows[i].Cells[0].FindControl("labelRole"));
+                    string role = rolelabel.Text;
+                    if (role != "Amministratore" && role != "Membro del consiglio" && role != "Socio" && role != "Collaboratore")
+                    {
+                        deleteButton.Visible = true;
+                    }
+                }
+
+        }
+
+        protected void Page_PreRender(EventArgs e)
+        { 
 
         }
 
