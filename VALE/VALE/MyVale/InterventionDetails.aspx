@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="InterventionDetails.aspx.cs" Inherits="VALE.MyVale.InterventionDetails" %>
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -70,9 +71,28 @@
                                 <ContentTemplate>
                                     <asp:Panel runat="server">
                                         <asp:Label runat="server" Text="Aggiungi commento:"></asp:Label>
-                                        <asp:TextBox runat="server" CssClass="form-control" TextMode="MultiLine" ID="txtComment"></asp:TextBox>
+                                        <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtComment" runat="server"></asp:TextBox>
+                                        <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtComment">
+                                            <Toolbar>
+                                                <ajaxToolkit:Undo />
+                                                <ajaxToolkit:Redo />
+                                                <ajaxToolkit:Bold />
+                                                <ajaxToolkit:Italic />
+                                                <ajaxToolkit:Underline />
+                                                <ajaxToolkit:StrikeThrough />
+                                                <ajaxToolkit:Subscript />
+                                                <ajaxToolkit:Superscript />
+                                                <ajaxToolkit:InsertOrderedList />
+                                                <ajaxToolkit:InsertUnorderedList />
+                                                <ajaxToolkit:CreateLink />
+                                                <ajaxToolkit:Cut />
+                                                <ajaxToolkit:Copy />
+                                                <ajaxToolkit:Paste />
+                                            </Toolbar>
+                                        </asp:HtmlEditorExtender>
+                                        <%--<asp:TextBox runat="server" CssClass="form-control" TextMode="MultiLine" ID="txtComment"></asp:TextBox>--%>
                                         <p></p>
-                                        <asp:Button runat="server" CssClass="btn btn-info btn-xs" ID="btnAddComment" Text="Aggiungi" OnClick="btnAddComment_Click" />
+                                        <asp:Button runat="server" CssClass="btn btn-info btn-xs" ID="btnAddComment" CausesValidation="false" Text="Aggiungi" OnClick="btnAddComment_Click" />
                                     </asp:Panel>
                                     <br />
                                     <div class="panel panel-default">
@@ -88,7 +108,7 @@
                                                             <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.CreatorUserName %></asp:Label>
                                                             <asp:Label runat="server"><%#: String.Format(" - {0}", Item.Date) %></asp:Label>
                                                             <asp:LinkButton runat="server" ID="deleteComment" ToolTip="Cancella commento" Visible="false" CommandArgument="<%#: Item.CommentId %>" CausesValidation="false" OnClick="deleteComment_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton><br />
-                                                            <asp:Label runat="server"><%#: Item.CommentText %></asp:Label>
+                                                            <asp:Label ID="txtCommentDescription" runat="server"></asp:Label>
                                                         </ItemTemplate>
                                                         <ItemSeparatorTemplate>
                                                             <br />

@@ -116,12 +116,19 @@ namespace VALE.MyVale
 
         protected void lstComments_DataBound(object sender, EventArgs e)
         {
+            var db = new UserOperationsContext();
+            string result = db.Comments.First(c => c.InterventionId == _currentInterventionId).CommentText;
+            Label txtCommentDescription = (Label)lstComments.FindControl("txtCommentDescription");
+            if (String.IsNullOrEmpty(result))
+                txtCommentDescription.Text = "Nessun commento inserito";
+            else
+                txtCommentDescription.Text = HttpUtility.HtmlDecode(result).ToString();
+
             for (int i = 0; i < lstComments.Items.Count; i++)
             {
                 var btnDelete = (LinkButton)lstComments.Items[i].FindControl("deleteComment");
                 var commentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
 
-                var db = new UserOperationsContext();
                 var currentProject = db.Interventions.FirstOrDefault(c => c.InterventionId == _currentInterventionId).RelatedProject;
                 if (HttpContext.Current.User.IsInRole("Amministratore") || db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId).CreatorUserName == _currentUser || currentProject.OrganizerUserName == _currentUser)
                 {

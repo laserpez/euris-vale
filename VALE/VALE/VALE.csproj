@@ -218,10 +218,15 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Images\facebook.png" />
+    <Content Include="Images\google.png" />
     <Content Include="Images\logoVALE.png" />
     <Content Include="Account\ManageProfile.aspx" />
+    <Content Include="Images\twitter.png" />
     <Content Include="Images\User.jpg" />
-    <Content Include="Logic\Serializable\Ruoli.xml" />
+    <Content Include="Logic\Serializable\Ruoli.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MessagePage.aspx" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
