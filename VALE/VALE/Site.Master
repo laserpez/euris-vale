@@ -9,13 +9,55 @@
     <meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" />
 
     <title><%: Page.Title %> - VALE</title>
-
+    
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <style type="text/css">
+
+        /*Classe social-network button login*/
+        .social-network-facebook {
+	    height: 37px;
+	    width: 180px;
+        color:#fff;
+        background-color: #354f88; 
+        }
+
+        .social-network-twitter {
+	        height: 37px;
+	        width: 180px;
+            color:#fff;
+            background-color: #45b0e3;
+        }
+
+        .social-network-google {
+	        height: 37px;
+	        width: 180px;
+            color:#fff;
+            background-color:#de4c34;
+        }
+
+        .facebook-icon {
+            height: 37px;
+            background-repeat:no-repeat;
+            background-image:url(../Images/facebook.png);
+        }
+
+        .twitter-icon {
+            height: 37px;
+            background-repeat:no-repeat;
+            background-image:url(../Images/twitter.png);
+        }
+
+        .google-icon {
+            height: 37px;
+            background-repeat:no-repeat;
+            background-image:url(../Images/google.png);
+        }
+
+        /*Classe backgroung PopUp*/
         .modalBackground
         {
             background-color: Black;

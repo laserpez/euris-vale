@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 
 namespace VALE.Account
 {
@@ -38,6 +40,21 @@ namespace VALE.Account
         public IEnumerable<string> GetProviderNames()
         {
             return Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes().Select(t => t.AuthenticationType);
+        }
+
+        public string ChangeStyle(string providerName)
+        {
+            switch (providerName)
+            {
+                case "Facebook":
+                    return "social-network-facebook facebook-icon";
+                case "Google":
+                    return "social-network-google google-icon";
+                case "Twitter":
+                    return "social-network-twitter twitter-icon";
+                default:
+                    return "btn btn-default btn-xs";
+            }
         }
     }
 }
