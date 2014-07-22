@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PersonalActivities.aspx.cs" Inherits="VALE.MyVale.PersonalActivities" %>
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -21,29 +22,61 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body" style="overflow: auto;">
+                        <div class="panel-body">
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <asp:UpdatePanel runat="server">
                                                 <ContentTemplate>
-                                                    <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Progetto</asp:Label>
-                                                    <asp:DropDownList AutoPostBack="true" Width="300px" CssClass="form-control col-md-4" runat="server" OnSelectedIndexChanged="ddlSelectProject_SelectedIndexChanged" ID="ddlSelectProject" SelectMethod="GetProjects" ItemType="VALE.Models.Project" DataTextField="ProjectName" DataValueField="ProjectId"></asp:DropDownList>
-                                                    <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Attività</asp:Label>
-                                                    <asp:DropDownList Width="300px" CssClass="form-control col-md-4" runat="server" ID="ddlSelectActivity" ItemType="VALE.Models.Activity" DataTextField="ActivityName" DataValueField="ActivityId"></asp:DropDownList>
-                                                    <asp:Button runat="server" Text="Visualizza Interventi" CssClass="btn btn-info col-md-2 col-md-offset-1" ID="bnViewReports" OnClick="bnViewReports_Click" />
+                                                    <div class="col-md-6">
+                                                        <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Progetto</asp:Label>
+                                                        <div class="col-md-10">
+                                                            <asp:DropDownList AutoPostBack="true" Width="280px" CssClass="form-control input-sm col-md-6" runat="server" OnSelectedIndexChanged="ddlSelectProject_SelectedIndexChanged" ID="ddlSelectProject" SelectMethod="GetProjects" ItemType="VALE.Models.Project" DataTextField="ProjectName" DataValueField="ProjectId"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div class="col-md-6">
+                                                        <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Attività</asp:Label>
+                                                        <div class="col-md-10">
+                                                            <asp:DropDownList CssClass="form-control input-sm"  Width="280px" runat="server" ID="ddlSelectActivity" ItemType="VALE.Models.Activity" DataTextField="ActivityName" DataValueField="ActivityId"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <br />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
+                                                <div class="col-md-10">
+                                                    <asp:TextBox CssClass="col-md-6 form-control input-sm" runat="server" ID="txtStartDate"></asp:TextBox>
+                                                    <asp:CalendarExtender runat="server" Format="dd/MM/yyyy"  TargetControlID="txtStartDate"></asp:CalendarExtender>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Al"></asp:Label>
+                                                <div class="col-md-10">
+                                                    <asp:TextBox CssClass="form-control col-md-6 input-sm" runat="server" ID="txtEndDate"></asp:TextBox>
+                                                    <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" TargetControlID="txtEndDate"></asp:CalendarExtender>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                      <div class="row">
                                         <div class="col-md-12">
                                             <br />
+                                                <asp:Button runat="server" Text="Visualizza" CssClass="btn btn-info btn-sm col-md-1 col-md-offset-11" ID="bnViewReports" OnClick="bnViewReports_Click" />
                                         </div>
                                      </div>
+
                                     <div class="row">
                                         <div class="col-md-12">
+                                            <br />
                                             <asp:UpdatePanel runat="server">
                                                 <ContentTemplate>
                                                     <div class="panel panel-default">

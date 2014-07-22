@@ -25,7 +25,6 @@
                                         <asp:UpdatePanel runat="server">
                                             <ContentTemplate>
                                                 <asp:Button ID="Button1" runat="server" CausesValidation="false" Text="Indietro"  class="btn btn-info" OnClick="btnBack_ServerClick"/>
-<%--                                                <button type="button" validationgroup="djshfgkjs" CausesValidation="false" id="btnBack" class="btn btn-info" runat="server" onserverclick="btnBack_ServerClick"><span class="glyphicon glyphicon-circle-arrow-left"></span> Indietro</button>--%>
                                                 <asp:Button CausesValidation="false" runat="server" ID="btnWorkOnThis" OnClick="btnWorkOnThis_Click" />
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
