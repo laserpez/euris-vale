@@ -22,7 +22,7 @@ namespace VALE
             {
                 if (Request.QueryString["Username"] != null)
                 {
-                    var _currentUserName = Request.QueryString.GetValues("UserName").First();
+                    var _currentUserName = Request.QueryString.GetValues("Username").First();
                     if (_currentUser != _currentUserName)
                         EditProfile.Visible = false;
                 }
