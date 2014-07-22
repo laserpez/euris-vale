@@ -10,7 +10,7 @@
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
                         <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                            ItemType="VALE.Models.AttachedFile"
+                            ItemType="VALE.Models.AttachedFile" AllowPaging="true" PageSize="10"
                             CssClass="table table-striped table-bordered"
                             OnRowCommand="grdFilesUploaded_RowCommand">
                             <Columns>
@@ -41,6 +41,8 @@
                                     <ItemStyle Width="50px"></ItemStyle>
                                 </asp:TemplateField>
                             </Columns>
+                            <PagerSettings Position="Bottom" />
+                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -51,7 +53,6 @@
                         <div class="col-lg-6">
                                 <asp:Label ID="Label1" runat="server" Text="Label" CssClass="col-lg-3">Descrizione * </asp:Label>
                                 <div class="col-lg-9">
-                                    <%--<asp:TextBox ID="txtFileDescription" runat="server" CssClass="form-control input-sm"></asp:TextBox>--%>
                                     <textarea runat="server" class="form-control input-sm" rows="3" id="txtFileDescription"></textarea>
                                     <asp:RequiredFieldValidator Display="Dynamic" runat="server" ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
                                 </div>

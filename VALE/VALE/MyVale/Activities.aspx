@@ -137,9 +137,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="panel-body" style="overflow: auto;">
-                                                <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" DataKeyNames="ActivityId"
-                                                ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false"
-
+                                                    <asp:GridView OnRowCommand="grdCurrentActivities_RowCommand" DataKeyNames="ActivityId"
+                                                        ID="grdCurrentActivities" runat="server" AutoGenerateColumns="false"
                                                         ItemType="VALE.Models.Activity" AllowSorting="true" SelectMethod="GetActivities" EmptyDataText="Nessuna attività in corso."
                                                         CssClass="table table-striped table-bordered" AllowPaging="true" PageSize="10">
                                                         <Columns>
@@ -157,7 +156,7 @@
                                                                     <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
-                                                    <center><div><asp:Label ID="lblContent" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
+                                                                    <center><div><asp:Label ID="lblContent" runat="server"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
 
@@ -216,8 +215,9 @@
                                                                 <HeaderStyle Width="90px" />
                                                                 <ItemStyle Width="90px" />
                                                             </asp:TemplateField>
-
                                                         </Columns>
+                                                        <PagerSettings Position="Bottom" />
+                                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                     </asp:GridView>
                             <asp:GridView OnRowCommand="grdPendingActivities_RowCommand" DataKeyNames="ActivityId" ID="grdPendingActivities" runat="server" AutoGenerateColumns="false" GridLines="Both"
                                                         ItemType="VALE.Models.Activity" SelectMethod="GetPendingActivities" EmptyDataText="Nessuna attività in attesa." CssClass="table table-striped table-bordered">
@@ -285,6 +285,8 @@
                                                                 <ItemStyle Width="120px" />
                                                             </asp:TemplateField>
                                                         </Columns>
+                                                        <PagerSettings Position="Bottom" />
+                                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                     </asp:GridView>
                                                 </div>
                                                 

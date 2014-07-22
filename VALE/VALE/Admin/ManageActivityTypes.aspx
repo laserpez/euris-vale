@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageActivityTypes.aspx.cs" Inherits="VALE.Admin.ManageActivityTypes" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -88,11 +87,8 @@
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Non ci sono tipi</asp:Label>
                                                 </EmptyDataTemplate>
-                                                <PagerTemplate>
-                                                    <asp:GridPager runat="server"
-                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                </PagerTemplate>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                             </asp:GridView>
                                         </div>
                                     </div>

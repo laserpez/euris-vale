@@ -25,7 +25,7 @@
                         <div class="panel-body" style="overflow: auto;">
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
-                                    <asp:GridView OnRowCommand="grdPersonalArticles_RowCommand" SelectMethod="GetPersonalArticles" ID="grdPersonalArticles" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                    <asp:GridView OnRowCommand="grdPersonalArticles_RowCommand" SelectMethod="GetPersonalArticles" AllowPaging="true" PageSize="10" ID="grdPersonalArticles" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                         ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo personale." CssClass="table table-striped table-bordered" DataKeyNames="BlogArticleId">
                                         <Columns>
                                             <asp:TemplateField>
@@ -79,6 +79,8 @@
                                                 <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerSettings Position="Bottom" />
+                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

@@ -29,7 +29,7 @@
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
                                     <asp:GridView OnRowCommand="grdAllArticles_RowCommand" DataKeyNames="BlogArticleId" SelectMethod="GetAllArticles" ID="grdAllArticles" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                        ItemType="VALE.Models.BlogArticle" EmptyDataText="Nessun articolo." CssClass="table table-striped table-bordered">
+                                        ItemType="VALE.Models.BlogArticle" AllowPaging="true" PageSize="10" EmptyDataText="Nessun articolo." CssClass="table table-striped table-bordered">
                                         <Columns>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
@@ -81,6 +81,8 @@
                                                 <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerSettings Position="Bottom" />
+                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

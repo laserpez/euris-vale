@@ -1,5 +1,4 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="VALE._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -169,11 +168,8 @@
                                 <asp:BoundField HeaderStyle-Width="55%" ItemStyle-Font-Bold="false" DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
                                 <asp:BoundField HeaderStyle-Width="10%" ItemStyle-Font-Bold="false" DataField="Username" HeaderText="Utente" SortExpression="Username" />
                             </Columns>
-                            <PagerTemplate>
-                                <asp:GridPager runat="server"
-                                    ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                    NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                            </PagerTemplate>
+                            <PagerSettings Position="Bottom" />
+                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>

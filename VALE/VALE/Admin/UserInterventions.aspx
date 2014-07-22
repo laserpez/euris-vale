@@ -42,8 +42,8 @@
                                                 <div class="panel-heading"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Documenti Allegati</div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
                                                     <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                                                        ItemType="VALE.Models.AttachedFile" EmptyDataText="Nessun allegato."
-                                                        CssClass="table table-striped table-bordered"
+                                                        ItemType="VALE.Models.AttachedFile" EmptyDataText="Nessun allegato." AllowPaging="true"
+                                                        CssClass="table table-striped table-bordered" PageSize="10"
                                                         OnRowCommand="grdFilesUploaded_RowCommand">
                                                         <Columns>
                                                             <asp:TemplateField HeaderText="FileName" HeaderStyle-Width="25%">
@@ -55,6 +55,8 @@
                                                             </asp:TemplateField>
                                                             <asp:BoundField DataField="FileDescription" HeaderText="Descrizione" HeaderStyle-Width="70%" />
                                                         </Columns>
+                                                        <PagerSettings Position="Bottom" />
+                                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                     </asp:GridView>
                                                 </div>
                                             </div>

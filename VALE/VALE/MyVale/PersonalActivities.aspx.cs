@@ -53,12 +53,12 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             if (ddlSelectProject.SelectedIndex == 0)
             {
-                return db.Reports.Where(r => r.WorkerUserName == _currentUser && r.WorkedActivity.RelatedProject == null).OrderByDescending(r => r.ActivityReportId);
+                return db.Reports.Where(r => r.WorkerUserName == _currentUser && r.WorkedActivity.RelatedProject == null).OrderByDescending(r => r.ActivityReportId).AsQueryable();
             }
             else 
             {
                 var activityId = Convert.ToInt32(ddlSelectActivity.SelectedValue);
-                return db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId);
+                return db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).AsQueryable();
             }
         }
     }

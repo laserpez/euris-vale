@@ -51,8 +51,8 @@
                                             <asp:UpdatePanel runat="server">
                                                 <ContentTemplate>
                                                     <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                                                        ItemType="VALE.Models.AttachedFile"
-                                                        CssClass="table table-striped table-bordered"
+                                                        ItemType="VALE.Models.AttachedFile" AllowPaging="true" PageSize="10" DataKeyNames="AttachedFileID"
+                                                        CssClass="table table-striped table-bordered" EmptyDataText="Nessun documento allegato."
                                                         OnRowCommand="grdFilesUploaded_RowCommand">
                                                         <Columns>
                                                             <asp:TemplateField HeaderText="FileName" HeaderStyle-Width="25%">
@@ -71,6 +71,8 @@
                                                                 <ItemStyle Width="50px"></ItemStyle>
                                                             </asp:TemplateField>
                                                         </Columns>
+                                                        <PagerSettings Position="Bottom" />
+                                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                     </asp:GridView>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>

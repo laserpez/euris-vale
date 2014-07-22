@@ -26,7 +26,7 @@
                             <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger" />
                         </div>
                     </div>
-                <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" GridLines="Both"
+                <asp:GridView ID="grdUsers" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowPaging="true" PageSize="10" OnPageIndexChanging="grdUsers_PageIndexChanging"
                     ItemType="VALE.MyVale.UserInfo" AllowSorting="true" EmptyDataText="No waiting users" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                     <Columns>
 
@@ -72,6 +72,8 @@
                         </asp:TemplateField>
 
                     </Columns>
+                    <PagerSettings Position="Bottom" />
+                    <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                 </asp:GridView>
 
             </ContentTemplate>

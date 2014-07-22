@@ -23,7 +23,7 @@
                         </div>
                         <div class="panel-body" style="overflow: auto;">
 
-                            <asp:GridView ID="grdReports" OnDataBound="grdReports_DataBound" runat="server" SelectMethod="GetUserActivities" AutoGenerateColumns="false" GridLines="Both"
+                            <asp:GridView ID="grdReports" OnDataBound="grdReports_DataBound" AllowPaging="true" PageSize="10" runat="server" SelectMethod="GetUserActivities" AutoGenerateColumns="false" GridLines="Both"
                                 ItemType="VALE.Models.ActivityReport" EmptyDataText="Nessun progetto aperto" CssClass="table table-striped table-bordered" AllowSorting="true">
                                 <Columns>
                                     <asp:TemplateField>
@@ -57,6 +57,8 @@
                                         <ItemStyle Width="120px" />
                                     </asp:TemplateField>
                                 </Columns>
+                                <PagerSettings Position="Bottom" />
+                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                             </asp:GridView>
                         </div>
                     </div>

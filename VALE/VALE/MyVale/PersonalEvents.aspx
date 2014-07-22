@@ -25,7 +25,7 @@
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
                                     <asp:GridView runat="server" DataKeyNames="EventId" ItemType="VALE.Models.Event" AutoGenerateColumns="false" AllowSorting="true" EmptyDataText="Nessun evento pianificato"
-                                        CssClass="table table-striped table-bordered" ID="grdPlannedEvent" SelectMethod="GetAttendingEvents">
+                                        CssClass="table table-striped table-bordered" ID="grdPlannedEvent" AllowPaging="true" PageSize="10" SelectMethod="GetAttendingEvents">
                                         <Columns>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
@@ -64,6 +64,8 @@
                                                 <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
+                                        <PagerSettings Position="Bottom" />
+                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>

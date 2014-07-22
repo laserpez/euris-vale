@@ -35,21 +35,27 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Documenti Allegati</div>
                                                 <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                    <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                                                        ItemType="VALE.Models.AttachedFile" EmptyDataText="Nessun allegato."
-                                                        CssClass="table table-striped table-bordered"
-                                                        OnRowCommand="grdFilesUploaded_RowCommand">
-                                                        <Columns>
-                                                            <asp:TemplateField HeaderText="FileName" HeaderStyle-Width="25%">
-                                                                <ItemTemplate>
-                                                                    <center><div><asp:LinkButton  runat="server" CommandArgument="<%# Item.AttachedFileID %>" CommandName="DOWNLOAD" CausesValidation="false"><%#: Item.FileName %></asp:LinkButton></div></center>
-                                                                </ItemTemplate>
-                                                                <HeaderStyle Width="50px"></HeaderStyle>
-                                                                <ItemStyle Width="50px"></ItemStyle>
-                                                            </asp:TemplateField>
-                                                            <asp:BoundField DataField="FileDescription" HeaderText="Descrizione" HeaderStyle-Width="70%" />
-                                                        </Columns>
-                                                    </asp:GridView>
+                                                    <asp:UpdatePanel runat="server">
+                                                        <ContentTemplate>
+                                                            <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
+                                                                ItemType="VALE.Models.AttachedFile" EmptyDataText="Nessun allegato." AllowPaging="true" PageSize="2"
+                                                                CssClass="table table-striped table-bordered"
+                                                                OnRowCommand="grdFilesUploaded_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="FileName" HeaderStyle-Width="25%">
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:LinkButton  runat="server" CommandArgument="<%# Item.AttachedFileID %>" CommandName="DOWNLOAD" CausesValidation="false"><%#: Item.FileName %></asp:LinkButton></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="50px"></HeaderStyle>
+                                                                        <ItemStyle Width="50px"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                    <asp:BoundField DataField="FileDescription" HeaderText="Descrizione" HeaderStyle-Width="70%" />
+                                                                </Columns>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
+                                                            </asp:GridView>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
                                                 </div>
                                             </div>
                                         </div>

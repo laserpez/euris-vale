@@ -33,7 +33,7 @@
                     <div>
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                         <div class="form-group">
-                            <asp:GridView SelectMethod="GetProjects" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                            <asp:GridView SelectMethod="GetProjects" AllowPaging="true" OnPageIndexChanging="OpenedProjectList_PageIndexChanging" PageSize="3" DataKeyNames="ProjectId" ID="OpenedProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                 ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto aperto." CssClass="table table-striped table-bordered">
                                 <Columns>
                                     <asp:TemplateField>
@@ -83,6 +83,8 @@
                                         <ItemStyle Width="120" />
                                     </asp:TemplateField>
                                 </Columns>
+                                <PagerSettings Position="Bottom" />
+                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                             </asp:GridView>
                         </div>
                     </div>
