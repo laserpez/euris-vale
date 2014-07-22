@@ -22,6 +22,80 @@
             filter: alpha(opacity=60);
             opacity: 0.2;
         }
+
+        /*Classe paging GridView*/
+        .GridPager {
+            background-color: #ddd;
+            padding: 2px;
+            margin: 2% auto;
+        }
+
+            .GridPager a {
+                margin: auto 1%;
+                color: #3399f3;
+                border: solid 1px #dddddd;
+                background-color: #ffffff;
+                padding: 3px 7px 3px 7px;
+                text-decoration: none;
+                -o-box-shadow: 1px 1px 1px #111;
+                -moz-box-shadow: 1px 1px 1px #111;
+                -webkit-box-shadow: 1px 1px 1px #111;
+                box-shadow: 1px 1px 1px #111;
+            }
+
+            .GridPager span:hover,
+            .GridPager a:focus,
+            .GridPager span:focus,
+            .GridPager a:hover {
+                color: #3399f3;
+                background-color: #eeeeee;
+                border-color: #dddddd;
+            }
+
+            .GridPager span {
+                color: #3399f3;
+                background-color: #ffffff;
+                border: solid 1px #dddddd;
+                -o-box-shadow: 1px 1px 1px #111;
+                -moz-box-shadow: 1px 1px 1px #111;
+                -webkit-box-shadow: 1px 1px 1px #111;
+                box-shadow: 1px 1px 1px #111;
+                border-radius: 0px;
+                padding: 3px 7px 3px 7px;
+            }
+
+            .disabledItem,
+            .activeItem {
+                color: #3399f3;
+                background-color: #ffffff;
+                border-color: #dddddd;
+                -o-box-shadow: 1px 1px 1px #111;
+                -moz-box-shadow: 1px 1px 1px #111;
+                -webkit-box-shadow: 1px 1px 1px #111;
+                box-shadow: 1px 1px 1px #111;
+                border-radius: 0px;
+                padding: 3px 7px 3px 7px;
+            }
+
+            .GridPager .activeItem a,
+            .GridPager .activeItem span,
+            .GridPager .activeItem a:hover {
+                cursor: default;
+            }
+
+            .GridPager .disabledItem span,
+            .GridPager .disabledItem a,
+            .GridPager .disabledItem a:hover {
+                cursor: not-allowed;
+            }
+
+            .GridPager .body {
+                font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+                font-size: 12px;
+                line-height: 1.42857143;
+                color: #666;
+                background-color: #fff;
+            }
     </style>
 </head>
 <body>

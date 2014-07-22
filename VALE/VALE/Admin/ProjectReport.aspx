@@ -1,5 +1,4 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProjectReport.aspx.cs" Inherits="VALE.Admin.ProjectReport" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -60,11 +59,8 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
-                                        <PagerTemplate>
-                                            <asp:GridPager runat="server"
-                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                        </PagerTemplate>
+                                        <PagerSettings Position="Bottom" />
+                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                     </asp:GridView>
                                     <h4>Report attività</h4>
                                     <asp:Label runat="server" ID="emptyAtcivitiesLabel" CssClass="form-control" Visible="false"></asp:Label>
@@ -103,11 +99,8 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
-                                                <PagerTemplate>
-                                                    <asp:GridPager runat="server"
-                                                        ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                        NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                                </PagerTemplate>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                             </asp:GridView>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>

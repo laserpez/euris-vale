@@ -1,6 +1,5 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
 <%@ Page Title="Projects" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Projects.aspx.cs" Inherits="VALE.MyVale.Projects" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -77,7 +76,7 @@
                                                 <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control input-sm" ID="ddlStatus" runat="server"></asp:DropDownList>
                                             </div>
                                         </asp:Panel>
-                                        <asp:GridView OnDataBound="OpenedProjectList_DataBound" ID="OpenedProjectList" DataKeyNames="ProjectId" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                        <asp:GridView OnDataBound="OpenedProjectList_DataBound" ID="OpenedProjectList" AllowPaging="true" PageSize="10" OnPageIndexChanging="OpenedProjectList_PageIndexChanging" DataKeyNames="ProjectId" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                             ItemType="VALE.Models.Project" EmptyDataText="Non sono presenti progetti aperti." CssClass="table table-striped table-bordered" OnSorting="OpenedProjectList_Sorting">
                                             <Columns>
                                                 <asp:TemplateField>
@@ -147,6 +146,8 @@
                                                     <ItemStyle Width="90px" />
                                                 </asp:TemplateField>
                                             </Columns>
+                                            <PagerSettings Position="Bottom" />
+                                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                         </asp:GridView>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
@@ -157,4 +158,5 @@
             </div>
         </div>
     </div>
+
 </asp:Content>

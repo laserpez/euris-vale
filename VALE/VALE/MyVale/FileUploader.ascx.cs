@@ -60,11 +60,11 @@ namespace VALE.MyVale
             switch (e.CommandName)
             {
                 case "DOWNLOAD":
-                default:
                     Response.Redirect("/DownloadFile.ashx?fileId=" + id);
                     break;
                 case "Cancella":
                     DataActions.RemoveAttachment(id);
+                    DocumentsGridView.PageIndex = 0;
                     DocumentsGridView.DataBind();
                     break;
             }

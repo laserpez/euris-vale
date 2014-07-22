@@ -12,7 +12,7 @@
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
                         <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                            ItemType="VALE.Models.ValeFile"
+                            ItemType="VALE.Models.ValeFile" AllowPaging="true" PageSize="10"
                             CssClass="table table-striped table-bordered"
                             OnRowCommand="grdFilesUploaded_RowCommand">
                             <Columns>
@@ -32,6 +32,8 @@
                                     <ItemStyle Width="50px"></ItemStyle>
                                 </asp:TemplateField>
                             </Columns>
+                            <PagerSettings Position="Bottom" />
+                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>

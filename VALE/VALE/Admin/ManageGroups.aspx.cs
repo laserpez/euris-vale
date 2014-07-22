@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using VALE.Logic;
 using VALE.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System.Linq.Expressions;
+using VALE.Logic;
 
 namespace VALE.MyVale.Create
 {
     public partial class ManageGroups : System.Web.UI.Page
     {
-        UserOperationsContext _db = new UserOperationsContext();
         protected void Page_Load(object sender, EventArgs e)
         {
-           
         }
 
         public string GetRoleName(string userName)
@@ -33,6 +35,8 @@ namespace VALE.MyVale.Create
 
         public IQueryable<VALE.Models.UserData> grdUsers_GetData()
         {
+            var _db = new UserOperationsContext();
+
             if (lblGroupId.Value != "")
             {
                 var groupActions = new GroupActions();
@@ -50,6 +54,8 @@ namespace VALE.MyVale.Create
 
         public IQueryable<VALE.Models.UserData> grdGroupUsers_GetData()
         {
+            var _db = new UserOperationsContext();
+
             if (lblGroupId.Value != "")
             {
                 var id = Convert.ToInt32(lblGroupId.Value);
@@ -75,6 +81,8 @@ namespace VALE.MyVale.Create
             var action = lblGroupAction.Text;
             if (action == "Add")
             {
+                var _db = new UserOperationsContext();
+
                 Group group = new Group();
                 group.CreationDate = DateTime.Now;
                 group.GroupName = NameTextBox.Text;
@@ -87,6 +95,8 @@ namespace VALE.MyVale.Create
             }
             else if (action == "Edit")
             {
+                var _db = new UserOperationsContext();
+
                 var id = Convert.ToInt16(lblGroupId.Value);
                 var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
                 if (group != null)
@@ -109,9 +119,10 @@ namespace VALE.MyVale.Create
             ModalPopup.Hide();
         }
 
-        public IQueryable<VALE.Models.Group> grdGroups_GetData()
+        public IQueryable<Group> grdGroups_GetData()
         {
-            return _db.Groups;
+            var _db = new UserOperationsContext();
+            return _db.Groups.OrderByDescending(g => g.CreationDate).AsQueryable();
         }
 
         protected void grdGroups_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -135,6 +146,7 @@ namespace VALE.MyVale.Create
 
         private void OpenGroup(int id)
         {
+            var _db = new UserOperationsContext();
             var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
             if (group != null) 
             {
@@ -154,6 +166,7 @@ namespace VALE.MyVale.Create
 
         private void DeleteGroup(int id)
         {
+            var _db = new UserOperationsContext();
             var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
             if (group != null) 
             {
@@ -167,6 +180,7 @@ namespace VALE.MyVale.Create
 
         private void EditGroup(int id)
         {
+            var _db = new UserOperationsContext();
             var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
             if (group != null) 
             {
@@ -185,6 +199,7 @@ namespace VALE.MyVale.Create
 
         private void ShowGroup(int id)
         {
+            var _db = new UserOperationsContext();
             var group = _db.Groups.Where(g => g.GroupId == id).FirstOrDefault();
             if (group != null)
             {

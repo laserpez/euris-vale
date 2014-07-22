@@ -69,5 +69,10 @@ namespace VALE.MyVale.Create
                 return "Nessuna descrizione presente";
             }
         }
+
+        protected void OpenedProjectList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            ModalPopup.Show();
+        }
     }
 }

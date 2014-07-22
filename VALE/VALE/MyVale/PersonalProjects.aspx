@@ -39,7 +39,7 @@
                                     <ContentTemplate>
                                       
                                         <asp:GridView OnRowCommand="grid_RowCommand" DataKeyNames="ProjectId" ID="grdProjectList" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                            ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto pianificato." CssClass="table table-striped table-bordered" SelectMethod="GetPersonalProjects" AllowPaging="true">
+                                            ItemType="VALE.Models.Project" EmptyDataText="Nessun progetto pianificato." CssClass="table table-striped table-bordered" SelectMethod="GetPersonalProjects" AllowPaging="true" PageSize="10">
                                             <Columns>
                                                 <asp:TemplateField>
                                                     <HeaderTemplate>
@@ -99,20 +99,11 @@
                                                     <ItemStyle Width="90px" />
                                                 </asp:TemplateField>
                                             </Columns>
-                                            <PagerTemplate>
-                                                <GridPager ID="GridViewPager1" runat="server"
-                                                    ShowFirstAndLast="True"
-                                                    ShowNextAndPrevious="True"
-                                                    PageLinksToShow="10"
-                                                    NextText="›"
-                                                    PreviousText="‹"
-                                                    FirstText="«"
-                                                    LastText="»" />
-                                            </PagerTemplate>
+                                            <PagerSettings Position="Bottom" />
+                                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                         </asp:GridView>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
-                            <%--</p>--%>
                         </div>
                     </div>
                 </div>

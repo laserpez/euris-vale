@@ -78,7 +78,7 @@
                                         </div>
                                         <div runat="server" class="panel-body">
                                             <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato"
-                                                    CssClass="table table-striped table-bordered" ID="grdEvents" SelectMethod="grdEvents_GetData" AllowPaging="true">
+                                            CssClass="table table-striped table-bordered" ID="grdEvents" SelectMethod="grdEvents_GetData" AllowPaging="true" PageSize="10">
                                                     <Columns>
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>
@@ -127,6 +127,8 @@
                                                             <ItemStyle Width="90px" />
                                                         </asp:TemplateField>
                                                     </Columns>
+                                            <PagerSettings Position="Bottom" />
+                                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                 </asp:GridView>
                                         </div>
                                     </div>

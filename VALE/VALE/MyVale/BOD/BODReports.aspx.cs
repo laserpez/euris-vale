@@ -18,7 +18,7 @@ namespace VALE.MyVale.BOD
         public IQueryable<BODReport> GetBODReports()
         {
             var db = new UserOperationsContext();
-            return db.BODReports;
+            return db.BODReports.OrderBy(b => b.BODReportId).AsQueryable();
         }
 
         protected void grdBODReport_RowCommand(object sender, GridViewCommandEventArgs e)

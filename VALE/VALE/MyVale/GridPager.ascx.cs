@@ -70,7 +70,7 @@ namespace VALE.MyVale
         /// <value> The last text. </value>
         public string LastText { get; set; }
 
-        public GridView TheGrid { get; private set; }
+        public GridView TheGrid { get; set; }
 
         #endregion
 
@@ -146,6 +146,7 @@ namespace VALE.MyVale
         /// <param name="commandArgument">The command argument.</param>
         private void AddLink(String text, String cssClass, bool addAsLink, string commandArgument)
         {
+
             Controls.Add(new Literal { Text = "<li>" });
             if (addAsLink)
             {

@@ -78,7 +78,7 @@ namespace VALE.MyVale
         public IQueryable<UserData> GetUsersInvolved([QueryString("activityId")] int? activityId)
         {
             if (activityId.HasValue)
-                return _db.Reports.Where(r => r.ActivityId == activityId).GroupBy(r => r.Worker).Select(gr => gr.Key);
+                return _db.Activities.FirstOrDefault(r => r.ActivityId == activityId).PendingUsers.AsQueryable();
             else
                 return null;
         }

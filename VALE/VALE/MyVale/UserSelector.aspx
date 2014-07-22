@@ -1,9 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UserSelector.aspx.cs" Inherits="VALE.MyVale.UserSelector" %>
-
-
-
-
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <script type="text/javascript">
@@ -76,7 +71,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <asp:GridView AutoGenerateColumns="false" ID="UsersGridView" runat="server" ItemType="VALE.Models.UserData" AllowPaging="false" PageSize="10" AllowSorting="false" SelectMethod="UsersGridView_GetData" CssClass="table table-striped table-bordered">
+                                            <asp:GridView AutoGenerateColumns="false" ID="UsersGridView" runat="server" ItemType="VALE.Models.UserData" DataKeyNames="UserName" AllowPaging="true" PageSize="10" AllowSorting="false" SelectMethod="UsersGridView_GetData" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
@@ -105,11 +100,13 @@
                                                         <ItemStyle Width="90px" />
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Nessun utente da aggiungere.</asp:Label>
                                                 </EmptyDataTemplate>
                                             </asp:GridView>
-                                            <asp:GridView AutoGenerateColumns="false" ID="GroupsGridView" runat="server" ItemType="VALE.Models.Group" AllowPaging="false" PageSize="10" AllowSorting="false" SelectMethod="GroupsGridView_GetData" CssClass="table table-striped table-bordered">
+                                            <asp:GridView AutoGenerateColumns="false" ID="GroupsGridView" runat="server" ItemType="VALE.Models.Group" AllowPaging="true" DataKeyNames="GroupName" PageSize="10" AllowSorting="false" SelectMethod="GroupsGridView_GetData" CssClass="table table-striped table-bordered">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
@@ -138,6 +135,8 @@
                                                         <ItemStyle Width="90px" />
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                 <EmptyDataTemplate>
                                                     <asp:Label runat="server">Nessun utente da aggiungere.</asp:Label>
                                                 </EmptyDataTemplate>
