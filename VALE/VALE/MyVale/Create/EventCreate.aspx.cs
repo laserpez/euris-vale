@@ -20,21 +20,20 @@ namespace VALE.MyVale
             _currentUser = User.Identity.GetUserName();
             if (!IsPostBack)
             {
-                
                 txtHour.Text = "00";
                 txtMin.Text = "00";
                 chkPublic.Checked = true;
                 if (Request.QueryString["ProjectId"] != null)
-                    Session["callingProjectId"] = Request.QueryString["ProjectId"];
-                else
-                    Session["callingProjectId"] = null;
+                    Session["EventCreateCallingProjectId"] = Request.QueryString["ProjectId"];
+                if (Request.QueryString["From"] != null)
+                    Session["EventCreateRequestFrom"] = Request.QueryString["From"];
                 calendarFrom.StartDate = DateTime.Now;
             }
 
-            if (Session["callingProjectId"] != null)
+            if (Session["EventCreateCallingProjectId"] != null)
             {
                 var db = new UserOperationsContext();
-                var projectId = Convert.ToInt32(Session["callingProjectId"].ToString());
+                var projectId = Convert.ToInt32(Session["EventCreateCallingProjectId"].ToString());
                 var projectName = db.Projects.First(p => p.ProjectId == projectId).ProjectName;
                 SelectProject.DisableControl(projectName);
             }
@@ -72,10 +71,16 @@ namespace VALE.MyVale
             eventActions.SaveData(newEvent, db);
             
             var redirectURL = "";
-            if (Session["callingProjectId"] != null)
-                redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
-            else if (Session["requestFrom"] != null)
-                redirectURL = Session["requestFrom"].ToString();
+            if (Session["EventCreateCallingProjectId"] != null)
+            {
+                redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["EventCreateCallingProjectId"].ToString();
+                Session["EventCreateCallingProjectId"] = null;
+            }
+            else if (Session["EventCreateRequestFrom"] != null)
+            {
+                redirectURL = Session["EventCreateRequestFrom"].ToString();
+                Session["EventCreateRequestFrom"] = null;
+            }
             else
                 redirectURL = "/MyVale/Events";
 
@@ -113,13 +118,36 @@ namespace VALE.MyVale
             eventActions.SaveData(newEvent, db);
 
             var redirectURL = "";
-            if (Session["callingProjectId"] != null)
-                redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
-            else if (Session["requestFrom"] != null)
-                redirectURL = Session["requestFrom"].ToString();
+            if (Session["EventCreateCallingProjectId"] != null)
+            {
+                redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["EventCreateCallingProjectId"].ToString();
+                Session["EventCreateCallingProjectId"] = null;
+            }
+            else if (Session["EventCreateRequestFrom"] != null)
+            {
+                redirectURL = Session["EventCreateRequestFrom"].ToString();
+                Session["EventCreateRequestFrom"] = null;
+            }
             else
                 redirectURL = "/MyVale/Events";
+            Response.Redirect(redirectURL);
+        }
 
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            var redirectURL = "";
+            if (Session["EventCreateCallingProjectId"] != null)
+            {
+                redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["EventCreateCallingProjectId"].ToString();
+                Session["EventCreateCallingProjectId"] = null;
+            }
+            else if (Session["EventCreateRequestFrom"] != null)
+            {
+                redirectURL = Session["EventCreateRequestFrom"].ToString();
+                Session["EventCreateRequestFrom"] = null;
+            }
+            else
+                redirectURL = "/MyVale/Events";
             Response.Redirect(redirectURL);
         }
     }

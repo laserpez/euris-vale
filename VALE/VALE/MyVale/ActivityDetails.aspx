@@ -25,8 +25,7 @@
                                             </div>
                                             <div class="navbar-right">
                                                 <asp:Label ID="ListUsersType" Visible="false" runat="server" Text=""></asp:Label>
-                                                <button type="button" visible="true" id="btnBack" class="btn btn-info" runat="server" onserverclick="btnBack_ServerClick"><span class="glyphicon glyphicon-circle-arrow-left"></span> Indietro</button>
-                                                <div class="btn-group">
+                                                <asp:Button ID="Button1" runat="server" CausesValidation="false" Text="Indietro"  class="btn btn-info" OnClick="btnBack_ServerClick"/>                                                <div class="btn-group">
                                                     <button type="button" visible="true" id="btnStatus" class="<%#: GetStatusColor(Item.Status) %>" data-toggle="dropdown" runat="server"><%#: GetStatus(Item) %><span class="caret"></span></button>
                                                     <ul class="dropdown-menu">
                                                         <li>

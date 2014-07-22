@@ -119,7 +119,19 @@ namespace VALE.MyVale
 
         protected void btnShowFilters_Click(object sender, EventArgs e)
         {
-            filterPanel.Visible = !filterPanel.Visible;
+            if (filterPanel.Visible)
+            {
+                filterPanel.Visible = false;
+                btnFilterProjects.Visible = false;
+                btnClearFilters.Visible = false;
+            }
+            else 
+            {
+                filterPanel.Visible = true;
+                btnFilterProjects.Visible = true;
+                btnClearFilters.Visible = true;
+            }
+             
         }
 
         protected void btnWorkOnThis_Click(object sender, EventArgs e)
@@ -171,5 +183,10 @@ namespace VALE.MyVale
             OpenedProjectList.DataSource = GetProjects();
             OpenedProjectList.DataBind();
         }
+         protected void btnAddProject_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/Create/ProjectCreate?From=~/MyVale/Projects");
+        }
+
     }
 }

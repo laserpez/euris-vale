@@ -102,7 +102,18 @@ namespace VALE.MyVale
 
         protected void btnShowFilters_Click(object sender, EventArgs e)
         {
-            filterPanel.Visible = !filterPanel.Visible;
+            if (filterPanel.Visible)
+            {
+                filterPanel.Visible = false;
+                btnFilterEvents.Visible = false;
+                btnClearFilters.Visible = false;
+            }
+            else
+            {
+                filterPanel.Visible = true;
+                btnClearFilters.Visible = true;
+                btnClearFilters.Visible = true;
+            }
         }
 
         protected void btnFilterEvents_Click(object sender, EventArgs e)
@@ -163,6 +174,11 @@ namespace VALE.MyVale
             {
                 return "Nessuna descrizione presente";
             }
+        }
+
+        protected void btnAddEvent_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/Create/EventCreate?From=~/MyVale/Events");
         }
     }
 }

@@ -9,7 +9,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-8">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
@@ -17,6 +17,9 @@
                                                 </h4>
                                             </li>
                                         </ul>
+                                    </div>
+                                    <div class="navbar-right">
+                                        <asp:Button runat="server" Text="Crea Articolo"  CssClass="btn btn-success" ID="btnAddArticle" OnClick="btnAddArticle_Click" />
                                     </div>
                                 </div>
                             </div>

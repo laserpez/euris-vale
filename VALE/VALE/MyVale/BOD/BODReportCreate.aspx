@@ -23,7 +23,13 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br />
+                                </div>
+                            </div>
                             <div class="col-md-12 form-group">
+                                <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Nome *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control" ID="txtReportName" runat="server"></asp:TextBox>
@@ -81,6 +87,7 @@
 
                                 <div class="col-md-12">
                                     <asp:Button runat="server" ID="btnSubmit" Text="Salva verbale" CssClass="btn btn-primary" OnClick="btnSubmit_Click" />
+                                    <asp:Button runat="server" CssClass="btn btn-danger"  Text="Annulla" ID="btnCancel" CausesValidation="false"  OnClick="btnCancel_Click" />
                                 </div>
 
                             </div>

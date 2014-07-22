@@ -58,34 +58,8 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FooterDocuments;
         
         /// <summary>
+        /// Label1 control.
         /// Controllo FileTextBox.
-        /// </summary>
-        /// <remarks>
-        /// Campo generato automaticamente.
-        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FileTextBox;
-        
-        /// <summary>
-        /// Controllo FileUpload.
-        /// </summary>
-        /// <remarks>
-        /// Campo generato automaticamente.
-        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUpload;
-        
-        /// <summary>
-        /// Controllo AddFileNameButton.
-        /// </summary>
-        /// <remarks>
-        /// Campo generato automaticamente.
-        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button AddFileNameButton;
-        
-        /// <summary>
-        /// Controllo Label1.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
@@ -94,12 +68,43 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
+        /// txtFileDescription control.
+        /// Controllo FileUpload.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtFileDescription;
+        
+        /// <summary>
+        /// FileTextBox control.
+        /// Controllo AddFileNameButton.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FileTextBox;
+        
+        /// <summary>
+        /// FileUpload control.
+        /// Controllo Label1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUpload;
+        
+        /// <summary>
+        /// AddFileNameButton control.
         /// Controllo txtFileDescription.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFileDescription;
+        protected global::System.Web.UI.WebControls.Button AddFileNameButton;
     }
 }

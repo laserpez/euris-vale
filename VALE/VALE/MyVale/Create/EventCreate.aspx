@@ -25,7 +25,9 @@
                             </div>
                         </div>
                         <div class="panel-body" >
+                            <div class="row"><div class="col-md12"><br /></div></div>
                             <div class="col-md-12 form-group">
+                                <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Nome *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox runat="server" Width="350px" ID="txtName" CssClass="form-control"  />
@@ -92,10 +94,13 @@
                                 </div>
                                 <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
                                 <uc:SelectProject runat="server" ID="SelectProject" />
+                                <div class="row"><div class="col-md12"><br /></div></div>
+                                <div class="row"><div class="col-md12"><br /></div></div>
+
                                 <div class="col-md-12">
                                     <asp:Button runat="server" Text="Invita persone" ID="btnAddUsers" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnAddUsers_Click" />
-                                    
                                     <asp:Button runat="server" Text="Salva e Chiudi" ID="caefa" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnAdd_Click" />
+                                    <asp:Button runat="server" CssClass="btn btn-danger"  Text="Annulla" ID="btnCancel" CausesValidation="false"  OnClick="btnCancel_Click" />
                                 </div>
                             </div>
                         </div>

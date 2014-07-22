@@ -17,18 +17,18 @@ namespace VALE.MyVale
             if (!IsPostBack) 
             {
                 if (Request.QueryString["ProjectId"] != null)
-                    Session["callingProjectId"] = Request.QueryString["ProjectId"];
+                    Session["ActivityCreateCallingProjectId"] = Request.QueryString["ProjectId"];
 
                 if (Request.QueryString["From"] != null)
-                    Session["requestFrom"] = Request.QueryString["From"];
+                    Session["ActivityCreateRequestFrom"] = Request.QueryString["From"];
                    
                 if (Request.QueryString["Status"] != null)
-                    Session["statusRequested"] = Request.QueryString["Status"];
+                    Session["ActivityCreateStatusRequested"] = Request.QueryString["Status"];
                 
-                if (Session["statusRequested"] != null)
+                if (Session["ActivityCreateStatusRequested"] != null)
                 {
                     ToBePlannedStatusButton.Visible = false;
-                    switch (Session["statusRequested"].ToString())
+                    switch (Session["ActivityCreateStatusRequested"].ToString())
                     {
                         case "ToBePlannedStatus":
                             ToBePlannedStatusButtonDisabled.Visible = true;
@@ -51,10 +51,10 @@ namespace VALE.MyVale
                     }
                 }
 
-                if (Session["callingProjectId"] != null)
+                if (Session["ActivityCreateCallingProjectId"] != null)
                 {
                     var db = new UserOperationsContext();
-                    var projectId = Convert.ToInt32(Session["callingProjectId"].ToString());
+                    var projectId = Convert.ToInt32(Session["ActivityCreateCallingProjectId"].ToString());
                     var projectName = db.Projects.First(p => p.ProjectId == projectId).ProjectName;
                     SelectProject.DisableControl(projectName);
                 }
@@ -144,14 +144,14 @@ namespace VALE.MyVale
             if (newActivityId != 0) 
             {
                 string returnUrl = "";
-                if (Session["callingProjectId"] != null)
-                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
-                else if (Session["requestFrom"] != null)
-                    returnUrl = Session["requestFrom"].ToString();
+                if (Session["ActivityCreateCallingProjectId"] != null)
+                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
+                else if (Session["ActivityCreateRequestFrom"] != null)
+                    returnUrl = Session["ActivityCreateRequestFrom"].ToString();
                 else
                     returnUrl = "/MyVale/Activities";
-                Session["callingProjectId"] = null;
-                Session["requestFrom"] = null;
+                Session["ActivityCreateCallingProjectId"] = null;
+                Session["ActivityCreateRequestFrom"] = null;
                 Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newActivityId + "&dataType=activity&returnUrl=" + returnUrl);
             }
                 
@@ -163,14 +163,14 @@ namespace VALE.MyVale
             if (newActivityId != 0) 
             {
                 string returnUrl = "";
-                if (Session["callingProjectId"] != null)
-                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
-                else if (Session["requestFrom"] != null)
-                    returnUrl = Session["requestFrom"].ToString();
+                if (Session["ActivityCreateCallingProjectId"] != null)
+                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
+                else if (Session["ActivityCreateRequestFrom"] != null)
+                    returnUrl = Session["ActivityCreateRequestFrom"].ToString();
                 else
                     returnUrl = "/MyVale/Activities";
-                Session["callingProjectId"] = null;
-                Session["requestFrom"] = null;
+                Session["ActivityCreateCallingProjectId"] = null;
+                Session["ActivityCreateRequestFrom"] = null;
                 Response.Redirect(returnUrl);
             }
         }
@@ -254,14 +254,14 @@ namespace VALE.MyVale
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             string returnUrl = "";
-            if (Session["callingProjectId"] != null)
-                returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["callingProjectId"].ToString();
-            else if (Session["requestFrom"] != null)
-                returnUrl = Session["requestFrom"].ToString();
+            if (Session["ActivityCreateCallingProjectId"] != null)
+                returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
+            else if (Session["ActivityCreateRequestFrom"] != null)
+                returnUrl = Session["ActivityCreateRequestFrom"].ToString();
             else
                 returnUrl = "/MyVale/Activities";
-            Session["callingProjectId"] = null;
-            Session["requestFrom"] = null;
+            Session["ActivityCreateCallingProjectId"] = null;
+            Session["ActivityCreateRequestFrom"] = null;
             Response.Redirect(returnUrl);
         }
     }
