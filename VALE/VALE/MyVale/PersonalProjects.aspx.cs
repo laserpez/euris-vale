@@ -97,7 +97,7 @@ namespace VALE.MyVale
             {
                 case "ViewDetails":
                     int projectId = Convert.ToInt32(e.CommandArgument);
-                    Response.Redirect("/MyVale/ProjectDetails?projectId=" + projectId);
+                    Response.Redirect("/MyVale/ProjectDetails?projectId=" + projectId + "&From=/MyVale/PersonalProjects");
                     break;
                 default:
                     break;

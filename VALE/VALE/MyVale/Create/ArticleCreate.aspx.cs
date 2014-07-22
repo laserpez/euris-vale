@@ -16,6 +16,11 @@ namespace VALE.MyVale.Create
         {
             _currentUser = User.Identity.GetUserName();
             CalendarReleaseDate.StartDate = DateTime.Now;
+            if (!IsPostBack) 
+            {
+                if (Request.QueryString["From"] != null)
+                    Session["ArticleCreateRequestFrom"] = Request.QueryString["From"];
+            }
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -31,7 +36,25 @@ namespace VALE.MyVale.Create
             };
             db.BlogArticles.Add(article);
             db.SaveChanges();
-            Response.Redirect("/MyVale/Articles");
+            if (Session["ArticleCreateRequestFrom"] != null)
+            {
+                var url = Session["ArticleCreateRequestFrom"].ToString();
+                Session["ArticleCreateRequestFrom"] = null;
+                Response.Redirect(url);
+            }
+            Response.Redirect("~/MyVale/Articles");
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+
+            if (Session["ArticleCreateRequestFrom"] != null)
+            {
+                var url = Session["ArticleCreateRequestFrom"].ToString();
+                Session["ArticleCreateRequestFrom"] = null;
+                Response.Redirect(url);
+            }
+            Response.Redirect("~/MyVale/Articles");
         }
     }
 }

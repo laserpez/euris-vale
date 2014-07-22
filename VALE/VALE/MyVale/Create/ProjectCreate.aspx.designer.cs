@@ -85,15 +85,6 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.CheckBox chkPublic;
         
         /// <summary>
-        /// SelectProject control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::VALE.MyVale.Create.SelectProject SelectProject;
-        
-        /// <summary>
         /// btnAddUsers control.
         /// </summary>
         /// <remarks>
@@ -110,5 +101,14 @@ namespace VALE.MyVale {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSaveProject;
+        
+        /// <summary>
+        /// btnCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancel;
     }
 }

@@ -26,5 +26,10 @@ namespace VALE.MyVale.BOD
             if (e.CommandName == "ViewReport")
                 Response.Redirect("/MyVale/BOD/ViewBODReport?reportId=" + e.CommandArgument);
         }
+
+        protected void btnAddBODReport_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/BOD/BODReportCreate?From=~/MyVale/BOD/BODReports");
+        }
     }
 }

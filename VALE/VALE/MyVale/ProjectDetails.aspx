@@ -12,11 +12,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-10">
+                                    <div class="col-lg-4">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
-                                                    <asp:Label ID="HeaderName" runat="server" Text="Dettaglio progetto"></asp:Label>
+                                                    <asp:Label ID="HeaderName" runat="server" Text="Dettaglio progetto" onserverclick="btnBack_ServerClick"></asp:Label>
                                                 </h4>
                                             </li>
                                         </ul>
@@ -24,6 +24,8 @@
                                     <div class="navbar-right">
                                         <asp:UpdatePanel runat="server">
                                             <ContentTemplate>
+                                                <asp:Button ID="Button1" runat="server" CausesValidation="false" Text="Indietro"  class="btn btn-info" OnClick="btnBack_ServerClick"/>
+<%--                                                <button type="button" validationgroup="djshfgkjs" CausesValidation="false" id="btnBack" class="btn btn-info" runat="server" onserverclick="btnBack_ServerClick"><span class="glyphicon glyphicon-circle-arrow-left"></span> Indietro</button>--%>
                                                 <asp:Button CausesValidation="false" runat="server" ID="btnWorkOnThis" OnClick="btnWorkOnThis_Click" />
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
@@ -84,8 +86,8 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button runat="server" Text="Elimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
-                                                                        <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-sm" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
+                                                                        <asp:Button runat="server" Text="Elimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
+                                                                        <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -186,7 +188,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button CausesValidation="false" CssClass="btn btn-success btn-sm" runat="server" ID="btnAddIntervention" OnClick="btnAddIntervention_Click" />
+                                                                        <asp:Button CausesValidation="false" CssClass="btn btn-success btn-xs" runat="server" ID="btnAddIntervention" OnClick="btnAddIntervention_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -271,7 +273,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button id="btnAddUsers" Visible="false" CausesValidation="false" runat="server" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Gestione utenti" />
+                                                                        <asp:Button id="btnAddUsers" Visible="false" CausesValidation="false" runat="server" OnClick="addUsers_Click" CssClass="btn btn-info btn-xs" Text="Gestione utenti" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -322,7 +324,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button CausesValidation="false" CssClass="btn btn-success btn-sm" Text="Aggiungi evento" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
+                                                                        <asp:Button CausesValidation="false" CssClass="btn btn-success btn-xs" Text="Aggiungi evento" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -377,7 +379,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button CssClass="btn btn-success btn-sm" Text="Aggiungi attività" CausesValidation="false" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
+                                                                        <asp:Button CssClass="btn btn-success btn-xs" Text="Aggiungi attività" CausesValidation="false" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -582,7 +584,7 @@
                             <div class="col-md-12">
                                 <br />
                             </div>
-                            <div class="col-md-offset-9 col-md-12">
+                            <div class="col-md-offset-10 col-md-12">
                                 <asp:Button runat="server" Text="Salva" ID="btnConfirmModify" CssClass="btn btn-success btn-sm" ValidationGroup="ModifyProject" CausesValidation="true" OnClick="btnConfirmModify_Click" />
                                 <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="btnClosePopUpButton_Click" />
                             </div>
