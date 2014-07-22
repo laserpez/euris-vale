@@ -22,6 +22,8 @@ namespace VALE.MyVale.BOD
             {
                 ViewState["reportId"] = 0;
                 CalendarPublishDate.StartDate = DateTime.Now;
+                if (Request.QueryString["From"] != null)
+                    Session["BODReportCreateRequestFrom"] = Request.QueryString["From"];
             }
         }
         
@@ -41,6 +43,11 @@ namespace VALE.MyVale.BOD
             actions.SaveData(report, db);
 
             ViewState["reportId"] = report.BODReportId;
+            if (Session["BODReportCreateRequestFrom"] != null)
+            {
+                Session["BODReportCreateRequestFrom"] = null;
+                Response.Redirect(Session["BODReportCreateRequestFrom"].ToString());
+            }
             Response.Redirect("~/MyVale/BOD/BODReports");
         }
 
@@ -51,5 +58,16 @@ namespace VALE.MyVale.BOD
                 CalendarPublishDate.StartDate = Convert.ToDateTime(txtMeetingDate.Text);
         }
 
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+
+            if (Session["BODReportCreateRequestFrom"] != null)
+            {
+                var url = Session["BODReportCreateRequestFrom"].ToString();
+                Session["BODReportCreateRequestFrom"] = null;
+                Response.Redirect(url);
+            }
+            Response.Redirect("~/MyVale/BOD/BODReports");
+        }
     }
 }

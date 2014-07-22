@@ -35,5 +35,10 @@ namespace VALE.MyVale
                 Response.Redirect("/MyVale/ViewArticle?articleId=" + articleId);
             }
         }
+
+        protected void btnAddArticle_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/MyVale/Create/ArticleCreate?From=~/MyVale/Articles");
+        }
     }
 }

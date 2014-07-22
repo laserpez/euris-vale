@@ -11,7 +11,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-8">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
@@ -19,6 +19,9 @@
                                                 </h4>
                                             </li>
                                         </ul>
+                                    </div>
+                                    <div class="navbar-right">
+                                        <asp:Button runat="server" Text="Crea Progetto"  CssClass="btn btn-success" ID="btnAddProject" OnClick="btnAddProject_Click" />
                                     </div>
                                 </div>
                             </div>
@@ -29,28 +32,49 @@
                                     <ContentTemplate>
                                         <asp:Panel ID="ExternalPanelDefault" runat="server" CssClass="panel panel-default">
                                             <asp:Panel ID="InternalPanelHeading" runat="server" CssClass="panel-heading">
-                                                <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Mostra filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="col-lg-10">
+                                                            <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Mostra filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
+                                                        </div>
+                                                        <div class="navbar-right">
+                                                            <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" Visible="false" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-xs" />
+                                                            <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" Visible="false" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </asp:Panel>
                                             <div runat="server" id="filterPanel" class="panel-body">
-                                                <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
-                                                <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtName"></asp:TextBox>
-                                                <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
-                                                <asp:TextBox CssClass="form-control" runat="server" ID="txtDescription"></asp:TextBox>
-
-                                                <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Creato il"></asp:Label>
-                                                <asp:TextBox CssClass="col-md-2 form-control" runat="server" ID="txtCreationDate"></asp:TextBox>
-                                                <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtCreationDate"></asp:CalendarExtender>
-                                                <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Ultima modifica"></asp:Label>
-                                                <asp:TextBox CssClass="form-control" runat="server" ID="txtLastModifiedDate"></asp:TextBox>
-                                                <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtLastModifiedDate"></asp:CalendarExtender>
-
-                                                <asp:Label CssClass="col-md-2 control-label" runat="server" Text="Stato"></asp:Label>
-                                                <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control" ID="ddlStatus" runat="server"></asp:DropDownList>
-                                                <br />
-                                                <br />
-                                                <br />
-                                                <asp:Button runat="server" Text="Cerca" ID="btnFilterProjects" OnClick="btnFilterProjects_Click" CssClass="btn btn-info btn-xs" />
-                                                <asp:Button runat="server" Text="Pulisci filtri" ID="btnClearFilters" OnClick="btnClearFilters_Click" CssClass="btn btn-danger btn-xs" />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
+                                                        <asp:TextBox CssClass="col-md-4 form-control input-sm" runat="server" ID="txtName"></asp:TextBox>
+                                                        <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
+                                                        <asp:TextBox CssClass="form-control col-md-4 input-sm" runat="server" ID="txtDescription"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Creato il"></asp:Label>
+                                                        <asp:TextBox CssClass="col-md-4 form-control input-sm" runat="server" ID="txtCreationDate"></asp:TextBox>
+                                                        <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtCreationDate"></asp:CalendarExtender>
+                                                        <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Ultima modifica"></asp:Label>
+                                                        <asp:TextBox CssClass="form-control col-md-4 input-sm" runat="server" ID="txtLastModifiedDate"></asp:TextBox>
+                                                        <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtLastModifiedDate"></asp:CalendarExtender>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                                <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Stato"></asp:Label>
+                                                <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control input-sm" ID="ddlStatus" runat="server"></asp:DropDownList>
                                             </div>
                                         </asp:Panel>
                                         <asp:GridView OnDataBound="OpenedProjectList_DataBound" ID="OpenedProjectList" DataKeyNames="ProjectId" runat="server" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"

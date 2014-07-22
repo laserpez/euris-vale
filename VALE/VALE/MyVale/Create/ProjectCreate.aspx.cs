@@ -21,6 +21,8 @@ namespace VALE.MyVale
             if (!IsPostBack)
             {
                 chkPublic.Checked = true;
+                if (Request.QueryString["From"] != null)
+                    Session["ProjectCreateRequestFrom"] = Request.QueryString["From"];
             }
         }
 
@@ -28,12 +30,7 @@ namespace VALE.MyVale
         {
             var dbData = new UserOperationsContext();
 
-            var RelatedProjectSelected = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
-            if (SelectProject.ProjectNameTextBox.Text != "" && RelatedProjectSelected == null)
-            {
-                ModelState.AddModelError("", "Nome Progetto Correlato errato");
-            }
-            else if (dbData.Projects.Where(o => o.ProjectName == txtName.Text).FirstOrDefault() != null)
+            if (dbData.Projects.Where(o => o.ProjectName == txtName.Text).FirstOrDefault() != null)
             {
                 ModelState.AddModelError("", "Nome Progetto già esistente");
             }
@@ -55,7 +52,6 @@ namespace VALE.MyVale
                     Activities = new List<Activity>(),
                     Events = new List<Event>(),
                     InvolvedUsers = new List<UserData>(),
-                    RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text),
                 };
 
                 var projectActions = new ProjectActions();
@@ -73,12 +69,8 @@ namespace VALE.MyVale
         {
             var dbData = new UserOperationsContext();
 
-            var RelatedProjectSelected = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
-            if (SelectProject.ProjectNameTextBox.Text != "" && RelatedProjectSelected == null)
-            {
-                ModelState.AddModelError("", "Nome Progetto errato");
-            }
-            else if (dbData.Projects.Where(o => o.ProjectName == txtName.Text).FirstOrDefault() != null)
+            
+            if (dbData.Projects.Where(o => o.ProjectName == txtName.Text).FirstOrDefault() != null)
             {
                 ModelState.AddModelError("", "Nome Progetto già esistente");
             }
@@ -100,13 +92,23 @@ namespace VALE.MyVale
                     Activities = new List<Activity>(),
                     Events = new List<Event>(),
                     InvolvedUsers = new List<UserData>(),
-                    RelatedProject = dbData.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text),
                 };
 
                 var projectActions = new ProjectActions();
                 projectActions.SaveData(project, dbData);
                 Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + project.ProjectId + "&dataType=project&returnUrl=/MyVale/Projects");
             }
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+
+            if (Session["ProjectCreateRequestFrom"] != null) 
+            {
+                Session["ProjectCreateRequestFrom"] = null;
+                Response.Redirect(Session["ProjectCreateRequestFrom"].ToString());
+            }
+            Response.Redirect("~/MyVale/Projects");
         }
     }
 }
