@@ -23,15 +23,36 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:Label runat="server" CssClass="control-label">Titolo:</asp:Label>
-                            <asp:TextBox CssClass="form-control" ID="txtArticleTitle" runat="server"></asp:TextBox><br />
-                            <asp:Label runat="server" CssClass="control-label">Data di pubblicazione:</asp:Label>
-                            <asp:TextBox CssClass="form-control" ID="txtReleaseDate" runat="server"></asp:TextBox><br />
-                            <asp:CalendarExtender ID="CalendarReleaseDate" TargetControlID="txtReleaseDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
-                            <asp:Label runat="server" CssClass="control-label">Contenuto:</asp:Label><br />
-                            <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtArticleContent" runat="server"></asp:TextBox>
-                            <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtArticleContent">
-                                <Toolbar>
+                            <div class="row">
+                                <div class="col-md-12"><br /></div>
+                                <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
+                                <div class="col-md-12">
+                                    <asp:Label Font-Bold="true" runat="server" CssClass="control-label col-md-3">Titolo *</asp:Label>
+                                    <div class="col-md-9">
+                                        <asp:TextBox CssClass="form-control" ID="txtArticleTitle" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtArticleTitle" CssClass="text-danger" ErrorMessage="Il Titolo è obbligatorio" />
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <asp:Label Font-Bold="true" runat="server" CssClass="control-label col-md-3">Data di pubblicazione *</asp:Label>
+                                     <div class="col-md-9">
+                                        <asp:TextBox CssClass="form-control" ID="txtReleaseDate" runat="server"></asp:TextBox>
+                                        <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtReleaseDate" Display="Dynamic"></asp:RegularExpressionValidator>
+                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtArticleTitle" CssClass="text-danger" ErrorMessage="La Data di pubblicazione è obbligatoria" />
+                                        <asp:CalendarExtender ID="CalendarReleaseDate" TargetControlID="txtReleaseDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
+                                     </div>
+                                 </div>
+                             </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                     <asp:Label Font-Bold="true" runat="server" CssClass="control-label col-md-3">Contenuto *</asp:Label>
+                                     <div class="col-md-9">
+                                        <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="300px" ID="txtArticleContent" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtArticleContent" CssClass="text-danger" ErrorMessage="Il Contenuto è obbligatorio" />
+                                        <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtArticleContent">
+                                            <Toolbar>
                                     <ajaxToolkit:Undo />
                                     <ajaxToolkit:Redo />
                                     <ajaxToolkit:Bold />
@@ -47,8 +68,14 @@
                                     <ajaxToolkit:Copy />
                                     <ajaxToolkit:Paste />
                                 </Toolbar>
-                            </asp:HtmlEditorExtender>
-                            <asp:Button runat="server" ID="btnSubmit" Text="Invia" CssClass="btn btn-info" OnClick="btnSubmit_Click" />
+                                        </asp:HtmlEditorExtender>
+                                     </div>
+                                 </div>
+                                 <div class="col-md-12"><br /></div>
+                             </div>
+
+                            <asp:Button runat="server" ID="btnSubmit" Text="Invia" CssClass="btn btn-primary" OnClick="btnSubmit_Click" />
+                            <asp:Button runat="server" CssClass="btn btn-danger"  Text="Annulla" ID="btnCancel" CausesValidation="false"  OnClick="btnCancel_Click" />
                         </div>
                     </div>
                 </div>

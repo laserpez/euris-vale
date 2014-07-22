@@ -165,7 +165,7 @@
                                                             </div>
 
                                                             <div class="navbar-right">
-                                                                <asp:Button ID="btnAddUsers" runat="server" Visible="false" OnClick="addUsers_Click" CssClass="btn btn-info btn-sm" Text="Aggiungi/Rimuovi" />
+                                                                <asp:Button ID="btnAddUsers" runat="server" Visible="false" OnClick="addUsers_Click" CssClass="btn btn-info btn-xs" Text="Aggiungi/Rimuovi" />
                                                             </div>
 
                                                         </div>

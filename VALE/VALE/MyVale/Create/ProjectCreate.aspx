@@ -26,6 +26,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
+                            <div class="row"><div class="col-md12"><br /></div></div>
                             <div class="col-md-12 form-group">
                                 <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Nome progetto *</asp:Label>
@@ -77,13 +78,14 @@
                                 <div class="col-md-10">
                                     <asp:CheckBox runat="server" ID="chkPublic" />
                                 </div>
+                               
                                 <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
-                                <uc:SelectProject runat="server" ID="SelectProject" />
-                                <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
-
+                                <div class="row"><div class="col-md12"><br /></div></div>
+                                <div class="row"><div class="col-md12"><br /></div></div>
                                 <div class="col-md-12">
                                     <asp:Button runat="server" Text="Invita persone" ID="btnAddUsers" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnAddUsers_Click" />
                                     <asp:Button runat="server" Text="Salva e Chiudi" ID="btnSaveProject" CausesValidation="true" CssClass="btn btn-primary" OnClick="btnSaveProject_Click" />
+                                    <asp:Button runat="server" CssClass="btn btn-danger"  Text="Annulla" ID="btnCancel" CausesValidation="false"  OnClick="btnCancel_Click" />
                                 </div>
                             </div>
                         </div>

@@ -126,14 +126,11 @@
                                                             <div class="col-lg-10">
                                                                 <ul class="nav nav-pills">
                                                                     <li>
-                                                                        
-                                                                            <asp:Label ID="ActivityListName" runat="server" Text="Attività"></asp:Label>
-                                                                        
+                                                                        <asp:Label ID="ActivityListName" runat="server" Text="Attività"></asp:Label>
                                                                     </li>
                                                                 </ul>
                                                             </div>
                                                             <div class="navbar-right">
-                                                                
                                                                 <asp:Button runat="server" Text="Crea Attività"  CssClass="btn btn-success btn-xs" ID="btnAddActivity" OnClick="btnAddActivity_Click" />
                                                             </div>
                                                         </div>

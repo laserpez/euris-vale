@@ -42,10 +42,10 @@ namespace VALE.MyVale.BOD
             if (FileUpload.HasFile)
             {
                 attachedFile.FileName = fileName[fileName.Length - 1];
-                attachedFile.FileDescription = txtFileDescription.Text;
+                attachedFile.FileDescription = txtFileDescription.Value;
                 attachedFile.FileExtension = Path.GetExtension(FileUpload.PostedFile.FileName);
                 attachedFile.FileData = FileUpload.FileBytes;
-                txtFileDescription.Text = "";
+                txtFileDescription.Value = "";
                 db.VALEFiles.Add(attachedFile);
                 db.SaveChanges();
                 DocumentsGridView.DataBind();

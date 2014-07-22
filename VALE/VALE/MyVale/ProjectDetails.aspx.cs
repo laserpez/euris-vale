@@ -33,7 +33,8 @@ namespace VALE.MyVale
 
             if (!IsPostBack)
             {
-
+                if (Request.QueryString["From"] != null)
+                    Session["ProjectDetailsRequestFrom"] = Request.QueryString["From"];
                 ShowHideControls();
                 uploader.DataBind();
             }
@@ -176,7 +177,7 @@ namespace VALE.MyVale
                     btnWorkOnThis.CssClass = "btn btn-success";
                     btnWorkOnThis.Text = "Stai lavorando";
                     btnAddIntervention.Enabled = true;
-                    btnAddIntervention.CssClass = "btn btn-success btn-sm";
+                    btnAddIntervention.CssClass = "btn btn-success btn-xs";
                     btnAddIntervention.Text = "Aggiungi conversazione";
                 }
                 else
@@ -185,14 +186,14 @@ namespace VALE.MyVale
                     btnWorkOnThis.CssClass = "btn btn-info";
                     btnWorkOnThis.Text = "Lavora al progetto";
                     btnAddIntervention.Enabled = false;
-                    btnAddIntervention.CssClass = "btn btn-success btn-sm disable";
+                    btnAddIntervention.CssClass = "btn btn-success btn-xs disable";
                     btnAddIntervention.Text = "Non puoi aggiungere conversazioni";
                 }
             }
             else
             {
                 btnWorkOnThis.Enabled = false;
-                btnWorkOnThis.CssClass = "btn btn-success btn-sm disable";
+                btnWorkOnThis.CssClass = "btn btn-success disable";
                 btnWorkOnThis.Text = "Non puoi lavorare al progetto";
                 btnAddIntervention.Visible = false;
             }
@@ -576,6 +577,17 @@ namespace VALE.MyVale
                     return String.Format("Budget Totale: {0} Erogato {1}", budget, hours);
             }
             return String.Format(" {0} Ore di lavoro", hours);
+        }
+
+        protected void btnBack_ServerClick(object sender, EventArgs e)
+        {
+            string returnUrl = "";
+            if (Session["ProjectDetailsRequestFrom"] != null)
+                returnUrl = Session["ProjectDetailsRequestFrom"].ToString();
+            else
+                returnUrl = "/MyVale/Projects";
+            Session["ProjectDetailsRequestFrom"] = null;
+            Response.Redirect(returnUrl);
         }
 
         //private void SetPageNumbers(GridView GridView1)
