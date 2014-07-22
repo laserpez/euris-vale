@@ -107,14 +107,13 @@
                                                     <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center>
                                                         <div class="btn-group ">
                                                             <div class="navbar-right">
-                                                                <button type="button" id="AllListRoles" width="150" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server" ><center><div><%# GetRoleName(Item.Id) %><span class="caret"></div></center></span></button>
-                                                                <ul class="dropdown-menu"  style=" text-align: initial">
+                                                                <button type="button" Width="100px" id="AllListRoles" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server" ><center><div><%# GetRoleName(Item.Id) %><span class="caret"></span></div></center></button>
+                                                                <ul class="dropdown-menu" >
                                                                     <asp:ListView runat="server" ID="roleList" ItemType="Microsoft.AspNet.Identity.EntityFramework.IdentityRole" SelectMethod="GetRoles" DataSourceID="">
                                                                         <ItemTemplate>
-                                                                        <li><asp:LinkButton ID="btnRole" CommandArgument='<%#: Item.Name %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-star btn-sm"><%#: Item.Name %></span>  </asp:LinkButton></li>
+                                                                        <li><asp:LinkButton ID="btnRole" CommandArgument='<%#: Item.Name %>' runat="server" CssClass="text-center" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-minus btn-sm"><%#: Item.Name %></span>  </asp:LinkButton></li>
                                                                         </ItemTemplate>
                                                                     </asp:ListView>
                                                                 </ul>
@@ -122,7 +121,7 @@
                                                         </div>
                                                     </center>
                                                 </ItemTemplate>
-                                                <ItemStyle Width="100px" />
+                                                <ItemStyle Width="170px" />
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <ItemTemplate>

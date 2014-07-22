@@ -26,7 +26,12 @@ namespace VALE.MyVale.Create
 
         private void SetRoleDropDownList()
         {
-            List<string> init = new List<string> { "Seleziona", "Amministratore", "Membro del Consiglio", "Socio"};
+            List<string> init = new List<string> { "Seleziona"};
+            var roles = RoleActions.ReadRoles();
+            foreach (var elem in roles)
+            {
+                init.Add(elem.Name);
+            }
             DropDownSelectRole.DataSource = init;
             DropDownSelectRole.DataBind();
         }
