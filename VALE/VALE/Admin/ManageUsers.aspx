@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManageUsers.aspx.cs" Inherits="VALE.Admin.ManageUsers" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
 <%@ Register Src="~/MyVale/Create/AddNewUser.ascx" TagPrefix="uc" TagName="AddNewUser" %>
-<%@ Register Src="~/MyVale/GridPager.ascx" TagPrefix="asp" TagName="GridPager" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
@@ -12,7 +11,6 @@
                     <asp:UpdatePanel runat="server">
                         <ContentTemplate>
                             <div class="panel panel-default">
-
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -51,7 +49,7 @@
                                 </div>
 
                                 <div class="panel-body">
-                                    <asp:GridView ID="grdUsers" runat="server" DataKeyNames="UserName" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both" AllowPaging="true" PageSize="2" OnPageIndexChanging="grdUsers_PageIndexChanging"
+                                    <asp:GridView ID="grdUsers" runat="server" DataKeyNames="UserName" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both" AllowPaging="true" PageSize="10" OnPageIndexChanging="grdUsers_PageIndexChanging"
                                         ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
                                         <Columns>
                                             <asp:TemplateField>
@@ -129,11 +127,8 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
-                                        <PagerTemplate>
-                                            <asp:GridPager runat="server"
-                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                        </PagerTemplate>
+                                        <PagerSettings Position="Bottom" />
+                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                     </asp:GridView>
                                     <asp:Button ID="btnConfirmUser" Visible="false" runat="server" Text="Conferma utenti selezionati" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnConfimUser_Click" />
                                     <asp:Label ID="lblChangeRole" runat="server" Visible="false" Text="" />

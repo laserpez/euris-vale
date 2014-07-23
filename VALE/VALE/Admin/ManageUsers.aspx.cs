@@ -155,7 +155,7 @@ namespace VALE.Admin
         protected void grdUsers_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             grdUsers.PageIndex = e.NewPageIndex;
-            grdUsers.DataBind();
+            LoadData();
         }
 
         // The return type can be changed to IEnumerable, however to support
