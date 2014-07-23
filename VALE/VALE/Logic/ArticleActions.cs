@@ -45,6 +45,7 @@ namespace VALE.Logic
         public bool DeleteArticle(int articleId)
         {
             var article = _db.BlogArticles.First(a => a.BlogArticleId == articleId);
+            _db.BlogComments.RemoveRange(article.Comments);
             _db.BlogArticles.Remove(article);
             _db.SaveChanges();
             return true;

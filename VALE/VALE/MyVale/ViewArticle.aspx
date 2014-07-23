@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ViewArticle.aspx.cs" Inherits="VALE.MyVale.ViewArticle" %>
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container">
         <div class="bs-docs-section">
@@ -39,7 +40,26 @@
                                 <ContentTemplate>
                                     <asp:Panel runat="server">
                                         <asp:Label runat="server" Text="Aggiungi commento:"></asp:Label>
-                                        <asp:TextBox runat="server" CssClass="form-control" TextMode="MultiLine" ID="txtComment"></asp:TextBox>
+                                        <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtComment" runat="server"></asp:TextBox>
+                                        <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtComment">
+                                            <Toolbar>
+                                                <ajaxToolkit:Undo />
+                                                <ajaxToolkit:Redo />
+                                                <ajaxToolkit:Bold />
+                                                <ajaxToolkit:Italic />
+                                                <ajaxToolkit:Underline />
+                                                <ajaxToolkit:StrikeThrough />
+                                                <ajaxToolkit:Subscript />
+                                                <ajaxToolkit:Superscript />
+                                                <ajaxToolkit:InsertOrderedList />
+                                                <ajaxToolkit:InsertUnorderedList />
+                                                <ajaxToolkit:CreateLink />
+                                                <ajaxToolkit:Cut />
+                                                <ajaxToolkit:Copy />
+                                                <ajaxToolkit:Paste />
+                                            </Toolbar>
+                                        </asp:HtmlEditorExtender>
+                                        <p></p>
                                         <asp:Button runat="server" CssClass="btn btn-info btn-xs" ID="btnAddComment" Text="Aggiungi" OnClick="btnAddComment_Click" />
                                     </asp:Panel>
                                     <br />
@@ -53,8 +73,8 @@
                                                 <ItemTemplate>
                                                     <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.Creator.FullName %></asp:Label>
                                                     <asp:Label runat="server"><%#: String.Format(" - {0}", Item.Date) %></asp:Label>
-                                                    <asp:LinkButton runat="server" ID="deleteComment" ToolTip="Cancella commento" Visible="false" CommandArgument="<%#: Item.BlogCommentId %>" CausesValidation="false" OnClick="deleteComment_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton><br />
-                                                    <asp:Label runat="server"><%#: Item.CommentText %></asp:Label><br />
+                                                     <asp:Label runat="server" Visible="false" ID="labelDeleteBtn" BackColor="#cd0200" ForeColor="White" BorderColor="#cd0200" BorderStyle="Solid" CssClass="glyphicon glyphicon-trash" Width="22px" Height="22px" ><asp:Button runat="server" ID="deleteComment" BackColor="Transparent" BorderColor="Transparent" CssClass="deleteComment" ToolTip="Cancella commento" Visible="false" CommandArgument="<%#: Item.BlogCommentId %>" CausesValidation="false" OnClick="deleteComment_Click"></asp:Button></asp:Label><br />
+                                                    <asp:Label ID="txtCommentDescription" runat="server"></asp:Label><br />
                                                 </ItemTemplate>
                                                 <ItemSeparatorTemplate>
                                                     <br />
@@ -70,4 +90,12 @@
             </div>
         </div>
     </div>
+    <style type="text/css">
+        .deleteComment {
+            background-color:transparent;
+            border-color:transparent;
+            margin: -14px -17px -12px -14px;
+            padding: -4px -7px -2px -4px;
+        }
+    </style>
 </asp:Content>

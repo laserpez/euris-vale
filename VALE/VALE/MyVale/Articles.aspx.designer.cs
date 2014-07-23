@@ -22,16 +22,16 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// Controllo grdAllArticles.
-        /// btnAddArticle control.
+        /// Controllo btnAddArticle.
         /// </summary>
         /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAddArticle;
         
         /// <summary>
+        /// Controllo grdAllArticles.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.

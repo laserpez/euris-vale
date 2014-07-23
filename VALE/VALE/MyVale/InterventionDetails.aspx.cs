@@ -24,6 +24,7 @@ namespace VALE.MyVale
             _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _currentInterventionId = Convert.ToInt32(Request.QueryString["interventionId"]);
+
         }
 
         public Intervention GetIntervention([QueryString("interventionId")] int? interventionId)
@@ -74,6 +75,7 @@ namespace VALE.MyVale
             };
             _db.Comments.Add(comment);
             _db.SaveChanges();
+
             lstComments.DataBind();
             txtComment.Text = "";
         }
@@ -82,7 +84,7 @@ namespace VALE.MyVale
         {
             if (interventionId.HasValue)
             {
-                var comments = _db.Comments.Where(c => c.InterventionId == interventionId).ToList();
+                var comments = _db.Comments.Where(c => c.InterventionId == interventionId).OrderByDescending(o => o.Date).ToList();
                 return comments;
             }
             else
@@ -102,7 +104,7 @@ namespace VALE.MyVale
 
         protected void deleteComment_Click(object sender, EventArgs e)
         {
-            var btnDelete = (LinkButton)sender;
+            var btnDelete = (Button)sender;
             var commentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
             var db = new UserOperationsContext();
             var aCommentRelated = db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId);
@@ -116,24 +118,25 @@ namespace VALE.MyVale
 
         protected void lstComments_DataBound(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            string result = db.Comments.First(c => c.InterventionId == _currentInterventionId).CommentText;
-            Label txtCommentDescription = (Label)lstComments.FindControl("txtCommentDescription");
-            if (String.IsNullOrEmpty(result))
-                txtCommentDescription.Text = "Nessun commento inserito";
-            else
-                txtCommentDescription.Text = HttpUtility.HtmlDecode(result).ToString();
-
             for (int i = 0; i < lstComments.Items.Count; i++)
             {
-                var btnDelete = (LinkButton)lstComments.Items[i].FindControl("deleteComment");
+                var btnDelete = (Button)lstComments.Items[i].FindControl("deleteComment");
+                var labelDeleteBtn = (Label)lstComments.Items[i].FindControl("labelDeleteBtn");
                 var commentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
-
-                var currentProject = db.Interventions.FirstOrDefault(c => c.InterventionId == _currentInterventionId).RelatedProject;
-                if (HttpContext.Current.User.IsInRole("Amministratore") || db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId).CreatorUserName == _currentUser || currentProject.OrganizerUserName == _currentUser)
+                var currentProject = _db.Interventions.FirstOrDefault(c => c.InterventionId == _currentInterventionId).RelatedProject;
+                if (HttpContext.Current.User.IsInRole("Amministratore") || _db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId).CreatorUserName == _currentUser || currentProject.OrganizerUserName == _currentUser)
                 {
+                    labelDeleteBtn.Visible = true;
                     btnDelete.Visible = true;
                 }
+
+                var commentText = _db.Comments.FirstOrDefault(cc => cc.CommentId == commentId).CommentText;
+
+                var txtCommentDescription = (Label)lstComments.Items[i].FindControl("txtCommentDescription");
+                if (String.IsNullOrEmpty(commentText))
+                    txtCommentDescription.Text = "Nessun commento inserito";
+                else
+                    txtCommentDescription.Text = commentText;
             }
         }
     }

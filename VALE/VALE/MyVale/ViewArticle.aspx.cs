@@ -64,7 +64,7 @@ namespace VALE.MyVale
 
         protected void deleteComment_Click(object sender, EventArgs e)
         {
-            var btnDelete = (LinkButton)sender;
+            var btnDelete = (Button)sender;
             var blogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
             var db = new UserOperationsContext();
             var aCommentRelated = db.BlogComments.FirstOrDefault(c => c.BlogCommentId == blogCommentId && c.BlogArticleId == _articleId);
@@ -80,15 +80,25 @@ namespace VALE.MyVale
         {
             for (int i = 0; i < lstComments.Items.Count; i++)
             {
-                var btnDelete = (LinkButton)lstComments.Items[i].FindControl("deleteComment");
-                var BlogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
+                var btnDelete = (Button)lstComments.Items[i].FindControl("deleteComment");
+                var labelDeleteBtn = (Label)lstComments.Items[i].FindControl("labelDeleteBtn");
+                var _blogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
 
                 var db = new UserOperationsContext();
                 var currentArticle = db.BlogArticles.FirstOrDefault(a => a.BlogArticleId == _articleId);
-                if (HttpContext.Current.User.IsInRole("Amministratore") || db.BlogArticles.FirstOrDefault(c => c.BlogArticleId == BlogCommentId && c.BlogArticleId == _articleId).CreatorUserName == _currentUser || currentArticle.CreatorUserName == _currentUser)
+                if (HttpContext.Current.User.IsInRole("Amministratore") || db.BlogComments.FirstOrDefault(c => c.BlogCommentId == _blogCommentId && c.BlogArticleId == _articleId).CreatorUserName == _currentUser || currentArticle.CreatorUserName == _currentUser)
                 {
+                    labelDeleteBtn.Visible = true;
                     btnDelete.Visible = true;
                 }
+
+                var commentText = db.BlogComments.FirstOrDefault(cc => cc.BlogCommentId == _blogCommentId).CommentText;
+
+                var txtCommentDescription = (Label)lstComments.Items[i].FindControl("txtCommentDescription");
+                if (String.IsNullOrEmpty(commentText))
+                    txtCommentDescription.Text = "Nessun commento inserito";
+                else
+                    txtCommentDescription.Text = commentText;
             }
         }
 

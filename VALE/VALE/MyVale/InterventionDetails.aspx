@@ -90,9 +90,8 @@
                                                 <ajaxToolkit:Paste />
                                             </Toolbar>
                                         </asp:HtmlEditorExtender>
-                                        <%--<asp:TextBox runat="server" CssClass="form-control" TextMode="MultiLine" ID="txtComment"></asp:TextBox>--%>
                                         <p></p>
-                                        <asp:Button runat="server" CssClass="btn btn-info btn-xs" ID="btnAddComment" CausesValidation="false" Text="Aggiungi" OnClick="btnAddComment_Click" />
+                                        <asp:Button runat="server" CssClass="btn btn-info btn-xs" ID="btnAddComment" Text="Aggiungi" OnClick="btnAddComment_Click" />
                                     </asp:Panel>
                                     <br />
                                     <div class="panel panel-default">
@@ -100,14 +99,14 @@
                                         <asp:UpdatePanel runat="server" UpdateMode="Conditional">
                                             <ContentTemplate>
                                                 <div class="panel-body">
-                                                    <asp:ListView runat="server" ID="lstComments" OnDataBound="lstComments_DataBound" ItemType="VALE.Models.Comment" SelectMethod="GetComments">
+                                                    <asp:ListView runat="server" ID="lstComments" OnDataBound="lstComments_DataBound" SelectMethod="GetComments" ItemType="VALE.Models.Comment">
                                                         <EmptyDataTemplate>
                                                             <asp:Label runat="server" Text="Non sono ancora presenti commenti."></asp:Label>
                                                         </EmptyDataTemplate>
                                                         <ItemTemplate>
                                                             <asp:Label runat="server" Font-Bold="true" ForeColor="#317eac"><%#: Item.CreatorUserName %></asp:Label>
                                                             <asp:Label runat="server"><%#: String.Format(" - {0}", Item.Date) %></asp:Label>
-                                                            <asp:LinkButton runat="server" ID="deleteComment" ToolTip="Cancella commento" Visible="false" CommandArgument="<%#: Item.CommentId %>" CausesValidation="false" OnClick="deleteComment_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton><br />
+                                                            <asp:Label runat="server" Visible="false" ID="labelDeleteBtn" BackColor="#cd0200" ForeColor="White" BorderColor="#cd0200" BorderStyle="Solid" CssClass="glyphicon glyphicon-trash" Width="22px" Height="22px" ><asp:Button runat="server" ID="deleteComment" CssClass="deleteComment" ToolTip="Cancella commento" Visible="false" CommandArgument="<%#: Item.CommentId %>" CausesValidation="false" OnClick="deleteComment_Click"></asp:Button></asp:Label><br />
                                                             <asp:Label ID="txtCommentDescription" runat="server"></asp:Label>
                                                         </ItemTemplate>
                                                         <ItemSeparatorTemplate>
@@ -126,4 +125,12 @@
             </div>
         </div>
     </div>
+    <style type="text/css">
+        .deleteComment {
+            background-color:transparent;
+            border-color:transparent;
+            margin: -14px -17px -12px -14px;
+            padding: -4px -7px -2px -4px;
+        }
+    </style>
 </asp:Content>
