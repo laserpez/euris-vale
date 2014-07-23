@@ -38,33 +38,24 @@
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <center><div><%#: Item.Name %></div></center>
+                                                            <center><div><asp:Label class="text-center" runat="server" id="labelRole" Text="<%#: Item.Name %>"></asp:Label></div></center>
                                                         </ItemTemplate>
                                                         <HeaderTemplate>
                                                             <center><div><asp:Linkbutton runat="server" id="labelname" ><span  class="glyphicon glyphicon-credit-card"></span> Ruolo</asp:Linkbutton></div></center>
                                                         </HeaderTemplate>
                                                     </asp:TemplateField>
 
-<%--                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:CheckBox runat="server" ID="grdRoleAmm" /></div></center>
-                                                        </ItemTemplate>
-                                                        <HeaderTemplate>
-                                                            <center><div><asp:LinkButton runat="server" CommandArgument="Description" CommandName="Sort" ID="labelDescription"> Amm</asp:LinkButton></div></center>
-                                                        </HeaderTemplate>
-                                                    </asp:TemplateField>--%>
-
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
                                                             <center>
                                                                 <div>
                                                                     <asp:LinkButton runat="server" CommandName="EditRole" CommandArgument="<%#: Item.Name %>" OnClick="BtnModifyRole_Click"><span class="label label-success">Modifica</span></asp:LinkButton>
-                                                                    <asp:LinkButton runat="server" CommandName="DeleteRole" CommandArgument="<%#: Item.Name %>" OnClick="Delete_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
+                                                                    <asp:LinkButton runat="server" ID="deleteButton"  CommandName="DeleteRole" Visible="false" CommandArgument="<%#: Item.Name %>" OnClick="Delete_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
                                                                 </div>
                                                             </center>
                                                         </ItemTemplate>
                                                         <HeaderTemplate>
-                                                            <center><div><asp:LinkButton runat="server" ID="labelBtnRole" Width="150px"><span  class="glyphicon glyphicon-cog"></span> Modifica</asp:LinkButton></div></center>
+                                                            <center><div><asp:LinkButton runat="server" ID="labelBtnRole" Width="150px"><span  class="glyphicon glyphicon-cog"></span> Azioni</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <HeaderStyle Width="100px"></HeaderStyle>
                                                         <ItemStyle Width="100px"></ItemStyle>
