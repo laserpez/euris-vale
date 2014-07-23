@@ -59,6 +59,7 @@ namespace VALE.MyVale
                 Response.Redirect("~/MyVale/Projects");
             }
         }
+
         public List<ProjectType> GetTypes()
         {
             var db = new UserOperationsContext();
@@ -102,11 +103,11 @@ namespace VALE.MyVale
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-
             if (Session["ProjectCreateRequestFrom"] != null) 
             {
+                var url = Session["ProjectCreateRequestFrom"].ToString();
                 Session["ProjectCreateRequestFrom"] = null;
-                Response.Redirect(Session["ProjectCreateRequestFrom"].ToString());
+                Response.Redirect(url);
             }
             Response.Redirect("~/MyVale/Projects");
         }

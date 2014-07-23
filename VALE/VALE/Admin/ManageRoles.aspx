@@ -38,7 +38,7 @@
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Label class="text-center" runat="server" id="labelRole" Text="<%#: Item.Name %>"></asp:Label></div></center>
+                                                            <center><div><asp:Label CssClass="text-center" runat="server" id="labelRole" Text="<%#: Item.Name %>"></asp:Label></div></center>
                                                         </ItemTemplate>
                                                         <HeaderTemplate>
                                                             <center><div><asp:Linkbutton runat="server" id="labelname" ><span  class="glyphicon glyphicon-credit-card"></span> Ruolo</asp:Linkbutton></div></center>
@@ -94,7 +94,7 @@
 
                                 <label class="col-lg-12 control-label">Nome Ruolo *</label>
                                 <div class="col-lg-12">
-                                    <asp:TextBox runat="server" class="form-control input-sm" ID="NameTextBox" />
+                                    <asp:TextBox runat="server" CssClass="form-control input-sm" ID="NameTextBox" />
                                     <asp:Label runat="server" CssClass="text-danger" ID="ErrorPopup" Text=""></asp:Label>
                                     <asp:RequiredFieldValidator runat="server" ValidationGroup="AddRole" ControlToValidate="NameTextBox" CssClass="text-danger" ErrorMessage="Il campo Nome Ruolo è richiesto." />
                                 </div>
