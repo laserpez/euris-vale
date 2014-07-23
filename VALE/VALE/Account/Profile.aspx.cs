@@ -18,6 +18,16 @@ namespace VALE
             _currentUser = HttpContext.Current.User.Identity.Name;
             HeaderName.Text = "Profilo di " + _currentUser;
 
+            if (!IsPostBack)
+            {
+                if (Request.QueryString["Username"] != null)
+                {
+                    var _currentUserName = Request.QueryString.GetValues("Username").First();
+                    if (_currentUser != _currentUserName)
+                        EditProfile.Visible = false;
+                }
+            }
+
             SetImage();
             SetCV();
         }
