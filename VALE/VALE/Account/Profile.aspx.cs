@@ -10,7 +10,7 @@ using System.IO;
 
 namespace VALE
 {
-    public partial class Profile : System.Web.UI.Page
+    public partial class Profile : Page
     {
         private string _currentUser;
         protected void Page_Load(object sender, EventArgs e)

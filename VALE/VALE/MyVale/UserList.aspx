@@ -32,18 +32,10 @@
 
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><div><asp:LinkButton CommandArgument="Username" CommandName="sort" runat="server" ID="label0"><span  class="glyphicon glyphicon-credit-card"></span> UserName</asp:LinkButton></div></center>
-                            </HeaderTemplate>
-                            <ItemTemplate>
-                                <center><div><asp:Label runat="server"><%#: Item.Username %></asp:Label></div></center>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField>
-                            <HeaderTemplate>
                                 <center><div><asp:LinkButton CommandArgument="FirstName" CommandName="sort" runat="server" ID="label1"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><div><asp:Label runat="server"><%#: Item.FirstName %></asp:Label></div></center>
+                                <center><div><asp:Label runat="server"><a href="/Account/Profile?Username=<%#: Item.Username %>"><%#: Item.FirstName %></a></asp:Label></div></center>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
@@ -64,7 +56,15 @@
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><div><asp:LinkButton CommandArgument="CellPhone" CommandName="sort" runat="server" ID="label4"><span  class="glyphicon glyphicon-phone"></span> Cell</asp:LinkButton></div></center>
+                                <center><div><asp:LinkButton CommandArgument="Telephone" CommandName="sort" runat="server" ID="label4"><span  class="glyphicon glyphicon-credit-card"></span> Telephone</asp:LinkButton></div></center>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <center><div><asp:Label runat="server"><%#: Item.Telephone %></asp:Label></div></center>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <center><div><asp:LinkButton CommandArgument="CellPhone" CommandName="sort" runat="server" ID="label5"><span  class="glyphicon glyphicon-phone"></span> Cell</asp:LinkButton></div></center>
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <center><div><asp:Label runat="server"><%#: Item.CellPhone %></asp:Label></div></center>
