@@ -120,7 +120,7 @@
       <Visible>true</Visible>
     </ListaUtenti>
     <Consiglio>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
       <Creation>false</Creation>
     </Consiglio>
     <Progetti>
@@ -138,41 +138,6 @@
     <Articoli>
       <Visible>true</Visible>
       <Creation>true</Creation>
-    </Articoli>
-  </XmlRoles>
-  <XmlRoles>
-    <Name>utente</Name>
-    <Amministrazione>
-      <Visible>false</Visible>
-    </Amministrazione>
-    <DocumentiAssociazione>
-      <Visible>true</Visible>
-    </DocumentiAssociazione>
-    <Home>
-      <Visible>true</Visible>
-    </Home>
-    <ListaUtenti>
-      <Visible>true</Visible>
-    </ListaUtenti>
-    <Consiglio>
-      <Visible>false</Visible>
-      <Creation>false</Creation>
-    </Consiglio>
-    <Progetti>
-      <Visible>true</Visible>
-      <Creation>false</Creation>
-    </Progetti>
-    <Attivita>
-      <Visible>true</Visible>
-      <Creation>false</Creation>
-    </Attivita>
-    <Eventi>
-      <Visible>true</Visible>
-      <Creation>false</Creation>
-    </Eventi>
-    <Articoli>
-      <Visible>true</Visible>
-      <Creation>false</Creation>
     </Articoli>
   </XmlRoles>
 </ArrayOfXmlRoles>
