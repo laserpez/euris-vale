@@ -23,9 +23,10 @@ namespace VALE.MyVale
         public string LastName { get; set; }
         public string Email { get; set; }
         public string CellPhone { get; set; }
+        public string Telephone { get; set; }
     }
 
-    public partial class UserList : System.Web.UI.Page
+    public partial class UserList : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -45,7 +46,7 @@ namespace VALE.MyVale
             var textlastname = txtLastname.Text;
             var textemail = txtEmail.Text;
             var db = new ApplicationDbContext();
-            var users = db.Users.AsQueryable();
+            var users = db.Users.Where(o => o.UserName != "Admin");
             if (textname != null)
                 users = users.Where(u => u.FirstName.ToUpper().Contains(textname));
             if (textlastname != null)

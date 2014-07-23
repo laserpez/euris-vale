@@ -14,7 +14,22 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            SetDeleteButtonGrid();
+        }
 
+        private void SetDeleteButtonGrid()
+        {
+            int i;
+            for (i = 0; i < grdRoles.Rows.Count; i++)
+            {
+                var deleteButton = (LinkButton)grdRoles.Rows[i].Cells[1].FindControl("deleteButton");
+                var rolelabel = ((Label)grdRoles.Rows[i].Cells[0].FindControl("labelRole"));
+                string role = rolelabel.Text;
+                if (role != "Amministratore" && role != "Membro del consiglio" && role != "Socio" && role != "Collaboratore")
+                {
+                    deleteButton.Visible = true;
+                }
+            }
         }
 
         protected void btnAddRolesButton_Click(object sender, EventArgs e)
@@ -72,6 +87,7 @@ namespace VALE.Admin
             RoleActions.DeleteRole(button.CommandArgument);
 
             grdRoles.DataBind();
+            SetDeleteButtonGrid();
         }
 
         protected void btnOkForNewRoleButton_Click(object sender, EventArgs e)
@@ -96,8 +112,7 @@ namespace VALE.Admin
 
             if (condition)
             {
-
-
+                 
                 var ruolo = new XmlRoles();
                 ruolo.Name = NameTextBox.Text;
 
@@ -120,6 +135,7 @@ namespace VALE.Admin
 
             grdRoles.DataBind();
             UnCheckAll();
+            SetDeleteButtonGrid();
         }
 
         protected void btnClosePopUpButton_Click(object sender, EventArgs e)
