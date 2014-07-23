@@ -50,7 +50,7 @@
                                                             <center>
                                                                 <div>
                                                                     <asp:LinkButton runat="server" CommandName="EditRole" CommandArgument="<%#: Item.Name %>" OnClick="BtnModifyRole_Click"><span class="label label-success">Modifica</span></asp:LinkButton>
-                                                                    <asp:LinkButton runat="server" ID="deleteButton" CommandName="DeleteRole" Visible="false" CommandArgument="<%#: Item.Name %>" OnClick="Delete_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
+                                                                    <asp:LinkButton runat="server" ID="deleteButton"  CommandName="DeleteRole" Visible="false" CommandArgument="<%#: Item.Name %>" OnClick="Delete_Click"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
                                                                 </div>
                                                             </center>
                                                         </ItemTemplate>
