@@ -98,6 +98,9 @@ namespace VALE.Logic
                 var project = db.Projects.First(p => p.ProjectId == dataId);
                 project.AttachedFiles.Add(file);
                 project.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                var listHierarchyUp = getHierarchyUp(project.ProjectId);
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = project.ProjectId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento a \"" + project.ProjectName + "\"", DataType = "Progetto", Date = DateTime.Now, Description = "Nome documento: \"" + file.FileName + "\"" });
                 return true;
@@ -122,6 +125,8 @@ namespace VALE.Logic
                 var db = new UserOperationsContext();
                 var project = db.Projects.First(p => p.ProjectId == dataId);
                 db.AttachedFiles.RemoveRange(project.AttachedFiles);
+                var listHierarchyUp = getHierarchyUp(project.ProjectId);
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = dataId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Progetto", Date = DateTime.Now, Description = "Rimossi tutti i documenti da \"" + project.ProjectName + "\"" });
                 return true;
@@ -153,6 +158,9 @@ namespace VALE.Logic
             }
             else
                 aProject.InvolvedUsers.Remove(user);
+            aProject.LastModified = DateTime.Now;
+            var listHierarchyUp = getHierarchyUp(aProject.ProjectId);
+            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             db.SaveChanges();
 
             logger.Write(new LogEntry() { DataId = dataId, Username = user.UserName, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = user.UserName + (added ? " è stato invitato al progetto \"" : " non collabora più al progetto \"") + aProject.ProjectName + "\"" });
@@ -201,6 +209,10 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             var currentProject = db.Projects.First(a => a.ProjectId == projectId);
             db.Entry(currentProject).Reference(p => p.RelatedProject).CurrentValue = null;
+            var listHierarchyUp = getHierarchyUp(currentProject.ProjectId);
+            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            currentProject.LastModified = DateTime.Now;
+            
             db.SaveChanges();
         }
 
