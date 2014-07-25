@@ -61,9 +61,11 @@ namespace VALE.Logic
 
         public int GetActivitiesRequest(string userName)
         {
-            var db = new UserOperationsContext();
-            return db.UserDatas.First(u => u.UserName == userName).PendingActivity.Count;
-
+            //var db = new UserOperationsContext();
+            //var pendingActivity = db.UserDatas.First(u => u.UserName == userName).PendingActivity;
+            //if(pendingActivity != null)
+            //    return pendingActivity.Count;
+            return 0;
         }
 
 

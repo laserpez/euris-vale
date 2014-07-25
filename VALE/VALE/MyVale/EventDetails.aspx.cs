@@ -28,6 +28,8 @@ namespace VALE.MyVale
 
             if (!IsPostBack)
             {
+                if (Request.QueryString["From"] != null)
+                    Session["EventDetailsRequestFrom"] = Request.QueryString["From"];
                 var currentEvent = _db.Events.FirstOrDefault(ev => ev.EventId == _currentEventId);
                 var addUsersBtn = EventDetail.FindControl("btnAddUsers");
                 var btnModify = (Button)EventDetail.FindControl("btnModifyEvent");
