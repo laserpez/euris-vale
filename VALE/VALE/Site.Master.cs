@@ -89,6 +89,7 @@ namespace VALE
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
+            Session.RemoveAll();
             Context.GetOwinContext().Authentication.SignOut();
         }
 
