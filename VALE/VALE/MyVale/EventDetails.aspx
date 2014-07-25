@@ -14,9 +14,9 @@
 
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-lg-12">
-
-                                    <div class="col-lg-10">
+                                <div class="col-md-6">
+                                    <asp:Button ID="btnBack" ToolTip="Torna indietro" runat="server" CausesValidation="false" CssClass="btn btn-primary col-md-1" Font-Bold="true" Text="&#171;" OnClick="btnBack_Click" />
+                                    <div class="col-lg-11">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
@@ -25,7 +25,8 @@
                                             </li>
                                         </ul>
                                     </div>
-
+                                </div>
+                                <div class="col-lg-6">
                                     <div class="navbar-right">
                                         <asp:UpdatePanel runat="server">
                                             <ContentTemplate>

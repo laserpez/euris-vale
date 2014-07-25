@@ -41,35 +41,8 @@ namespace VALE.MyVale
 
         protected void btnAddUsers_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var user = db.UserDatas.FirstOrDefault(u => u.UserName == _currentUser);
-            var registeredUsers = new List<UserData>() { user };
-            var dateToAdd = new DateTime();
-            int hour, minute;
-            int.TryParse(txtHour.Text, out hour);
-            int.TryParse(txtMin.Text, out minute);
-            if (hour <= 0 || hour > 24)
-                hour = 0;
-            if (minute < 0 || minute > 59)
-                minute = 0;
+            var newEvent = SaveData();
 
-            dateToAdd = Convert.ToDateTime(txtStartDate.Text + " "+hour+":"+minute);
-            var newEvent = new Event
-            {
-                Name = txtName.Text,
-                Description = txtDescription.Text,
-                Site = txtSite.Text,
-                Durata = txtDurata.Text,
-                Public = chkPublic.Checked,
-                EventDate = dateToAdd,
-                OrganizerUserName = _currentUser,
-                RegisteredUsers = registeredUsers,
-                RelatedProject = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text)
-            };
-            var eventActions = new EventActions();
-            
-            eventActions.SaveData(newEvent, db);
-            
             var redirectURL = "";
             if (Session["EventCreateCallingProjectId"] != null)
             {
@@ -86,7 +59,8 @@ namespace VALE.MyVale
 
             Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newEvent.EventId + "&dataType=event&returnUrl=" + redirectURL);
         }
-        protected void btnAdd_Click(object sender, EventArgs e)
+
+        private Event SaveData()
         {
             var db = new UserOperationsContext();
             var user = db.UserDatas.FirstOrDefault(u => u.UserName == _currentUser);
@@ -100,7 +74,10 @@ namespace VALE.MyVale
             if (minute < 0 || minute > 59)
                 minute = 0;
 
-            dateToAdd = Convert.ToDateTime(txtStartDate.Text + " "+hour+":"+minute);
+            dateToAdd = Convert.ToDateTime(txtStartDate.Text + " " + hour + ":" + minute);
+
+            var project = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text);
+
             var newEvent = new Event
             {
                 Name = txtName.Text,
@@ -111,11 +88,17 @@ namespace VALE.MyVale
                 EventDate = dateToAdd,
                 OrganizerUserName = _currentUser,
                 RegisteredUsers = registeredUsers,
-                RelatedProject = db.Projects.FirstOrDefault(p => p.ProjectName == SelectProject.ProjectNameTextBox.Text)
+                RelatedProject = project
             };
             var eventActions = new EventActions();
-            
+
             eventActions.SaveData(newEvent, db);
+
+            return newEvent;
+        }
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            var newEvent = SaveData();
 
             var redirectURL = "";
             if (Session["EventCreateCallingProjectId"] != null)

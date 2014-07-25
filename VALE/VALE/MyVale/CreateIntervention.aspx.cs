@@ -20,6 +20,8 @@ namespace VALE.MyVale
         protected void Page_Load(object sender, EventArgs e)
         {
             _currentUser = User.Identity.GetUserName();
+            if (Request.QueryString["projectId"] != null)
+                Session["InterventionCreateCallingProjectId"] = Request.QueryString["projectId"];
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
         }
@@ -45,16 +47,7 @@ namespace VALE.MyVale
             }
             else
             {
-                var db = new UserOperationsContext();
-                var intervention = new Intervention
-                {
-                    CreatorUserName = _currentUser,
-                    ProjectId = _currentProjectId,
-                    InterventionText = txtComment.Text,
-                    Date = DateTime.Today
-                };
-                var actions = new InterventionActions();
-                actions.SaveData(intervention, db);
+                var intervention = SaveData();
 
                 Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
             }
@@ -65,8 +58,17 @@ namespace VALE.MyVale
             btnSaveInterventionWithAttachment.Attributes.Remove("btnPressed");
             btnSaveInterventionWithAttachment.Attributes.Add("btnPressed", btnSaveInterventionWithAttachment.ID);
 
+            var intervention = SaveData();
+
+            FileUploader.Visible = true;
+            FileUploader.DataActions = new InterventionActions();
+            FileUploader.DataId = intervention.InterventionId;
+        }
+
+        private Intervention SaveData()
+        {
             var db = new UserOperationsContext();
-            var intervention = new Intervention
+            var newIntervention = new Intervention
             {
                 CreatorUserName = _currentUser,
                 ProjectId = _currentProjectId,
@@ -74,12 +76,39 @@ namespace VALE.MyVale
                 Date = DateTime.Today
             };
 
-            var actions = new InterventionActions();
-            actions.SaveData(intervention, db);
+            var actionsIntervention = new InterventionActions();
+            actionsIntervention.SaveData(newIntervention, db);
 
-            FileUploader.Visible = true;
-            FileUploader.DataActions = new InterventionActions();
-            FileUploader.DataId = intervention.InterventionId;
+            return newIntervention;
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            if (btnSaveInterventionWithAttachment.Attributes.Count != 0)
+            {
+                var _db = new UserOperationsContext();
+                var lstInterventions = _db.Interventions.Where(i => i.ProjectId == _currentProjectId).ToList();
+                foreach (var intervention in lstInterventions)
+                {
+                    if (String.IsNullOrEmpty(intervention.InterventionText) && intervention.AttachedFiles.Count == 0)
+                    {
+                        _db.Interventions.Remove(intervention);
+                        _db.SaveChanges();
+                    }
+                }
+
+                btnSaveInterventionWithAttachment.Attributes.Remove("btnPressed");
+            }
+
+            var redirectURL = "";
+            if (Session["InterventionCreateCallingProjectId"] != null)
+            {
+                redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["InterventionCreateCallingProjectId"].ToString();
+                Session["InterventionCreateCallingProjectId"] = null;
+            }
+            else
+                redirectURL = "/MyVale/ProjectDetail?" + _currentProjectId;
+            Response.Redirect(redirectURL);
         }
     }
 }

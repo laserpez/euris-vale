@@ -11,21 +11,22 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
+                                <div class="col-md-6">
+                                    <asp:Button ID="btnBack" ToolTip="Torna indietro" runat="server" CausesValidation="false" CssClass="btn btn-primary col-md-1" Font-Bold="true" Text="&#171;" OnClick="btnBack_ServerClick" />
+                                    <div class="col-lg-11">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
-                                                    <asp:Label ID="HeaderName" runat="server" Text="Dettaglio progetto" onserverclick="btnBack_ServerClick"></asp:Label>
+                                                    <asp:Label ID="HeaderName" runat="server" Text="Dettaglio attività"></asp:Label>
                                                 </h4>
                                             </li>
                                         </ul>
                                     </div>
+                                </div>
+                                <div class="col-lg-6">
                                     <div class="navbar-right">
                                         <asp:UpdatePanel runat="server">
                                             <ContentTemplate>
-                                                <asp:Button ID="Button1" runat="server" CausesValidation="false" Text="Indietro"  class="btn btn-info" OnClick="btnBack_ServerClick"/>
-<%--                                                <button type="button" validationgroup="djshfgkjs" CausesValidation="false" id="btnBack" class="btn btn-info" runat="server" onserverclick="btnBack_ServerClick"><span class="glyphicon glyphicon-circle-arrow-left"></span> Indietro</button>--%>
                                                 <asp:Button CausesValidation="false" runat="server" ID="btnWorkOnThis" OnClick="btnWorkOnThis_Click" />
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
@@ -330,7 +331,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button CausesValidation="false" CssClass="btn btn-success btn-xs" Text="Aggiungi evento" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
+                                                                        <asp:Button CausesValidation="false" Text="" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -387,7 +388,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button CssClass="btn btn-success btn-xs" Text="Aggiungi attività" CausesValidation="false" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
+                                                                        <asp:Button Text="" CausesValidation="false" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>

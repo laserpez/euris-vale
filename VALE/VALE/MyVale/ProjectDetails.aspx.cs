@@ -112,18 +112,7 @@ namespace VALE.MyVale
         public IQueryable<Intervention> GetInterventions([QueryString("projectId")] int? projectId)
         {
             if (projectId.HasValue)
-            {
-                var lstInterventions = _db.Interventions.Where(i => i.ProjectId == projectId).ToList();
-                foreach (var intervention in lstInterventions)
-                {
-                    if (String.IsNullOrEmpty(intervention.InterventionText) && intervention.AttachedFiles.Count == 0)
-                    {
-                        _db.Interventions.Remove(intervention);
-                        _db.SaveChanges();
-                    }
-                }
                 return _db.Interventions.Where(i => i.ProjectId == projectId);
-            }
             else
                 return null;
         }
@@ -136,6 +125,7 @@ namespace VALE.MyVale
                 label.Text = "RIPRENDI";
             else
                 label.Text = "SOSPENDI";
+            project.LastModified = DateTime.Now;
             ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
             popUp.Show();
         }
@@ -179,6 +169,16 @@ namespace VALE.MyVale
                     btnAddIntervention.Enabled = true;
                     btnAddIntervention.CssClass = "btn btn-success btn-xs";
                     btnAddIntervention.Text = "Aggiungi conversazione";
+
+                    var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
+                    btnAddEvent.Enabled = true;
+                    btnAddEvent.CssClass = "btn btn-success btn-xs";
+                    btnAddEvent.Text = "Aggiungi evento";
+
+                    var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
+                    btnAddActivity.Enabled = true;
+                    btnAddActivity.CssClass = "btn btn-success btn-xs";
+                    btnAddActivity.Text = "Aggiungi attività";
                 }
                 else
                 {
@@ -188,6 +188,16 @@ namespace VALE.MyVale
                     btnAddIntervention.Enabled = false;
                     btnAddIntervention.CssClass = "btn btn-success btn-xs disable";
                     btnAddIntervention.Text = "Non puoi aggiungere conversazioni";
+
+                    var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
+                    btnAddEvent.Enabled = false;
+                    btnAddEvent.CssClass = "btn btn-success btn-xs disable";
+                    btnAddEvent.Text = "Non puoi aggiungere eventi";
+
+                    var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
+                    btnAddActivity.Enabled = false;
+                    btnAddActivity.CssClass = "btn btn-success btn-xs disable";
+                    btnAddActivity.Text = "Non puoi aggiungere attività";
                 }
             }
             else
@@ -276,6 +286,12 @@ namespace VALE.MyVale
                             project.Status = "Aperto";
                             break;
                     }
+
+                    project.LastModified = DateTime.Now;
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+
                     db.SaveChanges();
                     Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
                 }
@@ -310,7 +326,7 @@ namespace VALE.MyVale
                 int index = Convert.ToInt32(e.CommandArgument);
                 var grdInterventions = (GridView)ProjectDetail.FindControl("grdInterventions");
                 string interventionID = grdInterventions.DataKeys[index].Value.ToString();
-                Response.Redirect("/MyVale/InterventionDetails?interventionId=" + interventionID);
+                Response.Redirect("/MyVale/InterventionDetails?interventionId=" + interventionID + "&From=~/MyVale/ProjectDetails?projectId=" + _currentProjectId);
             }
             else if (e.CommandName == "DeleteIntervention")
             {
@@ -335,6 +351,15 @@ namespace VALE.MyVale
             {
                 actions.RemoveAllAttachments(interventionID);
                 _db.Interventions.Remove(anIntervention);
+
+                if (anIntervention.RelatedProject != null)
+                {
+                    anIntervention.RelatedProject.LastModified = DateTime.Now;
+                    var actionsProject = new ProjectActions();
+                    var listHierarchyUp = actionsProject.getHierarchyUp(anIntervention.RelatedProject.ProjectId);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
+
                 _db.SaveChanges();
                 return true;
             }
@@ -365,6 +390,10 @@ namespace VALE.MyVale
             {
                 var checbox = (CheckBox)sender;
                 currentProject.Public = checbox.Checked;
+                currentProject.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(currentProject.ProjectId);
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 _db.SaveChanges();
             }
 
@@ -437,6 +466,11 @@ namespace VALE.MyVale
             project.Budget = budget;
             project.Public = chkPublic.Checked;
             project.Type = ddlSelectType.SelectedValue;
+
+            var actions = new ProjectActions();
+            var listHierarchyUp = actions.getHierarchyUp(project.ProjectId);
+            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+
             db.SaveChanges();
             Response.Redirect("~/MyVale/ProjectDetails.aspx?projectId=" + _currentProjectId);
         }
@@ -447,7 +481,16 @@ namespace VALE.MyVale
         public IQueryable<Project> GetProjects()
         {
             var _db = new UserOperationsContext();
-            return _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != _currentProjectId).OrderBy(p => p.ProjectName);
+
+            var currentUser = _db.UserDatas.FirstOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
+            List<Project> projects = _db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId == _currentProjectId).OrderBy(p => p.ProjectName).ToList();
+            List<Project> projectsToShow = new List<Project>();
+            foreach (var project in projects)
+            {
+                if (project.InvolvedUsers.Contains(currentUser))
+                    projectsToShow.Add(project);
+            }
+            return projectsToShow.AsQueryable();
         }
 
         //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
@@ -483,6 +526,12 @@ namespace VALE.MyVale
             {
                 var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
                 currentProject.RelatedProject = project;
+                currentProject.LastModified = DateTime.Now;
+
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(currentProject.ProjectId);
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+
                 _db.SaveChanges();
                 UpdateRelatedProjectView();
                 Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
@@ -562,6 +611,8 @@ namespace VALE.MyVale
             listViewRelatedProject.DataBind();
             GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
             grdRelatedProject.DataBind();
+
+            OpenedProjectList.DataBind();
         }
 
         public string GetHoursWorked()
@@ -589,54 +640,5 @@ namespace VALE.MyVale
             Session["ProjectDetailsRequestFrom"] = null;
             Response.Redirect(returnUrl);
         }
-
-        //private void SetPageNumbers(GridView GridView1)
-        //{
-        //    if (GridView1.PageIndex == 0)
-        //    {
-        //        (GridView1.BottomPagerRow.FindControl("btnPreviousPage") as LinkButton).Enabled = false;
-
-        //    }
-
-        //    if (GridView1.PageIndex == GridView1.PageCount - 1)
-        //    {
-        //        (GridView1.BottomPagerRow.FindControl("btnNextPage") as LinkButton).Enabled = false;
-        //    }
-
-        //}
-
-        //protected void ChangePage(object sender, CommandEventArgs e)
-        //{
-
-        //    switch (e.CommandName)
-        //    {
-        //        case "Prev":
-        //            GridView1.PageIndex = GridView1.PageIndex - 1;
-        //            break;
-
-        //        case "Next":
-        //            GridView1.PageIndex = GridView1.PageIndex + 1;
-        //            break;
-        //    }
-        //    GridView1.DataSource = lst;
-        //    GridView1.DataBind();
-        //    SetPageNumbers();
-        //}
-
-
-        //public static string RandomString(int size)
-        //{
-
-        //    StringBuilder builder = new StringBuilder();
-        //    for (int i = 0; i < size; i++)
-        //    {
-
-        //        //26 letters in the alfabet, ascii + 65 for the capital letters
-        //        builder.Append(Convert.ToChar(Convert.ToInt32(Math.Floor(26 * _random.NextDouble() + 65))));
-
-        //    }
-        //    return builder.ToString();
-
-        //}
     }
 }

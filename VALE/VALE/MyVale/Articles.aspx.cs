@@ -32,7 +32,7 @@ namespace VALE.MyVale
             {
                 int index = Convert.ToInt32(e.CommandArgument);
                 int articleId = Convert.ToInt32(grdAllArticles.DataKeys[index].Value);
-                Response.Redirect("/MyVale/ViewArticle?articleId=" + articleId);
+                Response.Redirect("/MyVale/ViewArticle?articleId=" + articleId + "&From=~/MyVale/Articles");
             }
             else if (e.CommandName == "DeleteArticle")
             {

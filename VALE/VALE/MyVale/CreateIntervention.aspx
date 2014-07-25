@@ -60,6 +60,7 @@
                             <div class="col-md-12">
                             <asp:Button runat="server" CssClass="btn btn-primary" CausesValidation="false" Text="Aggiungi allegati" ID="btnSaveInterventionWithAttachment" OnClick="btnSaveInterventionWithAttachment_Click" />
                             <asp:Button runat="server" CssClass="btn btn-primary" CausesValidation="false" Text="Salva conversazione" ID="btnSaveIntervention" OnClick="btnSaveIntervention_Click" />
+                                <asp:Button runat="server" CssClass="btn btn-danger"  Text="Annulla" ID="btnCancel" CausesValidation="false"  OnClick="btnCancel_Click" />
                             </div>
                         </div>
                     </div>
