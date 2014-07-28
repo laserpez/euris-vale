@@ -91,9 +91,16 @@ namespace VALE.Logic
         {
             var db = new ApplicationDbContext();
 
+            var userAction= new UserActions();
             var roleStore = new RoleStore<IdentityRole>(db);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
 
+            var users = db.Users.Where(u => u.Roles.Select(ro => ro.RoleId).FirstOrDefault() == db.Roles.Where(r => r.Name == roleName).Select(i => i.Id).FirstOrDefault());
+
+            foreach (var user in users)
+            {
+                userAction.ChangeUserRole(user.UserName, "Utente");
+            }
             if (roleManager.RoleExists(roleName))
             {
                 roleManager.Delete(db.Roles.Where(o => o.Name == roleName).FirstOrDefault());
