@@ -25,7 +25,7 @@ namespace VALE.Admin
                 var deleteButton = (LinkButton)grdRoles.Rows[i].Cells[1].FindControl("deleteButton");
                 var rolelabel = ((Label)grdRoles.Rows[i].Cells[0].FindControl("labelRole"));
                 string role = rolelabel.Text;
-                if (role != "Amministratore" && role != "Membro del consiglio" && role != "Socio" && role != "Collaboratore")
+                if (role != "Amministratore" && role != "Membro del consiglio" && role != "Socio" && role != "Collaboratore" && role != "Utente")
                 {
                     deleteButton.Visible = true;
                 }

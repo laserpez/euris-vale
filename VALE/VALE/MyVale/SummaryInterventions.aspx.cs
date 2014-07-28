@@ -99,9 +99,7 @@ namespace VALE.MyVale
                 Response.End();
             }
         }
-
-
-        //********************************************************************************************
+        
         private List<UserData> GetUsers() 
         {
             List<UserData> users;
@@ -310,7 +308,6 @@ namespace VALE.MyVale
             ddlActivity.DataBind();
         }
 
-        //**********Filters***********************
         protected void btnFiltersVisibility_Click(object sender, EventArgs e)
         {
             if (lblFilterVisibility.Text == "False")
@@ -344,8 +341,6 @@ namespace VALE.MyVale
             txtToDate.Text = "";
             UpdateGraphic();
         }
-
-        //+++++++++++++++++++++++++++++++++++++++MODE+++++++++++++++++++++++
 
         private void UpdateGraphic()
         {
@@ -398,9 +393,6 @@ namespace VALE.MyVale
         }
 
 
-
-        //**********************MainButtons++++++++++++++++++++++
-
         protected void btnPersonalLinkButton_Click(object sender, EventArgs e)
         {
             lblAllOrPersonal.Text = "Personal";
@@ -428,9 +420,6 @@ namespace VALE.MyVale
             Session["SummaryInterventions_ProjectOrNorRelated"] = "NotRelated";
             UpdateGraphic();
         }
-
-       
-
         
     }
 }

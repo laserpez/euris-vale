@@ -8,7 +8,7 @@ using VALE.Models;
 
 namespace VALE.Admin
 {
-    public partial class ManageProjectTypes : System.Web.UI.Page
+    public partial class ManagePartnerTypes : System.Web.UI.Page
     {
         UserOperationsContext _db = new UserOperationsContext();
 
@@ -46,14 +46,12 @@ namespace VALE.Admin
             }
         }
 
-
-
         private void DeleteType(int typeId)
         {
-            var projectType = _db.ProjectTypes.Where(p => p.ProjectTypeId == typeId).FirstOrDefault();
-            if (projectType != null)
+            var partnerType = _db.PartnerTypes.Where(p => p.PartnerTypeId == typeId).FirstOrDefault();
+            if (partnerType != null)
             {
-                _db.ProjectTypes.Remove(projectType);
+                _db.PartnerTypes.Remove(partnerType);
                 _db.SaveChanges();
                 grdTypes.PageIndex = 0;
                 grdTypes.DataBind();
@@ -62,16 +60,16 @@ namespace VALE.Admin
 
         private void EditType(int typeId)
         {
-            var projectType = _db.ProjectTypes.Where(p => p.ProjectTypeId == typeId).FirstOrDefault();
-            if (projectType != null)
+            var partnerType = _db.PartnerTypes.Where(p => p.PartnerTypeId == typeId).FirstOrDefault();
+            if (partnerType != null)
             {
                 btnClosePopUpButton.Visible = true;
                 btnOkButton.Text = "Salva";
                 NameTextBox.Enabled = true;
                 NameTextBox.CssClass = "form-control input-sm";
                 DescriptionTextarea.Disabled = false;
-                NameTextBox.Text = projectType.ProjectTypeName;
-                DescriptionTextarea.InnerText = projectType.Description;
+                NameTextBox.Text = partnerType.PartnerTypeName;
+                DescriptionTextarea.InnerText = partnerType.Description;
                 lblTypeAction.Text = "Edit";
                 lblTypeId.Value = typeId.ToString();
                 ModalPopup.Show();
@@ -80,16 +78,16 @@ namespace VALE.Admin
 
         private void ShowType(int typeId)
         {
-            var projectType = _db.ProjectTypes.Where(p => p.ProjectTypeId == typeId).FirstOrDefault();
-            if (projectType != null)
+            var partnerType = _db.PartnerTypes.Where(p => p.PartnerTypeId == typeId).FirstOrDefault();
+            if (partnerType != null)
             {
                 btnClosePopUpButton.Visible = false;
                 btnOkButton.Text = "Chiudi";
                 NameTextBox.Enabled = false;
                 NameTextBox.CssClass = "form-control input-sm disabled";
                 DescriptionTextarea.Disabled = true;
-                NameTextBox.Text = projectType.ProjectTypeName;
-                DescriptionTextarea.InnerText = projectType.Description;
+                NameTextBox.Text = partnerType.PartnerTypeName;
+                DescriptionTextarea.InnerText = partnerType.Description;
                 lblTypeAction.Text = "Details";
                 ModalPopup.Show();
             }
@@ -101,22 +99,22 @@ namespace VALE.Admin
             var action = lblTypeAction.Text;
             if (action == "Add")
             {
-                ProjectType projectType = new ProjectType();
-                projectType.CreationDate = DateTime.Now;
-                projectType.ProjectTypeName = NameTextBox.Text;
-                projectType.Description = DescriptionTextarea.InnerText;
-                _db.ProjectTypes.Add(projectType);
+                PartnerType partnerType = new PartnerType();
+                partnerType.CreationDate = DateTime.Now;
+                partnerType.PartnerTypeName = NameTextBox.Text;
+                partnerType.Description = DescriptionTextarea.InnerText;
+                _db.PartnerTypes.Add(partnerType);
                 _db.SaveChanges();
                 grdTypes.DataBind();
             }
             else if (action == "Edit")
             {
                 var id = Convert.ToInt16(lblTypeId.Value);
-                var projectType = _db.ProjectTypes.Where(t => t.ProjectTypeId == id).FirstOrDefault();
-                if (projectType != null)
+                var partnerType = _db.PartnerTypes.Where(t => t.PartnerTypeId == id).FirstOrDefault();
+                if (partnerType != null)
                 {
-                    projectType.ProjectTypeName = NameTextBox.Text;
-                    projectType.Description = DescriptionTextarea.InnerText;
+                    partnerType.PartnerTypeName = NameTextBox.Text;
+                    partnerType.Description = DescriptionTextarea.InnerText;
                     _db.SaveChanges();
                     grdTypes.DataBind();
                 }
@@ -131,14 +129,14 @@ namespace VALE.Admin
             ModalPopup.Hide();
         }
 
-        public IQueryable<VALE.Models.ProjectType> grdTypes_GetData()
+        public IQueryable<VALE.Models.PartnerType> grdTypes_GetData()
         {
-            return _db.ProjectTypes.OrderByDescending(t => t.CreationDate).AsQueryable();
+            return _db.PartnerTypes.OrderByDescending(t => t.CreationDate).AsQueryable();
         }
 
-        public bool AllowManage(int projectTypeId)
+        public bool AllowManage(int partnerTypeId)
         {
-            if (projectTypeId == 1)
+            if (partnerTypeId == 1)
                 return false;
             else
                 return true;
