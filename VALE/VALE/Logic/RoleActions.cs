@@ -26,18 +26,20 @@ namespace VALE.Logic
             return false;
         }
 
-        public static XmlRoles findRole(string role)
+        public static XmlRoles findRole(string role, string nomeFile)
         {
             return ReadRoles().Where(o => o.Name == role).FirstOrDefault();
         }
 
+       
         public static List<XmlRoles> ReadRoles()
         {
             var serializer = new XmlSerializable();
-            var listaRuoli = serializer.ReadData<List<XmlRoles>>("Ruoli");
+            var listaRuoli = serializer.ReadData<List<XmlRoles>>(File);
             return listaRuoli;
         }
 
+       
         public static void LoadRoles()
         {
             var listaRuoli = ReadRoles();
@@ -53,14 +55,14 @@ namespace VALE.Logic
         public static void CreateRole(XmlRoles dato)
         {
             CreateDBRole(dato.Name);
-            CreateXmlRoles(dato, File);
+            CreateXmlRoles(dato);
         }
 
 
         public static void DeleteRole(string nomeDato)
         {
             DeleteDBRole(nomeDato);
-            DeleteXmlRole(nomeDato, File);
+            DeleteXmlRole(nomeDato);
         }
 
         private static void CreateDBRole(string roleName)
@@ -76,13 +78,13 @@ namespace VALE.Logic
             }
         }
 
-        private static void CreateXmlRoles(XmlRoles dato, string nomeFile)
+
+        private static void CreateXmlRoles(XmlRoles dato)
         {
             var serializer = new XmlSerializable();
-            List<XmlRoles> dati = CheckDataAndRemoveIfExist(dato.Name, nomeFile);
+            List<XmlRoles> dati = CheckDataAndRemoveIfExist(dato.Name);
             dati.Add(dato);
-
-            serializer.CreateData<List<XmlRoles>>(dati, nomeFile);
+            serializer.CreateData<List<XmlRoles>>(dati, File);
         }
 
         private static void DeleteDBRole(string roleName)
@@ -94,20 +96,20 @@ namespace VALE.Logic
 
             if (roleManager.RoleExists(roleName))
             {
-                
                 roleManager.Delete(db.Roles.Where(o => o.Name == roleName).FirstOrDefault());
             }
         }
 
-        private static void DeleteXmlRole(string nomeDato, string nomeFile)
+
+        private static void DeleteXmlRole(string nomeDato)
         {
             var serializer = new XmlSerializable();
-            List<XmlRoles> dati = CheckDataAndRemoveIfExist(nomeDato, nomeFile);
+            List<XmlRoles> dati = CheckDataAndRemoveIfExist(nomeDato);
 
-            serializer.CreateData<List<XmlRoles>>(dati, nomeFile);
+            serializer.CreateData<List<XmlRoles>>(dati, File);
         }
 
-        private static List<XmlRoles> CheckDataAndRemoveIfExist(string nomeDato, string nomeFile)
+        private static List<XmlRoles> CheckDataAndRemoveIfExist(string nomeDato)
         {
 
             List<XmlRoles> dati = ReadRoles();

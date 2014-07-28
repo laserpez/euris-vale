@@ -76,13 +76,13 @@ namespace VALE.Admin
 
         public List<XmlRoles> grdRoles_GetData()
         {
+            String path = Server.MapPath("~/Logic/Serializable/Ruoli.xml");
             var serializer = new XmlSerializable();
-            return serializer.ReadData<List<XmlRoles>>("Ruoli");
+            return serializer.ReadData<List<XmlRoles>>(path);
         }
 
         protected void Delete_Click(object sender, EventArgs e)
         {
-            var serializer = new XmlSerializable();
             LinkButton button = (LinkButton)sender;
             RoleActions.DeleteRole(button.CommandArgument);
 
@@ -95,8 +95,8 @@ namespace VALE.Admin
             var serializer = new XmlSerializable();
 
             bool condition = true;
-
-            var controlData = serializer.ReadData<List<XmlRoles>>("Ruoli");
+            String path = Server.MapPath("~/Logic/Serializable/Ruoli.xml");
+            var controlData = serializer.ReadData<List<XmlRoles>>(path);
             if (controlData != null && btnOkRoleButton.Text == "Crea")
             {
                 foreach (var elem in controlData)
