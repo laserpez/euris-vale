@@ -30,7 +30,6 @@
                                     <div class="navbar-right">
                                         <asp:UpdatePanel runat="server">
                                             <ContentTemplate>
-                                                <asp:Button ID="Button1" runat="server" CausesValidation="false" Text="Indietro"  class="btn btn-info" OnClick="btnBack_ServerClick"/>
                                                 <asp:Button CausesValidation="false" Text="Partecipa" runat="server" ID="btnAttend" OnClick="btnAttend_Click" />
                                             </ContentTemplate>
                                         </asp:UpdatePanel>

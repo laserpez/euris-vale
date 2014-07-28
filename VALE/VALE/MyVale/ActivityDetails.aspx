@@ -385,7 +385,7 @@
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="145px"  ID="txtActDescription" runat="server"></asp:TextBox>
-                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtActDescription">
+                                    <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtActDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />
@@ -402,7 +402,7 @@
                                             <ajaxToolkit:Copy />
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
-                                    </asp:HtmlEditorExtender>
+                                    </asp:HtmlEditorExtender>--%>
                                     <asp:RequiredFieldValidator runat="server" ValidationGroup="ModifyActivity" ControlToValidate="txtActDescription" CssClass="text-danger" ErrorMessage="La descrizione è obbligatoria" />
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Attività</asp:Label>
