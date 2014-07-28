@@ -253,7 +253,7 @@
     <Content Include="MyVale\Events.aspx" />
     <Content Include="MyVale\Create\ProjectCreate.aspx" />
     <Content Include="MyVale\InterventionDetails.aspx" />
-    <Content Include="MyVale\PersonalActivities.aspx" />
+    <Content Include="MyVale\SummaryInterventions.aspx" />
     <Content Include="MyVale\PersonalEvents.aspx" />
     <Content Include="MyVale\PersonalProjects.aspx" />
     <Content Include="MyVale\ProjectDetails.aspx" />
@@ -278,6 +278,7 @@
     <Content Include="MyVale\BOD\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="WebForm1.aspx" />
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Account\Profile.aspx" />
@@ -529,6 +530,7 @@
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\DatabaseInitializer.cs" />
     <Compile Include="Models\ProjectType.cs" />
+    <Compile Include="Models\SummaryIntervention.cs" />
     <Compile Include="Models\XmlRoles.cs" />
     <Compile Include="MyVale\GridPager.ascx.cs">
       <DependentUpon>GridPager.ascx</DependentUpon>
@@ -745,12 +747,12 @@
     <Compile Include="MyVale\InterventionDetails.aspx.designer.cs">
       <DependentUpon>InterventionDetails.aspx</DependentUpon>
     </Compile>
-    <Compile Include="MyVale\PersonalActivities.aspx.cs">
-      <DependentUpon>PersonalActivities.aspx</DependentUpon>
+    <Compile Include="MyVale\SummaryInterventions.aspx.cs">
+      <DependentUpon>SummaryInterventions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MyVale\PersonalActivities.aspx.designer.cs">
-      <DependentUpon>PersonalActivities.aspx</DependentUpon>
+    <Compile Include="MyVale\SummaryInterventions.aspx.designer.cs">
+      <DependentUpon>SummaryInterventions.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\PersonalEvents.aspx.cs">
       <DependentUpon>PersonalEvents.aspx</DependentUpon>
@@ -831,6 +833,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

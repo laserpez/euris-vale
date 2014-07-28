@@ -68,6 +68,7 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             return db.ActivityTypes.ToList();
         }
+
         private int SaveActivity() 
         {
             var db = new UserOperationsContext();
@@ -132,6 +133,7 @@ namespace VALE.MyVale
                     Date = DateTime.Today
 
                 });
+
                 db.SaveChanges();
                 return newActivity.ActivityId;
             }

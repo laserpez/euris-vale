@@ -38,6 +38,30 @@ namespace VALE.Logic
             return strbldr;
         }
 
+        public StringBuilder ExportSummaryInterventions(List<SummaryIntervention> summaryInterventions)
+        {
+            StringBuilder strbldr = new StringBuilder();
+            //separting header columns text with comma operator
+            strbldr.Append("Progetto;Tipo Progetto;Progetto Publico;Progetto Correlato;Nome Attività;Tipo Attività;Descrizione;Ore Di Lavoro;Compiuta da;In Data");
+            //appending new line for gridview header row
+            strbldr.Append("\n");
+            foreach (var summaryIntervention in summaryInterventions)
+            {
+                strbldr.Append(summaryIntervention.ProjectName + ';');
+                strbldr.Append(summaryIntervention.ProjectType + ';');
+                strbldr.Append(summaryIntervention.ProjectPublic + ';');
+                strbldr.Append(summaryIntervention.RelatedProjectName + ';');
+                strbldr.Append(summaryIntervention.ActivityName + ';');
+                strbldr.Append(summaryIntervention.ActivityType + ';');
+                strbldr.Append(summaryIntervention.ActivityDescription + ';');
+                strbldr.Append(summaryIntervention.HoursWorked + " ;");
+                strbldr.Append(summaryIntervention.WorkerUserName + ';');
+                strbldr.Append(summaryIntervention.Date.ToShortDateString() + ';');
+                strbldr.Append("\n");
+            }
+            return strbldr;
+        }
+
         public void Dispose()
         {
 

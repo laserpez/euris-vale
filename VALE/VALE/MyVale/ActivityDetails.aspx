@@ -13,8 +13,9 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="col-lg-8">
+                                        <div class="col-md-6">
+                                            <button type="button" runat="server" class="btn btn-info col-md-1"  onserverclick="btnBack_ServerClick" causesvalidation="false"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+                                            <div class="col-lg-11">
                                                 <ul class="nav nav-pills">
                                                     <li>
                                                         <h4>
@@ -23,9 +24,11 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6">
                                             <div class="navbar-right">
                                                 <asp:Label ID="ListUsersType" Visible="false" runat="server" Text=""></asp:Label>
-                                                <asp:Button ID="Button1" runat="server" CausesValidation="false" Text="Indietro"  class="btn btn-info" OnClick="btnBack_ServerClick"/>                                                <div class="btn-group">
+                                                <div class="btn-group">
                                                     <button type="button" visible="true" id="btnStatus" class="<%#: GetStatusColor(Item.Status) %>" data-toggle="dropdown" runat="server"><%#: GetStatus(Item) %><span class="caret"></span></button>
                                                     <ul class="dropdown-menu">
                                                         <li>
@@ -42,7 +45,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="panel-body" style="overflow: auto;">
                                     <div class="row">
                                         <div class="col-lg-12">

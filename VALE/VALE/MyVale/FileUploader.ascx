@@ -18,8 +18,8 @@
                                     <ItemTemplate>
                                         <center><div><asp:LinkButton  runat="server" CommandArgument="<%# Item.AttachedFileID %>" CommandName="DOWNLOAD" CausesValidation="false"><%#: Item.FileName %></asp:LinkButton></div></center>
                                     </ItemTemplate>
-                                    <HeaderStyle Width="50px"></HeaderStyle>
-                                    <ItemStyle Width="50px"></ItemStyle>
+                                    <HeaderStyle Width="25%"></HeaderStyle>
+                                    <ItemStyle Width="25%"></ItemStyle>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="FileDescription" HeaderText="Descrizione" HeaderStyle-Width="70%" />
                                 <asp:BoundField DataField="Owner" HeaderText="Autore" HeaderStyle-Width="15%" />
@@ -50,8 +50,13 @@
             <div class="panel-footer" id="FooterDocuments" runat="server">
                 <div class="row">
                     <div class="col-lg-12">
+                        <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
                         <div class="col-lg-6">
-                                <asp:Label ID="Label1" runat="server" Text="Label" CssClass="col-lg-3">Descrizione * </asp:Label>
+                                <asp:Label ID="Label1" Font-Bold="true" runat="server" Text="Label" CssClass="col-lg-3">Descrizione * </asp:Label>
                                 <div class="col-lg-9">
                                     <textarea runat="server" class="form-control input-sm" rows="3" id="txtFileDescription"></textarea>
                                     <asp:RequiredFieldValidator Display="Dynamic" runat="server" ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />

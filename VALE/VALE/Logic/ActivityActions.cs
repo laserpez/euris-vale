@@ -61,9 +61,11 @@ namespace VALE.Logic
 
         public int GetActivitiesRequest(string userName)
         {
-            var db = new UserOperationsContext();
-            return db.UserDatas.First(u => u.UserName == userName).PendingActivity.Count;
-
+            //var db = new UserOperationsContext();
+            //var pendingActivity = db.UserDatas.First(u => u.UserName == userName).PendingActivity;
+            //if(pendingActivity != null)
+            //    return pendingActivity.Count;
+            return 0;
         }
 
 
@@ -147,6 +149,13 @@ namespace VALE.Logic
             {
                 activity.PendingUsers.Remove(user);
                 added = false;
+            }
+            if (activity.RelatedProject != null)
+            {
+                activity.RelatedProject.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             }
             db.SaveChanges();
             logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Attività", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'attività \"" : " non collabora più all'attività \"") + activity.ActivityName + "\"" });

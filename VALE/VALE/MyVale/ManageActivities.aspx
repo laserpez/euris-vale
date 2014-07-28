@@ -6,7 +6,8 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js" type="text/javascript"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
     <script type="text/javascript">
-        function ChangeStatus(id, status) {
+        function ChangeStatus(id, status)
+        {
             var xmlhttp;
             if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
                 xmlhttp = new XMLHttpRequest();
@@ -20,7 +21,6 @@
             var result = xmlhttp.responseText;
         }
     </script>
-
     <div class="container">
         <div class="bs-docs-section">
             <br />
@@ -106,7 +106,7 @@
                                                     <ContentTemplate>--%>
                                                         <div class="col-md-6">
                                                             <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
-                                                            <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtFromDate" OnTextChanged="txtFromDate_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                                            <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtFromDate" ></asp:TextBox>
                                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtFromDate"></asp:CalendarExtender>
                                                         </div>
                                                         <div class="col-md-6">

@@ -19,6 +19,8 @@ namespace VALE.MyVale
             _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _articleId = Convert.ToInt32(Request.QueryString.GetValues("articleId").First());
+            if (Request.QueryString["From"] != null)
+                Session["ArticlesDetailsRequestFrom"] = Request.QueryString["From"];
         }
 
         public BlogArticle GetArticle([QueryString("articleId")] int? articleId)
@@ -34,38 +36,29 @@ namespace VALE.MyVale
             Label lblContent = (Label)frmArticle.FindControl("lblContent");
             lblContent.Text = result;
         }
+
         protected void btnAddComment_Click(object sender, EventArgs e)
         {
             var comment = new BlogComment
             {
                 Date = DateTime.Now,
-                CommentText = txtComment.Text,
+                CommentText = txtComment.InnerText,
                 CreatorUserName = _currentUser,
                 BlogArticleId = _articleId
             };
             var db = new UserOperationsContext();
             db.BlogComments.Add(comment);
             db.SaveChanges();
-            lstComments.DataBind();
-            if (!String.IsNullOrEmpty(txtComment.Text))
-                txtComment.Text = "";
+
+            grdBlogComments.DataBind();
+            if (!String.IsNullOrEmpty(txtComment.InnerText))
+                txtComment.InnerText = "";
+
+            Response.Redirect("/MyVale/ViewArticle?articleId=" + _articleId);
         }
 
-        public List<BlogComment> GetComments([QueryString("articleId")] int? articleId)
+        protected void deleteComment_Click(int blogCommentId)
         {
-            if (articleId.HasValue)
-            {
-                var db = new UserOperationsContext();
-                return db.BlogComments.Where(c => c.BlogArticleId == articleId).ToList();
-            }
-            else
-                return null;
-        }
-
-        protected void deleteComment_Click(object sender, EventArgs e)
-        {
-            var btnDelete = (Button)sender;
-            var blogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
             var db = new UserOperationsContext();
             var aCommentRelated = db.BlogComments.FirstOrDefault(c => c.BlogCommentId == blogCommentId && c.BlogArticleId == _articleId);
             var anArticle = db.BlogArticles.FirstOrDefault(a => a.BlogArticleId == _articleId);
@@ -73,33 +66,65 @@ namespace VALE.MyVale
             db.BlogComments.Remove(aCommentRelated);
             db.SaveChanges();
 
-            lstComments.DataBind();
+            grdBlogComments.DataBind();
         }
 
-        protected void lstComments_DataBound(object sender, EventArgs e)
+        public IQueryable<BlogComment> grdBlogComments_GetData()
         {
-            for (int i = 0; i < lstComments.Items.Count; i++)
+            if (_articleId != 0)
             {
-                var btnDelete = (Button)lstComments.Items[i].FindControl("deleteComment");
-                var labelDeleteBtn = (Label)lstComments.Items[i].FindControl("labelDeleteBtn");
-                var _blogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
-
                 var db = new UserOperationsContext();
-                var currentArticle = db.BlogArticles.FirstOrDefault(a => a.BlogArticleId == _articleId);
-                if (HttpContext.Current.User.IsInRole("Amministratore") || db.BlogComments.FirstOrDefault(c => c.BlogCommentId == _blogCommentId && c.BlogArticleId == _articleId).CreatorUserName == _currentUser || currentArticle.CreatorUserName == _currentUser)
-                {
-                    labelDeleteBtn.Visible = true;
-                    btnDelete.Visible = true;
-                }
-
-                var commentText = db.BlogComments.FirstOrDefault(cc => cc.BlogCommentId == _blogCommentId).CommentText;
-
-                var txtCommentDescription = (Label)lstComments.Items[i].FindControl("txtCommentDescription");
-                if (String.IsNullOrEmpty(commentText))
-                    txtCommentDescription.Text = "Nessun commento inserito";
-                else
-                    txtCommentDescription.Text = commentText;
+                return db.BlogComments.Where(c => c.BlogArticleId == _articleId).OrderBy(b => b.Date).AsQueryable();
             }
+            else
+                return null;
+        }
+
+        protected void grdBlogComments_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "DeleteComment")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+
+                deleteComment_Click(index);
+            }
+        }
+
+        protected void grdBlogComments_DataBound(object sender, EventArgs e)
+        {
+            var _db = new UserOperationsContext();
+
+            for (int i = 0; i < grdBlogComments.Rows.Count; i++)
+            {
+                var btnDelete = (LinkButton)grdBlogComments.Rows[i].FindControl("deleteComment");
+                var blogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
+                if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del Consiglio") || _db.BlogComments.FirstOrDefault(c => c.BlogCommentId == blogCommentId && c.RelatedArticle.BlogArticleId == _articleId).CreatorUserName == _currentUser || _db.BlogComments.FirstOrDefault(co => co.BlogCommentId == blogCommentId).CreatorUserName == _currentUser)
+                    btnDelete.Visible = true;
+                else
+                    btnDelete.Visible = false;
+            }
+        }
+
+        protected void OpenPopUp_Click(object sender, EventArgs e)
+        {
+            PopupAddComments.Show();
+        }
+
+        protected void ClosePopUp_Click(object sender, EventArgs e)
+        {
+            txtComment.InnerText = "";
+            PopupAddComments.Hide();
+        }
+
+        protected void btnBack_Click(object sender, EventArgs e)
+        {
+            string returnUrl = "";
+            if (Session["ArticlesDetailsRequestFrom"] != null)
+            {
+                returnUrl = Session["ArticlesDetailsRequestFrom"].ToString();
+                Session["ArticlesDetailsRequestFrom"] = null;
+            }
+            Response.Redirect(returnUrl);
         }
 
     }
