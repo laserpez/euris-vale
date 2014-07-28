@@ -11,7 +11,7 @@ namespace VALE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            TreeCode.Text = "<asp:TreeView ID='TreeView1' runat='server'><Nodes><asp:TreeNode Text='My Computer'><asp:TreeNode Text='Favorites'></asp:TreeNode></asp:TreeNode></Nodes></asp:TreeView>";
         }
 
         protected void Button1_Click(object sender, EventArgs e)

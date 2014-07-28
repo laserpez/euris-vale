@@ -24,6 +24,13 @@ namespace VALE.Models
                 CreationDate = DateTime.Now,
                 Description = "Tipo Generico"
             });
+            context.PartnerTypes.Add(new PartnerType
+            {
+                PartnerTypeId = 1,
+                PartnerTypeName = "Generico",
+                CreationDate = DateTime.Now,
+                Description = "Tipo Generico"
+            });
         }
 
         
