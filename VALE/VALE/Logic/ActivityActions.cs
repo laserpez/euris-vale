@@ -55,6 +55,16 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             var anActivity = db.Activities.First(a => a.ActivityId == id);
             db.Activities.First(a => a.ActivityId == id).Status = status;
+
+            if (anActivity.RelatedProject != null)
+            {
+                anActivity.RelatedProject.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(anActivity.RelatedProject.ProjectId);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            }
+
             db.SaveChanges();
             logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato attività", DataType = "Attività", Date = DateTime.Now, Description = "\"" + anActivity.ActivityName + "\"" + " ha ora lo stato: " + status.ToString() });
         }
@@ -155,7 +165,8 @@ namespace VALE.Logic
                 activity.RelatedProject.LastModified = DateTime.Now;
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             }
             db.SaveChanges();
             logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Attività", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'attività \"" : " non collabora più all'attività \"") + activity.ActivityName + "\"" });
@@ -190,11 +201,12 @@ namespace VALE.Logic
         public IQueryable<UserData> GetRelatedUsers(int dataId)
         {
             var db = new UserOperationsContext();
-            var workerUsers = db.Reports.Where(r => r.ActivityId == dataId).Select(r => r.Worker).Distinct().ToList();
+            //var workerUsers = db.Reports.Where(r => r.ActivityId == dataId).Select(r => r.Worker).Distinct().ToList();
             var pendingUsers = db.Activities.First(a => a.ActivityId == dataId).PendingUsers;
 
-            workerUsers.AddRange(pendingUsers);
-            return workerUsers.AsQueryable();
+            //workerUsers.AddRange(pendingUsers);
+            //return workerUsers.AsQueryable();
+            return pendingUsers.AsQueryable();
         }
 
         public IQueryable<Group> GetRelatedGroups(int dataId)

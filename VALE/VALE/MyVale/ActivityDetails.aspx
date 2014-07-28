@@ -14,7 +14,7 @@
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <button type="button" runat="server" class="btn btn-info col-md-1"  onserverclick="btnBack_ServerClick" causesvalidation="false"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+                                            <asp:Button ID="btnBack" ToolTip="Torna indietro" runat="server" CausesValidation="false" CssClass="btn btn-primary col-md-1" Font-Bold="true" Text="&#171;" OnClick="btnBack_ServerClick" />
                                             <div class="col-lg-11">
                                                 <ul class="nav nav-pills">
                                                     <li>
@@ -102,7 +102,7 @@
                                                                 </ul>
                                                             </div>
                                                             <div class="navbar-right">
-                                                                <asp:Button runat="server" Text="Ellimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
+                                                                <asp:Button runat="server" Text="Elimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
                                                                 <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click"  />
                                                             </div>
                                                         </div>
@@ -254,7 +254,7 @@
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="ActivityDescription" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="ActivityDescription" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label runat="server"><%#: Item.ActivityDescription %></asp:Label></div></center>
@@ -262,7 +262,7 @@
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton runat="server" ID="labelHoursWorked" CommandArgument="HoursWorked" CommandName="sort"><span  class="glyphicon glyphicon-time"></span> Ore di attività</asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server" ID="labelHoursWorked" CommandArgument="HoursWorked" CommandName="sort"><span  class="glyphicon glyphicon-time"></span> Ore di attività</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label runat="server"><%#: Item.HoursWorked %></asp:Label></div></center>
@@ -272,7 +272,7 @@
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Data">
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="Date" CommandName="sort" runat="server" ID="labelDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Date" CommandName="sort" runat="server" ID="labelDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label runat="server"><%#: Item.Date.ToShortDateString() %></asp:Label></div></center>
@@ -284,14 +284,14 @@
                                                                         <ItemTemplate>
                                                                             <center>
                                                                                 <div>
-                                                                                    <asp:LinkButton runat="server" CausesValidation="false" CommandName="ShowReport" CommandArgument="<%#: Item.ActivityReportId %>"><span class="label label-primary"><span class="glyphicon glyphicon-eye-open"></span></span></asp:LinkButton>
-                                                                                    <asp:LinkButton runat="server" CausesValidation="false" CommandName="EditReport" CommandArgument="<%#: Item.ActivityReportId %>"><span class="label label-success"><span class="glyphicon glyphicon-pencil"></span></span></asp:LinkButton>
-                                                                                    <asp:LinkButton runat="server" CausesValidation="false" CommandName="DeleteReport" CommandArgument="<%#: Item.ActivityReportId %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
+                                                                                    <asp:LinkButton ID="ShowReportClick" runat="server" CausesValidation="false" CommandName="ShowReport" CommandArgument="<%#: Item.ActivityReportId %>"><span class="label label-primary"><span class="glyphicon glyphicon-eye-open"></span></span></asp:LinkButton>
+                                                                                    <asp:LinkButton ID="EditReportClick" runat="server" CausesValidation="false" CommandName="EditReport" CommandArgument="<%#: Item.ActivityReportId %>"><span class="label label-success"><span class="glyphicon glyphicon-pencil"></span></span></asp:LinkButton>
+                                                                                    <asp:LinkButton ID="DeleteReportclick" runat="server" CausesValidation="false" CommandName="DeleteReport" CommandArgument="<%#: Item.ActivityReportId %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
                                                                                 </div>
                                                                             </center>
                                                                         </ItemTemplate>
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton runat="server" ID="labelBtnGroup"><span  class="glyphicon glyphicon-cog"></span> Azioni</asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton runat="server" CausesValidation="false" ID="labelBtnGroup"><span  class="glyphicon glyphicon-cog"></span> Azioni</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <HeaderStyle Width="110px"></HeaderStyle>
                                                                         <ItemStyle Width="110px"></ItemStyle>
@@ -385,7 +385,7 @@
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="145px"  ID="txtActDescription" runat="server"></asp:TextBox>
-                                    <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtActDescription">
+                                    <asp:HtmlEditorExtender EnableViewState="true" EnableSanitization="false" runat="server" TargetControlID="txtActDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />
@@ -402,7 +402,7 @@
                                             <ajaxToolkit:Copy />
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
-                                    </asp:HtmlEditorExtender>--%>
+                                    </asp:HtmlEditorExtender>
                                     <asp:RequiredFieldValidator runat="server" ValidationGroup="ModifyActivity" ControlToValidate="txtActDescription" CssClass="text-danger" ErrorMessage="La descrizione è obbligatoria" />
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Attività</asp:Label>

@@ -100,7 +100,14 @@ namespace VALE.MyVale
 
                 var interventionRelatedProject = _db.Interventions.FirstOrDefault(i => i.InterventionId == _currentInterventionId).RelatedProject;
                 if (interventionRelatedProject != null)
+                {
                     interventionRelatedProject.LastModified = DateTime.Now;
+
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(interventionRelatedProject.ProjectId);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
 
                 _db.SaveChanges();
 
@@ -129,7 +136,14 @@ namespace VALE.MyVale
             db.Comments.Remove(aCommentRelated);
 
             if (anIntervention.RelatedProject != null)
+            {
                 anIntervention.RelatedProject.LastModified = DateTime.Now;
+
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(anIntervention.ProjectId);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            }
 
             db.SaveChanges();
 

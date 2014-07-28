@@ -28,7 +28,8 @@ namespace VALE.Logic
                     newIntervention.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(newIntervention.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 db.SaveChanges();
 
@@ -58,7 +59,8 @@ namespace VALE.Logic
                     intervention.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(intervention.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 db.SaveChanges();
                 return true;
@@ -84,7 +86,8 @@ namespace VALE.Logic
                     anIntervention.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(anIntervention.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 db.AttachedFiles.Remove(anAttachment);
 
@@ -117,7 +120,8 @@ namespace VALE.Logic
                     anIntervention.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(anIntervention.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 db.SaveChanges();
                 return true;
