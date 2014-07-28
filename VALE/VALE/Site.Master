@@ -188,6 +188,7 @@
                                 <li><a href="/Admin/ManageGroups.aspx"><span  class="glyphicon glyphicon-star"></span> Gestisci Gruppi</a></li>
                                 <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi Attività</a></li>
                                 <li><a href="/Admin/ManageProjectTypes.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci tipi Progetto</a></li>
+                                <li><a href="/Admin/ManagePartnerTypes.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci tipi Socio</a></li>
                             </ul>
                         </li>
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
