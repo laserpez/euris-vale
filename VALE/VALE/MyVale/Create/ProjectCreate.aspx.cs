@@ -11,7 +11,7 @@ using VALE.Logic;
 
 namespace VALE.MyVale
 {
-    public partial class ProjectCreate : System.Web.UI.Page
+    public partial class ProjectCreate : Page
     {
         private string _currentUser;
         

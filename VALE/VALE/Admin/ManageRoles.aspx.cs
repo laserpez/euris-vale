@@ -10,7 +10,7 @@ using VALE.Models;
 
 namespace VALE.Admin
 {
-    public partial class ManageRoles : System.Web.UI.Page
+    public partial class ManageRoles : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

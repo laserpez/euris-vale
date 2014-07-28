@@ -8,7 +8,6 @@ namespace VALE.Models
 {
     public class DatabaseInitializer : DropCreateDatabaseIfModelChanges<UserOperationsContext>
     {
-
         protected override void Seed(UserOperationsContext context)
         {
             context.ActivityTypes.Add(new ActivityType

@@ -43,8 +43,8 @@ namespace VALE
             //    clientSecret: "");
 
             app.UseTwitterAuthentication(
-               consumerKey: "sLEyuwaGlmXM8RUHS89CZRfT7",
-               consumerSecret: "pNWVxCO1czPNZMqm0SrWBJMm1DLKbcCnfN4BSN8MKOosjJYU8l");
+               consumerKey: "IGakqgdHnTPk0IFPA33q2UXhz",
+               consumerSecret: "gqJ9x8sHdlAv7K7ugJH4a4ABS2saCzidFNJ8Q5YgTRcVuoCCz9");
 
             app.UseFacebookAuthentication(
                appId: "118117908209695",

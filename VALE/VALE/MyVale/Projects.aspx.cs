@@ -12,7 +12,7 @@ using VALE.Logic;
 
 namespace VALE.MyVale
 {
-    public partial class Projects : System.Web.UI.Page
+    public partial class Projects : Page
     {
         private string _currentUserName;
         protected void Page_Load(object sender, EventArgs e)
