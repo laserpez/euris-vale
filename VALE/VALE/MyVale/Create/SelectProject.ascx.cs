@@ -39,7 +39,16 @@ namespace VALE.MyVale.Create
         public IQueryable<Project> GetProjects()
         {
             var _db = new UserOperationsContext();
-            return _db.Projects.Where(pr => pr.Status != "Chiuso").OrderBy(p => p.ProjectName);
+
+            var currentUser = _db.UserDatas.FirstOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
+            List<Project> projects = _db.Projects.Where(pr => pr.Status != "Chiuso").OrderBy(p => p.ProjectName).ToList();
+            List<Project> projectsToShow = new List<Project>();
+            foreach(var project in projects)
+            {
+                if (project.InvolvedUsers.Contains(currentUser))
+                    projectsToShow.Add(project);
+            }
+            return projectsToShow.AsQueryable();
         }
 
         protected void btnChooseProject_Click(object sender, EventArgs e)

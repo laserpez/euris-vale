@@ -74,14 +74,22 @@ namespace VALE.MyVale
         {
             var db = new UserOperationsContext();
             var attachedFile = db.AttachedFiles.First(a => a.AttachedFileID == attachedFileId);
-            var relatedPrj = attachedFile.RelatedProject;
+            var relatedProject = attachedFile.RelatedProject;
+            var relatedEvent = attachedFile.RelatedEvent;
+            var relatedIntervention = attachedFile.RelatedIntervention;
             var currentUsername = HttpContext.Current.User.Identity.Name;
             if (attachedFile.Owner == currentUsername)
                 return true;
             if (HttpContext.Current.User.IsInRole("Amministratore"))
                 return true;
-            if (relatedPrj != null)
-                if (relatedPrj.OrganizerUserName == currentUsername)
+            if (relatedProject != null)
+                if (relatedProject.OrganizerUserName == currentUsername)
+                    return true;
+            if (relatedEvent != null)
+                if (relatedEvent.OrganizerUserName == currentUsername)
+                    return true;
+            if (relatedIntervention != null)
+                if (relatedIntervention.CreatorUserName == currentUsername)
                     return true;
             return false;
         }

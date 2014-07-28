@@ -70,6 +70,13 @@ namespace VALE.Logic
                 var newEvent = data as Event;
                 
                 db.Events.Add(newEvent);
+                if (newEvent.RelatedProject != null)
+                {
+                    newEvent.RelatedProject.LastModified = DateTime.Now;
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(newEvent.RelatedProject.ProjectId);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
                 db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = newEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo evento", DataType = "Evento", Date = DateTime.Now, Description = "E' stato creato il nuovo evento \"" + newEvent.Name + "\"" });
                 return true;
@@ -96,6 +103,12 @@ namespace VALE.Logic
                 var anEvent = _db.Events.Where(ev => ev.EventId == eventId).First();
                 anEvent.AttachedFiles.Remove(anAttachment);
                 _db.AttachedFiles.Remove(anAttachment);
+                if (anEvent.RelatedProject != null)
+                {
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = eventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedEvent.Name + "\"", DataType = "Evento", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
                 return true;
@@ -113,6 +126,12 @@ namespace VALE.Logic
                 var _db = new UserOperationsContext();
                 var anEvent = _db.Events.First(e => e.EventId == dataId);
                 anEvent.AttachedFiles.Add(file);
+                if (anEvent.RelatedProject != null)
+                {
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento a \"" + anEvent.Name + "\"", DataType = "Evento", Date = DateTime.Now, Description = "Nome documento: \"" + file.FileName + "\"" });
                 return true;
@@ -139,6 +158,12 @@ namespace VALE.Logic
                 var anEvent = _db.Events.First(e => e.EventId == dataId);
                 var attachments = anEvent.AttachedFiles;
                 _db.AttachedFiles.RemoveRange(attachments);
+                if (anEvent.RelatedProject != null)
+                {
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Evento", Date = DateTime.Now, Description = "Rimossi tutti i documenti da \"" + anEvent.Name + "\"" });
                 return true;
@@ -171,6 +196,12 @@ namespace VALE.Logic
             }
             else
                 anEvent.RegisteredUsers.Remove(user);
+            if (anEvent.RelatedProject != null)
+            {
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            }
             _db.SaveChanges();
 
             logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'evento \"" : " non collabora più all'evento \"") + anEvent.Name + "\"" });

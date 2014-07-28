@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Logic;
 using VALE.Models;
+using System.Web.UI.HtmlControls;
 
 namespace VALE.MyVale
 {
@@ -22,9 +23,13 @@ namespace VALE.MyVale
         {
             _db = new UserOperationsContext();
             _currentUser = User.Identity.GetUserName();
+            if (Request.QueryString["From"] != null)
+                Session["InterventionDetailsRequestFrom"] = Request.QueryString["From"];
             if (Request.QueryString.HasKeys())
                 _currentInterventionId = Convert.ToInt32(Request.QueryString["interventionId"]);
 
+            FileUploader.DataActions = new InterventionActions();
+            FileUploader.DataId = _currentInterventionId;
         }
 
         public Intervention GetIntervention([QueryString("interventionId")] int? interventionId)
@@ -33,6 +38,15 @@ namespace VALE.MyVale
                 return _db.Interventions.First(i => i.InterventionId == interventionId);
             else
                 return null;
+        }
+
+        public bool AllowDelete(int attachedFileId)
+        {
+            var db = new UserOperationsContext();
+            var attachedFile = db.AttachedFiles.First(a => a.AttachedFileID == attachedFileId);
+            if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
+                return true;
+            return false;
         }
 
         public IQueryable<AttachedFile> DocumentsGridView_GetData()
@@ -51,6 +65,13 @@ namespace VALE.MyVale
                 case "DOWNLOAD":
                     Response.Redirect("/DownloadFile.ashx?fileId=" + id);
                     break;
+                case "Cancella":
+                    var actions = new InterventionActions();
+                    actions.RemoveAttachment(id);
+                    var DocumentsGridView = (GridView)InterventionDetail.FindControl("DocumentsGridView");
+                    DocumentsGridView.PageIndex = 0;
+                    DocumentsGridView.DataBind();
+                    break;
             }
         }
 
@@ -66,29 +87,26 @@ namespace VALE.MyVale
 
         protected void btnAddComment_Click(object sender, EventArgs e)
         {
-            var comment = new Comment
+            if (Page.IsValid)
             {
-                Date = DateTime.Now,
-                CommentText = txtComment.Text,
-                CreatorUserName = _currentUser,
-                InterventionId = _currentInterventionId
-            };
-            _db.Comments.Add(comment);
-            _db.SaveChanges();
+                var comment = new Comment
+                {
+                    Date = DateTime.Now,
+                    CommentText = txtComment.InnerText,
+                    CreatorUserName = _currentUser,
+                    InterventionId = _currentInterventionId
+                };
+                _db.Comments.Add(comment);
 
-            lstComments.DataBind();
-            txtComment.Text = "";
-        }
+                var interventionRelatedProject = _db.Interventions.FirstOrDefault(i => i.InterventionId == _currentInterventionId).RelatedProject;
+                if (interventionRelatedProject != null)
+                    interventionRelatedProject.LastModified = DateTime.Now;
 
-        public List<Comment> GetComments([QueryString("interventionId")] int? interventionId)
-        {
-            if (interventionId.HasValue)
-            {
-                var comments = _db.Comments.Where(c => c.InterventionId == interventionId).OrderByDescending(o => o.Date).ToList();
-                return comments;
+                _db.SaveChanges();
+
+                grdComments.DataBind();
+                txtComment.InnerText = "";
             }
-            else
-                return null;
         }
 
         protected void InterventionDetail_DataBound(object sender, EventArgs e)
@@ -102,42 +120,74 @@ namespace VALE.MyVale
                 txtDescription.Text = HttpUtility.HtmlDecode(result).ToString();
         }
 
-        protected void deleteComment_Click(object sender, EventArgs e)
+        protected void deleteComment_Click(int commentId)
         {
-            var btnDelete = (Button)sender;
-            var commentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
             var db = new UserOperationsContext();
             var aCommentRelated = db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId);
             var anIntervention = db.Interventions.FirstOrDefault(i => i.InterventionId == _currentInterventionId);
             anIntervention.Comments.Remove(aCommentRelated);
             db.Comments.Remove(aCommentRelated);
+
+            if (anIntervention.RelatedProject != null)
+                anIntervention.RelatedProject.LastModified = DateTime.Now;
+
             db.SaveChanges();
 
-            lstComments.DataBind();
+            grdComments.DataBind();
         }
 
-        protected void lstComments_DataBound(object sender, EventArgs e)
+        protected void btnBack_ServerClick(object sender, EventArgs e)
         {
-            for (int i = 0; i < lstComments.Items.Count; i++)
+            string returnUrl = "";
+            if (Session["InterventionDetailsRequestFrom"] != null)
             {
-                var btnDelete = (Button)lstComments.Items[i].FindControl("deleteComment");
-                var labelDeleteBtn = (Label)lstComments.Items[i].FindControl("labelDeleteBtn");
+                returnUrl = Session["InterventionDetailsRequestFrom"].ToString();
+                Session["InterventionDetailsRequestFrom"] = null;
+            }
+            Response.Redirect(returnUrl);
+        }
+
+        public IQueryable<Comment> grdComments_GetData()
+        {
+            if (_currentInterventionId != 0)
+                return _db.Interventions.First(c => c.InterventionId == _currentInterventionId).Comments.OrderBy(o => o.Date).AsQueryable();
+            else
+                return null;
+        }
+
+        protected void grdComments_DataBound(object sender, EventArgs e)
+        {
+            for (int i = 0; i < grdComments.Rows.Count; i++)
+            {
+                var btnDelete = (LinkButton)grdComments.Rows[i].FindControl("deleteComment");
                 var commentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
                 var currentProject = _db.Interventions.FirstOrDefault(c => c.InterventionId == _currentInterventionId).RelatedProject;
-                if (HttpContext.Current.User.IsInRole("Amministratore") || _db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId).CreatorUserName == _currentUser || currentProject.OrganizerUserName == _currentUser)
-                {
-                    labelDeleteBtn.Visible = true;
+                if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del Consiglio") || _db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId).CreatorUserName == _currentUser || _db.Interventions.FirstOrDefault(co => co.InterventionId == _currentInterventionId).CreatorUserName == _currentUser)
                     btnDelete.Visible = true;
-                }
-
-                var commentText = _db.Comments.FirstOrDefault(cc => cc.CommentId == commentId).CommentText;
-
-                var txtCommentDescription = (Label)lstComments.Items[i].FindControl("txtCommentDescription");
-                if (String.IsNullOrEmpty(commentText))
-                    txtCommentDescription.Text = "Nessun commento inserito";
                 else
-                    txtCommentDescription.Text = commentText;
+                    btnDelete.Visible = false;
             }
+        }
+
+        protected void grdComments_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "DeleteComment")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+
+                deleteComment_Click(index);
+            }
+        }
+
+        protected void OpenPopUp_Click(object sender, EventArgs e)
+        {
+            PopupAddComments.Show();
+        }
+
+        protected void ClosePopUp_Click(object sender, EventArgs e)
+        {
+            txtComment.InnerText = "";
+            PopupAddComments.Hide();
         }
     }
 }

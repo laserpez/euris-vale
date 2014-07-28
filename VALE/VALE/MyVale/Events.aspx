@@ -49,7 +49,7 @@
                                                     <div class="col-md-10">
                                                         <asp:TextBox runat="server" CausesValidation="true" ID="txtFromDate" CssClass="form-control input-sm" OnTextChanged="txtFromDate_TextChanged" AutoPostBack="true"></asp:TextBox>
                                                         <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtFromDate"></asp:CalendarExtender>
-                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ControlToValidate="txtFromDate" ErrorMessage="Date from format in DD/MM/YYYY" ValidationExpression="^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\d\d$"></asp:RegularExpressionValidator>
+                                                        <asp:RegularExpressionValidator CssClass="text-danger" ID="RegularExpressionValidator4" runat="server" ControlToValidate="txtFromDate" ErrorMessage="Date from format in DD/MM/YYYY" ValidationExpression="^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\d\d$"></asp:RegularExpressionValidator>
                                                     </div>
                                                 </div>
                                             
@@ -58,7 +58,7 @@
                                                     <div class="col-md-10">
                                                         <asp:TextBox runat="server" ID="txtToDate" CssClass="form-control input-sm"></asp:TextBox>
                                                         <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarTo" TargetControlID="txtToDate"></asp:CalendarExtender>
-                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtToDate" ErrorMessage="Date to format in DD/MM/YYYY" ValidationExpression="^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\d\d$"></asp:RegularExpressionValidator>
+                                                        <asp:RegularExpressionValidator CssClass="text-danger" ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtToDate" ErrorMessage="Date to format in DD/MM/YYYY" ValidationExpression="^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\d\d$"></asp:RegularExpressionValidator>
                                                     </div>
                                                 </div>
                                             </div>
