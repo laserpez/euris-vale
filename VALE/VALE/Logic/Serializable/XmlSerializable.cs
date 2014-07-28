@@ -11,7 +11,7 @@ namespace VALE.Logic.Serializable
 {
     public class XmlSerializable : ISerializable
     {
-        public string FileName { get; set; }
+
         public void CreateData<T>(T dati, string nomeFile)
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
