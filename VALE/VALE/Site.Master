@@ -1,0 +1,334 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="VALE.SiteMaster" %>
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" />
+
+    <title><%: Page.Title %> - VALE</title>
+    
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <style type="text/css">
+
+        /*Classe social-network button login*/
+        .social-network-facebook {
+	    height: 37px;
+	    width: 180px;
+        color:#fff;
+        background-color: #354f88; 
+        }
+
+        .social-network-twitter {
+	        height: 37px;
+	        width: 180px;
+            color:#fff;
+            background-color: #45b0e3;
+        }
+
+        .social-network-google {
+	        height: 37px;
+	        width: 180px;
+            color:#fff;
+            background-color:#de4c34;
+        }
+
+        .facebook-icon {
+            height: 37px;
+            background-repeat:no-repeat;
+            background-image:url(../Images/facebook.png);
+        }
+
+        .twitter-icon {
+            height: 37px;
+            background-repeat:no-repeat;
+            background-image:url(../Images/twitter.png);
+        }
+
+        .google-icon {
+            height: 37px;
+            background-repeat:no-repeat;
+            background-image:url(../Images/google.png);
+        }
+
+        /*Classe backgroung PopUp*/
+        .modalBackground
+        {
+            background-color: Black;
+            filter: alpha(opacity=60);
+            opacity: 0.2;
+        }
+
+        /*Classe paging GridView*/
+        .GridPager {
+            background-color: #ddd;
+            padding: 2px;
+            margin: 2% auto;
+        }
+
+            .GridPager a {
+                margin: auto 1%;
+                color: #3399f3;
+                border: solid 1px #dddddd;
+                background-color: #ffffff;
+                padding: 3px 7px 3px 7px;
+                text-decoration: none;
+                -o-box-shadow: 1px 1px 1px #111;
+                -moz-box-shadow: 1px 1px 1px #111;
+                -webkit-box-shadow: 1px 1px 1px #111;
+                box-shadow: 1px 1px 1px #111;
+            }
+
+            .GridPager span:hover,
+            .GridPager a:focus,
+            .GridPager span:focus,
+            .GridPager a:hover {
+                color: #3399f3;
+                background-color: #eeeeee;
+                border-color: #dddddd;
+            }
+
+            .GridPager span {
+                color: #3399f3;
+                background-color: #ffffff;
+                border: solid 1px #dddddd;
+                -o-box-shadow: 1px 1px 1px #111;
+                -moz-box-shadow: 1px 1px 1px #111;
+                -webkit-box-shadow: 1px 1px 1px #111;
+                box-shadow: 1px 1px 1px #111;
+                border-radius: 0px;
+                padding: 3px 7px 3px 7px;
+            }
+
+            .disabledItem,
+            .activeItem {
+                color: #3399f3;
+                background-color: #ffffff;
+                border-color: #dddddd;
+                -o-box-shadow: 1px 1px 1px #111;
+                -moz-box-shadow: 1px 1px 1px #111;
+                -webkit-box-shadow: 1px 1px 1px #111;
+                box-shadow: 1px 1px 1px #111;
+                border-radius: 0px;
+                padding: 3px 7px 3px 7px;
+            }
+
+            .GridPager .activeItem a,
+            .GridPager .activeItem span,
+            .GridPager .activeItem a:hover {
+                cursor: default;
+            }
+
+            .GridPager .disabledItem span,
+            .GridPager .disabledItem a,
+            .GridPager .disabledItem a:hover {
+                cursor: not-allowed;
+            }
+
+            .GridPager .body {
+                font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+                font-size: 12px;
+                line-height: 1.42857143;
+                color: #666;
+                background-color: #fff;
+            }
+
+
+
+
+
+
+
+
+
+
+
+        .dropdown-submenu {
+            position: relative;
+        }
+
+            .dropdown-submenu > .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -6px;
+                margin-left: -1px;
+                -webkit-border-radius: 0 6px 6px 6px;
+                -moz-border-radius: 0 6px 6px;
+                border-radius: 0 6px 6px 6px;
+            }
+
+            .dropdown-submenu:hover > .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-submenu > a:after {
+                display: block;
+                content: " ";
+                float: right;
+                width: 0;
+                height: 0;
+                border-color: transparent;
+                border-style: solid;
+                border-width: 5px 0 5px 5px;
+                border-left-color: #ccc;
+                margin-top: 5px;
+                margin-right: -10px;
+            }
+
+            .dropdown-submenu:hover > a:after {
+                border-left-color: #fff;
+            }
+
+            .dropdown-submenu.pull-left {
+                float: none;
+            }
+
+                .dropdown-submenu.pull-left > .dropdown-menu {
+                    left: -100%;
+                    margin-left: 10px;
+                    -webkit-border-radius: 6px 0 6px 6px;
+                    -moz-border-radius: 6px 0 6px 6px;
+                    border-radius: 6px 0 6px 6px;
+                }
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <asp:ToolkitScriptManager runat="server" >
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <%--<asp:ScriptReference Name="MsAjaxBundle" /--%>
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="respond" />
+                <asp:ScriptReference Name="WebForms.js" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ToolkitScriptManager>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <asp:Image ID="LogoImage" runat="server" />
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li runat="server" id="homeLink"><a runat="server" href="~/"><span  class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li runat="server" id="adminLink" visible="false" class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-cog"></span> Amministrazione <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
+                            <ul class="dropdown-menu multi-level">
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#"><span  class="glyphicon glyphicon-user"></span> Utenti</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/Admin/ManageUsers.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci Utenti <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
+                                        <li><a href="/Admin/ManageRoles.aspx"><span  class="glyphicon glyphicon-ok-circle"></span> Gestisci Ruoli <span runat="server" class="badge" id="Span1"></span></a></li>
+                                        <li><a href="/Admin/ManagePartnerTypes.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci tipi Socio</a></li>
+                                        <li><a href="/Admin/ManageGroups.aspx"><span  class="glyphicon glyphicon-star"></span> Gestisci Gruppi</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#"><span  class="glyphicon glyphicon-inbox"></span> Progetti</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/Admin/ManageProjects.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci Progetti </a></li>
+                                        <li><a href="/Admin/ManageProjectTypes.aspx"><span  class="glyphicon glyphicon-tag"></span> Gestisci tipi Progetto</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi Attività</a></li>
+                                <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci Eventi</a></li>
+                                <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci Articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
+                                <li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci Verbali del Consiglio</a></li>
+                            </ul>
+                        </li>
+                        <li runat="server" id="boardLink" visible="false" class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-file"></span> Consiglio<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/BOD/BODReports.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Vedi verbali</a></li>
+                                <li><a runat="server" id="createBODLink" visible="false" href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>
+                                <li><a href="/MyVale/BOD/VALEDocuments.aspx"><span  class="glyphicon glyphicon-briefcase"></span> Documenti dell'associazione</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="projectsLink" runat="server">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-inbox"></span> Progetti<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Projects.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Tutti i progetti</a></li>
+                                <li><a href="/MyVale/PersonalProjects.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Progetti personali</a></li>
+                                <li><a runat="server" visible="false" id="createProjectLink" href="/MyVale/Create/ProjectCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea progetto</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="activitiesLink" runat="server">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Attività  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Vedi Attività</a></li>
+                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-wrench"></span> Gestisci attività</a></li>
+                                <li><a href="/MyVale/SummaryInterventions.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Riepilogo interventi</a></li>
+                                <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="eventsLink" runat="server">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-flash"></span> Eventi<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Events.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Calendario eventi</a></li>
+                                <li><a href="/MyVale/PersonalEvents.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Eventi personali</a></li>
+                                <li><a runat="server" visible="false" id="createEventLink" href="/MyVale/Create/EventCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea evento</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="blogsLink" runat="server">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list-alt"></span> Blog <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/MyVale/Articles.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Tutti gli articoli</a></li>
+                                <li><a href="/MyVale/PersonalArticles.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Articoli personali</a></li>
+                                <li><a runat="server" visible="false" id="createBlogArticle" href="/MyVale/Create/ArticleCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea articolo</a></li>
+                            </ul>
+                        </li>
+                        <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Utenti </a></li>
+                    </ul>
+                    <asp:LoginView runat="server" ViewStateMode="Disabled" id="loginLink">
+                        <AnonymousTemplate>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a runat="server" href="~/Account/Register" >Registrati</a></li>
+                                <li><a runat="server" href="~/Account/Login">Accedi</a></li>
+                            </ul>
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a runat="server" href="~/Account/Profile.aspx" title="Manage your account">Ciao, <%: Context.User.Identity.Name  %> !</a></li>
+                                <li>
+                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Esci" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
+                                </li>
+                            </ul>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <p>&copy; <%: DateTime.Now.Year %> - VALE</p>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>
