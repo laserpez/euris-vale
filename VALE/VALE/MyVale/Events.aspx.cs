@@ -111,7 +111,7 @@ namespace VALE.MyVale
             else
             {
                 filterPanel.Visible = true;
-                btnClearFilters.Visible = true;
+                btnFilterEvents.Visible = true;
                 btnClearFilters.Visible = true;
             }
         }

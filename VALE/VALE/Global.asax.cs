@@ -21,7 +21,8 @@ namespace VALE
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             // Initialize the product database.
-            RoleActions.File = "Ruoli";
+            String path = Server.MapPath("~/Logic/Serializable/Ruoli.xml");
+            RoleActions.File = path;
             Database.SetInitializer(new DatabaseInitializer());
             RoleActions.LoadRoles();
             using (var actions = new UserActions())
