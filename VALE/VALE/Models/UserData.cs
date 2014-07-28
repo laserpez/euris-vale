@@ -14,7 +14,6 @@ namespace VALE.Models
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public string PartnerType { get; set; }
         public virtual List<Event> AttendingEvents { get; set; }
         public virtual List<Project> AttendingProjects { get; set; }
         public virtual List<Event> OrganizedEvents { get; set; }

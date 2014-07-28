@@ -129,7 +129,8 @@ namespace VALE.MyVale.Create
                 City = DropDownCity.SelectedValue,
                 CF = TextCF.Text,
                 NeedsApproval= false,
-                Email = Email.Text
+                Email = Email.Text,
+                PartnerType = ddlPartnerType.SelectedValue,
             };
 
             var passwordValidator = new PasswordValidator();
@@ -170,6 +171,12 @@ namespace VALE.MyVale.Create
             {
                 ErrorMessage.Text = result.Errors.FirstOrDefault();
             }
+        }
+
+        public List<PartnerType> ddlPartnerType_GetData() 
+        {
+            var db = new UserOperationsContext();
+            return db.PartnerTypes.ToList();
         }
     }
 }
