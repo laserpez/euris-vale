@@ -13,20 +13,46 @@ namespace VALE.Logic
     {
         public static string File { get; set; }
 
-        public static bool checkPermission(string role, string page)
+        public static bool checkPermission(string role, string source)
         {
-            switch (page)
+            var xmlRole = findRole(role);
+            switch (source)
             {
-                case "":
-                    break;
+                case "Amministrazione":
+                    return xmlRole.Amministrazione.Visible;
+                case "DocumentiAssociazione":
+                    return xmlRole.DocumentiAssociazione.Visible;
+                case "Home":
+                    return xmlRole.Home.Visible;
+                case "ListaUtenti":
+                    return xmlRole.ListaUtenti.Visible;
+                case "Consiglio":
+                    return xmlRole.Consiglio.Visible;
+                case "CreazioneConsiglio":
+                    return xmlRole.Consiglio.Creation;
+                case "Progetti":
+                    return xmlRole.Progetti.Visible;
+                case "CreazioneProgetti":
+                    return xmlRole.Progetti.Creation;
+                case "Attivita":
+                    return xmlRole.Attivita.Visible;
+                case "CreazioneAttivita":
+                    return xmlRole.Attivita.Creation;
+                case "Eventi":
+                    return xmlRole.Eventi.Visible;
+                case "CreazioneEventi":
+                    return xmlRole.Eventi.Creation;
+                case "Articoli":
+                    return xmlRole.Articoli.Visible;
+                case "CreazioneArticoli":
+                    return xmlRole.Articoli.Creation;
                 default:
-                    break;
+                    return false;
 
             }
-            return false;
         }
 
-        public static XmlRoles findRole(string role, string nomeFile)
+        public static XmlRoles findRole(string role)
         {
             return ReadRoles().Where(o => o.Name == role).FirstOrDefault();
         }
