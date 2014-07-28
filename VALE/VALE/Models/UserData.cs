@@ -14,25 +14,19 @@ namespace VALE.Models
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-
+        public string PartnerType { get; set; }
         public virtual List<Event> AttendingEvents { get; set; }
         public virtual List<Project> AttendingProjects { get; set; }
-
         public virtual List<Event> OrganizedEvents { get; set; }
         public virtual List<Project> OrganizedProjects { get; set; }
-
         public virtual List<Activity> PendingActivity { get; set; }
-
         public virtual List<Intervention> Interventions { get; set; }
-
         public virtual List<Group> JoinedGroups { get; set; }
-
         public override bool Equals(object obj)
         {
             var userData = (UserData)obj;
             return this.UserName == userData.UserName;
         }
-
         public override int GetHashCode()
         {
             return UserName.GetHashCode();
