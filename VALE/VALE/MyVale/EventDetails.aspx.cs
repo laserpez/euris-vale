@@ -144,6 +144,16 @@ namespace VALE.MyVale
             events.Durata = txtDurata.Text;
             events.Site =  txtSite.Text;
             events.Public = chkPublic.Checked;
+
+            if (events.RelatedProject != null)
+            {
+                events.RelatedProject.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(events.RelatedProject.ProjectId);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            }
+
             db.SaveChanges();
             Response.Redirect("~/MyVale/EventDetails.aspx?eventId="+_currentEventId);
         }
@@ -155,6 +165,12 @@ namespace VALE.MyVale
             var Event = _db.Events.First(a => a.EventId == _currentEventId);
             var projectRelated = _db.Projects.FirstOrDefault(p => p.ProjectId == Event.ProjectId);
             projectRelated.Events.Remove(Event);
+            projectRelated.LastModified = DateTime.Now;
+            var actions = new ProjectActions();
+            var listHierarchyUp = actions.getHierarchyUp(projectRelated.ProjectId);
+            if (listHierarchyUp.Count != 0)
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+
             _db.SaveChanges();
             GridView grdRelatedProject = (GridView)EventDetail.FindControl("grdRelatedProject");
             grdRelatedProject.DataBind();
@@ -184,6 +200,13 @@ namespace VALE.MyVale
             {
                 var Event = _db.Events.First(a => a.EventId == _currentEventId);
                 Event.RelatedProject = project;
+
+                project.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(project.ProjectId);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+
                 _db.SaveChanges();
                 GridView grdRelatedProject = (GridView)EventDetail.FindControl("grdRelatedProject");
                 grdRelatedProject.DataBind();

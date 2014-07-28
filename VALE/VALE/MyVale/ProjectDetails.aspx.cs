@@ -290,7 +290,8 @@ namespace VALE.MyVale
                     project.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
 
                     db.SaveChanges();
                     Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
@@ -357,7 +358,8 @@ namespace VALE.MyVale
                     anIntervention.RelatedProject.LastModified = DateTime.Now;
                     var actionsProject = new ProjectActions();
                     var listHierarchyUp = actionsProject.getHierarchyUp(anIntervention.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
 
                 _db.SaveChanges();
@@ -393,7 +395,8 @@ namespace VALE.MyVale
                 currentProject.LastModified = DateTime.Now;
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(currentProject.ProjectId);
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 _db.SaveChanges();
             }
 
@@ -469,7 +472,8 @@ namespace VALE.MyVale
 
             var actions = new ProjectActions();
             var listHierarchyUp = actions.getHierarchyUp(project.ProjectId);
-            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            if (listHierarchyUp.Count != 0)
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
 
             db.SaveChanges();
             Response.Redirect("~/MyVale/ProjectDetails.aspx?projectId=" + _currentProjectId);
@@ -530,7 +534,8 @@ namespace VALE.MyVale
 
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(currentProject.ProjectId);
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
 
                 _db.SaveChanges();
                 UpdateRelatedProjectView();

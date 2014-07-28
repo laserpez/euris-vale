@@ -75,7 +75,8 @@ namespace VALE.Logic
                     newEvent.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(newEvent.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = newEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo evento", DataType = "Evento", Date = DateTime.Now, Description = "E' stato creato il nuovo evento \"" + newEvent.Name + "\"" });
@@ -107,7 +108,8 @@ namespace VALE.Logic
                 {
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = eventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedEvent.Name + "\"", DataType = "Evento", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
@@ -130,7 +132,8 @@ namespace VALE.Logic
                 {
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento a \"" + anEvent.Name + "\"", DataType = "Evento", Date = DateTime.Now, Description = "Nome documento: \"" + file.FileName + "\"" });
@@ -162,7 +165,8 @@ namespace VALE.Logic
                 {
                     var actions = new ProjectActions();
                     var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Evento", Date = DateTime.Now, Description = "Rimossi tutti i documenti da \"" + anEvent.Name + "\"" });
@@ -198,9 +202,11 @@ namespace VALE.Logic
                 anEvent.RegisteredUsers.Remove(user);
             if (anEvent.RelatedProject != null)
             {
+                anEvent.RelatedProject.LastModified = DateTime.Now;
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             }
             _db.SaveChanges();
 

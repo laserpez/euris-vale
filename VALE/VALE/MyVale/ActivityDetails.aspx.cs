@@ -131,6 +131,17 @@ namespace VALE.MyVale
                         Date = DateTime.Today,
                         HoursWorked = hours
                     });
+
+                    var activityRelatedProject = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId).RelatedProject;
+                    if (activityRelatedProject != null)
+                    {
+                        activityRelatedProject.LastModified = DateTime.Now;
+                        var actions = new ProjectActions();
+                        var listHierarchyUp = actions.getHierarchyUp(activityRelatedProject.ProjectId);
+                        if (listHierarchyUp.Count != 0)
+                            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    }
+
                     _db.SaveChanges();
                     lblHoursWorked.Text = GetHoursWorked();
                 }
@@ -228,6 +239,17 @@ namespace VALE.MyVale
             if (report != null)
             {
                 _db.Reports.Remove(report);
+
+                var activityRelatedProject = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId).RelatedProject;
+                if (activityRelatedProject != null)
+                {
+                    activityRelatedProject.LastModified = DateTime.Now;
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(activityRelatedProject.ProjectId);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
+
                 _db.SaveChanges();
                 GridView grdActivityReport = (GridView)ActivityDetail.FindControl("grdActivityReport");
                 grdActivityReport.DataBind();
@@ -303,6 +325,16 @@ namespace VALE.MyVale
             activity.StartDate = startDate;
             activity.ExpireDate = expireDate;
             activity.Type = ddlSelectType.SelectedValue;
+
+            if (activity.RelatedProject != null)
+            {
+                activity.RelatedProject.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            }
+
             _db.SaveChanges();
             Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
             ModalPopup.Hide();
@@ -316,6 +348,13 @@ namespace VALE.MyVale
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
             var projectRelated = _db.Projects.FirstOrDefault(p => p.ProjectId == activity.ProjectId);
             projectRelated.Activities.Remove(activity);
+
+            projectRelated.LastModified = DateTime.Now;
+            var actions = new ProjectActions();
+            var listHierarchyUp = actions.getHierarchyUp(projectRelated.ProjectId);
+            if (listHierarchyUp.Count != 0)
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+
             _db.SaveChanges();
             GridView grdRelatedProject = (GridView)ActivityDetail.FindControl("grdRelatedProject");
             grdRelatedProject.DataBind();
@@ -345,6 +384,12 @@ namespace VALE.MyVale
             {
                 var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
                 activity.RelatedProject = project;
+                project.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+
                 _db.SaveChanges();
                 GridView grdRelatedProject = (GridView)ActivityDetail.FindControl("grdRelatedProject");
                 grdRelatedProject.DataBind();
