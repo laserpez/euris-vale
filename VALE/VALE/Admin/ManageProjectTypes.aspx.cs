@@ -4,17 +4,32 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using VALE.Logic;
 using VALE.Models;
 
 namespace VALE.Admin
 {
-    public partial class ManageProjectTypes : System.Web.UI.Page
+    public partial class ManageProjectTypes : Page
     {
         UserOperationsContext _db = new UserOperationsContext();
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
 
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ManageProjectTypes.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         protected void btnAddTypeButton_Click(object sender, EventArgs e)

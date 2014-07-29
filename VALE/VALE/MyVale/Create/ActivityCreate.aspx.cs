@@ -10,10 +10,11 @@ using VALE.Logic;
 
 namespace VALE.MyVale
 {
-    public partial class ActivityCreate : System.Web.UI.Page
+    public partial class ActivityCreate : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             if (!IsPostBack) 
             {
                 if (Request.QueryString["ProjectId"] != null)
@@ -61,6 +62,19 @@ namespace VALE.MyVale
                 
                 ChangeCalendars();
             } 
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Consiglio"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ActivityCreate.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         public List<ActivityType> GetTypes()
@@ -116,6 +130,7 @@ namespace VALE.MyVale
                     CreationDate = DateTime.Today,
                     StartDate = startDate,
                     ExpireDate = expireDate,
+                    LastModified = DateTime.Today,
                     Budget = budget,
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),

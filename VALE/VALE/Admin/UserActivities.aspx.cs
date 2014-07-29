@@ -5,21 +5,36 @@ using System.Web;
 using System.Web.ModelBinding;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using VALE.Logic;
 using VALE.Models;
 
 namespace VALE.Admin
 {
-    public partial class UserActivities : System.Web.UI.Page
+    public partial class UserActivities : Page
     {
         private int _activityId;
         private string _userEmail;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             if (Request.QueryString.HasKeys())
             {
                 _activityId = Convert.ToInt32(Request.QueryString.GetValues("activityId").First());
                 _userEmail = Request.QueryString.GetValues("userId").First();
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina UserActivities.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

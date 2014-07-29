@@ -17,6 +17,7 @@ namespace VALE.Models
         public DateTime CreationDate { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? ExpireDate { get; set; }
+        public DateTime LastModified { get; set; }
         public ActivityStatus Status { get; set; }
         public string Type { get; set; }
         public int Budget { get; set; }

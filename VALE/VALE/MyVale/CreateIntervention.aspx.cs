@@ -12,18 +12,31 @@ using System.Data.Entity.Validation;
 
 namespace VALE.MyVale
 {
-    public partial class CreateIntervention : System.Web.UI.Page
+    public partial class CreateIntervention : Page
     {
         private string _currentUser;
         private int _currentProjectId;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUser = User.Identity.GetUserName();
             if (Request.QueryString["projectId"] != null)
                 Session["InterventionCreateCallingProjectId"] = Request.QueryString["projectId"];
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Progetti"))
+            {
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina CreateIntervention.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         protected void btnSaveIntervention_Click(object sender, EventArgs e)

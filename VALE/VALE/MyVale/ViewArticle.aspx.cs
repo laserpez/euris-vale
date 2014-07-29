@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -16,11 +17,25 @@ namespace VALE.MyVale
         private int _articleId;
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _articleId = Convert.ToInt32(Request.QueryString.GetValues("articleId").First());
             if (Request.QueryString["From"] != null)
                 Session["ArticlesDetailsRequestFrom"] = Request.QueryString["From"];
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Articoli"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ActivityCreate.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         public BlogArticle GetArticle([QueryString("articleId")] int? articleId)

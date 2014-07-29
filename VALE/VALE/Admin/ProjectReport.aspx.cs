@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.ModelBinding;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using VALE.Logic;
 using VALE.Models;
 
 namespace VALE.Admin
@@ -24,14 +25,28 @@ namespace VALE.Admin
         public int HoursWorked { get; set; }
     }
 
-    public partial class ProjectReport : System.Web.UI.Page
+    public partial class ProjectReport : Page
     {
         private int _currentProjectId;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ProjectReport.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         protected void grid_RowCommand(object sender, GridViewCommandEventArgs e)

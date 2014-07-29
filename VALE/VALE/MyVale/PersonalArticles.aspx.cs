@@ -11,13 +11,27 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace VALE.MyVale
 {
-    public partial class PersonalArticles : System.Web.UI.Page
+    public partial class PersonalArticles : Page
     {
         private string _currentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUser = User.Identity.GetUserName();
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Articoli"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina PersonalArticles.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         protected void grdPersonalArticles_RowCommand(object sender, GridViewCommandEventArgs e)

@@ -14,7 +14,7 @@ using AjaxControlToolkit;
 
 namespace VALE.MyVale
 {
-    public partial class ProjectDetails : System.Web.UI.Page
+    public partial class ProjectDetails : Page
     {
         private int _currentProjectId;
         private string _currentUserName;
@@ -22,6 +22,7 @@ namespace VALE.MyVale
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _db = new UserOperationsContext();
             _currentUserName = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
@@ -37,6 +38,19 @@ namespace VALE.MyVale
                     Session["ProjectDetailsRequestFrom"] = Request.QueryString["From"];
                 ShowHideControls();
                 uploader.DataBind();
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "progetti"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ProjectDetails.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 
