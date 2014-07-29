@@ -138,6 +138,64 @@
                 color: #666;
                 background-color: #fff;
             }
+
+
+
+
+
+
+
+
+
+
+
+        .dropdown-submenu {
+            position: relative;
+        }
+
+            .dropdown-submenu > .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -6px;
+                margin-left: -1px;
+                -webkit-border-radius: 0 6px 6px 6px;
+                -moz-border-radius: 0 6px 6px;
+                border-radius: 0 6px 6px 6px;
+            }
+
+            .dropdown-submenu:hover > .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-submenu > a:after {
+                display: block;
+                content: " ";
+                float: right;
+                width: 0;
+                height: 0;
+                border-color: transparent;
+                border-style: solid;
+                border-width: 5px 0 5px 5px;
+                border-left-color: #ccc;
+                margin-top: 5px;
+                margin-right: -10px;
+            }
+
+            .dropdown-submenu:hover > a:after {
+                border-left-color: #fff;
+            }
+
+            .dropdown-submenu.pull-left {
+                float: none;
+            }
+
+                .dropdown-submenu.pull-left > .dropdown-menu {
+                    left: -100%;
+                    margin-left: 10px;
+                    -webkit-border-radius: 6px 0 6px 6px;
+                    -moz-border-radius: 6px 0 6px 6px;
+                    border-radius: 6px 0 6px 6px;
+                }
     </style>
 </head>
 <body>
@@ -178,25 +236,35 @@
                         <li runat="server" id="homeLink"><a runat="server" href="~/"><span  class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li runat="server" id="adminLink" visible="false" class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-cog"></span> Amministrazione <span runat="server" class="badge" id="NotificationsAllRequests"></span><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/Admin/ManageUsers.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci Utenti <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
-                                <li><a href="/Admin/ManageRoles.aspx"><span  class="glyphicon glyphicon-ok-circle"></span> Gestisci Ruoli <span runat="server" class="badge" id="Span1"></span></a></li>
-                                <li><a href="/Admin/ManageProjects.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci Progetti </a></li>
-                                <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci Eventi</a></li>
-                                <li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci Verbali del Consiglio</a></li>
-                                <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci Articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
-                                <li><a href="/Admin/ManageGroups.aspx"><span  class="glyphicon glyphicon-star"></span> Gestisci Gruppi</a></li>
+                            <ul class="dropdown-menu multi-level">
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#"><span  class="glyphicon glyphicon-user"></span> Utenti</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/Admin/ManageUsers.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci Utenti <span runat="server" class="badge" id="NotificationUsersRequest"></span></a></li>
+                                        <li><a href="/Admin/ManageRoles.aspx"><span  class="glyphicon glyphicon-ok-circle"></span> Gestisci Ruoli <span runat="server" class="badge" id="Span1"></span></a></li>
+                                        <li><a href="/Admin/ManagePartnerTypes.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci tipi Socio</a></li>
+                                        <li><a href="/Admin/ManageGroups.aspx"><span  class="glyphicon glyphicon-star"></span> Gestisci Gruppi</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#"><span  class="glyphicon glyphicon-inbox"></span> Progetti</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/Admin/ManageProjects.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci Progetti </a></li>
+                                        <li><a href="/Admin/ManageProjectTypes.aspx"><span  class="glyphicon glyphicon-tag"></span> Gestisci tipi Progetto</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi Attività</a></li>
-                                <li><a href="/Admin/ManageProjectTypes.aspx"><span  class="glyphicon glyphicon-inbox"></span> Gestisci tipi Progetto</a></li>
-                                <li><a href="/Admin/ManagePartnerTypes.aspx"><span  class="glyphicon glyphicon-user"></span> Gestisci tipi Socio</a></li>
+                                <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci Eventi</a></li>
+                                <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci Articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
+                                <li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci Verbali del Consiglio</a></li>
                             </ul>
                         </li>
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-tasks"></span> Consiglio<b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-file"></span> Consiglio<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/BOD/BODReports.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Vedi verbali</a></li>
                                 <li><a runat="server" id="createBODLink" visible="false" href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>
-                                <li><a href="/MyVale/BOD/VALEDocuments.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Documenti dell'associazione</a></li>
+                                <li><a href="/MyVale/BOD/VALEDocuments.aspx"><span  class="glyphicon glyphicon-briefcase"></span> Documenti dell'associazione</a></li>
                             </ul>
                         </li>
                         <li class="dropdown" id="projectsLink" runat="server">
@@ -211,7 +279,7 @@
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Attività  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Vedi Attività</a></li>
-                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Gestisci attività</a></li>
+                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-wrench"></span> Gestisci attività</a></li>
                                 <li><a href="/MyVale/SummaryInterventions.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Riepilogo interventi</a></li>
                                 <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>
                             </ul>

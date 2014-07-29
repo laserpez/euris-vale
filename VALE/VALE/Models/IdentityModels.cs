@@ -28,6 +28,7 @@ namespace VALE.Models
         public string CVName { get; set; }
         public byte[] Document { get; set; }
         public byte[] PhotoProfile { get; set; }
+        public string PartnerType { get; set; }
 
         public Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager manager)
         {
