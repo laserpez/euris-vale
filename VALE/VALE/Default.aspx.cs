@@ -35,19 +35,43 @@ namespace VALE
         {
             if (_currentUser != null)
             {
-                var projectsList = new List<Project>();
+                var attendingProjetsTemp = new List<Project>();
+                var attendingProjects = new List<Project>();
                 var allAttendingProjects = _currentUser.AttendingProjects;
-                foreach (var project in allAttendingProjects)
+                List<DateTime> allDates = new List<DateTime>();
+                foreach (var aProject in allAttendingProjects)
                 {
-                    if (project.RelatedProject != null)
+                    if (aProject.RelatedProject != null)
                     {
-                        if (project.RelatedProject.LastModified.Date <= DateTime.Now.Date)
-                            projectsList.Add(project);
+                        if (aProject.RelatedProject.LastModified.Date <= DateTime.Now.Date)
+                        {
+                            attendingProjetsTemp.Add(aProject);
+                            allDates.Add(aProject.RelatedProject.LastModified.Date);
+                        }
                     }
-                    else if (project.LastModified.Date <= DateTime.Now.Date)
-                        projectsList.Add(project);
+                    else if (aProject.LastModified.Date <= DateTime.Now.Date)
+                    {
+                        attendingProjetsTemp.Add(aProject);
+                        allDates.Add(aProject.LastModified.Date);
+                    }
                 }
-                return projectsList.Take(3).AsQueryable();
+                allDates = allDates.OrderByDescending(o => o.Date).Distinct().ToList();
+
+                foreach (var date in allDates)
+                {
+                    foreach (var aProject in attendingProjetsTemp)
+                    {
+                        if (aProject.RelatedProject != null)
+                        {
+                            if (aProject.RelatedProject.LastModified.Date == date)
+                                attendingProjects.Add(aProject);
+                        }
+                        else if (aProject.LastModified.Date == date)
+                            attendingProjects.Add(aProject);
+                    }
+                }
+
+                return attendingProjects.Take(3).AsQueryable();
             }
             else
                 return null;
@@ -58,19 +82,43 @@ namespace VALE
             if (_currentUser != null)
             {
                 var allAttendingEvents = _currentUser.AttendingEvents;
+                var attendingEventsTemp = new List<Event>();
                 var attendingEvents = new List<Event>();
+                List<DateTime> allDates = new List<DateTime>();
                 foreach (var anEvent in allAttendingEvents)
                 {
                     if (anEvent.RelatedProject != null)
                     {
                         if (anEvent.RelatedProject.LastModified.Date <= DateTime.Now.Date)
-                            attendingEvents.Add(anEvent);
+                        {
+                            attendingEventsTemp.Add(anEvent);
+                            allDates.Add(anEvent.RelatedProject.LastModified.Date);
+                        }
                     }
                     else if (anEvent.EventDate.Date <= DateTime.Now.Date)
-                        attendingEvents.Add(anEvent);
+                    {
+                        attendingEventsTemp.Add(anEvent);
+                        allDates.Add(anEvent.EventDate.Date);
+                    }
                 }
-                foreach()
-                return attendingEvents.OrderByDescending(e => e.RelatedProject.LastModified).OrderByDescending(ev => ev.EventDate).Take(3).AsQueryable();
+
+                allDates = allDates.OrderByDescending(o => o.Date).Distinct().ToList();
+
+                foreach (var date in allDates)
+                {
+                    foreach (var anEvent in attendingEventsTemp)
+                    {
+                        if (anEvent.RelatedProject != null)
+                        {
+                            if (anEvent.RelatedProject.LastModified.Date == date)
+                                attendingEvents.Add(anEvent);
+                        }
+                        else if (anEvent.EventDate.Date == date)
+                            attendingEvents.Add(anEvent);
+                    }
+                }
+
+                return attendingEvents.Take(3).AsQueryable();
             }
             else
                 return null;
@@ -83,17 +131,43 @@ namespace VALE
             {
                 var allOnGoingActivities = actions.GetActivities(_currentUser.UserName, ActivityStatus.Ongoing);
                 var onGoingActivities = new List<Activity>();
-                foreach(var activity in allOnGoingActivities)
+                var onGoingActivitiesTemp = new List<Activity>();
+                var allDates = new List<DateTime>();
+
+                foreach(var anActivity in allOnGoingActivities)
                 {
-                    if (activity.RelatedProject != null)
+                    if (anActivity.RelatedProject != null)
                     {
-                        if (activity.RelatedProject.LastModified.Date <= DateTime.Now.Date)
-                            onGoingActivities.Add(activity);
+                        if (anActivity.RelatedProject.LastModified.Date <= DateTime.Now.Date)
+                        {
+                            onGoingActivitiesTemp.Add(anActivity);
+                            allDates.Add(anActivity.RelatedProject.LastModified.Date);
+                        }
                     }
-                    else if (activity.LastModified.Date <= DateTime.Now)
-                        onGoingActivities.Add(activity);
+                    else if (anActivity.LastModified.Date <= DateTime.Now)
+                    {
+                        onGoingActivitiesTemp.Add(anActivity);
+                        allDates.Add(anActivity.LastModified);
+                    }
                 }
-                return onGoingActivities.OrderByDescending(a => a.RelatedProject.LastModified).OrderByDescending(ac => ac.LastModified).Take(3).AsQueryable();
+
+                allDates = allDates.OrderByDescending(o => o.Date).Distinct().ToList();
+
+                foreach (var date in allDates)
+                {
+                    foreach (var anActivity in onGoingActivitiesTemp)
+                    {
+                        if (anActivity.RelatedProject != null)
+                        {
+                            if (anActivity.RelatedProject.LastModified.Date == date)
+                                onGoingActivities.Add(anActivity);
+                        }
+                        else if (anActivity.LastModified.Date == date)
+                            onGoingActivities.Add(anActivity);
+                    }
+                }
+
+                return onGoingActivities.Take(3).AsQueryable();
             }
             else
                 return null;
