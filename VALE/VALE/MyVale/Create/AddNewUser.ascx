@@ -141,6 +141,13 @@
                                     CssClass="text-danger" ErrorMessage="Seleziona il ruolo." />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <asp:Label runat="server" AssociatedControlID="SelectRole" CssClass="col-md-1 control-label">Tipo di Socio*</asp:Label>
+                            <div class="col-md-3">
+                                <asp:DropDownList runat="server" CssClass="form-control" ID="ddlPartnerType" SelectMethod="ddlPartnerType_GetData" DataTextField="PartnerTypeName" DataValueField="PartnerTypeName"></asp:DropDownList>
+                                <asp:Label ID="Label1" runat="server" CssClass="text-danger"></asp:Label>
+                            </div>
+                        </div>
                     </div>
                     <br />
                     <div class="col-md-5"></div>
