@@ -9,10 +9,11 @@ using VALE.Logic;
 
 namespace VALE.MyVale
 {
-    public partial class Articles : System.Web.UI.Page
+    public partial class Articles : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
 
         }
 
@@ -21,6 +22,19 @@ namespace VALE.MyVale
             using (var actions = new ArticleActions())
             {
                 return actions.GetArticles();
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Articoli"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina Articles.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

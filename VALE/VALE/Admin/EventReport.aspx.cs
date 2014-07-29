@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using VALE.Models;
 using Microsoft.AspNet.Identity;
+using VALE.Logic;
 
 namespace VALE.Admin
 {
@@ -17,9 +18,24 @@ namespace VALE.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();           
+
             if (Request.QueryString.HasKeys())
                 _currentEventId = Convert.ToInt32(Request.QueryString.GetValues("eventId").First());
             _currentUserId = User.Identity.GetUserId();
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role,"Amministrazione"))
+            {
+                
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina EventReport.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         public Event GetEvent([QueryString("eventId")] int? eventId)

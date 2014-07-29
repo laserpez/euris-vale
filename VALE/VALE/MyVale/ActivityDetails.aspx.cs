@@ -13,7 +13,7 @@ using VALE.MyVale.Create;
 
 namespace VALE.MyVale
 {
-    public partial class ActivityDetails : System.Web.UI.Page
+    public partial class ActivityDetails : Page
     {
         private int _currentActivityId;
         private string _currentUser;
@@ -22,12 +22,26 @@ namespace VALE.MyVale
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _db = new UserOperationsContext();
             _currentUser = User.Identity.GetUserName();
             if(Request.QueryString.HasKeys())
                 _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
             if (Request.QueryString["From"] != null)
                 Session["ActivityDetailsRequestFrom"] = Request.QueryString["From"];
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Attivita"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ActivityDetails.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         public string GetStatus(Activity anActivity)
@@ -132,14 +146,15 @@ namespace VALE.MyVale
                         HoursWorked = hours
                     });
 
-                    var activityRelatedProject = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId).RelatedProject;
-                    if (activityRelatedProject != null)
+                    var activity = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId);
+                    activity.LastModified = DateTime.Today;
+                    if (activity.RelatedProject != null)
                     {
-                        activityRelatedProject.LastModified = DateTime.Now;
+                        activity.RelatedProject.LastModified = DateTime.Today;
                         var actions = new ProjectActions();
-                        var listHierarchyUp = actions.getHierarchyUp(activityRelatedProject.ProjectId);
+                        var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
                         if (listHierarchyUp.Count != 0)
-                            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
                     }
 
                     _db.SaveChanges();
@@ -240,14 +255,15 @@ namespace VALE.MyVale
             {
                 _db.Reports.Remove(report);
 
-                var activityRelatedProject = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId).RelatedProject;
-                if (activityRelatedProject != null)
+                var activity = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId);
+                activity.LastModified = DateTime.Today;
+                if (activity.RelatedProject != null)
                 {
-                    activityRelatedProject.LastModified = DateTime.Now;
+                    activity.RelatedProject.LastModified = DateTime.Today;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(activityRelatedProject.ProjectId);
+                    var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
                     if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
                 }
 
                 _db.SaveChanges();
@@ -325,14 +341,14 @@ namespace VALE.MyVale
             activity.StartDate = startDate;
             activity.ExpireDate = expireDate;
             activity.Type = ddlSelectType.SelectedValue;
-
+            activity.LastModified = DateTime.Today;
             if (activity.RelatedProject != null)
             {
-                activity.RelatedProject.LastModified = DateTime.Now;
+                activity.RelatedProject.LastModified = DateTime.Today;
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
                 if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
             }
 
             _db.SaveChanges();
@@ -346,14 +362,15 @@ namespace VALE.MyVale
         {
             ModalPopupListProject.Hide();
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
+            activity.LastModified = DateTime.Today;
             var projectRelated = _db.Projects.FirstOrDefault(p => p.ProjectId == activity.ProjectId);
             projectRelated.Activities.Remove(activity);
 
-            projectRelated.LastModified = DateTime.Now;
+            projectRelated.LastModified = DateTime.Today;
             var actions = new ProjectActions();
             var listHierarchyUp = actions.getHierarchyUp(projectRelated.ProjectId);
             if (listHierarchyUp.Count != 0)
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
 
             _db.SaveChanges();
             GridView grdRelatedProject = (GridView)ActivityDetail.FindControl("grdRelatedProject");
@@ -384,11 +401,12 @@ namespace VALE.MyVale
             {
                 var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
                 activity.RelatedProject = project;
-                project.LastModified = DateTime.Now;
+                activity.LastModified = DateTime.Today;
+                project.LastModified = DateTime.Today;
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
                 if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
 
                 _db.SaveChanges();
                 GridView grdRelatedProject = (GridView)ActivityDetail.FindControl("grdRelatedProject");

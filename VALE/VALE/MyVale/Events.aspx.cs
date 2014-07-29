@@ -11,13 +11,27 @@ using System.Linq.Expressions;
 
 namespace VALE.MyVale
 {
-    public partial class Events : System.Web.UI.Page
+    public partial class Events : Page
     {
         private string _currentUserName;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUserName = User.Identity.GetUserName();
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Eventi"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina Events.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)

@@ -12,7 +12,7 @@ using System.Text;
 
 namespace VALE.MyVale
 {
-    public partial class SummaryInterventions : System.Web.UI.Page
+    public partial class SummaryInterventions : Page
     {
         private string _currentUser;
         private UserOperationsContext _db = new UserOperationsContext();
@@ -24,7 +24,6 @@ namespace VALE.MyVale
             {
                 UpdateGraphic();
             }
-           
         }
 
         public IQueryable<SummaryIntervention> grdActivityReport_GetData()

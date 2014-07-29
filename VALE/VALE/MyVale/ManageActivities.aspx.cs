@@ -10,10 +10,11 @@ using VALE.Models;
 
 namespace VALE
 {
-    public partial class Prova : System.Web.UI.Page
+    public partial class Prova : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             ApplyDragAndDrop();
             HideIdColumns();
             
@@ -29,6 +30,19 @@ namespace VALE
             {
                 PopulateFilters();
                 ChangeCalendars();
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Attivita"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina Prova.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

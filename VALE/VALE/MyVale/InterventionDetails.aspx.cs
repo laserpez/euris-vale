@@ -13,7 +13,7 @@ using System.Web.UI.HtmlControls;
 
 namespace VALE.MyVale
 {
-    public partial class InterventionDetails : System.Web.UI.Page
+    public partial class InterventionDetails : Page
     {
         private string _currentUser;
         private int _currentInterventionId;
@@ -21,6 +21,7 @@ namespace VALE.MyVale
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _db = new UserOperationsContext();
             _currentUser = User.Identity.GetUserName();
             if (Request.QueryString["From"] != null)
@@ -30,6 +31,19 @@ namespace VALE.MyVale
 
             FileUploader.DataActions = new InterventionActions();
             FileUploader.DataId = _currentInterventionId;
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Progetti"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina InterventionDetails.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         public Intervention GetIntervention([QueryString("interventionId")] int? interventionId)

@@ -55,18 +55,19 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             var anActivity = db.Activities.First(a => a.ActivityId == id);
             db.Activities.First(a => a.ActivityId == id).Status = status;
+            anActivity.LastModified = DateTime.Today;
 
             if (anActivity.RelatedProject != null)
             {
-                anActivity.RelatedProject.LastModified = DateTime.Now;
+                anActivity.RelatedProject.LastModified = DateTime.Today;
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(anActivity.RelatedProject.ProjectId);
                 if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
             }
 
             db.SaveChanges();
-            logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato attività", DataType = "Attività", Date = DateTime.Now, Description = "\"" + anActivity.ActivityName + "\"" + " ha ora lo stato: " + status.ToString() });
+            logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato attività", DataType = "Attività", Date = DateTime.Today, Description = "\"" + anActivity.ActivityName + "\"" + " ha ora lo stato: " + status.ToString() });
         }
 
         public int GetActivitiesRequest(string userName)
@@ -162,14 +163,15 @@ namespace VALE.Logic
             }
             if (activity.RelatedProject != null)
             {
-                activity.RelatedProject.LastModified = DateTime.Now;
+                activity.RelatedProject.LastModified = DateTime.Today;
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
                 if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
             }
+            activity.LastModified = DateTime.Today;
             db.SaveChanges();
-            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Attività", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'attività \"" : " non collabora più all'attività \"") + activity.ActivityName + "\"" });
+            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Attività", Date = DateTime.Today, Description = username + (added ? " è stato invitato all'attività \"" : " non collabora più all'attività \"") + activity.ActivityName + "\"" });
             return added;
         }
 
@@ -229,7 +231,7 @@ namespace VALE.Logic
                 var newActivity = data as Activity;
                 db.Activities.Add(newActivity);
                 db.SaveChanges();
-                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Now, Description = "E' stata creata la nuova attività \"" + newActivity.ActivityName + "\"" });
+                logger.Write(new LogEntry() { DataId = newActivity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creata nuova attività", DataType = "Attività", Date = DateTime.Today, Description = "E' stata creata la nuova attività \"" + newActivity.ActivityName + "\"" });
                 return true;
             }
             catch (Exception)
@@ -254,7 +256,7 @@ namespace VALE.Logic
                     ActivityDescription = "Attività ricevuta da un altro utente."
                 });
             }
-            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = accept ? "Accettato attività" : "Rifiutato attività", DataType = "Attività", Date = DateTime.Now, Description = user.UserName + (accept ? " partecipa ora all'attività \"" : " non ha accettato di partecipare all'attività \"") + activity.ActivityName + "\"" });
+            logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = accept ? "Accettato attività" : "Rifiutato attività", DataType = "Attività", Date = DateTime.Today, Description = user.UserName + (accept ? " partecipa ora all'attività \"" : " non ha accettato di partecipare all'attività \"") + activity.ActivityName + "\"" });
             user.PendingActivity.Remove(activity);
             db.SaveChanges();
         }

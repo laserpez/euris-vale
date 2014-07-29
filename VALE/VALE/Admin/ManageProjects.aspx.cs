@@ -17,6 +17,7 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             if (!IsPostBack)
             {
                 var lstProject = GetProjects();
@@ -25,6 +26,19 @@ namespace VALE.Admin
                 ViewState["lstProject"] = lstProject;
                 ShowHideControls();
                 filterPanel.Visible = false;
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ManageProject.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

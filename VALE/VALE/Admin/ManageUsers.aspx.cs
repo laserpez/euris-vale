@@ -12,10 +12,11 @@ using VALE.Models;
 
 namespace VALE.Admin
 {
-    public partial class ManageUsers : System.Web.UI.Page
+    public partial class ManageUsers : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             if (!IsPostBack)
             {
                 grdUsers.Columns[7].Visible = false;
@@ -24,6 +25,19 @@ namespace VALE.Admin
 
             if (GetWaitingUsers().Count() == 0)
                 btnConfirmUser.Enabled = false;
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ManageUsers.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         public IQueryable<ApplicationUser> GetWaitingUsers()

@@ -11,12 +11,13 @@ using VALE.Logic;
 
 namespace VALE.MyVale
 {
-    public partial class EventCreate : System.Web.UI.Page
+    public partial class EventCreate : Page
     {
         private string _currentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUser = User.Identity.GetUserName();
             if (!IsPostBack)
             {
@@ -36,6 +37,19 @@ namespace VALE.MyVale
                 var projectId = Convert.ToInt32(Session["EventCreateCallingProjectId"].ToString());
                 var projectName = db.Projects.First(p => p.ProjectId == projectId).ProjectName;
                 SelectProject.DisableControl(projectName);
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Consiglio"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina EventCreate.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 
