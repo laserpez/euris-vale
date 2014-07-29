@@ -13,7 +13,7 @@ using VALE.MyVale.Create;
 
 namespace VALE.MyVale
 {
-    public partial class EventDetails : System.Web.UI.Page
+    public partial class EventDetails : Page
     {
         private int _currentEventId;
         private string _currentUserName;
@@ -21,6 +21,7 @@ namespace VALE.MyVale
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _db = new UserOperationsContext();
             if (Request.QueryString.HasKeys())
                 _currentEventId = Convert.ToInt32(Request.QueryString["eventId"]);
@@ -40,6 +41,19 @@ namespace VALE.MyVale
                 }
                 if (Request.QueryString["From"] != null)
                     Session["EventDetailsRequestFrom"] = Request.QueryString["From"];
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Eventi"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina EventDetails.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

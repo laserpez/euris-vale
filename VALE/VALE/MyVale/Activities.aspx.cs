@@ -14,12 +14,13 @@ using System.Web.ModelBinding ;
 
 namespace VALE.MyVale
 {
-    public partial class Activities : System.Web.UI.Page
+    public partial class Activities : Page
     {
         private string _currentUserName;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUserName = User.Identity.GetUserName();
             if (!IsPostBack)
             {
@@ -31,6 +32,19 @@ namespace VALE.MyVale
                     ActivityListType.Text = "RequestActivities";
                     RequestsMode();
                 }
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Attivita"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina Activities.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

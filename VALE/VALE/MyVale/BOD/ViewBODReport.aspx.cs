@@ -11,7 +11,7 @@ using VALE.Logic;
 
 namespace VALE.MyVale.BOD
 {
-    public partial class ViewBODReport : System.Web.UI.Page
+    public partial class ViewBODReport : Page
     {
         private int _currentReportId;
         private UserOperationsContext _db;
@@ -19,11 +19,25 @@ namespace VALE.MyVale.BOD
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _db = new UserOperationsContext();
             if (Request.QueryString.HasKeys())
                 _currentReportId = Convert.ToInt32(Request.QueryString["reportId"]);
 
             ShowFileUploader();
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Consiglio"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ViewBODReport.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         private void ShowFileUploader()

@@ -272,8 +272,6 @@
     </Content>
     <Content Include="DownloadFile.ashx" />
     <Content Include="MyVale\ManageActivities.aspx" />
-    <Content Include="PopUpPassword.aspx" />
-    <Content Include="WebForm1.aspx" />
     <None Include="Properties\PublishProfiles\Oussama.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Account\Profile.aspx" />
@@ -771,13 +769,6 @@
     <Compile Include="MyVale\Projects.aspx.designer.cs">
       <DependentUpon>Projects.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PopUpPassword.aspx.cs">
-      <DependentUpon>PopUpPassword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PopUpPassword.aspx.designer.cs">
-      <DependentUpon>PopUpPassword.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Account\Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -822,13 +813,6 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

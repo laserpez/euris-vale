@@ -6,16 +6,31 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
-    public partial class PersonalEvents : System.Web.UI.Page
+    public partial class PersonalEvents : Page
     {
         private string _currentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUser = User.Identity.GetUserName();
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Eventi"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina PersonalEvents.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         public IQueryable<Event> GetAttendingEvents()

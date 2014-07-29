@@ -4,15 +4,30 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using VALE.Logic;
 using VALE.Models;
 
 namespace VALE.MyVale.BOD
 {
-    public partial class BODReports : System.Web.UI.Page
+    public partial class BODReports : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
 
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Consiglio"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina BODReports.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         public IQueryable<BODReport> GetBODReports()
