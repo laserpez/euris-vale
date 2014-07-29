@@ -34,7 +34,21 @@ namespace VALE
         public IQueryable<Project> GetProjects()
         {
             if (_currentUser != null)
-                return _currentUser.AttendingProjects.Take(10).AsQueryable();
+            {
+                var projectsList = new List<Project>();
+                var allAttendingProjects = _currentUser.AttendingProjects;
+                foreach (var project in allAttendingProjects)
+                {
+                    if (project.RelatedProject != null)
+                    {
+                        if (project.RelatedProject.LastModified.Date <= DateTime.Now.Date)
+                            projectsList.Add(project);
+                    }
+                    else if (project.LastModified.Date <= DateTime.Now.Date)
+                        projectsList.Add(project);
+                }
+                return projectsList.Take(3).AsQueryable();
+            }
             else
                 return null;
         }
@@ -42,7 +56,22 @@ namespace VALE
         public IQueryable<Event> GetEvents()
         {
             if (_currentUser != null)
-                return _currentUser.AttendingEvents.Take(10).AsQueryable();
+            {
+                var allAttendingEvents = _currentUser.AttendingEvents;
+                var attendingEvents = new List<Event>();
+                foreach (var anEvent in allAttendingEvents)
+                {
+                    if (anEvent.RelatedProject != null)
+                    {
+                        if (anEvent.RelatedProject.LastModified.Date <= DateTime.Now.Date)
+                            attendingEvents.Add(anEvent);
+                    }
+                    else if (anEvent.EventDate.Date <= DateTime.Now.Date)
+                        attendingEvents.Add(anEvent);
+                }
+                foreach()
+                return attendingEvents.OrderByDescending(e => e.RelatedProject.LastModified).OrderByDescending(ev => ev.EventDate).Take(3).AsQueryable();
+            }
             else
                 return null;
         }
@@ -51,7 +80,21 @@ namespace VALE
         {
             var actions = new ActivityActions();
             if (_currentUser != null)
-                return actions.GetActivities(_currentUser.UserName, ActivityStatus.Ongoing).AsQueryable();
+            {
+                var allOnGoingActivities = actions.GetActivities(_currentUser.UserName, ActivityStatus.Ongoing);
+                var onGoingActivities = new List<Activity>();
+                foreach(var activity in allOnGoingActivities)
+                {
+                    if (activity.RelatedProject != null)
+                    {
+                        if (activity.RelatedProject.LastModified.Date <= DateTime.Now.Date)
+                            onGoingActivities.Add(activity);
+                    }
+                    else if (activity.LastModified.Date <= DateTime.Now)
+                        onGoingActivities.Add(activity);
+                }
+                return onGoingActivities.OrderByDescending(a => a.RelatedProject.LastModified).OrderByDescending(ac => ac.LastModified).Take(3).AsQueryable();
+            }
             else
                 return null;
         }
