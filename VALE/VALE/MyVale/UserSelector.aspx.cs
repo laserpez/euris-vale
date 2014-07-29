@@ -10,7 +10,7 @@ using System.Web.ModelBinding;
 
 namespace VALE.MyVale
 {
-    public partial class UserSelector : System.Web.UI.Page
+    public partial class UserSelector : Page
     {
         private int _dataId;
         private string _dataType;

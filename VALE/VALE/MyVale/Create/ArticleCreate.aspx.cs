@@ -6,20 +6,35 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.MyVale.Create
 {
-    public partial class ArticleCreate : System.Web.UI.Page
+    public partial class ArticleCreate : Page
     {
         private string _currentUser;
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUser = User.Identity.GetUserName();
             CalendarReleaseDate.StartDate = DateTime.Now;
             if (!IsPostBack) 
             {
                 if (Request.QueryString["From"] != null)
                     Session["ArticleCreateRequestFrom"] = Request.QueryString["From"];
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Consiglio"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ArticleCreate.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

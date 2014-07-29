@@ -12,6 +12,7 @@ using VALE.StateInfo;
 using System.Text.RegularExpressions;
 using System.Web.ModelBinding;
 using System.Linq.Expressions;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
@@ -30,12 +31,26 @@ namespace VALE.MyVale
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             if (!IsPostBack)
             {
                 filterPanel.Visible = false;
                 ViewState["UserInfo"] = GetUsers().ToList();
                 grdUsers.DataSource = (List<UserInfo>)ViewState["UserInfo"];
                 grdUsers.DataBind();
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "ListaUtenti"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina UserList.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

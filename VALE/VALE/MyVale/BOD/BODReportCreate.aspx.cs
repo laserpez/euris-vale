@@ -11,12 +11,13 @@ using VALE.Logic;
 
 namespace VALE.MyVale.BOD
 {
-    public partial class BODReportCreate : System.Web.UI.Page
+    public partial class BODReportCreate : Page
     {
         private string _currentUserId;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUserId = User.Identity.GetUserId();
             if (!IsPostBack)
             {
@@ -24,6 +25,19 @@ namespace VALE.MyVale.BOD
                 CalendarPublishDate.StartDate = DateTime.Now;
                 if (Request.QueryString["From"] != null)
                     Session["BODReportCreateRequestFrom"] = Request.QueryString["From"];
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "CreazioneConsiglio"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina BODReportCreate.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
         

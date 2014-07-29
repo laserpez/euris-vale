@@ -6,19 +6,34 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
+using VALE.Logic;
 
 namespace VALE.MyVale
 {
-    public partial class PersonalProjects : System.Web.UI.Page
+    public partial class PersonalProjects : Page
     {
         private string _currentUser;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             _currentUser = User.Identity.GetUserName();
             if (!IsPostBack)
             {
                 ShowHideControls();
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Progetti"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina PersonalProjects.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 
