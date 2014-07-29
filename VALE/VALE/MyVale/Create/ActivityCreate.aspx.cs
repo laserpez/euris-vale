@@ -116,6 +116,7 @@ namespace VALE.MyVale
                     CreationDate = DateTime.Today,
                     StartDate = startDate,
                     ExpireDate = expireDate,
+                    LastModified = DateTime.Today,
                     Budget = budget,
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
