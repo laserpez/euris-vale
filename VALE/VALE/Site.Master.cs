@@ -116,24 +116,23 @@ namespace VALE
         private void SetUserLink()
         {
             var db = new ApplicationDbContext();
+            XmlRoles xmlRoles = null;
             var user = db.Users.Where(u => u.UserName == HttpContext.Current.User.Identity.Name).FirstOrDefault();
             if (user != null)
             {
                 using (var actions = new UserActions())
                 {
                     var roleName = actions.GetRole(user.Id);
+                    xmlRoles = RoleActions.findRole(roleName);
                 }
             }
-
-            if (HttpContext.Current.User.IsInRole("Amministratore") ||
-                HttpContext.Current.User.IsInRole("Membro del consiglio") ||
-                HttpContext.Current.User.IsInRole("Socio"))
+            if (xmlRoles != null)
             {
-                createProjectLink.Visible = true;
-                boardLink.Visible = true;
-                createEventLink.Visible = true;
-                createActivityLink.Visible = true;
-                createBlogArticle.Visible = true;
+                createProjectLink.Visible = xmlRoles.Progetti.Creation;
+                boardLink.Visible = xmlRoles.Consiglio.Visible;
+                createEventLink.Visible = xmlRoles.Progetti.Creation;
+                createActivityLink.Visible = xmlRoles.Attivita.Creation;
+                createBlogArticle.Visible = xmlRoles.Articoli.Creation;
             }
         }
 
