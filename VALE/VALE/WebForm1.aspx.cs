@@ -21,20 +21,35 @@ namespace VALE
             var project = _db.Projects.FirstOrDefault(p => p.ProjectId == 1);
             if (project != null)
             {
-                TreeView1.Nodes.Add(new TreeNode { Text = "Progetto Correlato" });
+                TreeView1.Nodes.Clear();
+                TreeView1.Nodes.Add(PopulateProjectNode(project));
             }
         }
 
-        protected void TreeView1_TreeNodePopulate(object sender, TreeNodeEventArgs e)
+        private TreeNode PopulateActivityNode(Activity activity)
         {
-            
+            return new TreeNode { Text = activity.ActivityName };
         }
 
-        private TreeNode PopulateNode(Project project) 
+        private TreeNode PopulateEventNode(Event Event)
         {
-            TreeNode projectNode = new TreeNode();
-            projectNode.Text = project.ProjectName;
-            return null;
+            return new TreeNode { Text = Event.Name };
+        }
+
+        private TreeNode PopulateProjectNode(Project project) 
+        {
+            var projectNode = new TreeNode { Text = project.ProjectName };
+            var relatedProjectNode = new TreeNode { Text = "Progetto Correlato" };
+            if (project.RelatedProject != null)
+                relatedProjectNode.ChildNodes.Add(PopulateProjectNode(project.RelatedProject));
+            var activitiesNode = new TreeNode { Text = "Attività" };
+            project.Activities.ForEach(a => activitiesNode.ChildNodes.Add(PopulateActivityNode(a)));
+            var eventsNode = new TreeNode { Text = "Eventi" };
+            project.Events.ForEach(ev => eventsNode.ChildNodes.Add(PopulateEventNode(ev)));
+            projectNode.ChildNodes.Add(activitiesNode);
+            projectNode.ChildNodes.Add(eventsNode);
+            projectNode.ChildNodes.Add(relatedProjectNode);
+            return projectNode;
             
         }
 

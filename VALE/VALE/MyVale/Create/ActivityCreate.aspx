@@ -59,7 +59,7 @@
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Attività</asp:Label>
                                 <div class="col-md-10">
                                     <asp:DropDownList  class="form-control" runat="server" ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeName"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="il è obbligatorio" />
+                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="il tipo è obbligatorio" />
                                 </div>
                                 <asp:UpdatePanel runat="server">
                                     <ContentTemplate>
@@ -94,10 +94,11 @@
                                 </asp:UpdatePanel>
                                 <asp:UpdatePanel runat="server">
                                     <ContentTemplate>
-                                        <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Data inizio</asp:Label>
+                                        <asp:Label  Font-Bold="true" runat="server" ID="lblStartDate" CssClass="col-md-2 control-label">Data inizio</asp:Label>
                                         <div class="col-md-10">
                                             <asp:TextBox runat="server" ID="txtStartDate" CssClass="form-control" OnTextChanged="txtStartDate_TextChanged" AutoPostBack="true" />
                                             <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarFrom" TargetControlID="txtStartDate"></asp:CalendarExtender>
+                                            <asp:RequiredFieldValidator runat="server" ID="validStartDate" Enabled="false" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="La data inizio obbligatoria" />
                                             <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtStartDate" Display="Dynamic"></asp:RegularExpressionValidator>
                                             <br />
                                         </div>
