@@ -230,4 +230,55 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+     <asp:UpdatePanel ID="UpdatePanelPasswordPopUp" runat="server">
+        <ContentTemplate>
+            <asp:ModalPopupExtender ID="ModalPasswordPopup" runat="server"
+                PopupControlID="pnlPasswordPopup" TargetControlID="lnkPasswordDummy" BackgroundCssClass="modalBackground">
+            </asp:ModalPopupExtender>
+            <asp:LinkButton ID="lnkPasswordDummy" runat="server"></asp:LinkButton>
+            <div class="alert alert-dismissable alert-info" id="pnlPasswordPopup" style="width: 25%;">
+                <asp:LinkButton runat="server" CssClass="close" OnClick="CloseButton_Click">×</asp:LinkButton>
+                <div class="row">
+
+                    <asp:Label runat="server" CssClass="col-md-12 control-label"><strong>Vuoi cancellare questo ruolo?</strong></asp:Label>
+                    <div class="col-md-12">
+                        <br />
+                    </div>
+                    <div class="col-md-12">
+                        <asp:TextBox runat="server" ID="RoleConfirm" Enabled="false" CssClass="form-control input-sm" Text="" />
+                    </div>
+
+                </div>
+                <br />
+                <div class="row">
+
+                    <asp:Label runat="server" CssClass="col-md-12 control-label"><strong>Inserisci Password</strong></asp:Label>
+                    <div class="col-md-12">
+                        <br />
+                    </div>
+                    <div class="col-md-12">
+                        <asp:TextBox runat="server" ID="Password" CausesValidation="true" TextMode="Password" CssClass="form-control input-sm" />
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <asp:Label runat="server" ID="popupPasswordError" CssClass="col-md-12 control-label text-danger" Text=""></asp:Label>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                        <div class="col-md-offset-8 col-md-10">
+                            <asp:Button runat="server" Text="Ok" ID="btnFilterProjects" CssClass="btn btn-success btn-xs" OnClick="OkButton_Click" />
+                            <asp:Button runat="server" Text="Annulla" ID="btnClearFilters" CssClass="btn btn-danger btn-xs" OnClick="CloseButton_Click" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
 </asp:Content>

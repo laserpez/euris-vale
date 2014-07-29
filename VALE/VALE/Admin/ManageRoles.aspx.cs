@@ -4,9 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity.Owin;
 using VALE.Logic;
 using VALE.Logic.Serializable;
 using VALE.Models;
+using System.IO;
+using System.Web.ModelBinding;
+using Microsoft.AspNet.Identity;
+using AjaxControlToolkit;
 
 namespace VALE.Admin
 {
@@ -14,7 +19,21 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
             SetDeleteButtonGrid();
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ManageRoles.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         private void SetDeleteButtonGrid()
@@ -81,13 +100,49 @@ namespace VALE.Admin
             return serializer.ReadData<List<XmlRoles>>(path);
         }
 
+
         protected void Delete_Click(object sender, EventArgs e)
         {
             LinkButton button = (LinkButton)sender;
-            RoleActions.DeleteRole(button.CommandArgument);
+            RoleConfirm.Text = button.CommandArgument;
+            ModalPasswordPopup.Show();
+        }
 
-            grdRoles.DataBind();
-            SetDeleteButtonGrid();
+        protected void CloseButton_Click(object sender, EventArgs e)
+        {
+            ModalPasswordPopup.Hide();
+            popupPasswordError.Text = "";
+        }
+
+        protected void OkButton_Click(object sender, EventArgs e)
+        {
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var password = Password.Text;
+            if (!string.IsNullOrEmpty(password))
+            {
+                ApplicationUser user = manager.Find(HttpContext.Current.User.Identity.Name, password);
+                if (user != null)
+                {
+                    RoleActions.DeleteRole(RoleConfirm.Text);
+                    RoleConfirm.Text = "";
+                    popupPasswordError.Text = "";
+
+                    ModalPasswordPopup.Hide();
+
+                    grdRoles.DataBind();
+                    SetDeleteButtonGrid();
+                }
+                else
+                {
+                    popupPasswordError.Text = "Password errata";
+                    ModalPasswordPopup.Show();
+                }
+            }
+            else
+            {
+                popupPasswordError.Text = "Inserire campo password";
+                ModalPasswordPopup.Show();
+            }
         }
 
         protected void btnOkForNewRoleButton_Click(object sender, EventArgs e)

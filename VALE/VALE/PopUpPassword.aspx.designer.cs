@@ -13,13 +13,13 @@ namespace VALE {
     public partial class PopUpPassword {
         
         /// <summary>
-        /// UpdatePanel3 control.
+        /// UpdatePanelPasswordPopUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel3;
+        protected global::System.Web.UI.UpdatePanel UpdatePanelPasswordPopUp;
         
         /// <summary>
         /// Button1 control.

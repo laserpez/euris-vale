@@ -11,17 +11,32 @@ using VALE.Models;
 
 namespace VALE.Admin
 {
-    public partial class UserInterventions : System.Web.UI.Page
+    public partial class UserInterventions : Page
     {
         private int _projectId;
         private string _userEmail;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            PagePermission();
+
             if (Request.QueryString.HasKeys())
             {
                 _projectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
                 _userEmail = Request.QueryString.GetValues("userId").First();
+            }
+        }
+
+        public void PagePermission()
+        {
+            var userAction = new UserActions();
+            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
+            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina UserInterventions.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
         }
 

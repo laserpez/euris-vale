@@ -21,6 +21,21 @@ namespace VALE.Logic
             return users;
         }
 
+
+
+        public string GetRolebyUserName(string userName)
+        {
+            var user = _db.Users.First(u => u.UserName == userName);
+            if (user.Roles.Count != 0)
+            {
+                var roleId = user.Roles.First().RoleId;
+                var roleName = _db.Roles.FirstOrDefault(o => o.Id == roleId).Name;
+                return roleName;
+            }
+            else
+                return "Utente";
+        }
+
         public string GetRole(string userId)
         {
             var user = _db.Users.First(u => u.Id == userId);
