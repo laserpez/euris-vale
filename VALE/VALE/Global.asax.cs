@@ -23,8 +23,8 @@ namespace VALE
             // Initialize the product database.
             String path = Server.MapPath("~/Logic/Serializable/Ruoli.xml");
             RoleActions.File = path;
+            RoleActions.initializeRole();
             Database.SetInitializer(new DatabaseInitializer());
-            RoleActions.LoadRoles();
             using (var actions = new UserActions())
             {
                 actions.CreateAdministrator();

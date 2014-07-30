@@ -52,6 +52,94 @@ namespace VALE.Logic
             }
         }
 
+        public static void initializeRole()
+        {
+            var initRole = new List<XmlRoles>();
+            var amministratore = new XmlRoles
+            {
+                Name = "Amministratore",
+                Amministrazione = new SourceVisibleOnly() { Visible = true },
+
+                Consiglio = new Source() { Visible = true, Creation = true },
+                Progetti = new Source() { Visible = true, Creation = true },
+                Attivita = new Source() { Visible = true, Creation = true },
+                Eventi = new Source() { Visible = true, Creation = true },
+                Articoli = new Source() { Visible = true, Creation = true },
+
+                ListaUtenti = new SourceVisibleOnly() { Visible = false },
+                Home = new SourceVisibleOnly() { Visible = true },
+                DocumentiAssociazione = new SourceVisibleOnly() { Visible = true },
+            };
+            var membroConsiglio = new XmlRoles
+            {
+                Name = "Membro del consiglio",
+                Amministrazione = new SourceVisibleOnly() { Visible = false },
+
+                Consiglio = new Source() { Visible = true, Creation = true },
+                Progetti = new Source() { Visible = true, Creation = true },
+                Attivita = new Source() { Visible = true, Creation = true },
+                Eventi = new Source() { Visible = true, Creation = true },
+                Articoli = new Source() { Visible = true, Creation = true },
+
+                ListaUtenti = new SourceVisibleOnly() { Visible = true },
+                Home = new SourceVisibleOnly() { Visible = true },
+                DocumentiAssociazione = new SourceVisibleOnly() { Visible = true },
+            };
+            var socio = new XmlRoles
+            {
+                Name = "Socio",
+                Amministrazione = new SourceVisibleOnly() { Visible = false },
+
+                Consiglio = new Source() { Visible = true, Creation = false },
+                Progetti = new Source() { Visible = true, Creation = true },
+                Attivita = new Source() { Visible = true, Creation = true },
+                Eventi = new Source() { Visible = true, Creation = true },
+                Articoli = new Source() { Visible = true, Creation = true },
+
+                ListaUtenti = new SourceVisibleOnly() { Visible = true },
+                Home = new SourceVisibleOnly() { Visible = true },
+                DocumentiAssociazione = new SourceVisibleOnly() { Visible = true },
+            };
+            var collaboratore = new XmlRoles
+            {
+                Name = "Collaboratore",
+                Amministrazione = new SourceVisibleOnly() { Visible = false },
+
+                Consiglio = new Source() { Visible = false, Creation = false },
+                Progetti = new Source() { Visible = true, Creation = false },
+                Attivita = new Source() { Visible = true, Creation = true },
+                Eventi = new Source() { Visible = true, Creation = true },
+                Articoli = new Source() { Visible = true, Creation = true },
+
+                ListaUtenti = new SourceVisibleOnly() { Visible = true },
+                Home = new SourceVisibleOnly() { Visible = true },
+                DocumentiAssociazione = new SourceVisibleOnly() { Visible = true },
+            };
+            var utente = new XmlRoles
+            {
+                Name = "Utente",
+                Amministrazione = new SourceVisibleOnly() { Visible = false },
+
+                Consiglio = new Source() { Visible = false, Creation = false },
+                Progetti = new Source() { Visible = true, Creation = false },
+                Attivita = new Source() { Visible = true, Creation = false },
+                Eventi = new Source() { Visible = true, Creation = false },
+                Articoli = new Source() { Visible = true, Creation = false },
+
+                ListaUtenti = new SourceVisibleOnly() { Visible = true },
+                Home = new SourceVisibleOnly() { Visible = true },
+                DocumentiAssociazione = new SourceVisibleOnly() { Visible = true }
+            };
+
+            initRole.Add(amministratore);
+            initRole.Add(membroConsiglio);
+            initRole.Add(socio);
+            initRole.Add(collaboratore);
+            initRole.Add(utente);
+
+            CreateRoles(initRole);
+        }
+
         public static XmlRoles findRole(string role)
         {
             return ReadRoles().Where(o => o.Name == role).FirstOrDefault();
@@ -65,23 +153,13 @@ namespace VALE.Logic
             return listaRuoli;
         }
 
-       
-        public static void LoadRoles()
+        public static void CreateRoles(List<XmlRoles> dati)
         {
-            var listaRuoli = ReadRoles();
-            if (listaRuoli != null)
+            foreach (var dato in dati)
             {
-                foreach (var ruolo in listaRuoli)
-                {
-                    CreateDBRole(ruolo.Name);
-                }
+                CreateDBRole(dato.Name);
+                CreateXmlRole(dato);
             }
-        }
-
-        public static void CreateRole(XmlRoles dato)
-        {
-            CreateDBRole(dato.Name);
-            CreateXmlRoles(dato);
         }
 
 
@@ -104,13 +182,12 @@ namespace VALE.Logic
             }
         }
 
-
-        private static void CreateXmlRoles(XmlRoles dato)
+        private static void CreateXmlRole(XmlRoles dato)
         {
             var serializer = new XmlSerializable();
-            List<XmlRoles> dati = CheckDataAndRemoveIfExist(dato.Name);
-            dati.Add(dato);
-            serializer.CreateData<List<XmlRoles>>(dati, File);
+            List<XmlRoles> newData = CheckDataAndRemoveIfExist(dato.Name);
+            newData.Add(dato);
+            serializer.CreateData<List<XmlRoles>>(newData, File);
         }
 
         private static void DeleteDBRole(string roleName)

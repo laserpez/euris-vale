@@ -43,7 +43,7 @@
                                             </div>
                                             <div class="navbar-right">
                                                 <div class="btn-group">
-                                                    <button type="button" id="ButtonAllActivities" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutti  <span class="caret"></span></button>
+                                                    <button type="button" id="ButtonAllActivities" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutte  <span class="caret"></span></button>
                                                     <button type="button" visible="false" id="ButtonProjectActivities" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">Per Progetto  <span class="caret"></span></button>
                                                     <button type="button" visible="false" id="ButtonNotRelatedActivities" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Non Correlate  <span class="caret"></span></button>
                                                     <ul class="dropdown-menu">
@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel-body" style="max-height: 700px; overflow: auto;">
+                                <div class="panel-body">
                                     <asp:UpdatePanel runat="server" UpdateMode="Conditional">
                                         <ContentTemplate>
                                             <div class="panel panel-default">
@@ -142,7 +142,7 @@
                                                                     <asp:BoundField DataField="ActivityId" HeaderText="ID" />
                                                                     <asp:TemplateField>
                                                                         <ItemTemplate>
-                                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
+                                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>&From=~/MyVale/ManageActivities"><%#: Item.ActivityName %></a>
                                                                         </ItemTemplate>
                                                                         <HeaderTemplate>
                                                                             <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
@@ -154,7 +154,17 @@
                                                                             <center><div><asp:Label runat="server"><%#: Item.StartDate.HasValue ? Item.StartDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Dal</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <HeaderStyle Width="115px"></HeaderStyle>
+                                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-calendar"></span> Al</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <HeaderStyle Width="115px"></HeaderStyle>
                                                                         <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
@@ -185,7 +195,7 @@
                                                                     <asp:BoundField DataField="ActivityId" HeaderText="ID" />
                                                                     <asp:TemplateField>
                                                                         <ItemTemplate>
-                                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
+                                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>&From=~/MyVale/ManageActivities"><%#: Item.ActivityName %></a>
                                                                         </ItemTemplate>
                                                                         <HeaderTemplate>
                                                                             <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
@@ -198,6 +208,16 @@
                                                                         </ItemTemplate>
                                                                         <HeaderTemplate>
                                                                             <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelStartDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <HeaderStyle Width="115px"></HeaderStyle>
+                                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-calendar"></span> Al</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <HeaderStyle Width="115px"></HeaderStyle>
                                                                         <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
@@ -214,7 +234,7 @@
                                         <div class="col-sm-6 col-md-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <span class="glyphicon glyphicon-pause"></span>&nbsp;&nbsp;Sospeso
+                                                    <span class="glyphicon glyphicon-pause"></span>&nbsp;&nbsp;Sospese
                                                      <div class="navbar-right">
                                                          <button type="button" class="btn btn-success btn-xs" runat="server" title="Crea nuova attività (stato: sospeso)" onserverclick="btnCreateActivitySuspendedStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                      </div>
@@ -231,7 +251,7 @@
                                                                     <asp:BoundField DataField="ActivityId" HeaderText="ID" />
                                                                     <asp:TemplateField>
                                                                         <ItemTemplate>
-                                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
+                                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>&From=~/MyVale/ManageActivities"><%#: Item.ActivityName %></a>
                                                                         </ItemTemplate>
                                                                         <HeaderTemplate>
                                                                             <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
@@ -248,6 +268,16 @@
                                                                         <HeaderStyle Width="115px"></HeaderStyle>
                                                                         <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
                                                                     </asp:TemplateField>
+                                                                        <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-calendar"></span> Al</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <HeaderStyle Width="115px"></HeaderStyle>
+                                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                                    </asp:TemplateField>
                                                                 </Columns>
                                                             </asp:GridView>
                                                         </ContentTemplate>
@@ -258,7 +288,7 @@
                                         <div class="col-sm-6 col-md-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <span class="glyphicon glyphicon-stop"></span>&nbsp;&nbsp;Terminato
+                                                    <span class="glyphicon glyphicon-stop"></span>&nbsp;&nbsp;Terminate
                                                      <div class="navbar-right">
                                                          <button type="button" class="btn btn-success btn-xs" runat="server" title="Crea nuova attività (stato: terminato)" onserverclick="btnCreateActivityDoneStatus_Click"><span class="glyphicon glyphicon-plus"></span></button>
                                                      </div>
@@ -275,7 +305,7 @@
                                                                     <asp:BoundField DataField="ActivityId" HeaderText="ID" />
                                                                     <asp:TemplateField>
                                                                         <ItemTemplate>
-                                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>"><%#: Item.ActivityName %></a>
+                                                                            <a href="/MyVale/ActivityDetails?activityId=<%#: Item.ActivityId %>&From=~/MyVale/ManageActivities"><%#: Item.ActivityName %></a>
                                                                         </ItemTemplate>
                                                                         <HeaderTemplate>
                                                                             <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
@@ -292,6 +322,17 @@
                                                                         <HeaderStyle Width="115px"></HeaderStyle>
                                                                         <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
                                                                     </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.ExpireDate.HasValue ? Item.ExpireDate.Value.ToShortDateString() : "Nessuna Data" %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="StartDate" CommandName="sort" runat="server" ID="labelExpireDate"><span  class="glyphicon glyphicon-calendar"></span> Al</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <HeaderStyle Width="115px"></HeaderStyle>
+                                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                                    </asp:TemplateField>
+
                                                                 </Columns>
                                                             </asp:GridView>
                                                         </ContentTemplate>
