@@ -223,9 +223,6 @@
     <Content Include="Account\ManageProfile.aspx" />
     <Content Include="Images\twitter.png" />
     <Content Include="Images\User.jpg" />
-    <Content Include="Logic\Serializable\Ruoli.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="MessagePage.aspx" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
