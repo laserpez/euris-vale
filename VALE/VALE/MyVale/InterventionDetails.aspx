@@ -110,7 +110,7 @@
                 <asp:LinkButton ID="lnkDummy1" runat="server"></asp:LinkButton>
                 <div class="panel panel-primary" id="pnlListProject" style="width: 60%;">
                     <div class="panel-heading">
-                        <asp:Label ID="TitleMpdalView" runat="server" Text="Lista progetti"></asp:Label>
+                        <asp:Label ID="TitleMpdalView" runat="server" Text="Aggiungi un commento"></asp:Label>
                         <asp:Button runat="server" CssClass="close" CausesValidation="false" OnClick="ClosePopUp_Click" Text="x" />
                     </div>
                     <div class="panel-body" style="max-height: 500px">
@@ -118,7 +118,7 @@
                             <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
                             <div class="form-group">
                                 <asp:Panel runat="server">
-                                    <asp:Label runat="server" ID="AddTextForConversation" AssociatedControlID="AddTextForConversation" Text="Aggiungi un commento *"></asp:Label>
+                                    <asp:Label runat="server" ID="AddTextForConversation" AssociatedControlID="AddTextForConversation" Text="Testo *"></asp:Label>
                                     <textarea class="form-control" rows="10" cols="10" maxlength="2048" id="txtComment" runat="server"></textarea>
                                     <asp:RequiredFieldValidator runat="server" ValidationGroup="AddComment" ControlToValidate="txtComment" CssClass="text-danger" ErrorMessage="Il campo testo è obbligatorio" />
                                     <div class="row">
