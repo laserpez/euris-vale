@@ -77,41 +77,33 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
-                                                        <div class="panel-heading">
+                                                        <div>
                                                             <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="col-md-8">
-                                                                        <ul class="nav nav-pills">
-                                                                            <li>
-                                                                                <span class="glyphicon glyphicon-tree-conifer"></span>&nbsp;&nbsp;Gerarchia</li>
+                                                               <div class="col-md-12">
+                                                                        <ul class="breadcrumb" style="margin-bottom: 1px; margin-top: 1px">
+                                                                            <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectHierarchyUp">
+                                                                                <ItemTemplate>
+                                                                                    <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>"><%#: Item.ProjectName %></a></li>
+                                                                                </ItemTemplate>
+                                                                            </asp:ListView>
+                                                                            <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectForHierarchy">
+                                                                                <ItemTemplate>
+                                                                                    <li><span class="label label-success"><%#: Item.ProjectName %></span></li>
+                                                                                </ItemTemplate>
+                                                                            </asp:ListView>
+                                                                            <asp:ListView runat="server" ItemType="VALE.Models.Project" ID="listViewRelatedProject" SelectMethod="GetProjectHierarchyDown">
+                                                                                <ItemTemplate>
+                                                                                    <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>"><%#: Item.ProjectName %></a></li>
+                                                                                </ItemTemplate>
+                                                                            </asp:ListView>
                                                                         </ul>
                                                                     </div>
-                                                                    <div class="navbar-right">
-                                                                        <asp:Button runat="server" Text="Dettagli" ID="Button1" CssClass="btn btn-info btn-xs" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
-                                                                    </div>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="panel-body">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <ul class="breadcrumb" style="margin-bottom: 1px; margin-top: 1px">
-                                                                        <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectHierarchyUp">
-                                                                            <ItemTemplate>
-                                                                                <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>"><%#: Item.ProjectName %></a></li>
-                                                                            </ItemTemplate>
-                                                                        </asp:ListView>
-                                                                        <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectForHierarchy">
-                                                                            <ItemTemplate>
-                                                                                <li><span class="label label-success"><%#: Item.ProjectName %></span></li>
-                                                                            </ItemTemplate>
-                                                                        </asp:ListView>
-                                                                        <asp:ListView runat="server" ItemType="VALE.Models.Project" ID="listViewRelatedProject" SelectMethod="GetProjectHierarchyDown">
-                                                                            <ItemTemplate>
-                                                                                <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>"><%#: Item.ProjectName %></a></li>
-                                                                            </ItemTemplate>
-                                                                        </asp:ListView>
-                                                                    </ul>
+                                                                    <asp:TreeView ID="ProjectTreeView" ExpandDepth="0" runat="server" />
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -31,7 +31,7 @@ namespace VALE.MyVale
             FileUploader uploader = (FileUploader)ProjectDetail.FindControl("FileUploader");
             uploader.DataActions = new ProjectActions();
             uploader.DataId = _currentProjectId;
-
+            PopulateProjectTreeView();
             if (!IsPostBack)
             {
                 if (Request.QueryString["From"] != null)
@@ -658,6 +658,46 @@ namespace VALE.MyVale
                 returnUrl = "/MyVale/Projects";
             Session["ProjectDetailsRequestFrom"] = null;
             Response.Redirect(returnUrl);
+        }
+
+       
+
+        private void PopulateProjectTreeView()
+        {
+            TreeView ProjectTreeView = (TreeView)ProjectDetail.FindControl("ProjectTreeView");
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            if (project != null)
+            {
+                ProjectTreeView.Nodes.Clear();
+                ProjectTreeView.Nodes.Add(PopulateProjectNode(project));
+            }
+        }
+
+        private TreeNode PopulateActivityNode(Activity activity)
+        {
+            return new TreeNode { Text = activity.ActivityName };
+        }
+
+        private TreeNode PopulateEventNode(Event Event)
+        {
+            return new TreeNode { Text = Event.Name };
+        }
+
+        private TreeNode PopulateProjectNode(Project project)
+        {
+            var projectNode = new TreeNode { Text = project.ProjectName };
+            var relatedProjectNode = new TreeNode { Text = "Progetto Correlato" };
+            if (project.RelatedProject != null)
+                relatedProjectNode.ChildNodes.Add(PopulateProjectNode(project.RelatedProject));
+            var activitiesNode = new TreeNode { Text = "Attività" };
+            project.Activities.ForEach(a => activitiesNode.ChildNodes.Add(PopulateActivityNode(a)));
+            var eventsNode = new TreeNode { Text = "Eventi" };
+            project.Events.ForEach(ev => eventsNode.ChildNodes.Add(PopulateEventNode(ev)));
+            projectNode.ChildNodes.Add(activitiesNode);
+            projectNode.ChildNodes.Add(eventsNode);
+            projectNode.ChildNodes.Add(relatedProjectNode);
+            return projectNode;
+
         }
     }
 }

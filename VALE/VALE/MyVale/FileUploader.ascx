@@ -10,7 +10,7 @@
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
                         <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
-                            ItemType="VALE.Models.AttachedFile" AllowPaging="true" PageSize="10"
+                            ItemType="VALE.Models.AttachedFile" AllowPaging="true" PageSize="10" EmptyDataText="Non ci sono file allegati."
                             CssClass="table table-striped table-bordered"
                             OnRowCommand="grdFilesUploaded_RowCommand">
                             <Columns>

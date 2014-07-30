@@ -239,6 +239,9 @@ namespace VALE.MyVale
             SuspendedStatusButton.Visible = false;
             DoneStatusButton.Visible = false;
             LabelActivityStatus.Text = "ToBePlanned";
+            validStartDate.Enabled = false;
+            lblStartDate.Text = "Data inizio";
+            txtStartDate.Text = "";
         }
 
         protected void OngoingStatus_Click(object sender, EventArgs e)
@@ -248,6 +251,10 @@ namespace VALE.MyVale
             SuspendedStatusButton.Visible = false;
             DoneStatusButton.Visible = false;
             LabelActivityStatus.Text = "Ongoing";
+            validStartDate.Enabled = true;
+            lblStartDate.Text = "Data inizio *";
+            txtStartDate.Text = DateTime.Now.ToShortDateString();
+            txtStartDate_TextChanged(null, null);
         }
 
         protected void SuspendedStatus_Click(object sender, EventArgs e)

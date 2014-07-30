@@ -182,7 +182,10 @@ namespace VALE
                         break;
                     case "Project":
                         var projectId = 0;
-                        int.TryParse(ddlSelectProject.SelectedValue, out projectId);
+                        if (Session["ManageActivities_projectId"] != null) 
+                        {
+                            int.TryParse(Session["ManageActivities_projectId"].ToString(), out projectId);
+                        }
                         activities = activities.Where(a => a.RelatedProject != null && a.RelatedProject.ProjectId == projectId).ToList();
                         break;
                     case "Unrelated":
@@ -197,12 +200,12 @@ namespace VALE
             if (Session["ManageActivities_txtFromDate"] != null)
             {
                 var dateFrom = Convert.ToDateTime(Session["ManageActivities_txtFromDate"].ToString());
-                activities = activities.Where(a => a.CreationDate >= dateFrom).ToList();
+                activities = activities.Where(a => !a.StartDate.HasValue || a.StartDate.Value >= dateFrom).ToList();
             }
             if (Session["ManageActivities_txtToDate"] != null)
             {
                 var dateTo = Convert.ToDateTime(Session["ManageActivities_txtToDate"].ToString());
-                activities = activities.Where(a => a.CreationDate <= dateTo).ToList();
+                activities = activities.Where(a => !a.ExpireDate.HasValue || a.StartDate.Value <= dateTo).ToList();
             }
             return activities;
 
@@ -279,12 +282,24 @@ namespace VALE
         {
             if (!String.IsNullOrEmpty(txtDescription.Text))
                 Session["ManageActivities_txtDescription"] = txtDescription.Text;
+            else
+                Session["ManageActivities_txtDescription"] = null;
+
             if (!String.IsNullOrEmpty(txtName.Text))
                 Session["ManageActivities_txtName"] = txtName.Text;
+            else
+                Session["ManageActivities_txtName"] = null;
+
             if (!String.IsNullOrEmpty(txtFromDate.Text))
                 Session["ManageActivities_txtFromDate"] = txtFromDate.Text;
+            else
+                Session["ManageActivities_txtFromDate"] = null;
+
             if (!String.IsNullOrEmpty(txtToDate.Text))
                 Session["ManageActivities_txtToDate"] = txtToDate.Text;
+            else
+                Session["ManageActivities_txtToDate"] = null;
+
             BindAllGrids();
         }
 
@@ -295,6 +310,7 @@ namespace VALE
             Session["ManageActivities_txtName"] = null;
             Session["ManageActivities_txtFromDate"] = null;
             Session["ManageActivities_txtToDate"] = null;
+            ddlSelectProject.SelectedIndex = 0;
             txtDescription.Text = null;
             txtFromDate.Text = null;
             txtName.Text = null;

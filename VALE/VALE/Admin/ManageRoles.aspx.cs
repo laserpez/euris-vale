@@ -183,7 +183,7 @@ namespace VALE.Admin
                 ruolo.Home = new SourceVisibleOnly() { Visible = HomeVisibile.Checked };
                 ruolo.DocumentiAssociazione = new SourceVisibleOnly() { Visible = DocumentiAssociazioneVisibiile.Checked };
 
-                RoleActions.CreateRole(ruolo);
+                RoleActions.CreateRoles(new List<XmlRoles> {ruolo});
                 ErrorPopup.Text = "";
 
             }
