@@ -45,7 +45,7 @@ namespace VALE.MyVale
         {
             var userAction = new UserActions();
             string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "progetti"))
+            if (!RoleActions.checkPermission(role, "Progetti"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";

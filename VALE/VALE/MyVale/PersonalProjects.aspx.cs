@@ -85,12 +85,27 @@ namespace VALE.MyVale
             List<Project> listOrganizedProjects = GetOrganizedProjects().ToList();
             List<Project> listAttendingProjects = GetAttendingProjects().ToList();
             List<Project> tempList = new List<Project>();
-            foreach (var project in listOrganizedProjects)
+            List<Project> allPersonalProjects = new List<Project>();
+            if (listOrganizedProjects.Count > listAttendingProjects.Count)
             {
-                if (!listAttendingProjects.Contains(project))
-                    tempList.Add(project);
+                foreach (var project in listOrganizedProjects)
+                {
+                    if (!listAttendingProjects.Contains(project))
+                        tempList.Add(project);
+                }
+
+                allPersonalProjects = listOrganizedProjects.Union(tempList).ToList();
             }
-            List<Project> allPersonalProjects = listOrganizedProjects.Union(tempList).ToList();
+            else
+            {
+                foreach (var project in listAttendingProjects)
+                {
+                    if (!listOrganizedProjects.Contains(project))
+                        tempList.Add(project);
+                }
+                allPersonalProjects = listAttendingProjects.Union(tempList).ToList();
+            }
+
             return allPersonalProjects.AsQueryable();
         }
 
