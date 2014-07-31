@@ -111,7 +111,7 @@
                                                                 <ul class="dropdown-menu" >
                                                                     <asp:ListView runat="server" ID="roleList" ItemType="Microsoft.AspNet.Identity.EntityFramework.IdentityRole" SelectMethod="GetRoles">
                                                                         <ItemTemplate>
-                                                                        <li><asp:LinkButton ID="btnRole" CommandArgument='<%#: Item.Name %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-plus-sign btn-sm"> <%#: Item.Name %></span>  </asp:LinkButton></li>
+                                                                        <li><asp:LinkButton ID="btnRole" CommandArgument='<%#: Item.Name %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-plus-sign"> <%#: Item.Name %></span>  </asp:LinkButton></li>
                                                                         </ItemTemplate>
                                                                     </asp:ListView>
                                                                 </ul>

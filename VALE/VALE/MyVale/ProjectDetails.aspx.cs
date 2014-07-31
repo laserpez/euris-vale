@@ -91,14 +91,7 @@ namespace VALE.MyVale
                 return null;
         }
 
-        public Project GetRelatedProject([QueryString("projectId")] int? projectId)
-        {
-            if (projectId.HasValue)
-                return _db.Projects.Where(a => a.ProjectId == projectId).Select(p => p.RelatedProject).FirstOrDefault();
-            else
-                return null;
-        }
-
+        
         public IQueryable<Event> GetRelatedEvents([QueryString("projectId")] int? projectId)
         {
             if (projectId.HasValue)
@@ -512,15 +505,10 @@ namespace VALE.MyVale
         }
 
         //++++++++++++++++++++++++++RelatedProject+++++++++++++++++++++++++++++++++
-        protected void btnDeleteRelatedProject_Click(object sender, EventArgs e)
-        {
-            ProjectActions projectActions = new ProjectActions();
-            projectActions.DeletRelatedProject(_currentProjectId);
-            UpdateRelatedProjectView();
-        }
 
         protected void btnAddRelatedProject_Click(object sender, EventArgs e)
         {
+            OpenedProjectList.DataBind();
             ModalPopupListProject.Show();
         }
 
@@ -543,9 +531,8 @@ namespace VALE.MyVale
             if (project != null)
             {
                 var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
-                currentProject.RelatedProject = project;
+                currentProject.RelatedProjects.Add(project);
                 currentProject.LastModified = DateTime.Now;
-
                 var actions = new ProjectActions();
                 var listHierarchyUp = actions.getHierarchyUp(currentProject.ProjectId);
                 if (listHierarchyUp.Count != 0)
@@ -553,7 +540,6 @@ namespace VALE.MyVale
 
                 _db.SaveChanges();
                 UpdateRelatedProjectView();
-                Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
             }
 
         }
@@ -567,19 +553,7 @@ namespace VALE.MyVale
                 Button btnDeleteRelatedProject = (Button)ProjectDetail.FindControl("btnDeleteRelatedProject");
                 Button btnAddRelatedProject = (Button)ProjectDetail.FindControl("btnAddRelatedProject");
                 var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
-                var project = currentProject.RelatedProject;
-                if (project != null)
-                {
-                    btnDeleteRelatedProject.Visible = true;
-                    btnAddRelatedProject.Visible = false;
-                    var list = new List<Project> { project };
-                    return list.AsQueryable();
-                }
-                else
-                {
-                    btnDeleteRelatedProject.Visible = false;
-                    btnAddRelatedProject.Visible = true;
-                }
+                return currentProject.RelatedProjects.AsQueryable();
             }
             return null;
         }
@@ -618,29 +592,27 @@ namespace VALE.MyVale
             return null;
         }
 
-        public List<Project> GetProjectHierarchyDown()
-        {
-            ProjectActions projectActions = new ProjectActions();
-            return projectActions.getHierarchyDown(_currentProjectId);
-        }
+       
 
         private void UpdateRelatedProjectView()
         {
-            ListView listViewRelatedProject = (ListView)ProjectDetail.FindControl("listViewRelatedProject");
-            listViewRelatedProject.DataBind();
             GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
             grdRelatedProject.DataBind();
-
-            OpenedProjectList.DataBind();
+            Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
         }
 
         public string GetHoursWorked()
         {
-            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            return GetHoursWorkedForProject(_currentProjectId);
+        }
+
+        public string GetHoursWorkedForProject(int projectId)
+        {
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
             int hours;
             var projectActions = new ProjectActions();
             hours = projectActions.GetAllProjectHierarchyHoursWorked(_currentProjectId);
-            if (project != null) 
+            if (project != null)
             {
                 int budget = projectActions.GetProjectHierarchyBudget(_currentProjectId);
                 if (budget > 0)
@@ -675,29 +647,92 @@ namespace VALE.MyVale
 
         private TreeNode PopulateActivityNode(Activity activity)
         {
-            return new TreeNode { Text = activity.ActivityName };
+            var activityNode = new TreeNode { Text = activity.ActivityName };
+            activityNode.ChildNodes.Add(new TreeNode { Text = "Creatore: " + activity.Creator.FullName });
+            activityNode.ChildNodes.Add(new TreeNode { Text = "Data creazione: " + activity.CreationDate.ToShortDateString() });
+            activityNode.ChildNodes.Add(new TreeNode { Text = "Data Inizio: " + (activity.StartDate.HasValue ? activity.StartDate.Value.ToShortDateString() : "Non definita") });
+            activityNode.ChildNodes.Add(new TreeNode { Text = "Data Fine: " + (activity.ExpireDate.HasValue ? activity.ExpireDate.Value.ToShortDateString() : "Non definita") });
+            activityNode.ChildNodes.Add(new TreeNode { Text = "Tipo: " + activity.Type });
+            activityNode.ChildNodes.Add(new TreeNode { Text = "Stato: " + GetActivityStatus(activity) });
+            activityNode.ChildNodes.Add(new TreeNode { Text = "Budget: " + activity.Budget });
+            return activityNode;
+        }
+
+        public string GetActivityStatus(Activity anActivity)
+        {
+            var activityActions = new ActivityActions();
+            return activityActions.GetStatus(anActivity);
         }
 
         private TreeNode PopulateEventNode(Event Event)
         {
-            return new TreeNode { Text = Event.Name };
+            var eventNode = new TreeNode { Text = Event.Name };
+            eventNode.ChildNodes.Add(new TreeNode { Text = "Organizzatore: " + Event.Organizer.FullName });
+            eventNode.ChildNodes.Add(new TreeNode { Text = "Data: " + Event.EventDate.ToString() });
+            eventNode.ChildNodes.Add(new TreeNode { Text = "Durata(ore): " + Event.Durata });
+            eventNode.ChildNodes.Add(new TreeNode { Text = "Visibilità: " + (Event.Public ? "Pubblica" : "Privata") });
+            eventNode.ChildNodes.Add(new TreeNode { Text = "Luogo: " + Event.Site });
+            return eventNode;
+        }
+
+        private TreeNode PopulateProjectInfoNodeNode(Project project)
+        {
+            var projectInfoNode = new TreeNode { Text = "Informazioni" };
+            projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Creatore: " + project.OrganizerUserName });
+            projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Data: " + project.CreationDate.ToShortDateString() });
+            projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Ultima modifica: " + project.LastModified.ToShortDateString() });
+            projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Tipo: " + project.Type });
+            projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Visibilita: " + (project.Public ? "Pubblica" : "Privata")});
+            projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Stato: " + project.Status });
+            projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Budget: " + project.Budget });
+            return projectInfoNode;
         }
 
         private TreeNode PopulateProjectNode(Project project)
         {
-            var projectNode = new TreeNode { Text = project.ProjectName };
-            var relatedProjectNode = new TreeNode { Text = "Progetto Correlato" };
-            if (project.RelatedProject != null)
-                relatedProjectNode.ChildNodes.Add(PopulateProjectNode(project.RelatedProject));
-            var activitiesNode = new TreeNode { Text = "Attività" };
-            project.Activities.ForEach(a => activitiesNode.ChildNodes.Add(PopulateActivityNode(a)));
-            var eventsNode = new TreeNode { Text = "Eventi" };
-            project.Events.ForEach(ev => eventsNode.ChildNodes.Add(PopulateEventNode(ev)));
-            projectNode.ChildNodes.Add(activitiesNode);
-            projectNode.ChildNodes.Add(eventsNode);
+            var projectNode = new TreeNode();
+            if (IsVisibleProject(project))
+            {
+                projectNode.Text = project.ProjectName + " (" + GetHoursWorkedForProject(project.ProjectId) + " )";
+                var activitiesNode = new TreeNode { Text = "Attività" };
+                project.Activities.ForEach(a => activitiesNode.ChildNodes.Add(PopulateActivityNode(a)));
+                var eventsNode = new TreeNode { Text = "Eventi" };
+                project.Events.ForEach(ev => eventsNode.ChildNodes.Add(PopulateEventNode(ev)));
+                var projectInfoNode = PopulateProjectInfoNodeNode(project);
+                projectNode.ChildNodes.Add(projectInfoNode);
+                projectNode.ChildNodes.Add(activitiesNode);
+                projectNode.ChildNodes.Add(eventsNode);
+            }
+            else 
+            {
+                projectNode.Text = "Progetto Privato a cui non partecipi (" + GetHoursWorkedForProject(project.ProjectId) + " )";
+            }
+            var relatedProjectNode = new TreeNode { Text = "Progetti Correlati" };
+            project.RelatedProjects.ForEach(p => relatedProjectNode.ChildNodes.Add(PopulateProjectNode(p)));
             projectNode.ChildNodes.Add(relatedProjectNode);
             return projectNode;
-
         }
+
+        public bool IsVisibleProject(int projectId)
+        {
+            return IsVisibleProject(_db.Projects.First(p => p.ProjectId == projectId));
+        }
+        private bool IsVisibleProject(Project project)
+        {
+
+            if (HttpContext.Current.User.IsInRole("Amministratore") || project.Organizer.UserName == _currentUserName || project.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName))
+                return true;
+            return false;
+        }
+
+        protected void grdRelatedProject_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int relatedProjectId = Convert.ToInt32(e.CommandArgument);
+            ProjectActions projectActions = new ProjectActions();
+            projectActions.DeletRelatedProject(_currentProjectId, relatedProjectId);
+            UpdateRelatedProjectView();
+        }
+
+
     }
 }

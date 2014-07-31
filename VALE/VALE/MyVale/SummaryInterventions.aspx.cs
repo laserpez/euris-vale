@@ -54,12 +54,13 @@ namespace VALE.MyVale
 
         private List<SummaryIntervention> CreateSummaryInterventionsList(List<ActivityReport> activityReport)
         {
+            ProjectActions projectActions = new ProjectActions();
             List<SummaryIntervention> summaryInterventions = new List<SummaryIntervention>();
             activityReport.ForEach(a => summaryInterventions.Add(new VALE.Models.SummaryIntervention
             {
                 ProjectType = a.WorkedActivity.RelatedProject != null ? a.WorkedActivity.RelatedProject.Type : "",
                 ProjectName = a.WorkedActivity.RelatedProject != null ? a.WorkedActivity.RelatedProject.ProjectName : "",
-                RelatedProjectName = a.WorkedActivity.RelatedProject.RelatedProject != null ? a.WorkedActivity.RelatedProject.RelatedProject.ProjectName : "",
+                RelatedProjectName = projectActions.GetFather(a.WorkedActivity.RelatedProject) != null ? projectActions.GetFather(a.WorkedActivity.RelatedProject).ProjectName : "",
                 ActivityName = a.WorkedActivity.ActivityName,
                 ActivityType = a.WorkedActivity.Type,
                 ActivityDescription = a.ActivityDescription,

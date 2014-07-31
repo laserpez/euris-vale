@@ -208,17 +208,22 @@ namespace VALE.Logic
             }
         }
 
-        public void DeletRelatedProject(int projectId)
+        public void DeletRelatedProject(int projectId, int relatedProjectId)
         {
             var db = new UserOperationsContext();
             var currentProject = db.Projects.First(a => a.ProjectId == projectId);
-            db.Entry(currentProject).Reference(p => p.RelatedProject).CurrentValue = null;
-            var listHierarchyUp = getHierarchyUp(currentProject.ProjectId);
-            if (listHierarchyUp.Count != 0)
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
-            currentProject.LastModified = DateTime.Now;
+            var relatedProject = db.Projects.First(a => a.ProjectId == relatedProjectId);
+            if (currentProject != null && relatedProject != null) 
+            {
+                currentProject.RelatedProjects.Remove(relatedProject);
+                var listHierarchyUp = getHierarchyUp(currentProject.ProjectId);
+                if (listHierarchyUp.Count != 0)
+                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                currentProject.LastModified = DateTime.Now;
+                db.SaveChanges();
+            }
+            //db.Entry(currentProject).Reference(p => p.RelatedProjects).CurrentValue = null;
             
-            db.SaveChanges();
         }
 
         public List<Project> getHierarchyUp(int projectId)
@@ -231,7 +236,7 @@ namespace VALE.Logic
                 var hasNext = true;
                 while (hasNext)
                 {
-                    var father = db.Projects.FirstOrDefault(p => p.RelatedProject.ProjectId == project.ProjectId);
+                    var father = db.Projects.FirstOrDefault(p => p.RelatedProjects.FirstOrDefault(r => r.ProjectId == project.ProjectId) != null);
                     if (father != null)
                     {
                         list.Add(father);
@@ -254,7 +259,7 @@ namespace VALE.Logic
                 var hasNext = true;
                 while (hasNext)
                 {
-                    var father = db.Projects.FirstOrDefault(p => p.RelatedProject.ProjectId == project.ProjectId);
+                    var father = db.Projects.FirstOrDefault(p => p.RelatedProjects.FirstOrDefault(r => r.ProjectId == project.ProjectId) != null);
                     if (father != null)
                     {
                         rootId = father.ProjectId;
@@ -272,21 +277,25 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             List<Project> list = new List<Project>();
             var project = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
-            while(project.RelatedProject != null)
-            {
-                list.Add(project.RelatedProject);
-                project = project.RelatedProject;
-            }
+            list.AddRange(project.RelatedProjects);
+            project.RelatedProjects.ForEach(p => list.AddRange(getHierarchyDown(p.ProjectId)));
             return list;
         }
 
         public bool HasFather(Project project)
         {
             var db = new UserOperationsContext();
-            var father = db.Projects.FirstOrDefault(p => p.RelatedProject.ProjectId == project.ProjectId);
+            var father = db.Projects.FirstOrDefault(p => p.RelatedProjects.FirstOrDefault(r => r.ProjectId == project.ProjectId) != null);
             if (father != null)
                 return true;
             return false;
+        }
+
+        public Project GetFather(Project project)
+        {
+            var db = new UserOperationsContext();
+            var father = db.Projects.FirstOrDefault(p => p.RelatedProjects.FirstOrDefault(r => r.ProjectId == project.ProjectId) != null);
+            return father;
         }
 
         public List<Project> GetCompatibleProjects(int projectId)
