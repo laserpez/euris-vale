@@ -55,7 +55,6 @@
                                 ControlToValidate="TextLastName" ValidationExpression="^[a-zA-Z]*$" Display="Dynamic"></asp:RegularExpressionValidator>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <asp:Label runat="server" AssociatedControlID="TextTelephone" CssClass="col-md-1 control-label">Telefono</asp:Label>
                         <div class="col-md-3">

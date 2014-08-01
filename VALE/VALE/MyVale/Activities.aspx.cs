@@ -40,11 +40,12 @@ namespace VALE.MyVale
         {
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Attivita"))
             {
-
                 string titleMessage = "PERMESSO NEGATO";
                 string message = "Non hai i poteri necessari per poter visualizzare la pagina Activities.";
                 Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
+            if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
+                divAllOrPersonal.Visible = true;
         }
 
         public string GetStatus(Activity anActivity)
@@ -81,7 +82,7 @@ namespace VALE.MyVale
 
         protected void btnCreateActivity_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/MyVale/ActivityCreate");
+            Response.Redirect("/MyVale/Create/ActivityCreate?From=/MyVale/Activities");
         }
 
         protected void grdCurrentActivities_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -110,9 +111,7 @@ namespace VALE.MyVale
             var accept = false;
             if (e.CommandName == "AcceptActivity")
                 accept = true;
-
             activityActions.AddOrRefusePendingActivity(activityId, accept);
-
             string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
             Response.Redirect(pageUrl);
         }
@@ -202,6 +201,7 @@ namespace VALE.MyVale
             grdCurrentActivities.DataBind();
             filters.Visible = true;
             btnExportCSV.Visible = true;
+            divAllOrPersonal.Visible = true;
         }
         private void RequestsMode()
         {
@@ -213,6 +213,7 @@ namespace VALE.MyVale
             grdPendingActivities.Visible = true;
             grdCurrentActivities.Visible = false;
             grdPendingActivities.DataBind();
+            divAllOrPersonal.Visible = false;
         }
 
 
@@ -323,9 +324,18 @@ namespace VALE.MyVale
         public IQueryable<Activity> GetActivities()
         {
             var db = new UserOperationsContext();
-            var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
-            var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId)).OrderByDescending(a=>a.CreationDate);
-            return ApplyFilters(activities);
+            if (lblAllOrPersonal.Text == "Personal")
+            {
+                var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
+                var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId)).OrderByDescending(a => a.CreationDate);
+                return ApplyFilters(activities);
+            }
+            else
+            {
+                var activities = db.Activities;
+                return ApplyFilters(activities);
+            }
+            
         }
 
         protected void btnFilterProjects_Click(object sender, EventArgs e)
@@ -389,5 +399,23 @@ namespace VALE.MyVale
                 return "Nessuna descrizione presente";
             }
         }
+
+        protected void btnPersonalLinkButton_Click(object sender, EventArgs e)
+        {
+            lblAllOrPersonal.Text = "Personal";
+            btnPersonal.Visible = true;
+            btnAllUsers.Visible = false;
+        }
+
+        protected void btnAllUsersLinkButton_Click(object sender, EventArgs e)
+        {
+            lblAllOrPersonal.Text = "All";
+            btnPersonal.Visible = false;
+            btnAllUsers.Visible = true;
+        }
+
+       
+
+
     }
 }

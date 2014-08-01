@@ -80,9 +80,7 @@ namespace VALE.Models
                     m.ToTable("GroupsUsers");
                 });
 
-            //modelBuilder.Entity<ActivityType>()
-            //    .HasMany(g => g.Activities)
-            //    .WithRequired(u => u.Type).WillCascadeOnDelete();
+           
 
         }
     }
