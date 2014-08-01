@@ -2,12 +2,15 @@
 <%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="VALE._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div>
-        <h2>Benvenuto in VALE, ambiente virtuale di collaborazione</h2>
-    </div>
-
-    <div id="notLoggedUser" runat="server" class="row">
-        <div class="col-md-10" style="font-size: x-large">
+    <p></p>
+    <div id="notLoggedUser" style="background-image:url(~/Images/Logo_VALE.png)" runat="server" class="row">
+        <div class="col-md-2">
+            <asp:Image runat="server" ImageUrl="~/Images/Logo_VALE.png" />
+        </div>
+        <div class="col-md-10" style="font-size: x-large; position:relative">
+            <p>
+                <h2>Benvenuto in VALE, ambiente virtuale di collaborazione</h2>
+            </p>
             <p>
                 &nbsp;Fai il log-in per accedere alle sezioni interne <a runat="server" href="~/Account/Login">Qui</a>.
             </p>

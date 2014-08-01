@@ -221,8 +221,10 @@
     <Content Include="Images\google.png" />
     <Content Include="Images\logoVALE.png" />
     <Content Include="Account\ManageProfile.aspx" />
+    <Content Include="Images\Logo_VALE.png" />
     <Content Include="Images\twitter.png" />
     <Content Include="Images\User.jpg" />
+    <Content Include="Images\VALE_Navbar.png" />
     <Content Include="MessagePage.aspx" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
