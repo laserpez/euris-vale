@@ -33,6 +33,7 @@ namespace VALE.MyVale
                     ActivityListType.Text = "RequestActivities";
                     RequestsMode();
                 }
+                ShowAdminButton();
             }
         }
 
@@ -44,8 +45,7 @@ namespace VALE.MyVale
                 string message = "Non hai i poteri necessari per poter visualizzare la pagina Activities.";
                 Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
-            if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
-                divAllOrPersonal.Visible = true;
+            
         }
 
         public string GetStatus(Activity anActivity)
@@ -201,7 +201,7 @@ namespace VALE.MyVale
             grdCurrentActivities.DataBind();
             filters.Visible = true;
             btnExportCSV.Visible = true;
-            divAllOrPersonal.Visible = true;
+            ShowAdminButton();
         }
         private void RequestsMode()
         {
@@ -229,6 +229,7 @@ namespace VALE.MyVale
                     var projectId = 0;
                     int.TryParse(ddlSelectProject.SelectedValue, out projectId);
                     activities = activities.Where(a => a.RelatedProject != null && a.RelatedProject.ProjectId == projectId);
+                    
                     break;
                 case "NotRelatedActivities":
                     activities = activities.Where(a => a.RelatedProject == null);
@@ -311,7 +312,15 @@ namespace VALE.MyVale
         {
             var db = new UserOperationsContext();
             var userName = User.Identity.Name;
-            var projects = db.UserDatas.First(u => u.UserName == userName).AttendingProjects;
+            List<Project> projects = new List<Project>();
+            if (lblAllOrPersonal.Text == "Personal")
+            {
+                projects = db.UserDatas.First(u => u.UserName == userName).AttendingProjects;
+            }
+            else 
+            {
+                projects = db.Projects.Where(p => p.Activities.Count > 0).ToList();
+            }
             projects.Insert(0, new Project { ProjectName = "-- Seleziona progetto --", ProjectId = 0 });
             return projects;
         }
@@ -349,7 +358,9 @@ namespace VALE.MyVale
             txtFromDate.Text = null;
             txtName.Text = null;
             txtToDate.Text = null;
+            ddlSelectType.DataBind();
             ddlSelectType.SelectedIndex = 0;
+            ddlStatus.DataBind();
             ddlStatus.SelectedIndex = 0;
             grdCurrentActivities.DataBind();
         }
@@ -405,6 +416,7 @@ namespace VALE.MyVale
             lblAllOrPersonal.Text = "Personal";
             btnPersonal.Visible = true;
             btnAllUsers.Visible = false;
+            grdCurrentActivities.DataBind();
         }
 
         protected void btnAllUsersLinkButton_Click(object sender, EventArgs e)
@@ -412,6 +424,13 @@ namespace VALE.MyVale
             lblAllOrPersonal.Text = "All";
             btnPersonal.Visible = false;
             btnAllUsers.Visible = true;
+            grdCurrentActivities.DataBind();
+        }
+
+        private void ShowAdminButton() 
+        {
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio"))
+                divAllOrPersonal.Visible = true;
         }
 
        

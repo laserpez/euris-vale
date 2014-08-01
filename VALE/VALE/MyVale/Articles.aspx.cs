@@ -84,7 +84,7 @@ namespace VALE.MyVale
             {
                 int articleId = Convert.ToInt32(grdAllArticles.DataKeys[i].Value);
                 var articleCreator = db.BlogArticles.First(art => art.BlogArticleId == articleId).CreatorUserName;
-                if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del Consiglio") || articleCreator == HttpContext.Current.User.Identity.Name)
+                if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio") || articleCreator == HttpContext.Current.User.Identity.Name)
                 {
                     dataControlField.Visible = true;
                     Button btnDeleteArticle = (Button)grdAllArticles.Rows[i].FindControl("btnDeleteArticle");

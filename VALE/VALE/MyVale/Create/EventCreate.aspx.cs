@@ -43,7 +43,7 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
-            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioniEventi"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneEventi"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";

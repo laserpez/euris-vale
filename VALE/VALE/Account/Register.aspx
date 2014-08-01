@@ -8,7 +8,7 @@
     </p>
 
     <div class="form-horizontal">
-        <h4>Crea un nuovo account.</h4>
+        <h4>Crea un nuovo account oppure fai il login <a runat="server" href="~/Account/Login">QUI</a>.</h4>
         <hr />
         <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="text-danger" ShowMessageBox="true" ShowSummary="false" ValidationGroup="Submit" />
         <div class="form-group">

@@ -81,42 +81,43 @@
                                                         </div>
                                                         <legend>Attività</legend>
                                                     </div>
-                                                    <center><div>
-                                                <div class="col-md-6">
-                                                    <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
-                                                    <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtName"></asp:TextBox>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Descrizione"></asp:Label>
-                                                    <asp:TextBox CssClass="form-control input-sm" runat="server" ID="txtDescription"></asp:TextBox>
-                                                </div>
-                     
-                                            <div  class="col-md-12"><br /></div>
-                                                <%--<asp:UpdatePanel runat="server">
-                                                    <ContentTemplate>--%>
-                                                        <div class="col-md-6">
-                                                            <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
-                                                            <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtFromDate" OnTextChanged="txtFromDate_TextChanged" AutoPostBack="true"></asp:TextBox>
-                                                            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtFromDate"></asp:CalendarExtender>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Al"></asp:Label>
-                                                            <asp:TextBox CssClass="form-control input-sm" runat="server" ID="txtToDate"></asp:TextBox>
-                                                            <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtToDate"></asp:CalendarExtender>
-                                                        </div>
-                                                    <%--</ContentTemplate>
-                                                </asp:UpdatePanel>--%>
-                                                </div></center>
                                                     <div class="row">
-                                                         <div  class="col-md-12"><br /></div>
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Nome"></asp:Label>
+                                                                <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtName"></asp:TextBox>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <asp:Label Font-Bold="true" CssClass="col-md-3 control-label" runat="server" Text="Descrizione"></asp:Label>
+                                                                <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtDescription"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div  class="col-md-12"><br /></div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Dal"></asp:Label>
+                                                                <asp:TextBox CssClass="col-md-2 form-control input-sm" runat="server" ID="txtFromDate" OnTextChanged="txtFromDate_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                                                <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarCreationDate" TargetControlID="txtFromDate"></asp:CalendarExtender>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <asp:Label Font-Bold="true" CssClass="col-md-3 control-label" runat="server" Text="Al"></asp:Label>
+                                                                <asp:TextBox CssClass="form-control input-sm" runat="server" ID="txtToDate"></asp:TextBox>
+                                                                <asp:CalendarExtender runat="server" Format="dd/MM/yyyy" ID="calendarModifiedDate" TargetControlID="txtToDate"></asp:CalendarExtender>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div  class="col-md-12"><br /></div>
                                                         <div  class="col-md-12">
                                                             <div class="col-md-6">
                                                                 <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Stato"></asp:Label>
-                                                                <asp:DropDownList SelectMethod="PopulateDropDown" Width="200" CssClass="col-md-10 form-control input-sm" ID="ddlStatus" runat="server"></asp:DropDownList>
+                                                                <asp:DropDownList SelectMethod="PopulateDropDown" Width="280px" CssClass="col-md-10 form-control input-sm" ID="ddlStatus" runat="server"></asp:DropDownList>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label" Text="Tipo"></asp:Label>
-                                                                <asp:DropDownList Width="250" CssClass=" col-md-10 col-md-offset-2 form-control input-sm" runat="server" ID="ddlSelectType" SelectMethod="GetTypes" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeName"></asp:DropDownList>
+                                                                <asp:Label Font-Bold="true" runat="server" CssClass="col-md-3 control-label" Text="Tipo"></asp:Label>
+                                                                <asp:DropDownList Width="280px" CssClass=" col-md-10 form-control input-sm" runat="server" ID="ddlSelectType" SelectMethod="GetTypes" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeName"></asp:DropDownList>
                                                             </div>
                                                         </div>
                                                      
@@ -304,6 +305,9 @@
                                         </div>
                                     </div>
                                 </ContentTemplate>
+                                <Triggers>
+                                    <asp:PostBackTrigger ControlID="btnExportCSV" />
+                                </Triggers>
                             </asp:UpdatePanel>
                         </div>
                     </div>
