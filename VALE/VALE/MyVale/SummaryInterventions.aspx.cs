@@ -23,6 +23,8 @@ namespace VALE.MyVale
             if (!IsPostBack) 
             {
                 UpdateGraphic();
+                if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
+                    divAllOrPersonal.Visible = true;
             }
         }
 

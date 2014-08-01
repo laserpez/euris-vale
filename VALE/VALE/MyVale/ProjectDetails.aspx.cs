@@ -677,7 +677,7 @@ namespace VALE.MyVale
 
         private TreeNode PopulateProjectInfoNodeNode(Project project)
         {
-            var projectInfoNode = new TreeNode { Text = "Informazioni" };
+            var projectInfoNode = new TreeNode { Text = "Informazioni"  };
             projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Creatore: " + project.OrganizerUserName });
             projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Data: " + project.CreationDate.ToShortDateString() });
             projectInfoNode.ChildNodes.Add(new TreeNode { Text = "Ultima modifica: " + project.LastModified.ToShortDateString() });
@@ -690,26 +690,30 @@ namespace VALE.MyVale
 
         private TreeNode PopulateProjectNode(Project project)
         {
-            var projectNode = new TreeNode();
+            var projectNode = new TreeNode{ Text = project.ProjectName + " (" + GetHoursWorkedForProject(project.ProjectId) + " )" };
             if (IsVisibleProject(project))
             {
-                projectNode.Text = project.ProjectName + " (" + GetHoursWorkedForProject(project.ProjectId) + " )";
-                var activitiesNode = new TreeNode { Text = "Attività" };
-                project.Activities.ForEach(a => activitiesNode.ChildNodes.Add(PopulateActivityNode(a)));
-                var eventsNode = new TreeNode { Text = "Eventi" };
-                project.Events.ForEach(ev => eventsNode.ChildNodes.Add(PopulateEventNode(ev)));
                 var projectInfoNode = PopulateProjectInfoNodeNode(project);
                 projectNode.ChildNodes.Add(projectInfoNode);
-                projectNode.ChildNodes.Add(activitiesNode);
-                projectNode.ChildNodes.Add(eventsNode);
+                if (project.Activities.Count > 0) 
+                {
+                    var activitiesNode = new TreeNode { Text = "Attività" };
+                    project.Activities.ForEach(a => activitiesNode.ChildNodes.Add(PopulateActivityNode(a)));
+                    projectNode.ChildNodes.Add(activitiesNode);
+                }
+                if (project.Events.Count > 0)
+                {
+                    var eventsNode = new TreeNode { Text = "Eventi" };
+                    project.Events.ForEach(ev => eventsNode.ChildNodes.Add(PopulateEventNode(ev)));
+                    projectNode.ChildNodes.Add(eventsNode);
+                } 
             }
-            else 
+            if (project.RelatedProjects.Count > 0) 
             {
-                projectNode.Text = "Progetto Privato a cui non partecipi (" + GetHoursWorkedForProject(project.ProjectId) + " )";
+                var relatedProjectNode = new TreeNode { Text = "Progetti Correlati" };
+                project.RelatedProjects.ForEach(p => relatedProjectNode.ChildNodes.Add(PopulateProjectNode(p)));
+                projectNode.ChildNodes.Add(relatedProjectNode);
             }
-            var relatedProjectNode = new TreeNode { Text = "Progetti Correlati" };
-            project.RelatedProjects.ForEach(p => relatedProjectNode.ChildNodes.Add(PopulateProjectNode(p)));
-            projectNode.ChildNodes.Add(relatedProjectNode);
             return projectNode;
         }
 
