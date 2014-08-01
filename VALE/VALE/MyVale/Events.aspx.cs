@@ -166,7 +166,7 @@ namespace VALE.MyVale
             List<Event> events = new List<Event>();
             var db = new UserOperationsContext();
             var userActions = new UserActions();
-            if (RoleActions.checkPermission(userActions.GetRolebyUserName(_currentUserName), "Amministrazione"))
+            if (RoleActions.checkPermission(_currentUserName, "Amministrazione"))
                 events = db.Events.ToList();
             else
                 events = db.Events.Where(ev => ev.Public == true || (ev.OrganizerUserName == _currentUserName || ev.RegisteredUsers.FirstOrDefault(u => u.UserName == _currentUserName) != null)).ToList();
