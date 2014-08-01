@@ -25,7 +25,7 @@
                         </div>
                         <div class="panel-body" style="overflow: auto;">
                             <div class="col-md-12"></div>
-                            <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Inserisci commento</asp:Label>
+                            <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Inserisci testo conversazione</asp:Label>
                             <div class="col-md-10">
                                 <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtComment" runat="server"></asp:TextBox>
                                     <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtComment">

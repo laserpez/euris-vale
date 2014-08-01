@@ -163,8 +163,14 @@ namespace VALE.MyVale
             var filters = new Dictionary<string, string>();
             filters.Add("fromDate", fromDateTxt);
             filters.Add("toDate", toDateTxt);
+
+            List<Event> events = new List<Event>();
             var db = new UserOperationsContext();
-            var events = db.Events.ToList();
+            var userActions = new UserActions();
+            if (RoleActions.checkPermission(userActions.GetRolebyUserName(_currentUserName), "Amministrazione"))
+                events = db.Events.ToList();
+            else
+                events = db.Events.Where(ev => ev.Public == true || (ev.OrganizerUserName == _currentUserName || ev.RegisteredUsers.FirstOrDefault(u => u.UserName == _currentUserName) != null)).ToList();
             return eventActions.GetFilteredData(filters, events).AsQueryable();
         }
 
