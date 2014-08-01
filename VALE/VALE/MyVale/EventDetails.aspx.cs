@@ -40,6 +40,14 @@ namespace VALE.MyVale
                     addUsersBtn.Visible = true;
                     btnModify.Visible = true;
                 }
+                if (_currentUserName != currentEvent.OrganizerUserName || !User.IsInRole("Amministratore"))
+                {
+                    var btnAddRelatedProject = (Button)EventDetail.FindControl("btnAddRelatedProject");
+                    btnAddRelatedProject.Visible = false;
+                    var btnDeleteRelatedProject = (Button)EventDetail.FindControl("btnDeleteRelatedProject");
+                    btnDeleteRelatedProject.Visible = false;
+
+                }
                 if (Request.QueryString["From"] != null)
                     Session["EventDetailsRequestFrom"] = Request.QueryString["From"];
             }
@@ -72,6 +80,13 @@ namespace VALE.MyVale
             {
                 btnAttend.CssClass = "btn btn-info"; 
                 btnAttend.Text = "Partecipa";
+
+                var userActions = new UserActions();
+                if (RoleActions.checkPermission(userActions.GetRolebyUserName(_currentUserName), "Amministrazione") == false)
+                {
+                    if (_db.Events.FirstOrDefault(ev => ev.EventId == _currentEventId && ev.OrganizerUserName != _currentUserName).Public == false)
+                        Response.Redirect("/MyVale/Events.aspx");
+                }
             }
         }
         public Event GetEvent([QueryString("eventId")] int? eventId)
@@ -101,7 +116,7 @@ namespace VALE.MyVale
                 //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
                 //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
             }
-            _db.SaveChanges();
+            //_db.SaveChanges();
             //Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
             setBtnAttend();
         }
