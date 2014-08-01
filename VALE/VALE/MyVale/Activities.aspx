@@ -20,8 +20,17 @@
                                         </ul>
                                     </div>
                                     <div class="navbar-right">
-                                        <asp:Button runat="server" Text="Esporta CSV"  CssClass="btn btn-info" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
-                                        <asp:Label ID="ListUsersType" Visible="true" runat="server" Text=""></asp:Label>
+                                         <div class="btn-group" runat="server" id="divAllOrPersonal" visible="false">
+                                            <asp:Label ID="lblAllOrPersonal" Visible="false" runat="server" Text="Personal"></asp:Label>
+                                            <button type="button" id="btnPersonal" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Personali  <span class="caret"></span></button>
+                                            <button type="button" visible="false" id="btnAllUsers" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">Tutti Gli Utenti <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <asp:LinkButton ID="btnPersonalLinkButton" runat="server" OnClick="btnPersonalLinkButton_Click"><span class="glyphicon glyphicon-tasks"></span> Personali</asp:LinkButton></li>
+                                                <li>
+                                                    <asp:LinkButton ID="btnAllUsersLinkButton" runat="server" OnClick="btnAllUsersLinkButton_Click"><span class="glyphicon glyphicon-inbox"></span> Tutti Gli Utenti</asp:LinkButton></li>
+                                            </ul>
+                                        </div>
                                         <div class="btn-group">
                                             <asp:Label ID="ActivityListType" runat="server" Text="AllActivities" Visible="false"></asp:Label>
                                             <button type="button" visible="true" id="btnList" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutte <span class="caret"></span></button>
@@ -131,6 +140,7 @@
                                                                 </ul>
                                                             </div>
                                                             <div class="navbar-right">
+                                                                <asp:Button runat="server" Text="Esporta CSV"  CssClass="btn btn-info btn-xs" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
                                                                 <asp:Button runat="server" Text="Crea Attività"  CssClass="btn btn-success btn-xs" ID="btnAddActivity" OnClick="btnAddActivity_Click" />
                                                             </div>
                                                         </div>

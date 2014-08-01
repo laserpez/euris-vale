@@ -83,7 +83,7 @@
                                                                         <ul class="breadcrumb" style="margin-bottom: 1px; margin-top: 1px">
                                                                             <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectHierarchyUp">
                                                                                 <ItemTemplate>
-                                                                                    <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>" runat="server" Enabled='<%# IsVisibleProject(Convert.ToInt32(Eval("ProjectId"))) %>'><%#: Item.ProjectName %></a></li>
+                                                                                    <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>" runat="server" Visible='<%# IsVisibleProject(Convert.ToInt32(Eval("ProjectId"))) %>'><%#: Item.ProjectName %></a></li>
                                                                                 </ItemTemplate>
                                                                             </asp:ListView>
                                                                             <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectForHierarchy">
