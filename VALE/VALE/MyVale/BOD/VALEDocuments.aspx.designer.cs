@@ -58,8 +58,7 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FooterDocuments;
         
         /// <summary>
-        /// Label1 control.
-        /// Controllo FileTextBox.
+        /// Controllo Label1.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
@@ -68,8 +67,7 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// txtFileDescription control.
-        /// Controllo FileUpload.
+        /// Controllo txtFileDescription.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
@@ -78,8 +76,7 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.HtmlControls.HtmlTextArea txtFileDescription;
         
         /// <summary>
-        /// FileTextBox control.
-        /// Controllo AddFileNameButton.
+        /// Controllo FileTextBox.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
@@ -88,8 +85,7 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FileTextBox;
         
         /// <summary>
-        /// FileUpload control.
-        /// Controllo Label1.
+        /// Controllo FileUpload.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
@@ -98,8 +94,7 @@ namespace VALE.MyVale.BOD {
         protected global::System.Web.UI.WebControls.FileUpload FileUpload;
         
         /// <summary>
-        /// AddFileNameButton control.
-        /// Controllo txtFileDescription.
+        /// Controllo AddFileNameButton.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
