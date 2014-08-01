@@ -311,7 +311,7 @@
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Profile.aspx" title="Manage your account">Ciao, <%: Context.User.Identity.Name  %> !</a></li>
+                                <li><a runat="server" href="~/Account/Profile.aspx" title="Manage your account">Profilo</a></li>
                                 <li>
                                     <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Esci" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
                                 </li>

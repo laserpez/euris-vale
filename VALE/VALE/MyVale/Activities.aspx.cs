@@ -429,7 +429,7 @@ namespace VALE.MyVale
 
         private void ShowAdminButton() 
         {
-            if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio"))
                 divAllOrPersonal.Visible = true;
         }
 
