@@ -82,7 +82,7 @@
                 PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
             </asp:ModalPopupExtender>
             <asp:LinkButton ID="lnkDummy" runat="server"></asp:LinkButton>
-            <div class="well bs-component" id="pnlPopup" style="width: 80%; height:90%; overflow:auto;">
+            <div class="well bs-component" id="pnlPopup" style="width: 80%; height:90%; overflow-y:auto; overflow-x:hidden">
                 <div class="row">
                     <div class="col-md-12">
                         <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
