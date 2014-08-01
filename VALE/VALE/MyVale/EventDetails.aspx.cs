@@ -82,7 +82,7 @@ namespace VALE.MyVale
                 btnAttend.Text = "Partecipa";
 
                 var userActions = new UserActions();
-                if (RoleActions.checkPermission(userActions.GetRolebyUserName(_currentUserName), "Amministrazione") == false)
+                if (RoleActions.checkPermission(_currentUserName, "Amministrazione") == false)
                 {
                     if (_db.Events.FirstOrDefault(ev => ev.EventId == _currentEventId && ev.OrganizerUserName != _currentUserName).Public == false)
                         Response.Redirect("/MyVale/Events.aspx");
