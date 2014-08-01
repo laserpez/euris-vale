@@ -12,9 +12,11 @@ namespace VALE.StateInfo
         private static StateInfoXML _instance = null;
         private StateInfo _stateInfo = null;
         public string FileName { get; set; }
+
         private StateInfoXML()
         {
         }
+
         public List<Item> LoadData()
         {
             if(_stateInfo != null)
@@ -39,7 +41,6 @@ namespace VALE.StateInfo
             if(_instance == null)
                 _instance = new StateInfoXML();
             return _instance;
-           
         }
     }
 

@@ -14,7 +14,8 @@ namespace VALE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            PagePermission();
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             ApplyDragAndDrop();
             HideIdColumns();
             
@@ -35,9 +36,7 @@ namespace VALE
 
         public void PagePermission()
         {
-            var userAction = new UserActions();
-            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "Attivita"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Attivita"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";

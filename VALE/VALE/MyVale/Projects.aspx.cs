@@ -17,7 +17,8 @@ namespace VALE.MyVale
         private string _currentUserName;
         protected void Page_Load(object sender, EventArgs e)
         {
-            PagePermission();
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             _currentUserName = User.Identity.GetUserName();
             if(!IsPostBack)
             {
@@ -41,9 +42,7 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
-            var userAction = new UserActions();
-            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "Progetti"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Progetti"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";

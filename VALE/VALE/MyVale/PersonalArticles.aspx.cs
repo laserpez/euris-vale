@@ -17,15 +17,14 @@ namespace VALE.MyVale
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            PagePermission();
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             _currentUser = User.Identity.GetUserName();
         }
 
         public void PagePermission()
         {
-            var userAction = new UserActions();
-            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "Articoli"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Articoli"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";

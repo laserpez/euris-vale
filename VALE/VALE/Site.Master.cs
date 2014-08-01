@@ -85,6 +85,10 @@ namespace VALE
                 loginLink.Visible = false;
                 homeLink.Visible = false;
             }
+            else
+            {
+                SetLink();
+            }
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
@@ -97,23 +101,10 @@ namespace VALE
         {
 
             SetNotification();
-            SetUserLink();
-            SetAdminLink();
 
         }
 
-        private void SetAdminLink()
-        {
-            if (HttpContext.Current.User.IsInRole("Amministratore") ||
-                HttpContext.Current.User.IsInRole("Membro del consiglio"))
-            {
-                UserList.Visible = false;
-                adminLink.Visible = true;
-                createBODLink.Visible = true;
-            }
-        }
-
-        private void SetUserLink()
+        private void SetLink()
         {
             var db = new ApplicationDbContext();
             XmlRoles xmlRoles = null;
@@ -128,11 +119,25 @@ namespace VALE
             }
             if (xmlRoles != null)
             {
-                createProjectLink.Visible = xmlRoles.Progetti.Creation;
-                boardLink.Visible = xmlRoles.Consiglio.Visible;
-                createEventLink.Visible = xmlRoles.Progetti.Creation;
-                createActivityLink.Visible = xmlRoles.Attivita.Creation;
+                UserList.Visible = xmlRoles.ListaUtenti.Visible;
+
                 createBlogArticle.Visible = xmlRoles.Articoli.Creation;
+                blogsLink.Visible = xmlRoles.Articoli.Visible;
+
+                createEventLink.Visible = xmlRoles.Eventi.Creation;
+                eventsLink.Visible = xmlRoles.Eventi.Visible;
+
+                createActivityLink.Visible = xmlRoles.Attivita.Creation;
+                activitiesLink.Visible = xmlRoles.Attivita.Visible;
+
+                createProjectLink.Visible = xmlRoles.Progetti.Creation;
+                projectsLink.Visible = xmlRoles.Progetti.Visible;
+
+                createBODLink.Visible = xmlRoles.Consiglio.Creation;
+                boardLink.Visible = xmlRoles.Consiglio.Visible;
+
+                associationDocuments.Visible = xmlRoles.DocumentiAssociazione.Visible;
+                adminLink.Visible = xmlRoles.Amministrazione.Visible;
             }
         }
 

@@ -17,7 +17,8 @@ namespace VALE.MyVale
         private int _articleId;
         protected void Page_Load(object sender, EventArgs e)
         {
-            PagePermission();
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _articleId = Convert.ToInt32(Request.QueryString.GetValues("articleId").First());
@@ -27,9 +28,7 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
-            var userAction = new UserActions();
-            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "Articoli"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Articoli"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";
