@@ -305,6 +305,9 @@
                                         </div>
                                     </div>
                                 </ContentTemplate>
+                                <Triggers>
+                                    <asp:PostBackTrigger ControlID="btnExportCSV" />
+                                </Triggers>
                             </asp:UpdatePanel>
                         </div>
                     </div>
