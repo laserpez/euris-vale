@@ -16,7 +16,7 @@ namespace VALE.MyVale.BOD
         {
             if (HttpContext.Current.User.Identity.IsAuthenticated)
                 PagePermission();
-            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") && !RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Consiglio"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") && !RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio"))
             {
                 FooterDocuments.Visible = false;
             }
