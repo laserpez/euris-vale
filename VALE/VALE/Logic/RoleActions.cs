@@ -13,9 +13,11 @@ namespace VALE.Logic
     {
         public static string File { get; set; }
 
-        public static bool checkPermission(string role, string source)
+        public static bool checkPermission(string username, string source)
         {
-            var xmlRole = findRole(role);
+
+            var userAction = new UserActions();
+            var xmlRole = findRole(userAction.GetRolebyUserName(username));
             switch (source)
             {
                 case "Amministrazione":
@@ -148,7 +150,7 @@ namespace VALE.Logic
        
         public static List<XmlRoles> ReadRoles()
         {
-            var serializer = new XmlSerializable();
+            var serializer = XmlSerializable.GetInstance();
             var listaRuoli = serializer.ReadData<List<XmlRoles>>(File);
             return listaRuoli;
         }
@@ -184,7 +186,7 @@ namespace VALE.Logic
 
         private static void CreateXmlRole(XmlRoles dato)
         {
-            var serializer = new XmlSerializable();
+            var serializer = XmlSerializable.GetInstance();
             List<XmlRoles> newData = CheckDataAndRemoveIfExist(dato.Name);
             newData.Add(dato);
             serializer.CreateData<List<XmlRoles>>(newData, File);
@@ -213,7 +215,7 @@ namespace VALE.Logic
 
         private static void DeleteXmlRole(string nomeDato)
         {
-            var serializer = new XmlSerializable();
+            var serializer = XmlSerializable.GetInstance();
             List<XmlRoles> dati = CheckDataAndRemoveIfExist(nomeDato);
 
             serializer.CreateData<List<XmlRoles>>(dati, File);

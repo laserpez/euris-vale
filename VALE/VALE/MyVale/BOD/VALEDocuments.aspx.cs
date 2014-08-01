@@ -14,7 +14,8 @@ namespace VALE.MyVale.BOD
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            PagePermission();
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             if (!HttpContext.Current.User.IsInRole("Amministratore") && !HttpContext.Current.User.IsInRole("Membro del consiglio"))
             {
                 FooterDocuments.Visible = false;
@@ -23,9 +24,7 @@ namespace VALE.MyVale.BOD
 
         public void PagePermission()
         {
-            var userAction = new UserActions();
-            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "DocumentiAssociazione"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "DocumentiAssociazione"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";

@@ -31,16 +31,15 @@ namespace VALE.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            PagePermission();
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
         }
 
         public void PagePermission()
         {
-            var userAction = new UserActions();
-            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";

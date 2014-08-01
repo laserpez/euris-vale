@@ -16,11 +16,24 @@ namespace VALE
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             _db = new UserOperationsContext();
             notLoggedUser.Visible = !HttpContext.Current.User.Identity.IsAuthenticated;
             loggedUser.Visible = HttpContext.Current.User.Identity.IsAuthenticated;
             log.Visible = HttpContext.Current.User.Identity.IsAuthenticated;
             _currentUser = _db.UserDatas.FirstOrDefault(u => u.UserName == User.Identity.Name);
+        }
+
+        public void PagePermission()
+        {
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Home"))
+            {
+
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina Default.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
         }
 
         protected void btnViewAll_Click(object sender, EventArgs e)

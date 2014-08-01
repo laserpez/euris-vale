@@ -31,7 +31,8 @@ namespace VALE.MyVale
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            PagePermission();
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             if (!IsPostBack)
             {
                 filterPanel.Visible = false;
@@ -43,9 +44,7 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
-            var userAction = new UserActions();
-            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "ListaUtenti"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "ListaUtenti"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";

@@ -19,15 +19,14 @@ namespace VALE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            PagePermission();
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
             SetDeleteButtonGrid();
         }
 
         public void PagePermission()
         {
-            var userAction = new UserActions();
-            string role = userAction.GetRolebyUserName(HttpContext.Current.User.Identity.Name);
-            if (!RoleActions.checkPermission(role, "Amministrazione"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
             {
 
                 string titleMessage = "PERMESSO NEGATO";
@@ -96,7 +95,7 @@ namespace VALE.Admin
         public List<XmlRoles> grdRoles_GetData()
         {
             String path = Server.MapPath("~/Logic/Serializable/Ruoli.xml");
-            var serializer = new XmlSerializable();
+            var serializer = XmlSerializable.GetInstance();
             return serializer.ReadData<List<XmlRoles>>(path);
         }
 
@@ -147,7 +146,7 @@ namespace VALE.Admin
 
         protected void btnOkForNewRoleButton_Click(object sender, EventArgs e)
         {
-            var serializer = new XmlSerializable();
+            var serializer = XmlSerializable.GetInstance();
 
             bool condition = true;
             String path = Server.MapPath("~/Logic/Serializable/Ruoli.xml");

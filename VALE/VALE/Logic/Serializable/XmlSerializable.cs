@@ -11,6 +11,11 @@ namespace VALE.Logic.Serializable
 {
     public class XmlSerializable : ISerializable
     {
+        private static XmlSerializable _instance = null;
+
+        private XmlSerializable()
+        {
+        }
 
         public void CreateData<T>(T dati, string nomeFile)
         {
@@ -42,6 +47,13 @@ namespace VALE.Logic.Serializable
                 return data;
             }
             return data;
+        }
+
+        public static XmlSerializable GetInstance()
+        {
+            if (_instance == null)
+                _instance = new XmlSerializable();
+            return _instance;
         }
     }
 }
