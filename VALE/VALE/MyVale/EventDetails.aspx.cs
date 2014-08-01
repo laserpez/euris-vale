@@ -35,12 +35,12 @@ namespace VALE.MyVale
                 var currentEvent = _db.Events.FirstOrDefault(ev => ev.EventId == _currentEventId);
                 var addUsersBtn = EventDetail.FindControl("btnAddUsers");
                 var btnModify = (Button)EventDetail.FindControl("btnModifyEvent");
-                if (currentEvent.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore") || User.IsInRole("Membro del consiglio"))
+                if (currentEvent.OrganizerUserName == _currentUserName || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio"))
                 {
                     addUsersBtn.Visible = true;
                     btnModify.Visible = true;
                 }
-                if (_currentUserName != currentEvent.OrganizerUserName || !User.IsInRole("Amministratore"))
+                if (_currentUserName != currentEvent.OrganizerUserName || !RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
                 {
                     var btnAddRelatedProject = (Button)EventDetail.FindControl("btnAddRelatedProject");
                     btnAddRelatedProject.Visible = false;

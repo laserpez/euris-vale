@@ -99,14 +99,12 @@ namespace VALE.MyVale
         public string GetHoursWorked()
         {
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
-            int hours;
             var activityActions = new ActivityActions();
-            hours = activityActions.GetHoursWorked(_currentUser, _currentActivityId);
-          
+            int totalHours = activityActions.GetAllActivityHoursWorked(activity.ActivityId);
             if (activity != null)
-                if (activity.Budget > 0) 
-                    return String.Format("Budget Totale: {0} Erogato {1}", activity.Budget, hours);
-           return String.Format(" {0} Ore di lavoro", hours);
+                if (activity.Budget > 0)
+                    return String.Format("Budget Totale: {0} Erogato {1}", activity.Budget, totalHours);
+            return String.Format(" {0} Ore di lavoro", totalHours);
         }
 
         

@@ -80,7 +80,7 @@ namespace VALE.MyVale
             var currentUsername = HttpContext.Current.User.Identity.Name;
             if (attachedFile.Owner == currentUsername)
                 return true;
-            if (HttpContext.Current.User.IsInRole("Amministratore"))
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
                 return true;
             if (relatedProject != null)
                 if (relatedProject.OrganizerUserName == currentUsername)
