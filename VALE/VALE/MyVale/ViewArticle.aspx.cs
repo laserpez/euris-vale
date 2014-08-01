@@ -112,7 +112,7 @@ namespace VALE.MyVale
             {
                 var btnDelete = (LinkButton)grdBlogComments.Rows[i].FindControl("deleteComment");
                 var blogCommentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
-                if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del Consiglio") || _db.BlogComments.FirstOrDefault(c => c.BlogCommentId == blogCommentId && c.RelatedArticle.BlogArticleId == _articleId).CreatorUserName == _currentUser || _db.BlogComments.FirstOrDefault(co => co.BlogCommentId == blogCommentId).CreatorUserName == _currentUser)
+                if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio") || _db.BlogComments.FirstOrDefault(c => c.BlogCommentId == blogCommentId && c.RelatedArticle.BlogArticleId == _articleId).CreatorUserName == _currentUser || _db.BlogComments.FirstOrDefault(co => co.BlogCommentId == blogCommentId).CreatorUserName == _currentUser)
                     btnDelete.Visible = true;
                 else
                     btnDelete.Visible = false;
