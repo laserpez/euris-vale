@@ -16,7 +16,7 @@ namespace VALE.MyVale.BOD
         {
             if (HttpContext.Current.User.Identity.IsAuthenticated)
                 PagePermission();
-            if (!HttpContext.Current.User.IsInRole("Amministratore") && !HttpContext.Current.User.IsInRole("Membro del consiglio"))
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") && !RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Consiglio"))
             {
                 FooterDocuments.Visible = false;
             }
@@ -88,7 +88,7 @@ namespace VALE.MyVale.BOD
         {
             var db = new UserOperationsContext();
             var attachedFile = db.VALEFiles.First(a => a.ValeFileID == attachedFileId);
-            if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio"))
                 return true;
             return false;
         }

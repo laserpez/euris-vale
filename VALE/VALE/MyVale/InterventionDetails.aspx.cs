@@ -57,7 +57,7 @@ namespace VALE.MyVale
         {
             var db = new UserOperationsContext();
             var attachedFile = db.AttachedFiles.First(a => a.AttachedFileID == attachedFileId);
-            if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del consiglio"))
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio"))
                 return true;
             return false;
         }
@@ -189,7 +189,10 @@ namespace VALE.MyVale
                 var btnDelete = (LinkButton)grdComments.Rows[i].FindControl("deleteComment");
                 var commentId = Convert.ToInt32(btnDelete.CommandArgument.ToString());
                 var currentProject = _db.Interventions.FirstOrDefault(c => c.InterventionId == _currentInterventionId).RelatedProject;
-                if (HttpContext.Current.User.IsInRole("Amministratore") || HttpContext.Current.User.IsInRole("Membro del Consiglio") || _db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId).CreatorUserName == _currentUser || _db.Interventions.FirstOrDefault(co => co.InterventionId == _currentInterventionId).CreatorUserName == _currentUser)
+                if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") ||
+                    RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio") ||
+                    _db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId).CreatorUserName == _currentUser ||
+                    _db.Interventions.FirstOrDefault(co => co.InterventionId == _currentInterventionId).CreatorUserName == _currentUser)
                     btnDelete.Visible = true;
                 else
                     btnDelete.Visible = false;

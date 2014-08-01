@@ -67,7 +67,7 @@ namespace VALE.MyVale
             }
 
             var btnModify = (Button)ProjectDetail.FindControl("btnModifyProject");
-            if ((aProject.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore")) && aProject.Status != "Chiuso")
+            if ((aProject.OrganizerUserName == _currentUserName || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione")) && aProject.Status != "Chiuso")
             {
                 ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
                 btnModify.Visible = true;
@@ -221,7 +221,7 @@ namespace VALE.MyVale
             Button btnSuspend = (Button)ProjectDetail.FindControl("btnSuspendProject");
             Button btnClose = (Button)ProjectDetail.FindControl("btnCloseProject");
             Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
-            if (project.OrganizerUserName == _currentUserName || User.IsInRole("Amministratore"))
+            if (project.OrganizerUserName == _currentUserName || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
             {
                 if (project.Status == "Aperto")
                 {
@@ -424,7 +424,7 @@ namespace VALE.MyVale
             for (int i = 0; i < grdInterventions.Rows.Count; i++)
             {
                 int interventionId = Convert.ToInt32(grdInterventions.DataKeys[i].Value);
-                if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName || db.Interventions.Where(o => o.InterventionId == interventionId).FirstOrDefault().Creator.UserName == _currentUserName)
+                if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || currentProject.OrganizerUserName == _currentUserName || db.Interventions.Where(o => o.InterventionId == interventionId).FirstOrDefault().Creator.UserName == _currentUserName)
                 {
                     dataControlField.Visible = true;
                     Button delIntervention = (Button)grdInterventions.Rows[i].FindControl("btnDeleteIntervention");
@@ -433,7 +433,7 @@ namespace VALE.MyVale
 
 
             }
-                if (HttpContext.Current.User.IsInRole("Amministratore") || currentProject.OrganizerUserName == _currentUserName)
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || currentProject.OrganizerUserName == _currentUserName)
                 {
                     if (dataControlField != null)
                         dataControlField.Visible = true;
@@ -723,7 +723,7 @@ namespace VALE.MyVale
         private bool IsVisibleProject(Project project)
         {
 
-            if (HttpContext.Current.User.IsInRole("Amministratore") || project.Organizer.UserName == _currentUserName || project.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName))
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || project.Organizer.UserName == _currentUserName || project.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName))
                 return true;
             return false;
         }

@@ -323,7 +323,7 @@ namespace VALE
         {
             string userId = User.Identity.GetUserId();
             var db = new ApplicationDbContext();
-            if (User.IsInRole("Socio"))
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name,"CreazioneProgetti"))
             {
                 btnRequestAssociation.Enabled = false;
                 btnRequestAssociation.CssClass = "btn btn-success disabled btn-xs";
