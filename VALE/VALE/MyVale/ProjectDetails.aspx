@@ -83,17 +83,12 @@
                                                                         <ul class="breadcrumb" style="margin-bottom: 1px; margin-top: 1px">
                                                                             <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectHierarchyUp">
                                                                                 <ItemTemplate>
-                                                                                    <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>"><%#: Item.ProjectName %></a></li>
+                                                                                    <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>" runat="server" Visible='<%# IsVisibleProject(Convert.ToInt32(Eval("ProjectId"))) %>'><%#: Item.ProjectName %></a></li>
                                                                                 </ItemTemplate>
                                                                             </asp:ListView>
                                                                             <asp:ListView runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjectForHierarchy">
                                                                                 <ItemTemplate>
                                                                                     <li><span class="label label-success"><%#: Item.ProjectName %></span></li>
-                                                                                </ItemTemplate>
-                                                                            </asp:ListView>
-                                                                            <asp:ListView runat="server" ItemType="VALE.Models.Project" ID="listViewRelatedProject" SelectMethod="GetProjectHierarchyDown">
-                                                                                <ItemTemplate>
-                                                                                    <li><a href="/MyVale/ProjectDetails?projectId=<%# Item.ProjectId %>"><%#: Item.ProjectName %></a></li>
                                                                                 </ItemTemplate>
                                                                             </asp:ListView>
                                                                         </ul>
@@ -119,11 +114,10 @@
                                                                     <div class="col-md-8">
                                                                         <ul class="nav nav-pills">
                                                                             <li>
-                                                                                <span class="glyphicon glyphicon-inbox"></span>&nbsp;&nbsp;Progetto correlato</li>
+                                                                                <span class="glyphicon glyphicon-inbox"></span>&nbsp;&nbsp;Progetti correlati</li>
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button runat="server" Text="Elimina" ID="btnDeleteRelatedProject" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="btnDeleteRelatedProject_Click" />
                                                                         <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
                                                                     </div>
                                                                 </div>
@@ -131,7 +125,7 @@
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
                                                             <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId" AllowPaging="true" PageSize="10" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                                SelectMethod="GetRelatedProjectList" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered">
+                                                                SelectMethod="GetRelatedProjectList" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered" OnRowCommand="grdRelatedProject_RowCommand">
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
@@ -179,6 +173,13 @@
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="90px" />
                                                                         <ItemStyle Width="90px" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Azione" HeaderStyle-Width="50px" ItemStyle-Width="50px">
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Button  runat="server" Text="Cancella"  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.ProjectId %>" CommandName="Cancella" CausesValidation="false"  /></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="50px"></HeaderStyle>
+                                                                        <ItemStyle Width="50px"></ItemStyle>
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <PagerSettings Position="Bottom" />

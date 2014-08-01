@@ -39,7 +39,8 @@ namespace VALE.Models
         public string OrganizerUserName { get; set; }
         public virtual UserData Organizer { get; set; }
 
-        public virtual Project RelatedProject { get; set; }
+        // 0-n relationship with table Project
+        public virtual List<Project> RelatedProjects { get; set; }
 
     }
 }
