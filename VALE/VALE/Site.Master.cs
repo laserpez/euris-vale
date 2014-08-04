@@ -72,7 +72,7 @@ namespace VALE
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.LogoImage.ImageUrl = ConfigurationManager.AppSettings["testKey"];
+            this.LogoImageTitle.ImageUrl = ConfigurationManager.AppSettings["LogoVALETitle"];
             if (!HttpContext.Current.User.Identity.IsAuthenticated) 
             {
                 adminLink.Visible = false;

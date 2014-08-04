@@ -5,7 +5,7 @@
     <p></p>
     <div id="notLoggedUser" style="background-image:url(~/Images/Logo_VALE.png)" runat="server" class="row">
         <div class="col-md-2">
-            <asp:Image runat="server" ImageUrl="~/Images/Logo_VALE.png" />
+            <asp:Image runat="server" ID="LogoImage" Width="159" Height="196" />
         </div>
         <div class="col-md-10" style="font-size: x-large; position:relative">
             <p>
