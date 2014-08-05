@@ -109,7 +109,7 @@
                 <asp:LinkButton ID="lnkDummy1" runat="server"></asp:LinkButton>
                 <div class="panel panel-primary" id="pnlListProject" style="width: 60%;">
                     <div class="panel-heading">
-                        <asp:Label ID="TitleMpdalView" runat="server" Text="Lista progetti"></asp:Label>
+                        <asp:Label ID="TitleMpdalView" runat="server" Text="Aggiungi un commento"></asp:Label>
                         <asp:Button runat="server" CssClass="close" CausesValidation="false" OnClick="ClosePopUp_Click" Text="x" />
                     </div>
                     <div class="panel-body" style="max-height: 500px">
@@ -126,7 +126,7 @@
                                                 <br />
                                             </div>
                                             <div class="col-md-offset-10 col-md-12">
-                                                <asp:Button runat="server" CssClass="btn btn-info" ID="btnAddComment" CausesValidation="true" ValidationGroup="AddComment" Text="Salva" OnClick="btnAddComment_Click" />
+                                                <asp:Button runat="server" CssClass="btn btn-info btn-sm" ID="btnAddComment" CausesValidation="true" ValidationGroup="AddComment" Text="Salva" OnClick="btnAddComment_Click" />
                                                 <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="ClosePopUp_Click" />
                                             </div>
                                         </div>

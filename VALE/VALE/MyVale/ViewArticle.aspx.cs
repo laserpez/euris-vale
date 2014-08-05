@@ -60,27 +60,25 @@ namespace VALE.MyVale
                 CreatorUserName = _currentUser,
                 BlogArticleId = _articleId
             };
-            var db = new UserOperationsContext();
-            db.BlogComments.Add(comment);
-            db.SaveChanges();
 
-            grdBlogComments.DataBind();
-            if (!String.IsNullOrEmpty(txtComment.InnerText))
-                txtComment.InnerText = "";
+            var actions = new ArticleActions();
+            if (actions.AddComment(comment))
+            {
+                grdBlogComments.DataBind();
+                if (!String.IsNullOrEmpty(txtComment.InnerText))
+                    txtComment.InnerText = "";
 
-            Response.Redirect("/MyVale/ViewArticle?articleId=" + _articleId);
+                Response.Redirect("/MyVale/ViewArticle?articleId=" + _articleId);
+            }
         }
 
         protected void deleteComment_Click(int blogCommentId)
         {
-            var db = new UserOperationsContext();
-            var aCommentRelated = db.BlogComments.FirstOrDefault(c => c.BlogCommentId == blogCommentId && c.BlogArticleId == _articleId);
-            var anArticle = db.BlogArticles.FirstOrDefault(a => a.BlogArticleId == _articleId);
-            anArticle.Comments.Remove(aCommentRelated);
-            db.BlogComments.Remove(aCommentRelated);
-            db.SaveChanges();
-
-            grdBlogComments.DataBind();
+            var actions = new ArticleActions();
+            if (actions.DeleteComment(_articleId, blogCommentId))
+            {
+                grdBlogComments.DataBind();
+            }
         }
 
         public IQueryable<BlogComment> grdBlogComments_GetData()

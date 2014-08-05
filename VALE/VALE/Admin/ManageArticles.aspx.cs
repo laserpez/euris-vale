@@ -77,7 +77,6 @@ namespace VALE.Admin
 
                 actions.DeleteArticle(Id);
 
-                //ProjectList.DataSource = (List<Project>)ViewState["lstProject"];
                 grdArticleList.DataBind();
                 Response.Redirect("/Admin/ManageArticles.aspx");
             }

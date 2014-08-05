@@ -127,7 +127,7 @@
                                                 <br />
                                             </div>
                                             <div class="col-md-offset-10 col-md-12">
-                                                <asp:Button runat="server" CssClass="btn btn-info" ID="btnAddComment" CausesValidation="true" ValidationGroup="AddComment" Text="Salva" OnClick="btnAddComment_Click" />
+                                                <asp:Button runat="server" CssClass="btn btn-info btn-sm" ID="btnAddComment" CausesValidation="true" ValidationGroup="AddComment" Text="Salva" OnClick="btnAddComment_Click" />
                                                 <asp:Button runat="server" Text="Annulla" ID="btnClosePopUpButton" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="ClosePopUp_Click" />
                                             </div>
                                         </div>

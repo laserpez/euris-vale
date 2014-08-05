@@ -100,6 +100,10 @@ namespace VALE.Admin
                 var eventActions = new EventActions();
                 project.Events.ForEach(ev => eventActions.RemoveAllAttachments(ev.EventId));
 
+                var interventionActions = new InterventionActions();
+                project.Interventions.ForEach(con => interventionActions.RemoveAllAttachments(con.InterventionId));
+                project.Interventions.ForEach(co => interventionActions.DeleteAllComments(co.InterventionId));
+
                 dbData.Projects.Remove(project);
                 dbData.SaveChanges();
                 ViewState["lstProject"] = GetProjects();

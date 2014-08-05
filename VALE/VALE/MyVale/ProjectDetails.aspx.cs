@@ -131,7 +131,14 @@ namespace VALE.MyVale
                 label.Text = "RIPRENDI";
             else
                 label.Text = "SOSPENDI";
+
             project.LastModified = DateTime.Now;
+            var actions = new ProjectActions();
+            var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
+            if (listHierarchyUp.Count != 0)
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            _db.SaveChanges();
+
             ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
             popUp.Show();
         }
@@ -140,6 +147,15 @@ namespace VALE.MyVale
         {
             Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
             label.Text = "CHIUDI";
+
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            project.LastModified = DateTime.Now;
+            var actions = new ProjectActions();
+            var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
+            if (listHierarchyUp.Count != 0)
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            _db.SaveChanges();
+
             ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
             popUp.Show();
         }

@@ -115,7 +115,7 @@ namespace VALE.MyVale
         }
 
 
-        public IQueryable<VALE.Models.ActivityReport> grdActivityReport_GetData()
+        public IQueryable<ActivityReport> grdActivityReport_GetData()
         {
             var activityId = Convert.ToInt32(_currentActivityId);
             return _db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).AsQueryable();
