@@ -67,6 +67,8 @@ namespace VALE.MyVale
                     DocumentsGridView.PageIndex = 0;
                     DocumentsGridView.DataBind();
                     break;
+                case "Page":
+                    break;
             }
         }
 

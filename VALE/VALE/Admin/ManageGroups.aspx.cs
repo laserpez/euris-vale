@@ -52,7 +52,7 @@ namespace VALE.MyVale.Create
             return _db.UserDatas;
         }
 
-        public IQueryable<VALE.Models.UserData> grdGroupUsers_GetData()
+        public IQueryable<UserData> grdGroupUsers_GetData()
         {
             var _db = new UserOperationsContext();
 
@@ -141,6 +141,8 @@ namespace VALE.MyVale.Create
                 case "OpenGroup":
                     OpenGroup(Convert.ToInt32(e.CommandArgument));
                     break;
+                case "Page":
+                    break;
             }
         }
 
@@ -174,6 +176,7 @@ namespace VALE.MyVale.Create
                 _db.SaveChanges();
                 grdGroupUsers.Visible = false;
                 grdGroups.Visible = true;
+                grdGroups.PageIndex = 0;
                 grdGroups.DataBind();
             }
         }

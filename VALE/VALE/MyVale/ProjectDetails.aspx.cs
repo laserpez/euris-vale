@@ -747,11 +747,17 @@ namespace VALE.MyVale
         protected void grdRelatedProject_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             int relatedProjectId = Convert.ToInt32(e.CommandArgument);
-            ProjectActions projectActions = new ProjectActions();
-            projectActions.DeletRelatedProject(_currentProjectId, relatedProjectId);
-            UpdateRelatedProjectView();
+
+            switch (e.CommandName)
+            { 
+                case "Cancella":
+                    ProjectActions projectActions = new ProjectActions();
+                    projectActions.DeletRelatedProject(_currentProjectId, relatedProjectId);
+                    UpdateRelatedProjectView();
+                    break;
+                case "Page":
+                    break;
+            }
         }
-
-
     }
 }

@@ -77,6 +77,7 @@ namespace VALE.MyVale
             var actions = new ArticleActions();
             if (actions.DeleteComment(_articleId, blogCommentId))
             {
+                grdBlogComments.PageIndex = 0;
                 grdBlogComments.DataBind();
             }
         }

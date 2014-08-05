@@ -229,6 +229,8 @@ namespace VALE.MyVale
                 case "DeleteReport":
                     DeleteReport(Convert.ToInt32(e.CommandArgument));
                     break;
+                case "Page":
+                    break;
             }
         }
 
@@ -265,6 +267,7 @@ namespace VALE.MyVale
 
                 _db.SaveChanges();
                 GridView grdActivityReport = (GridView)ActivityDetail.FindControl("grdActivityReport");
+                grdActivityReport.PageIndex = 0;
                 grdActivityReport.DataBind();
             }
         }
@@ -410,7 +413,6 @@ namespace VALE.MyVale
                 grdRelatedProject.DataBind();
                 Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
             }
-
         }
 
         //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività

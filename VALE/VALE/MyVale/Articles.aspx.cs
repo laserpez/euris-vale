@@ -66,8 +66,8 @@ namespace VALE.MyVale
 
                 actions.DeleteArticle(articleId);
 
+                grdAllArticles.PageIndex = 0;
                 grdAllArticles.DataBind();
-                Response.Redirect("/MyVale/Articles.aspx");
             }
         }
 

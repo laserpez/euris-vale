@@ -55,8 +55,9 @@ namespace VALE.Admin
             switch (e.CommandName)
             {
                 case "DOWNLOAD":
-                default:
                     Response.Redirect("/DownloadFile.ashx?fileId=" + id);
+                    break;
+                case "Page":
                     break;
             }
         }

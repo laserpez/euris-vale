@@ -43,6 +43,8 @@ namespace VALE.Admin
                 case "DeleteType":
                     DeleteType(Convert.ToInt32(e.CommandArgument));
                     break;
+                case "Page":
+                    break;
             }
         }
 
