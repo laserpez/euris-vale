@@ -42,13 +42,55 @@ namespace VALE.Logic
             return true;
         }
 
+        public bool AddComment(BlogComment comment)
+        {
+            try
+            {
+                var db = new UserOperationsContext();
+                db.BlogComments.Add(comment);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteComment(int articleId, int BlogCommentId)
+        {
+            try
+            {
+                var db = new UserOperationsContext();
+                var aCommentRelated = db.BlogComments.FirstOrDefault(c => c.BlogCommentId == BlogCommentId && c.BlogArticleId == articleId);
+                var anArticle = db.BlogArticles.FirstOrDefault(a => a.BlogArticleId == articleId);
+                anArticle.Comments.Remove(aCommentRelated);
+                db.BlogComments.Remove(aCommentRelated);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool DeleteArticle(int articleId)
         {
-            var article = _db.BlogArticles.First(a => a.BlogArticleId == articleId);
-            _db.BlogComments.RemoveRange(article.Comments);
-            _db.BlogArticles.Remove(article);
-            _db.SaveChanges();
-            return true;
+            try
+            {
+                var article = _db.BlogArticles.First(a => a.BlogArticleId == articleId);
+                _db.BlogComments.RemoveRange(article.Comments);
+                _db.BlogArticles.Remove(article);
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

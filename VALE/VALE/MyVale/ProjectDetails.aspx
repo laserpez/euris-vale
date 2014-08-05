@@ -17,7 +17,7 @@
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
-                                                    <asp:Label ID="HeaderName" runat="server" Text="Dettaglio attività"></asp:Label>
+                                                    <asp:Label ID="HeaderName" runat="server" Text="Dettaglio progetto"></asp:Label>
                                                 </h4>
                                             </li>
                                         </ul>

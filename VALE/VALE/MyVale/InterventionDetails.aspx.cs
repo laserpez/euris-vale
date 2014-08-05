@@ -88,16 +88,6 @@ namespace VALE.MyVale
             }
         }
 
-        private void HideAttchmentBox(string name)
-        {
-            ListBox list = (ListBox)InterventionDetail.FindControl(name);
-            list.Visible = false;
-            Label labelAttachment = (Label)InterventionDetail.FindControl("labelAttachment");
-            labelAttachment.Visible = false;
-            Button btnViewAttchment = (Button)InterventionDetail.FindControl("btnViewDocument");
-            btnViewAttchment.Visible = false;
-        }
-
         protected void btnAddComment_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
@@ -109,23 +99,13 @@ namespace VALE.MyVale
                     CreatorUserName = _currentUser,
                     InterventionId = _currentInterventionId
                 };
-                _db.Comments.Add(comment);
-
-                var interventionRelatedProject = _db.Interventions.FirstOrDefault(i => i.InterventionId == _currentInterventionId).RelatedProject;
-                if (interventionRelatedProject != null)
+                
+                var actions = new InterventionActions();
+                if (actions.AddComment(_currentInterventionId, comment, _db))
                 {
-                    interventionRelatedProject.LastModified = DateTime.Now;
-
-                    var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(interventionRelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    grdComments.DataBind();
+                    txtComment.InnerText = "";
                 }
-
-                _db.SaveChanges();
-
-                grdComments.DataBind();
-                txtComment.InnerText = "";
             }
         }
 
@@ -142,25 +122,13 @@ namespace VALE.MyVale
 
         protected void deleteComment_Click(int commentId)
         {
-            var db = new UserOperationsContext();
-            var aCommentRelated = db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == _currentInterventionId);
-            var anIntervention = db.Interventions.FirstOrDefault(i => i.InterventionId == _currentInterventionId);
-            anIntervention.Comments.Remove(aCommentRelated);
-            db.Comments.Remove(aCommentRelated);
-
-            if (anIntervention.RelatedProject != null)
+            var actions = new InterventionActions();
+            if (actions.DeleteComment(_currentInterventionId, commentId, _db))
             {
-                anIntervention.RelatedProject.LastModified = DateTime.Now;
-
-                var actions = new ProjectActions();
-                var listHierarchyUp = actions.getHierarchyUp(anIntervention.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                grdComments.PageIndex = 0;
+                grdComments.DataBind();
             }
-
-            db.SaveChanges();
-
-            grdComments.DataBind();
+            
         }
 
         protected void btnBack_ServerClick(object sender, EventArgs e)

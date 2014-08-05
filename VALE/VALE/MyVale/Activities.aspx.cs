@@ -56,21 +56,6 @@ namespace VALE.MyVale
             return status;
         }
 
-        protected void Page_PreRender(object sender, EventArgs e)
-        {
-            ShowHideControls();
-        }
-
-        private void ShowHideControls()
-        {
-            //if (grdCurrentActivities.Rows.Count == 0 && grdPendingActivities.Rows.Count == 0)
-            //{
-            //    filterPanel.Visible = false;
-            //    filters.Visible = false;
-            //    btnExportCSV.Visible = false;
-            //}
-        }
-
         public IQueryable<Activity> GetPendingActivities()
         {
             IQueryable<Activity> activities;

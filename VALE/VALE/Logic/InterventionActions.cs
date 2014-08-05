@@ -131,5 +131,78 @@ namespace VALE.Logic
                 return false;
             }
         }
+
+        public bool AddComment(int interventionId, Comment comment, UserOperationsContext _db)
+        {
+            try
+            {
+                _db.Comments.Add(comment);
+
+                var interventionRelatedProject = _db.Interventions.FirstOrDefault(i => i.InterventionId == interventionId).RelatedProject;
+                if (interventionRelatedProject != null)
+                {
+                    interventionRelatedProject.LastModified = DateTime.Now;
+
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(interventionRelatedProject.ProjectId);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
+
+                _db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteComment(int interventionId, int commentId, UserOperationsContext db)
+        {
+            try
+            {
+                var aCommentRelated = db.Comments.FirstOrDefault(c => c.CommentId == commentId && c.InterventionId == interventionId);
+                var anIntervention = db.Interventions.FirstOrDefault(i => i.InterventionId == interventionId);
+                anIntervention.Comments.Remove(aCommentRelated);
+                db.Comments.Remove(aCommentRelated);
+
+                if (anIntervention.RelatedProject != null)
+                {
+                    anIntervention.RelatedProject.LastModified = DateTime.Now;
+
+                    var actions = new ProjectActions();
+                    var listHierarchyUp = actions.getHierarchyUp(anIntervention.ProjectId);
+                    if (listHierarchyUp.Count != 0)
+                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                }
+
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteAllComments(int interventionId)
+        {
+            try
+            {
+                var db = new UserOperationsContext();
+                var anIntervention = db.Interventions.FirstOrDefault(i => i.InterventionId == interventionId);
+                db.Comments.RemoveRange(anIntervention.Comments);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
