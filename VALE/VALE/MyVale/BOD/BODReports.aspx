@@ -75,11 +75,8 @@
                                                 <ItemStyle Width="90px" />
                                             </asp:TemplateField>
                                         </Columns>
-                                        <PagerTemplate>
-                                            <asp:GridPager runat="server"
-                                                ShowFirstAndLast="true" ShowNextAndPrevious="true" PageLinksToShow="10"
-                                                NextText=">" PreviousText="<" FirstText="Prima" LastText="Ultima" />
-                                        </PagerTemplate>
+                                        <PagerSettings Position="Bottom" />
+                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                     </asp:GridView>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
