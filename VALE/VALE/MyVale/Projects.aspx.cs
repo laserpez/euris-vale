@@ -59,7 +59,11 @@ namespace VALE.MyVale
         public List<Project> GetProjects()
         {
             var dbData = new UserOperationsContext();
-            var projects =  dbData.Projects.Where(p => p.Public == true || p.OrganizerUserName == _currentUserName || p.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName)).ToList();
+            var projects = new List<Project>();
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
+                projects = dbData.Projects.ToList();
+            else
+                projects = dbData.Projects.Where(p => p.Public == true || p.OrganizerUserName == _currentUserName || p.InvolvedUsers.Select(u => u.UserName).Contains(_currentUserName)).ToList();
             return projects;
         }
 

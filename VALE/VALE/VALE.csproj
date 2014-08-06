@@ -200,6 +200,7 @@
     <Content Include="Admin\ManageActivityTypes.aspx" />
     <Content Include="Admin\ManageArticles.aspx" />
     <Content Include="Admin\ManageBODReports.aspx" />
+    <Content Include="Admin\ManageEmailSystem.aspx" />
     <Content Include="Admin\ManageEvents.aspx" />
     <Content Include="Admin\ManagePartnerTypes.aspx" />
     <Content Include="Admin\ManageProjects.aspx" />
@@ -411,6 +412,13 @@
     <Compile Include="Admin\ManageBODReports.aspx.designer.cs">
       <DependentUpon>ManageBODReports.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ManageEmailSystem.aspx.cs">
+      <DependentUpon>ManageEmailSystem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageEmailSystem.aspx.designer.cs">
+      <DependentUpon>ManageEmailSystem.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ManageEvents.aspx.cs">
       <DependentUpon>ManageEvents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -496,6 +504,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\InterventionActions.cs" />
+    <Compile Include="Logic\LogEntryEmail.cs" />
     <Compile Include="Logic\Serializable\ISerializable.cs" />
     <Compile Include="Logic\Serializable\XmlSerializable.cs" />
     <Compile Include="MessagePage.aspx.cs">
