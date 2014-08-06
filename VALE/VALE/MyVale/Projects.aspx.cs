@@ -42,9 +42,11 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneProgetti"))
+                btnAddProject.Visible = false;
+
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Progetti"))
             {
-
                 string titleMessage = "PERMESSO NEGATO";
                 string message = "Non hai i poteri necessari per poter visualizzare la pagina Projects.";
                 Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
@@ -137,19 +139,9 @@ namespace VALE.MyVale
 
         protected void btnShowFilters_Click(object sender, EventArgs e)
         {
-            if (filterPanel.Visible)
-            {
-                filterPanel.Visible = false;
-                btnFilterProjects.Visible = false;
-                btnClearFilters.Visible = false;
-            }
-            else 
-            {
-                filterPanel.Visible = true;
-                btnFilterProjects.Visible = true;
-                btnClearFilters.Visible = true;
-            }
-             
+            filterPanel.Visible = !filterPanel.Visible;
+            btnFilterProjects.Visible = !btnFilterProjects.Visible;
+            btnClearFilters.Visible = !btnClearFilters.Visible;            
         }
 
         protected void btnWorkOnThis_Click(object sender, EventArgs e)
