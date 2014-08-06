@@ -34,6 +34,13 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
+            if (_db.Activities.FirstOrDefault(o => o.ActivityId == _currentActivityId).PendingUsers.Where(u => u.UserName == _currentUser).ToList().Count == 0
+               || _db.Activities.FirstOrDefault(o => o.ActivityId == _currentActivityId).Creator.UserName != _currentUser)
+            {
+                string titleMessage = "PERMESSO NEGATO";
+                string message = "Non hai i poteri necessari per poter visualizzare la pagina ActivityDetails.";
+                Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
+            }
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Attivita"))
             {
 
