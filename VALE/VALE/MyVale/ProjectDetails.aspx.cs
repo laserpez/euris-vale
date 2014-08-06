@@ -32,7 +32,7 @@ namespace VALE.MyVale
             FileUploader uploader = (FileUploader)ProjectDetail.FindControl("FileUploader");
             uploader.DataActions = new ProjectActions();
             uploader.DataId = _currentProjectId;
-            PopulateProjectTreeView();
+            //PopulateProjectTreeView();
             if (!IsPostBack)
             {
                 if (Request.QueryString["From"] != null)
@@ -201,6 +201,8 @@ namespace VALE.MyVale
                     btnAddActivity.Enabled = true;
                     btnAddActivity.CssClass = "btn btn-success btn-xs";
                     btnAddActivity.Text = "Aggiungi attività";
+
+                    PopulateProjectTreeView();
                 }
                 else
                 {
@@ -220,6 +222,8 @@ namespace VALE.MyVale
                     btnAddActivity.Enabled = false;
                     btnAddActivity.CssClass = "btn btn-success btn-xs disable";
                     btnAddActivity.Text = "Non puoi aggiungere attività";
+
+                    PopulateProjectTreeView();
                 }
             }
             else
