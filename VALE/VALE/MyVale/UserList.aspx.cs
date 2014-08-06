@@ -77,6 +77,8 @@ namespace VALE.MyVale
         protected void btnShowFilters_Click(object sender, EventArgs e)
         {
             filterPanel.Visible = !filterPanel.Visible;
+            btnFilterProjects.Visible = !btnFilterProjects.Visible;
+            btnClearFilters.Visible = !btnClearFilters.Visible;
         }
 
         protected void btnFilterProjects_Click(object sender, EventArgs e)

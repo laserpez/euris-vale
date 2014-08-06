@@ -635,6 +635,10 @@
     <Compile Include="MyVale\PersonalArticles.aspx.designer.cs">
       <DependentUpon>PersonalArticles.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MyVale\Projects.aspx.cs">
+      <DependentUpon>Projects.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="MyVale\UserList.aspx.cs">
       <DependentUpon>UserList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -753,10 +757,6 @@
     </Compile>
     <Compile Include="MyVale\ProjectDetails.aspx.designer.cs">
       <DependentUpon>ProjectDetails.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="MyVale\Projects.aspx.cs">
-      <DependentUpon>Projects.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MyVale\Projects.aspx.designer.cs">
       <DependentUpon>Projects.aspx</DependentUpon>
