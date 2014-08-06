@@ -46,7 +46,6 @@ namespace VALE.MyVale
         {
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Progetti"))
             {
-
                 string titleMessage = "PERMESSO NEGATO";
                 string message = "Non hai i poteri necessari per poter visualizzare la pagina ProjectDetails.";
                 Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
@@ -71,6 +70,7 @@ namespace VALE.MyVale
             {
                 ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
                 btnModify.Visible = true;
+                ((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Enabled = true;
             }
         }
 
@@ -240,6 +240,7 @@ namespace VALE.MyVale
             var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
             Button btnSuspend = (Button)ProjectDetail.FindControl("btnSuspendProject");
             Button btnClose = (Button)ProjectDetail.FindControl("btnCloseProject");
+            Label gestisciProgetto = (Label)ProjectDetail.FindControl("gestisciProgetto");
             Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
             if (project.OrganizerUserName == _currentUserName || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
             {
@@ -273,6 +274,7 @@ namespace VALE.MyVale
             }
             else
             {
+                gestisciProgetto.Visible = false;
                 btnSuspend.Visible = false;
                 btnClose.Visible = false;
                 var lblInfoOperation = (Label)ProjectDetail.FindControl("lblInfoOperation");
