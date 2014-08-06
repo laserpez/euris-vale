@@ -14,21 +14,6 @@ namespace VALE.Logic
 
         public string DataType { get; set; }
 
-        [NotMapped]
-        public string DataTypeUrl
-        {
-            get
-            {
-                switch(DataType)
-                {
-                    case "Email":
-                        return "glyphicon glyphicon-envelope";
-                    default:
-                        return "glyphicon glyphicon-th";
-                };
-            }
-        }
-
         public string DataAction { get; set; }
 
         public string Description { get; set; }
@@ -38,6 +23,8 @@ namespace VALE.Logic
         public string Receiver { get; set; }
 
         public string Error { get; set; }
+
+        public string Form { get; set; }
 
         public bool Sent { get; set; }
 

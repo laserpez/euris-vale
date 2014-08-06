@@ -40,14 +40,10 @@
                                                     GridLines="None" AllowPaging="true" AllowSorting="true" PageSize="10">
                                                     <Columns>
                                                         <asp:BoundField HeaderStyle-Width="20%" DataFormatString="{0:d}" DataField="Date" HeaderText="Data" SortExpression="Date" />
-                                                        <asp:TemplateField HeaderText="Tipo" SortExpression="DataType" HeaderStyle-Width="5%" HeaderStyle-HorizontalAlign="Center">
-                                                            <ItemTemplate>
-                                                                <span title="<%#: Item.DataType %>" class="<%#:Item.DataTypeUrl %>"></span>
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
                                                         <asp:BoundField HeaderStyle-Width="20%" ItemStyle-Font-Bold="false" DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
                                                         <asp:BoundField ItemStyle-Font-Bold="false" DataField="Sender" HeaderText="Mittente" SortExpression="Sender" />
                                                         <asp:BoundField ItemStyle-Font-Bold="false" DataField="Receiver" HeaderText="Destinatario" SortExpression="Receiver" />
+                                                        <asp:BoundField ItemStyle-Font-Bold="false" DataField="Form" HeaderText="Modulo" SortExpression="Form" />
                                                         <asp:BoundField ItemStyle-Font-Bold="false" DataField="Description" HeaderText="Oggetto" SortExpression="Description" />
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>
