@@ -118,7 +118,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button runat="server" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
+                                                                        <asp:Button runat="server" Enabled="false" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -467,8 +467,7 @@
                                     </asp:UpdatePanel>
 
                                     <uc:FileUploader ID="FileUploader" runat="server" />
-
-                                    <h4>Gestisci progetto</h4>
+                                    <asp:Label runat="server" ID="gestisciProgetto" CssClass="h4" Text="Gestisci progetto"></asp:Label>
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <asp:Button runat="server" ID="btnSuspendProject" CausesValidation="false" OnClick="btnSuspendProject_Click" />

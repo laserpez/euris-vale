@@ -39,6 +39,8 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneAttivita"))
+                btnAddActivity.Visible = false;
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Attivita"))
             {
                 string titleMessage = "PERMESSO NEGATO";
