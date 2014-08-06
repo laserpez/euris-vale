@@ -32,7 +32,7 @@ namespace VALE.MyVale
             FileUploader uploader = (FileUploader)ProjectDetail.FindControl("FileUploader");
             uploader.DataActions = new ProjectActions();
             uploader.DataId = _currentProjectId;
-            //PopulateProjectTreeView();
+            
             if (!IsPostBack)
             {
                 if (Request.QueryString["From"] != null)
