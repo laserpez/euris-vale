@@ -28,6 +28,8 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneArticoli"))
+                btnAddArticle.Visible = false;
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Articoli"))
             {
 

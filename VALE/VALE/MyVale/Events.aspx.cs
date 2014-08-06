@@ -24,6 +24,8 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
+            if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneEventi"))
+                    btnAddEvent.Visible = false;
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Eventi"))
             {
 
