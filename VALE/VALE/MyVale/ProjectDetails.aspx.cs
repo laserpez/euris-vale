@@ -192,15 +192,35 @@ namespace VALE.MyVale
                     btnAddIntervention.CssClass = "btn btn-success btn-xs";
                     btnAddIntervention.Text = "Aggiungi conversazione";
 
-                    var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
-                    btnAddEvent.Enabled = true;
-                    btnAddEvent.CssClass = "btn btn-success btn-xs";
-                    btnAddEvent.Text = "Aggiungi evento";
+                    if (RoleActions.checkPermission(_currentUserName, "CreazioneEventi"))
+                    {
+                        var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
+                        btnAddEvent.Enabled = true;
+                        btnAddEvent.CssClass = "btn btn-success btn-xs";
+                        btnAddEvent.Text = "Aggiungi evento";
+                    }
+                    else
+                    {
+                        var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
+                        btnAddEvent.Enabled = false;
+                        btnAddEvent.CssClass = "btn btn-success btn-xs";
+                        btnAddEvent.Text = "Non puoi aggiungere eventi";
+                    }
 
-                    var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
-                    btnAddActivity.Enabled = true;
-                    btnAddActivity.CssClass = "btn btn-success btn-xs";
-                    btnAddActivity.Text = "Aggiungi attività";
+                    if (RoleActions.checkPermission(_currentUserName, "CreazioneAttivita"))
+                    {
+                        var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
+                        btnAddActivity.Enabled = true;
+                        btnAddActivity.CssClass = "btn btn-success btn-xs";
+                        btnAddActivity.Text = "Aggiungi attività";
+                    }
+                    else
+                    {
+                        var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
+                        btnAddActivity.Enabled = false;
+                        btnAddActivity.CssClass = "btn btn-success btn-xs";
+                        btnAddActivity.Text = "Non puoi aggiungere attività";
+                    }
 
                     PopulateProjectTreeView();
                 }
@@ -224,6 +244,13 @@ namespace VALE.MyVale
                     btnAddActivity.Text = "Non puoi aggiungere attività";
 
                     PopulateProjectTreeView();
+
+                    var userActions = new UserActions();
+                    if (RoleActions.checkPermission(_currentUserName, "Amministrazione") == false)
+                    {
+                        if (_db.Projects.FirstOrDefault(ev => ev.ProjectId == _currentProjectId && ev.OrganizerUserName != _currentUserName).Public == false)
+                            Response.Redirect("/MyVale/Projects.aspx");
+                    }
                 }
             }
             else
@@ -763,6 +790,25 @@ namespace VALE.MyVale
                     break;
                 case "Page":
                     break;
+            }
+        }
+
+        protected void grdRelatedProject_DataBound(object sender, EventArgs e)
+        {
+            var grdRelatedProject = (GridView)sender;
+            for (int i = 0; i < grdRelatedProject.Rows.Count; i++)
+            {
+                if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId).RelatedProjects.Select(u => u.OrganizerUserName).Contains(_currentUserName))
+                {
+                    Button deleteRelatedProject = (Button)grdRelatedProject.Rows[i].FindControl("deleteRelatedProject");
+                    deleteRelatedProject.Enabled = true;
+                }
+                else
+                {
+                    Button deleteRelatedProject = (Button)grdRelatedProject.Rows[i].FindControl("deleteRelatedProject");
+                    deleteRelatedProject.Enabled = false;
+                }
+
             }
         }
     }
