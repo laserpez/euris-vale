@@ -39,8 +39,8 @@
                                                 <asp:GridView ID="grdLogEmail" CssClass="table table-striped table-hover" EmptyDataText="Nessuna email circolante nel sistema." runat="server" ItemType="VALE.Logic.LogEntryEmail" AutoGenerateColumns="false" SelectMethod="grdLogEmail_GetData"
                                                     GridLines="None" AllowPaging="true" AllowSorting="true" PageSize="10">
                                                     <Columns>
-                                                        <asp:BoundField HeaderStyle-Width="20%" DataFormatString="{0:d}" DataField="Date" HeaderText="Data" SortExpression="Date" />
-                                                        <asp:BoundField HeaderStyle-Width="20%" ItemStyle-Font-Bold="false" DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
+                                                        <asp:BoundField HeaderStyle-Width="20%" DataField="Date" HeaderText="Data" SortExpression="Date" />
+                                                        <%--<asp:BoundField HeaderStyle-Width="20%" ItemStyle-Font-Bold="false" DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />--%>
                                                         <asp:BoundField ItemStyle-Font-Bold="false" DataField="Sender" HeaderText="Mittente" SortExpression="Sender" />
                                                         <asp:BoundField ItemStyle-Font-Bold="false" DataField="Receiver" HeaderText="Destinatario" SortExpression="Receiver" />
                                                         <asp:BoundField ItemStyle-Font-Bold="false" DataField="Form" HeaderText="Modulo" SortExpression="Form" />

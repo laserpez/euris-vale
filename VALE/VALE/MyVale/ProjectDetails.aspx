@@ -125,7 +125,7 @@
                                                         </div>
                                                         <div class="panel-body" style="max-height: 200px; overflow: auto;">
                                                             <asp:GridView ItemType="VALE.Models.Project" DataKeyNames="ProjectId" AllowPaging="true" PageSize="10" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                                SelectMethod="GetRelatedProjectList" runat="server" ID="grdRelatedProject" CssClass="table table-striped table-bordered" OnRowCommand="grdRelatedProject_RowCommand">
+                                                                SelectMethod="GetRelatedProjectList" runat="server" OnDataBound="grdRelatedProject_DataBound" ID="grdRelatedProject" CssClass="table table-striped table-bordered" OnRowCommand="grdRelatedProject_RowCommand">
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
@@ -176,7 +176,7 @@
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Azione" HeaderStyle-Width="50px" ItemStyle-Width="50px">
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Button  runat="server" Text="Cancella"  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.ProjectId %>" CommandName="Cancella" CausesValidation="false"  /></div></center>
+                                                                            <center><div><asp:Button  runat="server" ID="deleteRelatedProject" Text="Cancella"  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.ProjectId %>" CommandName="Cancella" CausesValidation="false"  /></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="50px"></HeaderStyle>
                                                                         <ItemStyle Width="50px"></ItemStyle>
