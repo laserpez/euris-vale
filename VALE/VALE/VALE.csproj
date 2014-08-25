@@ -60,12 +60,6 @@
     <Reference Include="CsvHelper">
       <HintPath>..\packages\CsvHelper.2.6.0\lib\net40-client\CsvHelper.dll</HintPath>
     </Reference>
-    <Reference Include="CuteEditor">
-      <HintPath>..\packages\CuteEditor.6.7.1.4\lib\CuteEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="CuteEditor.ImageEditor">
-      <HintPath>..\packages\CuteEditor.6.7.1.4\lib\CuteEditor.ImageEditor.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
