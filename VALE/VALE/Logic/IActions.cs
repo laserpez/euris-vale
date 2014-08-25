@@ -10,7 +10,7 @@ namespace VALE.Logic
 {
     public interface IActions
     {
-        bool AddOrRemoveUserData(int dataId, string username);
+        bool AddOrRemoveUserData(int dataId, string username, string requestform);
 
         bool IsUserRelated(int dataId, string username);
         bool IsGroupRelated(int dataId, int groupId);

@@ -98,6 +98,8 @@ namespace VALE.MyVale
             {
                 if (_dataType == "project")
                 _dataActions.ComposeMessage(_dataId, "", "Invito a collaborare ad un progetto");
+                if (_dataType == "event")
+                    _dataActions.ComposeMessage(_dataId, "", "Creazione Evento pubblico");
             }
             Response.Redirect(_returnUrl);
         }
@@ -122,7 +124,7 @@ namespace VALE.MyVale
         protected void btnAddOrRemoveUsers_Click(object sender, EventArgs e)
         {
             var btn = (Button)sender;
-            _dataActions.AddOrRemoveUserData(_dataId, btn.CommandName);
+            _dataActions.AddOrRemoveUserData(_dataId, btn.CommandName, "creator");
             DataBindGridViews();
         }
 
@@ -181,7 +183,7 @@ namespace VALE.MyVale
                 if( (btn.CommandName == "Add" &&  !_dataActions.IsUserRelated(_dataId, user.UserName)) ||
                     (btn.CommandName == "Remove" && _dataActions.IsUserRelated(_dataId, user.UserName)) )
                 {
-                    _dataActions.AddOrRemoveUserData(_dataId, user.UserName);
+                    _dataActions.AddOrRemoveUserData(_dataId, user.UserName, "creator");
                 }
             }
             DataBindGridViews();

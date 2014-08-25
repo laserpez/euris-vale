@@ -148,7 +148,7 @@ namespace VALE.MyVale
         {
             int projectId = Convert.ToInt32(((Button)sender).CommandArgument);
             var actions = new ProjectActions();
-            actions.AddOrRemoveUserData(projectId, _currentUserName);
+            actions.AddOrRemoveUserData(projectId, _currentUserName, "user");
             OpenedProjectList.DataSource = (List<Project>)ViewState["lstProject"];
             OpenedProjectList.DataBind();
         }

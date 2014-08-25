@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using VALE.Models;
@@ -9,6 +10,7 @@ namespace VALE.Logic
     [Serializable]
     public class DBLoggerEmail : ILoggerEmail
     {
+        private int maxLenght = Convert.ToInt32(ConfigurationManager.AppSettings["MaxNumLog"].ToString());
         public List<LogEntryEmail> Read(string filter, int count)
         {
             return new List<LogEntryEmail>();
@@ -20,7 +22,7 @@ namespace VALE.Logic
             {
                 var db = new UserOperationsContext();
 
-                if (db.LogEntriesEmail.Count() > 1000)
+                if (db.LogEntriesEmail.Count() > maxLenght)
                 {
                     var sortedList = db.LogEntries.OrderBy(l => l.Date);
                     var lastLogEntry = sortedList.ElementAt(0);
