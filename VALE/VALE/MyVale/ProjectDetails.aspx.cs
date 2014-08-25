@@ -389,7 +389,7 @@ namespace VALE.MyVale
         {
             GridView grdUsers = (GridView)ProjectDetail.FindControl("lstUsers");
             var actions = new ProjectActions();
-            actions.AddOrRemoveUserData(_currentProjectId, _currentUserName);
+            actions.AddOrRemoveUserData(_currentProjectId, _currentUserName, "user");
             grdUsers.DataBind();
             SetWorkOnProjectSection();
         }

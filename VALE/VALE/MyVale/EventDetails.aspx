@@ -299,7 +299,7 @@
                                       <label class="col-lg-2 control-label">Descrizione *</label>
                                 <div class="col-lg-10">
                                     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="100px" ID="txtDescription" runat="server"></asp:TextBox>
-                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
+                                    <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />
@@ -316,7 +316,7 @@
                                             <ajaxToolkit:Copy />
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
-                                    </asp:HtmlEditorExtender>
+                                    </asp:HtmlEditorExtender>--%>
                                 </div>
                                 </div>
                             </div>

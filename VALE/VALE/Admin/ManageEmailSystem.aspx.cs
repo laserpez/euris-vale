@@ -62,6 +62,15 @@ namespace VALE.Admin
         //    }
         //}
 
+        public string GetBody(string body)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(body);
+            body = doc.DocumentNode.InnerText;
+            return doc.DocumentNode.InnerText;
+            //return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+        }
+
         protected void btnExportCSV_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
@@ -85,12 +94,9 @@ namespace VALE.Admin
             if (logsEmail.Count != 0)
                 db.LogEntriesEmail.RemoveRange(logsEmail);
 
-            if (emailQueue.Count != 0)
-                db.MailQueues.RemoveRange(emailQueue);
-
             db.SaveChanges();
 
-            Response.Redirect("~/Admin/MenageEmailSystem");
+            Response.Redirect("~/Admin/ManageEmailSystem");
         }
     } 
 }

@@ -150,7 +150,7 @@ namespace VALE.Logic
         }
 
 
-        public bool AddOrRemoveUserData(int dataId, string username)
+        public bool AddOrRemoveUserData(int dataId, string username, string requestForm)
         {
             var db = new UserOperationsContext();
             var aProject = db.Projects.First(p => p.ProjectId == dataId);
@@ -160,12 +160,18 @@ namespace VALE.Logic
             {
                 aProject.InvolvedUsers.Add(user);
                 added = true;
-                ComposeMessage(dataId, username, "Un nuovo collaboratore sta partecipando al progetto");
+                if (requestForm == "creator")
+                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
+                else
+                    ComposeMessage(dataId, username, "Un nuovo collaboratore sta partecipando al progetto");
             }
             else
             {
                 aProject.InvolvedUsers.Remove(user);
-                ComposeMessage(dataId, username, "Rimozione partecipazione");
+                if (requestForm == "creator")
+                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
+                else
+                    ComposeMessage(dataId, username, "Rimozione partecipazione");
             }
 
             aProject.LastModified = DateTime.Now;
@@ -380,9 +386,7 @@ namespace VALE.Logic
                                     ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
                                 Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
 
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
+                                AddToQueue(newMail);
                             }
                         }
                         break;
@@ -401,9 +405,7 @@ namespace VALE.Logic
                                     ", creato da " + _project.OrganizerUserName + " sta partecipando anche l'utente " + userName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + _project.ProjectId + "\">Clicca qui<a/>";
                                 Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
 
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
+                                AddToQueue(newMail);
                             }
                         }
                         break;
@@ -423,9 +425,7 @@ namespace VALE.Logic
                                     ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + _aProject.ProjectId + "\">Clicca qui<a/>";
                                 Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
 
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
+                                AddToQueue(newMail);
                             }
                         }
                         
@@ -434,9 +434,7 @@ namespace VALE.Logic
                             ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + _aProject.ProjectId + "\">Clicca qui<a/>";
                         Mail _newMail = new Mail(to: OwnerProjectRelated.Email, bcc: "", cc: "", subject: subject, body: bodyEmail, form: "Progetto");
 
-                        var _helper = new MailHelper();
-                        int _queueId = _helper.AddToQueue(_newMail);
-                        _helper.WriteLog(_newMail, _queueId);
+                        AddToQueue(_newMail);
                         break;
                     case "Aggiunto documento allegato":
                         var dbData = new UserOperationsContext();
@@ -452,9 +450,7 @@ namespace VALE.Logic
                                     ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + theProject.ProjectId + "\">Clicca qui<a/>";
                                 Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
 
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
+                                AddToQueue(newMail);
                             }
                         }
                         break;
@@ -471,9 +467,7 @@ namespace VALE.Logic
                                     ", creato da " + _theProject.OrganizerUserName + " è stata aggiunta una nuova conversazione.<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + lastConversation.InterventionId + "\">Clicca qui<a/>";
                                 Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
 
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
+                                AddToQueue(newMail);
                             }
                         }
                         break;
@@ -490,9 +484,7 @@ namespace VALE.Logic
                                     ", creato da " + project.OrganizerUserName + " l'utente " + userName + " ha aggiunto un nuovo commento.<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + _lastConversation.InterventionId + "\">Clicca qui<a/>";
                                 Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
 
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
+                                AddToQueue(newMail);
                             }
                         }
                         break;
@@ -509,9 +501,7 @@ namespace VALE.Logic
                                     ", creato da " + currentProject.OrganizerUserName + " è stata correlato l'evento " + lastEvent.Name +".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + currentProject.ProjectId + "\">Clicca qui<a/>";
                                 Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
 
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
+                                AddToQueue(newMail);
                             }
                         }
                         break;
@@ -528,9 +518,7 @@ namespace VALE.Logic
                                     ", creato da " + _currentProject.OrganizerUserName + " è stata correlata l'attività " + lastActivity.ActivityName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + _currentProject.ProjectId + "\">Clicca qui<a/>";
                                 Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
 
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
+                                AddToQueue(newMail);
                             }
                         }
                         break;
@@ -544,9 +532,7 @@ namespace VALE.Logic
                                     " ha rimosso la propria partecipazione dal tuo progetto " + selectedProject.ProjectName;
                             Mail aMail = new Mail(to: owner.Email, bcc: "", cc: "", subject: subject, body: Mailbody, form: "Progetto");
 
-                            var aHelper = new MailHelper();
-                            int aQueueId = aHelper.AddToQueue(aMail);
-                            aHelper.WriteLog(aMail, aQueueId);
+                            AddToQueue(aMail);
                         }
                         break;
                     case "Cancellazione progetto":
@@ -556,10 +542,8 @@ namespace VALE.Logic
                         var _Mailbody = "Salve, ti informiamo che il tuo progetto " + deletedProject.ProjectName +
                                     " è stato cancellato dall'Amministratore";
                         Mail _aMail = new Mail(to: _projectOwner.Email, bcc: "", cc: "", subject: subject, body: _Mailbody, form: "Progetto");
+                        AddToQueue(_aMail);
 
-                        var _aHelper = new MailHelper();
-                        int _aQueueId = _aHelper.AddToQueue(_aMail);
-                        _aHelper.WriteLog(_aMail, _aQueueId);
                         break;
                     case "Sospensione progetto":
                         var dbContext = new UserOperationsContext();
@@ -589,7 +573,7 @@ namespace VALE.Logic
 
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
@@ -608,12 +592,16 @@ namespace VALE.Logic
                 foreach (var anUser in listAllUsers)
                 {
                     Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Progetto");
-
-                    var helper = new MailHelper();
-                    int queueId = helper.AddToQueue(newMail);
-                    helper.WriteLog(newMail, queueId);
+                    AddToQueue(newMail);
                 }
             }
+        }
+
+        private void AddToQueue(Mail email)
+        {
+            var helper = new MailHelper();
+            int queueId = helper.AddToQueue(email);
+            helper.WriteLog(email, queueId);
         }
     }
 }

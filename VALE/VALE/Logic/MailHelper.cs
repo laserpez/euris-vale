@@ -100,7 +100,7 @@ namespace VALE.Logic
                         {
                             DataType = mMailMessage.Form,
                             DataAction = mMailMessage.Subject,
-                            Sender = mMailMessage.From,
+                            Body = mMailMessage.Body,
                             Receiver = mMailMessage.To,
                             Error = "Non ci sono messaggi d'errore",
                             Status = EmailStatus.Pending,
@@ -141,6 +141,8 @@ namespace VALE.Logic
                     {
                         if (String.IsNullOrEmpty(error))
                         {
+                            var mailInQueue = db.MailQueues.FirstOrDefault(m => m.MailQueueId == mailInList.MailQueueId);
+                            mailInQueue.Sent = true;
                             logSelected.Status = EmailStatus.Sent;
                             logSelected.Error = "Invio con successo, non ci sono messaggi d'errore";
                         }
@@ -165,9 +167,16 @@ namespace VALE.Logic
         public void Cleaner()
         {
             var db = new UserOperationsContext();
-            List<MailQueue> emailQueue = db.MailQueues.Where(l => l.Sent == true).ToList();
-            if (emailQueue.Count != 0)
-                db.MailQueues.RemoveRange(emailQueue);
+            List<MailQueue> emailQueues = db.MailQueues.Where(l => l.Sent == true).ToList();
+            if (emailQueues.Count != 0)
+            {
+                foreach (var mailQueue in emailQueues)
+                {
+                    var log = db.LogEntriesEmail.FirstOrDefault(l => l.MailQueueId == mailQueue.MailQueueId);
+                    log.RelatedMailInQueue = null;
+                }
+                db.MailQueues.RemoveRange(emailQueues);
+            }
             db.SaveChanges();
         }
     }

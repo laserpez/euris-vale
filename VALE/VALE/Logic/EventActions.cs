@@ -187,7 +187,7 @@ namespace VALE.Logic
         }
 
 
-        public bool AddOrRemoveUserData(int dataId, string username)
+        public bool AddOrRemoveUserData(int dataId, string username, string requestform)
         {
             var _db = new UserOperationsContext();
             var anEvent = _db.Events.First(e => e.EventId == dataId);
@@ -197,9 +197,20 @@ namespace VALE.Logic
             {   
                 anEvent.RegisteredUsers.Add(user);
                 added = true;
+                if (requestform == "creator")
+                    ComposeMessage(anEvent.EventId, "", "Invito di partecipazione ad un Evento");
+                else
+                    ComposeMessage(anEvent.EventId, username, "Richiesta partecipazione ad un Evento");
             }
             else
+            {
                 anEvent.RegisteredUsers.Remove(user);
+                if (requestform == "creator")
+                    ComposeMessage(anEvent.EventId, "", "Invito di partecipazione ad un Evento");
+                else
+                    ComposeMessage(anEvent.EventId, username, "Rimozione partecipazione");
+            }
+
             if (anEvent.RelatedProject != null)
             {
                 anEvent.RelatedProject.LastModified = DateTime.Now;
@@ -246,32 +257,82 @@ namespace VALE.Logic
             {
                 switch (subject)
                 {
-                    case "Invito a collaborare ad un progetto":
+                    case "Creazione Evento pubblico":
                         var db = new UserOperationsContext();
-                        var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        if (aProject.InvolvedUsers.Count != 0)
+                        var anEvent = db.Events.FirstOrDefault(ev => ev.EventId == dataId);
+                        List<UserData> listAllUsers = db.UserDatas.Where(ev => ev.UserName != anEvent.OrganizerUserName).ToList();
+                        if (anEvent.Public == true && listAllUsers.Count != 0)
                         {
-                            var listAllUsers = aProject.InvolvedUsers.ToList();
-                            foreach (var anUser in listAllUsers)
-                            {
-                                var bodyMail = "Salve, ti informiamo sei stato invitato a collaborare al progetto " + aProject.ProjectName +
-                                    ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?ProjectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                var helper = new MailHelper();
-                                int queueId = helper.AddToQueue(newMail);
-                                helper.WriteLog(newMail, queueId);
-                            }
+                            var bodyMail = "Salve, ti informiamo che in data " + anEvent.EventDate.ToShortDateString() +
+                                " si terrà l'evento " + anEvent.Name + ", organizzato da " + anEvent.OrganizerUserName +
+                                ", alle ore " + anEvent.EventDate.ToShortTimeString() + " in " + anEvent.Site + ".<br/> L'evento avrà una durata di " + anEvent.Durata + " ore.<br/>"
+                                 + "La partecipazione è pubblica.<br/>" +
+                                "Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>";
+                            SendToCoworkers(anEvent, subject, bodyMail, listAllUsers);
+                        }
+                        break;
+                    case "Invito di partecipazione ad un Evento":
+                        var _db = new UserOperationsContext();
+                        var _anEvent = _db.Events.FirstOrDefault(ev => ev.EventId == dataId);
+                        if (_anEvent.RegisteredUsers.Count != 0)
+                        {
+                            var bodyMail = "Salve, ti informiamo che in data " + _anEvent.EventDate.ToShortDateString() +
+                                " si terrà l'evento " + _anEvent.Name + ", organizzato da " + _anEvent.OrganizerUserName +
+                                ", alle ore " + _anEvent.EventDate.ToShortTimeString() + " in " + _anEvent.Site + ".<br/> L'evento avrà una durata di " + _anEvent.Durata + " ore.<br/>"
+                                 + ".<br/>" +
+                                "Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + _anEvent.EventId + "\">Clicca qui<a/>";
+                            SendToCoworkers(_anEvent, subject, bodyMail, _anEvent.RegisteredUsers);
+                        }
+                        break;
+                    case "Richiesta partecipazione ad un Evento":
+                        var dbData = new UserOperationsContext();
+                        var theEvent = dbData.Events.FirstOrDefault(ev => ev.EventId == dataId);
+                        if (userName != theEvent.OrganizerUserName)
+                        {
+                            var bodyMail = "Salve, ti informiamo che l'utente " + userName + " ha rimosso la propria partecipazione dal tuo evento "
+                                + theEvent.Name;
+                            var owner = dbData.UserDatas.FirstOrDefault(u => u.UserName == theEvent.OrganizerUserName);
+                            Mail newMail = new Mail(to: owner.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Evento");
+                            AddToQueue(newMail);
+                        }
+                        break;
+                    case "Rifiuto partecipazione ad un Evento":
+                        var _dbData = new UserOperationsContext();
+                        var _theEvent = _dbData.Events.FirstOrDefault(ev => ev.EventId == dataId);
+                        if (userName != _theEvent.OrganizerUserName)
+                        {
+                            var bodyMail = "Salve, ti informiamo che l'utente " + userName + " ha rimosso la propria partecipazione dal tuo evento "
+                                + _theEvent.Name;
+                            var owner = _dbData.UserDatas.FirstOrDefault(u => u.UserName == _theEvent.OrganizerUserName);
+                            Mail newMail = new Mail(to: owner.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Evento");
+                            AddToQueue(newMail);
                         }
                         break;
                 }
 
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
+        }
+
+        private void SendToCoworkers(Event anEvent, string subject, string mailBody, List<UserData> listAllUsers)
+        {
+                foreach (var anUser in listAllUsers)
+                {
+                    Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Evento");
+
+                    AddToQueue(newMail);
+                }
+        }
+
+        private void AddToQueue(Mail email)
+        {
+            var helper = new MailHelper();
+            int queueId = helper.AddToQueue(email);
+            helper.WriteLog(email, queueId);
         }
     }
 }

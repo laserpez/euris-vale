@@ -110,7 +110,7 @@ namespace VALE.Logic
 
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
