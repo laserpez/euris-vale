@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>CuteEditor</id>
+    <version>6.7.1.4</version>
+    <title>Leading ASP.NET Online HTML Editor</title>
+    <authors>CuteSoft</authors>
+    <owners>CuteSoft</owners>
+    <licenseUrl>http://cutesoft.net/How+to+Buy/Licensing+Info/</licenseUrl>
+    <projectUrl>http://cutesoft.net/ASP.NET+WYSIWYG+Editor/</projectUrl>
+    <iconUrl>http://cutesoft.net/images/Cute-Editor-logo.gif</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Cute Editor for ASP.NET is by far the fastest, easiest, most powerful WYSIWYG HTML Editor for ASP.NET. It's also available for PHP and ASP. 
+It enables ASP.NET Web developers to replace any textbox with an intuitive Word-like WYSIWYG html editor. 
+It empowers business users to make content updates easily and safely themselves while maintaining control over site design and content, all at an affordable price.</description>
+    <summary>Cute Editor for ASP.NET is by far the fastest, easiest, most powerful WYSIWYG HTML Editor for ASP.NET. It's also available for PHP and ASP.</summary>
+    <copyright>2003 - 2014 CuteSoft Components Inc. All rights reserved.</copyright>
+    <tags>Rich Text Editor wysiwyg editor RTE RichText RichTextBox RichTextEditor html code</tags>
+  </metadata>
+</package>
