@@ -69,6 +69,12 @@ namespace VALE.Admin
             var projectType = _db.ProjectTypes.Where(p => p.ProjectTypeId == typeId).FirstOrDefault();
             if (projectType != null)
             {
+                var projects = _db.Projects.Where(p => p.Type == projectType.ProjectTypeName).ToList();
+                if (projects.Count != 0)
+                {
+                    foreach (var project in projects)
+                        project.Type = "Generico";
+                }
                 _db.ProjectTypes.Remove(projectType);
                 _db.SaveChanges();
                 grdTypes.PageIndex = 0;
@@ -131,9 +137,17 @@ namespace VALE.Admin
                 var projectType = _db.ProjectTypes.Where(t => t.ProjectTypeId == id).FirstOrDefault();
                 if (projectType != null)
                 {
+                    var projects = _db.Projects.Where(p => p.Type == projectType.ProjectTypeName).ToList();
+                    if (projects.Count != 0)
+                    {
+                        foreach (var project in projects)
+                            project.Type = NameTextBox.Text;
+                    }
+
                     projectType.ProjectTypeName = NameTextBox.Text;
                     projectType.Description = DescriptionTextarea.InnerText;
                     _db.SaveChanges();
+
                     grdTypes.DataBind();
                 }
             }

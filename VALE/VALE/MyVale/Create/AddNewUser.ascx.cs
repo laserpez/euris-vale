@@ -156,7 +156,8 @@ namespace VALE.MyVale.Create
                 {
                     //string code = manager.GenerateEmailConfirmationToken(user.Id);
                     //string callbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id);
-                    string body = "Benvenuto in VALE! La password di default con cui effettuare il Log In è:" + Password.Text + ". <br/> Potrai cambiarla una volta confermato l'account cliccando <a href=\"http://localhost:59959/Admin/ResetPassword.aspx" + "\"> qui <a/>";
+                    AdminActions.ComposeMessage(manager, user.Id, Password.Text, "Invito a VALE");
+                    //string body = "Benvenuto in VALE! La password di default con cui effettuare il Log In è:" + Password.Text + ". <br/> Potrai cambiarla una volta confermato l'account cliccando <a href=\"http://localhost:59959/Admin/ResetPassword.aspx" + "\"> qui <a/>";
                     //MailHelper.SendMail(user.Email, "Conferma account", body);
                     Response.Redirect("~/Admin/ManageUsers");
                 }

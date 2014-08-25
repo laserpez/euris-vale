@@ -53,6 +53,13 @@ namespace VALE.Admin
             var partnerType = _db.PartnerTypes.Where(p => p.PartnerTypeId == typeId).FirstOrDefault();
             if (partnerType != null)
             {
+                var dbData = new ApplicationDbContext();
+                var users = dbData.Users.Where(u => u.PartnerType == partnerType.PartnerTypeName).ToList();
+                if (users.Count != 0)
+                {
+                    foreach (var user in users)
+                        user.PartnerType = String.Empty;
+                }
                 _db.PartnerTypes.Remove(partnerType);
                 _db.SaveChanges();
                 grdTypes.PageIndex = 0;
@@ -115,6 +122,14 @@ namespace VALE.Admin
                 var partnerType = _db.PartnerTypes.Where(t => t.PartnerTypeId == id).FirstOrDefault();
                 if (partnerType != null)
                 {
+                    var dbData = new ApplicationDbContext();
+                    var users = dbData.Users.Where(u => u.PartnerType == partnerType.PartnerTypeName).ToList();
+                    if (users.Count != 0)
+                    {
+                        foreach (var user in users)
+                            user.PartnerType = NameTextBox.Text;
+                    }
+
                     partnerType.PartnerTypeName = NameTextBox.Text;
                     partnerType.Description = DescriptionTextarea.InnerText;
                     _db.SaveChanges();

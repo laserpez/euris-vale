@@ -71,9 +71,9 @@
                                                         <ItemTemplate>
                                                             <center>
                                                                         <div>
-                                                                            <asp:LinkButton runat="server"  CommandName="EditGroup" CommandArgument="<%#: Item.GroupId %>"><span class="label label-primary"><span class="glyphicon glyphicon-eye-open"></span></span></asp:LinkButton>
-                                                                            <asp:LinkButton runat="server" CommandName="OpenGroup" CommandArgument="<%#: Item.GroupId %>"><span class="label label-success"><span class="glyphicon glyphicon-pencil"></span></span></asp:LinkButton>
-                                                                            <asp:LinkButton runat="server" CommandName="DeleteGroup" CommandArgument="<%#: Item.GroupId %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
+                                                                            <asp:LinkButton runat="server"  CommandName="EditGroup" ToolTip="Modifica gruppo" CommandArgument="<%#: Item.GroupId %>"><span class="label label-primary"><span class="glyphicon glyphicon-eye-open"></span></span></asp:LinkButton>
+                                                                            <asp:LinkButton runat="server" CommandName="OpenGroup" ToolTip="Aggiungi/Rimuovi utenti al gruppo" CommandArgument="<%#: Item.GroupId %>"><span class="label label-success"><span class="glyphicon glyphicon-pencil"></span></span></asp:LinkButton>
+                                                                            <asp:LinkButton runat="server" CommandName="DeleteGroup" ToolTip="Cancella gruppo" CommandArgument="<%#: Item.GroupId %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
                                                                         </div>
                                                                     </center>
                                                         </ItemTemplate>

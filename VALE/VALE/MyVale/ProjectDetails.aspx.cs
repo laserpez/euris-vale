@@ -68,9 +68,18 @@ namespace VALE.MyVale
             var btnModify = (Button)ProjectDetail.FindControl("btnModifyProject");
             if ((aProject.OrganizerUserName == _currentUserName || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione")) && aProject.Status != "Chiuso")
             {
-                ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
-                btnModify.Visible = true;
-                ((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Enabled = true;
+                if (aProject.Status == "Aperto")
+                {
+                    ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
+                    btnModify.Visible = true;
+                    ((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Enabled = true;
+                }
+                else
+                {
+                    ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = false;
+                    //btnModify.Visible = true;
+                    //((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Enabled = true;
+                }
             }
         }
 
@@ -125,15 +134,21 @@ namespace VALE.MyVale
 
         protected void btnSuspendProject_Click(object sender, EventArgs e)
         {
+            var actions = new ProjectActions();
             var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
             Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
             if (project.Status == "Sospeso")
+            {
+                actions.ComposeMessage(_currentProjectId, "", "Sospeso progetto");
                 label.Text = "RIPRENDI";
+            }
             else
+            {
+                actions.ComposeMessage(_currentProjectId, "", "Ripreso progetto");
                 label.Text = "SOSPENDI";
+            }
 
             project.LastModified = DateTime.Now;
-            var actions = new ProjectActions();
             var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
             if (listHierarchyUp.Count != 0)
                 listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
@@ -145,12 +160,13 @@ namespace VALE.MyVale
 
         protected void btnCloseProject_Click(object sender, EventArgs e)
         {
+            var actions = new ProjectActions();
             Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
+            actions.ComposeMessage(_currentProjectId, "", "Chiusura progetto");
             label.Text = "CHIUDI";
 
             var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
             project.LastModified = DateTime.Now;
-            var actions = new ProjectActions();
             var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
             if (listHierarchyUp.Count != 0)
                 listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
@@ -259,6 +275,21 @@ namespace VALE.MyVale
                 btnWorkOnThis.CssClass = "btn btn-success disable";
                 btnWorkOnThis.Text = "Non puoi lavorare al progetto";
                 btnAddIntervention.Visible = false;
+
+                var btnAddEvent = (Button)ProjectDetail.FindControl("btnAddEvent");
+                btnAddEvent.Visible = false;
+
+                var btnAddActivity = (Button)ProjectDetail.FindControl("btnAddActivity");
+                btnAddActivity.Visible = false;
+
+                var btnModifyProject = (Button)ProjectDetail.FindControl("btnModifyProject");
+                btnModifyProject.Enabled = false;
+
+                var btnAddUsers = (Button)ProjectDetail.FindControl("btnAddUsers");
+                btnAddUsers.Visible = false;
+                ((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Visible = false;
+
+                PopulateProjectTreeView();
             }
         }
 
@@ -475,9 +506,19 @@ namespace VALE.MyVale
                 int interventionId = Convert.ToInt32(grdInterventions.DataKeys[i].Value);
                 if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || currentProject.OrganizerUserName == _currentUserName || db.Interventions.Where(o => o.InterventionId == interventionId).FirstOrDefault().Creator.UserName == _currentUserName)
                 {
-                    dataControlField.Visible = true;
-                    Button delIntervention = (Button)grdInterventions.Rows[i].FindControl("btnDeleteIntervention");
-                    delIntervention.Visible = true;
+                    if (currentProject.Status == "Aperto")
+                    {
+                        dataControlField.Visible = true;
+                        Button delIntervention = (Button)grdInterventions.Rows[i].FindControl("btnDeleteIntervention");
+                        delIntervention.Visible = true;
+                    }
+                    else
+                    {
+                        dataControlField.Visible = true;
+                        Button delIntervention = (Button)grdInterventions.Rows[i].FindControl("btnDeleteIntervention");
+                        delIntervention.Visible = true;
+                        delIntervention.Enabled = false;
+                    }
                 }
 
 
@@ -587,6 +628,8 @@ namespace VALE.MyVale
                     listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
 
                 _db.SaveChanges();
+
+                actions.ComposeMessage(_currentProjectId, project.OrganizerUserName, "Aggiunto progetto correlato");
                 UpdateRelatedProjectView();
             }
 
@@ -800,8 +843,18 @@ namespace VALE.MyVale
             {
                 if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId).RelatedProjects.Select(u => u.OrganizerUserName).Contains(_currentUserName))
                 {
-                    Button deleteRelatedProject = (Button)grdRelatedProject.Rows[i].FindControl("deleteRelatedProject");
-                    deleteRelatedProject.Enabled = true;
+                    var currentProject = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+                    if (currentProject.Status == "Aperto")
+                    {
+                        Button deleteRelatedProject = (Button)grdRelatedProject.Rows[i].FindControl("deleteRelatedProject");
+                        deleteRelatedProject.Enabled = true;
+                    }
+                    else
+                    {
+                        Button deleteRelatedProject = (Button)grdRelatedProject.Rows[i].FindControl("deleteRelatedProject");
+                        deleteRelatedProject.Enabled = false;
+                    }
+                    
                 }
                 else
                 {

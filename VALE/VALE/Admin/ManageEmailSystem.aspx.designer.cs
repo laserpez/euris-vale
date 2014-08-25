@@ -22,13 +22,22 @@ namespace VALE.Admin {
         protected global::System.Web.UI.WebControls.Label HeaderName;
         
         /// <summary>
-        /// Controllo log.
+        /// Controllo btnExportCSV.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl log;
+        protected global::System.Web.UI.WebControls.Button btnExportCSV;
+        
+        /// <summary>
+        /// Controllo btnDeleteAllLogs.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDeleteAllLogs;
         
         /// <summary>
         /// Controllo grdLogEmail.

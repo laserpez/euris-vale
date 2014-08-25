@@ -158,5 +158,7 @@ namespace VALE.Logic
             if (_db != null)
                 _db = null;
         }
+
+        public Mail newMailAdmin { get; set; }
     }
 }

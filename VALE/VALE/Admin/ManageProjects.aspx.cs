@@ -94,6 +94,8 @@ namespace VALE.Admin
                 int Id = Convert.ToInt32(ProjectID.Text);
                 var project = dbData.Projects.First(p => p.ProjectId == Id);
                 var actions = new ProjectActions();
+
+                actions.ComposeMessage(Id, project.OrganizerUserName, "Cancellazione progetto");
                 
                 actions.RemoveAllAttachments(Id);
                 

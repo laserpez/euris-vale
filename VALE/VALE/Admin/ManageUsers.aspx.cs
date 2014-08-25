@@ -7,6 +7,8 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using VALE.Logic;
 using VALE.Models;
 
@@ -69,6 +71,11 @@ namespace VALE.Admin
                 {
                     string userName = ((Label)grdUsers.Rows[i].Cells[0].FindControl("labelUserName")).Text;
                     AdminActions.ConfirmUser(userName);
+                    
+                    var db = new ApplicationDbContext();
+                    var newUser = db.Users.FirstOrDefault(u => u.UserName == userName);
+                    var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    AdminActions.ComposeMessage(manager, newUser.Id, " ", "Conferma richiesta");
                     //MailHelper.SendMail(grdUsers.Rows[i].Cells[1].Text, "La tua richiesta di associazione è stata confermata.", "VALE: Account confermato.");
                 }
             }

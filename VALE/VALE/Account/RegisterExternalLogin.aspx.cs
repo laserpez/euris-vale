@@ -8,6 +8,7 @@ using System.Linq;
 using VALE.Models;
 using System.Collections.Generic;
 using VALE.StateInfo;
+using VALE.Logic;
 
 namespace VALE.Account
 {
@@ -199,13 +200,20 @@ namespace VALE.Account
                         FullName = user.FirstName + " " + user.LastName
                     });
                     db.SaveChanges();
-                    IdentityHelper.SignIn(manager, user, isPersistent: false);
+
+                    AdminActions.ComposeMessage(manager, user.Id, "", "Conferma il tuo account");
+
+                    string titleMessage = string.Format("Grazie {0} {1},", user.FirstName, user.LastName);
+                    string message = string.Format("Abbiamo registrato la Sua richiesta, una mail di conferma viene mandato all'indirizzo {0} appena viene accettata", user.Email);
+                    string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
+                    Response.Redirect(url);
+                    //IdentityHelper.SignIn(manager, user, isPersistent: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // var code = manager.GenerateEmailConfirmationToken(user.Id);
                     // Send this link via email: IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id)
 
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    //IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
                     return;
                 }
             }

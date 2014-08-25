@@ -66,6 +66,13 @@ namespace VALE.Admin
             var activityType = _db.ActivityTypes.Where(a => a.ActivityTypeId == typeId).FirstOrDefault();
             if (activityType != null)
             {
+                var activities = _db.Activities.Where(p => p.Type == activityType.ActivityTypeName).ToList();
+                if (activities.Count != 0)
+                {
+                    foreach (var activity in activities)
+                        activity.Type = "Generico";
+                }
+
                 _db.ActivityTypes.Remove(activityType);
                 _db.SaveChanges();
                 grdTypes.PageIndex = 0;
@@ -128,6 +135,13 @@ namespace VALE.Admin
                 var activityType = _db.ActivityTypes.Where(t => t.ActivityTypeId == id).FirstOrDefault();
                 if (activityType != null)
                 {
+                    var activities = _db.Activities.Where(p => p.Type == activityType.ActivityTypeName).ToList();
+                    if (activities.Count != 0)
+                    {
+                        foreach (var activity in activities)
+                            activity.Type = NameTextBox.Text;
+                    }
+
                     activityType.ActivityTypeName = NameTextBox.Text;
                     activityType.Description = DescriptionTextarea.InnerText;
                     _db.SaveChanges();

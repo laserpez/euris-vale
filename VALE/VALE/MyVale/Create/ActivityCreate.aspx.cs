@@ -278,7 +278,13 @@ namespace VALE.MyVale
         {
             string returnUrl = "";
             if (Session["ActivityCreateCallingProjectId"] != null)
+            {
+                var actions = new ProjectActions();
+                int projectId = Convert.ToInt32(Session["ActivityCreateCallingProjectId"].ToString());
+                actions.ComposeMessage(projectId, "", "Aggiunta Attivita");
+
                 returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
+            }
             else if (Session["ActivityCreateRequestFrom"] != null)
                 returnUrl = Session["ActivityCreateRequestFrom"].ToString();
             else

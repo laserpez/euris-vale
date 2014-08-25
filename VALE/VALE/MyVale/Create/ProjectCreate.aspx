@@ -60,7 +60,7 @@
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Progetto</asp:Label>
                                 <div class="col-md-10">
                                     <asp:DropDownList  class="form-control" runat="server"  ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ProjectType" DataTextField="ProjectTypeName" DataValueField="ProjectTypeName"></asp:DropDownList>
-                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="il è obbligatorio" />
+                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="il campo è obbligatorio" />
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Data di inizio *</asp:Label>
                                 <div class="col-md-10">

@@ -9,6 +9,7 @@ using VALE.Models;
 using System.Collections.Generic;
 using VALE.StateInfo;
 using System.Text.RegularExpressions;
+using VALE.Logic;
 
 namespace VALE.Account
 {
@@ -85,8 +86,6 @@ namespace VALE.Account
 
         protected void CreateUser_Click(object sender, EventArgs e)
         {
-
-
             var db = new UserOperationsContext();
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var user = new ApplicationUser()
@@ -119,17 +118,16 @@ namespace VALE.Account
                     FullName = user.FirstName + " " + user.LastName
                 });
                 db.SaveChanges();
+
+                AdminActions.ComposeMessage(manager, user.Id, "", "Conferma il tuo account");
                 //IdentityHelper.SignIn(manager, user, isPersistent: false);
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                //string code = manager.GenerateEmailConfirmationToken(user.Id);
-                //string callbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id);
-                //manager.SendEmail(user.Id, "Conferma il tuo account", "Per favore conferma il tuo account cliccando <a href=\"" + callbackUrl + "\">qui</a>.");
-
+                
                 //IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
 
                 string titleMessage = string.Format("Grazie {0} {1},", user.FirstName, user.LastName);
-                string message = string.Format("Abbiamo registrato la Sua richiesta, una mail di conferma viene mandato all'indirizzo {0} appena viene accettata", user.Email);
+                string message = string.Format("Abbiamo registrato la Sua richiesta di registrazione, una mail di conferma verrà inviata all'indirizzo {0} non appena verrà accettata.", user.Email);
                 string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
                 Response.Redirect(url);
             }

@@ -62,6 +62,32 @@ namespace VALE.Logic
             return strbldr;
         }
 
+        public StringBuilder ExportLogEntryEmail(List<LogEntryEmail> logEntryEmails)
+        {
+            ILoggerEmail logger = LogFactoryEmail.GetCurrentLoggerEmail();
+
+            StringBuilder strbldr = new StringBuilder();
+            //separting header columns text with comma operator
+            strbldr.Append("Data;Mittente;Destinatari;Modulo;Oggetto;Stato ricezione;Messaggi di errore");
+            //appending new line for gridview header row
+            strbldr.Append("\n");
+            foreach (var logEntryEmail in logEntryEmails)
+            {
+                strbldr.Append(logEntryEmail.Date.ToShortDateString() + " " + logEntryEmail.Date.ToShortTimeString() + ';');
+                strbldr.Append(logEntryEmail.Sender + ';');
+                strbldr.Append(logEntryEmail.Receiver + ';');
+                strbldr.Append(logEntryEmail.DataType + ';');
+                strbldr.Append(logEntryEmail.DataAction + ';');
+                strbldr.Append(logger.GetStatus(logEntryEmail) + ';');
+                if (String.IsNullOrEmpty(logEntryEmail.Error))
+                    strbldr.Append("Nessun messaggio d'errore" + ';');
+                else
+                    strbldr.Append(logEntryEmail.Error + ";");
+                strbldr.Append("\n");
+            }
+            return strbldr;
+        }
+
         public void Dispose()
         {
 

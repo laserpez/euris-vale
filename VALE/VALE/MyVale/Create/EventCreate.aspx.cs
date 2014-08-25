@@ -56,10 +56,15 @@ namespace VALE.MyVale
         {
             var newEvent = SaveData();
 
+            if (newEvent.Public == true)
+                SendMailToAll(newEvent);
+
             var redirectURL = "";
+            var fromRequest = "";
             if (Session["EventCreateCallingProjectId"] != null)
             {
                 redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["EventCreateCallingProjectId"].ToString();
+                fromRequest = "project";
                 Session["EventCreateCallingProjectId"] = null;
             }
             else if (Session["EventCreateRequestFrom"] != null)
@@ -70,7 +75,30 @@ namespace VALE.MyVale
             else
                 redirectURL = "/MyVale/Events";
 
-            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newEvent.EventId + "&dataType=event&returnUrl=" + redirectURL);
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newEvent.EventId + "&dataType=event&returnUrl=" + redirectURL + "&requestFrom=" + fromRequest);
+        }
+
+        private void SendMailToAll(Event newEvent)
+        {
+            var db = new UserOperationsContext();
+            List<UserData> listAllUsers = db.UserDatas.Where(ev => ev.UserName != _currentUser).ToList();
+            if (listAllUsers.Count != 0)
+            {
+                foreach(var user in listAllUsers)
+                {
+                    var subjectMail = "Creazione di un nuovo evento pubblico";
+                    var bodyMail = "Salve, ti informiamo che in data " + newEvent.EventDate.ToShortDateString() + 
+                        " si terrà l'evento " + newEvent.Name + ", organizzato da " + newEvent.OrganizerUserName + 
+                        ", alle ore " + newEvent.EventDate.ToShortTimeString() + " in " + newEvent.Site + ".<br/> L'evento avrà una durata di " + newEvent.Durata + " ore.<br/>"
+                        + "La partecipazione è pubblica.<br/>" +
+                         "Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + newEvent.EventId + "\">Clicca qui<a/>";
+                    Mail newMail = new Mail (to: user.Email, bcc: "", cc: "", subject: subjectMail, body: bodyMail, form: "Evento" );
+
+                    var helper = new MailHelper();
+                    int queueId = helper.AddToQueue(newMail);
+                    helper.WriteLog(newMail, queueId);
+                }
+            }
         }
 
         private Event SaveData()
@@ -113,9 +141,16 @@ namespace VALE.MyVale
         {
             var newEvent = SaveData();
 
+            if (newEvent.Public == true)
+                SendMailToAll(newEvent);
+
             var redirectURL = "";
             if (Session["EventCreateCallingProjectId"] != null)
             {
+                var actions = new ProjectActions();
+                int projectId = Convert.ToInt32(Session["EventCreateCallingProjectId"].ToString());
+                actions.ComposeMessage(projectId, "", "Aggiunto Evento");
+
                 redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["EventCreateCallingProjectId"].ToString();
                 Session["EventCreateCallingProjectId"] = null;
             }

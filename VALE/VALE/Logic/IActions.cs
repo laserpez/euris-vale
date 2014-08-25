@@ -19,5 +19,7 @@ namespace VALE.Logic
         
         IQueryable<UserData> GetRelatedUsers(int _dataId);
         IQueryable<Group> GetRelatedGroups(int _dataId);
+
+        bool ComposeMessage(int dataId, string username, string subject);
     }
 }
