@@ -115,6 +115,10 @@ namespace VALE.MyVale
             var redirectURL = "";
             if (Session["InterventionCreateCallingProjectId"] != null)
             {
+                var actions = new ProjectActions();
+                var projectId = Convert.ToInt32(Session["InterventionCreateCallingProjectId"].ToString());
+                actions.ComposeMessage(projectId, "", "Aggiunta conversazione");
+
                 redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["InterventionCreateCallingProjectId"].ToString();
                 Session["InterventionCreateCallingProjectId"] = null;
             }

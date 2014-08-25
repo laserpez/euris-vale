@@ -22,7 +22,8 @@
 	    height: 37px;
 	    width: 180px;
         color:#fff;
-        background-color: #354f88; 
+        background-color: #354f88;
+        border-color:white; 
         }
 
         .social-network-twitter {
@@ -30,6 +31,7 @@
 	        width: 180px;
             color:#fff;
             background-color: #45b0e3;
+            border-color:white; 
         }
 
         .social-network-google {
@@ -37,6 +39,7 @@
 	        width: 180px;
             color:#fff;
             background-color:#de4c34;
+            border-color:white; 
         }
 
         .facebook-icon {

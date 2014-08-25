@@ -71,9 +71,9 @@
                                                         <ItemTemplate>
                                                             <center>
                                                                 <div>
-                                                                            <asp:LinkButton runat="server"  CommandName="ShowType" CommandArgument="<%#: Item.PartnerTypeId %>"><span class="label label-primary"><span class="glyphicon glyphicon-eye-open"></span></span></asp:LinkButton>
-                                                                            <asp:LinkButton runat="server" CommandName="EditType" Visible='<%# AllowManage(Convert.ToInt32(Eval("PartnerTypeId"))) %>' CommandArgument="<%#: Item.PartnerTypeId %>"><span class="label label-success"><span class="glyphicon glyphicon-pencil"></span></span></asp:LinkButton>
-                                                                            <asp:LinkButton runat="server" CommandName="DeleteType" Visible='<%# AllowManage(Convert.ToInt32(Eval("PartnerTypeId"))) %>' CommandArgument="<%#: Item.PartnerTypeId %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
+                                                                            <asp:LinkButton runat="server"  CommandName="ShowType" ToolTip="Vedi" CommandArgument="<%#: Item.PartnerTypeId %>"><span class="label label-primary"><span class="glyphicon glyphicon-eye-open"></span></span></asp:LinkButton>
+                                                                            <asp:LinkButton runat="server" CommandName="EditType" ToolTip="Modifica" Visible='<%# AllowManage(Convert.ToInt32(Eval("PartnerTypeId"))) %>' CommandArgument="<%#: Item.PartnerTypeId %>"><span class="label label-success"><span class="glyphicon glyphicon-pencil"></span></span></asp:LinkButton>
+                                                                            <asp:LinkButton runat="server" CommandName="DeleteType" ToolTip="Cancella" Visible='<%# AllowManage(Convert.ToInt32(Eval("PartnerTypeId"))) %>' CommandArgument="<%#: Item.PartnerTypeId %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
                                                                         </div>
                                                             </center>
                                                         </ItemTemplate>

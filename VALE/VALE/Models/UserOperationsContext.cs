@@ -27,6 +27,7 @@ namespace VALE.Models
         public DbSet<Group> Groups { get; set; }
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<LogEntryEmail> LogEntriesEmail { get; set; }
+        public DbSet<MailQueue> MailQueues { get; set; }
         public DbSet<ActivityType> ActivityTypes { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<PartnerType> PartnerTypes { get; set; }

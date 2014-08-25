@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -31,31 +32,65 @@ namespace VALE.Admin
         public IQueryable<LogEntryEmail> grdLogEmail_GetData()
         {
             var _db = new UserOperationsContext();
-            var listAllLog = _db.LogEntriesEmail.ToList();
-            if (listAllLog.Count > 1000)
-            {
-                if (CleanLog(listAllLog))
-                    return _db.LogEntriesEmail.OrderByDescending(e => e.Date).AsQueryable();
-                else
-                    return null;
-            }
-            else
-                return _db.LogEntriesEmail.Take(1000).OrderByDescending(e => e.Date).AsQueryable();
+            return _db.LogEntriesEmail.Take(1000).OrderByDescending(e => e.Date).AsQueryable();
         }
 
-        private bool CleanLog(List<LogEntryEmail> listLog)
+        public string GetStatus(LogEntryEmail logEmail)
         {
-            try
+            ILoggerEmail logger = LogFactoryEmail.GetCurrentLoggerEmail();
+            return logger.GetStatus(logEmail);
+        }
+
+        //private List<string> GetReceivers(int logEntryEmailId)
+        //{
+        //    var db = new UserOperationsContext();
+        //    return db.LogEntriesEmail.FirstOrDefault(l => l.LogEntryEmailId == logEntryEmailId).Receivers;
+        //}
+
+        //protected void grdLogEmail_DataBound(object sender, EventArgs e)
+        //{
+        //    for (int i = 0; i < grdLogEmail.Rows.Count; i++)
+        //    {
+        //        int logEntryEmailId = (int)grdLogEmail.DataKeys[i].Value;
+        //        var ToListView = (ListView)grdLogEmail.Rows[i].FindControl("ToListView");
+        //        if (ToListView != null)
+        //        {
+        //            var listReceivers = GetReceivers(logEntryEmailId);
+        //            ToListView.DataSource = listReceivers;
+        //            ToListView.DataBind();
+        //        }
+        //    }
+        //}
+
+        protected void btnExportCSV_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            var logsToExport = db.LogEntriesEmail.ToList();
+            using (var exportToCSV = new ExportToCSV())
             {
-                var _db = new UserOperationsContext();
-                _db.LogEntriesEmail.RemoveRange(listLog.GetRange(1001, listLog.Count - 1000));
-                _db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
+                Response.AddHeader("content-disposition", string.Format("attachment; filename=LogsEmail({0}).csv", DateTime.Now.ToShortDateString()));
+                Response.ContentType = "application/text";
+                StringBuilder strbldr = exportToCSV.ExportLogEntryEmail(logsToExport);
+                Response.Write(strbldr.ToString());
+                Response.End();
             }
         }
-    }
+
+        protected void btnDeleteAllLogs_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            List<LogEntryEmail> logsEmail = db.LogEntriesEmail.ToList();
+            List<MailQueue> emailQueue = db.MailQueues.ToList();
+            
+            if (logsEmail.Count != 0)
+                db.LogEntriesEmail.RemoveRange(logsEmail);
+
+            if (emailQueue.Count != 0)
+                db.MailQueues.RemoveRange(emailQueue);
+
+            db.SaveChanges();
+
+            Response.Redirect("~/Admin/MenageEmailSystem");
+        }
+    } 
 }

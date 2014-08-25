@@ -260,5 +260,39 @@ namespace VALE.Logic
             user.PendingActivity.Remove(activity);
             db.SaveChanges();
         }
+
+        public bool ComposeMessage(int dataId, string userName, string subject)
+        {
+            try
+            {
+                switch (subject)
+                {
+                    case "Invito a collaborare ad un progetto":
+                        var db = new UserOperationsContext();
+                        var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                        if (aProject.InvolvedUsers.Count != 0)
+                        {
+                            var listAllUsers = aProject.InvolvedUsers.ToList();
+                            foreach (var anUser in listAllUsers)
+                            {
+                                var bodyMail = "Salve, ti informiamo sei stato invitato a collaborare al progetto " + aProject.ProjectName +
+                                    ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?ProjectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
+                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
+
+                                var helper = new MailHelper();
+                                int queueId = helper.AddToQueue(newMail);
+                                helper.WriteLog(newMail, queueId);
+                            }
+                        }
+                        break;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

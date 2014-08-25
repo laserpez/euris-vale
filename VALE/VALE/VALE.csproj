@@ -225,7 +225,6 @@
     <Content Include="Images\twitter.png" />
     <Content Include="Images\User.jpg" />
     <Content Include="Images\VALE_Title.gif" />
-    <Content Include="Images\VALE_Titolo.gif" />
     <Content Include="MessagePage.aspx" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
@@ -503,8 +502,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\DBLoggerEmail.cs" />
+    <Compile Include="Logic\ILoggerEmail.cs" />
     <Compile Include="Logic\InterventionActions.cs" />
     <Compile Include="Logic\LogEntryEmail.cs" />
+    <Compile Include="Logic\LogFactoryEmail.cs" />
+    <Compile Include="Logic\Mail.cs" />
+    <Compile Include="Logic\MailQueue.cs" />
     <Compile Include="Logic\Serializable\ISerializable.cs" />
     <Compile Include="Logic\Serializable\XmlSerializable.cs" />
     <Compile Include="MessagePage.aspx.cs">

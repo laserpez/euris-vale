@@ -15,7 +15,9 @@ namespace VALE.MyVale
         private int _dataId;
         private string _dataType;
         private string _returnUrl;
+        private string _requestFrom;
         private IActions _dataActions;
+        private IActions _dataActionsFrom;
         private bool _canRemove = true;
 
         public bool CanRemove
@@ -28,6 +30,7 @@ namespace VALE.MyVale
             _dataId = Convert.ToInt32(Request.QueryString["dataId"]);
             _dataType = Request.QueryString["dataType"];
             _returnUrl = Request.QueryString["returnUrl"];
+            _requestFrom = Request.QueryString["requestFrom"];
 
             if (!String.IsNullOrEmpty(Request.QueryString["canRemove"]))
                 _canRemove = Convert.ToBoolean(Request.QueryString["canRemove"]);
@@ -39,6 +42,9 @@ namespace VALE.MyVale
                 _dataActions = new EventActions();
             else
                 _dataActions = new ActivityActions();
+
+            if (_requestFrom == "project")
+                _dataActionsFrom = new ProjectActions();
 
             if (!IsPostBack)
                 SetGridViewsVisibility("Users");
@@ -79,6 +85,20 @@ namespace VALE.MyVale
 
         protected void btnReturn_Click(object sender, EventArgs e)
         {
+            if (_dataActionsFrom != null)
+            {
+                var projectId = Convert.ToInt32(_returnUrl.ElementAt(_returnUrl.Length - 1).ToString());
+                if (_dataType == "event")
+                    _dataActionsFrom.ComposeMessage(projectId, "", "Aggiunto Evento");
+                else
+                    _dataActionsFrom.ComposeMessage(projectId, "", "Aggiunta Attivita");
+            }
+            var listUsers = _dataActions.GetRelatedUsers(_dataId).ToList();
+            if (listUsers.Count != 0)
+            {
+                if (_dataType == "project")
+                _dataActions.ComposeMessage(_dataId, "", "Invito a collaborare ad un progetto");
+            }
             Response.Redirect(_returnUrl);
         }
 

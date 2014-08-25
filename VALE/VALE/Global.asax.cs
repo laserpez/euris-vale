@@ -30,9 +30,60 @@ namespace VALE
                 actions.CreateAdministrator();
             }
 
+            // Create a timer.
+            var aTimer = new Timer();
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            //aTimer.Interval = 900;
+            aTimer.Interval = 1200000; //20 minuti
+            aTimer.Enabled = true;
         
         }
 
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            var db = new UserOperationsContext();
+            var allMailInQueueRegisters = db.MailQueues.Where(m => m.Form == "Registrazione").ToList();
+            var allMailInQueueProjects = db.MailQueues.Where(m => m.Form == "Progetto").ToList();
+            var allMailInQueueEvents = db.MailQueues.Where(m => m.Form == "Evento").ToList();
+            var allMailInQueueActivities = db.MailQueues.Where(m => m.Form == "Attivita").ToList();
+
+            if (allMailInQueueRegisters.Count != 0)
+                SendAllMail(allMailInQueueRegisters, "Registrazione");
+            if (allMailInQueueProjects.Count != 0)
+                SendAllMail(allMailInQueueProjects, "Progetto");
+            if (allMailInQueueEvents.Count != 0)
+                SendAllMail(allMailInQueueEvents, "Evento");
+            if (allMailInQueueActivities.Count != 0)
+                SendAllMail(allMailInQueueActivities, "Attivita");
+
+            var helper = new MailHelper();
+            helper.Cleaner();
+         }
+
+        private static void SendAllMail(List<MailQueue> allMailInQueue, string form)
+        {
+            var db = new UserOperationsContext();
+
+            var bodyMail = String.Empty;
+
+            var allMailGroup = allMailInQueue.GroupBy(u => u.mMail.To, u => u.Date);
+
+            foreach (var group in allMailGroup)
+            {
+                var listMail = db.MailQueues.Where(p => p.Form == form && p.mMail.To == group.Key).ToList();
+                foreach(var mail in listMail)
+                {
+                    bodyMail += mail.mMail.Body + "<br/>";
+                }
+
+                Mail newMail = new Mail(to: group.Key, bcc: "", cc: "", subject: "Informazioni " + form, body: bodyMail, form: form);
+
+                var helper = new MailHelper();
+                var error = helper.SendMail(newMail);
+                helper.UpdateLog(error, listMail);
+                bodyMail = String.Empty;
+            }
+        }
         
     }
 }

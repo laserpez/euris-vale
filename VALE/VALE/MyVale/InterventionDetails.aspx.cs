@@ -108,6 +108,10 @@ namespace VALE.MyVale
                     grdComments.DataBind();
                     txtComment.InnerText = "";
                 }
+
+                var projectActions = new ProjectActions();
+                var projectId = _db.Interventions.FirstOrDefault(i => i.InterventionId == _currentInterventionId).ProjectId;
+                projectActions.ComposeMessage(projectId, HttpContext.Current.User.Identity.Name, "Aggiunto commento a conversazione");
             }
         }
 
