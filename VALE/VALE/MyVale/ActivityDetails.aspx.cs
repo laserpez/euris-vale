@@ -22,20 +22,21 @@ namespace VALE.MyVale
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (HttpContext.Current.User.Identity.IsAuthenticated)
-                PagePermission();
             _db = new UserOperationsContext();
             _currentUser = User.Identity.GetUserName();
-            if(Request.QueryString.HasKeys())
+            if (Request.QueryString.HasKeys())
                 _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
             if (Request.QueryString["From"] != null)
                 Session["ActivityDetailsRequestFrom"] = Request.QueryString["From"];
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                PagePermission();
+           
         }
 
         public void PagePermission()
         {
             if (_db.Activities.FirstOrDefault(o => o.ActivityId == _currentActivityId).PendingUsers.Where(u => u.UserName == _currentUser).ToList().Count == 0
-               || _db.Activities.FirstOrDefault(o => o.ActivityId == _currentActivityId).Creator.UserName != _currentUser)
+               && _db.Activities.FirstOrDefault(o => o.ActivityId == _currentActivityId).Creator.UserName != _currentUser)
             {
                 string titleMessage = "PERMESSO NEGATO";
                 string message = "Non hai i poteri necessari per poter visualizzare la pagina ActivityDetails.";
