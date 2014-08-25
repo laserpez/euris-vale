@@ -51,7 +51,7 @@
                                      <div class="col-md-9">
                                         <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="300px" ID="txtArticleContent" runat="server"></asp:TextBox>
                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtArticleContent" CssClass="text-danger" ErrorMessage="Il Contenuto è obbligatorio" />
-                                        <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtArticleContent">
+                                        <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtArticleContent">
                                             <Toolbar>
                                     <ajaxToolkit:Undo />
                                     <ajaxToolkit:Redo />
@@ -68,7 +68,7 @@
                                     <ajaxToolkit:Copy />
                                     <ajaxToolkit:Paste />
                                 </Toolbar>
-                                        </asp:HtmlEditorExtender>
+                                        </asp:HtmlEditorExtender>--%>
                                      </div>
                                  </div>
                                  <div class="col-md-12"><br /></div>

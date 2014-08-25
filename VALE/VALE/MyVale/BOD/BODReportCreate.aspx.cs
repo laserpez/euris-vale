@@ -58,8 +58,8 @@ namespace VALE.MyVale.BOD
             ViewState["reportId"] = report.BODReportId;
             if (Session["BODReportCreateRequestFrom"] != null)
             {
-                Session["BODReportCreateRequestFrom"] = null;
                 Response.Redirect(Session["BODReportCreateRequestFrom"].ToString());
+                Session["BODReportCreateRequestFrom"] = null;
             }
             Response.Redirect("~/MyVale/BOD/BODReports");
         }
