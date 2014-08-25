@@ -63,7 +63,7 @@
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Scrivi verbale *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtReportText" runat="server"></asp:TextBox>
-                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtReportText">
+                                   <%-- <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtReportText">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />
@@ -80,7 +80,7 @@
                                             <ajaxToolkit:Copy />
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
-                                    </asp:HtmlEditorExtender>
+                                    </asp:HtmlEditorExtender>--%>
                                     <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtReportText" ErrorMessage="* campo Scrivi verbale obbligatorio"></asp:RequiredFieldValidator><br />
                                     <br />
                                 </div>
