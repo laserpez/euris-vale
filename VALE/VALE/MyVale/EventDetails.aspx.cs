@@ -109,7 +109,7 @@ namespace VALE.MyVale
         {
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
-            if (eventActions.AddOrRemoveUserData(_currentEventId, _currentUserName) == true)
+            if (eventActions.AddOrRemoveUserData(_currentEventId, _currentUserName, "user") == true)
             {
                 // MAIL
                 //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);

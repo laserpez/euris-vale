@@ -54,10 +54,9 @@ namespace VALE.MyVale
 
         protected void btnAddUsers_Click(object sender, EventArgs e)
         {
-            var newEvent = SaveData();
+            var actions = new EventActions();
 
-            if (newEvent.Public == true)
-                SendMailToAll(newEvent);
+            var newEvent = SaveData();
 
             var redirectURL = "";
             var fromRequest = "";
@@ -66,39 +65,21 @@ namespace VALE.MyVale
                 redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["EventCreateCallingProjectId"].ToString();
                 fromRequest = "project";
                 Session["EventCreateCallingProjectId"] = null;
+                actions.ComposeMessage(newEvent.EventId, "", "Creazione Evento pubblico");
             }
             else if (Session["EventCreateRequestFrom"] != null)
             {
                 redirectURL = Session["EventCreateRequestFrom"].ToString();
                 Session["EventCreateRequestFrom"] = null;
+                actions.ComposeMessage(newEvent.EventId, "", "Creazione Evento pubblico");
             }
             else
+            {
+                actions.ComposeMessage(newEvent.EventId, "", "Creazione Evento pubblico");
                 redirectURL = "/MyVale/Events";
+            }
 
             Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newEvent.EventId + "&dataType=event&returnUrl=" + redirectURL + "&requestFrom=" + fromRequest);
-        }
-
-        private void SendMailToAll(Event newEvent)
-        {
-            var db = new UserOperationsContext();
-            List<UserData> listAllUsers = db.UserDatas.Where(ev => ev.UserName != _currentUser).ToList();
-            if (listAllUsers.Count != 0)
-            {
-                foreach(var user in listAllUsers)
-                {
-                    var subjectMail = "Creazione di un nuovo evento pubblico";
-                    var bodyMail = "Salve, ti informiamo che in data " + newEvent.EventDate.ToShortDateString() + 
-                        " si terrà l'evento " + newEvent.Name + ", organizzato da " + newEvent.OrganizerUserName + 
-                        ", alle ore " + newEvent.EventDate.ToShortTimeString() + " in " + newEvent.Site + ".<br/> L'evento avrà una durata di " + newEvent.Durata + " ore.<br/>"
-                        + "La partecipazione è pubblica.<br/>" +
-                         "Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + newEvent.EventId + "\">Clicca qui<a/>";
-                    Mail newMail = new Mail (to: user.Email, bcc: "", cc: "", subject: subjectMail, body: bodyMail, form: "Evento" );
-
-                    var helper = new MailHelper();
-                    int queueId = helper.AddToQueue(newMail);
-                    helper.WriteLog(newMail, queueId);
-                }
-            }
         }
 
         private Event SaveData()
@@ -140,9 +121,6 @@ namespace VALE.MyVale
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             var newEvent = SaveData();
-
-            if (newEvent.Public == true)
-                SendMailToAll(newEvent);
 
             var redirectURL = "";
             if (Session["EventCreateCallingProjectId"] != null)

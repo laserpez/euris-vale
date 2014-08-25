@@ -145,7 +145,7 @@ namespace VALE.Logic
                 return result = result.AsQueryable<ActivityReport>().OrderBy(sortBy).ToList();
         }
 
-        public bool AddOrRemoveUserData(int dataId, string username)
+        public bool AddOrRemoveUserData(int dataId, string username, string requestform)
         {
             var db = new UserOperationsContext();
             var activity = db.Activities.First(a => a.ActivityId == dataId);
@@ -289,7 +289,7 @@ namespace VALE.Logic
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

@@ -39,7 +39,14 @@
                                         </EmptyDataTemplate>
                                         <Columns>
                                             <asp:BoundField ItemStyle-Font-Bold="false" DataField="Date" HeaderText="Data" SortExpression="Date" />
-                                            <asp:BoundField ItemStyle-Font-Bold="false" DataField="Sender" HeaderText="Mittente" SortExpression="Sender" />
+                                            <asp:TemplateField>
+                                                <HeaderTemplate>
+                                                    <asp:LinkButton runat="server" CommandArgument="Sent" CommandName="sort">Stato ricezione</asp:LinkButton>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:BoundField ItemStyle-Font-Bold="false" DataField="Receiver" HeaderText="Destinatario" SortExpression="Receiver" />
                                             <%--<asp:TemplateField>
                                                                 <HeaderTemplate>
@@ -67,12 +74,13 @@
                                             <asp:BoundField ItemStyle-Font-Bold="false" DataField="DataAction" HeaderText="Oggetto" SortExpression="DataAction" />
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <asp:LinkButton runat="server" CommandArgument="Sent" CommandName="sort">Stato ricezione</asp:LinkButton>
+                                                    <asp:LinkButton runat="server" CommandArgument="Body" CommandName="sort"></asp:LinkButton>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label>
+                                                    <asp:Label runat="server"><%#: GetBody(Item.Body) %></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+                                            <%--<asp:BoundField ItemStyle-Font-Bold="false" DataField="Body" HeaderText="Corpo della mail" SortExpression="Body" />--%>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
                                                     <asp:LinkButton runat="server" CommandArgument="Error" CommandName="sort">Messaggio d'errore</asp:LinkButton>
