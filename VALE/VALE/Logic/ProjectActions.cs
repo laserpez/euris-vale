@@ -161,15 +161,15 @@ namespace VALE.Logic
                 aProject.InvolvedUsers.Add(user);
                 added = true;
                 if (requestForm == "creator")
-                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
+                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Progetto");
                 else
-                    ComposeMessage(dataId, username, "Un nuovo collaboratore sta partecipando al progetto");
+                    ComposeMessage(dataId, username, "Richiesta partecipazione ad un Progetto");
             }
             else
             {
                 aProject.InvolvedUsers.Remove(user);
                 if (requestForm == "creator")
-                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
+                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Progetto");
                 else
                     ComposeMessage(dataId, username, "Rimozione partecipazione");
             }
@@ -371,22 +371,25 @@ namespace VALE.Logic
                 switch (subject)
                 {
                     case "Invito a collaborare ad un progetto":
-                        var db = new UserOperationsContext();
-                        var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var ownerProject = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
-                        if (aProject.InvolvedUsers.Count != 0)
+                        if (dataId != 0)
                         {
-                            var listAllUsers = aProject.InvolvedUsers.ToList();
-                            if (listAllUsers.Contains(ownerProject))
-                                listAllUsers.Remove(ownerProject);
-
-                            foreach(var anUser in listAllUsers)
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var ownerProject = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                            if (aProject.InvolvedUsers.Count != 0)
                             {
-                                var bodyMail =  "Salve, ti informiamo sei stato invitato a collaborare al progetto " + aProject.ProjectName +
-                                    ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
+                                var listAllUsers = aProject.InvolvedUsers.ToList();
+                                if (listAllUsers.Contains(ownerProject))
+                                    listAllUsers.Remove(ownerProject);
 
-                                AddToQueue(newMail);
+                                foreach (var anUser in listAllUsers)
+                                {
+                                    var bodyMail = "Salve, ti informiamo sei stato invitato a collaborare al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
+                                    Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
+
+                                    AddToQueue(newMail);
+                                }
                             }
                         }
                         break;
@@ -579,23 +582,38 @@ namespace VALE.Logic
             }
         }
 
-        private void SendToCoworkers(Project project, string subject, string mailBody)
+        private void SendToPrivate(string userMail, string subject, string bodyMail)
         {
-            var dbContext = new UserOperationsContext();
-            var ownerSelectedProject = dbContext.UserDatas.FirstOrDefault(u => u.UserName == project.OrganizerUserName);
-            if (project.InvolvedUsers.Count != 0)
-            {
-                var listAllUsers = project.InvolvedUsers.ToList();
-                if (listAllUsers.Contains(ownerSelectedProject))
-                    listAllUsers.Remove(ownerSelectedProject);
+            Mail newMail = new Mail(to: userMail, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Evento");
+            AddToQueue(newMail);
+        }
 
-                foreach (var anUser in listAllUsers)
-                {
-                    Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Progetto");
-                    AddToQueue(newMail);
-                }
+        private void SendToCoworkers(string subject, string mailBody, List<UserData> listAllUsers)
+        {
+            foreach (var anUser in listAllUsers)
+            {
+                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Evento");
+                AddToQueue(newMail);
             }
         }
+
+        //private void SendToCoworkers(Project project, string subject, string mailBody)
+        //{
+        //    var dbContext = new UserOperationsContext();
+        //    var ownerSelectedProject = dbContext.UserDatas.FirstOrDefault(u => u.UserName == project.OrganizerUserName);
+        //    if (project.InvolvedUsers.Count != 0)
+        //    {
+        //        var listAllUsers = project.InvolvedUsers.ToList();
+        //        if (listAllUsers.Contains(ownerSelectedProject))
+        //            listAllUsers.Remove(ownerSelectedProject);
+
+        //        foreach (var anUser in listAllUsers)
+        //        {
+        //            Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Progetto");
+        //            AddToQueue(newMail);
+        //        }
+        //    }
+        //}
 
         private void AddToQueue(Mail email)
         {

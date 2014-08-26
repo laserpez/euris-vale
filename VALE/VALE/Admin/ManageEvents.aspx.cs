@@ -56,6 +56,7 @@ namespace VALE.Admin
 
                 var thisEvent = dbData.Events.First(ev => ev.EventId == eventId);
                 var eventActions = new EventActions();
+                eventActions.ComposeMessage(eventId, thisEvent.OrganizerUserName, "Cancellazione Evento");
                 eventActions.RemoveAllAttachments(eventId);
 
                 dbData.Events.Remove(thisEvent);
