@@ -28,7 +28,7 @@
                             <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Inserisci testo conversazione</asp:Label>
                             <div class="col-md-10">
                                 <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtComment" runat="server"></asp:TextBox>
-                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtComment">
+                                    <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtComment">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />
@@ -45,7 +45,7 @@
                                             <ajaxToolkit:Copy />
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
-                                    </asp:HtmlEditorExtender>
+                                    </asp:HtmlEditorExtender>--%>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="txtComment" CssClass="text-danger" ErrorMessage="Il campo Inserisci commento è obbligatorio"></asp:RequiredFieldValidator>
                             </div>
                             <div class="col-md-12">

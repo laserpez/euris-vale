@@ -563,7 +563,7 @@
                                 <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control input-sm" TextMode="MultiLine" Height="150px" ID="txtDescription" runat="server"></asp:TextBox>
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ValidationGroup="ModifyProject" ErrorMessage="Il campo Descrizione è obbligatorio." />
-                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
+                                    <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />
@@ -580,7 +580,7 @@
                                             <ajaxToolkit:Copy />
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
-                                    </asp:HtmlEditorExtender>
+                                    </asp:HtmlEditorExtender>--%>
                                     
                             </div>
                             <div class="form-group">
