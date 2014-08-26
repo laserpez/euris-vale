@@ -97,7 +97,7 @@ namespace VALE.MyVale
             if (listUsers.Count != 0)
             {
                 if (_dataType == "project")
-                _dataActions.ComposeMessage(_dataId, "", "Invito a collaborare ad un progetto");
+                    _dataActions.ComposeMessage(_dataId, "", "Invito di partecipazione ad un Progetto");
                 if (_dataType == "event")
                     _dataActions.ComposeMessage(_dataId, "", "Creazione Evento pubblico");
             }

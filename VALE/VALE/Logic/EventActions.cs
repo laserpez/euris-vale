@@ -199,17 +199,15 @@ namespace VALE.Logic
                 anEvent.RegisteredUsers.Add(user);
                 added = true;
                 if (requestform == "creator")
-                    ComposeMessage(anEvent.EventId, "", "Invito di partecipazione ad un Evento");
+                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
                 else
-                    ComposeMessage(anEvent.EventId, username, "Richiesta partecipazione ad un Evento");
+                    ComposeMessage(dataId, username, "Richiesta partecipazione ad un Evento");
             }
             else
             {
                 anEvent.RegisteredUsers.Remove(user);
-                if (requestform == "creator")
-                    ComposeMessage(anEvent.EventId, "", "Invito di partecipazione ad un Evento");
-                else
-                    ComposeMessage(anEvent.EventId, username, "Rimozione partecipazione");
+                if (requestform == "user")
+                    ComposeMessage(dataId, username, "Rimozione partecipazione");
             }
 
             if (anEvent.RelatedProject != null)
@@ -288,8 +286,8 @@ namespace VALE.Logic
                             }
                             if (registeredUsers.Count != 0)
                             {
-                                var bodyMail = "Salve, ti informiamo che in data " + anEvent.EventDate.ToShortDateString() +
-                                    " si terrà l'evento " + anEvent.Name + ", organizzato da " + anEvent.OrganizerUserName +
+                                var bodyMail = "Salve, ti informiamo che sei stato invitato a partecipare all'evento " + anEvent.Name +
+                                    ", organizzato da " + anEvent.OrganizerUserName + " che si terrà in data " + anEvent.EventDate.ToShortDateString() +
                                     ", alle ore " + anEvent.EventDate.ToShortTimeString() + " in " + anEvent.Site + ".<br/> L'evento avrà una durata di " + anEvent.Durata + " ore.<br/>"
                                      + ".<br/>" +
                                     "Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>";
@@ -304,7 +302,7 @@ namespace VALE.Logic
                             var anEvent = db.Events.FirstOrDefault(ev => ev.EventId == dataId);
                             if (userName != anEvent.OrganizerUserName)
                             {
-                                var bodyMail = "Salve, ti informiamo che l'utente " + userName + " ha rimosso la propria partecipazione dal tuo evento "
+                                var bodyMail = "Salve, ti informiamo che l'utente " + userName + " sta partecipando al tuo evento "
                                     + anEvent.Name;
                                 var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == anEvent.OrganizerUserName).Email;
                                 SendToPrivate(ownerEmail, subject, bodyMail);
@@ -357,20 +355,24 @@ namespace VALE.Logic
                                 var owner = db.UserDatas.FirstOrDefault(u => u.UserName == anEvent.OrganizerUserName);
                                 registeredUsers.Remove(owner);
                             }
+                            var bodyMail = String.Empty;
+                            var lastProject = anEvent.RelatedProject;
                             if (registeredUsers.Count != 0)
                             {
-                                var lastProject = anEvent.RelatedProject;
-                                var bodyMail = "Salve, ti informiamo che all'evento " + anEvent.Name +
+                                bodyMail = "Salve, ti informiamo che all'evento " + anEvent.Name +
                                     ", creato da " + anEvent.OrganizerUserName + " è stato correlato il progetto " + lastProject.ProjectName + " creato da " + lastProject.ProjectName +
                                     ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>";
                                 SendToCoworkers(subject, bodyMail, anEvent.RegisteredUsers);
-
-                                //Send e-mail to RelatedProject owner
-                                bodyMail = "Salve, ti informiamo che il tuo progetto" + lastProject.ProjectName + " è stato correlato all'evento " +
-                                    anEvent.Name + " di " + anEvent.OrganizerUserName + "<br>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>";
-                                var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
-                                SendToPrivate(userEmail, subject, bodyMail);
                             }
+                            //Send e-mail to RelatedProject owner
+                            bodyMail = "Salve, ti informiamo che il tuo progetto" + lastProject.ProjectName + " è stato correlato all'evento " +
+                                anEvent.Name + " di " + anEvent.OrganizerUserName + "<br>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>";
+                            var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                            SendToPrivate(userEmail, subject, bodyMail);
+
+                            //Invio e-mail di notifica anche ai collaboratori del progetto correlato
+                            var projectActions = new ProjectActions();
+                            projectActions.ComposeMessage(lastProject.ProjectId, "", "Aggiunto Evento");
                         }
                         break;
                     case "Rimosso progetto correlato":
