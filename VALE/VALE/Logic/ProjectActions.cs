@@ -635,7 +635,7 @@ namespace VALE.Logic
 
         private void SendToPrivate(string userMail, string subject, string bodyMail)
         {
-            Mail newMail = new Mail(to: userMail, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Evento");
+            Mail newMail = new Mail(to: userMail, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
             AddToQueue(newMail);
         }
 
@@ -643,28 +643,10 @@ namespace VALE.Logic
         {
             foreach (var anUser in listAllUsers)
             {
-                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Evento");
+                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Progetto");
                 AddToQueue(newMail);
             }
         }
-
-        //private void SendToCoworkers(Project project, string subject, string mailBody)
-        //{
-        //    var dbContext = new UserOperationsContext();
-        //    var ownerSelectedProject = dbContext.UserDatas.FirstOrDefault(u => u.UserName == project.OrganizerUserName);
-        //    if (project.InvolvedUsers.Count != 0)
-        //    {
-        //        var listAllUsers = project.InvolvedUsers.ToList();
-        //        if (listAllUsers.Contains(ownerSelectedProject))
-        //            listAllUsers.Remove(ownerSelectedProject);
-
-        //        foreach (var anUser in listAllUsers)
-        //        {
-        //            Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Progetto");
-        //            AddToQueue(newMail);
-        //        }
-        //    }
-        //}
 
         private void AddToQueue(Mail email)
         {
