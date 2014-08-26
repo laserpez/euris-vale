@@ -294,5 +294,27 @@ namespace VALE.Logic
                 return false;
             }
         }
+
+        private void SendToPrivate(string userMail, string subject, string bodyMail)
+        {
+            Mail newMail = new Mail(to: userMail, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Attivita");
+            AddToQueue(newMail);
+        }
+
+        private void SendToCoworkers(string subject, string mailBody, List<UserData> listAllUsers)
+        {
+            foreach (var anUser in listAllUsers)
+            {
+                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Attivita");
+                AddToQueue(newMail);
+            }
+        }
+
+        private void AddToQueue(Mail email)
+        {
+            var helper = new MailHelper();
+            int queueId = helper.AddToQueue(email);
+            helper.WriteLog(email, queueId);
+        }
     }
 }
