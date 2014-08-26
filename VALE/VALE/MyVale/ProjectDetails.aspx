@@ -444,8 +444,8 @@
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
-                                                <PagerSettings Position="Bottom" />
-                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                                                                 <EmptyDataTemplate>
                                                                     <asp:Label runat="server">Nessuna attività correlata.</asp:Label>
                                                                 </EmptyDataTemplate>
