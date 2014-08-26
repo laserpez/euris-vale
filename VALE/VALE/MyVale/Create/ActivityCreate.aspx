@@ -1,5 +1,6 @@
 ﻿<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <%@ Register Src="~/MyVale/Create/SelectProject.ascx" TagPrefix="uc" TagName="SelectProject" %>
+
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="ActivityCreate.aspx.cs" Inherits="VALE.MyVale.ActivityCreate" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -36,7 +37,7 @@
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtDescription" runat="server"></asp:TextBox>
-                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
+                                    <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />
@@ -53,12 +54,12 @@
                                             <ajaxToolkit:Copy />
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
-                                    </asp:HtmlEditorExtender>
+                                    </asp:HtmlEditorExtender>--%>
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="La descrizione è obbligatoria" />
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Tipo Attività</asp:Label>
                                 <div class="col-md-10">
-                                    <asp:DropDownList  class="form-control" runat="server" ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeName"></asp:DropDownList>
+                                    <asp:DropDownList  CssClass="form-control" runat="server" ID="ddlSelectType" SelectMethod="GetTypes" Width="404px" ItemType="VALE.Models.ActivityType" DataTextField="ActivityTypeName" DataValueField="ActivityTypeName"></asp:DropDownList>
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSelectType" CssClass="text-danger" ErrorMessage="il tipo è obbligatorio" />
                                 </div>
                                 <asp:UpdatePanel runat="server">
@@ -70,7 +71,7 @@
                                             <button type="button" visible="false" id="SuspendedStatusButtonDisabled" class="btn btn-warning disabled" runat="server">Sospeso  <span class="caret"></span></button>
                                             <button type="button" visible="false" id="DoneStatusButtonDisabled" class="btn btn-default disabled" runat="server">Terminato  <span class="caret"></span></button>
                                             <div class="btn-group">
-                                                <asp:Label ID="LabelActivityStatus" runat="server" value="ToBePlanned" Visible="false"></asp:Label>
+                                                <asp:Label ID="LabelActivityStatus" runat="server" Text="ToBePlanned" Visible="false"></asp:Label>
                                                 <button type="button" visible="true" id="ToBePlannedStatusButton" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Da Pianificare  <span class="caret"></span></button>
                                                 <button type="button" visible="false" id="OngoingStatusButton" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">In Corso  <span class="caret"></span></button>
                                                 <button type="button" visible="false" id="SuspendedStatusButton" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" runat="server">Sospesa  <span class="caret"></span></button>
