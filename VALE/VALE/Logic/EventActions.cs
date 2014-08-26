@@ -136,6 +136,7 @@ namespace VALE.Logic
                         listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 }
                 _db.SaveChanges();
+                ComposeMessage(dataId, "", "Aggiunto documento allegato");
                 logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento a \"" + anEvent.Name + "\"", DataType = "Evento", Date = DateTime.Now, Description = "Nome documento: \"" + file.FileName + "\"" });
                 return true;
             }
@@ -279,14 +280,20 @@ namespace VALE.Logic
                         {
                             var db = new UserOperationsContext();
                             var anEvent = db.Events.FirstOrDefault(ev => ev.EventId == dataId);
-                            if (anEvent.RegisteredUsers.Count != 0)
+                            var registeredUsers = anEvent.RegisteredUsers.ToList();
+                            if (IsUserRelated(dataId, anEvent.OrganizerUserName))
+                            {
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == anEvent.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
                             {
                                 var bodyMail = "Salve, ti informiamo che in data " + anEvent.EventDate.ToShortDateString() +
                                     " si terrà l'evento " + anEvent.Name + ", organizzato da " + anEvent.OrganizerUserName +
                                     ", alle ore " + anEvent.EventDate.ToShortTimeString() + " in " + anEvent.Site + ".<br/> L'evento avrà una durata di " + anEvent.Durata + " ore.<br/>"
                                      + ".<br/>" +
                                     "Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>";
-                                SendToCoworkers(subject, bodyMail, anEvent.RegisteredUsers);
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
                         break;
@@ -299,9 +306,8 @@ namespace VALE.Logic
                             {
                                 var bodyMail = "Salve, ti informiamo che l'utente " + userName + " ha rimosso la propria partecipazione dal tuo evento "
                                     + anEvent.Name;
-                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == anEvent.OrganizerUserName);
-                                Mail newMail = new Mail(to: owner.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Evento");
-                                AddToQueue(newMail);
+                                var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == anEvent.OrganizerUserName).Email;
+                                SendToPrivate(ownerEmail, subject, bodyMail);
                             }
                         }
                         break;
@@ -324,35 +330,71 @@ namespace VALE.Logic
                         {
                             var db = new UserOperationsContext();
                             var anEvent = db.Events.FirstOrDefault(ev => ev.EventId == dataId);
-                            if (anEvent.RegisteredUsers.Count != 0)
+                            var registeredUsers = anEvent.RegisteredUsers.ToList();
+                            if (IsUserRelated(dataId, anEvent.OrganizerUserName))
+                            {
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == anEvent.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
                             {
                                 var lastAttachment = anEvent.AttachedFiles.Last();
                                 var bodyMail = "Salve, ti informiamo che all'evento " + anEvent.Name +
                                     ", creato da " + anEvent.OrganizerUserName + " è stato allegato il documento " + lastAttachment.FileName +
                                     ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>"; ;
-                                SendToCoworkers(subject, bodyMail, anEvent.RegisteredUsers);
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
                         break;
                     case "Aggiunto progetto correlato":
-                        var _context = new UserOperationsContext();
-                        var _selectedEvent = _context.Events.FirstOrDefault(ev => ev.EventId == dataId);
-                        if (_selectedEvent.RegisteredUsers.Count != 0)
+                        if (dataId != 0)
                         {
-                            var bodyMail = "";
-                            SendToCoworkers(subject, bodyMail, _selectedEvent.RegisteredUsers);
+                            var db = new UserOperationsContext();
+                            var anEvent = db.Events.FirstOrDefault(ev => ev.EventId == dataId);
+                            var registeredUsers = anEvent.RegisteredUsers.ToList();
+                            if (IsUserRelated(dataId, anEvent.OrganizerUserName))
+                            {
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == anEvent.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var lastProject = anEvent.RelatedProject;
+                                var bodyMail = "Salve, ti informiamo che all'evento " + anEvent.Name +
+                                    ", creato da " + anEvent.OrganizerUserName + " è stato correlato il progetto " + lastProject.ProjectName + " creato da " + lastProject.ProjectName +
+                                    ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>";
+                                SendToCoworkers(subject, bodyMail, anEvent.RegisteredUsers);
+
+                                //Send e-mail to RelatedProject owner
+                                bodyMail = "Salve, ti informiamo che il tuo progetto" + lastProject.ProjectName + " è stato correlato all'evento " +
+                                    anEvent.Name + " di " + anEvent.OrganizerUserName + "<br>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/EventDetails?EventId=" + anEvent.EventId + "\">Clicca qui<a/>";
+                                var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                                SendToPrivate(userEmail, subject, bodyMail);
+                            }
                         }
                         break;
                     case "Rimosso progetto correlato":
-                        var DBcontext = new UserOperationsContext();
-                        var modifiedEvent = DBcontext.Events.FirstOrDefault(ev => ev.EventId == dataId);
-                        if (_selectedEvent.RegisteredUsers.Count != 0)
+                        if (dataId != 0)
                         {
-                            var bodyMail = "";
-                            SendToCoworkers(subject, bodyMail, _selectedEvent.RegisteredUsers);
+                            var db = new UserOperationsContext();
+                            var anEvent = db.Events.FirstOrDefault(ev => ev.EventId == dataId);
+                            var lastProject = anEvent.RelatedProject;
+                            var bodyMail = "Salve, ti informiamo che il tuo progetto" + lastProject.ProjectName + " non è più correlato all'evento " +
+                                    anEvent.Name + " di " + anEvent.OrganizerUserName +".";
+                            var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                            SendToPrivate(userEmail, subject, bodyMail);
                         }
                         break;
                     case "Cancellazione Evento":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var anEvent = db.Events.FirstOrDefault(ev => ev.EventId == dataId);
+                            var bodyMail = "Salve, ti informiamo che il tuo evento " + anEvent.Name +
+                                " è stato cancellato dall'Amministratore. Per maggiori informazioni contattare l'Amministratore.";
+                            var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                            SendToPrivate(userEmail, subject, bodyMail);
+                        }
                         break;
                 }
 
@@ -372,12 +414,11 @@ namespace VALE.Logic
 
         private void SendToCoworkers(string subject, string mailBody, List<UserData> listAllUsers)
         {
-                foreach (var anUser in listAllUsers)
-                {
-                    Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Evento");
-
-                    AddToQueue(newMail);
-                }
+            foreach (var anUser in listAllUsers)
+            {
+                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Evento");
+                AddToQueue(newMail);
+            }
         }
 
         private void AddToQueue(Mail email)
