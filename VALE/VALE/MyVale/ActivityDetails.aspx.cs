@@ -35,7 +35,7 @@ namespace VALE.MyVale
 
         public void PagePermission()
         {
-            if (_db.Activities.FirstOrDefault(o => o.ActivityId == _currentActivityId).PendingUsers.Where(u => u.UserName == _currentUser).ToList().Count == 0
+            if (_db.Activities.FirstOrDefault(o => o.ActivityId == _currentActivityId).RegisteredUsers.Where(u => u.UserName == _currentUser).ToList().Count == 0
                && _db.Activities.FirstOrDefault(o => o.ActivityId == _currentActivityId).Creator.UserName != _currentUser)
             {
                 string titleMessage = "PERMESSO NEGATO";
@@ -99,9 +99,26 @@ namespace VALE.MyVale
         public IQueryable<UserData> GetUsersInvolved([QueryString("activityId")] int? activityId)
         {
             if (activityId.HasValue)
-                return _db.Activities.FirstOrDefault(r => r.ActivityId == activityId).PendingUsers.AsQueryable();
-            else
-                return null;
+            {
+                var activity = _db.Activities.FirstOrDefault(a => a.ActivityId == activityId);
+                if(activity != null)
+                {
+                    var users = activity.RegisteredUsers;
+                    users.AddRange(activity.PendingUsers);
+                    return users.AsQueryable();
+                }
+            } 
+            return null;
+        }
+
+        public string GetStatusOfActivityRequest(UserData user) 
+        {
+            
+            var activity = _db.Activities.FirstOrDefault(a => a.ActivityId == _currentActivityId);
+            if (activity.PendingUsers.FirstOrDefault(u => u.UserName == user.UserName) != null)
+                return "In Attesa";
+            return "Acettato";
+
         }
 
         public string GetHoursWorked()

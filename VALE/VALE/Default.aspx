@@ -41,10 +41,20 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <asp:Label Font-Underline="true" Font-Bold="false" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Organizzato da: </asp:Label>
+                                <asp:Label  runat="server"><%#: Item.OrganizerUserName %></asp:Label>
+                            </div>
+                           <div class="col-md-12">
+                                <asp:Label  Font-Bold="true" runat="server">Ultima Modifica: </asp:Label>
+                                <asp:Label  runat="server"><%#: Item.LastModified.ToShortDateString() %></asp:Label>
                             </div>
                             <div class="col-md-12">
-                                <asp:Label ID="lblContentProject" runat="server"><%#: GetDescription(Item.Description) %></asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Lavoro(Ore): </asp:Label>
+                                <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetWorkInfo(Item) %></asp:Label>
+                            </div>
+                            <div class="col-md-12">
+                                <asp:Label  Font-Bold="true" runat="server">Partecipanti: </asp:Label>
+                                <asp:Label runat="server"><%#: Item.InvolvedUsers.Count() %></asp:Label>
                             </div>
                         </div>
                     </div>
@@ -81,10 +91,18 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <asp:Label Font-Underline="true" Font-Bold="false" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Organizzato da: </asp:Label>
+                                <asp:Label  Font-Bold="false" runat="server"><%#: Item.OrganizerUserName %></asp:Label>
                             </div>
                             <div class="col-md-12">
-                                <asp:Label ID="lblContentEvent" runat="server"><%#:GetDescription(Item.Description) %></asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Data: </asp:Label>
+                                <asp:Label  Font-Bold="false" runat="server"><%#: Item.EventDate.ToShortDateString()%></asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Ore: </asp:Label>
+                                <asp:Label  Font-Bold="false" runat="server"><%#: Item.EventDate.ToShortTimeString() %></asp:Label>
+                            </div>
+                            <div class="col-md-12">
+                                <asp:Label  Font-Bold="true" runat="server">Luogo: </asp:Label>
+                                <asp:Label ID="lblContentEvent" runat="server"><%#:Item.Site %></asp:Label>
                             </div>
                         </div>
                     </div>
@@ -119,12 +137,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                       <div class="row">
                             <div class="col-md-12">
-                                <asp:Label Font-Underline="true" Font-Bold="false" runat="server"><%#: Item.CreatorUserName %></asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Organizzato da: </asp:Label>
+                                <asp:Label  runat="server"><%#: Item.CreatorUserName %></asp:Label>
+                            </div>
+                           <div class="col-md-12">
+                                <asp:Label  Font-Bold="true" runat="server">Ultima Modifica: </asp:Label>
+                                <asp:Label  runat="server"><%#: Item.LastModified.ToShortDateString() %></asp:Label>
                             </div>
                             <div class="col-md-12">
-                                <asp:Label ID="lblContentActivity" runat="server"><%#:GetDescription(Item.Description) %></asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Lavoro(Ore): </asp:Label>
+                                <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetWorkInfo(Item) %></asp:Label>
+                            </div>
+                            <div class="col-md-12">
+                                <asp:Label  Font-Bold="true" runat="server">Partecipanti: </asp:Label>
+                                <asp:Label runat="server"><%#: Item.PendingUsers.Count() %></asp:Label>
                             </div>
                         </div>
                     </div>

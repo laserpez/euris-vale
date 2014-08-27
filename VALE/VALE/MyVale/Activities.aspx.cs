@@ -322,8 +322,7 @@ namespace VALE.MyVale
             var db = new UserOperationsContext();
             if (lblAllOrPersonal.Text == "Personal")
             {
-                var activitiesId = db.Reports.Where(r => r.WorkerUserName == _currentUserName).Select(r => r.ActivityId);
-                var activities = db.Activities.Where(a => activitiesId.Contains(a.ActivityId)).OrderByDescending(a => a.CreationDate);
+                var activities = db.UserDatas.First(u=> u.UserName== _currentUserName).AttendingActivities.AsQueryable();
                 return ApplyFilters(activities);
             }
             else

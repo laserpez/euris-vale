@@ -29,6 +29,9 @@ namespace VALE.Models
 
         // Many to many relationship defined in modelBuilder  (with delete cascade)
         public virtual List<UserData> PendingUsers { get; set; }
+
+        // Many to many relationship defined in modelBuilder (with delete cascade)
+        public virtual List<UserData> RegisteredUsers { get; set; }
         
         [ForeignKey("Creator")]
         public string CreatorUserName { get; set; }

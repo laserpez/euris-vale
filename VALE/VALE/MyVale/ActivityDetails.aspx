@@ -201,8 +201,8 @@
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
                                                                         </ItemTemplate>
-                                                                        <HeaderStyle Width="528px" />
-                                                                        <ItemStyle Width="528px" />
+                                                                        <HeaderStyle Width="30%" />
+                                                                        <ItemStyle Width="30%" />
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
@@ -211,8 +211,18 @@
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
                                                                         </ItemTemplate>
-                                                                        <HeaderStyle Width="528px" />
-                                                                        <ItemStyle Width="528px" />
+                                                                        <HeaderStyle Width="60%" />
+                                                                        <ItemStyle Width="60%" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-ok-sign"></span> Stato</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: GetStatusOfActivityRequest(Item) %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="10%" />
+                                                                        <ItemStyle Width="10%" />
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <PagerSettings Position="Bottom" />

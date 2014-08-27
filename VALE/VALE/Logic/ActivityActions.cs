@@ -255,6 +255,7 @@ namespace VALE.Logic
                     Date = DateTime.Today,
                     ActivityDescription = "Attività ricevuta da un altro utente."
                 });
+                user.AttendingActivities.Add(activity);
             }
             logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = accept ? "Accettato attività" : "Rifiutato attività", DataType = "Attività", Date = DateTime.Today, Description = user.UserName + (accept ? " partecipa ora all'attività \"" : " non ha accettato di partecipare all'attività \"") + activity.ActivityName + "\"" });
             user.PendingActivity.Remove(activity);
