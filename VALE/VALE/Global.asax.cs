@@ -75,23 +75,23 @@ namespace VALE
 
             var bodyMail = String.Empty;
 
-            var allMailGroup = allMailInQueue.GroupBy(u => u.Date.ToShortDateString());
+            var allMailGroup = allMailInQueue.GroupBy(u => u.Date);
 
-            foreach (var group in allMailGroup)
-            {
-                var listMail = db.MailQueues.Where(p => p.Date.ToShortDateString() == group.Key).ToList();
-                foreach (var mail in listMail)
-                {
-                    bodyMail += mail.mMail.Body + "<br/>";
-                }
+            //foreach (var group in allMailGroup)
+            //{
+            //    var listMail = db.MailQueues.Where(p => p.Date == group.Key).ToList();
+            //    foreach (var mail in listMail)
+            //    {
+            //        bodyMail += mail.mMail.Body + "<br/>";
+            //    }
 
-                Mail newMail = new Mail(to: receiver, bcc: "", cc: "", subject: "Informazioni", body: bodyMail, form: "");
+            //    Mail newMail = new Mail(to: receiver, bcc: "", cc: "", subject: "Informazioni", body: bodyMail, form: "");
 
-                var helper = new MailHelper();
-                var error = helper.SendMail(newMail);
-                helper.UpdateLog(error, listMail);
-                bodyMail = String.Empty;
-            }
+            //    var helper = new MailHelper();
+            //    var error = helper.SendMail(newMail);
+            //    helper.UpdateLog(error, listMail);
+            //    bodyMail = String.Empty;
+            //}
         }        
         
         //private static void SendAllMail(List<MailQueue> allMailInQueue, string form)

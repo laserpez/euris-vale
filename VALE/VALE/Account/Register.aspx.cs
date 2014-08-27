@@ -127,7 +127,7 @@ namespace VALE.Account
                 //IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
 
                 string titleMessage = string.Format("Grazie {0} {1},", user.FirstName, user.LastName);
-                string message = string.Format("Abbiamo registrato la Sua richiesta di registrazione, una mail di conferma verrà inviata all'indirizzo {0} non appena verrà accettata.", user.Email);
+                string message = string.Format("Abbiamo accettato la sua richiesta di registrazione, una ulteriore mail di conferma verrà inviata al suo indirizzo {0}.", user.Email);
                 string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
                 Response.Redirect(url);
             }
