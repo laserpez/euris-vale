@@ -180,6 +180,10 @@ namespace VALE.MyVale
                     }
 
                     _db.SaveChanges();
+
+                    var activityActions = new ActivityActions();
+                    activityActions.ComposeMessage(_currentActivityId, "", "Aggiunto intervento");
+
                     lblHoursWorked.Text = GetHoursWorked();
                 }
                 grdActivityReport.DataBind();
@@ -233,7 +237,8 @@ namespace VALE.MyVale
             }
             var activityActions = new ActivityActions();
             activityActions.SetActivityStatus(_currentActivityId, status);
-            ActivityDetail.DataBind();
+            Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
+            //ActivityDetail.DataBind();
         }
         private string GetButtonName(string html)
         {
@@ -377,6 +382,7 @@ namespace VALE.MyVale
             }
 
             _db.SaveChanges();
+
             Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
             ModalPopup.Hide();
         }
@@ -398,6 +404,10 @@ namespace VALE.MyVale
                 listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
 
             _db.SaveChanges();
+
+            var activityActions = new ActivityActions();
+            activityActions.ComposeMessage(_currentActivityId, "", "Rimozione progetto correlato");
+
             GridView grdRelatedProject = (GridView)ActivityDetail.FindControl("grdRelatedProject");
             grdRelatedProject.DataBind();
         }
@@ -434,6 +444,9 @@ namespace VALE.MyVale
                     listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
 
                 _db.SaveChanges();
+                var activityActions = new ActivityActions();
+                activityActions.ComposeMessage(_currentActivityId, "", "Aggiunto progetto correlato");
+
                 GridView grdRelatedProject = (GridView)ActivityDetail.FindControl("grdRelatedProject");
                 grdRelatedProject.DataBind();
                 Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
@@ -502,7 +515,5 @@ namespace VALE.MyVale
             Session["ActivityDetailsRequestFrom"] = null;
             Response.Redirect(returnUrl);
         }
-
-        //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
     }
 }
