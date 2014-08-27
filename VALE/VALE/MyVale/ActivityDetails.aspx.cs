@@ -136,7 +136,7 @@ namespace VALE.MyVale
 
         protected void btnInviteUser_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentActivityId + "&dataType=activity&canRemove=false&returnUrl=/MyVale/ActivityDetails?activityId=" + _currentActivityId);
+            Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + _currentActivityId + "&dataType=activity&returnUrl=/MyVale/ActivityDetails?activityId=" + _currentActivityId);
         }
 
 

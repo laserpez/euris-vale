@@ -145,6 +145,7 @@ namespace VALE.Logic
                 return result = result.AsQueryable<ActivityReport>().OrderBy(sortBy).ToList();
         }
 
+
         public bool AddOrRemoveUserData(int dataId, string username, string requestform)
         {
             var db = new UserOperationsContext();
@@ -159,6 +160,9 @@ namespace VALE.Logic
             else
             {
                 activity.PendingUsers.Remove(user);
+                var intervention = db.Reports.FirstOrDefault(r => r.WorkerUserName == user.UserName);
+                if (intervention == null)
+                    activity.RegisteredUsers.Remove(user);
                 added = false;
             }
             if (activity.RelatedProject != null)
@@ -205,7 +209,7 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             //var workerUsers = db.Reports.Where(r => r.ActivityId == dataId).Select(r => r.Worker).Distinct().ToList();
             var pendingUsers = db.Activities.First(a => a.ActivityId == dataId).PendingUsers;
-
+            pendingUsers.AddRange(db.Activities.First(a => a.ActivityId == dataId).RegisteredUsers);
             //workerUsers.AddRange(pendingUsers);
             //return workerUsers.AsQueryable();
             return pendingUsers.AsQueryable();
@@ -247,14 +251,14 @@ namespace VALE.Logic
             var user = db.UserDatas.First(u => u.UserName == HttpContext.Current.User.Identity.Name);
             if (accept == true)
             {
-                db.Reports.Add(new ActivityReport
-                {
-                    ActivityId = activityId,
-                    WorkerUserName = user.UserName,
-                    HoursWorked = 0,
-                    Date = DateTime.Today,
-                    ActivityDescription = "Attività ricevuta da un altro utente."
-                });
+                //db.Reports.Add(new ActivityReport
+                //{
+                //    ActivityId = activityId,
+                //    WorkerUserName = user.UserName,
+                //    HoursWorked = 0,
+                //    Date = DateTime.Today,
+                //    ActivityDescription = "Attività ricevuta da un altro utente."
+                //});
                 user.AttendingActivities.Add(activity);
             }
             logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = accept ? "Accettato attività" : "Rifiutato attività", DataType = "Attività", Date = DateTime.Today, Description = user.UserName + (accept ? " partecipa ora all'attività \"" : " non ha accettato di partecipare all'attività \"") + activity.ActivityName + "\"" });
@@ -309,6 +313,14 @@ namespace VALE.Logic
             var helper = new MailHelper();
             int queueId = helper.AddToQueue(email);
             helper.WriteLog(email, queueId);
+        }
+
+
+        public bool IsStartedWork(string username)
+        {
+            var db = new UserOperationsContext();
+            var intervention = db.Reports.FirstOrDefault(r => r.WorkerUserName == username);
+            return intervention != null;
         }
     }
 }

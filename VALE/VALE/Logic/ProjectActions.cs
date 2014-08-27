@@ -660,5 +660,11 @@ namespace VALE.Logic
             int queueId = helper.AddToQueue(email);
             helper.WriteLog(email, queueId);
         }
+
+
+        public bool IsStartedWork(string username)
+        {
+            return false;
+        }
     }
 }

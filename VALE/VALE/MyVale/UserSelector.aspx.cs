@@ -141,6 +141,11 @@ namespace VALE.MyVale
             return _dataActions.IsUserRelated(_dataId, username);
         }
 
+        public bool IsStartedWork(string username) 
+        {
+            return _dataActions.IsStartedWork(username);
+        }
+
         public bool IsGroupRelated(int groupId)
         {
             return _dataActions.IsGroupRelated(_dataId, groupId);

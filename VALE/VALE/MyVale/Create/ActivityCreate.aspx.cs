@@ -161,30 +161,7 @@ namespace VALE.MyVale
         protected void btnSaveActivity_Click(object sender, EventArgs e)
         {
             var newActivityId = SaveActivity();
-            if (newActivityId != 0) 
-            {
-                string returnUrl = "";
-                string fromRequest = "";
-                if (Session["ActivityCreateCallingProjectId"] != null)
-                {
-                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
-                    fromRequest = "project";
-                }
-                else if (Session["ActivityCreateRequestFrom"] != null)
-                    returnUrl = Session["ActivityCreateRequestFrom"].ToString();
-                else
-                    returnUrl = "/MyVale/Activities";
-                Session["ActivityCreateCallingProjectId"] = null;
-                Session["ActivityCreateRequestFrom"] = null;
-                Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newActivityId + "&dataType=activity&returnUrl=" + returnUrl + "&requestFrom=" + fromRequest);
-            }
-                
-        }
-
-        protected void btnSaveActivityAndSelectUsers_Click(object sender, EventArgs e)
-        {
-            var newActivityId = SaveActivity();
-            if (newActivityId != 0) 
+            if (newActivityId != 0)
             {
                 string returnUrl = "";
                 if (Session["ActivityCreateCallingProjectId"] != null)
@@ -202,6 +179,28 @@ namespace VALE.MyVale
                 Session["ActivityCreateCallingProjectId"] = null;
                 Session["ActivityCreateRequestFrom"] = null;
                 Response.Redirect(returnUrl);
+            }
+        }
+
+        protected void btnSaveActivityAndSelectUsers_Click(object sender, EventArgs e)
+        {
+            var newActivityId = SaveActivity();
+            if (newActivityId != 0)
+            {
+                string returnUrl = "";
+                string fromRequest = "";
+                if (Session["ActivityCreateCallingProjectId"] != null)
+                {
+                    returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
+                    fromRequest = "project";
+                }
+                else if (Session["ActivityCreateRequestFrom"] != null)
+                    returnUrl = Session["ActivityCreateRequestFrom"].ToString();
+                else
+                    returnUrl = "/MyVale/Activities";
+                Session["ActivityCreateCallingProjectId"] = null;
+                Session["ActivityCreateRequestFrom"] = null;
+                Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newActivityId + "&dataType=activity&returnUrl=" + returnUrl + "&requestFrom=" + fromRequest);
             }
         }
 
