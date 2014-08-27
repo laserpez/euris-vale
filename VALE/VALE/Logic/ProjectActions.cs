@@ -161,16 +161,14 @@ namespace VALE.Logic
                 aProject.InvolvedUsers.Add(user);
                 added = true;
                 if (requestForm == "creator")
-                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
+                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Progetto");
                 else
-                    ComposeMessage(dataId, username, "Un nuovo collaboratore sta partecipando al progetto");
+                    ComposeMessage(dataId, username, "Richiesta partecipazione ad un Progetto");
             }
             else
             {
                 aProject.InvolvedUsers.Remove(user);
-                if (requestForm == "creator")
-                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
-                else
+                if(requestForm == "user")
                     ComposeMessage(dataId, username, "Rimozione partecipazione");
             }
 
@@ -228,6 +226,7 @@ namespace VALE.Logic
             var relatedProject = db.Projects.First(a => a.ProjectId == relatedProjectId);
             if (currentProject != null && relatedProject != null) 
             {
+                ComposeMessage(projectId, relatedProject.OrganizerUserName, "Rimosso progetto correlato");
                 currentProject.RelatedProjects.Remove(relatedProject);
                 var listHierarchyUp = getHierarchyUp(currentProject.ProjectId);
                 if (listHierarchyUp.Count != 0)
@@ -235,8 +234,6 @@ namespace VALE.Logic
                 currentProject.LastModified = DateTime.Now;
                 db.SaveChanges();
             }
-            //db.Entry(currentProject).Reference(p => p.RelatedProjects).CurrentValue = null;
-            
         }
 
         public List<Project> getHierarchyUp(int projectId)
@@ -370,204 +367,261 @@ namespace VALE.Logic
             {
                 switch (subject)
                 {
-                    case "Invito a collaborare ad un progetto":
-                        var db = new UserOperationsContext();
-                        var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var ownerProject = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
-                        if (aProject.InvolvedUsers.Count != 0)
+                    case "Invito di partecipazione ad un Progetto":
+                        if (dataId != 0)
                         {
-                            var listAllUsers = aProject.InvolvedUsers.ToList();
-                            if (listAllUsers.Contains(ownerProject))
-                                listAllUsers.Remove(ownerProject);
-
-                            foreach(var anUser in listAllUsers)
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
                             {
-                                var bodyMail =  "Salve, ti informiamo sei stato invitato a collaborare al progetto " + aProject.ProjectName +
-                                    ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                AddToQueue(newMail);
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var bodyMail = "Salve, ti informiamo sei stato invitato a collaborare al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
                         break;
-                    case "Un nuovo collaboratore sta partecipando al progetto":
-                        var dbDataContext = new UserOperationsContext();
-                        var _project = dbDataContext.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        if (_project.InvolvedUsers.Count != 0)
+                    case "Richiesta partecipazione ad un Progetto":
+                        if (dataId != 0)
                         {
-                            var listAllUsers = _project.InvolvedUsers.ToList();
-                            var projectOwner = dbDataContext.UserDatas.FirstOrDefault(u => u.UserName == _project.OrganizerUserName);
-                            if (listAllUsers.Contains(projectOwner) == false)
-                                listAllUsers.Add(projectOwner);
-                            foreach(var anUser in listAllUsers)
-                            {
-                                var bodyMail = "Salve, ti informiamo al progetto " + _project.ProjectName +
-                                    ", creato da " + _project.OrganizerUserName + " sta partecipando anche l'utente " + userName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + _project.ProjectId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                AddToQueue(newMail);
-                            }
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var bodyMail = "Salve, ti informiamo che l'utente " + userName +
+                                        " sta partecipando al tuo progetto " + aProject.ProjectName;
+                            var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName).Email;
+                            SendToPrivate(ownerEmail, subject, bodyMail);
+                        }
+                        break;
+                    case "Rifiuto partecipazione ad un Progetto":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var bodyMail = "Salve, ti informiamo che l'utente " + userName +
+                                        " ha rimosso la propria partecipazione dal tuo progetto " + aProject.ProjectName;
+                            var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName).Email;
+                            SendToPrivate(ownerEmail, subject, bodyMail);
                         }
                         break;
                     case "Aggiunto progetto correlato":
-                        var _db = new UserOperationsContext();
-                        var OwnerProjectRelated = _db.UserDatas.FirstOrDefault(u => u.UserName == userName);
-                        var _aProject = _db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var aProjectRelated = _aProject.RelatedProjects.Last();
-                        var OwnerProject = _db.UserDatas.FirstOrDefault(u => u.UserName == _aProject.OrganizerUserName);
-                        if (_aProject.InvolvedUsers.Count != 0 && _aProject.InvolvedUsers.Contains(OwnerProject) == false)
+                        if (dataId != 0)
                         {
-                            var listAllUsers = _aProject.InvolvedUsers.ToList();
-                            foreach(var anUser in listAllUsers)
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
                             {
-                                var bodyMail =  "Salve, ti informiamo che al progetto " + _aProject.ProjectName +
-                                    ", creato da " + _aProject.OrganizerUserName + " è stato correlato il progetto " + aProjectRelated.ProjectName + " creato da " + aProjectRelated.OrganizerUserName +
-                                    ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + _aProject.ProjectId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                AddToQueue(newMail);
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
                             }
-                        }
-                        
-                        //Invio mail all'owner del progetto correlato
-                        var bodyEmail = "Salve, ti informiamo che il tuo progetto " + aProjectRelated.ProjectName + " è stato correlato al progetto " + _aProject.ProjectName + " creato da " + _aProject.OrganizerUserName +  
-                            ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + _aProject.ProjectId + "\">Clicca qui<a/>";
-                        Mail _newMail = new Mail(to: OwnerProjectRelated.Email, bcc: "", cc: "", subject: subject, body: bodyEmail, form: "Progetto");
+                            var bodyMail = String.Empty;
+                            var lastProject = aProject.RelatedProjects.Last();
+                            if (registeredUsers.Count != 0)
+                            {
+                                bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + " è stato correlato il progetto " + lastProject.ProjectName + " creato da " + lastProject.OrganizerUserName +
+                                        ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
+                            }
 
-                        AddToQueue(_newMail);
+                            //Invio mail all'owner del progetto correlato
+                            bodyMail = "Salve, ti informiamo che il tuo progetto " + lastProject.ProjectName + " è stato correlato al progetto " + aProject.ProjectName + " creato da " + aProject.OrganizerUserName +
+                                ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
+                            var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                            SendToPrivate(userEmail, subject, bodyMail);
+                        }
+                        break;
+                    case "Rimosso progetto correlato":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var deletedProjects = db.Projects.Where(p => p.OrganizerUserName == userName).ToList();
+                            Project deletedProject = null;
+                            foreach (var project in deletedProjects)
+                            {
+                                if (GetFather(project) == aProject)
+                                    deletedProject = project;
+                            }
+                            var bodyMail = "Salve, ti informiamo che il tuo progetto" + deletedProject.ProjectName + " non è più correlato al progetto " +
+                                    aProject.OrganizerUserName + " di " + aProject.OrganizerUserName + ".";
+                            var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                            SendToPrivate(userEmail, subject, bodyMail);
+                        }
                         break;
                     case "Aggiunto documento allegato":
-                        var dbData = new UserOperationsContext();
-                        var theProject = dbData.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var lastAttachment = theProject.AttachedFiles.Last();
-                        if (theProject.InvolvedUsers.Count != 0)
+                        if (dataId != 0)
                         {
-                            var listAllUsers = theProject.InvolvedUsers.ToList();
-                            foreach (var anUser in listAllUsers)
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
                             {
-                                var bodyMail = "Salve, ti informiamo che al progetto " + theProject.ProjectName +
-                                    ", creato da " + theProject.OrganizerUserName + " è stato allegato il documento " + lastAttachment.FileName + 
-                                    ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + theProject.ProjectId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                AddToQueue(newMail);
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var lastAttachment = aProject.AttachedFiles.Last();
+                                var bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + " è stato allegato il documento " + lastAttachment.FileName +
+                                        ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
                         break;
                     case "Aggiunta conversazione":
-                        var _dbData = new UserOperationsContext();
-                        var _theProject = _dbData.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var lastConversation = _theProject.Interventions.Last();
-                        if (_theProject.InvolvedUsers.Count != 0)
+                        if (dataId != 0)
                         {
-                            var listAllUsers = _theProject.InvolvedUsers.ToList();
-                            foreach (var anUser in listAllUsers)
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
                             {
-                                var bodyMail = "Salve, ti informiamo che al progetto " + _theProject.ProjectName +
-                                    ", creato da " + _theProject.OrganizerUserName + " è stata aggiunta una nuova conversazione.<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + lastConversation.InterventionId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                AddToQueue(newMail);
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var lastConversation = aProject.Interventions.Last();
+                                var bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + " è stata aggiunta una nuova conversazione.<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + lastConversation.InterventionId + "\">Clicca qui<a/>";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
                         break;
                     case "Aggiunto commento a conversazione":
-                        var _dbDataContext = new UserOperationsContext();
-                        var project = _dbDataContext.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var _lastConversation = project.Interventions.Last();
-                        if (project.InvolvedUsers.Count != 0)
+                        if (dataId != 0)
                         {
-                            var listAllUsers = project.InvolvedUsers.ToList();
-                            foreach (var anUser in listAllUsers)
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
                             {
-                                var bodyMail = "Salve, ti informiamo che ad una conversazione del progetto " + project.ProjectName +
-                                    ", creato da " + project.OrganizerUserName + " l'utente " + userName + " ha aggiunto un nuovo commento.<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + _lastConversation.InterventionId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                AddToQueue(newMail);
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var lastComment = db.Comments.FirstOrDefault(c => c.CreatorUserName == userName && c.Date.ToShortDateString() == DateTime.Now.ToShortDateString());
+                                var bodyMail = "Salve, ti informiamo che ad una conversazione del progetto " + aProject.ProjectName +
+                                       ", creato da " + aProject.OrganizerUserName + " l'utente " + userName + " ha aggiunto un nuovo commento.<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + lastComment.InterventionId + "\">Clicca qui<a/>";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
                         break;
                     case "Aggiunto Evento":
-                        var contextDB = new UserOperationsContext();
-                        var currentProject = contextDB.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var lastEvent = currentProject.Events.Last();
-                        if (currentProject.InvolvedUsers.Count != 0)
+                        if (dataId != 0)
                         {
-                            var listAllUsers = currentProject.InvolvedUsers.ToList();
-                            foreach (var anUser in listAllUsers)
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
                             {
-                                var bodyMail = "Salve, ti informiamo che al progetto " + currentProject.ProjectName +
-                                    ", creato da " + currentProject.OrganizerUserName + " è stata correlato l'evento " + lastEvent.Name +".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + currentProject.ProjectId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                AddToQueue(newMail);
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var lastEvent = aProject.Events.Last();
+                                var bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + " è stata correlato l'evento " + lastEvent.Name + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
                         break;
                     case "Aggiunta Attivita":
-                        var _contextDB = new UserOperationsContext();
-                        var _currentProject = _contextDB.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var lastActivity = _currentProject.Activities.Last();
-                        if (_currentProject.InvolvedUsers.Count != 0)
+                        if (dataId != 0)
                         {
-                            var listAllUsers = _currentProject.InvolvedUsers.ToList();
-                            foreach (var anUser in listAllUsers)
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
                             {
-                                var bodyMail = "Salve, ti informiamo che al progetto " + _currentProject.ProjectName +
-                                    ", creato da " + _currentProject.OrganizerUserName + " è stata correlata l'attività " + lastActivity.ActivityName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + _currentProject.ProjectId + "\">Clicca qui<a/>";
-                                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
-
-                                AddToQueue(newMail);
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var lastActivity = aProject.Activities.Last();
+                                var bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + " è stata correlato l'evento " + lastActivity.ActivityName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui<a/>";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
                         break;
-                    case "Rimozione partecipazione":
-                        var contextDb = new UserOperationsContext();
-                        var selectedProject = contextDb.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        if (selectedProject.OrganizerUserName != userName)
+                    case "Cancellazione progetto":
+                        if (dataId != 0)
                         {
-                            var owner = contextDb.UserDatas.FirstOrDefault(u => u.UserName == selectedProject.OrganizerUserName);
-                            var Mailbody = "Salve, ti informiamo che l'utente " + userName +
-                                    " ha rimosso la propria partecipazione dal tuo progetto " + selectedProject.ProjectName;
-                            Mail aMail = new Mail(to: owner.Email, bcc: "", cc: "", subject: subject, body: Mailbody, form: "Progetto");
-
-                            AddToQueue(aMail);
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var bodyMail = "Salve, ti informiamo che il tuo progetto " + aProject.ProjectName +
+                                " è stato cancellato dall'Amministratore. Per maggiori informazioni contattare l'Amministratore.";
+                            var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                            SendToPrivate(userEmail, subject, bodyMail);
                         }
                         break;
-                    case "Cancellazione progetto":
-                        var _contextDb = new UserOperationsContext();
-                        var deletedProject = _contextDb.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var _projectOwner = _contextDb.UserDatas.FirstOrDefault(u => u.UserName == userName);
-                        var _Mailbody = "Salve, ti informiamo che il tuo progetto " + deletedProject.ProjectName +
-                                    " è stato cancellato dall'Amministratore";
-                        Mail _aMail = new Mail(to: _projectOwner.Email, bcc: "", cc: "", subject: subject, body: _Mailbody, form: "Progetto");
-                        AddToQueue(_aMail);
-
-                        break;
                     case "Sospensione progetto":
-                        var dbContext = new UserOperationsContext();
-                        var _selectedProject = dbContext.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var _bodyMail = "Salve, ti informiamo che il progetto " + _selectedProject.ProjectName +
-                                    ", creato da " + _selectedProject.OrganizerUserName + " è stato sospeso.";
-
-                        SendToCoworkers(_selectedProject, subject, _bodyMail);
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
+                            {
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var bodyMail = "Salve, ti informiamo che il progetto " + aProject.ProjectName +
+                                    ", creato da " + aProject.OrganizerUserName + " è stato sospeso.";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
+                            }
+                        }
                         break;
                     case "Ripreso progetto":
-                        var _dbContext = new UserOperationsContext();
-                        var _exsospededProject = _dbContext.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var _bodyEMail = "Salve, ti informiamo che il progetto " + _exsospededProject.ProjectName +
-                                    ", creato da " + _exsospededProject.OrganizerUserName + " precedentemente sospeso, è stato ora ripreso.";
-
-                        SendToCoworkers(_exsospededProject, subject, _bodyEMail);
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
+                            {
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var bodyMail = "Salve, ti informiamo che il progetto " + aProject.ProjectName +
+                                    ", creato da " + aProject.OrganizerUserName + " precedentemente sospeso, è stato ora ripreso.";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
+                            }
+                        }
                         break;
                     case "Chiusura progetto":
-                        var ContextdbData = new UserOperationsContext();
-                        var _closedProject = ContextdbData.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                        var bodyEmailToAll = "Salve, ti informiamo che il progetto " + _closedProject.ProjectName +
-                                    ", creato da " + _closedProject.OrganizerUserName + " è stato chiuso.";
-
-                        SendToCoworkers(_closedProject, subject, bodyEmailToAll);
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
+                            var registeredUsers = aProject.InvolvedUsers.ToList();
+                            if (IsUserRelated(dataId, aProject.OrganizerUserName))
+                            {
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName);
+                                registeredUsers.Remove(owner);
+                            }
+                            if (registeredUsers.Count != 0)
+                            {
+                                var bodyMail = "Salve, ti informiamo che il progetto " + aProject.ProjectName +
+                                    ", creato da " + aProject.OrganizerUserName + " è stato chiuso.";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
+                            }
+                        }
                         break;
                 }
 
@@ -579,21 +633,18 @@ namespace VALE.Logic
             }
         }
 
-        private void SendToCoworkers(Project project, string subject, string mailBody)
+        private void SendToPrivate(string userMail, string subject, string bodyMail)
         {
-            var dbContext = new UserOperationsContext();
-            var ownerSelectedProject = dbContext.UserDatas.FirstOrDefault(u => u.UserName == project.OrganizerUserName);
-            if (project.InvolvedUsers.Count != 0)
-            {
-                var listAllUsers = project.InvolvedUsers.ToList();
-                if (listAllUsers.Contains(ownerSelectedProject))
-                    listAllUsers.Remove(ownerSelectedProject);
+            Mail newMail = new Mail(to: userMail, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Progetto");
+            AddToQueue(newMail);
+        }
 
-                foreach (var anUser in listAllUsers)
-                {
-                    Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Progetto");
-                    AddToQueue(newMail);
-                }
+        private void SendToCoworkers(string subject, string mailBody, List<UserData> listAllUsers)
+        {
+            foreach (var anUser in listAllUsers)
+            {
+                Mail newMail = new Mail(to: anUser.Email, bcc: "", cc: "", subject: subject, body: mailBody, form: "Progetto");
+                AddToQueue(newMail);
             }
         }
 

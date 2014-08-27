@@ -123,7 +123,7 @@ namespace VALE.MyVale
                 Session["InterventionCreateCallingProjectId"] = null;
             }
             else
-                redirectURL = "/MyVale/ProjectDetail?" + _currentProjectId;
+                redirectURL = "/MyVale/ProjectDetails?projectId=" + _currentProjectId;
             Response.Redirect(redirectURL);
         }
     }

@@ -50,13 +50,7 @@ namespace VALE.MyVale
             Button btnAttend = (Button)sender;
 
             var eventActions = new EventActions();
-            if(eventActions.AddOrRemoveUserData(eventId, _currentUserName, "user") == true)
-            {
-                    // MAIL
-                    //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
-                    //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
-                    //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
-            }
+            eventActions.AddOrRemoveUserData(eventId, _currentUserName, "user");
             grdEvents.DataBind();
         }
 

@@ -109,15 +109,7 @@ namespace VALE.MyVale
         {
             Button btnAttend = (Button)EventDetail.FindControl("btnAttend");
             var eventActions = new EventActions();
-            if (eventActions.AddOrRemoveUserData(_currentEventId, _currentUserName, "user") == true)
-            {
-                // MAIL
-                //string eventToString = String.Format("{0}\nCreated by:{1}\nDate:{2}\n\n{3}", thisEvent.Name, thisEvent.Organizer.FullName, thisEvent.EventDate, thisEvent.Description);
-                //MailHelper.SendMail(user.Email, String.Format("You succesfully registered to event:\n{0}", eventToString), "Event notification");
-                //MailHelper.SendMail(user.Email, String.Format("User {0} is now registered to your event:\n{1}", user.FullName, eventToString), "Event notification");
-            }
-            //_db.SaveChanges();
-            //Response.Redirect("/MyVale/EventDetails.aspx?eventId=" + _currentEventId);
+            eventActions.AddOrRemoveUserData(_currentEventId, _currentUserName, "user");
             setBtnAttend();
         }
 
@@ -192,6 +184,10 @@ namespace VALE.MyVale
             ModalPopupListProject.Hide();
             var Event = _db.Events.First(a => a.EventId == _currentEventId);
             var projectRelated = _db.Projects.FirstOrDefault(p => p.ProjectId == Event.ProjectId);
+
+            var eventActions = new EventActions();
+            eventActions.ComposeMessage(_currentEventId, projectRelated.OrganizerUserName, "Rimosso progetto correlato");
+
             projectRelated.Events.Remove(Event);
             projectRelated.LastModified = DateTime.Now;
             var actions = new ProjectActions();
@@ -228,6 +224,9 @@ namespace VALE.MyVale
             {
                 var Event = _db.Events.First(a => a.EventId == _currentEventId);
                 Event.RelatedProject = project;
+
+                var eventActions = new EventActions();
+                eventActions.ComposeMessage(_currentEventId, project.OrganizerUserName, "Aggiunto progetto correlato");
 
                 project.LastModified = DateTime.Now;
                 var actions = new ProjectActions();

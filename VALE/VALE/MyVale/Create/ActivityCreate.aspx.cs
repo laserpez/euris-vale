@@ -164,15 +164,19 @@ namespace VALE.MyVale
             if (newActivityId != 0) 
             {
                 string returnUrl = "";
+                string fromRequest = "";
                 if (Session["ActivityCreateCallingProjectId"] != null)
+                {
                     returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
+                    fromRequest = "project";
+                }
                 else if (Session["ActivityCreateRequestFrom"] != null)
                     returnUrl = Session["ActivityCreateRequestFrom"].ToString();
                 else
                     returnUrl = "/MyVale/Activities";
                 Session["ActivityCreateCallingProjectId"] = null;
                 Session["ActivityCreateRequestFrom"] = null;
-                Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newActivityId + "&dataType=activity&returnUrl=" + returnUrl);
+                Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newActivityId + "&dataType=activity&returnUrl=" + returnUrl + "&requestFrom=" + fromRequest);
             }
                 
         }
@@ -184,7 +188,13 @@ namespace VALE.MyVale
             {
                 string returnUrl = "";
                 if (Session["ActivityCreateCallingProjectId"] != null)
+                {
+                    var actions = new ProjectActions();
+                    int projectId = Convert.ToInt32(Session["ActivityCreateCallingProjectId"].ToString());
+                    actions.ComposeMessage(projectId, "", "Aggiunta Attivita");
+
                     returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
+                }
                 else if (Session["ActivityCreateRequestFrom"] != null)
                     returnUrl = Session["ActivityCreateRequestFrom"].ToString();
                 else
@@ -283,9 +293,7 @@ namespace VALE.MyVale
             string returnUrl = "";
             if (Session["ActivityCreateCallingProjectId"] != null)
             {
-                var actions = new ProjectActions();
                 int projectId = Convert.ToInt32(Session["ActivityCreateCallingProjectId"].ToString());
-                actions.ComposeMessage(projectId, "", "Aggiunta Attivita");
 
                 returnUrl = "/MyVale/ProjectDetails?projectId=" + Session["ActivityCreateCallingProjectId"].ToString();
             }
