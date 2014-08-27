@@ -67,15 +67,19 @@ namespace VALE.Logic
             }
 
             db.SaveChanges();
+
+            if (anActivity.Status == ActivityStatus.Done)
+                ComposeMessage(anActivity.ActivityId, "", "Terminazione attività");
+
             logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato attività", DataType = "Attività", Date = DateTime.Today, Description = "\"" + anActivity.ActivityName + "\"" + " ha ora lo stato: " + status.ToString() });
         }
 
         public int GetActivitiesRequest(string userName)
         {
-            //var db = new UserOperationsContext();
-            //var pendingActivity = db.UserDatas.First(u => u.UserName == userName).PendingActivity;
-            //if(pendingActivity != null)
-            //    return pendingActivity.Count;
+            var db = new UserOperationsContext();
+            var pendingActivity = db.UserDatas.First(u => u.UserName == userName).PendingActivity;
+            if (pendingActivity != null)
+                return pendingActivity.Count;
             return 0;
         }
 
@@ -260,6 +264,13 @@ namespace VALE.Logic
             logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = accept ? "Accettato attività" : "Rifiutato attività", DataType = "Attività", Date = DateTime.Today, Description = user.UserName + (accept ? " partecipa ora all'attività \"" : " non ha accettato di partecipare all'attività \"") + activity.ActivityName + "\"" });
             user.PendingActivity.Remove(activity);
             db.SaveChanges();
+            if (accept == true)
+            {
+                ComposeMessage(activityId, "", "Aggiunto intervento");
+                ComposeMessage(activityId, user.UserName, "Conferma collaborazione");
+            }
+            else
+                ComposeMessage(activityId, user.UserName, "Rifiuto collaborazione");
         }
 
         public bool ComposeMessage(int dataId, string userName, string subject)
@@ -268,14 +279,122 @@ namespace VALE.Logic
             {
                 switch (subject)
                 {
-                    case "Invito a collaborare ad una Attività":
+                    case "Invito di partecipazione ad una Attività":
                         if (dataId != 0)
                         {
                             var db = new UserOperationsContext();
                             var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
-                            var registeredUsers = anActivity.PendingUsers.ToList();
+                            var pendingUsers = anActivity.PendingUsers.ToList();
                             if (IsUserRelated(dataId, anActivity.CreatorUserName))
                             { 
+                                var owner = db.UserDatas.FirstOrDefault(u => u.UserName == anActivity.CreatorUserName);
+                                pendingUsers.Remove(owner);
+                            }
+                            if (pendingUsers.Count != 0)
+                            {
+                                var bodyMail = "Salve, ti informiamo che sei stato invitato a collaborare all'attività " + anActivity.ActivityName +
+                                    ", creata da " + anActivity.CreatorUserName + ".<br/>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">Clicca qui</a>";
+
+                                SendToCoworkers(subject, bodyMail, pendingUsers);
+                            }
+                        }
+                        break;
+                    case "Conferma collaborazione":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
+                            if (userName != anActivity.CreatorUserName)
+                            {
+                                var bodyMail = "Salve, ti informiamo che l'utente " + userName + " ha confermato la propria partecipazione alla tua attività " + anActivity.ActivityName + ".";
+                                var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == anActivity.CreatorUserName).Email;
+                                SendToPrivate(ownerEmail, subject, bodyMail);
+                            }
+                        }
+                        break;
+                    case "Rifiuto collaborazione":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
+                            if (userName != anActivity.CreatorUserName)
+                            {
+                                var bodyMail = "Salve, ti informiamo che l'utente " + userName + " ha rifiutato di partecipare alla tua attività " + anActivity.ActivityName + ".";
+                                var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == anActivity.CreatorUserName).Email;
+                                SendToPrivate(ownerEmail, subject, bodyMail);
+                            }
+                        }
+                        break;
+                    case "Aggiunto intervento":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
+                            var registeredUsers = anActivity.RegisteredUsers.ToList();
+
+                            if (registeredUsers.Count != 0)
+                            {
+                                var bodyMail = "Salve, ti informiamo che all'attività " + anActivity.ActivityName + ", di " + anActivity.CreatorUserName +
+                                    " è stato aggiunto un nuovo intervento.<br/>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">Clicca qui</a>";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
+                            }
+                        }
+                        break;
+                    case "Aggiunto progetto correlato":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
+                            var relatedProject = anActivity.RelatedProject;
+                            var registeredUsers = anActivity.RegisteredUsers.ToList();
+
+                            var bodyMail = String.Empty;
+
+                            if (registeredUsers.Count != 0)
+                            {
+                                bodyMail = "Salve, ti informiamo che all'attività " + anActivity.ActivityName + " è stato correlato il progetto " + relatedProject.ProjectName + " creato da " + relatedProject.OrganizerUserName +
+                                    ".<br/>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">Clicca qui</a>.";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
+                            }
+
+                            //Invio e-mail ai partecipanti del progetto corelato
+                            var projectActions = new ProjectActions();
+                            projectActions.ComposeMessage(relatedProject.ProjectId, "", "Aggiunta Attivita");
+
+                            //Invio mail all'owner del progetto correlato
+                            bodyMail = "Salve, ti informiamo che il tuo progetto " + relatedProject.ProjectName + " è stato correlato all'attività " + anActivity.ActivityName + " creato da " + anActivity.CreatorUserName +
+                                ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">Clicca qui</a>.";
+                            var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                            SendToPrivate(userEmail, subject, bodyMail);
+                        }
+                        break;
+                    case "Rimozione progetto correlato":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
+                            var lastProject = anActivity.RelatedProject;
+                            var bodyMail = "Salve, ti informiamo che il tuo progetto" + lastProject.ProjectName + " non è più correlato all'evento " +
+                                    anActivity.ActivityName + " di " + anActivity.CreatorUserName + ".";
+                            var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
+                            SendToPrivate(userEmail, subject, bodyMail);
+                        }
+                        break;
+                    case "Terminazione attività":
+                        if (dataId != 0)
+                        {
+                            var db = new UserOperationsContext();
+                            var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
+                            var registeredUsers = anActivity.RegisteredUsers.ToList();
+                            if (registeredUsers.Count != 0)
+                            {
+                                var bodyMail = "Salve, ti informiamo che l'attività " + anActivity.ActivityName + ", di " + anActivity.CreatorUserName + " è stata conclusa.";
+                                SendToCoworkers(subject, bodyMail, registeredUsers);
+                                if (anActivity.RelatedProject != null)
+                                {
+                                    var projectRegisteredUsers = db.Projects.FirstOrDefault(p => p.ProjectId == anActivity.ProjectId).InvolvedUsers.ToList();
+                                    SendToCoworkers(subject, bodyMail, projectRegisteredUsers);
+                                }
                             }
                         }
                         break;
