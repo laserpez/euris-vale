@@ -70,7 +70,7 @@
 
         /*Classe paging GridView*/
         .GridPager {
-            background-color: #ddd;
+            background-color: #fff;
             padding: 2px;
             margin: 2% auto;
         }
@@ -93,7 +93,7 @@
             .GridPager span:focus,
             .GridPager a:hover {
                 color: #3399f3;
-                background-color: #eeeeee;
+                background-color: #ffffff;
                 border-color: #dddddd;
             }
 
