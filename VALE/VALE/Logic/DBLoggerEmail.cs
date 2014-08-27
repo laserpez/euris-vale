@@ -10,7 +10,7 @@ namespace VALE.Logic
     [Serializable]
     public class DBLoggerEmail : ILoggerEmail
     {
-        private int maxLenght = Convert.ToInt32(ConfigurationManager.AppSettings["MaxNumLog"].ToString());
+        private int MaxIntervalDays = Convert.ToInt32(ConfigurationManager.AppSettings["MaxIntervalDays"].ToString());
         public List<LogEntryEmail> Read(string filter, int count)
         {
             return new List<LogEntryEmail>();
@@ -22,11 +22,16 @@ namespace VALE.Logic
             {
                 var db = new UserOperationsContext();
 
-                if (db.LogEntriesEmail.Count() > maxLenght)
+                var sortedList = db.LogEntriesEmail.OrderBy(l => l.Date);
+                foreach (var sortedLog in sortedList)
                 {
-                    var sortedList = db.LogEntries.OrderBy(l => l.Date);
-                    var lastLogEntry = sortedList.ElementAt(0);
-                    db.LogEntries.Remove(lastLogEntry);
+                    DateTime oldDate = sortedLog.Date;
+                    DateTime newDate = DateTime.Now;
+
+                    TimeSpan ts = newDate - oldDate;
+                    int differenceInDays = ts.Days;
+                    if (differenceInDays >= MaxIntervalDays)
+                        db.LogEntriesEmail.Remove(sortedLog);
                 }
 
                 db.LogEntriesEmail.Add(log);

@@ -68,7 +68,7 @@ namespace VALE.Logic
 
             StringBuilder strbldr = new StringBuilder();
             //separting header columns text with comma operator
-            strbldr.Append("Data;Mittente;Destinatari;Modulo;Oggetto;Stato ricezione;Messaggi di errore");
+            strbldr.Append("Data;Stato ricezione;Destinatario;Modulo;Oggetto;Corpo del  messaggio;Messaggi di errore");
             //appending new line for gridview header row
             strbldr.Append("\n");
             foreach (var logEntryEmail in logEntryEmails)
