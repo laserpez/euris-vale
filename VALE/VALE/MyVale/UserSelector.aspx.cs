@@ -101,7 +101,7 @@ namespace VALE.MyVale
                 if (_dataType == "event")
                     _dataActions.ComposeMessage(_dataId, "", "Creazione Evento pubblico");
                 if (_dataType == "activity")
-                    _dataActions.ComposeMessage(_dataId, "", "Invito di partecipazione ad una Attivita");
+                    _dataActions.ComposeMessage(_dataId, "", "Invito di partecipazione ad una Attività");
             }
             Response.Redirect(_returnUrl);
         }

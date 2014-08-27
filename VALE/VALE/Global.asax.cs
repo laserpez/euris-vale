@@ -75,7 +75,70 @@ namespace VALE
 
             var bodyMail = String.Empty;
 
-            var allMailGroup = allMailInQueue.GroupBy(u => u.Date);
+            List<MailQueue> listMailSent = new List<MailQueue>();
+
+            var allMailRegisters = allMailInQueue.Where(m => m.Form == "Registrazione").ToList();
+            var allMailProjects = allMailInQueue.Where(m => m.Form == "Progetto" && (m.mMail.Subject == "Invito di partecipazione ad un Progetto" || m.mMail.Subject == "Invito di partecipazione ad un Progetto" || m.mMail.Subject == "Richiesta partecipazione ad un Progetto" || m.mMail.Subject == "Rimozione partecipazione")).ToList();
+            var allMailEvents = allMailInQueue.Where(m => m.Form == "Evento" && (m.mMail.Subject == "Invito di partecipazione ad un Evento" || m.mMail.Subject == "Richiesta partecipazione ad un Evento" || m.mMail.Subject == "Rimozione partecipazione")).ToList();
+            var allMailActivities = allMailInQueue.Where(m => m.Form == "Attivita" && (m.mMail.Subject == "Invito a collaborare ad una Attività" || m.mMail.Subject == "Conferma collaborazione" || m.mMail.Subject == "Rifiuto collaborazione")).ToList();
+
+            if (allMailRegisters.Count != 0)
+            {
+                foreach (var mail in allMailRegisters)
+                {
+                    bodyMail += mail.mMail.Body + "<br/><br/>";
+                    allMailInQueue.Remove(mail);
+                    listMailSent.Add(mail);
+                }
+            }
+
+            if (allMailProjects.Count != 0)
+            {
+                foreach (var mail in allMailProjects)
+                {
+                    bodyMail += mail.mMail.Body + "<br/><br/>";
+                    allMailInQueue.Remove(mail);
+                    listMailSent.Add(mail);
+                }
+            }
+
+            if (allMailEvents.Count != 0)
+            {
+                foreach (var mail in allMailEvents)
+                {
+                    bodyMail += mail.mMail.Body + "<br/><br/>";
+                    allMailInQueue.Remove(mail);
+                    listMailSent.Add(mail);
+                }
+            }
+
+            if (allMailActivities.Count != 0)
+            {
+                foreach (var mail in allMailActivities)
+                {
+                    bodyMail += mail.mMail.Body + "<br/><br/>";
+                    allMailInQueue.Remove(mail);
+                    listMailSent.Add(mail);
+                }
+            }
+
+            if (allMailInQueue.Count != 0)
+            {
+                foreach (var mail in allMailInQueue)
+                {
+                    bodyMail += mail.mMail.Body + "<br/><br/>";
+                    listMailSent.Add(mail);
+                }
+            }
+            var subjectMail = "Informazioni gruppo VALE del" + DateTime.Now.ToShortDateString();
+            Mail newMail = new Mail(to: receiver, bcc: "", cc: "", subject: subjectMail, body: bodyMail, form: "");
+
+            var helper = new MailHelper();
+            var error = helper.SendMail(newMail);
+            helper.UpdateLog(error, listMailSent);
+            bodyMail = String.Empty;
+
+            //var allMailGroup = allMailInQueue.GroupBy(u => u.Date);
 
             //foreach (var group in allMailGroup)
             //{
