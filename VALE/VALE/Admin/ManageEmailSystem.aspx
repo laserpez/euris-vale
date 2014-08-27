@@ -74,7 +74,7 @@
                                             <asp:BoundField ItemStyle-Font-Bold="false" DataField="DataAction" HeaderText="Oggetto" SortExpression="DataAction" />
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
-                                                    <asp:LinkButton runat="server" CommandArgument="Body" CommandName="sort"></asp:LinkButton>
+                                                    <asp:LinkButton runat="server" CommandArgument="Body" CommandName="sort">Corpo del messaggio</asp:LinkButton>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <asp:Label runat="server"><%#: GetBody(Item.Body) %></asp:Label>
