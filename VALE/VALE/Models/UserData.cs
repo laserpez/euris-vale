@@ -19,6 +19,7 @@ namespace VALE.Models
         public virtual List<Event> OrganizedEvents { get; set; }
         public virtual List<Project> OrganizedProjects { get; set; }
         public virtual List<Activity> PendingActivity { get; set; }
+        public virtual List<Activity> AttendingActivities { get; set; }
         public virtual List<Intervention> Interventions { get; set; }
         public virtual List<Group> JoinedGroups { get; set; }
         public override bool Equals(object obj)

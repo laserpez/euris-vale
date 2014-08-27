@@ -133,9 +133,13 @@ namespace VALE.MyVale
                     Budget = budget,
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
+                    RegisteredUsers = new List<UserData>(),
                     CreatorUserName = User.Identity.GetUserName(),
                     Type = ddlSelectType.SelectedValue,
                 };
+                var userName = User.Identity.GetUserName();
+                var user = db.UserDatas.First(u => u.UserName == userName);
+                newActivity.RegisteredUsers.Add(user);
                 var activityActions = new ActivityActions();
                 activityActions.SaveData(newActivity, db);
                 db.Reports.Add(new ActivityReport

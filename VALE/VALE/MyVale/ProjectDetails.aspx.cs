@@ -702,10 +702,10 @@ namespace VALE.MyVale
             var project = _db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
             int hours;
             var projectActions = new ProjectActions();
-            hours = projectActions.GetAllProjectHierarchyHoursWorked(_currentProjectId);
+            hours = projectActions.GetAllProjectHierarchyHoursWorked(projectId);
             if (project != null)
             {
-                int budget = projectActions.GetProjectHierarchyBudget(_currentProjectId);
+                int budget = projectActions.GetProjectHierarchyBudget(projectId);
                 if (budget > 0)
                     return String.Format("Budget Totale: {0} Erogato {1}", budget, hours);
             }

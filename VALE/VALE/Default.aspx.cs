@@ -55,49 +55,24 @@ namespace VALE
                 return null;
         }
 
+        public string GetWorkInfo(Project project)
+        {
+            int hours;
+            var projectActions = new ProjectActions();
+            hours = projectActions.GetAllProjectHierarchyHoursWorked(project.ProjectId);
+            if (project != null)
+            {
+                int budget = projectActions.GetProjectHierarchyBudget(project.ProjectId);
+                if (budget > 0)
+                    return String.Format("Budget Totale: {0} Erogato {1}", budget, hours);
+            }
+            return String.Format(" {0} Ore di lavoro", hours);
+        }
+
         public IQueryable<Event> GetEvents()
         {
             if (_currentUser != null)
-            {
-                var allAttendingEvents = _currentUser.AttendingEvents;
-                var attendingEventsTemp = new List<Event>();
-                var attendingEvents = new List<Event>();
-                List<DateTime> allDates = new List<DateTime>();
-                foreach (var anEvent in allAttendingEvents)
-                {
-                    if (anEvent.RelatedProject != null)
-                    {
-                        if (anEvent.RelatedProject.LastModified.Date <= DateTime.Now.Date)
-                        {
-                            attendingEventsTemp.Add(anEvent);
-                            allDates.Add(anEvent.RelatedProject.LastModified.Date);
-                        }
-                    }
-                    else if (anEvent.EventDate.Date <= DateTime.Now.Date)
-                    {
-                        attendingEventsTemp.Add(anEvent);
-                        allDates.Add(anEvent.EventDate.Date);
-                    }
-                }
-
-                allDates = allDates.OrderByDescending(o => o.Date).Distinct().ToList();
-
-                foreach (var date in allDates)
-                {
-                    foreach (var anEvent in attendingEventsTemp)
-                    {
-                        if (anEvent.RelatedProject != null)
-                        {
-                            if (anEvent.RelatedProject.LastModified.Date == date)
-                                attendingEvents.Add(anEvent);
-                        }
-                        else if (anEvent.EventDate.Date == date)
-                            attendingEvents.Add(anEvent);
-                    }
-                }
-
-                return attendingEvents.Take(3).AsQueryable();
-            }
+                return _currentUser.AttendingEvents.Where(e => e.EventDate >= DateTime.Now).OrderBy(ev => ev.EventDate).Take(3).AsQueryable();
             else
                 return null;
         }
@@ -106,49 +81,18 @@ namespace VALE
         {
             var actions = new ActivityActions();
             if (_currentUser != null)
-            {
-                var allOnGoingActivities = actions.GetActivities(_currentUser.UserName, ActivityStatus.Ongoing);
-                var onGoingActivities = new List<Activity>();
-                var onGoingActivitiesTemp = new List<Activity>();
-                var allDates = new List<DateTime>();
-
-                foreach(var anActivity in allOnGoingActivities)
-                {
-                    if (anActivity.RelatedProject != null)
-                    {
-                        if (anActivity.RelatedProject.LastModified.Date <= DateTime.Now.Date)
-                        {
-                            onGoingActivitiesTemp.Add(anActivity);
-                            allDates.Add(anActivity.RelatedProject.LastModified.Date);
-                        }
-                    }
-                    else if (anActivity.LastModified.Date <= DateTime.Now)
-                    {
-                        onGoingActivitiesTemp.Add(anActivity);
-                        allDates.Add(anActivity.LastModified);
-                    }
-                }
-
-                allDates = allDates.OrderByDescending(o => o.Date).Distinct().ToList();
-
-                foreach (var date in allDates)
-                {
-                    foreach (var anActivity in onGoingActivitiesTemp)
-                    {
-                        if (anActivity.RelatedProject != null)
-                        {
-                            if (anActivity.RelatedProject.LastModified.Date == date)
-                                onGoingActivities.Add(anActivity);
-                        }
-                        else if (anActivity.LastModified.Date == date)
-                            onGoingActivities.Add(anActivity);
-                    }
-                }
-
-                return onGoingActivities.Take(3).AsQueryable();
-            }
+                return actions.GetActivities(_currentUser.UserName, ActivityStatus.Ongoing).OrderByDescending(a => a.LastModified).Take(3).AsQueryable();
             else
                 return null;
+        }
+        public string GetWorkInfo(Activity activity)
+        {
+            var activityActions = new ActivityActions();
+            int totalHours = activityActions.GetAllActivityHoursWorked(activity.ActivityId);
+            if (activity != null)
+                if (activity.Budget > 0)
+                    return String.Format("Budget Totale: {0} Erogato {1}", activity.Budget, totalHours);
+            return String.Format(" {0} Ore di lavoro", totalHours);
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)
