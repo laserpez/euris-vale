@@ -139,12 +139,12 @@ namespace VALE.MyVale
             Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
             if (project.Status == "Sospeso")
             {
-                actions.ComposeMessage(_currentProjectId, "", "Sospeso progetto");
+                actions.ComposeMessage(_currentProjectId, "", "Ripresa progetto");
                 label.Text = "RIPRENDI";
             }
             else
             {
-                actions.ComposeMessage(_currentProjectId, "", "Ripreso progetto");
+                actions.ComposeMessage(_currentProjectId, "", "Sospensione progetto");
                 label.Text = "SOSPENDI";
             }
 

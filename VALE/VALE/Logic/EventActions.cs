@@ -194,20 +194,17 @@ namespace VALE.Logic
             var anEvent = _db.Events.First(e => e.EventId == dataId);
             var user = _db.UserDatas.FirstOrDefault(u => u.UserName == username);
             bool added = false;
+            var subject = String.Empty;
             if (!IsUserRelated(anEvent.EventId, username))
             {   
                 anEvent.RegisteredUsers.Add(user);
                 added = true;
-                if (requestform == "creator")
-                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
-                else
-                    ComposeMessage(dataId, username, "Richiesta partecipazione ad un Evento");
+                subject = "Richiesta partecipazione ad un Evento";
             }
             else
             {
                 anEvent.RegisteredUsers.Remove(user);
-                if (requestform == "user")
-                    ComposeMessage(dataId, username, "Rimozione partecipazione");
+                subject = "Rimozione partecipazione";
             }
 
             if (anEvent.RelatedProject != null)
@@ -219,7 +216,10 @@ namespace VALE.Logic
                     listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             }
             _db.SaveChanges();
-
+            if (requestform == "creator")
+                ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
+            else
+                ComposeMessage(dataId, username, subject);
             logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'evento \"" : " non collabora più all'evento \"") + anEvent.Name + "\"" });
             return added;
         }
@@ -309,7 +309,7 @@ namespace VALE.Logic
                             }
                         }
                         break;
-                    case "Rifiuto partecipazione ad un Evento":
+                    case "Rimozione partecipazione":
                         if (dataId != 0)
                         {
                             var db = new UserOperationsContext();

@@ -18,7 +18,11 @@ namespace VALE.Logic
             if (userToConfirm != null)
             {
                 userToConfirm.NeedsApproval = false;
-                userManager.AddToRole(userToConfirm.Id, "Socio");
+
+                var userActions = new UserActions();
+                var role = userActions.GetRole(userToConfirm.Id);
+                if (role == "Utente")
+                    userManager.AddToRole(userToConfirm.Id, "Socio");
             }
             db.SaveChanges();
         }
