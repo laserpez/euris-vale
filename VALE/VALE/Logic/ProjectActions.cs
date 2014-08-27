@@ -156,20 +156,17 @@ namespace VALE.Logic
             var aProject = db.Projects.First(p => p.ProjectId == dataId);
             var user = db.UserDatas.FirstOrDefault(u => u.UserName == username);
             bool added = false;
+            string subject = String.Empty;
             if (!IsUserRelated(aProject.ProjectId, username))
             {
                 aProject.InvolvedUsers.Add(user);
                 added = true;
-                if (requestForm == "creator")
-                    ComposeMessage(dataId, "", "Invito di partecipazione ad un Progetto");
-                else
-                    ComposeMessage(dataId, username, "Richiesta partecipazione ad un Progetto");
+                subject = "Richiesta partecipazione ad un Progetto";
             }
             else
             {
                 aProject.InvolvedUsers.Remove(user);
-                if(requestForm == "user")
-                    ComposeMessage(dataId, username, "Rimozione partecipazione");
+                subject = "Rimozione partecipazione";
             }
 
             aProject.LastModified = DateTime.Now;
@@ -177,7 +174,10 @@ namespace VALE.Logic
             if (listHierarchyUp.Count != 0)
                 listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             db.SaveChanges();
-
+            if (requestForm == "creator")
+                ComposeMessage(dataId, "", "Invito di partecipazione ad un Progetto");
+            else
+                ComposeMessage(dataId, username, subject);
             logger.Write(new LogEntry() { DataId = dataId, Username = user.UserName, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = user.UserName + (added ? " è stato invitato al progetto \"" : " non collabora più al progetto \"") + aProject.ProjectName + "\"" });
             return added;
         }
@@ -391,21 +391,27 @@ namespace VALE.Logic
                         {
                             var db = new UserOperationsContext();
                             var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                            var bodyMail = "Salve, ti informiamo che l'utente " + userName +
-                                        " sta partecipando al tuo progetto " + aProject.ProjectName;
-                            var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName).Email;
-                            SendToPrivate(ownerEmail, subject, bodyMail);
+                            if (userName != aProject.OrganizerUserName)
+                            {
+                                var bodyMail = "Salve, ti informiamo che l'utente " + userName +
+                                            " sta partecipando al tuo progetto " + aProject.ProjectName;
+                                var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName).Email;
+                                SendToPrivate(ownerEmail, subject, bodyMail);
+                            }
                         }
                         break;
-                    case "Rifiuto partecipazione ad un Progetto":
+                    case "Rimozione partecipazione":
                         if (dataId != 0)
                         {
                             var db = new UserOperationsContext();
                             var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                            var bodyMail = "Salve, ti informiamo che l'utente " + userName +
-                                        " ha rimosso la propria partecipazione dal tuo progetto " + aProject.ProjectName;
-                            var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName).Email;
-                            SendToPrivate(ownerEmail, subject, bodyMail);
+                            if (userName != aProject.OrganizerUserName)
+                            {
+                                var bodyMail = "Salve, ti informiamo che l'utente " + userName +
+                                            " ha rimosso la propria partecipazione dal tuo progetto " + aProject.ProjectName;
+                                var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName).Email;
+                                SendToPrivate(ownerEmail, subject, bodyMail);
+                            }
                         }
                         break;
                     case "Aggiunto progetto correlato":
@@ -585,7 +591,7 @@ namespace VALE.Logic
                             }
                         }
                         break;
-                    case "Ripreso progetto":
+                    case "Ripresa progetto":
                         if (dataId != 0)
                         {
                             var db = new UserOperationsContext();

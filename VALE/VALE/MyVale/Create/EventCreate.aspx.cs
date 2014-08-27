@@ -54,8 +54,6 @@ namespace VALE.MyVale
 
         protected void btnAddUsers_Click(object sender, EventArgs e)
         {
-            var actions = new EventActions();
-
             var newEvent = SaveData();
 
             var redirectURL = "";
@@ -65,19 +63,14 @@ namespace VALE.MyVale
                 redirectURL = "/MyVale/ProjectDetails?projectId=" + Session["EventCreateCallingProjectId"].ToString();
                 fromRequest = "project";
                 Session["EventCreateCallingProjectId"] = null;
-                actions.ComposeMessage(newEvent.EventId, "", "Creazione Evento pubblico");
             }
             else if (Session["EventCreateRequestFrom"] != null)
             {
                 redirectURL = Session["EventCreateRequestFrom"].ToString();
                 Session["EventCreateRequestFrom"] = null;
-                actions.ComposeMessage(newEvent.EventId, "", "Creazione Evento pubblico");
             }
             else
-            {
-                actions.ComposeMessage(newEvent.EventId, "", "Creazione Evento pubblico");
                 redirectURL = "/MyVale/Events";
-            }
 
             Response.Redirect("/MyVale/UserSelector.aspx?dataId=" + newEvent.EventId + "&dataType=event&returnUrl=" + redirectURL + "&requestFrom=" + fromRequest);
         }
@@ -122,6 +115,8 @@ namespace VALE.MyVale
         {
             var newEvent = SaveData();
 
+            var eventActions = new EventActions();
+
             var redirectURL = "";
             if (Session["EventCreateCallingProjectId"] != null)
             {
@@ -136,9 +131,13 @@ namespace VALE.MyVale
             {
                 redirectURL = Session["EventCreateRequestFrom"].ToString();
                 Session["EventCreateRequestFrom"] = null;
+                eventActions.ComposeMessage(newEvent.EventId, "", "Creazione Evento pubblico");
             }
             else
+            {
+                eventActions.ComposeMessage(newEvent.EventId, "", "Creazione Evento pubblico");
                 redirectURL = "/MyVale/Events";
+            }
             Response.Redirect(redirectURL);
         }
 

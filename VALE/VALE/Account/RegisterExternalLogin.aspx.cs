@@ -204,7 +204,7 @@ namespace VALE.Account
                     AdminActions.ComposeMessage(manager, user.Id, "", "Conferma il tuo account");
 
                     string titleMessage = string.Format("Grazie {0} {1},", user.FirstName, user.LastName);
-                    string message = string.Format("Abbiamo registrato la Sua richiesta, una mail di conferma viene mandato all'indirizzo {0} appena viene accettata", user.Email);
+                    string message = string.Format("Abbiamo accettato la sua richiesta di registrazione, una ulteriore mail di conferma verrà inviata al suo indirizzo {0}.", user.Email);
                     string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
                     Response.Redirect(url);
                     //IdentityHelper.SignIn(manager, user, isPersistent: false);
