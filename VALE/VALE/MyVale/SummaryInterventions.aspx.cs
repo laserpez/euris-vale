@@ -45,14 +45,26 @@ namespace VALE.MyVale
                     var reportsRange = _db.Reports.Where(r => r.ActivityId == activity.ActivityId).OrderByDescending(r => r.ActivityReportId).ToList();
                     reports.AddRange(reportsRange);
                 }
-                return CreateSummaryInterventionsList(reports);
             }
             else
             {
                 var activityId = Convert.ToInt32(ddlActivity.SelectedValue);
                 reports = _db.Reports.Where(r => r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).ToList();
-                return CreateSummaryInterventionsList(reports);
             }
+            if (lblAllOrPersonal.Text == "All") 
+            {
+                if (ddlUser.SelectedIndex == 0)
+                {
+                    var users = GetUsers();
+                    reports = reports.Where(r => users.Contains(r.Worker)).ToList();
+                }
+                else
+                    reports = reports.Where(r => r.WorkerUserName == ddlUser.SelectedValue).ToList();
+            }
+            else
+                reports = reports.Where(r => r.WorkerUserName == _currentUser).ToList();
+            
+            return CreateSummaryInterventionsList(reports);
         }
 
         private List<SummaryIntervention> CreateSummaryInterventionsList(List<ActivityReport> activityReport)
@@ -70,10 +82,12 @@ namespace VALE.MyVale
                 HoursWorked = a.HoursWorked,
                 Date = a.Date,
                 WorkerUserName = a.WorkerUserName,
-                ProjectPublic = a.WorkedActivity.RelatedProject.Public == true ? "SI" : "NO",
+                ProjectPublic = a.WorkedActivity.RelatedProject == null ? "" : a.WorkedActivity.RelatedProject.Public ? "Si" : "No",
             }));
             return summaryInterventions;
         }
+
+
 
         private List<SummaryIntervention> ApplyFilters(List<SummaryIntervention> summaryInterventions)
         {
@@ -145,19 +159,19 @@ namespace VALE.MyVale
                     }
                     foreach (var user in users)
                     {
-                        var projectsRange = _db.UserDatas.First(u => u.UserName == user.UserName).AttendingProjects.Where(p => p.Activities.Count > 0).ToList();
+                        var projectsRange = _db.Reports.Where(r => r.WorkerUserName == user.UserName).Select(rep => rep.WorkedActivity).Where(a => a.RelatedProject != null).Select(act => act.RelatedProject).Distinct().ToList();
                         projects.AddRange(projectsRange);
                     }
                 }
                 else
                 {
                     var userName = ddlUser.SelectedValue;
-                    projects = _db.UserDatas.First(u => u.UserName == userName).AttendingProjects.Where(p => p.Activities.Count > 0).ToList();
+                    projects = _db.Reports.Where(r => r.WorkerUserName == userName).Select(rep => rep.WorkedActivity).Where(a => a.RelatedProject != null).Select(act => act.RelatedProject).Distinct().ToList();
                 }
             }
             else 
             {
-                var projectsRange = _db.UserDatas.First(u => u.UserName == _currentUser).AttendingProjects.Where(p => p.Activities.Count > 0).ToList();
+                var projectsRange = _db.Reports.Where(r => r.WorkerUserName == _currentUser).Select(rep => rep.WorkedActivity).Where(a => a.RelatedProject != null).Select(act => act.RelatedProject).Distinct().ToList();
                 projects.AddRange(projectsRange);
             }
             return projects; 
@@ -363,13 +377,16 @@ namespace VALE.MyVale
 
             if (ProjectOrNorRelated.Text == "Project")
             {
-
+                grdActivityReport.Columns[0].Visible = true;
+                grdActivityReport.Columns[1].Visible = true;
                 projectPanel.Visible = true;
                 btnProjectActivities.Visible = true;
                 btnNotRelatedActivities.Visible = false;
             }
             else
             {
+                grdActivityReport.Columns[0].Visible = false;
+                grdActivityReport.Columns[1].Visible = false;
                 projectPanel.Visible = false;
                 btnProjectActivities.Visible = false;
                 btnNotRelatedActivities.Visible = true;

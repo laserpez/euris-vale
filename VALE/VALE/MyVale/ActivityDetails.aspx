@@ -32,7 +32,7 @@
                                                     <button type="button" visible="true"  id="btnStatus" class="<%#: GetStatusColor(Item.Status) %>"  data-toggle="dropdown" runat="server"><%#: GetStatus(Item) %><span class="caret"></span></button>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <asp:LinkButton CommandArgument="ToBePlanned" runat="server" OnClick="ChangeActivityStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-share-alt"></span> Da Pianificare</asp:LinkButton></li>
+                                                            <asp:LinkButton CommandArgument="ToBePlanned" Visible='<%# ModifyToBePlannedStatusAcces() %>' runat="server" OnClick="ChangeActivityStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-share-alt"></span> Da Pianificare</asp:LinkButton></li>
                                                         <li>
                                                             <asp:LinkButton CommandArgument="Ongoing" runat="server" OnClick="ChangeActivityStatus_Click" CausesValidation="false"><span class="glyphicon glyphicon-play"></span>  In Corso  </asp:LinkButton></li>
                                                         <li>
@@ -213,6 +213,8 @@
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label runat="server"><%#: Item.Worker.FullName %></asp:Label></div></center>
                                                                         </ItemTemplate>
+                                                                        <HeaderStyle Width="200px" />
+                                                                        <ItemStyle Width="200px" />
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
