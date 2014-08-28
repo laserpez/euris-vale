@@ -74,13 +74,30 @@
                                     </div>
                                     <asp:FormView runat="server" ID="PersonalDataFormView" CssClass="col-md-12" ItemType="VALE.Models.ApplicationUser" EmptyDataText="Nessun dato presente." SelectMethod="GetUserData">
                                         <ItemTemplate>
-                                            <asp:Label runat="server" CssClass="col-md-12"><%#: String.Format("Nome utente:\t{0}", Item.UserName) %></asp:Label><br />
-                                            <p></p>
-                                            <asp:Label runat="server" CssClass="col-md-12"><%#: String.Format("Nome:\t{0}", Item.FirstName) %></asp:Label><br />
-                                            <p></p>
-                                            <asp:Label runat="server" CssClass="col-md-12"><%#: String.Format("Cognome:\t{0}", Item.LastName) %></asp:Label><br />
-                                            <p></p>
-                                            <asp:Label runat="server" CssClass="col-md-12"><%#: String.Format("Codice fiscale:\t{0}", Item.CF) %></asp:Label><br />
+                                            <asp:Label runat="server" CssClass="col-md-12"><%#: String.Format("Nome utente:\t{0}", Item.UserName) %></asp:Label>
+                                            <div class="col-md-12">
+                                                <br />
+                                            </div>
+                                            <asp:Label runat="server" CssClass="col-md-1" Text="Nome: "></asp:Label><div class="col-md-11">
+                                                <asp:TextBox ID="EditFirstName" CssClass="form-control" runat="server" Text="<%#: Item.FirstName %>"></asp:TextBox></div><br />
+                                            <asp:RegularExpressionValidator id="TextFirstNameToValidate" runat="server" ErrorMessage="Inserire solo caratteri alfabetici e\o numerici." CssClass="text-danger" 
+                                                ControlToValidate="EditFirstName" ValidationExpression="^[a-zA-Z\s]+" Display="Dynamic"></asp:RegularExpressionValidator> 
+                                            <div class="col-md-12">
+                                                <br />
+                                            </div>
+                                            
+                                            <asp:Label runat="server" CssClass="col-md-1" Text="Cognome: "></asp:Label><div class="col-md-11">
+                                                <asp:TextBox ID="EditLastName" CssClass="form-control" runat="server" Text="<%#: Item.LastName %>"></asp:TextBox></div><br />
+                                             <asp:RegularExpressionValidator id="TextLastNameToValidate" runat="server" ErrorMessage="Inserire solo caratteri alfabetici e\o numerici." CssClass="text-danger" 
+                                                ControlToValidate="EditLastName" ValidationExpression="^[a-zA-Z\s]+" Display="Dynamic"></asp:RegularExpressionValidator> 
+                                            <div class="col-md-12">
+                                                <br />
+                                            </div>
+                                            
+                                            <asp:Label runat="server" CssClass="col-md-1" Text="Codice fiscale: "></asp:Label><div class="col-md-11">
+                                                <asp:TextBox ID="EditCF" CssClass="form-control" runat="server" Text="<%#: Item.CF %>"></asp:TextBox></div>
+                                            <asp:RegularExpressionValidator ID="FiscalCodeToValidate" ControlToValidate="EditCF" runat="server" ErrorMessage="Formato non corretto."
+                                                CssClass="text-danger" ValidationExpression="^[a-zA-Z0-9]{16}$" Display="Dynamic"></asp:RegularExpressionValidator>
                                             <div class="col-md-12">
                                                 <br />
                                             </div>
@@ -88,6 +105,7 @@
                                             <asp:Label runat="server" CssClass="col-md-1" Text="E-mail: "></asp:Label><div class="col-md-11">
                                                 <asp:TextBox ID="EditEmail" CssClass="form-control" runat="server" Text="<%#: Item.Email %>"></asp:TextBox></div>
                                             <br />
+                                            <asp:Label runat="server" CssClass="text-danger" ID="LabelEditError" Text="" Visible="false"></asp:Label><br />
                                             <asp:RequiredFieldValidator runat="server" ControlToValidate="EditEmail"
                                                 CssClass="text-danger" ErrorMessage="Il campo Email è obbligatorio." /><br />
                                             <asp:RegularExpressionValidator ID="EmailToValidate" runat="server" ErrorMessage="Formato non corretto." CssClass="text-danger"

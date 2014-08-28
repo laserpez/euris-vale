@@ -237,7 +237,11 @@ namespace VALE
 
         protected void SaveChangesProfile_Click(object sender, EventArgs e)
         {
-
+            var dbData = new UserOperationsContext();
+            var LabelEditError = (Label)PersonalDataFormView.FindControl("LabelEditError");
+            var FirstName = (TextBox)PersonalDataFormView.FindControl("EditFirstName");
+            var LastName = (TextBox)PersonalDataFormView.FindControl("EditLastName");
+            var CF = (TextBox)PersonalDataFormView.FindControl("EditCF");
             var Email = (TextBox)PersonalDataFormView.FindControl("EditEmail");
             var Telephone = (TextBox)PersonalDataFormView.FindControl("EditTelephone");
             var CellPhone = (TextBox)PersonalDataFormView.FindControl("EditCellPhone");
@@ -248,23 +252,60 @@ namespace VALE
             var Description = (TextBox)PersonalDataFormView.FindControl("EditDescription");
 
             var modifiedUser = db.Users.First(u => u.UserName == _currentUser);
-            if (modifiedUser != null)
-            {
-                if (ViewState["imageBytes"] != null)
-                    modifiedUser.PhotoProfile = (byte[])ViewState["imageBytes"];
-                modifiedUser.Email = Email.Text;
-                modifiedUser.Telephone = Telephone.Text;
-                modifiedUser.CellPhone = CellPhone.Text;
-                modifiedUser.Address = Address.Text;
-                modifiedUser.Region = DropDownRegion.Text;
-                modifiedUser.Province = DropDownProvince.Text;
-                modifiedUser.City = DropDownCity.Text;
-                modifiedUser.Description = Description.Text;
+            var modifiedUserData = dbData.UserDatas.FirstOrDefault(u => u.UserName == _currentUser);
 
-                db.SaveChanges();
+            var oldEmail = modifiedUser.Email;
+
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser userWithOldEmail = manager.FindByEmail(Email.Text);
+            if (userWithOldEmail != null && userWithOldEmail.UserName != _currentUser)
+            {
+                LabelEditError.Visible = true;
+                LabelEditError.Text = "L'inidirizzo e-mail esiste già.";
             }
-            ViewState["imageBytes"] = null;
-            Response.Redirect("~/Account/Profile");
+            else
+            {
+                LabelEditError.Visible = false;
+
+                if (modifiedUser != null)
+                {
+                    if (ViewState["imageBytes"] != null)
+                        modifiedUser.PhotoProfile = (byte[])ViewState["imageBytes"];
+                    modifiedUser.FirstName = FirstName.Text;
+                    modifiedUser.LastName = LastName.Text;
+                    modifiedUser.CF = CF.Text;
+                    modifiedUser.Email = Email.Text;
+                    modifiedUser.Telephone = Telephone.Text;
+                    modifiedUser.CellPhone = CellPhone.Text;
+                    modifiedUser.Address = Address.Text;
+                    modifiedUser.Region = DropDownRegion.Text;
+                    modifiedUser.Province = DropDownProvince.Text;
+                    modifiedUser.City = DropDownCity.Text;
+                    modifiedUser.Description = Description.Text;
+
+                    modifiedUserData.FullName = FirstName.Text + " " + LastName.Text;
+                    modifiedUserData.Email = Email.Text;
+
+                    db.SaveChanges();
+                    dbData.SaveChanges();
+                }
+
+                if (oldEmail != Email.Text)
+                {
+                    var allMailUser = dbData.MailQueues.Where(m => m.mMail.To == oldEmail).ToList();
+                    foreach (var mail in allMailUser)
+                    {
+                        mail.mMail.To = Email.Text;
+                        var log = dbData.LogEntriesEmail.FirstOrDefault(m => m.MailQueueId == mail.MailQueueId);
+                        log.Receiver = Email.Text;
+
+                        dbData.SaveChanges();
+                    }
+                }
+
+                ViewState["imageBytes"] = null;
+                Response.Redirect("~/Account/Profile");
+            }
         }
 
         protected void RemovePhoto_Click(object sender, EventArgs e)
@@ -353,5 +394,6 @@ namespace VALE
             db.SaveChanges();
             SetAssociationStatus();
         }
+
     }
 }
