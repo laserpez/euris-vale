@@ -74,15 +74,15 @@ namespace VALE.Logic
             foreach (var logEntryEmail in logEntryEmails)
             {
                 strbldr.Append(logEntryEmail.Date.ToShortDateString() + " " + logEntryEmail.Date.ToShortTimeString() + ';');
-                if (String.IsNullOrEmpty(logEntryEmail.Error))
-                    strbldr.Append("Nessun messaggio d'errore" + ';');
-                else
-                    strbldr.Append(logEntryEmail.Error + ";");
+                strbldr.Append(logger.GetStatus(logEntryEmail) + ';');
                 strbldr.Append(logEntryEmail.Receiver + ';');
                 strbldr.Append(logEntryEmail.DataType + ';');
                 strbldr.Append(logEntryEmail.DataAction + ';');
                 strbldr.Append(logEntryEmail.Body + ';');
-                strbldr.Append(logger.GetStatus(logEntryEmail) + ';');
+                if (String.IsNullOrEmpty(logEntryEmail.Error))
+                    strbldr.Append("Nessun messaggio d'errore" + ';');
+                else
+                    strbldr.Append(logEntryEmail.Error + ";");
                 strbldr.Append("\n");
             }
             return strbldr;
