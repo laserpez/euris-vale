@@ -273,7 +273,7 @@
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Attività  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Vedi Attività</a></li>
-                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-wrench"></span> Gestisci attività</a></li>
+                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-pushpin"></span> Stati delle attività</a></li>
                                 <li><a href="/MyVale/SummaryInterventions.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Riepilogo interventi</a></li>
                                 <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>
                             </ul>
@@ -305,7 +305,7 @@
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Profile.aspx" title="Manage your account">Profilo</a></li>
+                                <li><a runat="server" href="~/Account/Profile.aspx" title="Manage your account">Profilo : <%: Context.User.Identity.GetUserName()  %></a></li>
                                 <li>
                                     <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Esci" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
                                 </li>

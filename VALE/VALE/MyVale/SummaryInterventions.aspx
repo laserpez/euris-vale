@@ -26,7 +26,7 @@
                                             <button type="button" visible="false" id="btnAllUsers" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">Tutti Gli Utenti <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    <asp:LinkButton ID="btnPersonalLinkButton" runat="server" OnClick="btnPersonalLinkButton_Click"><span class="glyphicon glyphicon-tasks"></span> Personali</asp:LinkButton></li>
+                                                    <asp:LinkButton ID="btnPersonalLinkButton"  runat="server" OnClick="btnPersonalLinkButton_Click"><span class="glyphicon glyphicon-tasks"></span> Personali</asp:LinkButton></li>
                                                 <li>
                                                     <asp:LinkButton ID="btnAllUsersLinkButton" runat="server" OnClick="btnAllUsersLinkButton_Click"><span class="glyphicon glyphicon-inbox"></span> Tutti Gli Utenti</asp:LinkButton></li>
                                             </ul>
@@ -72,7 +72,7 @@
                                                         <div class="col-md-6">
                                                             <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Gruppo"></asp:Label>
                                                             <div class="col-md-10">
-                                                                <asp:DropDownList AutoPostBack="true" Width="280px" class="form-control input-sm" runat="server" OnSelectedIndexChanged="ddlUserGroup_SelectedIndexChanged" ID="ddlUserGroup"  DataTextField="GroupName" DataValueField="GroupId" ></asp:DropDownList>
+                                                                <asp:DropDownList AutoPostBack="true" Width="280px" CssClass="form-control input-sm" runat="server" OnSelectedIndexChanged="ddlUserGroup_SelectedIndexChanged" ID="ddlUserGroup"  DataTextField="GroupName" DataValueField="GroupId" ></asp:DropDownList>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -94,7 +94,7 @@
                                                         <div class="col-md-6">
                                                             <asp:Label Font-Bold="true" CssClass="col-md-2 control-label" runat="server" Text="Tipo"></asp:Label>
                                                             <div class="col-md-10">
-                                                                <asp:DropDownList AutoPostBack="true" Width="280px" class="form-control input-sm" runat="server" OnSelectedIndexChanged="ddlProjectType_SelectedIndexChanged" ID="ddlProjectType"  ItemType="VALE.Models.ProjectType"></asp:DropDownList>
+                                                                <asp:DropDownList AutoPostBack="true" Width="280px" CssClass="form-control input-sm" runat="server" OnSelectedIndexChanged="ddlProjectType_SelectedIndexChanged" ID="ddlProjectType"  ItemType="VALE.Models.ProjectType"></asp:DropDownList>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -117,7 +117,7 @@
                                                         <div class="col-md-6">
                                                             <asp:Label Font-Bold="true"  CssClass="col-md-2 control-label" runat="server" Text="Tipo"></asp:Label>
                                                             <div class="col-md-10">
-                                                                <asp:DropDownList AutoPostBack="true" Width="280px" class="form-control input-sm" runat="server" OnSelectedIndexChanged="ddlActivityType_SelectedIndexChanged" ID="ddlActivityType" ></asp:DropDownList>
+                                                                <asp:DropDownList AutoPostBack="true" Width="280px" CssClass="form-control input-sm" runat="server" OnSelectedIndexChanged="ddlActivityType_SelectedIndexChanged" ID="ddlActivityType" ></asp:DropDownList>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
