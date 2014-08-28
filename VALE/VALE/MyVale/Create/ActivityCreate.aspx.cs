@@ -142,16 +142,15 @@ namespace VALE.MyVale
                 newActivity.RegisteredUsers.Add(user);
                 var activityActions = new ActivityActions();
                 activityActions.SaveData(newActivity, db);
-                db.Reports.Add(new ActivityReport
-                {
-                    ActivityId = newActivity.ActivityId,
-                    WorkerUserName = User.Identity.GetUserName(),
-                    HoursWorked = 0,
-                    ActivityDescription = "Creazione attività",
-                    Date = DateTime.Today
+                //db.Reports.Add(new ActivityReport
+                //{
+                //    ActivityId = newActivity.ActivityId,
+                //    WorkerUserName = User.Identity.GetUserName(),
+                //    HoursWorked = 0,
+                //    ActivityDescription = "Creazione attività",
+                //    Date = DateTime.Today
 
-                });
-
+                //});
                 db.SaveChanges();
                 return newActivity.ActivityId;
             }

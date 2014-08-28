@@ -8,9 +8,9 @@
             <asp:Image runat="server" ID="LogoImage" Width="159" Height="196" />
         </div>
         <div class="col-md-10" style="font-size: x-large; position:relative">
-            <p>
+            
                 <h2>Benvenuto in VALE, ambiente virtuale di collaborazione</h2>
-            </p>
+            
             <p>
                 &nbsp;Fai il log-in per accedere alle sezioni interne <a runat="server" href="~/Account/Login">Qui</a>.
             </p>
@@ -49,7 +49,7 @@
                                 <asp:Label  runat="server"><%#: Item.LastModified.ToShortDateString() %></asp:Label>
                             </div>
                             <div class="col-md-12">
-                                <asp:Label  Font-Bold="true" runat="server">Lavoro(Ore): </asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Buget(Ore): </asp:Label>
                                 <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetWorkInfo(Item) %></asp:Label>
                             </div>
                             <div class="col-md-12">
@@ -147,12 +147,12 @@
                                 <asp:Label  runat="server"><%#: Item.LastModified.ToShortDateString() %></asp:Label>
                             </div>
                             <div class="col-md-12">
-                                <asp:Label  Font-Bold="true" runat="server">Lavoro(Ore): </asp:Label>
+                                <asp:Label  Font-Bold="true" runat="server">Buget(Ore): </asp:Label>
                                 <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetWorkInfo(Item) %></asp:Label>
                             </div>
                             <div class="col-md-12">
                                 <asp:Label  Font-Bold="true" runat="server">Partecipanti: </asp:Label>
-                                <asp:Label runat="server"><%#: Item.PendingUsers.Count() %></asp:Label>
+                                <asp:Label runat="server"><%#: Item.RegisteredUsers.Count() %></asp:Label>
                             </div>
                         </div>
                     </div>
