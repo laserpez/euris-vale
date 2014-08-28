@@ -216,9 +216,7 @@ namespace VALE.Logic
                     listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             }
             _db.SaveChanges();
-            if (requestform == "creator")
-                ComposeMessage(dataId, "", "Invito di partecipazione ad un Evento");
-            else
+            if (requestform == "user")
                 ComposeMessage(dataId, username, subject);
             logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'evento \"" : " non collabora più all'evento \"") + anEvent.Name + "\"" });
             return added;

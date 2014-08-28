@@ -174,9 +174,7 @@ namespace VALE.Logic
             if (listHierarchyUp.Count != 0)
                 listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             db.SaveChanges();
-            if (requestForm == "creator")
-                ComposeMessage(dataId, "", "Invito di partecipazione ad un Progetto");
-            else
+            if (requestForm == "user")
                 ComposeMessage(dataId, username, subject);
             logger.Write(new LogEntry() { DataId = dataId, Username = user.UserName, DataAction = added ? "Aggiunto utente" : "Rimosso utente", DataType = "Progetto", Date = DateTime.Now, Description = user.UserName + (added ? " è stato invitato al progetto \"" : " non collabora più al progetto \"") + aProject.ProjectName + "\"" });
             return added;
