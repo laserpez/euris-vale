@@ -21,7 +21,7 @@
     </div>
 
     <div id="loggedUser" runat="server" class="row">
-        <div class="col-md-4" style="max-height: 600px; overflow:auto">
+        <div class="col-md-4" >
             <h3>Progetti</h3>
             <asp:ListView ID="lstProgetti" DataKeyNames="ProjectId" runat="server" ItemType="VALE.Models.Project" SelectMethod="GetProjects">
                 <ItemTemplate>
@@ -71,7 +71,7 @@
             <br />
             <asp:Button CommandArgument="Projects" Text="Vedi tutti" CssClass="btn btn-info btn-sm" ID="btnViewAll" OnClick="btnViewAll_Click" runat="server" />
         </div>
-        <div class="col-md-4" style="max-height: 600px; overflow:auto">
+        <div class="col-md-4" >
             <h3>Eventi</h3>
             <asp:ListView ID="lstEvents" DataKeyNames="EventId" runat="server" ItemType="VALE.Models.Event" SelectMethod="GetEvents">
                 <ItemTemplate>
@@ -119,7 +119,7 @@
             <br />
             <asp:Button CommandArgument="Events" Text="Vedi tutti" CssClass="btn btn-info btn-sm" ID="Button1" OnClick="btnViewAll_Click" runat="server" />
         </div>
-        <div class="col-md-4" style="max-height: 600px; overflow:auto">
+        <div class="col-md-4" >
             <h3>Attività</h3>
             <asp:ListView ID="lstActivities" DataKeyNames="ActivityId" runat="server" ItemType="VALE.Models.Activity" SelectMethod="GetActivities">
                 <ItemTemplate>

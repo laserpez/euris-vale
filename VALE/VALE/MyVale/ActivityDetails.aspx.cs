@@ -121,7 +121,7 @@ namespace VALE.MyVale
             Button btnDeleteRelatedProject = (Button)ActivityDetail.FindControl("btnDeleteRelatedProject");
             Button btnAddRelatedProject = (Button)ActivityDetail.FindControl("btnAddRelatedProject");
             var activity = _db.Activities.Where(a => a.ActivityId == _currentActivityId).FirstOrDefault();
-            if (HttpContext.Current.User.IsInRole("Admin"))
+            if (RoleActions.checkPermission(_currentUser, "Amministrazione"))
             {
                 btnStatus.Disabled = false;
                 btnInviteUser.Visible = true;
@@ -198,7 +198,7 @@ namespace VALE.MyVale
             if (activity != null) 
             {
                 lblBudget.Text = String.Format(" {0} Erogato {1}", activity.Budget, totalHours);
-                if (activity.Budget < totalHours)
+                if (activity.Budget < totalHours && activity.Budget > 0)
                     lblColorBuget.ForeColor = Color.Red;
                 else
                     lblColorBuget.ForeColor = Color.FromArgb(102, 102, 102);
@@ -220,17 +220,30 @@ namespace VALE.MyVale
             if (lblAllOrPersonal.Text == "Personal")
             {
                 var interventions = _db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).AsQueryable();
-                int hours = interventions.Sum(r => r.HoursWorked);
-                lblHoursWorked.Text = "Totale " + hours + " Ore";
-                SetupBugetAndHoursWorked();
+                if (interventions.Count() > 0) 
+                {
+                    int? hours = interventions.Sum(r => r.HoursWorked);
+                    if (hours.HasValue) 
+                    {
+                        lblHoursWorked.Text = "Totale " + hours.Value + " Ore";
+                        SetupBugetAndHoursWorked();
+                    }
+                }
+                
                 return interventions;
             }
             else 
             {
                 var interventions = _db.Reports.Where(r => r.ActivityId == activityId).OrderByDescending(r => r.WorkerUserName).AsQueryable();
-                int hours = interventions.Sum(r => r.HoursWorked);
-                lblHoursWorked.Text = "Totale " + hours + " Ore";
-                SetupBugetAndHoursWorked();
+                if (interventions.Count() > 0)
+                {
+                    int? hours = interventions.Sum(r => r.HoursWorked);
+                    if (hours.HasValue)
+                    {
+                        lblHoursWorked.Text = "Totale " + hours.Value + " Ore";
+                        SetupBugetAndHoursWorked();
+                    }
+                }
                 return interventions;
             }
         }
@@ -248,12 +261,15 @@ namespace VALE.MyVale
         public bool ModifyInterventionsAcces(ActivityReport report) 
         {
             var db = new UserOperationsContext();
+            bool ok = true;
             var activity = db.Activities.Where(a => a.ActivityId == _currentActivityId).FirstOrDefault();
-            if (activity.Status != ActivityStatus.ToBePlanned && activity.Status != ActivityStatus.Ongoing)
-                return false;
             if (report.WorkerUserName != _currentUser)
-                return false;
-            return true;
+                ok = false;
+            if (RoleActions.checkPermission(_currentUser, "Amministrazione"))
+                ok = true;
+            if (activity.Status != ActivityStatus.ToBePlanned && activity.Status != ActivityStatus.Ongoing)
+                ok = false;
+            return ok;
         }
        
         protected void btnOkButton_Click(object sender, EventArgs e)
@@ -625,6 +641,14 @@ namespace VALE.MyVale
                 returnUrl = "/MyVale/Activities";
             Session["ActivityDetailsRequestFrom"] = null;
             Response.Redirect(returnUrl);
+        }
+
+        public bool ModifyToBePlannedStatusAcces() 
+        {
+            var interventions = _db.Reports.Where(r => r.ActivityId == _currentActivityId).OrderByDescending(r => r.WorkerUserName);
+            if (interventions.Count() > 0)
+                return false;
+            return true;
         }
     }
 }

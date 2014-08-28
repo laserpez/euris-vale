@@ -302,6 +302,8 @@ namespace VALE.Logic
         public Project GetFather(Project project)
         {
             var db = new UserOperationsContext();
+            if (project == null)
+                return null;
             var father = db.Projects.FirstOrDefault(p => p.RelatedProjects.FirstOrDefault(r => r.ProjectId == project.ProjectId) != null);
             return father;
         }
