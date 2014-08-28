@@ -159,12 +159,20 @@ namespace VALE
 
         private void ChangeStatus(int id, string statusNumber)
         {
+            var db = new UserOperationsContext();
             Response.Clear();
             ActivityStatus status = (ActivityStatus)Convert.ToInt16(statusNumber);
             var activityActions = new ActivityActions();
-            activityActions.SetActivityStatus(id, status);
-            //BindAllGrids();
-            Response.Write("True");
+            var interventions = db.Reports.Where(r => r.ActivityId == id);
+            if (interventions.Count() == 0) 
+            {
+                activityActions.SetActivityStatus(id, status);
+                //BindAllGrids();
+                Response.Write("True");
+            }
+            else
+                Response.Write("False");
+           
             Response.End();
             
         }

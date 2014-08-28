@@ -25,11 +25,11 @@ namespace VALE.Logic
                 if (activity.StartDate.HasValue)
                     strbldr.Append(activity.StartDate.Value.ToShortDateString() + ';');
                 else
-                    strbldr.Append("Non definito;");
+                    strbldr.Append(";");
                 if (activity.ExpireDate.HasValue)
                     strbldr.Append(activity.ExpireDate.Value.ToShortDateString() + ';');
                 else
-                    strbldr.Append("Non definito;");
+                    strbldr.Append(";");
                 strbldr.Append(activityActions.GetHoursWorked(userName, activity.ActivityId).ToString() + ';');
                 strbldr.Append(activityActions.GetStatus(activity) + ';');
                 strbldr.Append(activity.Type + ';');
@@ -42,7 +42,7 @@ namespace VALE.Logic
         {
             StringBuilder strbldr = new StringBuilder();
             //separting header columns text with comma operator
-            strbldr.Append("Progetto;Tipo Progetto;Progetto Publico;Progetto Correlato;Nome Attività;Tipo Attività;Descrizione;Ore Di Lavoro;Compiuta da;In Data");
+            strbldr.Append("Progetto;Tipo Progetto;Progetto Publico;Progetto Padre;Nome Attività;Tipo Attività;Descrizione;Ore Di Lavoro;Compiuta da;In Data");
             //appending new line for gridview header row
             strbldr.Append("\n");
             foreach (var summaryIntervention in summaryInterventions)
