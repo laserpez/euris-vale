@@ -19,6 +19,8 @@
             xmlhttp.open("Get", url, false);
             xmlhttp.send(null);
             var result = xmlhttp.responseText;
+            if (result == "False")
+                Alert("Un'attività che possiede interventi non puo piu avere lo stato 'Da Pianificare'");
         }
     </script>
     <div class="container">

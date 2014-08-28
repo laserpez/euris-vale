@@ -190,7 +190,7 @@
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton  runat="server" ><span  class="glyphicon glyphicon-th"></span> Progetto Correlato</asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton  runat="server" ><span  class="glyphicon glyphicon-th"></span> Progetto Padre</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label  runat="server"><%#: Item.RelatedProjectName %></asp:Label></div></center>
