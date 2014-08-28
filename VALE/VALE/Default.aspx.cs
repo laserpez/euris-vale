@@ -63,10 +63,9 @@ namespace VALE
             if (project != null)
             {
                 int budget = projectActions.GetProjectHierarchyBudget(project.ProjectId);
-                if (budget > 0)
-                    return String.Format("Budget Totale: {0} Erogato {1}", budget, hours);
+                return String.Format("{0} Erogato {1}", budget, hours);
             }
-            return String.Format(" {0} Ore di lavoro", hours);
+            return "";
         }
 
         public IQueryable<Event> GetEvents()
@@ -90,9 +89,8 @@ namespace VALE
             var activityActions = new ActivityActions();
             int totalHours = activityActions.GetAllActivityHoursWorked(activity.ActivityId);
             if (activity != null)
-                if (activity.Budget > 0)
-                    return String.Format("Budget Totale: {0} Erogato {1}", activity.Budget, totalHours);
-            return String.Format(" {0} Ore di lavoro", totalHours);
+                return String.Format("{0} Erogato {1}", activity.Budget, totalHours);
+            return "";
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)

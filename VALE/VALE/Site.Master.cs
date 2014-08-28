@@ -99,9 +99,7 @@ namespace VALE
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-
             SetNotification();
-
         }
 
         private void SetLink()

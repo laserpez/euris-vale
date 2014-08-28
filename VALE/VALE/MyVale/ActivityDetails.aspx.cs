@@ -10,6 +10,7 @@ using VALE.Models;
 using VALE.Logic;
 using System.Web.UI.HtmlControls;
 using VALE.MyVale.Create;
+using System.Drawing;
 
 namespace VALE.MyVale
 {
@@ -57,6 +58,7 @@ namespace VALE.MyVale
             return activityActions.GetStatus(anActivity);
         }
 
+        
         public string GetStatusColor(ActivityStatus status)
         {
             if (status == ActivityStatus.ToBePlanned)
@@ -83,9 +85,74 @@ namespace VALE.MyVale
             return (LinkButton)ActivityDetail.FindControl(name);
         }
 
+        private void SetPersonalInterventionsMode() 
+        {
+            GridView grdActivityReport = (GridView)ActivityDetail.FindControl("grdActivityReport");
+            HtmlButton btnPersonal = (HtmlButton)ActivityDetail.FindControl("btnPersonal");
+            HtmlButton btnAllUsers = (HtmlButton)ActivityDetail.FindControl("btnAllUsers");
+            Label lblAllOrPersonal = (Label)ActivityDetail.FindControl("lblAllOrPersonal");
+            lblAllOrPersonal.Text = "Personal";
+            btnPersonal.Visible = true;
+            btnAllUsers.Visible = false;
+            grdActivityReport.Columns[0].Visible = false;
+            grdActivityReport.DataBind();
+        }
+
+        private void SetAllInterventionsMode()
+        {
+            GridView grdActivityReport = (GridView)ActivityDetail.FindControl("grdActivityReport");
+            HtmlButton btnPersonal = (HtmlButton)ActivityDetail.FindControl("btnPersonal");
+            HtmlButton btnAllUsers = (HtmlButton)ActivityDetail.FindControl("btnAllUsers");
+            Label lblAllOrPersonal = (Label)ActivityDetail.FindControl("lblAllOrPersonal");
+            lblAllOrPersonal.Text = "All";
+            btnPersonal.Visible = false;
+            btnAllUsers.Visible = true;
+            grdActivityReport.Columns[0].Visible = true;
+            grdActivityReport.DataBind();
+        }
+
         protected void Page_PreRender(object sender, EventArgs e)
         {
+           
+            HtmlButton btnStatus = (HtmlButton)ActivityDetail.FindControl("btnStatus");
+            Button btnAddReport = (Button)ActivityDetail.FindControl("btnAddReport");
+            Button btnInviteUser = (Button)ActivityDetail.FindControl("btnInviteUser");
+            Button btnModifyActivity = (Button)ActivityDetail.FindControl("btnModifyActivity");
+            Button btnDeleteRelatedProject = (Button)ActivityDetail.FindControl("btnDeleteRelatedProject");
+            Button btnAddRelatedProject = (Button)ActivityDetail.FindControl("btnAddRelatedProject");
+            var activity = _db.Activities.Where(a => a.ActivityId == _currentActivityId).FirstOrDefault();
+            if (HttpContext.Current.User.IsInRole("Admin"))
+            {
+                btnStatus.Disabled = false;
+                btnInviteUser.Visible = true;
+                btnAddRelatedProject.Visible = true;
+
+            }
+            else if (_currentUser == activity.CreatorUserName)
+            {
+                btnStatus.Disabled = false;
+                btnInviteUser.Visible = true;
+                btnModifyActivity.Visible = true;
+            }
+            else 
+            {
+                btnStatus.Disabled = true;
+                btnInviteUser.Visible = false;
+                btnModifyActivity.Visible = false;
+                btnDeleteRelatedProject.Visible = false;
+                btnAddRelatedProject.Visible = false;
+            }
             
+            if (activity.Status != ActivityStatus.ToBePlanned && activity.Status != ActivityStatus.Ongoing)
+                btnAddReport.Visible = false;
+
+            if (!IsPostBack) 
+            {
+                if (_currentUser == activity.CreatorUserName)
+                    SetAllInterventionsMode();
+                else 
+                    SetPersonalInterventionsMode();
+            }
         }
 
         public Activity GetActivity([QueryString("activityId")] int? activityId)
@@ -121,18 +188,23 @@ namespace VALE.MyVale
 
         }
 
-        public string GetHoursWorked()
+        public void SetupBugetAndHoursWorked()
         {
+            Label lblBudget = (Label)ActivityDetail.FindControl("lblBudget");
+            Label lblColorBuget = (Label)ActivityDetail.FindControl("lblColorBuget");
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
             var activityActions = new ActivityActions();
             int totalHours = activityActions.GetAllActivityHoursWorked(activity.ActivityId);
-            if (activity != null)
-                if (activity.Budget > 0)
-                    return String.Format("Budget Totale: {0} Erogato {1}", activity.Budget, totalHours);
-            return String.Format(" {0} Ore di lavoro", totalHours);
+            if (activity != null) 
+            {
+                lblBudget.Text = String.Format(" {0} Erogato {1}", activity.Budget, totalHours);
+                if (activity.Budget < totalHours)
+                    lblColorBuget.ForeColor = Color.Red;
+                else
+                    lblColorBuget.ForeColor = Color.FromArgb(102, 102, 102);
+            }            
         }
 
-        
 
         protected void btnInviteUser_Click(object sender, EventArgs e)
         {
@@ -142,12 +214,48 @@ namespace VALE.MyVale
 
         public IQueryable<ActivityReport> grdActivityReport_GetData()
         {
+            Label lblAllOrPersonal = (Label)ActivityDetail.FindControl("lblAllOrPersonal");
+            Label lblHoursWorked = (Label)ActivityDetail.FindControl("lblHoursWorked");
             var activityId = Convert.ToInt32(_currentActivityId);
-            return _db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).AsQueryable();
+            if (lblAllOrPersonal.Text == "Personal")
+            {
+                var interventions = _db.Reports.Where(r => r.WorkerUserName == _currentUser && r.ActivityId == activityId).OrderByDescending(r => r.ActivityReportId).AsQueryable();
+                int hours = interventions.Sum(r => r.HoursWorked);
+                lblHoursWorked.Text = "Totale " + hours + " Ore";
+                SetupBugetAndHoursWorked();
+                return interventions;
+            }
+            else 
+            {
+                var interventions = _db.Reports.Where(r => r.ActivityId == activityId).OrderByDescending(r => r.WorkerUserName).AsQueryable();
+                int hours = interventions.Sum(r => r.HoursWorked);
+                lblHoursWorked.Text = "Totale " + hours + " Ore";
+                SetupBugetAndHoursWorked();
+                return interventions;
+            }
         }
 
-       
+        protected void btnPersonalLinkButton_Click(object sender, EventArgs e)
+        {
+            SetPersonalInterventionsMode();
+        }
 
+        protected void btnAllUsersLinkButton_Click(object sender, EventArgs e)
+        {
+            SetAllInterventionsMode();
+        }
+
+        public bool ModifyInterventionsAcces(ActivityReport report) 
+        {
+            var db = new UserOperationsContext();
+            var activity = db.Activities.Where(a => a.ActivityId == _currentActivityId).FirstOrDefault();
+            if (activity.Status != ActivityStatus.ToBePlanned && activity.Status != ActivityStatus.Ongoing)
+                return false;
+            if (report.WorkerUserName != _currentUser)
+                return false;
+            return true;
+        }
+       
         protected void btnOkButton_Click(object sender, EventArgs e)
         {
             var action = lblAction.Text;
@@ -169,6 +277,11 @@ namespace VALE.MyVale
                     });
 
                     var activity = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId);
+                    if (activity.Status == ActivityStatus.ToBePlanned)
+                    {
+                        activity.Status = ActivityStatus.Ongoing;
+                        activity.StartDate = DateTime.Now;
+                    }
                     activity.LastModified = DateTime.Today;
                     if (activity.RelatedProject != null)
                     {
@@ -180,11 +293,9 @@ namespace VALE.MyVale
                     }
 
                     _db.SaveChanges();
-
+                    
                     var activityActions = new ActivityActions();
                     activityActions.ComposeMessage(_currentActivityId, "", "Aggiunto intervento");
-
-                    lblHoursWorked.Text = GetHoursWorked();
                 }
                 grdActivityReport.DataBind();
             }
@@ -198,12 +309,11 @@ namespace VALE.MyVale
                     report.ActivityDescription = txtDescription.InnerText;
                     _db.SaveChanges();
                 }
-                lblHoursWorked.Text = GetHoursWorked();
                 grdActivityReport.DataBind();
             }
             else if (action == "Details")
                 ModalPopup.Hide();
-
+            Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
         }
         protected void btnClosePopUpButton_Click(object sender, EventArgs e)
         {
@@ -299,6 +409,7 @@ namespace VALE.MyVale
                 GridView grdActivityReport = (GridView)ActivityDetail.FindControl("grdActivityReport");
                 grdActivityReport.PageIndex = 0;
                 grdActivityReport.DataBind();
+                Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
             }
         }
 
