@@ -10,11 +10,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-8">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
-                                                    <asp:Label ID="HeaderName" runat="server" Text="Gestione verbali del Consiglio"></asp:Label>
+                                                    <asp:Label ID="HeaderName" runat="server" Text="Gestisci verbali del Consiglio"></asp:Label>
                                                 </h4>
                                             </li>
                                         </ul>

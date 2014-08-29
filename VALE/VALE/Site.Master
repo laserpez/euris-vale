@@ -248,8 +248,9 @@
                                 </li>
                                 <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi Attività</a></li>
                                 <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci Eventi</a></li>
-                                <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci Articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
+                                <%--<li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci Articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>--%>
                                 <%--<li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci Verbali del Consiglio</a></li>--%>
+                                <li><a href="/Admin/LastActivities.aspx"><span class="glyphicon glyphicon-file"></span> Ultime attività</a></li>
                                 <li><a href="/Admin/ManageEmailSystem.aspx"><span class="glyphicon glyphicon-envelope"></span> Gestisci Servizio E-mail</a></li>
                             </ul>
                         </li>

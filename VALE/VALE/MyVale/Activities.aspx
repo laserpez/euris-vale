@@ -142,7 +142,7 @@
                                                             </div>
                                                             <div class="navbar-right">
                                                                 <asp:Button runat="server" Text="Esporta CSV"  CssClass="btn btn-info btn-xs" ID="btnExportCSV" OnClick="btnExportCSV_Click" />
-                                                                <asp:Button runat="server" Text="Crea Attività"  CssClass="btn btn-success btn-xs" ID="btnAddActivity" OnClick="btnAddActivity_Click" />
+                                                                <asp:Button runat="server" Text="Crea Attività" CssClass="btn btn-success btn-xs" ID="btnAddActivity" OnClick="btnAddActivity_Click" />
                                                             </div>
                                                         </div>
                                                     </div>

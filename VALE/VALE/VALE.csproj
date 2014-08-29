@@ -200,6 +200,7 @@
     <Content Include="Account\ResetPassword.aspx" />
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Admin\EventReport.aspx" />
+    <Content Include="Admin\LastActivities.aspx" />
     <Content Include="Admin\ManageActivityTypes.aspx" />
     <Content Include="Admin\ManageArticles.aspx" />
     <Content Include="Admin\ManageBODReports.aspx" />
@@ -1946,6 +1947,13 @@
     </Compile>
     <Compile Include="Admin\EventReport.aspx.designer.cs">
       <DependentUpon>EventReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\LastActivities.aspx.cs">
+      <DependentUpon>LastActivities.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\LastActivities.aspx.designer.cs">
+      <DependentUpon>LastActivities.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ManageActivityTypes.aspx.cs">
       <DependentUpon>ManageActivityTypes.aspx</DependentUpon>

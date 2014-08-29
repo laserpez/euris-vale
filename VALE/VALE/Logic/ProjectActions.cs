@@ -380,8 +380,8 @@ namespace VALE.Logic
                             }
                             if (registeredUsers.Count != 0)
                             {
-                                var bodyMail = "Salve, ti informiamo sei stato invitato a collaborare al progetto " + aProject.ProjectName +
-                                        ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui</a>.";
+                                var bodyMail = "Sei stato invitato a collaborare al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + ".<br/> Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
@@ -393,7 +393,7 @@ namespace VALE.Logic
                             var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
                             if (userName != aProject.OrganizerUserName)
                             {
-                                var bodyMail = "Salve, ti informiamo che l'utente " + userName +
+                                var bodyMail = "L'utente " + userName +
                                             " sta partecipando al tuo progetto " + aProject.ProjectName + ".";
                                 var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName).Email;
                                 SendToPrivate(ownerEmail, subject, bodyMail);
@@ -407,7 +407,7 @@ namespace VALE.Logic
                             var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
                             if (userName != aProject.OrganizerUserName)
                             {
-                                var bodyMail = "Salve, ti informiamo che l'utente " + userName +
+                                var bodyMail = "L'utente " + userName +
                                             " ha rimosso la propria partecipazione dal tuo progetto " + aProject.ProjectName + ".";
                                 var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == aProject.OrganizerUserName).Email;
                                 SendToPrivate(ownerEmail, subject, bodyMail);
@@ -429,15 +429,15 @@ namespace VALE.Logic
                             var lastProject = aProject.RelatedProjects.Last();
                             if (registeredUsers.Count != 0)
                             {
-                                bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
+                                bodyMail = "Al progetto " + aProject.ProjectName +
                                         ", creato da " + aProject.OrganizerUserName + " è stato correlato il progetto " + lastProject.ProjectName + " creato da " + lastProject.OrganizerUserName +
-                                        ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui</a>.";
+                                        ".<br/> Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
 
                             //Invio mail all'owner del progetto correlato
-                            bodyMail = "Salve, ti informiamo che il tuo progetto " + lastProject.ProjectName + " è stato correlato al progetto " + aProject.ProjectName + " creato da " + aProject.OrganizerUserName +
-                                ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui</a>.";
+                            bodyMail = "Il tuo progetto " + lastProject.ProjectName + " è stato correlato al progetto " + aProject.ProjectName + " creato da " + aProject.OrganizerUserName +
+                                ".<br/> Per maggiori informazioni sulla <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">pagina di dettaglio</a>.";
                             var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
                             SendToPrivate(userEmail, subject, bodyMail);
                         }
@@ -454,7 +454,7 @@ namespace VALE.Logic
                                 if (GetFather(project) == aProject)
                                     deletedProject = project;
                             }
-                            var bodyMail = "Salve, ti informiamo che il tuo progetto" + deletedProject.ProjectName + " non è più correlato al progetto " +
+                            var bodyMail = "Il tuo progetto" + deletedProject.ProjectName + " non è più correlato al progetto " +
                                     aProject.OrganizerUserName + " di " + aProject.OrganizerUserName + ".";
                             var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
                             SendToPrivate(userEmail, subject, bodyMail);
@@ -470,9 +470,9 @@ namespace VALE.Logic
                             if (registeredUsers.Count != 0)
                             {
                                 var lastAttachment = aProject.AttachedFiles.Last();
-                                var bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
+                                var bodyMail = "Al progetto " + aProject.ProjectName +
                                         ", creato da " + aProject.OrganizerUserName + " è stato allegato il documento " + lastAttachment.FileName +
-                                        ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui</a>.";
+                                        ".<br/> Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
@@ -487,8 +487,8 @@ namespace VALE.Logic
                             if (registeredUsers.Count != 0)
                             {
                                 var lastConversation = aProject.Interventions.Last();
-                                var bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
-                                        ", creato da " + aProject.OrganizerUserName + " è stata aggiunta una nuova conversazione.<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + lastConversation.InterventionId + "\">Clicca qui</a>.";
+                                var bodyMail = "Al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + " è stata aggiunta una nuova conversazione.<br/> Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + lastConversation.InterventionId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
@@ -503,8 +503,8 @@ namespace VALE.Logic
                             if (registeredUsers.Count != 0)
                             {
                                 var lastComment = db.Comments.FirstOrDefault(c => c.CreatorUserName == userName && c.Date.ToShortDateString() == DateTime.Now.ToShortDateString());
-                                var bodyMail = "Salve, ti informiamo che ad una conversazione del progetto " + aProject.ProjectName +
-                                       ", creato da " + aProject.OrganizerUserName + " l'utente " + userName + " ha aggiunto un nuovo commento.<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + lastComment.InterventionId + "\">Clicca qui</a>.";
+                                var bodyMail = "Ad una conversazione del progetto " + aProject.ProjectName +
+                                       ", creato da " + aProject.OrganizerUserName + " l'utente " + userName + " ha aggiunto un nuovo commento.<br/> Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/InterventionDetails?interventionId=" + lastComment.InterventionId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
@@ -519,8 +519,8 @@ namespace VALE.Logic
                             if (registeredUsers.Count != 0)
                             {
                                 var lastEvent = aProject.Events.Last();
-                                var bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
-                                        ", creato da " + aProject.OrganizerUserName + " è stata correlato l'evento " + lastEvent.Name + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui</a>.";
+                                var bodyMail = "Al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + " è stata correlato l'evento " + lastEvent.Name + ".<br/> Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
@@ -535,8 +535,8 @@ namespace VALE.Logic
                             if (registeredUsers.Count != 0)
                             {
                                 var lastActivity = aProject.Activities.Last();
-                                var bodyMail = "Salve, ti informiamo che al progetto " + aProject.ProjectName +
-                                        ", creato da " + aProject.OrganizerUserName + " è stata correlato l'evento " + lastActivity.ActivityName + ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">Clicca qui</a>.";
+                                var bodyMail = "Al progetto " + aProject.ProjectName +
+                                        ", creato da " + aProject.OrganizerUserName + " è stata correlato l'evento " + lastActivity.ActivityName + ".<br/> Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/ProjectDetails?projectId=" + aProject.ProjectId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
@@ -546,7 +546,7 @@ namespace VALE.Logic
                         {
                             var db = new UserOperationsContext();
                             var aProject = db.Projects.FirstOrDefault(p => p.ProjectId == dataId);
-                            var bodyMail = "Salve, ti informiamo che il tuo progetto " + aProject.ProjectName +
+                            var bodyMail = "Il tuo progetto " + aProject.ProjectName +
                                 " è stato cancellato dall'Amministratore. Per maggiori informazioni contattare l'Amministratore.";
                             var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
                             SendToPrivate(userEmail, subject, bodyMail);
@@ -565,7 +565,7 @@ namespace VALE.Logic
                             }
                             if (registeredUsers.Count != 0)
                             {
-                                var bodyMail = "Salve, ti informiamo che il progetto " + aProject.ProjectName +
+                                var bodyMail = "Il progetto " + aProject.ProjectName +
                                     ", creato da " + aProject.OrganizerUserName + " è stato sospeso.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
@@ -584,7 +584,7 @@ namespace VALE.Logic
                             }
                             if (registeredUsers.Count != 0)
                             {
-                                var bodyMail = "Salve, ti informiamo che il progetto " + aProject.ProjectName +
+                                var bodyMail = "Il progetto " + aProject.ProjectName +
                                     ", creato da " + aProject.OrganizerUserName + " precedentemente sospeso, è stato ora ripreso.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
@@ -603,7 +603,7 @@ namespace VALE.Logic
                             }
                             if (registeredUsers.Count != 0)
                             {
-                                var bodyMail = "Salve, ti informiamo che il progetto " + aProject.ProjectName +
+                                var bodyMail = "Il progetto " + aProject.ProjectName +
                                     ", creato da " + aProject.OrganizerUserName + " è stato chiuso.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
