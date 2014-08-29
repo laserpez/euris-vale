@@ -18,9 +18,8 @@
             var url = "ManageActivities.aspx?Method=ChangeStatus&id=" + id + "&status=" + status;
             xmlhttp.open("Get", url, false);
             xmlhttp.send(null);
-            var result = xmlhttp.responseText;
-            if (result == "False")
-                Alert("Un'attività che possiede interventi non puo piu avere lo stato 'Da Pianificare'");
+            return  xmlhttp.responseText;
+            
         }
     </script>
     <div class="container">
@@ -351,7 +350,30 @@
             </div>
         </div>
     </div>
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <asp:ModalPopupExtender ID="ModalPopup" runat="server"
+                PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
+            </asp:ModalPopupExtender>
+            <asp:LinkButton ID="lnkDummy" runat="server"></asp:LinkButton>
+            <div class="alert alert-dismissable alert-info" id="pnlPopup" style="width: 25%;">
+                <div class="row">
+                    <asp:Label runat="server" CssClass="col-md-12 control-label"><strong>Un'attività che possiede interventi non puo piu avere lo stato 'Da Pianificare'</strong></asp:Label>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                        <div class="col-md-offset-9 col-md-10">
+                            <asp:Button runat="server" Text="Ok" ID="Button1" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnErroeOk_Click" />
+                        </div>
 
+                    </div>
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
 
 
 </asp:Content>

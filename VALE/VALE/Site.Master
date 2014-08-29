@@ -249,7 +249,7 @@
                                 <li><a href="/Admin/ManageActivityTypes.aspx"><span  class="glyphicon glyphicon-list"></span> Gestisci tipi Attività</a></li>
                                 <li><a href="/Admin/ManageEvents.aspx"><span  class="glyphicon glyphicon-flash"></span> Gestisci Eventi</a></li>
                                 <li><a href="/Admin/ManageArticles.aspx"><span  class="glyphicon glyphicon-list-alt"></span> Gestisci Articoli <span runat="server" class="badge" id="NotificationArticlesRequest"></span></a></li>
-                                <li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci Verbali del Consiglio</a></li>
+                                <%--<li><a href="/Admin/ManageBODReports.aspx"><span  class="glyphicon glyphicon-file"></span> Gestisci Verbali del Consiglio</a></li>--%>
                                 <li><a href="/Admin/ManageEmailSystem.aspx"><span class="glyphicon glyphicon-envelope"></span> Gestisci Servizio E-mail</a></li>
                             </ul>
                         </li>
@@ -257,7 +257,7 @@
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-file"></span> Consiglio<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/BOD/BODReports.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Vedi verbali</a></li>
-                                <li><a runat="server" id="createBODLink" visible="false" href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>
+                                <%--<li><a runat="server" id="createBODLink" visible="false" href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>--%>
                                 <li><a runat="server" id="associationDocuments" visible="false" href="/MyVale/BOD/VALEDocuments.aspx"><span  class="glyphicon glyphicon-briefcase"></span> Documenti dell'associazione</a></li>
                             </ul>
                         </li>
@@ -266,7 +266,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Projects.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Tutti i progetti</a></li>
                                 <li><a href="/MyVale/PersonalProjects.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Progetti personali</a></li>
-                                <li><a runat="server" visible="false" id="createProjectLink" href="/MyVale/Create/ProjectCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea progetto</a></li>
+                                <%--<li><a runat="server" visible="false" id="createProjectLink" href="/MyVale/Create/ProjectCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea progetto</a></li>--%>
                             </ul>
                         </li>
                         <li class="dropdown" id="activitiesLink" runat="server">
@@ -275,7 +275,7 @@
                                 <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Vedi Attività</a></li>
                                 <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-pushpin"></span> Stati delle attività</a></li>
                                 <li><a href="/MyVale/SummaryInterventions.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Riepilogo interventi</a></li>
-                                <li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>
+                                <%--<li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>--%>
                             </ul>
                         </li>
                         <li class="dropdown" id="eventsLink" runat="server">
@@ -283,17 +283,17 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Events.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Calendario eventi</a></li>
                                 <li><a href="/MyVale/PersonalEvents.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Eventi personali</a></li>
-                                <li><a runat="server" visible="false" id="createEventLink" href="/MyVale/Create/EventCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea evento</a></li>
+<%--                                <li><a runat="server" visible="false" id="createEventLink" href="/MyVale/Create/EventCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea evento</a></li>--%>
                             </ul>
                         </li>
-                        <li class="dropdown" id="blogsLink" runat="server">
+                        <%--<li class="dropdown" id="blogsLink" runat="server">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list-alt"></span> Blog <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Articles.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Tutti gli articoli</a></li>
                                 <li><a href="/MyVale/PersonalArticles.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Articoli personali</a></li>
                                 <li><a runat="server" visible="false" id="createBlogArticle" href="/MyVale/Create/ArticleCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea articolo</a></li>
                             </ul>
-                        </li>
+                        </li>--%>
                         <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Utenti </a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled" id="loginLink">
