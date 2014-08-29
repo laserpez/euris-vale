@@ -48,29 +48,14 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField ItemStyle-Font-Bold="false" DataField="Receiver" HeaderText="Destinatario" SortExpression="Receiver" />
-                                            <%--<asp:TemplateField>
-                                                                <HeaderTemplate>
-                                                                    <center><div><asp:LinkButton runat="server" CommandArgument="Receiver" CommandName="sort">Destinatario</asp:LinkButton></div></center>
-                                                                </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <asp:ListView runat="server" ID="ToListView">
-                                                                        <EmptyDataTemplate>
-                                                                            <table>
-                                                                                <tr>
-                                                                                    <td>Non sono presenti destinatari.</td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </EmptyDataTemplate>
-                                                                        <ItemTemplate>
-                                                                            <asp:Label runat="server"><%#: Container.DataItem %></asp:Label>
-                                                                        </ItemTemplate>
-                                                                        <ItemSeparatorTemplate>
-                                                                            <br />
-                                                                        </ItemSeparatorTemplate>
-                                                                    </asp:ListView>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>--%>
-                                            <asp:BoundField ItemStyle-Font-Bold="false" DataField="DataType" HeaderText="Modulo" SortExpression="DataType" />
+                                            <asp:TemplateField>
+                                                 <HeaderTemplate>
+                                                    <asp:LinkButton runat="server" CommandArgument="DataType" CommandName="sort">Modulo</asp:LinkButton>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <center><div><span title="<%#: Item.DataType %>" class="<%#:Item.DataTypeUrl %>"></span></div></center>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:BoundField ItemStyle-Font-Bold="false" DataField="DataAction" HeaderText="Oggetto" SortExpression="DataAction" />
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
@@ -80,7 +65,6 @@
                                                     <asp:Label runat="server"><%#: GetBody(Item.Body) %></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <%--<asp:BoundField ItemStyle-Font-Bold="false" DataField="Body" HeaderText="Corpo della mail" SortExpression="Body" />--%>
                                             <asp:TemplateField>
                                                 <HeaderTemplate>
                                                     <asp:LinkButton runat="server" CommandArgument="Error" CommandName="sort">Messaggio d'errore</asp:LinkButton>
@@ -101,8 +85,4 @@
             </div>
         </div>
     </div>
-                <%--</div>
-            </div>
-        </div>
-    </div>--%>
 </asp:Content>

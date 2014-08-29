@@ -158,10 +158,10 @@ namespace VALE
                 NotificationUsersRequest.InnerText = waitingUsersNotifications.ToString();
             else
                 NotificationUsersRequest.Visible = false;
-            if (waitingArticlesNotifications > 0)
-                NotificationArticlesRequest.InnerText = waitingArticlesNotifications.ToString();
-            else
-                NotificationArticlesRequest.Visible = false;
+            //if (waitingArticlesNotifications > 0)
+            //    NotificationArticlesRequest.InnerText = waitingArticlesNotifications.ToString();
+            //else
+            //    NotificationArticlesRequest.Visible = false;
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 ActivityActions activityActions = new ActivityActions();
