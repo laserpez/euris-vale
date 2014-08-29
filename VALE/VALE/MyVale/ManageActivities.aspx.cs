@@ -12,6 +12,7 @@ namespace VALE
 {
     public partial class Prova : Page
     {
+        bool error = false;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (HttpContext.Current.User.Identity.IsAuthenticated)
@@ -112,8 +113,13 @@ namespace VALE
                     var receverTableId = this.id;
                     var status = receverTableId.charAt(receverTableId.length - 1);
                     var activityId = ui.item.find('td')[0].innerHTML;
-                    ChangeStatus(activityId, status);
-                    }
+                    var result = ChangeStatus(activityId, status);
+                    if (result == 'False')
+                    {
+                        alert('Un attività che possiede interventi non puo piu avere lo stato Da Pianificare');
+                        location.reload();
+                    }   
+                  }
                 });
             });";
             ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "dragAndDrop", dragAndDrop, true);
@@ -160,19 +166,17 @@ namespace VALE
         private void ChangeStatus(int id, string statusNumber)
         {
             var db = new UserOperationsContext();
-            Response.Clear();
+            //Response.Clear();
             ActivityStatus status = (ActivityStatus)Convert.ToInt16(statusNumber);
-            var activityActions = new ActivityActions();
             var interventions = db.Reports.Where(r => r.ActivityId == id);
-            if (interventions.Count() == 0) 
+            if (status == ActivityStatus.ToBePlanned && interventions.Count() > 0)
+                Response.Write("False");
+            else 
             {
+                var activityActions = new ActivityActions();
                 activityActions.SetActivityStatus(id, status);
-                //BindAllGrids();
                 Response.Write("True");
             }
-            else
-                Response.Write("False");
-           
             Response.End();
             
         }
@@ -352,7 +356,7 @@ namespace VALE
         {
             var db = new UserOperationsContext();
             var userName = User.Identity.Name;
-            var projects = db.UserDatas.First(u => u.UserName == userName).AttendingProjects;
+            var projects = db.Activities.Where(a => a.CreatorUserName == userName && a.RelatedProject != null).Select(act => act.RelatedProject).Distinct().ToList();
             projects.Insert(0, new Project { ProjectName = "-- Seleziona progetto --", ProjectId = 0});
             return projects;
         }
@@ -502,6 +506,12 @@ namespace VALE
                 return (SortDirection)ViewState["sortDirection"];
             }
             set { ViewState["sortDirection"] = value; }
+        }
+
+        protected void btnErroeOk_Click(object sender, EventArgs e)
+        {
+            string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
+            Response.Redirect(pageUrl);
         }
     }
 }
