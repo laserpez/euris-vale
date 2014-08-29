@@ -13,6 +13,29 @@ namespace VALE.Logic
 
         public string DataType { get; set; }
 
+        [NotMapped]
+        public string DataTypeUrl
+        {
+            get
+            {
+                switch (DataType)
+                {
+                    case "Evento":
+                        return "glyphicon glyphicon-flash";
+                    case "Progetto":
+                        return "glyphicon glyphicon-inbox";
+                    case "Attività":
+                        return "glyphicon glyphicon-list";
+                    case "Registrazione":
+                        return "glyphicon glyphicon-user";
+                    default:
+                        return "glyphicon glyphicon-th";
+                };
+            }
+        }
+
+        public bool Read { get; set; }
+
         public string DataAction { get; set; }
 
         public string Receiver { get; set; }

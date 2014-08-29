@@ -34,7 +34,7 @@ namespace VALE
             // Create a timer.
             var aTimer = new Timer();
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["Interval"].ToString()); //20 minuti
+            aTimer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["Interval"].ToString());
             aTimer.Enabled = true;
         
         }
@@ -60,7 +60,7 @@ namespace VALE
         {
             var db = new UserOperationsContext();
 
-            var bodyMail = String.Empty;
+            var bodyMail = "Salve, un aggiornamento delle ultime attività del sito VALE.<br/><br/>";
 
             List<MailQueue> listMailSent = new List<MailQueue>();
 

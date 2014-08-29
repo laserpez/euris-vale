@@ -41,34 +41,12 @@ namespace VALE.Admin
             return logger.GetStatus(logEmail);
         }
 
-        //private List<string> GetReceivers(int logEntryEmailId)
-        //{
-        //    var db = new UserOperationsContext();
-        //    return db.LogEntriesEmail.FirstOrDefault(l => l.LogEntryEmailId == logEntryEmailId).Receivers;
-        //}
-
-        //protected void grdLogEmail_DataBound(object sender, EventArgs e)
-        //{
-        //    for (int i = 0; i < grdLogEmail.Rows.Count; i++)
-        //    {
-        //        int logEntryEmailId = (int)grdLogEmail.DataKeys[i].Value;
-        //        var ToListView = (ListView)grdLogEmail.Rows[i].FindControl("ToListView");
-        //        if (ToListView != null)
-        //        {
-        //            var listReceivers = GetReceivers(logEntryEmailId);
-        //            ToListView.DataSource = listReceivers;
-        //            ToListView.DataBind();
-        //        }
-        //    }
-        //}
-
         public string GetBody(string body)
         {
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(body);
             body = doc.DocumentNode.InnerText;
             return doc.DocumentNode.InnerText;
-            //return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
         }
 
         protected void btnExportCSV_Click(object sender, EventArgs e)

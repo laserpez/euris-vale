@@ -91,7 +91,7 @@ namespace VALE.Logic
                             }
 
                             //Invio e-mail all'utente
-                            bodyMail = "Benvenuto in VALE!<br/> Ti informiamo che in data " + DateTime.Now.ToShortDateString() + " l'amministrazione ti ha registrato come nuovo utente. La password di default con cui effettuare il Log In è:" + password + ". <br/> Potrai cambiarla una volta confermato l'account cliccando <a href=\" http://localhost:59959/Account/Profile" + "\"> qui <a/>";
+                            bodyMail = "Benvenuto in VALE!<br/> Ti informiamo che in data " + DateTime.Now.ToShortDateString() + " l'amministrazione ti ha registrato come nuovo utente. La password di default con cui effettuare il Log In è:" + password + ". <br/> Potrai cambiarla una volta confermato l'account cliccando alla tua pagina di <a href=\" http://localhost:59959/Account/Profile" + "\"> Profilo <a/>";
                             Mail newMailUser = new Mail(to: generatedUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Registrazione");
                             AddToQueue(newMailUser);
                         }
