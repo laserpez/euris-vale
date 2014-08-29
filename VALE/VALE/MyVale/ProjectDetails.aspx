@@ -66,7 +66,6 @@
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                     </div>
-
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <div class="row">
@@ -191,7 +190,142 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>     
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-8">
+                                                                        <ul class="nav nav-pills">
+                                                                            <li>
+                                                                                <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Attività correlate</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="navbar-right">
+                                                                        <asp:Button Text="" CausesValidation="false" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                            <asp:GridView ItemType="VALE.Models.Activity" AllowPaging="true" PageSize="10" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                                SelectMethod="GetRelatedActivities" runat="server" DataKeyNames="ActivityId" ID="ActivitiesGridView" CssClass="table table-striped table-bordered">
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="CreatorUserName" CommandName="sort" runat="server" ID="labelCreatorUserName"><span  class="glyphicon glyphicon-user"></span> Creatore</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server" ID="lblContentActivity"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
+                                                                <EmptyDataTemplate>
+                                                                    <asp:Label runat="server">Nessuna attività correlata.</asp:Label>
+                                                                </EmptyDataTemplate>
+                                                            </asp:GridView>
+                                                        </div>
+                                                        <div class="panel-footer">
+                                                            <ul class="nav nav-pills">
+                                                                <li>
+                                                                    <span runat="server" class="badge">
+                                                                        <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetHoursWorked() %></asp:Label>
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-8">
+                                                                        <ul class="nav nav-pills">
+                                                                            <li>
+                                                                                <span class="glyphicon glyphicon-flash"></span>&nbsp;&nbsp;Eventi correlati</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="navbar-right">
+                                                                        <asp:Button CausesValidation="false" Text="" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                            <asp:GridView ItemType="VALE.Models.Event" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
+                                                                SelectMethod="GetRelatedEvents" AllowPaging="true" PageSize="10" DataKeyNames="EventId" runat="server" ID="GridView1" CssClass="table table-striped table-bordered">
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server" ID="lblContentEvent"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
+                                                                <EmptyDataTemplate>
+                                                                    <asp:Label runat="server">Nessun evento correlato</asp:Label>
+                                                                </EmptyDataTemplate>
+                                                            </asp:GridView>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                    <asp:UpdatePanel runat="server">
+                                        <ContentTemplate>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
@@ -279,6 +413,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                    <uc:FileUploader ID="FileUploader" runat="server" />
+                                    <asp:UpdatePanel runat="server">
+                                        <ContentTemplate>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
@@ -330,149 +469,17 @@
                                             </div>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
+                                    
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-heading">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="col-md-8">
-                                                                        <ul class="nav nav-pills">
-                                                                            <li>
-                                                                                <span class="glyphicon glyphicon-flash"></span>&nbsp;&nbsp;Eventi correlati</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="navbar-right">
-                                                                        <asp:Button CausesValidation="false" Text="" ID="btnAddEvent" runat="server" OnClick="btnAddEvent_Click" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView ItemType="VALE.Models.Event" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                SelectMethod="GetRelatedEvents" AllowPaging="true" PageSize="10" DataKeyNames="EventId" runat="server" ID="GridView1" CssClass="table table-striped table-bordered">
-                                                <Columns>
-                                                    <asp:TemplateField>
-                                                        <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="Name" CommandName="sort" runat="server" ID="labelName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.Name %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server" ID="lblContentEvent"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <HeaderTemplate>
-                                                            <center><div><asp:LinkButton CommandArgument="EventDate" CommandName="sort" runat="server" ID="labelEventDate"><span  class="glyphicon glyphicon-calendar"></span> Data</asp:LinkButton></div></center>
-                                                        </HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.EventDate.ToShortDateString() %></asp:Label></div></center>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                                <PagerSettings Position="Bottom" />
-                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
-                                                <EmptyDataTemplate>
-                                                    <asp:Label runat="server">Nessun evento correlato</asp:Label>
-                                                </EmptyDataTemplate>
-                                            </asp:GridView>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-heading">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="col-md-8">
-                                                                        <ul class="nav nav-pills">
-                                                                            <li>
-                                                                                <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Attività correlate</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="navbar-right">
-                                                                        <asp:Button Text="" CausesValidation="false" ID="btnAddActivity" runat="server" OnClick="btnAddActivity_Click" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="panel-body" style="max-height: 200px; overflow: auto;">
-                                                            <asp:GridView ItemType="VALE.Models.Activity" AllowPaging="true" PageSize="10" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
-                                                                SelectMethod="GetRelatedActivities" runat="server" DataKeyNames="ActivityId" ID="ActivitiesGridView" CssClass="table table-striped table-bordered">
-                                                                <Columns>
-                                                                    <asp:TemplateField>
-                                                                        <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="CreatorUserName" CommandName="sort" runat="server" ID="labelCreatorUserName"><span  class="glyphicon glyphicon-user"></span> Creatore</asp:LinkButton></div></center>
-                                                                        </HeaderTemplate>
-                                                                        <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></div></center>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField>
-                                                                        <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
-                                                                        </HeaderTemplate>
-                                                                        <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField>
-                                                                        <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="Description" CommandName="sort" runat="server" ID="labelDescription"><span  class="glyphicon glyphicon-th"></span> Descrizione</asp:LinkButton></div></center>
-                                                                        </HeaderTemplate>
-                                                                        <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server" ID="lblContentActivity"><%#:GetDescription(Item.Description) %></asp:Label></div></center>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField>
-                                                                        <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="Status" CommandName="sort" runat="server" ID="labelStatus"><span  class="glyphicon glyphicon-tasks"></span> Stato</asp:LinkButton></div></center>
-                                                                        </HeaderTemplate>
-                                                                        <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label></div></center>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                                <PagerSettings Position="Bottom" />
-                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
-                                                                <EmptyDataTemplate>
-                                                                    <asp:Label runat="server">Nessuna attività correlata.</asp:Label>
-                                                                </EmptyDataTemplate>
-                                                            </asp:GridView>
-                                                        </div>
-                                                        <div class="panel-footer">
-                                                            <ul class="nav nav-pills">
-                                                                <li>
-                                                                    <span runat="server" class="badge">
-                                                                        <asp:Label runat="server" ID="lblHoursWorked" CssClass="control-label"><%#: GetHoursWorked() %></asp:Label>
-                                                                    </span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>
-
-                                    <uc:FileUploader ID="FileUploader" runat="server" />
-                                    <asp:Label runat="server" ID="gestisciProgetto" CssClass="h4" Text="Gestisci progetto"></asp:Label>
-                                    <asp:UpdatePanel runat="server">
-                                        <ContentTemplate>
-                                            <asp:Button runat="server" ID="btnSuspendProject" CausesValidation="false" OnClick="btnSuspendProject_Click" />
-                                            <asp:Button runat="server" ID="btnCloseProject" CausesValidation="false" OnClick="btnCloseProject_Click" /><br />
-                                            <asp:Label ID="lblInfoOperation" runat="server" Visible="false"></asp:Label><br />
+                                            <asp:Panel runat="server" id="divManagProject">
+                                                <asp:Label runat="server" ID="gestisciProgetto" CssClass="h4" Text="Gestisci progetto"></asp:Label>
+                                                <br />
+                                                <asp:Button runat="server" ID="btnSuspendProject" CausesValidation="false" OnClick="btnSuspendProject_Click" />
+                                                <asp:Button runat="server" ID="btnCloseProject" CausesValidation="false" OnClick="btnCloseProject_Click" /><br />
+                                                <asp:Label ID="lblInfoOperation" runat="server" Visible="false"></asp:Label><br />
+                                            </asp:Panel>
+                                            
 
                                             <asp:ModalPopupExtender ID="ModalPopup" runat="server"
                                                 PopupControlID="pnlPopup" TargetControlID="lnkDummy" BackgroundCssClass="modalBackground">
@@ -480,13 +487,12 @@
                                             <asp:LinkButton ID="lnkDummy" runat="server"></asp:LinkButton>
                                             <div class="alert alert-dismissable alert-info" id="pnlPopup" style="width: 25%;">
                                                 <div class="row">
-
                                                     <asp:Label runat="server" CssClass="col-md-12 control-label"><strong>Inserisci Password</strong></asp:Label>
                                                     <div class="col-md-12">
                                                         <br />
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control input-sm" />
+                                                        <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
                                                     </div>
 
                                                 </div>
@@ -495,9 +501,9 @@
                                                         <div class="col-md-12">
                                                             <br />
                                                         </div>
-                                                        <div class="col-md-offset-8 col-md-10">
-                                                            <asp:Button runat="server" Text="Ok" ID="btnFilterProjects" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnModifyStatusProject_Click" />
-                                                            <asp:Button runat="server" Text="Annulla" ID="btnClearFilters" CssClass="btn btn-danger btn-xs" CausesValidation="false" OnClick="CloseButton_Click" />
+                                                        <div class="col-md-offset-7 col-md-10">
+                                                            <asp:Button runat="server" Text="&nbsp;&nbsp;&nbsp;Ok&nbsp;&nbsp;&nbsp;" ID="btnFilterProjects" CssClass="btn btn-success btn-sm" CausesValidation="false" OnClick="btnModifyStatusProject_Click" />
+                                                            <asp:Button runat="server" Text="Annulla" ID="btnClearFilters" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="CloseButton_Click" />
                                                         </div>
 
                                                     </div>

@@ -65,14 +65,15 @@
                                                 <br />
                                                  <asp:Label runat="server" id="lblColorBuget" Font-Bold="true">Budget (Ore): </asp:Label><asp:Label ID="lblBudget" runat="server"></asp:Label>
                                                 <br />
+                                                 <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
+                                                <br />
+                                                 <asp:Label runat="server" id="lblInfoBlockStatement" Font-Bold="true" ForeColor="OrangeRed" Visible="false">Attenzione: l'attività è sospesa in quanto il progetto che la contiene è </asp:Label><asp:Label runat="server" id="lblProjectStatus" Font-Bold="true" ForeColor="OrangeRed" Visible="false"></asp:Label>
+                                                <br />
                                                 <%--<asp:Label runat="server" Font-Bold="true">Avanzamento: </asp:Label>
                                                 <div class="progress">
                                                     <div class="progress-bar" style="width: 60%;"></div>
                                                 </div>--%>
-                                                <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
-                                                <br />
-                                                
-                                                <br />
+
                                             </div>
                                             <div class="col-md-1">
                                                 <asp:UpdatePanel runat="server">

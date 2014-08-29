@@ -312,7 +312,7 @@ namespace VALE.Logic
         {
             var db = new UserOperationsContext();
             List<Project> list = new List<Project>();
-            var projects = db.Projects.Where(pr => pr.Status != "Chiuso" && pr.ProjectId != projectId).ToList();
+            var projects = db.Projects.Where(pr => pr.Status == "Aperto" && pr.ProjectId != projectId).ToList();
             var rootId = getRootId(projectId);
             foreach (var project in projects)
             {
@@ -359,6 +359,31 @@ namespace VALE.Logic
                 total += project.Budget;
             }
             return total;
+        }
+
+        public void SetStatusAllProjectHierarchyDown(int projectId, string status) 
+        {
+            var projects = getHierarchyDown(projectId);
+            var db = new UserOperationsContext();
+            
+            foreach (var project in projects)
+            {
+                var projectToModify = db.Projects.FirstOrDefault(p => p.ProjectId == project.ProjectId);
+                projectToModify.Status = status;
+                switch (status)
+                {
+                    case "SOSPENDI":
+                        ComposeMessage(project.ProjectId, "", "Sospensione progetto");
+                        break;
+                    case "CHIUDI":
+                        ComposeMessage(project.ProjectId, "", "Chiusura progetto");
+                        break;
+                    case "RIPRENDI":
+                        ComposeMessage(project.ProjectId, "", "Ripresa progetto");
+                        break;
+                }
+                db.SaveChanges();
+            }
         }
 
         public bool ComposeMessage(int dataId, string userName, string subject)

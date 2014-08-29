@@ -138,15 +138,9 @@ namespace VALE.MyVale
             var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
             Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
             if (project.Status == "Sospeso")
-            {
-                actions.ComposeMessage(_currentProjectId, "", "Ripresa progetto");
                 label.Text = "RIPRENDI";
-            }
             else
-            {
-                actions.ComposeMessage(_currentProjectId, "", "Sospensione progetto");
                 label.Text = "SOSPENDI";
-            }
 
             project.LastModified = DateTime.Now;
             var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
@@ -161,19 +155,22 @@ namespace VALE.MyVale
         protected void btnCloseProject_Click(object sender, EventArgs e)
         {
             var actions = new ProjectActions();
-            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
-            actions.ComposeMessage(_currentProjectId, "", "Chiusura progetto");
-            label.Text = "CHIUDI";
-
             var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
+            if (project.Status == "Chiuso")
+                label.Text = "RIPRENDI";
+            else
+                label.Text = "CHIUDI";
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Show();
+            
             project.LastModified = DateTime.Now;
             var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
             if (listHierarchyUp.Count != 0)
                 listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
             _db.SaveChanges();
 
-            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
-            popUp.Show();
+           
         }
 
         protected void ProjectDetail_DataBound(object sender, EventArgs e)
@@ -313,7 +310,7 @@ namespace VALE.MyVale
                 }
                 else if (project.Status == "Sospeso")
                 {
-                    btnSuspend.Text = "Riprendi progetto";
+                    btnSuspend.Text = "Reapri progetto";
                     btnSuspend.Enabled = true;
                     btnSuspend.CssClass = "btn btn-warning";
                     btnClose.Text = "Chiudi progetto";
@@ -325,18 +322,15 @@ namespace VALE.MyVale
                     btnSuspend.Text = "Il progetto è chiuso";
                     btnSuspend.Enabled = false;
                     btnSuspend.CssClass = "btn btn-warning disabled";
-                    btnClose.Text = "Il progetto è chiuso";
-                    btnClose.Enabled = false;
-                    btnClose.CssClass = "btn btn-danger disabled";
+                    btnClose.Text = "Reapri progetto";
+                    btnClose.Enabled = true;
+                    btnClose.CssClass = "btn btn-danger";
                 }
             }
             else
             {
-                gestisciProgetto.Visible = false;
-                btnSuspend.Visible = false;
-                btnClose.Visible = false;
-                var lblInfoOperation = (Label)ProjectDetail.FindControl("lblInfoOperation");
-                lblInfoOperation.Text = "Solo il creatore può gestire lo stato del progetto";
+                Panel divManagProject = (Panel)ProjectDetail.FindControl("divManagProject");
+                divManagProject.Visible = false;
             }
         }
 
@@ -347,7 +341,6 @@ namespace VALE.MyVale
         }
         protected void btnModifyStatusProject_Click(object sender, EventArgs e)
         {
-            
             Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var passTextbox = (TextBox)ProjectDetail.FindControl("Password");
@@ -357,30 +350,37 @@ namespace VALE.MyVale
                 ApplicationUser user = manager.Find(_currentUserName, password);
                 if (user != null)
                 {
+                    var actions = new ProjectActions();
                     var db = new UserOperationsContext();
                     var project = db.Projects.First(p => p.ProjectId == _currentProjectId);
-
-                    switch (label.Text)
+                    if (project.OrganizerUserName == user.UserName || RoleActions.checkPermission(user.UserName, "Amministrazione")) 
                     {
-                        case "SOSPENDI":
-                            project.Status = "Sospeso";
-                            break;
-                        case "CHIUDI":
-                            project.Status = "Chiuso";
-                            break;
-                        case "RIPRENDI":
-                            project.Status = "Aperto";
-                            break;
+                        switch (label.Text)
+                        {
+                            case "SOSPENDI":
+                                project.Status = "Sospeso";
+                                actions.SetStatusAllProjectHierarchyDown(project.ProjectId, "Sospeso");
+                                actions.ComposeMessage(_currentProjectId, "", "Sospensione progetto");
+                                break;
+                            case "CHIUDI":
+                                project.Status = "Chiuso";
+                                actions.SetStatusAllProjectHierarchyDown(project.ProjectId, "Chiuso");
+                                actions.ComposeMessage(_currentProjectId, "", "Chiusura progetto");
+                                break;
+                            case "RIPRENDI":
+                                project.Status = "Aperto";
+                                actions.SetStatusAllProjectHierarchyDown(project.ProjectId, "Aperto");
+                                actions.ComposeMessage(_currentProjectId, "", "Ripresa progetto");
+                                break;
+                        }
+
+                        project.LastModified = DateTime.Now;
+                        var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
+                        if (listHierarchyUp.Count != 0)
+                            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                        db.SaveChanges();
+                        Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
                     }
-
-                    project.LastModified = DateTime.Now;
-                    var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
-
-                    db.SaveChanges();
-                    Response.Redirect("/MyVale/ProjectDetails?projectId=" + _currentProjectId);
                 }
             }
         }

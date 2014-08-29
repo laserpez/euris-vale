@@ -74,6 +74,7 @@ namespace VALE.Logic
             logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato attività", DataType = "Attività", Date = DateTime.Today, Description = "\"" + anActivity.ActivityName + "\"" + " ha ora lo stato: " + status.ToString() });
         }
 
+        
         public int GetActivitiesRequest(string userName)
         {
             var db = new UserOperationsContext();

@@ -111,6 +111,26 @@ namespace VALE.MyVale
             grdActivityReport.DataBind();
         }
 
+        private void BlockActivity(string projectStatus) 
+        {
+            Label lblInfoBlockStatement = (Label)ActivityDetail.FindControl("lblInfoBlockStatement");
+            Label lblProjectStatus = (Label)ActivityDetail.FindControl("lblProjectStatus");
+            HtmlButton btnStatus = (HtmlButton)ActivityDetail.FindControl("btnStatus");
+            Button btnAddReport = (Button)ActivityDetail.FindControl("btnAddReport");
+            Button btnInviteUser = (Button)ActivityDetail.FindControl("btnInviteUser");
+            Button btnModifyActivity = (Button)ActivityDetail.FindControl("btnModifyActivity");
+            Button btnDeleteRelatedProject = (Button)ActivityDetail.FindControl("btnDeleteRelatedProject");
+            Button btnAddRelatedProject = (Button)ActivityDetail.FindControl("btnAddRelatedProject");
+            btnStatus.Disabled = true;
+            btnInviteUser.Visible = false;
+            btnModifyActivity.Visible = false;
+            btnDeleteRelatedProject.Visible = false;
+            btnAddRelatedProject.Visible = false;
+            btnAddReport.Visible = false;
+            lblInfoBlockStatement.Visible = true;
+            lblProjectStatus.Visible = true;
+            lblProjectStatus.Text = projectStatus;
+        }
         protected void Page_PreRender(object sender, EventArgs e)
         {
            
@@ -121,38 +141,44 @@ namespace VALE.MyVale
             Button btnDeleteRelatedProject = (Button)ActivityDetail.FindControl("btnDeleteRelatedProject");
             Button btnAddRelatedProject = (Button)ActivityDetail.FindControl("btnAddRelatedProject");
             var activity = _db.Activities.Where(a => a.ActivityId == _currentActivityId).FirstOrDefault();
-            if (RoleActions.checkPermission(_currentUser, "Amministrazione"))
+            if (activity.RelatedProject != null && activity.RelatedProject.Status != "Aperto")
+                BlockActivity(activity.RelatedProject.Status);
+            else
             {
-                btnStatus.Disabled = false;
-                btnInviteUser.Visible = true;
-                btnAddRelatedProject.Visible = true;
+                if (RoleActions.checkPermission(_currentUser, "Amministrazione"))
+                {
+                    btnStatus.Disabled = false;
+                    btnInviteUser.Visible = true;
+                    btnAddRelatedProject.Visible = true;
 
-            }
-            else if (_currentUser == activity.CreatorUserName)
-            {
-                btnStatus.Disabled = false;
-                btnInviteUser.Visible = true;
-                btnModifyActivity.Visible = true;
-            }
-            else 
-            {
-                btnStatus.Disabled = true;
-                btnInviteUser.Visible = false;
-                btnModifyActivity.Visible = false;
-                btnDeleteRelatedProject.Visible = false;
-                btnAddRelatedProject.Visible = false;
+                }
+                else if (_currentUser == activity.CreatorUserName)
+                {
+                    btnStatus.Disabled = false;
+                    btnInviteUser.Visible = true;
+                    btnModifyActivity.Visible = true;
+                }
+                else
+                {
+                    btnStatus.Disabled = true;
+                    btnInviteUser.Visible = false;
+                    btnModifyActivity.Visible = false;
+                    btnDeleteRelatedProject.Visible = false;
+                    btnAddRelatedProject.Visible = false;
+                }
+
+                if (activity.Status != ActivityStatus.ToBePlanned && activity.Status != ActivityStatus.Ongoing)
+                    btnAddReport.Visible = false;
+
+                if (!IsPostBack)
+                {
+                    if (_currentUser == activity.CreatorUserName)
+                        SetAllInterventionsMode();
+                    else
+                        SetPersonalInterventionsMode();
+                }
             }
             
-            if (activity.Status != ActivityStatus.ToBePlanned && activity.Status != ActivityStatus.Ongoing)
-                btnAddReport.Visible = false;
-
-            if (!IsPostBack) 
-            {
-                if (_currentUser == activity.CreatorUserName)
-                    SetAllInterventionsMode();
-                else 
-                    SetPersonalInterventionsMode();
-            }
         }
 
         public Activity GetActivity([QueryString("activityId")] int? activityId)
@@ -269,6 +295,8 @@ namespace VALE.MyVale
                 ok = true;
             if (activity.Status != ActivityStatus.ToBePlanned && activity.Status != ActivityStatus.Ongoing)
                 ok = false;
+            if (activity.RelatedProject != null && activity.RelatedProject.Status != "Aperto")
+                 ok = false;
             return ok;
         }
        

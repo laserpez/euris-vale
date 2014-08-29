@@ -23,7 +23,7 @@ namespace VALE.MyVale.Create
         {
             var dbData = new UserOperationsContext();
             string projectName = txtProjectName.Text;
-            Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName);
+            Project project = dbData.Projects.FirstOrDefault(p => p.ProjectName == projectName && p.Status == "Aperto");
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)

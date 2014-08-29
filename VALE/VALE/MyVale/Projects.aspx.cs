@@ -162,8 +162,8 @@ namespace VALE.MyVale
                 var db = new UserOperationsContext();
 
                 Button btnAttend = (Button)OpenedProjectList.Rows[i].FindControl("btnWorkOnThis");
-
-                if (db.Projects.Where(p => p.ProjectId == projectId).Select(pr => pr.Status).FirstOrDefault() == "Chiuso")
+                var status = db.Projects.Where(p => p.ProjectId == projectId).Select(pr => pr.Status).FirstOrDefault();
+                if (status != "Aperto")
                     btnAttend.Enabled = false;
 
                 if (actions.IsUserRelated(projectId, _currentUserName))
