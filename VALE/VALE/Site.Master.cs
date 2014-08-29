@@ -80,7 +80,7 @@ namespace VALE
                 projectsLink.Visible = false;
                 eventsLink.Visible = false;
                 activitiesLink.Visible = false;
-                blogsLink.Visible = false;
+                //blogsLink.Visible = false;
                 UserList.Visible = false;
                 loginLink.Visible = false;
                 homeLink.Visible = false;
@@ -119,19 +119,19 @@ namespace VALE
             {
                 UserList.Visible = xmlRoles.ListaUtenti.Visible;
 
-                createBlogArticle.Visible = xmlRoles.Articoli.Creation;
-                blogsLink.Visible = xmlRoles.Articoli.Visible;
+                //createBlogArticle.Visible = xmlRoles.Articoli.Creation;
+                //blogsLink.Visible = xmlRoles.Articoli.Visible;
 
-                createEventLink.Visible = xmlRoles.Eventi.Creation;
+                //createEventLink.Visible = xmlRoles.Eventi.Creation;
                 eventsLink.Visible = xmlRoles.Eventi.Visible;
 
-                createActivityLink.Visible = xmlRoles.Attivita.Creation;
+                //createActivityLink.Visible = xmlRoles.Attivita.Creation;
                 activitiesLink.Visible = xmlRoles.Attivita.Visible;
 
-                createProjectLink.Visible = xmlRoles.Progetti.Creation;
+                //createProjectLink.Visible = xmlRoles.Progetti.Creation;
                 projectsLink.Visible = xmlRoles.Progetti.Visible;
 
-                createBODLink.Visible = xmlRoles.Consiglio.Creation;
+                //createBODLink.Visible = xmlRoles.Consiglio.Creation;
                 boardLink.Visible = xmlRoles.Consiglio.Visible;
 
                 associationDocuments.Visible = xmlRoles.DocumentiAssociazione.Visible;
