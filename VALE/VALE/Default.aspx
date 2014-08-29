@@ -176,32 +176,45 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12"  style="font-size:24px">
-                    Ultime attività
+                    Messaggi
                 </div>
                 <div class="col-md-12">
                     <br />
                 </div>
             </div>
-
-            <div class="row" >
+            <div class="row">
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="grdLog" CssClass="table table-striped table-hover" runat="server" ItemType="VALE.Logic.LogEntry" AutoGenerateColumns="false" SelectMethod="GetLogEntry"
+                        <asp:GridView ID="grdLog" CssClass="table table-striped table-hover" DataKeyNames="LogEntryEmailId" runat="server" ItemType="VALE.Logic.LogEntryEmail" AutoGenerateColumns="false" SelectMethod="grdLog_GetData"
                             GridLines="None" AllowPaging="true" AllowSorting="true" PageSize="10">
                             <Columns>
                                 <asp:BoundField HeaderStyle-Width="10%" DataFormatString="{0:d}" DataField="Date" HeaderText="Data" SortExpression="Date" />
                                 <asp:TemplateField HeaderText="Tipo" SortExpression="DataType" HeaderStyle-Width="5%" HeaderStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <span title="<%#: Item.DataType %>" class="<%#:Item.DataTypeUrl %>" ></span>
+                                        <span title="<%#: Item.DataType %>" class="<%#:Item.DataTypeUrl %>"></span>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField HeaderStyle-Width="20%" ItemStyle-Font-Bold="false" DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
-                                <asp:BoundField HeaderStyle-Width="55%" ItemStyle-Font-Bold="false" DataField="Description" HeaderText="Dettagli" SortExpression="Description" />
-                                <asp:BoundField HeaderStyle-Width="10%" ItemStyle-Font-Bold="false" DataField="Username" HeaderText="Utente" SortExpression="Username" />
+                                <asp:BoundField HeaderStyle-Width="30%" DataField="DataAction" HeaderText="Azione" SortExpression="DataAction" />
+                                <asp:TemplateField HeaderStyle-Width="45%">
+                                    <HeaderTemplate>
+                                        <asp:LinkButton runat="server" CommandArgument="Body" CommandName="sort">Corpo del messaggio</asp:LinkButton>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <asp:Label runat="server"><%#: GetDescription(Item.Body) %></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <center><div><asp:LinkButton ID="selectedMessage" runat="server"><span  class="glyphicon glyphicon-screenshot"></span></asp:LinkButton></div></center>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <center><div><asp:CheckBox runat="server" AutoPostBack="true" OnCheckedChanged="selectedMessage_Click" ID="chkSelectMessage"/></div></center>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
-                            <PagerSettings Position="Bottom" />
-                            <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                         </asp:GridView>
+                        <PagerSettings Position="Bottom" />
+                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>

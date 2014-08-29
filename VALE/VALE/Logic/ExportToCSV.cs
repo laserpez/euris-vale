@@ -88,6 +88,27 @@ namespace VALE.Logic
             return strbldr;
         }
 
+        public StringBuilder ExportLogLastActivity(List<LogEntry> logLastActivities)
+        {
+            ILoggerEmail logger = LogFactoryEmail.GetCurrentLoggerEmail();
+
+            StringBuilder strbldr = new StringBuilder();
+            //separting header columns text with comma operator
+            strbldr.Append("Data;Tipo;Azione;Dettagli;Utente");
+            //appending new line for gridview header row
+            strbldr.Append("\n");
+            foreach (var logActivity in logLastActivities)
+            {
+                strbldr.Append(logActivity.Date.ToShortDateString() + " " + logActivity.Date.ToShortTimeString() + ';');
+                strbldr.Append(logActivity.DataType + ';');
+                strbldr.Append(logActivity.DataAction + ';');
+                strbldr.Append(logActivity.Description + ';');
+                strbldr.Append(logActivity.Username + ';');
+                strbldr.Append("\n");
+            }
+            return strbldr;
+        }
+
         public void Dispose()
         {
 

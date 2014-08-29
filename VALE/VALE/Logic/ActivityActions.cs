@@ -297,7 +297,7 @@ namespace VALE.Logic
                             }
                             if (pendingUsers.Count != 0)
                             {
-                                var bodyMail = "Salve, ti informiamo che sei stato invitato a collaborare all'attività " + anActivity.ActivityName +
+                                var bodyMail = "Sei stato invitato a collaborare all'attività " + anActivity.ActivityName +
                                     ", creata da " + anActivity.CreatorUserName + ".<br/>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">Clicca qui</a>";
 
                                 SendToCoworkers(subject, bodyMail, pendingUsers);
@@ -311,7 +311,7 @@ namespace VALE.Logic
                             var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
                             if (userName != anActivity.CreatorUserName)
                             {
-                                var bodyMail = "Salve, ti informiamo che l'utente " + userName + " ha confermato la propria partecipazione alla tua attività " + anActivity.ActivityName + ".";
+                                var bodyMail = "L'utente " + userName + " ha confermato la propria partecipazione alla tua attività " + anActivity.ActivityName + ".";
                                 var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == anActivity.CreatorUserName).Email;
                                 SendToPrivate(ownerEmail, subject, bodyMail);
                             }
@@ -324,7 +324,7 @@ namespace VALE.Logic
                             var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
                             if (userName != anActivity.CreatorUserName)
                             {
-                                var bodyMail = "Salve, ti informiamo che l'utente " + userName + " ha rifiutato di partecipare alla tua attività " + anActivity.ActivityName + ".";
+                                var bodyMail = "L'utente " + userName + " ha rifiutato di partecipare alla tua attività " + anActivity.ActivityName + ".";
                                 var ownerEmail = db.UserDatas.FirstOrDefault(u => u.UserName == anActivity.CreatorUserName).Email;
                                 SendToPrivate(ownerEmail, subject, bodyMail);
                             }
@@ -339,8 +339,8 @@ namespace VALE.Logic
 
                             if (registeredUsers.Count != 0)
                             {
-                                var bodyMail = "Salve, ti informiamo che all'attività " + anActivity.ActivityName + ", di " + anActivity.CreatorUserName +
-                                    " è stato aggiunto un nuovo intervento.<br/>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">Clicca qui</a>";
+                                var bodyMail = "All'attività " + anActivity.ActivityName + ", di " + anActivity.CreatorUserName +
+                                    " è stato aggiunto un nuovo intervento.<br/>Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
                         }
@@ -357,8 +357,8 @@ namespace VALE.Logic
 
                             if (registeredUsers.Count != 0)
                             {
-                                bodyMail = "Salve, ti informiamo che all'attività " + anActivity.ActivityName + " è stato correlato il progetto " + relatedProject.ProjectName + " creato da " + relatedProject.OrganizerUserName +
-                                    ".<br/>Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">Clicca qui</a>.";
+                                bodyMail = "All'attività " + anActivity.ActivityName + " è stato correlato il progetto " + relatedProject.ProjectName + " creato da " + relatedProject.OrganizerUserName +
+                                    ".<br/>Per maggiori informazioni clicca sulla <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">pagina di dettaglio</a>.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                             }
 
@@ -367,8 +367,8 @@ namespace VALE.Logic
                             projectActions.ComposeMessage(relatedProject.ProjectId, "", "Aggiunta Attivita");
 
                             //Invio mail all'owner del progetto correlato
-                            bodyMail = "Salve, ti informiamo che il tuo progetto " + relatedProject.ProjectName + " è stato correlato all'attività " + anActivity.ActivityName + " creato da " + anActivity.CreatorUserName +
-                                ".<br/> Per maggiori informazioni <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">Clicca qui</a>.";
+                            bodyMail = "Il tuo progetto " + relatedProject.ProjectName + " è stato correlato all'attività " + anActivity.ActivityName + " creato da " + anActivity.CreatorUserName +
+                                ".<br/> Per maggiori informazioni clicca  sulla <a href=\" http://localhost:59959/MyVale/ActivityDetails?activityId=" + anActivity.ActivityId + "\">pagina di dettaglio</a>.";
                             var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
                             SendToPrivate(userEmail, subject, bodyMail);
                         }
@@ -379,7 +379,7 @@ namespace VALE.Logic
                             var db = new UserOperationsContext();
                             var anActivity = db.Activities.FirstOrDefault(a => a.ActivityId == dataId);
                             var lastProject = anActivity.RelatedProject;
-                            var bodyMail = "Salve, ti informiamo che il tuo progetto" + lastProject.ProjectName + " non è più correlato all'evento " +
+                            var bodyMail = "Il tuo progetto" + lastProject.ProjectName + " non è più correlato all'evento " +
                                     anActivity.ActivityName + " di " + anActivity.CreatorUserName + ".";
                             var userEmail = db.UserDatas.FirstOrDefault(u => u.UserName == userName).Email;
                             SendToPrivate(userEmail, subject, bodyMail);
@@ -393,7 +393,7 @@ namespace VALE.Logic
                             var registeredUsers = anActivity.RegisteredUsers.ToList();
                             if (registeredUsers.Count != 0)
                             {
-                                var bodyMail = "Salve, ti informiamo che l'attività " + anActivity.ActivityName + ", di " + anActivity.CreatorUserName + " è stata conclusa.";
+                                var bodyMail = "L'attività " + anActivity.ActivityName + ", di " + anActivity.CreatorUserName + " è stata conclusa.";
                                 SendToCoworkers(subject, bodyMail, registeredUsers);
                                 if (anActivity.RelatedProject != null)
                                 {

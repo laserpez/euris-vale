@@ -100,12 +100,6 @@ namespace VALE
             Response.Redirect(uri);
         }
 
-        public IQueryable<LogEntry> GetLogEntry()
-        {
-            var db = new UserOperationsContext();
-            return db.LogEntries.OrderByDescending(e => e.Date);
-        }
-
         public string GetDescription(string description)
         {
             if (!String.IsNullOrEmpty(description))
@@ -113,12 +107,76 @@ namespace VALE
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.LoadHtml(description);
                 description = doc.DocumentNode.InnerText;
-                return doc.DocumentNode.InnerText.Length >= 30 ? doc.DocumentNode.InnerText.Substring(0, 30) + "..." : doc.DocumentNode.InnerText;
+                //if (description.Contains("Per maggiori informazioni"))
+                //    description = Clean(description);
+                return description;
             }
             else
             {
                 return "Nessuna descrizione presente";
             }
+        }
+
+        public IQueryable<LogEntryEmail> grdLog_GetData()
+        {
+            var listLogsToShow = new List<LogEntryEmail>();
+
+            var db = new UserOperationsContext();
+            var allMailUser = db.LogEntriesEmail.Where(u => u.Receiver == _currentUser.Email && u.Read == false).ToList();
+            if (allMailUser.Count != 0)
+            {
+                var allMailRegisters = allMailUser.Where(m => m.DataType == "Registrazione").ToList();
+                var allMailProjects = allMailUser.Where(m => m.DataType == "Progetto" && (m.DataAction == "Invito di partecipazione ad un Progetto" || m.DataAction == "Invito di partecipazione ad un Progetto" || m.DataAction == "Richiesta partecipazione ad un Progetto" || m.DataAction == "Rimozione partecipazione")).ToList();
+                var allMailEvents = allMailUser.Where(m => m.DataType == "Evento" && (m.DataAction == "Invito di partecipazione ad un Evento" || m.DataAction == "Richiesta partecipazione ad un Evento" || m.DataAction == "Rimozione partecipazione")).ToList();
+                var allMailActivities = allMailUser.Where(m => m.DataType == "Attivita" && (m.DataAction == "Invito a collaborare ad una Attività" || m.DataAction == "Conferma collaborazione" || m.DataAction == "Rifiuto collaborazione")).ToList();
+
+                if (allMailRegisters.Count != 0)
+                {
+                    listLogsToShow.AddRange(allMailRegisters);
+                    allMailUser.RemoveRange(0, allMailRegisters.Count);
+                }
+
+                if (allMailProjects.Count != 0)
+                {
+                    listLogsToShow.AddRange(allMailProjects);
+                    allMailUser.RemoveRange(0, allMailProjects.Count);
+                }
+
+                if (allMailEvents.Count != 0)
+                {
+                    listLogsToShow.AddRange(allMailEvents);
+                    allMailUser.RemoveRange(0, allMailEvents.Count);
+                }
+
+                if (allMailActivities.Count != 0)
+                {
+                    listLogsToShow.AddRange(allMailActivities);
+                    allMailUser.RemoveRange(0, allMailActivities.Count);
+                }
+
+                if (allMailUser.Count != 0)
+                    listLogsToShow.AddRange(allMailUser);
+            }
+
+            return listLogsToShow.AsQueryable();
+        }
+
+        protected void selectedMessage_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+
+            for (int i = 0; i < grdLog.Rows.Count; i++)
+            {
+                CheckBox chkBox = (CheckBox)grdLog.Rows[i].Cells[0].FindControl("chkSelectMessage");
+                if (chkBox.Checked)
+                {
+                    var logEntryEmailId = Convert.ToInt32(grdLog.DataKeys[i].Value);
+                    var log = db.LogEntriesEmail.FirstOrDefault(l => l.LogEntryEmailId == logEntryEmailId);
+                    log.Read = true;
+                    db.SaveChanges();
+                }
+            }
+            grdLog.DataBind();
         }
     }
 }
