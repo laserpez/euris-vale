@@ -195,15 +195,14 @@
     <Content Include="Account\Forgot.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\OpenAuthProviders.ascx" />
-    <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
+    <Content Include="Account\Register.aspx" />
     <Content Include="Account\ResetPassword.aspx" />
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Admin\EventReport.aspx" />
     <Content Include="Admin\LastActivities.aspx" />
     <Content Include="Admin\ManageActivityTypes.aspx" />
     <Content Include="Admin\ManageArticles.aspx" />
-    <Content Include="Admin\ManageBODReports.aspx" />
     <Content Include="Admin\ManageEmailSystem.aspx" />
     <Content Include="Admin\ManageEvents.aspx" />
     <Content Include="Admin\ManagePartnerTypes.aspx" />
@@ -1869,6 +1868,7 @@
     <Content Include="Site.Master" />
     <Content Include="StateInfo\regioni_province_comuni.xml" />
     <Content Include="UploadFile.aspx" />
+    <Content Include="Vale.swf" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1913,19 +1913,19 @@
     <Compile Include="Account\OpenAuthProviders.ascx.designer.cs">
       <DependentUpon>OpenAuthProviders.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Account\Register.aspx.cs">
-      <DependentUpon>Register.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Account\Register.aspx.designer.cs">
-      <DependentUpon>Register.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Account\RegisterExternalLogin.aspx.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
     <Compile Include="Account\ResetPassword.aspx.cs">
       <DependentUpon>ResetPassword.aspx</DependentUpon>
@@ -1968,13 +1968,6 @@
     </Compile>
     <Compile Include="Admin\ManageArticles.aspx.designer.cs">
       <DependentUpon>ManageArticles.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\ManageBODReports.aspx.cs">
-      <DependentUpon>ManageBODReports.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\ManageBODReports.aspx.designer.cs">
-      <DependentUpon>ManageBODReports.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ManageEmailSystem.aspx.cs">
       <DependentUpon>ManageEmailSystem.aspx</DependentUpon>
@@ -2399,11 +2392,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54259</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59959/</IISUrl>
+          <IISUrl>http://localhost:36395/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

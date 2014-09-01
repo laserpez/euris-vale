@@ -164,6 +164,7 @@ namespace VALE.MyVale
                     btnInviteUser.Visible = false;
                     btnModifyActivity.Visible = false;
                     btnDeleteRelatedProject.Visible = false;
+                    
                     btnAddRelatedProject.Visible = false;
                 }
 

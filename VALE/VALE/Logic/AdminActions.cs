@@ -15,16 +15,11 @@ namespace VALE.Logic
             var db = new ApplicationDbContext();
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             var userToConfirm = userManager.FindByName(userName);
-            if (userToConfirm != null)
+            if (userToConfirm != null) 
             {
                 userToConfirm.NeedsApproval = false;
-
-                var userActions = new UserActions();
-                var role = userActions.GetRole(userToConfirm.Id);
-                if (role == "Utente")
-                    userManager.AddToRole(userToConfirm.Id, "Socio");
+                db.SaveChanges();
             }
-            db.SaveChanges();
         }
 
         public static int GetWaitingUsers()
@@ -45,7 +40,7 @@ namespace VALE.Logic
             {
                 switch (subject)
                 {
-                    case "Conferma il tuo account":
+                    case "Registrazione":
                         string code = manager.GenerateEmailConfirmationToken(userId);
                         string CallbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, userId);
                         var newUser = manager.FindById(userId);
@@ -64,10 +59,10 @@ namespace VALE.Logic
                                 AddToQueue(newMailAdmin);
                             }
 
-                            //Invio e-mail all'utente
-                            bodyMail = "Benvenuto in VALE.<br/> La registrazione è avvenuta con successo.<br/>Per favore conferma il tuo account cliccando <a href=\" http://localhost:59959/" + CallbackUrl + "\">qui</a>.";
-                            Mail newMailUser = new Mail(to: newUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Registrazione");
-                            AddToQueue(newMailUser);
+                            ////Invio e-mail all'utente
+                            //bodyMail = "Benvenuto in VALE.<br/> La registrazione è avvenuta con successo.<br/>Per favore conferma il tuo account cliccando <a href=\" http://localhost:59959/" + CallbackUrl + "\">qui</a>.";
+                            //Mail newMailUser = new Mail(to: newUser.Email, bcc: "", cc: "", subject: subject, body: bodyMail, form: "Registrazione");
+                            //AddToQueue(newMailUser);
                         }
 
                         break;

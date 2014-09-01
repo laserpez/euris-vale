@@ -11,77 +11,35 @@ using VALE.StateInfo;
 using System.Text.RegularExpressions;
 using VALE.Logic;
 
+
 namespace VALE.Account
 {
-    public partial class Register : Page
+    public partial class Register : System.Web.UI.Page
     {
-        protected void Page_PreRender(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-                SetRegionDropDownList();
+
         }
 
-        private void ClearDropDownList()
+        protected void checkAssociated_CheckedChanged(object sender, EventArgs e)
         {
-            List<string> init = new List<string> { "Seleziona" };
-            DropDownProvince.DataSource = init;
-            DropDownProvince.DataBind();
-            DropDownCity.DataSource = init;
-            DropDownCity.DataBind();
-        }
-
-        private void SetRegionDropDownList()
-        {
-            ClearDropDownList();
-            String path = Server.MapPath("~/StateInfo/regioni_province_comuni.xml");
-            StateInfoXML.GetInstance().FileName = path;
-            var list = StateInfoXML.GetInstance().LoadData();
-            var regions = (from r in list where r.depth == "0" orderby r.name select r.name).ToList();
-            regions.Insert(0, "Seleziona");
-            DropDownRegion.DataSource = regions;
-            DropDownRegion.DataBind();
-        }
-
-        protected void Region_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (DropDownRegion.SelectedIndex == 0)
+            if (checkAssociated.Checked)
             {
-                List<string> init = new List<string> { "Seleziona" };
-                DropDownProvince.DataSource = init;
-                DropDownProvince.DataBind();
-                DropDownCity.DataSource = init;
-                DropDownCity.DataBind();
+                CFValidator.Enabled = true;
+                FiscalCodeToValidate.Enabled = true;
+                lblCF.Text = "Codice Fiscale *";
             }
-            else
+            else 
             {
-                ClearDropDownList();
-
-                var list = StateInfoXML.GetInstance().LoadData();
-                var tid = (from r in list where r.depth == "0" && r.name == DropDownRegion.SelectedValue select r.tid).FirstOrDefault();
-                var provinces = (from r in list where r.depth == "1" && r.parent == tid orderby r.name select r.name).ToList();
-                provinces.Insert(0, "Seleziona");
-                DropDownProvince.DataSource = provinces;
-                DropDownProvince.DataBind();
+                CFValidator.Enabled = false;
+                FiscalCodeToValidate.Enabled = false;
+                lblCF.Text = "Codice Fiscale";
             }
         }
 
-        protected void State_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnCancel_Click(object sender, EventArgs e)
         {
-            if (DropDownProvince.SelectedIndex == 0)
-            {
-                List<string> init = new List<string> { "Seleziona" };
-                DropDownCity.DataSource = init;
-                DropDownCity.DataBind();
-            }
-            else
-            {
-                var list = StateInfoXML.GetInstance().LoadData();
-                var tid = (from r in list where r.depth == "1" && r.name == DropDownProvince.SelectedValue select r.tid).FirstOrDefault();
-                var citys = (from r in list where r.depth == "2" && r.parent == tid orderby r.name select r.name).ToList();
-                citys.Insert(0, "Seleziona");
-                DropDownCity.DataSource = citys;
-                DropDownCity.DataBind();
-            }
+            Response.Redirect("~/Default.aspx");
         }
 
         protected void CreateUser_Click(object sender, EventArgs e)
@@ -93,14 +51,10 @@ namespace VALE.Account
                 UserName = TextUserName.Text,
                 FirstName = TextFirstName.Text,
                 LastName = TextLastName.Text,
-                Address = TextAddress.Text,
                 Telephone = TextTelephone.Text,
                 CellPhone = TextCellPhone.Text,
-                Region = DropDownRegion.SelectedValue,
-                Province = DropDownProvince.SelectedValue,
-                City = DropDownCity.SelectedValue,
-                CF = TextCF.Text,
-                NeedsApproval = checkAssociated.Checked,
+                CF = TextCF.Text == "" ? null : TextCF.Text,
+                NeedsApproval = true,
                 Email = Email.Text
             };
             var passwordValidator = new PasswordValidator();
@@ -111,6 +65,10 @@ namespace VALE.Account
             IdentityResult result = manager.Create(user, Password.Text);
             if (result.Succeeded)
             {
+                if (checkAssociated.Checked)
+                    manager.AddToRole(user.Id, "Socio");
+                else
+                    manager.AddToRole(user.Id, "Utente");
                 db.UserDatas.Add(new UserData
                 {
                     UserName = user.UserName,
@@ -119,21 +77,21 @@ namespace VALE.Account
                 });
                 db.SaveChanges();
 
-                AdminActions.ComposeMessage(manager, user.Id, "", "Conferma il tuo account");
+                AdminActions.ComposeMessage(manager, user.Id, "", "Registrazione");
                 //IdentityHelper.SignIn(manager, user, isPersistent: false);
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                
+
                 //IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
 
                 string titleMessage = string.Format("Grazie {0} {1},", user.FirstName, user.LastName);
-                string message = string.Format("Abbiamo accettato la sua richiesta di registrazione, una ulteriore mail di conferma verrà inviata al suo indirizzo {0}.", user.Email);
+                string message = string.Format("Abbiamo registrato la tua richiesta, una mail di conferma verrà mandata all'indirizzo {0}, una volta confermata da un Amministratore.", user.Email);
                 string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
                 Response.Redirect(url);
             }
             else
             {
-                ErrorMessage.Text = result.Errors.FirstOrDefault();
+                ModelState.AddModelError("", result.Errors.FirstOrDefault());
             }
         }
     }
