@@ -14,22 +14,7 @@ namespace VALE.Models
     // You can add User data for the user by adding more properties to your User class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Address { get; set; }
-        public string Region { get; set; }
-        public string Province { get; set; }
-        public string City { get; set; }
-        public string CF { get; set; }
-        public string Telephone { get; set; }
-        public string CellPhone { get; set; }
-        public bool NeedsApproval { get; set; }
-        public string Description { get; set; }
-        public string CVName { get; set; }
-        public byte[] Document { get; set; }
-        public byte[] PhotoProfile { get; set; }
-        public string PartnerType { get; set; }
-
+ 
         public Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager manager)
         {
             return Task.FromResult(GenerateUserIdentity(manager));

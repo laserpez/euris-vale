@@ -74,10 +74,11 @@ namespace VALE
         private void SetCV()
         {
             var user = db.Users.Where(u => u.UserName == _currentUser).FirstOrDefault();
-            if (user.Document == null)
-                CVEdit.Text = "CV: nessun CV attualmente caricato";
-            else
-                CVEdit.Text = "CV: " + user.CVName;
+            if (user.Files == null)
+                CVEdit.Text = user.Files.Count + " Files";
+            //    CVEdit.Text = "CV: nessun CV attualmente caricato";
+            //else
+            //    CVEdit.Text = "CV: " + user.CVName;
         }
 
         private void SetImage()
@@ -321,12 +322,15 @@ namespace VALE
             {
                 if (user != null)
                 {
-                    user.CVName = FileUploadDocument.FileName;
-                    user.Document = FileUploadDocument.FileBytes;
+                    ValeFile file = new ValeFile();
+                    file.FileData = FileUploadDocument.FileBytes;
+                    file.FileName = FileUploadDocument.FileName;
+                    user.Files.Add(file);
+                    //user.CVName = FileUploadDocument.FileName;
+                    //user.Document = FileUploadDocument.FileBytes;
                     db.SaveChanges();
                 }
             }
-
             SetCV();
         }
 

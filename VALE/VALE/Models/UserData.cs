@@ -14,6 +14,22 @@ namespace VALE.Models
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string Region { get; set; }
+        public string Province { get; set; }
+        public string City { get; set; }
+        public string CF { get; set; }
+        public string Telephone { get; set; }
+        public string CellPhone { get; set; }
+        public bool NeedsApproval { get; set; }
+        public string Description { get; set; }
+        public string CVName { get; set; }
+        public byte[] Document { get; set; }
+        public byte[] PhotoProfile { get; set; }
+        public string PartnerType { get; set; }
+
         public virtual List<Event> AttendingEvents { get; set; }
         public virtual List<Project> AttendingProjects { get; set; }
         public virtual List<Event> OrganizedEvents { get; set; }

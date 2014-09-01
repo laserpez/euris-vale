@@ -205,7 +205,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField>
                                     <HeaderTemplate>
-                                        <center><div><asp:LinkButton ID="selectedMessage" runat="server"><span  class="glyphicon glyphicon-screenshot"></span></asp:LinkButton></div></center>
+                                        <center><div><asp:LinkButton ID="selectedMessage" runat="server"><span  class="glyphicon glyphicon-check"></span> Letto</asp:LinkButton></div></center>
                                     </HeaderTemplate>
                                     <ItemTemplate>
                                         <center><div><asp:CheckBox runat="server" AutoPostBack="true" OnCheckedChanged="selectedMessage_Click" ID="chkSelectMessage"/></div></center>

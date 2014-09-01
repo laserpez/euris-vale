@@ -31,5 +31,7 @@ namespace VALE.Models
         [ForeignKey("RelatedBODReport")]
         public int? BODReportId { get; set; }
         public virtual BODReport RelatedBODReport { get; set; }
+
+        
     }
 }

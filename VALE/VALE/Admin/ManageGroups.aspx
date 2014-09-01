@@ -110,7 +110,7 @@
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>
-                                                                    <center><div><asp:LinkButton  runat="server" OnClick="grdUsersSelectDeselectAllLinkButton_Click"><span  class="glyphicon glyphicon-screenshot"></span></asp:LinkButton></div></center>
+                                                                    <center><div><asp:LinkButton  runat="server" OnClick="grdUsersSelectDeselectAllLinkButton_Click"><span  class="glyphicon glyphicon-check"></span></asp:LinkButton></div></center>
                                                                 </HeaderTemplate>
                                                                 <ItemTemplate>
                                                                     <center><div><asp:CheckBox runat="server" ID="chkSelectUser"/></div></center>
@@ -169,7 +169,7 @@
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton  runat="server" OnClick="grdGroupUsersSelectDeselectAllLinkButton_Click"><span  class="glyphicon glyphicon-screenshot"></span></asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton  runat="server" OnClick="grdGroupUsersSelectDeselectAllLinkButton_Click"><span  class="glyphicon glyphicon-check"></span></asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:CheckBox runat="server" ID="chkSelectUser" /></div></center>

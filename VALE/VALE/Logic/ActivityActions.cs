@@ -47,7 +47,11 @@ namespace VALE.Logic
         public int GetAllActivityHoursWorked(int activityId)
         {
             var db = new UserOperationsContext();
-            return db.Reports.Where(r => r.ActivityId == activityId).Sum(r => r.HoursWorked);
+            var reports = db.Reports.Where(r => r.ActivityId == activityId);
+            if (reports != null && reports.Count() > 0)
+                return reports.Sum(r => r.HoursWorked);
+            else
+                return 0;
         }
 
         public void SetActivityStatus(int id, ActivityStatus status)

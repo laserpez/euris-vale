@@ -42,7 +42,6 @@ namespace VALE.Account
             }
             if (!IsPostBack)
             {
-                SetRegionDropDownList();
                 var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var loginInfo = Context.GetOwinContext().Authentication.GetExternalLoginInfo();
                 if (loginInfo == null)
@@ -53,8 +52,18 @@ namespace VALE.Account
                 var user = manager.Find(loginInfo.Login);
                 if (user != null)
                 {
-                    IdentityHelper.SignIn(manager, user, isPersistent: false);
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    if (user.NeedsApproval)
+                    {
+                        string titleMessage = string.Format("{0} {1},", user.FirstName, user.LastName);
+                        string message = string.Format("la tua richiesta non è ancora accettata, una mail di conferma verrà mandata all'indirizzo {0}, una volta confermata da un Amministratore.", user.Email);
+                        string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
+                        Response.Redirect(url);
+                    }
+                    else
+                    {
+                        IdentityHelper.SignIn(manager, user, isPersistent: false);
+                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    }
                 }
                 else if (User.Identity.IsAuthenticated)
                 {
@@ -88,72 +97,31 @@ namespace VALE.Account
             }
         }
 
-        private void ClearDropDownList()
-        {
-            List<string> init = new List<string> { "Seleziona" };
-            DropDownProvince.DataSource = init;
-            DropDownProvince.DataBind();
-            DropDownCity.DataSource = init;
-            DropDownCity.DataBind();
-        }
 
-        private void SetRegionDropDownList()
-        {
-            ClearDropDownList();
-            String path = Server.MapPath("~/StateInfo/regioni_province_comuni.xml");
-            StateInfoXML.GetInstance().FileName = path;
-            var list = StateInfoXML.GetInstance().LoadData();
-            var regions = (from r in list where r.depth == "0" orderby r.name select r.name).ToList();
-            regions.Insert(0, "Seleziona");
-            DropDownRegion.DataSource = regions;
-            DropDownRegion.DataBind();
-        }
-
-        protected void Region_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (DropDownRegion.SelectedIndex == 0)
-            {
-                List<string> init = new List<string> { "Seleziona" };
-                DropDownProvince.DataSource = init;
-                DropDownProvince.DataBind();
-                DropDownCity.DataSource = init;
-                DropDownCity.DataBind();
-            }
-            else
-            {
-                ClearDropDownList();
-
-                var list = StateInfoXML.GetInstance().LoadData();
-                var tid = (from r in list where r.depth == "0" && r.name == DropDownRegion.SelectedValue select r.tid).FirstOrDefault();
-                var provinces = (from r in list where r.depth == "1" && r.parent == tid orderby r.name select r.name).ToList();
-                provinces.Insert(0, "Seleziona");
-                DropDownProvince.DataSource = provinces;
-                DropDownProvince.DataBind();
-            }
-        }
-
-        protected void State_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (DropDownProvince.SelectedIndex == 0)
-            {
-                List<string> init = new List<string> { "Seleziona" };
-                DropDownCity.DataSource = init;
-                DropDownCity.DataBind();
-            }
-            else
-            {
-                var list = StateInfoXML.GetInstance().LoadData();
-                var tid = (from r in list where r.depth == "1" && r.name == DropDownProvince.SelectedValue select r.tid).FirstOrDefault();
-                var citys = (from r in list where r.depth == "2" && r.parent == tid orderby r.name select r.name).ToList();
-                citys.Insert(0, "Seleziona");
-                DropDownCity.DataSource = citys;
-                DropDownCity.DataBind();
-            }
-        }
-        
-        protected void LogIn_Click(object sender, EventArgs e)
+        protected void CreateUser_Click(object sender, EventArgs e)
         {
             CreateAndLoginUser();
+        }
+
+        protected void checkAssociated_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkAssociated.Checked)
+            {
+                CFValidator.Enabled = true;
+                FiscalCodeToValidate.Enabled = true;
+                lblCF.Text = "Codice Fiscale *";
+            }
+            else
+            {
+                CFValidator.Enabled = false;
+                FiscalCodeToValidate.Enabled = false;
+                lblCF.Text = "Codice Fiscale";
+            }
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Default.aspx");
         }
 
         private void CreateAndLoginUser()
@@ -169,14 +137,11 @@ namespace VALE.Account
                 UserName = TextUserName.Text,
                 FirstName = TextFirstName.Text,
                 LastName = TextLastName.Text,
-                Address = TextAddress.Text,
-                Region = DropDownRegion.SelectedValue,
-                Province = DropDownProvince.SelectedValue,
-                City = DropDownCity.SelectedValue,
+                Telephone = TextTelephone.Text,
                 CellPhone = TextCellPhone.Text,
-                CF = TextCF.Text,
-                NeedsApproval = checkAssociated.Checked,
-                Email = TextEmail.Text 
+                CF = TextCF.Text == "" ? null : TextCF.Text,
+                NeedsApproval = true,
+                Email = Email.Text
             };
             var passwordValidator = new PasswordValidator();
             passwordValidator.RequiredLength = 6;
@@ -193,6 +158,7 @@ namespace VALE.Account
                 result = manager.AddLogin(user.Id, loginInfo.Login);
                 if (result.Succeeded)
                 {
+
                     db.UserDatas.Add(new UserData
                     {
                         UserName = user.UserName,
@@ -201,19 +167,29 @@ namespace VALE.Account
                     });
                     db.SaveChanges();
 
-                    AdminActions.ComposeMessage(manager, user.Id, "", "Conferma il tuo account");
+                    if (checkAssociated.Checked)
+                        manager.AddToRole(user.Id, "Socio");
+                    else
+                        manager.AddToRole(user.Id, "Utente");
+                    db.UserDatas.Add(new UserData
+                    {
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        FullName = user.FirstName + " " + user.LastName
+                    });
+                    db.SaveChanges();
 
-                    string titleMessage = string.Format("Grazie {0} {1},", user.FirstName, user.LastName);
-                    string message = string.Format("Abbiamo accettato la sua richiesta di registrazione, una ulteriore mail di conferma verrà inviata al suo indirizzo {0}.", user.Email);
-                    string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
-                    Response.Redirect(url);
+                    AdminActions.ComposeMessage(manager, user.Id, "", "Registrazione");
                     //IdentityHelper.SignIn(manager, user, isPersistent: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // var code = manager.GenerateEmailConfirmationToken(user.Id);
-                    // Send this link via email: IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id)
 
                     //IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+
+                    string titleMessage = string.Format("Grazie {0} {1},", user.FirstName, user.LastName);
+                    string message = string.Format("Abbiamo registrato la tua richiesta, una mail di conferma verrà mandata all'indirizzo {0}, una volta confermata da un Amministratore.", user.Email);
+                    string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
+                    Response.Redirect(url);
                     return;
                 }
             }

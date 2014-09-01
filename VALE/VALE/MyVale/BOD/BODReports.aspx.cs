@@ -39,7 +39,7 @@ namespace VALE.MyVale.BOD
         public IQueryable<BODReport> GetBODReports()
         {
             var db = new UserOperationsContext();
-            return db.BODReports.OrderBy(b => b.BODReportId).AsQueryable();
+            return db.BODReports.OrderBy(b => b.BODReportId).OrderByDescending(br => br.MeetingDate).AsQueryable();
         }
 
         protected void grdBODReport_RowCommand(object sender, GridViewCommandEventArgs e)

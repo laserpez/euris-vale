@@ -52,8 +52,18 @@ namespace VALE.Account
                 ApplicationUser user = manager.Find(name, Password.Text);
                 if (user != null)
                 {
-                    IdentityHelper.SignIn(manager, user, RememberMe.Checked);
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    if (user.NeedsApproval)
+                    {
+                        string titleMessage = string.Format("{0} {1},", user.FirstName, user.LastName);
+                        string message = string.Format("la tua richiesta non è ancora accettata, una mail di conferma verrà mandata all'indirizzo {0}, una volta confermata da un Amministratore.", user.Email);
+                        string url = string.Format("~/MessagePage.aspx?TitleMessage={0}&Message={1}", titleMessage, message);
+                        Response.Redirect(url);
+                    }
+                    else
+                    {
+                        IdentityHelper.SignIn(manager, user, RememberMe.Checked);
+                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    }
                 }
                 else
                 {
