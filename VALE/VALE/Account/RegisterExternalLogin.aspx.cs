@@ -141,6 +141,8 @@ namespace VALE.Account
                 CellPhone = TextCellPhone.Text,
                 CF = TextCF.Text == "" ? null : TextCF.Text,
                 NeedsApproval = true,
+                PartnerType = "Generico",
+                IsPartner = checkAssociated.Checked,
                 Email = Email.Text
             };
             var passwordValidator = new PasswordValidator();

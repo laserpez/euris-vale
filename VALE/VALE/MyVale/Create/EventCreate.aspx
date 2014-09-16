@@ -36,7 +36,7 @@
 
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
-                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtDescription" runat="server"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="300px" ID="txtDescription" runat="server"></asp:TextBox>
                                     <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />

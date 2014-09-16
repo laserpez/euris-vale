@@ -109,6 +109,8 @@ namespace VALE.Logic
             var adminUser = new ApplicationUser
             {
                 UserName = "Admin",
+                FirstName = "Amministratore",
+                LastName = "Capo",
                 Email = "admin@vale.org"
             };
             if (userManager.Find("Admin", "Pa$$word") == null)
@@ -118,10 +120,8 @@ namespace VALE.Logic
                 dbData.UserDatas.Add(new UserData 
                 { 
                     UserName = adminUser.UserName, 
-                    Email = adminUser.Email,
-                    FirstName = "Amministratore",
-                    LastName = "Capo",
-                    FullName = "Amministratore Capo",
+                    Email = adminUser.Email, 
+                    FullName = adminUser.FirstName + " " + adminUser.LastName 
                 });
                 dbData.SaveChanges();
             }

@@ -76,7 +76,6 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
-                                                        <div>
                                                             <div class="row">
                                                                <div class="col-md-12">
                                                                         <ul class="breadcrumb" style="margin-bottom: 1px; margin-top: 1px">
@@ -93,7 +92,7 @@
                                                                         </ul>
                                                                     </div>
                                                             </div>
-                                                        </div>
+                                                
                                                         <div class="panel-body">
                                                             <div class="row">
                                                                 <div class="col-md-12">
@@ -117,7 +116,7 @@
                                                                         </ul>
                                                                     </div>
                                                                     <div class="navbar-right">
-                                                                        <asp:Button runat="server" Enabled="false" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
+                                                                        <asp:Button runat="server" Visible="false" Text="Aggiungi" ID="btnAddRelatedProject" CssClass="btn btn-success btn-xs" CausesValidation="false" OnClick="btnAddRelatedProject_Click" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -173,7 +172,7 @@
                                                                         <HeaderStyle Width="90px" />
                                                                         <ItemStyle Width="90px" />
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Azione" HeaderStyle-Width="50px" ItemStyle-Width="50px">
+                                                                    <asp:TemplateField HeaderText="Azione" HeaderStyle-Width="50px" ItemStyle-Width="50px" Visible="false">
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Button  runat="server" ID="deleteRelatedProject" Text="Cancella"  CssClass="btn btn-danger btn-xs" CommandArgument="<%# Item.ProjectId %>" CommandName="Cancella" CausesValidation="false"  /></div></center>
                                                                         </ItemTemplate>
@@ -213,20 +212,13 @@
                                                             <asp:GridView ItemType="VALE.Models.Activity" AllowPaging="true" PageSize="10" AutoGenerateColumns="false" GridLines="Both" AllowSorting="true"
                                                                 SelectMethod="GetRelatedActivities" runat="server" DataKeyNames="ActivityId" ID="ActivitiesGridView" CssClass="table table-striped table-bordered">
                                                                 <Columns>
-                                                                    <asp:TemplateField>
-                                                                        <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton CommandArgument="CreatorUserName" CommandName="sort" runat="server" ID="labelCreatorUserName"><span  class="glyphicon glyphicon-user"></span> Creatore</asp:LinkButton></div></center>
-                                                                        </HeaderTemplate>
-                                                                        <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></div></center>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
+                                                                    
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
                                                                             <center><div><asp:LinkButton CommandArgument="ActivityName" CommandName="sort" runat="server" ID="labelActivityName"><span  class="glyphicon glyphicon-credit-card"></span> Nome</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></div></center>
+                                                                            <center><div><a href="/MyVale/ActivityDetails?activityId=<%#:Item.ActivityId%>&From=/MyVale/ProjectDetails?projectId=<%#:Item.RelatedProject.ProjectId%>"><asp:Label runat="server"><%#: Item.ActivityName %></asp:Label></a></div></center>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
@@ -243,6 +235,14 @@
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div><asp:Label runat="server"><%#: GetStatus(Item) %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CommandArgument="CreatorUserName" CommandName="sort" runat="server" ID="labelCreatorUserName"><span  class="glyphicon glyphicon-user"></span> Gestore</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><a href="/Account/Profile?Username=<%#: Item.CreatorUserName %>"><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></a></div></center>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
@@ -361,7 +361,7 @@
                                                                             <center><div><asp:LinkButton CommandArgument="CreatorUserName" CommandName="sort" runat="server" ID="labelCreatorUserName"><span  class="glyphicon glyphicon-user"></span> Creatore</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></div></center>
+                                                                            <center><div><a href="/Account/Profile?Username=<%#: Item.CreatorUserName %>"><asp:Label runat="server"><%#: Item.CreatorUserName %></asp:Label></a></div></center>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
@@ -445,7 +445,7 @@
                                                             <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
+                                                            <center><div><a href="/Account/Profile?Username=<%#: Item.UserName %>"><asp:Label runat="server"><%#: Item.FullName %></asp:Label></a></div></center>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField>
@@ -486,28 +486,30 @@
                                             </asp:ModalPopupExtender>
                                             <asp:LinkButton ID="lnkDummy" runat="server"></asp:LinkButton>
                                             <div class="alert alert-dismissable alert-info" id="pnlPopup" style="width: 25%;">
-                                                <div class="row">
-                                                    <asp:Label runat="server" CssClass="col-md-12 control-label"><strong>Inserisci Password</strong></asp:Label>
-                                                    <div class="col-md-12">
-                                                        <br />
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <asp:Label runat="server" CssClass="col-md-12 control-label"><strong>Inserisci Password</strong></asp:Label>
                                                         <div class="col-md-12">
                                                             <br />
                                                         </div>
-                                                        <div class="col-md-offset-7 col-md-10">
-                                                            <asp:Button runat="server" Text="&nbsp;&nbsp;&nbsp;Ok&nbsp;&nbsp;&nbsp;" ID="btnFilterProjects" CssClass="btn btn-success btn-sm" CausesValidation="false" OnClick="btnModifyStatusProject_Click" />
-                                                            <asp:Button runat="server" Text="Annulla" ID="btnClearFilters" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="CloseButton_Click" />
+                                                        <div class="col-md-12">
+                                                            <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
                                                         </div>
 
                                                     </div>
-                                                </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-12">
+                                                                <br />
+                                                            </div>
+                                                            <div class="col-md-offset-7 col-md-10">
+                                                                <asp:Button runat="server" Text="&nbsp;&nbsp;&nbsp;Ok&nbsp;&nbsp;&nbsp;" ID="btnFilterProjects" CssClass="btn btn-success btn-sm" CausesValidation="false" OnClick="btnModifyStatusProject_Click" />
+                                                                <asp:Button runat="server" Text="Annulla" ID="btnClearFilters" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="CloseButton_Click" />
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
                                             </div>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>

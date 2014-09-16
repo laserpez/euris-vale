@@ -68,15 +68,20 @@ namespace VALE.MyVale
             var btnModify = (Button)ProjectDetail.FindControl("btnModifyProject");
             if ((aProject.OrganizerUserName == _currentUserName || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione")) && aProject.Status != "Chiuso")
             {
+                GridView grdRelatedProject = (GridView)ProjectDetail.FindControl("grdRelatedProject");
                 if (aProject.Status == "Aperto")
                 {
+                   
+                    grdRelatedProject.Columns[5].Visible = true;
                     ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = true;
                     btnModify.Visible = true;
-                    ((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Enabled = true;
+                    ((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Visible = true;
                 }
                 else
                 {
+                    grdRelatedProject.Columns[5].Visible = false;
                     ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = false;
+                    ((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Visible = false;
                     //btnModify.Visible = true;
                     //((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Enabled = true;
                 }
@@ -641,8 +646,7 @@ namespace VALE.MyVale
             ModalPopupListProject.Hide();
             if (PprojectId.HasValue)
             {
-                Button btnDeleteRelatedProject = (Button)ProjectDetail.FindControl("btnDeleteRelatedProject");
-                Button btnAddRelatedProject = (Button)ProjectDetail.FindControl("btnAddRelatedProject");
+                
                 var currentProject = _db.Projects.First(a => a.ProjectId == _currentProjectId);
                 return currentProject.RelatedProjects.AsQueryable();
             }
@@ -782,28 +786,26 @@ namespace VALE.MyVale
         private TreeNode PopulateProjectNode(Project project)
         {
             var projectNode = new TreeNode{ Text = project.ProjectName + " (" + GetHoursWorkedForProject(project.ProjectId) + " )" };
-            if (IsVisibleProject(project))
-            {
-                var projectInfoNode = PopulateProjectInfoNodeNode(project);
-                projectNode.ChildNodes.Add(projectInfoNode);
-                if (project.Activities.Count > 0) 
-                {
-                    var activitiesNode = new TreeNode { Text = "Attività" };
-                    project.Activities.ForEach(a => activitiesNode.ChildNodes.Add(PopulateActivityNode(a)));
-                    projectNode.ChildNodes.Add(activitiesNode);
-                }
-                if (project.Events.Count > 0)
-                {
-                    var eventsNode = new TreeNode { Text = "Eventi" };
-                    project.Events.ForEach(ev => eventsNode.ChildNodes.Add(PopulateEventNode(ev)));
-                    projectNode.ChildNodes.Add(eventsNode);
-                } 
-            }
+            //if (IsVisibleProject(project))
+            //{
+            //    var projectInfoNode = PopulateProjectInfoNodeNode(project);
+            //    projectNode.ChildNodes.Add(projectInfoNode);
+            //    if (project.Activities.Count > 0) 
+            //    {
+            //        var activitiesNode = new TreeNode { Text = "Attività" };
+            //        project.Activities.ForEach(a => activitiesNode.ChildNodes.Add(PopulateActivityNode(a)));
+            //        projectNode.ChildNodes.Add(activitiesNode);
+            //    }
+            //    if (project.Events.Count > 0)
+            //    {
+            //        var eventsNode = new TreeNode { Text = "Eventi" };
+            //        project.Events.ForEach(ev => eventsNode.ChildNodes.Add(PopulateEventNode(ev)));
+            //        projectNode.ChildNodes.Add(eventsNode);
+            //    } 
+            //}
             if (project.RelatedProjects.Count > 0) 
             {
-                var relatedProjectNode = new TreeNode { Text = "Progetti Correlati" };
-                project.RelatedProjects.ForEach(p => relatedProjectNode.ChildNodes.Add(PopulateProjectNode(p)));
-                projectNode.ChildNodes.Add(relatedProjectNode);
+                project.RelatedProjects.ForEach(p => projectNode.ChildNodes.Add(PopulateProjectNode(p)));
             }
             return projectNode;
         }
@@ -847,19 +849,19 @@ namespace VALE.MyVale
                     if (currentProject.Status == "Aperto")
                     {
                         Button deleteRelatedProject = (Button)grdRelatedProject.Rows[i].FindControl("deleteRelatedProject");
-                        deleteRelatedProject.Enabled = true;
+                        deleteRelatedProject.Visible = true;
                     }
                     else
                     {
                         Button deleteRelatedProject = (Button)grdRelatedProject.Rows[i].FindControl("deleteRelatedProject");
-                        deleteRelatedProject.Enabled = false;
+                        deleteRelatedProject.Visible = false;
                     }
                     
                 }
                 else
                 {
                     Button deleteRelatedProject = (Button)grdRelatedProject.Rows[i].FindControl("deleteRelatedProject");
-                    deleteRelatedProject.Enabled = false;
+                    deleteRelatedProject.Visible = false;
                 }
 
             }

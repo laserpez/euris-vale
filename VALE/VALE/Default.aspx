@@ -3,22 +3,35 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <p></p>
-    <div id="notLoggedUser" style="background-image:url(~/Images/Logo_VALE.png)" runat="server" class="row">
-        <div class="col-md-2">
-            <asp:Image runat="server" ID="LogoImage" Width="159" Height="196" />
-        </div>
-        <div class="col-md-10" style="font-size: x-large; position:relative">
-            
-                <h2>Benvenuto in VALE, ambiente virtuale di collaborazione</h2>
-            
-            <p>
-                &nbsp;Fai il log-in per accedere alle sezioni interne <a runat="server" href="~/Account/Login">Qui</a>.
-            </p>
-            <p>
-                &nbsp;Se non sei ancora registrato clicca <a runat="server" href="~/Account/Register">Qui</a>.
-            </p>
+    <div class="row" id="notLoggedUser" runat="server">
+        <div class="jumbotron">
+            <div class="row">
+
+                    <div  style="background-image: url(~/Images/Logo_VALE.png)" >
+                        <div class="col-md-2">
+
+                            <asp:Image runat="server" ID="LogoImage" Width="159" Height="196" />
+                        </div>
+                        <div class="col-md-10" style="font-size: x-large; position: relative">
+
+                            <h2>Benvenuto in VALE, ambiente virtuale di collaborazione</h2>
+                            <p></p>
+                            <p>
+                                &nbsp;Fai il log-in per accedere alle sezioni interne <a runat="server" href="~/Account/Login">Qui</a>.
+                            </p>
+
+                            <p>
+                                &nbsp;Se non sei ancora registrato clicca <a runat="server" href="~/Account/Register">Qui</a>.
+                            </p>
+                        </div>
+
+                    </div>
+
+            </div>
         </div>
     </div>
+    
+    
 
     <div id="loggedUser" runat="server" class="row">
         <div class="col-md-4" >

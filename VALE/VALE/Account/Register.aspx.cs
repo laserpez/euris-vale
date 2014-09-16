@@ -18,7 +18,10 @@ namespace VALE.Account
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            string password = Password.Text;
+            Password.Attributes.Add("value", password);
+            string confirmPassword = ConfirmPassword.Text;
+            ConfirmPassword.Attributes.Add("value", confirmPassword);
         }
 
         protected void checkAssociated_CheckedChanged(object sender, EventArgs e)
@@ -53,8 +56,10 @@ namespace VALE.Account
                 LastName = TextLastName.Text,
                 Telephone = TextTelephone.Text,
                 CellPhone = TextCellPhone.Text,
+                PartnerType = "Generico",
                 CF = TextCF.Text == "" ? null : TextCF.Text,
                 NeedsApproval = true,
+                IsPartner = checkAssociated.Checked,
                 Email = Email.Text
             };
             var passwordValidator = new PasswordValidator();

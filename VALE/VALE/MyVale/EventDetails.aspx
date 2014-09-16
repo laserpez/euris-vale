@@ -54,6 +54,10 @@
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Luogo: </asp:Label><asp:Label runat="server"><%#: String.Format("{0}", Item.Site) %></asp:Label>
                                         <br />
+                                        <asp:Label runat="server" Font-Bold="true">Utenti Partecipanti: </asp:Label><asp:Label runat="server"><%#: String.Format("{0}", Item.RegisteredUsers.Count()) %></asp:Label>
+                                        <br />
+                                        <asp:Label runat="server" Font-Bold="true">Utenti In Attesa Di Adesione: </asp:Label><asp:Label runat="server"><%#: String.Format("{0}", Item.PendingUsers.Count()) %></asp:Label>
+                                        <br />
                                         <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                         <br />
                                         
@@ -182,19 +186,19 @@
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
                                                                             <center><div>
-                                                                        <asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton>
+                                                                        <asp:LinkButton CausesValidation="false" CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton>
                                                                     </div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
                                                                             <center><div>
-                                                                    <asp:Label runat="server"><%#: Item.FullName %></asp:Label>
+                                                                    <a href="/Account/Profile?Username=<%#: Item.UserName %>"><asp:Label runat="server"><%#: Item.FullName %></asp:Label></a>
                                                                 </div></center>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
                                                                             <center><div>
-                                                                    <asp:LinkButton CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton>
+                                                                    <asp:LinkButton CommandArgument="Email" CausesValidation="false" CommandName="sort" runat="server" ><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton>
                                                                 </div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
@@ -202,6 +206,16 @@
                                                                     <asp:Label runat="server"><%#: Item.Email %></asp:Label>
                                                                 </div></center>
                                                                         </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" CommandName="sort" runat="server" ><span  class="glyphicon glyphicon-ok-sign"></span> Stato</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: GetStatusOfEventRequest(Item) %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="10%" />
+                                                                        <ItemStyle Width="10%" />
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <PagerSettings Position="Bottom" />
@@ -298,8 +312,8 @@
                                 <div class="col-md-12">
                                       <label class="col-lg-2 control-label">Descrizione *</label>
                                 <div class="col-lg-10">
-                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="100px" ID="txtDescription" runat="server"></asp:TextBox>
-                                    <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
+                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="150px" ID="txtDescription" runat="server"></asp:TextBox>
+                               <%--     <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />

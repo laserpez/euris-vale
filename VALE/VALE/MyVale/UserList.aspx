@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UserList.aspx.cs" Inherits="VALE.MyVale.UserList" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <h3>Lista utenti</h3>
+    <h3>Contatti</h3>
     <p>
         <asp:UpdatePanel ID="ProjectGrid" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
             <ContentTemplate>
@@ -65,7 +65,15 @@
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><div><asp:LinkButton CommandArgument="Telephone" CommandName="sort" runat="server" ID="label4"><span  class="glyphicon glyphicon-credit-card"></span> Telephone</asp:LinkButton></div></center>
+                                <center><div><asp:LinkButton CommandArgument="CellPhone" CommandName="sort" runat="server" ID="label5"><span  class="glyphicon glyphicon-phone"></span> Cellulare</asp:LinkButton></div></center>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <center><div><asp:Label runat="server"><%#: Item.CellPhone %></asp:Label></div></center>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <center><div><asp:LinkButton CommandArgument="Telephone" CommandName="sort" runat="server" ID="label4"><span  class="glyphicon glyphicon-phone-alt"></span> Telefono</asp:LinkButton></div></center>
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <center><div><asp:Label runat="server"><%#: Item.Telephone %></asp:Label></div></center>
@@ -73,13 +81,14 @@
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <HeaderTemplate>
-                                <center><div><asp:LinkButton CommandArgument="CellPhone" CommandName="sort" runat="server" ID="label5"><span  class="glyphicon glyphicon-phone"></span> Cell</asp:LinkButton></div></center>
+                                <center><div><asp:LinkButton CausesValidation="false" CommandArgument="IsPartner" CommandName="sort" runat="server" ID="labelIsPartner"><span  class="glyphicon glyphicon-star"></span> Socio</asp:LinkButton></div></center>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <center><div><asp:Label runat="server"><%#: Item.CellPhone %></asp:Label></div></center>
+                                <center><div><asp:Label runat="server"><%#: Item.IsPartner ? "Si" : "No" %></asp:Label></div></center>
                             </ItemTemplate>
+                            <ItemStyle Width="80px" />
+                            <HeaderStyle Width="80px" />
                         </asp:TemplateField>
-
                     </Columns>
                     <PagerSettings Position="Bottom" />
                     <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />

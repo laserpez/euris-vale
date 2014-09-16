@@ -12,6 +12,7 @@ namespace VALE.Models
         public string FileName { get; set; }
         public string FileDescription { get; set; }
         public string FileExtension { get; set; }
+        public int Size { get; set; }
         public byte[] FileData { set; get; }
     }
 }

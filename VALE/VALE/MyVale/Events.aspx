@@ -10,7 +10,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-6">
                                         <ul class="nav nav-pills">
                                             <li>
                                                 <h4>
@@ -19,8 +19,33 @@
                                             </li>
                                         </ul>
                                     </div>
-                                     <div class="navbar-right">
-                                        <asp:Button runat="server" Text="Crea Evento"  CssClass="btn btn-success" ID="btnAddEvent" OnClick="btnAddEvent_Click" />
+                                    <div class="navbar-right">
+                                         <asp:Button runat="server" Text="Crea Evento"  CssClass="btn btn-success" ID="btnAddEvent" OnClick="btnAddEvent_Click" />
+                                         <div class="btn-group" runat="server" visible="false" id="btnAllOrPersonal">
+                                            <asp:Label ID="lblAllOrPersonal" Visible="false" runat="server" Text="Personal"></asp:Label>
+                                            <button type="button" id="btnPersonal" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Personali  <span class="caret"></span></button>
+                                            <button type="button" visible="false" id="btnAllUsers" class="btn btn-info dropdown-toggle" data-toggle="dropdown" runat="server">Di Tutti Gli Utenti <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <asp:LinkButton ID="btnPersonalLinkButton" runat="server" OnClick="btnPersonalLinkButton_Click"><span class="glyphicon glyphicon-tasks"></span> Personali</asp:LinkButton></li>
+                                                <li>
+                                                    <asp:LinkButton ID="btnAllUsersLinkButton" runat="server" OnClick="btnAllUsersLinkButton_Click"><span class="glyphicon glyphicon-inbox"></span> Di Tutti Gli Utenti</asp:LinkButton></li>
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <asp:Label ID="EventsListType" runat="server" Text="AllEvents" Visible="false"></asp:Label>
+                                            <button type="button" visible="true" id="btnList" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Tutti <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                              <li>
+                                                    <asp:LinkButton CommandArgument="AllEvents" runat="server" OnClick="ChangeSelectedEvents_Click" CausesValidation="false"><span class="glyphicon glyphicon-hdd"></span> Tutti  </asp:LinkButton></li>
+                                              <li>
+                                                    <asp:LinkButton CommandArgument="ProjectEvents" runat="server" OnClick="ChangeSelectedEvents_Click" CausesValidation="false"><span class="glyphicon glyphicon-inbox"></span> Per Progetto</asp:LinkButton></li>
+                                              <li>
+                                                    <asp:LinkButton CommandArgument="NotRelatedEvents" runat="server" OnClick="ChangeSelectedEvents_Click" CausesValidation="false"><span class="glyphicon glyphicon-resize-full"></span> Non Correlati</asp:LinkButton></li>
+                                              <li>
+                                                    <asp:LinkButton CommandArgument="RequestEvents" runat="server" OnClick="ChangeSelectedEvents_Click" CausesValidation="false"><span class="glyphicon glyphicon-ok-sign"></span> Richieste</asp:LinkButton></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +58,7 @@
                                             <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="col-lg-10">
-                                                            <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Mostra filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
+                                                            <asp:Button runat="server" CssClass="btn btn-primary btn-xs" Text="Visualizza filtri" ID="btnShowFilters" OnClick="btnShowFilters_Click" />
                                                         </div>
                                                         <div class="navbar-right">
                                                             <asp:Button runat="server" Visible="false" Text="Cerca" ID="btnFilterEvents" OnClick="btnFilterEvents_Click" CssClass="btn btn-info btn-xs" />
@@ -43,6 +68,18 @@
                                                 </div>
                                         </asp:Panel>
                                         <div runat="server" id="filterPanel" class="panel-body" visible="false">
+                                            <div runat="server" id="projectPanel">
+                                                <legend>Progetto</legend>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <asp:DropDownList AutoPostBack="true" class="col-md-2 form-control input-sm" runat="server" OnSelectedIndexChanged="ddlSelectProject_SelectedIndexChanged" ID="ddlSelectProject" SelectMethod="GetProjects" ItemType="VALE.Models.Project" DataTextField="ProjectName" DataValueField="ProjectId"></asp:DropDownList>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <br />
+                                                </div>
+                                                <legend>Eventi</legend>
+                                            </div>
                                             <div class="col-md-12">
                                                 <div class="col-md-6">
                                                     <asp:Label runat="server" Font-Bold="true" Text="Da" CssClass="control-label col-md-1"></asp:Label>
@@ -77,8 +114,8 @@
                                             </div>
                                         </div>
                                         <div runat="server" class="panel-body">
-                                            <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Non ci sono eventi per il periodo selezionato"
-                                            CssClass="table table-striped table-bordered" ID="grdEvents" SelectMethod="grdEvents_GetData" AllowPaging="true" PageSize="10">
+                                            <asp:GridView runat="server" ItemType="VALE.Models.Event" DataKeyNames="EventId" AllowSorting="true" AutoGenerateColumns="false" EmptyDataText="Nessun Evento."
+                                            CssClass="table table-striped table-bordered" ID="grdEvents" SelectMethod="grdEvents_GetData" AllowPaging="true" PageSize="10" OnRowCommand="grdEvents_RowCommand">
                                                     <Columns>
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>
@@ -115,6 +152,26 @@
                                                             </ItemTemplate>
                                                             <HeaderStyle Width="100px" />
                                                             <ItemStyle Width="100px" />
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField>
+                                                            <HeaderTemplate>
+                                                                <center><div><asp:Label runat="server" ID="labelAccept"><span  class="glyphicon glyphicon-ok-circle"></span> Accetta</asp:Label></div></center>
+                                                            </HeaderTemplate>
+                                                            <ItemTemplate>
+                                                                <center><div><asp:Button CssClass="btn btn-success btn-xs" Width="120" runat="server" CommandName="AcceptEvent" CommandArgument="<%# Item.EventId %>" Text="Accetta" /></div></center>
+                                                            </ItemTemplate>
+                                                            <HeaderStyle Width="120px" />
+                                                            <ItemStyle Width="120px" />
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField>
+                                                            <HeaderTemplate>
+                                                                <center><div><asp:Label runat="server" ID="labelReject" ><span  class="glyphicon glyphicon-remove-circle"></span> Rifiuta</asp:Label></div></center>
+                                                            </HeaderTemplate>
+                                                            <ItemTemplate>
+                                                                <center><div><asp:Button CssClass="btn btn-danger btn-xs" Width="120" runat="server" Text="Rifiuta" CommandName="RejectEvent" CommandArgument="<%# Item.EventId %>"/></div></center>
+                                                            </ItemTemplate>
+                                                            <HeaderStyle Width="120px" />
+                                                            <ItemStyle Width="120px" />
                                                         </asp:TemplateField>
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>

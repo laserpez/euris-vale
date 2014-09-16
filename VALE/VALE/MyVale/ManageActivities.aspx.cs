@@ -114,9 +114,9 @@ namespace VALE
                     var status = receverTableId.charAt(receverTableId.length - 1);
                     var activityId = ui.item.find('td')[0].innerHTML;
                     var result = ChangeStatus(activityId, status);
-                    if (result == 'False')
+                    if (result != 'True')
                     {
-                        alert('Un attività che possiede interventi non puo piu avere lo stato Da Pianificare');
+                        alert(result);
                         location.reload();
                     }   
                   }
@@ -169,9 +169,14 @@ namespace VALE
             //Response.Clear();
             ActivityStatus status = (ActivityStatus)Convert.ToInt16(statusNumber);
             var interventions = db.Reports.Where(r => r.ActivityId == id);
+            var activity = db.Activities.Where(a => a.ActivityId == id).FirstOrDefault();
             if (status == ActivityStatus.ToBePlanned && interventions.Count() > 0)
-                Response.Write("False");
-            else 
+                Response.Write("Un attività che possiede interventi non puo piu avere lo stato Da Pianificare");
+            else if (activity.RelatedProject != null && activity.RelatedProject.Status != "Aperto")
+            {
+                Response.Write("Impossibile modificare lo stato dell'attivita in quanto fa riferimento ad un progetto " + activity.RelatedProject.Status);
+            }
+            else
             {
                 var activityActions = new ActivityActions();
                 activityActions.SetActivityStatus(id, status);

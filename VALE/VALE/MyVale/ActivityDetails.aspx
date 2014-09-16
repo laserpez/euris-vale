@@ -48,9 +48,20 @@
                                 <div class="panel-body" style="overflow: auto;">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div class="col-md-11">
+                                            <div class="col-md-9">
                                                 <h3><%#: Item.ActivityName %></h3>
-                                                <br />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="navbar-right">
+                                                    <asp:UpdatePanel runat="server">
+                                                        <ContentTemplate>
+                                                            <asp:Button runat="server" ID="btnDeleteActivity" Text="Cancella" CssClass="btn btn-danger" CausesValidation="false" OnClick="btnDeleteActivity_Click" />
+                                                            <asp:Button CausesValidation="false" ID="btnModifyActivity"  CssClass="btn btn-primary" runat="server" Text="Modifica" OnClick="btnModifyActivity_Click" />
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
                                                 <asp:Label runat="server" Font-Bold="true">Creatore: </asp:Label><asp:Label runat="server"><%#: Item.Creator.FullName %></asp:Label>
                                                 <br />
                                                 <asp:Label runat="server" Font-Bold="true">Data creazione: </asp:Label><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label>
@@ -68,20 +79,8 @@
                                                  <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                                 <br />
                                                  <asp:Label runat="server" id="lblInfoBlockStatement" Font-Bold="true" ForeColor="OrangeRed" Visible="false">Attenzione: l'attività è sospesa in quanto il progetto che la contiene è </asp:Label><asp:Label runat="server" id="lblProjectStatus" Font-Bold="true" ForeColor="OrangeRed" Visible="false"></asp:Label>
-                                                <br />
-                                                <%--<asp:Label runat="server" Font-Bold="true">Avanzamento: </asp:Label>
-                                                <div class="progress">
-                                                    <div class="progress-bar" style="width: 60%;"></div>
-                                                </div>--%>
-
                                             </div>
-                                            <div class="col-md-1">
-                                                <asp:UpdatePanel runat="server">
-                                                    <ContentTemplate>
-                                                        <asp:Button CausesValidation="false" ID="btnModifyActivity"  CssClass="btn btn-primary" runat="server" Text="Modifica" OnClick="btnModifyActivity_Click" />
-                                                    </ContentTemplate>
-                                                </asp:UpdatePanel>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                    
@@ -212,7 +211,7 @@
                                                                             <center><div><asp:LinkButton CausesValidation="false" CommandArgument="WorkerUserName" CommandName="sort" runat="server" ><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.Worker.FullName %></asp:Label></div></center>
+                                                                            <center><div><a href="/Account/Profile?Username=<%#: Item.WorkerUserName %>"><asp:Label runat="server"><%#: Item.Worker.FullName %></asp:Label></a></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="200px" />
                                                                         <ItemStyle Width="200px" />
@@ -309,7 +308,7 @@
                                                                             <center><div><asp:LinkButton CommandArgument="FullName" CommandName="sort" runat="server" ID="labelFullName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.FullName %></asp:Label></div></center>
+                                                                            <center><div><a href="/Account/Profile?Username=<%#: Item.UserName %>"><asp:Label runat="server"><%#: Item.FullName %></asp:Label></a></div></center>
                                                                         </ItemTemplate>
                                                                         <HeaderStyle Width="30%" />
                                                                         <ItemStyle Width="30%" />
@@ -562,6 +561,40 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <asp:ModalPopupExtender ID="ModalPopupPasswordRequest" runat="server"
+                PopupControlID="pnlPasswordRequest" TargetControlID="lnkDummyPasswordRequest" BackgroundCssClass="modalBackground">
+            </asp:ModalPopupExtender>
+            <asp:LinkButton ID="lnkDummyPasswordRequest" runat="server"></asp:LinkButton>
+            <div class="alert alert-dismissable alert-info" id="pnlPasswordRequest" style="width: 25%;">
+                <fieldset>
+                    <div class="row">
+                        <asp:Label runat="server" CssClass="col-md-12 control-label"><strong>Inserisci Password</strong></asp:Label>
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                        <div class="col-md-12">
+                            <asp:TextBox runat="server" ID="txtPassword" TextMode="Password" CssClass="form-control" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <br />
+                            </div>
+                            <div class="col-md-offset-7 col-md-10">
+                                <asp:Button runat="server" Text="&nbsp;&nbsp;&nbsp;Ok&nbsp;&nbsp;&nbsp;" ID="btnPopUpDeleteActivity" CssClass="btn btn-success btn-sm" CausesValidation="false" OnClick="btnPopUpDeleteActivity_Click" />
+                                <asp:Button runat="server" Text="Annulla" ID="btnPopUpDeleteActivityClose" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="btnPopUpDeleteActivityClose_Click" />
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>

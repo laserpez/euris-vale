@@ -37,7 +37,7 @@
                                                 <ul class="nav nav-pills">
                                                     <li>
                                                         <h4>
-                                                            <asp:Label ID="HeaderName" runat="server" Text="Gestione Attività"></asp:Label>
+                                                            <asp:Label ID="HeaderName" runat="server" Text="Kanban attività"></asp:Label>
                                                         </h4>
                                                     </li>
                                                 </ul>

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.ModelBinding;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using VALE.Models;
 using VALE.Logic;
-using System.Web.UI.HtmlControls;
 using VALE.MyVale.Create;
 using System.Drawing;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace VALE.MyVale
 {
@@ -140,6 +141,7 @@ namespace VALE.MyVale
             Button btnModifyActivity = (Button)ActivityDetail.FindControl("btnModifyActivity");
             Button btnDeleteRelatedProject = (Button)ActivityDetail.FindControl("btnDeleteRelatedProject");
             Button btnAddRelatedProject = (Button)ActivityDetail.FindControl("btnAddRelatedProject");
+            Button btnDeleteActivity = (Button)ActivityDetail.FindControl("btnDeleteActivity");
             var activity = _db.Activities.Where(a => a.ActivityId == _currentActivityId).FirstOrDefault();
             if (activity.RelatedProject != null && activity.RelatedProject.Status != "Aperto")
                 BlockActivity(activity.RelatedProject.Status);
@@ -150,6 +152,7 @@ namespace VALE.MyVale
                     btnStatus.Disabled = false;
                     btnInviteUser.Visible = true;
                     btnAddRelatedProject.Visible = true;
+                    btnDeleteActivity.Visible = true;
 
                 }
                 else if (_currentUser == activity.CreatorUserName)
@@ -157,6 +160,7 @@ namespace VALE.MyVale
                     btnStatus.Disabled = false;
                     btnInviteUser.Visible = true;
                     btnModifyActivity.Visible = true;
+                    btnDeleteActivity.Visible = true;
                 }
                 else
                 {
@@ -164,13 +168,15 @@ namespace VALE.MyVale
                     btnInviteUser.Visible = false;
                     btnModifyActivity.Visible = false;
                     btnDeleteRelatedProject.Visible = false;
-                    
+                    btnDeleteActivity.Visible = false;
                     btnAddRelatedProject.Visible = false;
                 }
-
+                var interventions = _db.Reports.Where(r => r.ActivityId == _currentActivityId).Count();
+                if (interventions > 0)
+                    btnDeleteActivity.Visible = false;
                 if (activity.Status != ActivityStatus.ToBePlanned && activity.Status != ActivityStatus.Ongoing)
                     btnAddReport.Visible = false;
-
+               
                 if (!IsPostBack)
                 {
                     if (_currentUser == activity.CreatorUserName)
@@ -253,10 +259,10 @@ namespace VALE.MyVale
                     if (hours.HasValue) 
                     {
                         lblHoursWorked.Text = "Totale " + hours.Value + " Ore";
-                        SetupBugetAndHoursWorked();
+                        
                     }
                 }
-                
+                SetupBugetAndHoursWorked();
                 return interventions;
             }
             else 
@@ -271,6 +277,7 @@ namespace VALE.MyVale
                         SetupBugetAndHoursWorked();
                     }
                 }
+                SetupBugetAndHoursWorked();
                 return interventions;
             }
         }
@@ -678,6 +685,33 @@ namespace VALE.MyVale
             if (interventions.Count() > 0)
                 return false;
             return true;
+        }
+
+        protected void btnDeleteActivity_Click(object sender, EventArgs e)
+        {
+            ModalPopupPasswordRequest.Show();
+        }
+
+        protected void btnPopUpDeleteActivity_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtPassword.Text))
+            {
+                var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                ApplicationUser user = manager.Find(_currentUser, txtPassword.Text);
+                if (user != null)
+                {
+                    var db = new UserOperationsContext();
+                    var activity = db.Activities.First(a => a.ActivityId == _currentActivityId);
+                    db.Activities.Remove(activity);
+                    db.SaveChanges();
+                    btnBack_ServerClick(null, null);
+                }
+            }
+        }
+
+        protected void btnPopUpDeleteActivityClose_Click(object sender, EventArgs e)
+        {
+            ModalPopupPasswordRequest.Hide();
         }
     }
 }

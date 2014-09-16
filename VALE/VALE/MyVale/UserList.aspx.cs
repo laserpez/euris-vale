@@ -25,6 +25,8 @@ namespace VALE.MyVale
         public string Email { get; set; }
         public string CellPhone { get; set; }
         public string Telephone { get; set; }
+        public bool IsPartner { get; set; }
+
     }
 
     public partial class UserList : Page
@@ -70,7 +72,7 @@ namespace VALE.MyVale
             if (textemail != null)
                 users = users.Where(u => u.Email.Contains(textemail));
 
-            var usersInfo = users.Select(u => new UserInfo { Username = u.UserName, FirstName = u.FirstName, LastName = u.LastName, Email = u.Email, CellPhone = u.CellPhone });
+            var usersInfo = users.Select(u => new UserInfo { IsPartner = u.IsPartner, Username = u.UserName, FirstName = u.FirstName, Telephone= u.Telephone, LastName = u.LastName, Email = u.Email, CellPhone = u.CellPhone });
             return usersInfo;
         }
 

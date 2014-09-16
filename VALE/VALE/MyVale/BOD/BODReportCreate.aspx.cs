@@ -46,12 +46,12 @@ namespace VALE.MyVale.BOD
             var report = new BODReport
             {
                 Name = txtReportName.Text, 
-                MeetingDate = Convert.ToDateTime(txtMeetingDate.Text), 
-                PublishingDate = Convert.ToDateTime(txtPublishDate.Text),
+                MeetingDate = Convert.ToDateTime(txtMeetingDate.Text),                
                 Location = txtLocation.Text,
                 Text= txtReportText.Text
             };
-
+            if (!string.IsNullOrEmpty(txtPublishDate.Text))
+                report.PublishingDate = Convert.ToDateTime(txtPublishDate.Text);
             var actions = new BODReportActions();
             actions.SaveData(report, db);
 

@@ -20,6 +20,20 @@ namespace VALE.MyVale
             if (HttpContext.Current.User.Identity.IsAuthenticated)
                 PagePermission();
             _currentUserName = User.Identity.GetUserName();
+            if (!IsPostBack)
+            {
+                EventActions actions = new EventActions();
+                if (actions.GetEventRequests().Count > 0)
+                {
+                    btnList.InnerHtml = " Richieste <span class=\"caret\">";
+                    EventsListType.Text = "RequestEvents";
+                    RequestMode();
+                }
+                else
+                    EventMode();
+                grdEvents.DataBind();
+            }
+            
         }
 
         public void PagePermission()
@@ -28,11 +42,15 @@ namespace VALE.MyVale
                     btnAddEvent.Visible = false;
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Eventi"))
             {
-
                 string titleMessage = "PERMESSO NEGATO";
                 string message = "Non hai i poteri necessari per poter visualizzare la pagina Events.";
                 Response.Redirect("~/MessagePage.aspx?TitleMessage=" + titleMessage + "&Message=" + message);
             }
+        }
+
+        public int GetPendingEventsCount()
+        {
+            return 0;
         }
 
         protected void btnViewDetails_Click(object sender, EventArgs e)
@@ -45,10 +63,8 @@ namespace VALE.MyVale
         protected void btnAttendEvent_Click(object sender, EventArgs e)
         {
             int rowID = ((GridViewRow)((Button)sender).Parent.Parent).RowIndex;
-
             int eventId = (int)grdEvents.DataKeys[rowID].Value;
-            Button btnAttend = (Button)sender;
-
+ 
             var eventActions = new EventActions();
             eventActions.AddOrRemoveUserData(eventId, _currentUserName, "user");
             grdEvents.DataBind();
@@ -81,48 +97,75 @@ namespace VALE.MyVale
                 calendarTo.StartDate = DateTime.MinValue;
         }
 
-        private void ChangeCalendars()
-        {
-            if (txtFromDate.Text != "" && CheckDate())
-            {
-                calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text);
-            }
-            if (txtFromDate.Text == "")
-            {
-                txtToDate.Text = "";
-            }
-        }
+        //private void ChangeCalendars()
+        //{
+        //    if (txtFromDate.Text != "" && CheckDate())
+        //    {
+        //        calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text);
+        //    }
+        //    if (txtFromDate.Text == "")
+        //    {
+        //        txtToDate.Text = "";
+        //    }
+        //}
 
-        private bool CheckDate()
-        {
-            if (!String.IsNullOrEmpty(txtToDate.Text))
-            {
-                var startDate = Convert.ToDateTime(txtFromDate.Text);
-                var endDate = Convert.ToDateTime(txtToDate.Text);
-                if (startDate > endDate)
-                {
-                    txtToDate.Text = "";
-                    calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text);
-                    return false;
-                }
-            }
-            return true;
-        }
+        //private bool CheckDate()
+        //{
+        //    if (!String.IsNullOrEmpty(txtToDate.Text))
+        //    {
+        //        var startDate = Convert.ToDateTime(txtFromDate.Text);
+        //        var endDate = Convert.ToDateTime(txtToDate.Text);
+        //        if (startDate > endDate)
+        //        {
+        //            txtToDate.Text = "";
+        //            calendarTo.StartDate = Convert.ToDateTime(txtFromDate.Text);
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
 
         protected void btnShowFilters_Click(object sender, EventArgs e)
         {
             if (filterPanel.Visible)
-            {
-                filterPanel.Visible = false;
-                btnFilterEvents.Visible = false;
-                btnClearFilters.Visible = false;
-            }
+                HideFilters();
+                
             else
-            {
-                filterPanel.Visible = true;
-                btnFilterEvents.Visible = true;
-                btnClearFilters.Visible = true;
-            }
+                ShowFilters();
+        }
+
+        private void ShowFilters() 
+        {
+            filterPanel.Visible = true;
+            btnFilterEvents.Visible = true;
+            btnClearFilters.Visible = true;
+            btnShowFilters.Text = "Nascondi filtri";
+        }
+
+        private void HideFilters()
+        {
+            filterPanel.Visible = false;
+            btnFilterEvents.Visible = false;
+            btnClearFilters.Visible = false;
+            btnShowFilters.Text = "Visualizza filtri";
+        }
+
+        public List<Project> GetProjects()
+        {
+            var db = new UserOperationsContext();
+            List<Event> events = db.Events.Where(e => e.RelatedProject != null).ToList();
+            if (! RoleActions.checkPermission(_currentUserName, "Amministrazione"))
+                events = events.Where(ev => ev.Public == true || (ev.OrganizerUserName == _currentUserName || ev.RegisteredUsers.FirstOrDefault(u => u.UserName == _currentUserName) != null)).ToList();
+            if (lblAllOrPersonal.Text == "Personal")
+                events = events.Where(ev => ev.OrganizerUserName == _currentUserName || ev.RegisteredUsers.FirstOrDefault(u => u.UserName == _currentUserName) != null).ToList();
+            var projects = events.Select(e => e.RelatedProject).ToList();
+            projects.Insert(0, new Project { ProjectName = "-- Tutti Progetti --", ProjectId = 0 });
+            return projects;
+        }
+
+        protected void ddlSelectProject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            grdEvents.DataBind();
         }
 
         protected void btnFilterEvents_Click(object sender, EventArgs e)
@@ -137,38 +180,138 @@ namespace VALE.MyVale
             grdEvents.DataBind();
         }
 
+        
+
         public IQueryable<Event> grdEvents_GetData()
         {
-            return GetFilteredData();
-        }
-
-        private IQueryable<Event> GetFilteredData()
-        {
-            var eventActions = new EventActions();
-            var fromDateTxt = "";
-            if(!string.IsNullOrEmpty(txtFromDate.Text))
-                fromDateTxt = txtFromDate.Text;
-            else
-                fromDateTxt = DateTime.MinValue.ToShortDateString();
-            var toDateTxt = "";
-            if(!string.IsNullOrEmpty(txtToDate.Text))
-                toDateTxt = txtToDate.Text;
-            else
-                toDateTxt = DateTime.MaxValue.ToShortDateString();
-            var filters = new Dictionary<string, string>();
-            filters.Add("fromDate", fromDateTxt);
-            filters.Add("toDate", toDateTxt);
-
-            List<Event> events = new List<Event>();
             var db = new UserOperationsContext();
-            var userActions = new UserActions();
-            if (RoleActions.checkPermission(_currentUserName, "Amministrazione"))
-                events = db.Events.ToList();
-            else
-                events = db.Events.Where(ev => ev.Public == true || (ev.OrganizerUserName == _currentUserName || ev.RegisteredUsers.FirstOrDefault(u => u.UserName == _currentUserName) != null)).ToList();
-            return eventActions.GetFilteredData(filters, events).AsQueryable();
+            List<Event> events = new List<Event>();
+            if (EventsListType.Text == "RequestEvents")
+            {
+                EventActions actions = new EventActions();
+                events = actions.GetEventRequests();
+            }
+            else 
+            {
+                if (RoleActions.checkPermission(_currentUserName, "Amministrazione"))
+                    events = db.Events.ToList();
+                else
+                    events = db.Events.Where(ev => ev.Public == true || (ev.OrganizerUserName == _currentUserName || ev.RegisteredUsers.FirstOrDefault(u => u.UserName == _currentUserName) != null)).ToList();
+
+                if (lblAllOrPersonal.Text == "Personal")
+                    events = events.Where(ev => ev.OrganizerUserName == _currentUserName || ev.RegisteredUsers.FirstOrDefault(u => u.UserName == _currentUserName) != null).ToList();
+                if (EventsListType.Text == "ProjectEvents")
+                {
+                    if (ddlSelectProject.SelectedIndex > 0)
+                    {
+                        int projectId = Convert.ToInt32(ddlSelectProject.SelectedValue);
+                        events = events.Where(e => e.RelatedProject != null && e.RelatedProject.ProjectId == projectId).ToList();
+                    }
+                    else 
+                    {
+                        events = events.Where(e => e.RelatedProject != null).ToList();
+                    }
+                    
+                }
+                else if (EventsListType.Text == "NotRelatedEvents")
+                {
+                    events = events.Where(ev => ev.RelatedProject == null).ToList();
+                }
+            }
+            
+            if(!string.IsNullOrEmpty(txtFromDate.Text))
+            {
+                var dateFrom = Convert.ToDateTime(txtFromDate.Text);
+                events = events.Where(ev => ev.EventDate >= dateFrom).ToList();
+            }
+               
+           
+            if(!string.IsNullOrEmpty(txtToDate.Text))
+            {
+                var dateTo = Convert.ToDateTime(txtToDate.Text);
+                events = events.Where(ev => ev.EventDate <= dateTo).ToList();
+            }
+
+           
+            return events.AsQueryable();
         }
 
+        protected void ChangeSelectedEvents_Click(object sender, EventArgs e)
+        {
+            LinkButton button = (LinkButton)sender;
+            
+            btnList.InnerHtml = GetButtonName(button.Text) + " <span class=\"caret\">";
+            HeaderName.Text = GetButtonName(button.Text);
+            switch (button.CommandArgument)
+            {
+                case "AllEvents":
+                    EventsListType.Text = "AllEvents";
+                    EventMode();
+                    break;
+                case "ProjectEvents":
+                    EventsListType.Text = "ProjectEvents";
+                    EventMode();
+                   
+                    break;
+                case "NotRelatedEvents":
+                    EventsListType.Text = "NotRelatedEvents";
+                    EventMode();
+                    break;
+                case "RequestEvents":
+                    EventsListType.Text = "RequestEvents";
+                    RequestMode();
+                    break;
+            }
+            grdEvents.DataBind();
+
+        }
+
+        private void RequestMode() 
+        {
+            btnPersonal.Visible = false;
+            btnAllUsers.Visible = false;
+            projectPanel.Visible = false;
+            HideFilters();
+            txtFromDate.Text = "";
+            txtToDate.Text = "";
+            grdEvents.Columns[3].Visible = false;
+            grdEvents.Columns[4].Visible = true;
+            grdEvents.Columns[5].Visible = true;
+            grdEvents.Columns[6].Visible = false;
+
+        }
+
+        private void EventMode()
+        {
+            projectPanel.Visible = false;
+            btnAllOrPersonal.Visible = true;
+            if (EventsListType.Text == "ProjectEvents") 
+            {
+                projectPanel.Visible = true;
+                ShowFilters();
+            }
+            grdEvents.Columns[3].Visible = true;
+            grdEvents.Columns[4].Visible = false;
+            grdEvents.Columns[5].Visible = false;
+            grdEvents.Columns[6].Visible = true;
+            if (lblAllOrPersonal.Text == "Personal")
+            {
+                btnPersonal.Visible = true;
+                btnAllUsers.Visible = false;
+            }
+            else 
+            {
+                btnPersonal.Visible = false;
+                btnAllUsers.Visible = true;
+            }
+           
+            
+        }
+        private string GetButtonName(string html)
+        {
+            string[] lineTokens = html.Split('>');
+            return lineTokens[2].Trim();
+        }
 
         public bool IsUserRelated(int eventId)
         {
@@ -195,5 +338,40 @@ namespace VALE.MyVale
         {
             Response.Redirect("~/MyVale/Create/EventCreate?From=~/MyVale/Events");
         }
+
+        protected void btnPersonalLinkButton_Click(object sender, EventArgs e)
+        {
+            lblAllOrPersonal.Text = "Personal";
+            btnPersonal.Visible = true;
+            btnAllUsers.Visible = false;
+            grdEvents.DataBind();
+        }
+
+        protected void btnAllUsersLinkButton_Click(object sender, EventArgs e)
+        {
+            lblAllOrPersonal.Text = "All";
+            btnPersonal.Visible = false;
+            btnAllUsers.Visible = true;
+            grdEvents.DataBind();
+        }
+
+        protected void grdEvents_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            EventActions actions = new EventActions();
+            string pageUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.Count() - Request.Url.Query.Count());
+            if (e.CommandName == "AcceptEvent") 
+            {
+                int eventId = Convert.ToInt32(e.CommandArgument);
+                actions.AcceptEvent(eventId);
+                Response.Redirect(pageUrl);
+            }
+            else if (e.CommandName == "RejectEvent") 
+            {
+                int eventId = Convert.ToInt32(e.CommandArgument);
+                actions.RejectEvent(eventId);
+                Response.Redirect(pageUrl);
+            }
+        }
+
     }
 }

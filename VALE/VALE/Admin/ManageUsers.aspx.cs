@@ -22,12 +22,21 @@ namespace VALE.Admin
                 PagePermission();
             if (!IsPostBack)
             {
-                grdUsers.Columns[7].Visible = false;
+                grdUsers.Columns[8].Visible = false;
+                if (GetWaitingUsers().Count() > 0)
+                {
+                    PreparePanelForManage();
+                    ListUsersType.Text = "Requests";
+                    PreparePanelForRegistrationRequest();
+                    btnSelectUsersType.InnerHtml = "Richieste" + " <span class=\"caret\">";
+                }
                 LoadData();
             }
-
             if (GetWaitingUsers().Count() == 0)
-                btnConfirmUser.Enabled = false;
+                btnConfirmUser.Visible = false;
+           
+                
+
         }
 
         public void PagePermission()
@@ -90,19 +99,20 @@ namespace VALE.Admin
             var actions = new UserActions();
             var rowId = ((GridViewRow)((LinkButton)sender).Parent.Parent.Parent.Parent).RowIndex;
             var username = (string)grdUsers.DataKeys[rowId].Value;
-            if (!actions.ChangeUserRole(username,button.CommandArgument))
-            {
-                lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
-                lblChangeRole.ForeColor = System.Drawing.Color.Red;
-                lblChangeRole.Visible = true;
-            }
+            if (username != HttpContext.Current.User.Identity.Name)
+                if (!actions.ChangeUserRole(username,button.CommandArgument))
+                {
+                    lblChangeRole.Text = "Errore nella modifica dell'utente " + button.CommandArgument + ".";
+                    lblChangeRole.ForeColor = System.Drawing.Color.Red;
+                    lblChangeRole.Visible = true;
+                }
             LoadData();
         }
 
         private void PreparePanelForRegistrationRequest()
         {
             //grdUsers.Columns[8].Visible = false;
-            grdUsers.Columns[7].Visible = true;
+            grdUsers.Columns[8].Visible = true;
             NotificationNumber.Visible = true;
             btnConfirmUser.Visible = true;
             HeaderName.Text = " Richieste Di Registrazione";
@@ -111,7 +121,7 @@ namespace VALE.Admin
         private void PreparePanelForManage()
         {
             //grdUsers.Columns[8].Visible = true;
-            grdUsers.Columns[7].Visible = false;
+            grdUsers.Columns[8].Visible = false;
             NotificationNumber.Visible = false;
             btnConfirmUser.Visible = false;
             HeaderName.Text = " Gestione Utenti";
@@ -124,7 +134,6 @@ namespace VALE.Admin
             var button = (LinkButton)sender;
             string argument = button.CommandArgument;
             ListUsersType.Text = argument;
-
             if(argument == "Requests")
                 PreparePanelForRegistrationRequest();
             btnSelectUsersType.InnerHtml = GetButtonName(button.Text) + " <span class=\"caret\">";
@@ -177,5 +186,26 @@ namespace VALE.Admin
             grdUsers.PageIndex = e.NewPageIndex;
             LoadData();
         }
+
+        protected void grdUsers_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "No" || e.CommandName == "Yes") 
+            {
+                string userName = e.CommandArgument.ToString();
+                var db = new ApplicationDbContext();
+                var user = db.Users.FirstOrDefault(u => u.UserName == userName);
+                if (user != null) 
+                {
+                    if (e.CommandName == "Yes")
+                        user.IsPartner = true;
+                    else if (e.CommandName == "No")
+                        user.IsPartner = false;
+                    db.SaveChanges();
+                    LoadData();
+                }
+            }
+            
+        }
+
     }
 }

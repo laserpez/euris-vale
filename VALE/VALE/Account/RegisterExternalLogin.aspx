@@ -70,13 +70,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <asp:Label runat="server" AssociatedControlID="TextTelephone" CssClass="col-md-12 control-label">Telefono</asp:Label>
-                                    <div class="col-md-10">
-                                        <asp:TextBox runat="server" ID="TextTelephone" CssClass="form-control" Width="147px" />
-                                        <br />
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <asp:Label runat="server" AssociatedControlID="TextCellPhone" CssClass="col-md-12 control-label">Cellulare *</asp:Label>
                                     <div class="col-md-10">
                                         <asp:TextBox runat="server" ID="TextCellPhone" CssClass="form-control" Width="173px" />
@@ -84,7 +77,13 @@
                                             CssClass="text-danger" ErrorMessage="Il campo Cellulare è obbligatorio." />
                                     </div>
                                 </div>
-                                
+                                <div class="form-group">
+                                    <asp:Label runat="server" AssociatedControlID="TextTelephone" CssClass="col-md-12 control-label">Telefono</asp:Label>
+                                    <div class="col-md-10">
+                                        <asp:TextBox runat="server" ID="TextTelephone" CssClass="form-control" Width="147px" />
+                                        <br />
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="col-md-offset-8 col-md-10">
                                         <p><br />
