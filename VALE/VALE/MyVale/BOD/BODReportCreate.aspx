@@ -50,11 +50,10 @@
                                             <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtMeetingDate" ErrorMessage="* campo Data riunione obbligatorio"></asp:RequiredFieldValidator><br />
                                             <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtMeetingDate" Display="Dynamic"></asp:RegularExpressionValidator><br />
                                         </div>
-                                        <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Data pubblicazione *</asp:Label>
+                                        <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Data pubblicazione </asp:Label>
                                         <div class="col-md-10">
                                             <asp:TextBox CssClass="form-control" ID="txtPublishDate" runat="server"></asp:TextBox>
                                             <asp:CalendarExtender ID="CalendarPublishDate" TargetControlID="txtPublishDate" runat="server" Format="dd/MM/yyyy"></asp:CalendarExtender>
-                                            <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtPublishDate" ErrorMessage="* campo Data di pubblicazione obbligatorio"></asp:RequiredFieldValidator><br />
                                             <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtPublishDate" Display="Dynamic"></asp:RegularExpressionValidator><br />
                                         </div>
                                     </ContentTemplate>
@@ -63,7 +62,7 @@
                                 <asp:Label runat="server" Font-Bold="true" CssClass="col-md-2 control-label">Scrivi verbale *</asp:Label>
                                 <div class="col-md-10">
                                     <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtReportText" runat="server"></asp:TextBox>
-                                   <%-- <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtReportText">
+                                    <asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtReportText">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
                                             <ajaxToolkit:Redo />
@@ -80,7 +79,7 @@
                                             <ajaxToolkit:Copy />
                                             <ajaxToolkit:Paste />
                                         </Toolbar>
-                                    </asp:HtmlEditorExtender>--%>
+                                    </asp:HtmlEditorExtender>
                                     <asp:RequiredFieldValidator runat="server" CssClass="text-danger" ControlToValidate="txtReportText" ErrorMessage="* campo Scrivi verbale obbligatorio"></asp:RequiredFieldValidator><br />
                                     <br />
                                 </div>

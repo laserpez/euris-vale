@@ -27,8 +27,7 @@ namespace VALE.Logic
         public List<Activity> GetActivities(string userName, ActivityStatus status)
         {
             var db = new UserOperationsContext();
-            var activitiesId = db.Reports.Where(r => r.WorkerUserName == userName).GroupBy(r => r.ActivityId).Select(gr => gr.Key).ToList();
-            return db.Activities.Where(a => activitiesId.Contains(a.ActivityId) && a.Status == status).ToList();
+            return db.Activities.Where(a => a.CreatorUserName == userName && a.Status == status).ToList();
         }
 
         public List<Activity> GetActivities(string userName)
@@ -193,7 +192,6 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             var user = db.UserDatas.First(u => u.UserName == username);
             var related = GetRelatedUsers(dataId);
-
             return related.Contains(user);
         }
 
@@ -216,11 +214,8 @@ namespace VALE.Logic
         public IQueryable<UserData> GetRelatedUsers(int dataId)
         {
             var db = new UserOperationsContext();
-            //var workerUsers = db.Reports.Where(r => r.ActivityId == dataId).Select(r => r.Worker).Distinct().ToList();
             var pendingUsers = db.Activities.First(a => a.ActivityId == dataId).PendingUsers;
             pendingUsers.AddRange(db.Activities.First(a => a.ActivityId == dataId).RegisteredUsers);
-            //workerUsers.AddRange(pendingUsers);
-            //return workerUsers.AsQueryable();
             return pendingUsers.AsQueryable();
         }
 

@@ -91,7 +91,10 @@ namespace VALE.Logic
         public bool IsUserRelated(int dataId, string username)
         {
             var _db = new UserOperationsContext();
-            return _db.Events.First(a => a.EventId == dataId).RegisteredUsers.Select(u => u.UserName).Contains(username);
+            var Event = _db.Events.First(a => a.EventId == dataId);
+            var users = Event.PendingUsers;
+            users.AddRange(Event.RegisteredUsers);
+            return users.Select(u => u.UserName).Contains(username);
         }
 
         public bool RemoveAttachment(int attachmentId)
@@ -196,15 +199,20 @@ namespace VALE.Logic
             bool added = false;
             var subject = String.Empty;
             if (!IsUserRelated(anEvent.EventId, username))
-            {   
-                anEvent.RegisteredUsers.Add(user);
+            {
+                if (requestform == "user")
+                    anEvent.RegisteredUsers.Add(user);
+                else
+                    anEvent.PendingUsers.Add(user);
                 added = true;
                 subject = "Richiesta partecipazione ad un Evento";
             }
             else
             {
+                anEvent.PendingUsers.Remove(user);
                 anEvent.RegisteredUsers.Remove(user);
                 subject = "Rimozione partecipazione";
+                 
             }
 
             if (anEvent.RelatedProject != null)
@@ -217,8 +225,14 @@ namespace VALE.Logic
             }
             _db.SaveChanges();
             if (requestform == "user")
+            {
                 ComposeMessage(dataId, username, subject);
-            logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'evento \"" : " non collabora più all'evento \"") + anEvent.Name + "\"" });
+                logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Partecipa" : "Non Partecipa", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " fa parte dei partecipanti del'evento \"" : " non ha accettato l'invito al'evento \"") + anEvent.Name + "\"" });
+            }
+            else 
+            {
+                logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Evento", Date = DateTime.Now, Description = username + (added ? " è stato invitato all'evento \"" : " è stato rimosso della lista degli inviti del'evento \"") + anEvent.Name + "\"" });
+            }
             return added;
         }
 
@@ -236,16 +250,53 @@ namespace VALE.Logic
             return result.AsQueryable();
         }
 
+        public List<Event> GetEventRequests()
+        {
+            var db = new UserOperationsContext();
+            return db.Events.Where(ev => ev.PendingUsers.FirstOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name) != null).ToList();
+        }
+
+        public void AcceptEvent(int eventId) 
+        {
+            var db = new UserOperationsContext();
+            var Event = db.Events.FirstOrDefault(e => e.EventId == eventId);
+            var user = db.UserDatas.First(u => u.UserName == HttpContext.Current.User.Identity.Name);
+            if (Event != null && user != null) 
+            {
+                user.PendingEvents.Remove(Event);
+                user.AttendingEvents.Add(Event);
+                db.SaveChanges();
+            }
+        }
+
+        public void RejectEvent(int eventId)
+        {
+            var db = new UserOperationsContext();
+            var Event = db.Events.FirstOrDefault(e => e.EventId == eventId);
+            var user = db.UserDatas.First(u => u.UserName == HttpContext.Current.User.Identity.Name);
+            if (Event != null && user != null)
+            {
+                user.PendingEvents.Remove(Event);
+                db.SaveChanges();
+            }
+        }
 
         public bool IsGroupRelated(int dataId, int groupId)
         {
             var db = new UserOperationsContext();
-            var anEvent = db.Events.First(e => e.EventId == dataId);
             var group = db.Groups.First(g => g.GroupId == groupId);
-
-            var usersRelated = anEvent.RegisteredUsers;
-
-            return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
+            var result = true;
+            foreach (var user in group.Users)
+            {
+                if (!IsUserRelated(dataId, user.UserName))
+                {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+            //var usersRelated = anEvent.RegisteredUsers;
+            //return group.Users.Join(usersRelated, g => g.UserName, u => u.UserName, (g, u) => g.UserName + " " + u.UserName).Count() == group.Users.Count;
         }
 
         public bool ComposeMessage(int dataId, string userName, string subject)

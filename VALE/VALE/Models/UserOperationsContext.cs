@@ -24,6 +24,7 @@ namespace VALE.Models
         public DbSet<BODReport> BODReports { get; set; }
         public DbSet<AttachedFile> AttachedFiles { get; set; }
         public DbSet<ValeFile> VALEFiles { get; set; }
+        public DbSet<UserFile> UserFiles { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<LogEntryEmail> LogEntriesEmail { get; set; }
@@ -50,6 +51,16 @@ namespace VALE.Models
                         m.MapRightKey("UserDataId");
                         m.ToTable("EventsUsers");
                     });
+
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.PendingUsers)
+                .WithMany(u => u.PendingEvents)
+                .Map(m =>
+                {
+                    m.MapLeftKey("EventId");
+                    m.MapRightKey("UserDataId");
+                    m.ToTable("PendingEventsUsers");
+                });
 
             modelBuilder.Entity<Project>()
                 .HasMany(u => u.InvolvedUsers)

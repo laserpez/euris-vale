@@ -32,10 +32,10 @@ namespace VALE
             }
 
             // Create a timer.
-            var aTimer = new Timer();
-            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["Interval"].ToString());
-            aTimer.Enabled = true;
+            //var aTimer = new Timer();
+            //aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            //aTimer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["Interval"].ToString());
+            //aTimer.Enabled = true;
         
         }
 

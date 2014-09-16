@@ -23,12 +23,12 @@
                                          <div class="btn-group" runat="server" id="divAllOrPersonal" visible="false">
                                             <asp:Label ID="lblAllOrPersonal" Visible="false" runat="server" Text="Personal"></asp:Label>
                                             <button type="button" id="btnPersonal" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Personali  <span class="caret"></span></button>
-                                            <button type="button" visible="false" id="btnAllUsers" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">Tutti Gli Utenti <span class="caret"></span></button>
+                                            <button type="button" visible="false" id="btnAllUsers" class="btn btn-success dropdown-toggle" data-toggle="dropdown" runat="server">Di Tutti Gli Utenti <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
                                                 <li>
                                                     <asp:LinkButton ID="btnPersonalLinkButton" runat="server" OnClick="btnPersonalLinkButton_Click"><span class="glyphicon glyphicon-tasks"></span> Personali</asp:LinkButton></li>
                                                 <li>
-                                                    <asp:LinkButton ID="btnAllUsersLinkButton" runat="server" OnClick="btnAllUsersLinkButton_Click"><span class="glyphicon glyphicon-inbox"></span> Tutti Gli Utenti</asp:LinkButton></li>
+                                                    <asp:LinkButton ID="btnAllUsersLinkButton" runat="server" OnClick="btnAllUsersLinkButton_Click"><span class="glyphicon glyphicon-inbox"></span> Di Tutti Gli Utenti</asp:LinkButton></li>
                                             </ul>
                                         </div>
                                         <div class="btn-group">

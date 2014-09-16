@@ -23,6 +23,10 @@ namespace VALE
             {
                 ValeFile(fileId);
             }
+            else if (page == "Profile") 
+            {
+                UserFile(fileId);
+            }
             else
             {
                 AttachedFile(fileId);
@@ -55,6 +59,25 @@ namespace VALE
             using (var _db = new UserOperationsContext())
             {
                 var file = _db.VALEFiles.FirstOrDefault(f => f.ValeFileID == fileId);
+                if (file != null)
+                {
+                    HttpResponse response = HttpContext.Current.Response;
+                    response.ClearContent();
+                    response.Clear();
+                    response.ContentType = "application/octet-stream";
+                    response.AddHeader("Content-Disposition", "attachment; filename=" + file.FileName + ";");
+                    response.BinaryWrite(file.FileData);
+                    response.Flush();
+                    response.End();
+                }
+            }
+        }
+
+        private void UserFile(int fileId)
+        {
+            using (var _db = new UserOperationsContext())
+            {
+                var file = _db.UserFiles.FirstOrDefault(f => f.UserFileID == fileId);
                 if (file != null)
                 {
                     HttpResponse response = HttpContext.Current.Response;

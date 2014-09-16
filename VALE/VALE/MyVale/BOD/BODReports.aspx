@@ -61,7 +61,7 @@
                                                                 <center><div><asp:LinkButton CommandArgument="PublishingDate" CommandName="sort" runat="server" ID="labelPublishingDate"><span  class="glyphicon glyphicon-calendar"></span> Data pubblicazione</asp:LinkButton></div></center>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.PublishingDate.ToShortDateString() %></asp:Label></div></center>
+                                                    <center><div><asp:Label runat="server"><%#:  Item.PublishingDate.HasValue ? Item.PublishingDate.Value.ToShortDateString() : ""  %></asp:Label></div></center>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField>

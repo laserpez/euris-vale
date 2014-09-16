@@ -165,11 +165,17 @@ namespace VALE
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 ActivityActions activityActions = new ActivityActions();
-                    int activitiesRequestNotifications = activityActions.GetActivitiesRequest(HttpContext.Current.User.Identity.Name);
-                    if (activitiesRequestNotifications > 0)
-                        NotificationActivitiesRequest.InnerText = activitiesRequestNotifications.ToString();
-                    else
-                        NotificationActivitiesRequest.Visible = false;
+                int activitiesRequestCount = activityActions.GetActivitiesRequest(HttpContext.Current.User.Identity.Name);
+                if (activitiesRequestCount > 0)
+                    NotificationActivitiesRequest.InnerText = activitiesRequestCount.ToString();
+                else
+                    NotificationActivitiesRequest.Visible = false;
+                EventActions eventActions = new EventActions();
+                int eventsRequestCount = eventActions.GetEventRequests().Count;
+                if (eventsRequestCount > 0)
+                    NotificationEventsRequest.InnerText = eventsRequestCount.ToString();
+                else
+                    NotificationEventsRequest.Visible = false;
             }
         }
     }

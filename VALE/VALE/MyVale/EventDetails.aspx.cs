@@ -68,6 +68,15 @@ namespace VALE.MyVale
         {
             setBtnAttend();
         }
+
+        public string GetStatusOfEventRequest(UserData user)
+        {
+            var Event = _db.Events.FirstOrDefault(e => e.EventId == _currentEventId);
+            if (Event.PendingUsers.FirstOrDefault(u => u.UserName == user.UserName) != null)
+                return "In Attesa";
+            return "Partecipa";
+
+        }
         public void setBtnAttend()
         {
             var eventActions = new EventActions();
@@ -100,9 +109,17 @@ namespace VALE.MyVale
         public IQueryable<UserData> GetRegisteredUsers([QueryString("eventId")] int? eventId)
         {
             if (eventId.HasValue)
-                return _db.Events.Where(e => e.EventId == eventId).FirstOrDefault().RegisteredUsers.AsQueryable();
-            else
-                return null;
+            {
+                var Event = _db.Events.Where(e => e.EventId == eventId.Value).FirstOrDefault();
+                if (Event != null)
+                {
+                    var users = Event.RegisteredUsers;
+                    users.AddRange(Event.PendingUsers);
+                    return users.AsQueryable();
+                }
+            }
+            return null;
+                
         }
 
         protected void btnAttend_Click(object sender, EventArgs e)

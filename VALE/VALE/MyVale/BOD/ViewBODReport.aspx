@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="panel-body" style="overflow: auto;">
-                            <asp:FormView runat="server" ID="BODReportDetail" OnDataBound="BODReportDetail_DataBound" ItemType="VALE.Models.BODReport" SelectMethod="GetBODReport">
+                            <asp:FormView runat="server" ID="BODReportDetail" OnDataBound="BODReportDetail_DataBound" ItemType="VALE.Models.BODReport" SelectMethod="GetBODReport" Width="100%">
                                 <ItemTemplate>
                                     <h4>Sommario</h4>
                                     <asp:Label runat="server">Nome: </asp:Label>
@@ -33,9 +33,17 @@
                                     <asp:Label runat="server">Data riunione: </asp:Label>
                                     <asp:Label runat="server"><%#: Item.MeetingDate.ToShortDateString() %></asp:Label><br />
                                     <asp:Label runat="server">Data di pubblicazione: </asp:Label>
-                                    <asp:Label runat="server"><%#: Item.PublishingDate.ToShortDateString() %></asp:Label><br />
+                                    <asp:Label runat="server"><%#: Item.PublishingDate.HasValue ? Item.PublishingDate.Value.ToShortDateString() : "" %></asp:Label><br />
                                     <asp:Label runat="server"><br /></asp:Label>
-                                    <p><asp:Label ID="lblContent" runat="server"></asp:Label></p><br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="well col-md-12">
+                                        <asp:Label ID="lblContent" runat="server"></asp:Label><br />
+                                    </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
                                     <br />
                                 </ItemTemplate>
                             </asp:FormView>
@@ -79,8 +87,20 @@
                                         </div>
                                         <div class="panel-footer" id="FooterDocuments" runat="server">
                                             <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group col-lg-5">
+                                                <div class="col-lg-8">
+                                                    <div class="col-lg-3">
+                                                                                                            <asp:Label ID="Label1" runat="server" Text="Label">Descrizione * </asp:Label>
+
+                                                        </div>
+                                                    <div class="col-lg-9">
+                                                          <asp:TextBox ID="txtFileDescription" runat="server" CssClass="form-control" ></asp:TextBox>
+                                                    <asp:RequiredFieldValidator runat="server" ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
+                                                        </div>
+                                                  
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="col-lg-12">
+                                                    <center><div class="form-group">
                                                         <div class="input-group">
                                                             <span class="input-group-addon input-sm"><span class="glyphicon glyphicon-file"></span></span>
                                                             <div runat="server" id="FileTextBox">
@@ -90,13 +110,10 @@
                                                                 <asp:Button runat="server" ID="AddFileNameButton" ValidationGroup="UploadFile" CssClass="btn btn-default btn-sm" Text="Aggiungi" OnClick="AddFileNameButton_Click" />
                                                             </span>
                                                         </div>
-                                                    </div>
+                                                    </div></center>
+                                                        </div>
                                                 </div>
-                                                <div class="col-lg-12">
-                                                    <asp:Label ID="Label1" runat="server" Text="Label">Descrizione * </asp:Label>
-                                                    <asp:TextBox ID="txtFileDescription" runat="server" CssClass="form-control" Width="300px"></asp:TextBox>
-                                                    <asp:RequiredFieldValidator runat="server" ValidationGroup="UploadFile" ControlToValidate="txtFileDescription" CssClass="text-danger" ErrorMessage="Il campo Descrizione è richiesto." />
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>

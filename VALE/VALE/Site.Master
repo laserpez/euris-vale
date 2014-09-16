@@ -259,7 +259,7 @@
                         <li runat="server" id="boardLink" visible="false" class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-file"></span> Consiglio<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/MyVale/BOD/BODReports.aspx"><span  class="glyphicon glyphicon-eye-open"></span>Verbali</a></li>
+                                <li><a href="/MyVale/BOD/BODReports.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Verbali</a></li>
                                 <%--<li><a runat="server" id="createBODLink" visible="false" href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>--%>
                                 <li><a runat="server" id="associationDocuments" visible="false" href="/MyVale/BOD/VALEDocuments.aspx"><span  class="glyphicon glyphicon-briefcase"></span> Documenti dell'associazione</a></li>
                             </ul>
@@ -276,13 +276,13 @@
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-list"></span> Attività  <span runat="server" class="badge" id="NotificationActivitiesRequest"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Attività</a></li>
-                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-pushpin"></span> Stati delle attività</a></li>
+                                <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-pushpin"></span> Kanban attività</a></li>
                                 <li><a href="/MyVale/SummaryInterventions.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Riepilogo interventi</a></li>
                                 <%--<li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>--%>
                             </ul>
                         </li>
                         <li class="dropdown" id="eventsLink" runat="server">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-flash"></span> Eventi<b class="caret"></b></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-flash"></span> Eventi  <span runat="server" class="badge" id="NotificationEventsRequest"></span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Events.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Calendario eventi</a></li>
                                 <li><a href="/MyVale/PersonalEvents.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Eventi personali</a></li>
@@ -297,7 +297,7 @@
                                 <li><a runat="server" visible="false" id="createBlogArticle" href="/MyVale/Create/ArticleCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea articolo</a></li>
                             </ul>
                         </li>--%>
-                        <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Utenti </a></li>
+                        <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Contatti </a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled" id="loginLink">
                         <AnonymousTemplate>

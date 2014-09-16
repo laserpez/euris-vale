@@ -18,6 +18,7 @@ namespace VALE
     {
         private string _currentUser = HttpContext.Current.User.Identity.Name;
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserOperationsContext dbData = new UserOperationsContext();
 
         protected string SuccessMessage
         {
@@ -73,9 +74,13 @@ namespace VALE
 
         private void SetCV()
         {
-            var user = db.Users.Where(u => u.UserName == _currentUser).FirstOrDefault();
-            if (user.Files == null)
-                CVEdit.Text = user.Files.Count + " Files";
+            var user = dbData.UserDatas.Where(u => u.UserName == _currentUser).FirstOrDefault();
+            if (user.Files != null) 
+            {
+                var files = dbData.UserFiles.Where(f => f.UserName == user.UserName);
+                CVEdit.Text = "Cisono " + files.Count() + " Files";
+            }
+                
             //    CVEdit.Text = "CV: nessun CV attualmente caricato";
             //else
             //    CVEdit.Text = "CV: " + user.CVName;
@@ -317,18 +322,17 @@ namespace VALE
         protected void AddCVButton_Click(object sender, EventArgs e)
         {
             var db = new ApplicationDbContext();
-            var user = db.Users.FirstOrDefault(u => u.UserName == _currentUser);
+            var user = dbData.UserDatas.Where(u => u.UserName == _currentUser).FirstOrDefault();
             if (FileUploadDocument.HasFile)
             {
                 if (user != null)
                 {
-                    ValeFile file = new ValeFile();
+                    UserFile file = new UserFile();
                     file.FileData = FileUploadDocument.FileBytes;
                     file.FileName = FileUploadDocument.FileName;
-                    user.Files.Add(file);
-                    //user.CVName = FileUploadDocument.FileName;
-                    //user.Document = FileUploadDocument.FileBytes;
-                    db.SaveChanges();
+                    file.UserName = user.UserName;
+                    dbData.UserFiles.Add(file);
+                    dbData.SaveChanges();
                 }
             }
             SetCV();
