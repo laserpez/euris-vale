@@ -223,9 +223,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     <%--<asp:Image ID="LogoImageTitle" runat="server" />--%>
-                    <object width="130" height="51">
+                    <%--<object width="130" height="51">
                         <embed src="~/Vale.swf" type="application/x-shockwave-flash" width="130" height="51" runat="server" />
-                    </object>
+                    </object>--%>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">

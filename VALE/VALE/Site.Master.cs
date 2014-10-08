@@ -144,7 +144,6 @@ namespace VALE
             OnPreRender(null);
         }
 
-
         private void SetNotification()
         {
             int waitingUsersNotifications = AdminActions.GetWaitingUsers();
