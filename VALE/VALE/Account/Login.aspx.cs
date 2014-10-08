@@ -31,25 +31,28 @@ namespace VALE.Account
                 // Validate the user password
                 var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 string pat = @"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}";
-                string name;
+                string name = null;
 
-                // Instantiate the regular expression object.
-                Regex r = new Regex(pat, RegexOptions.IgnoreCase);
-                
-                // Match the regular expression pattern against a text string.
-                Match m = r.Match(UserName.Text);
-
-                //controllo del NULL
-                if (m.Success)
+                ApplicationUser user = null;
+                user = manager.Find(UserName.Text, Password.Text);
+                if (user == null)
                 {
-                    name = manager.FindByEmail(UserName.Text).UserName;
-                }
-                else
-                {
-                    name = UserName.Text;
-                }
+                    // Instantiate the regular expression object.
+                    Regex r = new Regex(pat, RegexOptions.IgnoreCase);
 
-                ApplicationUser user = manager.Find(name, Password.Text);
+                    // Match the regular expression pattern against a text string.
+                    Match m = r.Match(UserName.Text);
+
+                    //controllo del NULL
+                    if (m.Success)
+                    {
+                        var utente = manager.FindByEmail(UserName.Text);
+                        if (utente != null)
+                            name = utente.UserName;
+                        if (name != null)
+                            user = manager.Find(name, Password.Text);
+                    }
+                }
                 if (user != null)
                 {
                     if (user.NeedsApproval)

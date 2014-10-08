@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using VALE.Logic;
 using VALE.Models;
+using VALE.StateInfo;
 
 namespace VALE.Admin
 {
@@ -34,9 +35,11 @@ namespace VALE.Admin
             }
             if (GetWaitingUsers().Count() == 0)
                 btnConfirmUser.Visible = false;
-           
-                
 
+            string password = Password.Text;
+            Password.Attributes.Add("value", password);
+            string confirmPassword = ConfirmPassword.Text;
+            ConfirmPassword.Attributes.Add("value", confirmPassword);
         }
 
         public void PagePermission()
@@ -206,6 +209,181 @@ namespace VALE.Admin
             }
             
         }
+
+        //-----------------------------------------------------------------------------------------
+
+        private void ClearDropDownList()
+        {
+            List<string> init = new List<string> { "Seleziona" };
+            Province.DataSource = init;
+            Province.DataBind();
+            City.DataSource = init;
+            City.DataBind();
+        }
+
+        private void SetRegionDropDownList()
+        {
+            ClearDropDownList();
+            String path = Server.MapPath("~/StateInfo/regioni_province_comuni.xml");
+            StateInfoXML.GetInstance().FileName = path;
+            var list = StateInfoXML.GetInstance().LoadData();
+            var regions = (from r in list where r.depth == "0" orderby r.name select r.name).ToList();
+            regions.Insert(0, "Seleziona");
+            Region.DataSource = regions;
+            Region.DataBind();
+        }
+
+        protected void Region_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Region.SelectedIndex == 0)
+            {
+                List<string> init = new List<string> { "Seleziona" };
+                Province.DataSource = init;
+                Province.DataBind();
+                City.DataSource = init;
+                City.DataBind();
+            }
+            else
+            {
+                ClearDropDownList();
+                var list = StateInfoXML.GetInstance().LoadData();
+                var tid = (from r in list where r.depth == "0" && r.name == Region.SelectedValue select r.tid).FirstOrDefault();
+                var provinces = (from r in list where r.depth == "1" && r.parent == tid orderby r.name select r.name).ToList();
+                provinces.Insert(0, "Seleziona");
+                Province.DataSource = provinces;
+                Province.DataBind();
+                Province.Focus();
+            }
+            ModalPopupAddUser.Show();
+        }
+
+        protected void Province_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Province.SelectedIndex == 0)
+            {
+                List<string> init = new List<string> { "Seleziona" };
+                City.DataSource = init;
+                City.DataBind();
+            }
+            else
+            {
+                var list = StateInfoXML.GetInstance().LoadData();
+                var tid = (from r in list where r.depth == "1" && r.name == Province.SelectedValue select r.tid).FirstOrDefault();
+                var citys = (from r in list where r.depth == "2" && r.parent == tid orderby r.name select r.name).ToList();
+                citys.Insert(0, "Seleziona");
+                City.DataSource = citys;
+                City.DataBind();
+                City.Focus();
+            }
+            ModalPopupAddUser.Show();
+        }
+
+        public List<PartnerType> ddlPartnerType_GetData()
+        {
+            var db = new UserOperationsContext();
+            return db.PartnerTypes.ToList();
+        }
+
+        protected void checkAssociated_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkAssociated.Checked)
+            {
+                pnlPartnerType.Visible = true;
+                pnlPartnerType.Focus();
+            }
+
+            else
+            {
+                pnlPartnerType.Visible = false;
+                checkAssociated.Focus();
+            }
+            ModalPopupAddUser.Show();
+        }
+
+        protected void btnPopUpAddUserOk_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = new ApplicationUser()
+            {
+                UserName = TextUserName.Text,
+                FirstName = TextFirstName.Text,
+                LastName = TextLastName.Text,
+                Telephone = TextTelephone.Text,
+                CellPhone = TextCellPhone.Text,
+                CF = TextCF.Text == "" ? null : TextCF.Text,
+                NeedsApproval = false,
+                IsPartner = checkAssociated.Checked,
+                Email = Email.Text
+            };
+            if (Region.SelectedIndex != 0)
+                user.Region = Region.SelectedValue;
+            else
+                user.Region = "";
+            if (Province.SelectedIndex != 0)
+                user.Province = Province.SelectedValue;
+            else
+                user.Province = "";
+            if (City.SelectedIndex != 0)
+                user.City = City.SelectedValue;
+            else
+                user.City = "";
+            user.Address = TextAddress.Text;
+            user.PartnerType = ddlPartnerType.SelectedValue;
+            var passwordValidator = new PasswordValidator();
+            //per la password sono richiesti solo sei caratteri
+            passwordValidator.RequiredLength = 6;
+            manager.PasswordValidator = passwordValidator;
+            IdentityResult result = manager.Create(user, Password.Text);
+            if (result.Succeeded)
+            {
+                if (checkAssociated.Checked)
+                    manager.AddToRole(user.Id, "Socio");
+                else
+                    manager.AddToRole(user.Id, "Utente");
+                db.UserDatas.Add(new UserData
+                {
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    FullName = user.FirstName + " " + user.LastName
+                });
+                db.SaveChanges();
+                LoadData();
+            }
+            else
+            {
+                lblError.Visible = true;
+                lblError.Text = result.Errors.FirstOrDefault();
+                ModalPopupAddUser.Show();
+            }
+        }
+
+        protected void btnPopUpAddUserClose_Click(object sender, EventArgs e)
+        {
+            ModalPopupAddUser.Hide();
+        }
+
+        protected void btnAddUser_Click(object sender, EventArgs e)
+        {
+            TextUserName.Text = "";
+            Password.Text = "";
+            Password.Attributes.Add("value", "");
+            ConfirmPassword.Text = "";
+            ConfirmPassword.Attributes.Add("value", "");
+            TextFirstName.Text = "";
+            TextLastName.Text = "";
+            TextCF.Text = "";
+            Email.Text = "";
+            TextCellPhone.Text = "";
+            TextTelephone.Text = "";
+            SetRegionDropDownList();
+            TextAddress.Text = "";
+            pnlPartnerType.Visible = false;
+            checkAssociated.Checked = false;
+            ModalPopupAddUser.Show();
+        }
+
+
 
     }
 }
