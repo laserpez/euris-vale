@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>CodeCarvings.Piczard</id>
+    <version>1.2.3.3</version>
+    <title>Piczard Image Manipulation Library</title>
+    <authors>Sergio Turolla</authors>
+    <owners>Sergio Turolla</owners>
+    <licenseUrl>http://piczard.com/docs/license/?v=1</licenseUrl>
+    <projectUrl>http://piczard.com/</projectUrl>
+    <iconUrl>http://piczard.com/gfx/Piczard_nuget.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Piczard is a FREE image manipulation library developed keeping focus on ASP.NET needs
+It provides a variety of tools that can help you to manage images in your ASP.NET applications:
+- PictureTrimmer: The world's most awesome WYSIWYG image cropping tool for ASP.NET.
+- An expandable set of classes and methods that allows - in an extremely easy way - to programmatically load, process and save images. With Piczard, tasks such as image resizing, watermarking or cropping, can be performed even with a single line of code !
+- An advanced image upload control with a powerful and intuitive image manipulation interface.</description>
+    <summary>.NET Image Manipulation Library with Advanced WYSIWYG Image Resizer / Cropper Tool.</summary>
+    <releaseNotes>Please see: http://piczard.com/docs/versionHistory/</releaseNotes>
+    <copyright>2011-2013 Sergio Turolla</copyright>
+    <language>en-US</language>
+    <tags>Image Crop Resize Upload Thumbnail DPI Inch Mm Watermark Grayscale Sepia Color WYSIWYG</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
