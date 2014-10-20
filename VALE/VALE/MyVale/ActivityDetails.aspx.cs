@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity.Owin;
+using System.IO;
 
 namespace VALE.MyVale
 {
@@ -20,11 +21,12 @@ namespace VALE.MyVale
         private int _currentActivityId;
         private string _currentUser;
         private UserOperationsContext _db;
-
+        private ActivityActions _actions;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             _db = new UserOperationsContext();
+            _actions = new ActivityActions();
             _currentUser = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _currentActivityId = Convert.ToInt32(Request.QueryString["activityId"]);
@@ -221,17 +223,41 @@ namespace VALE.MyVale
 
         }
 
+        public string GetStringFromMinutes(int minutes)
+        {
+            int days = minutes / (60 * 8);
+            minutes -= days * (60 * 8);
+            int hours = minutes / 60;
+            int min = minutes % 60;
+            string strDays = "";
+            if (days > 0)
+                strDays = days == 1 ? days + " Giorno" : days + " Giorni";
+            string strHours = "";
+            if (hours > 0)
+                strHours = hours == 1 ? hours + " Ora" : hours + " Ore";
+            string strMinutes = "";
+            if (min > 0)
+                strMinutes = min == 1 ? min + " Minuto" : min + " Minuti";
+            return String.Format("{0} {1} {2}", strDays, strHours, strMinutes);
+        }
+
         public void SetupBugetAndHoursWorked()
         {
             Label lblBudget = (Label)ActivityDetail.FindControl("lblBudget");
             Label lblColorBuget = (Label)ActivityDetail.FindControl("lblColorBuget");
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
             var activityActions = new ActivityActions();
-            int totalHours = activityActions.GetAllActivityHoursWorked(activity.ActivityId);
+            int disbursed = activityActions.GetAllActivityHoursWorked(activity.ActivityId);
+            string strBudget = "";
+            if (activity.Budget > 0)
+                strBudget = GetStringFromMinutes(activity.Budget);
+            string strDisbursed = "";
+            if (disbursed > 0)
+                strDisbursed = ", Erogato: " + GetStringFromMinutes(disbursed);
             if (activity != null) 
             {
-                lblBudget.Text = String.Format(" {0} Erogato {1}", activity.Budget, totalHours);
-                if (activity.Budget < totalHours && activity.Budget > 0)
+                lblBudget.Text = String.Format(" {0}{1}", strBudget, strDisbursed);
+                if (activity.Budget < disbursed && activity.Budget > 0)
                     lblColorBuget.ForeColor = Color.Red;
                 else
                     lblColorBuget.ForeColor = Color.FromArgb(102, 102, 102);
@@ -258,8 +284,7 @@ namespace VALE.MyVale
                     int? hours = interventions.Sum(r => r.HoursWorked);
                     if (hours.HasValue) 
                     {
-                        lblHoursWorked.Text = "Totale " + hours.Value + " Ore";
-                        
+                        lblHoursWorked.Text = "Totale: " + GetStringFromMinutes(hours.Value);
                     }
                 }
                 SetupBugetAndHoursWorked();
@@ -273,7 +298,7 @@ namespace VALE.MyVale
                     int? hours = interventions.Sum(r => r.HoursWorked);
                     if (hours.HasValue)
                     {
-                        lblHoursWorked.Text = "Totale " + hours.Value + " Ore";
+                        lblHoursWorked.Text = "Totale: " + GetStringFromMinutes(hours.Value);
                         SetupBugetAndHoursWorked();
                     }
                 }
@@ -316,48 +341,57 @@ namespace VALE.MyVale
             if (action == "Add")
             {
                 Button btnAdd = (Button)sender;
+                int days = 0;
+                int.TryParse(txtDaysReport.Text, out days);
                 int hours = 0;
-                if (int.TryParse(txtHours.Text, out hours))
+                int.TryParse(txtHoursReport.Text, out hours);
+                int min = 0;
+                int.TryParse(txtMinutesReport.Text, out min);
+                int minutesWorked = GetMinutes(days, hours, min);
+                _db.Reports.Add(new ActivityReport
                 {
-                    _db.Reports.Add(new ActivityReport
-                    {
-                        ActivityId = _currentActivityId,
-                        WorkerUserName = _currentUser,
-                        ActivityDescription = txtDescription.Value,
-                        Date = DateTime.Today,
-                        HoursWorked = hours
-                    });
+                    ActivityId = _currentActivityId,
+                    WorkerUserName = _currentUser,
+                    ActivityDescription = txtDescription.Value,
+                    Date = DateTime.Now,
+                    HoursWorked = minutesWorked,
+                });
 
-                    var activity = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId);
-                    if (activity.Status == ActivityStatus.ToBePlanned)
-                    {
-                        activity.Status = ActivityStatus.Ongoing;
-                        activity.StartDate = DateTime.Now;
-                    }
-                    activity.LastModified = DateTime.Today;
-                    if (activity.RelatedProject != null)
-                    {
-                        activity.RelatedProject.LastModified = DateTime.Today;
-                        var actions = new ProjectActions();
-                        var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
-                        if (listHierarchyUp.Count != 0)
-                            listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
-                    }
-
-                    _db.SaveChanges();
-                    
-                    var activityActions = new ActivityActions();
-                    activityActions.ComposeMessage(_currentActivityId, "", "Aggiunto intervento");
+                var activity = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId);
+                if (activity.Status == ActivityStatus.ToBePlanned)
+                {
+                    activity.Status = ActivityStatus.Ongoing;
+                    activity.StartDate = DateTime.Now;
                 }
+                activity.LastModified = DateTime.Now;
+                if (activity.RelatedProject != null)
+                {
+                    activity.RelatedProject.LastModified = DateTime.Now;
+                    var actions = new ProjectActions();
+                    actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
+                }
+
+                _db.SaveChanges();
+
+                var activityActions = new ActivityActions();
+                activityActions.ComposeMessage(_currentActivityId, "", "Aggiunto intervento");
+
                 grdActivityReport.DataBind();
             }
             else if (action == "Edit")
             {
+                int days = 0;
+                int.TryParse(txtDaysReport.Text, out days);
+                int hours = 0;
+                int.TryParse(txtHoursReport.Text, out hours);
+                int min = 0;
+                int.TryParse(txtMinutesReport.Text, out min);
+
                 var reportId = Convert.ToInt32(lblReportId.Text);
                 var report = _db.Reports.FirstOrDefault(r => r.ActivityReportId == reportId);
                 if (report != null)
                 {
-                    report.HoursWorked = Convert.ToInt32(txtHours.Text);
+                    report.HoursWorked = GetMinutes(days, hours, min);
                     report.ActivityDescription = txtDescription.InnerText;
                     _db.SaveChanges();
                 }
@@ -428,13 +462,20 @@ namespace VALE.MyVale
 
         protected void btnAddReport_Click(object sender, EventArgs e)
         {
-            btnOkGroupButton.Text = "Aggiungi";
+            btnOkReportButton.Text = "Aggiungi";
             btnClosePopUpButton.Visible = true;
-            txtHours.Enabled = true;
-            txtHours.CssClass = "form-control input-sm";
+            txtDaysReport.Enabled = true;
+            txtDaysReport.CssClass = "form-control input-sm";
+            txtDaysReport.Text = "";
+            txtHoursReport.Enabled = true;
+            txtHoursReport.CssClass = "form-control input-sm";
+            txtHoursReport.Text = "";
+            txtMinutesReport.Enabled = true;
+            txtMinutesReport.CssClass = "form-control input-sm";
+            txtMinutesReport.Text = "";
             txtDescription.Disabled = false;
             txtDescription.Value = "";
-            txtHours.Text = "";
+            
             lblAction.Text = "Add";
             ModalPopup.Show();
         }
@@ -447,14 +488,12 @@ namespace VALE.MyVale
                 _db.Reports.Remove(report);
 
                 var activity = _db.Activities.FirstOrDefault(act => act.ActivityId == _currentActivityId);
-                activity.LastModified = DateTime.Today;
+                activity.LastModified = DateTime.Now;
                 if (activity.RelatedProject != null)
                 {
-                    activity.RelatedProject.LastModified = DateTime.Today;
+                    activity.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
+                    actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
                 }
 
                 _db.SaveChanges();
@@ -471,11 +510,25 @@ namespace VALE.MyVale
             if (report != null)
             {
                 btnClosePopUpButton.Visible = true;
-                btnOkGroupButton.Text = "Salva";
-                txtHours.Enabled = true;
-                txtHours.CssClass = "form-control input-sm";
+                btnOkReportButton.Text = "Salva";
+                txtDaysReport.Enabled = true;
+                txtDaysReport.CssClass = "form-control input-sm";
+                txtHoursReport.Enabled = true;
+                txtHoursReport.CssClass = "form-control input-sm";
+                txtMinutesReport.Enabled = true;
+                txtMinutesReport.CssClass = "form-control input-sm";
+                int minutes = report.HoursWorked;
+                int days = minutes / (60 * 8);
+                minutes -= days * (60 * 8);
+                int hours = minutes / 60;
+                int min = minutes % 60;
+
+                txtDaysReport.Text = days.ToString();
+                txtHoursReport.Text = hours.ToString();
+                txtMinutesReport.Text = min.ToString();
+
                 txtDescription.Disabled = false;
-                txtHours.Text = report.HoursWorked.ToString();
+              
                 txtDescription.InnerText = report.ActivityDescription;
                 lblAction.Text = "Edit";
                 lblReportId.Text = reportId.ToString();
@@ -489,11 +542,22 @@ namespace VALE.MyVale
             if (report != null)
             {
                 btnClosePopUpButton.Visible = false;
-                btnOkGroupButton.Text = "Chiudi";
-                txtHours.Enabled = false;
-                txtHours.CssClass = "form-control input-sm disabled";
+                btnOkReportButton.Text = "Chiudi";
+                txtDaysReport.Enabled = false;
+                txtDaysReport.CssClass = "form-control input-sm disabled";
+                txtHoursReport.Enabled = false;
+                txtHoursReport.CssClass = "form-control input-sm disabled";
+                txtMinutesReport.Enabled = false;
+                txtMinutesReport.CssClass = "form-control input-sm disabled";
+                int minutes = report.HoursWorked;
+                int days = minutes / (60 * 8);
+                minutes -= days * (60 * 8);
+                int hours = minutes / 60;
+                int min = minutes % 60;
+                txtDaysReport.Text = days.ToString();
+                txtHoursReport.Text = hours.ToString();
+                txtMinutesReport.Text = min.ToString();
                 txtDescription.Disabled = true;
-                txtHours.Text = report.HoursWorked.ToString();
                 txtDescription.InnerText = report.ActivityDescription;
                 lblAction.Text = "Details";
                 ModalPopup.Show();
@@ -505,7 +569,16 @@ namespace VALE.MyVale
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
             txtName.Text = activity.ActivityName;
             txtActDescription.Text = activity.Description;
-            txtBudget.Text = activity.Budget.ToString();
+
+            int minutes = activity.Budget;
+            int days = minutes / (60 * 8);
+            minutes -= days * (60 * 8);
+            int hours = minutes / 60;
+            int min = minutes % 60;
+            TextDay.Text = days.ToString();
+            txtHour.Text = hours.ToString();
+            txtMin.Text = min.ToString();
+
             txtStartDate.Text = activity.StartDate.HasValue ? activity.StartDate.Value.ToShortDateString() : "";
             txtEndDate.Text = activity.ExpireDate.HasValue ? activity.ExpireDate.Value.ToShortDateString() : "";
             ddlSelectType.SelectedValue = activity.Type;
@@ -517,13 +590,23 @@ namespace VALE.MyVale
             ModalPopup.Hide();
         }
 
+        private int GetMinutes(int days, int hours, int min)
+        {
+            return days * (8 * 60) + hours * 60 + min;
+        }
+
         protected void btnConfirmModify_Click(object sender, EventArgs e)
         {
-            int budget = 0;
-            int.TryParse(txtBudget.Text, out budget);
+            int days = 0;
+            int.TryParse(TextDay.Text, out days);
+            int hours = 0;
+            int.TryParse(txtHour.Text, out hours);
+            int min = 0;
+            int.TryParse(txtMin.Text, out min);
+
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
             activity.ActivityName = txtName.Text;
-            activity.Budget = budget;
+            activity.Budget = GetMinutes(days, hours, min);
             activity.Description = txtActDescription.Text;
             DateTime? expireDate = null;
             if (!String.IsNullOrEmpty(txtEndDate.Text))
@@ -534,16 +617,13 @@ namespace VALE.MyVale
             activity.StartDate = startDate;
             activity.ExpireDate = expireDate;
             activity.Type = ddlSelectType.SelectedValue;
-            activity.LastModified = DateTime.Today;
+            activity.LastModified = DateTime.Now;
             if (activity.RelatedProject != null)
             {
-                activity.RelatedProject.LastModified = DateTime.Today;
+                activity.RelatedProject.LastModified = DateTime.Now;
                 var actions = new ProjectActions();
-                var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
+                actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
             }
-
             _db.SaveChanges();
 
             Response.Redirect("/MyVale/ActivityDetails?activityId=" + _currentActivityId);
@@ -556,16 +636,16 @@ namespace VALE.MyVale
         {
             ModalPopupListProject.Hide();
             var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
-            activity.LastModified = DateTime.Today;
             var projectRelated = _db.Projects.FirstOrDefault(p => p.ProjectId == activity.ProjectId);
             projectRelated.Activities.Remove(activity);
 
-            projectRelated.LastModified = DateTime.Today;
-            var actions = new ProjectActions();
-            var listHierarchyUp = actions.getHierarchyUp(projectRelated.ProjectId);
-            if (listHierarchyUp.Count != 0)
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
-
+            activity.LastModified = DateTime.Now;
+            if (activity.RelatedProject != null)
+            {
+                activity.RelatedProject.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
+            }
             _db.SaveChanges();
 
             var activityActions = new ActivityActions();
@@ -599,12 +679,13 @@ namespace VALE.MyVale
             {
                 var activity = _db.Activities.First(a => a.ActivityId == _currentActivityId);
                 activity.RelatedProject = project;
-                activity.LastModified = DateTime.Today;
-                project.LastModified = DateTime.Today;
-                var actions = new ProjectActions();
-                var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
+                activity.LastModified = DateTime.Now;
+                if (activity.RelatedProject != null)
+                {
+                    activity.RelatedProject.LastModified = DateTime.Now;
+                    var actions = new ProjectActions();
+                    actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
+                }
 
                 _db.SaveChanges();
                 var activityActions = new ActivityActions();
@@ -712,6 +793,242 @@ namespace VALE.MyVale
         protected void btnPopUpDeleteActivityClose_Click(object sender, EventArgs e)
         {
             ModalPopupPasswordRequest.Hide();
+        }
+
+        //------------------------------------------- File Uploader -------------------------------
+        protected void btnAddDocument_Click(object sender, EventArgs e)
+        {
+            txtFileDescription.Text = "";
+            LabelPopUpAddDocumentError.Visible = false;
+            btnPopUpAddDocumentClose.Visible = true;
+            lblInfoPopupAddDocument.Text = "Allega un documento";
+            divDocunetPopupAddDocument.Visible = false;
+            lblOperatioPopupAddDocument.Text = "UPLOAD";
+            divFileUploderPopupAddDocument.Visible = true;
+            divInfoPopupAddDocument.Visible = false;
+            txtFileDescription.Enabled = true;
+            validatorFileDescription.Enabled = true;
+            ModalPopupAddDocument.Show();
+        }
+
+        public IQueryable<AttachedFileGridView> DocumentsGridView_GetData()
+        {
+            if (_actions != null)
+                return CreateAttachedFileGridViewList(_actions.GetAttachments(_currentActivityId).ToList()).AsQueryable();
+            return null;
+        }
+
+        protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridView DocumentsGridView = (GridView)ActivityDetail.FindControl("DocumentsGridView");
+            int id;
+            switch (e.CommandName)
+            {
+
+                case "DOWNLOAD_FILE":
+                    id = Convert.ToInt32(e.CommandArgument);
+                    Response.Redirect("/DownloadFile.ashx?fileId=" + id);
+                    break;
+                case "DELETE_FILE":
+                    id = Convert.ToInt32(e.CommandArgument);
+                    _actions.RemoveAttachment(id);
+                    DocumentsGridView.PageIndex = 0;
+                    DocumentsGridView.DataBind();
+                    break;
+                case "SHOW_VERSIONS":
+                    var list = _actions.GetAttachments(_currentActivityId).Where(f => f.FileName == e.CommandArgument.ToString()).OrderByDescending(f => f.CreationDate).AsQueryable();
+                    ViewFileVersionsGridView.DataSource = list;
+                    ViewFileVersionsGridView.DataBind();
+                    lblFileNamePopupViewFileVersions.Text = e.CommandArgument.ToString();
+                    ModalPopupViewFileVersions.Show();
+                    break;
+                case "UPDATE_FILE":
+                    ShowUpdateFilePopUp(e.CommandArgument.ToString());
+                    break;
+                case "SHOW_DESC":
+                    id = Convert.ToInt32(e.CommandArgument);
+                    var file = GetFile(id);
+                    if (file != null)
+                        ShowInfoAttachedFile(file, false);
+                    break;
+                case "Page":
+                    break;
+            }
+        }
+
+        private AttachedFile GetFile(int fileId)
+        {
+            return _db.AttachedFiles.FirstOrDefault(f => f.AttachedFileID == fileId);
+        }
+
+        private void ShowInfoAttachedFile(AttachedFile file, bool isVersion)
+        {
+            btnPopUpAddDocumentClose.Visible = false;
+            txtFileDescription.Text = file.FileDescription;
+            LabelPopUpAddDocumentError.Visible = false;
+            divInfoPopupAddDocument.Visible = true;
+            divFileUploderPopupAddDocument.Visible = false;
+            txtFileDescription.Enabled = false;
+            validatorFileDescription.Enabled = false;
+            lblInfoPopupAddDocument.Text = "Informazione del Documento";
+            divDocunetPopupAddDocument.Visible = true;
+            lblVersionPopupAddDocument.Text = file.Version.ToString();
+            lblFileNamePopupAddDocument.Text = file.FileName + file.FileExtension;
+            lblSizeFilePopupAddDocument.Text = (file.Size / (1024 * 1024)) > 0 ? (file.Size / (1024 * 1024)) + ","
+                + (file.Size / (1024 * 1024)) + " MB" : (file.Size / 1024) + "," + (file.Size % 1024) + " KB";
+            lblDatePopupAddDocument.Text = file.CreationDate.ToLongDateString();
+            lblHourPopupAddDocument.Text = file.CreationDate.ToLongTimeString();
+            if (isVersion)
+                lblOperatioPopupAddDocument.Text = "INFO_VERSION";
+            else
+                lblOperatioPopupAddDocument.Text = "INFO_FILE";
+            ModalPopupAddDocument.Show();
+        }
+
+        private void ShowUpdateFilePopUp(string fileName)
+        {
+            txtFileDescription.Text = "";
+            LabelPopUpAddDocumentError.Visible = false;
+            btnPopUpAddDocumentClose.Visible = true;
+            divFileUploderPopupAddDocument.Visible = true;
+            divInfoPopupAddDocument.Visible = false;
+            txtFileDescription.Enabled = true;
+            lblInfoPopupAddDocument.Text = "Aggiorna un documento";
+            divDocunetPopupAddDocument.Visible = true;
+            lblVersionPopupAddDocument.Text = GetNewAttachedFileVersion(fileName).ToString();
+            lblFileNamePopupAddDocument.Text = fileName;
+            validatorFileDescription.Enabled = true;
+            lblOperatioPopupAddDocument.Text = "UPDATE";
+            ModalPopupAddDocument.Show();
+        }
+
+        private int GetNewAttachedFileVersion(string attachedFileName)
+        {
+            int version = 0;
+            var list = _actions.GetAttachments(_currentActivityId).Where(f => f.FileName == attachedFileName);
+            if (list.Count() > 0)
+                version = list.Max(f => f.Version);
+            return version + 1;
+        }
+
+        public bool AllowUpdateOrDelete(int attachedFileId)
+        {
+            var db = new UserOperationsContext();
+            var attachedFile = db.AttachedFiles.First(a => a.AttachedFileID == attachedFileId);
+            var relatedProject = attachedFile.RelatedProject;
+            var currentUsername = HttpContext.Current.User.Identity.Name;
+            if (attachedFile.Owner == currentUsername)
+                return true;
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
+                return true;
+            if (relatedProject != null)
+                if (relatedProject.OrganizerUserName == currentUsername)
+                    return true;
+            return false;
+        }
+
+        protected void btnPopUpAddDocument_Click(object sender, EventArgs e)
+        {
+            if (lblOperatioPopupAddDocument.Text == "INFO_FILE")
+                ModalPopupAddDocument.Hide();
+            else if (lblOperatioPopupAddDocument.Text == "INFO_VERSION")
+                ModalPopupViewFileVersions.Show();
+            else
+            {
+                GridView DocumentsGridView = (GridView)ActivityDetail.FindControl("DocumentsGridView");
+                var attachedFile = new AttachedFile();
+                var fileNames = FileUploadAddDocument.PostedFile.FileName.Split(new char[] { '/', '\\' });
+                if (FileUploadAddDocument.HasFile)
+                {
+                    attachedFile.FileExtension = Path.GetExtension(FileUploadAddDocument.PostedFile.FileName);
+                    if (lblOperatioPopupAddDocument.Text == "UPLOAD")
+                    {
+                        var fileName = fileNames[fileNames.Length - 1];
+                        attachedFile.FileName = fileName.Substring(0, fileName.LastIndexOf('.'));
+                    }
+                    else
+                    {
+                        attachedFile.FileName = lblFileNamePopupAddDocument.Text;
+                    }
+                    attachedFile.Version = GetNewAttachedFileVersion(attachedFile.FileName);
+                    attachedFile.FileDescription = txtFileDescription.Text;
+                    attachedFile.FileData = FileUploadAddDocument.FileBytes;
+                    attachedFile.Size = attachedFile.FileData.Length;
+                    attachedFile.Owner = HttpContext.Current.User.Identity.Name;
+                    attachedFile.CreationDate = DateTime.Now;
+                    _actions.AddAttachment(_currentActivityId, attachedFile);
+                    DocumentsGridView.DataBind();
+                }
+                else
+                {
+                    LabelPopUpAddDocumentError.Text = "Selezionare il file prima di validare.";
+                    LabelPopUpAddDocumentError.Visible = true;
+                    ModalPopupAddDocument.Show();
+                }
+            }
+        }
+
+        protected void btnPopUpAddDocumentClose_Click(object sender, EventArgs e)
+        {
+            ModalPopupAddDocument.Hide();
+        }
+
+        private List<AttachedFileGridView> CreateAttachedFileGridViewList(List<AttachedFile> files)
+        {
+            List<AttachedFileGridView> litFiles = new List<AttachedFileGridView>();
+            var orderGroups = from f in files
+                              group f by f.FileName into g
+                              select new { FileName = g.Key, Files = g };
+            foreach (var g in orderGroups)
+            {
+                var file = g.Files.OrderByDescending(f => f.CreationDate).FirstOrDefault();
+                AttachedFileGridView gridViewfile = new AttachedFileGridView
+                {
+                    AttachedFileID = file.AttachedFileID,
+                    CreationDate = file.CreationDate,
+                    FileDescription = file.FileDescription,
+                    FileExtension = file.FileExtension,
+                    FileName = file.FileName,
+                    Size = file.Size,
+                    Owner = file.Owner,
+                    Version = file.Version,
+                    VersionCount = g.Files.Count(),
+                };
+                litFiles.Add(gridViewfile);
+            }
+            return litFiles;
+        }
+
+        protected void ViewFileVersionsGridView_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridView ViewFileVersionsGridView = (GridView)ActivityDetail.FindControl("ViewFileVersionsGridView");
+
+            switch (e.CommandName)
+            {
+                case "DOWNLOAD_FILE":
+                    int id = Convert.ToInt32(e.CommandArgument);
+                    Response.Redirect("/DownloadFile.ashx?fileId=" + id);
+                    break;
+                case "DELETE_FILE":
+                    int idfile = Convert.ToInt32(e.CommandArgument);
+                    _actions.RemoveAttachment(idfile);
+                    ViewFileVersionsGridView.PageIndex = 0;
+                    ViewFileVersionsGridView.DataBind();
+                    break;
+                case "SHOW_DESC":
+                    id = Convert.ToInt32(e.CommandArgument);
+                    var file = GetFile(id);
+                    if (file != null)
+                        ShowInfoAttachedFile(file, true);
+                    break;
+                case "Page":
+                    break;
+            }
+        }
+
+        protected void btnClosePopupViewFileVersions_Click(object sender, EventArgs e)
+        {
+            ModalPopupViewFileVersions.Hide();
         }
     }
 }

@@ -49,108 +49,121 @@
                                 </div>
 
                                 <div class="panel-body">
-                                    <asp:GridView ID="grdUsers" runat="server" DataKeyNames="UserName" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both" AllowPaging="true" PageSize="10" OnPageIndexChanging="grdUsers_PageIndexChanging"
-                                        ItemType="VALE.Models.ApplicationUser" OnRowCommand="grdUsers_RowCommand" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
-                                        <Columns>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" CommandArgument="UserName" CommandName="sort" runat="server" ID="labelUserName"><span  class="glyphicon glyphicon-credit-card"></span> UserName</asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                    <center><div><a href="/Account/Profile?Username=<%#: Item.UserName %>"><asp:Label ID="labelUserName" runat="server" Text="<%#: Item.UserName %>"></asp:Label></a></div></center>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" CommandArgument="FirstName" CommandName="sort" runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.FirstName %></asp:Label></div></center>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" CommandArgument="LastName" CommandName="sort" runat="server" ID="labelLastName"><span  class="glyphicon glyphicon-user"></span> Cognome</asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.LastName %></asp:Label></div></center>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" CommandArgument="CellPhone" CommandName="sort" runat="server" ID="labelCellPhone"><span  class="glyphicon glyphicon-phone"></span> Cellulare</asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.CellPhone %></asp:Label></div></center>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" CommandArgument="IsPartner" CommandName="sort" runat="server" ID="labelIsPartner"><span  class="glyphicon glyphicon-briefcase"></span> Socio</asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-primary dropdown-toggle btn-xs" style="width:70px" data-toggle="dropdown" runat="server"><%#: Item.IsPartner ? "Si" : "No" %><span class="caret">&nbsp;&nbsp;</span></button>
-                                                            <ul class="dropdown-menu">
-                                                                <li>
-                                                                    <asp:LinkButton CommandName="Yes" runat="server" CommandArgument="<%#: Item.UserName %>" CausesValidation="false"><span class="glyphicon glyphicon-ok-circle"></span>    Si   </asp:LinkButton></li>
-                                                                <li>
-                                                                    <asp:LinkButton CommandName="No" runat="server" CommandArgument="<%#: Item.UserName %>" CausesValidation="false"><span class="glyphicon glyphicon-remove-circle"></span>    No   </asp:LinkButton></li>
-                                                            </ul>
-                                                        </div>
-                                                </ItemTemplate>
-                                                <ItemStyle Width="80px" />
-                                                <HeaderStyle Width="80px" />
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" CommandArgument="PartnerType" CommandName="sort" runat="server" ID="labelPartnerType"><span  class="glyphicon glyphicon-tasks"></span> Tipo Socio</asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                    <center><div><asp:Label runat="server"><%#: Item.IsPartner ? Item.PartnerType : ""   %></asp:Label></div></center>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                        <div class="btn-group">
-                                                            <div class="navbar-right">
-                                                                <button id="AllListRoles" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server" style="width:140px" ><%# GetRoleName(Item.Id) %><span class="caret"></span></button>
-                                                                <ul class="dropdown-menu" >
-                                                                    <asp:ListView runat="server" ID="roleList" ItemType="Microsoft.AspNet.Identity.EntityFramework.IdentityRole" SelectMethod="GetRoles">
-                                                                        <ItemTemplate>
-                                                                        <li><asp:LinkButton ID="btnRole" CommandArgument='<%#: Item.Name %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-plus-sign"> <%#: Item.Name %></span>  </asp:LinkButton></li>
-                                                                        </ItemTemplate>
-                                                                    </asp:ListView>
+                                    <asp:UpdatePanel runat="server">
+                                        <ContentTemplate>
+                                            <asp:GridView ID="grdUsers" runat="server" DataKeyNames="UserName" AutoGenerateColumns="false" AllowSorting="true" GridLines="Both" AllowPaging="true" PageSize="10" OnPageIndexChanging="grdUsers_PageIndexChanging"
+                                                ItemType="VALE.Models.ApplicationUser" OnRowCommand="grdUsers_RowCommand" EmptyDataText="Nessun utente" CssClass="table table-striped table-bordered" OnSorting="grdUsers_Sorting">
+                                                <Columns>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="UserName" CommandName="sort" runat="server" ID="labelUserName"><span  class="glyphicon glyphicon-credit-card"></span> UserName</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><a href="/Account/Profile?Username=<%#: Item.UserName %>"><asp:Label ID="labelUserName" runat="server" Text="<%#: Item.UserName %>"></asp:Label></a></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Email" CommandName="sort" runat="server" ID="labelEmail"><span  class="glyphicon glyphicon-envelope"></span> Email</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.Email %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="FirstName" CommandName="sort" runat="server" ID="labelFirstName"><span  class="glyphicon glyphicon-user"></span> Nome</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.FirstName %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="LastName" CommandName="sort" runat="server" ID="labelLastName"><span  class="glyphicon glyphicon-user"></span> Cognome</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.LastName %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="CellPhone" CommandName="sort" runat="server" ID="labelCellPhone"><span  class="glyphicon glyphicon-phone"></span> Cellulare</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.CellPhone %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="IsPartner" CommandName="sort" runat="server" ID="labelIsPartner"><span  class="glyphicon glyphicon-briefcase"></span> Socio</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle btn-xs" style="width: 70px" data-toggle="dropdown" runat="server"><%#: Item.IsPartner ? "Si" : "No" %><span class="caret">&nbsp;&nbsp;</span></button>
+                                                                <ul class="dropdown-menu">
+                                                                    <li>
+                                                                        <asp:LinkButton CommandName="Yes" runat="server" CommandArgument="<%#: Item.UserName %>" CausesValidation="false"><span class="glyphicon glyphicon-ok-circle"></span>    Si   </asp:LinkButton></li>
+                                                                    <li>
+                                                                        <asp:LinkButton CommandName="No" runat="server" CommandArgument="<%#: Item.UserName %>" CausesValidation="false"><span class="glyphicon glyphicon-remove-circle"></span>    No   </asp:LinkButton></li>
                                                                 </ul>
                                                             </div>
-                                                        </div>
-                                                    </center>
-                                                </ItemTemplate>
-                                                <ItemStyle Width="150px" />
-                                            </asp:TemplateField>
-                                            <asp:TemplateField>
-                                                <HeaderTemplate>
-                                                    <center><div><asp:LinkButton CausesValidation="false" runat="server"><span  class="glyphicon glyphicon-check"></span></asp:LinkButton></div></center>
-                                                </HeaderTemplate>
-                                                <ItemTemplate>
-                                                    <center><div><asp:CheckBox runat="server" ID="chkSelectUser"/></div></center>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                        </Columns>
-                                        <PagerSettings Position="Bottom" />
-                                        <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
-                                    </asp:GridView>
+                                                        </ItemTemplate>
+                                                        <ItemStyle Width="80px" />
+                                                        <HeaderStyle Width="80px" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="PartnerType" CommandName="sort" runat="server" ID="labelPartnerType"><span  class="glyphicon glyphicon-tasks"></span> Tipo Socio</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server"><%#: Item.IsPartner ? Item.PartnerType : ""   %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="LastLoginDate" CommandName="sort" runat="server" ><span  class="glyphicon glyphicon-log-in"></span> Ultimo LogIn</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:Label runat="server" ToolTip="<%#: Item.LastLoginTimeString %>"><%#: Item.LastLoginDateString %></asp:Label></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" CommandArgument="Ruolo" CommandName="sort" runat="server" ID="labelRuolo"><span  class="glyphicon glyphicon-cog"></span> Ruolo</asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <div class="btn-group">
+                                                                <div class="navbar-right">
+                                                                    <button id="AllListRoles" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown" runat="server" style="width: 140px"><%# GetRoleName(Item.Id) %><span class="caret"></span></button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <asp:ListView runat="server" ID="roleList" ItemType="Microsoft.AspNet.Identity.EntityFramework.IdentityRole" SelectMethod="GetRoles">
+                                                                            <ItemTemplate>
+                                                                                <li>
+                                                                                    <asp:LinkButton ID="btnRole" CommandArgument='<%#: Item.Name %>' runat="server" OnClick="btnChangeUser_Click" CausesValidation="false"><span class="glyphicon glyphicon-plus-sign"> <%#: Item.Name %></span>  </asp:LinkButton></li>
+                                                                            </ItemTemplate>
+                                                                        </asp:ListView>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            </center>
+                                                        </ItemTemplate>
+                                                        <ItemStyle Width="150px" />
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField>
+                                                        <HeaderTemplate>
+                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server"><span  class="glyphicon glyphicon-check"></span></asp:LinkButton></div></center>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <center><div><asp:CheckBox runat="server" ID="chkSelectUser"/></div></center>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                                <PagerSettings Position="Bottom" />
+                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
+                                            </asp:GridView>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                     <asp:Button ID="btnConfirmUser" Visible="false" runat="server" Text="Conferma utenti selezionati" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnConfimUser_Click" />
                                     <asp:Label ID="lblChangeRole" runat="server" Visible="false" Text="" />
                                 </div>
@@ -296,7 +309,7 @@
                             <br />
                         </div>
                         <div runat="server" id="pnlPartner">
-                            <legend><span class="glyphicon glyphicon-star"></span> Dati Sociazione</legend>
+                            <legend><span class="glyphicon glyphicon-star"></span> Dati Associazione</legend>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">

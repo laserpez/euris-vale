@@ -8,14 +8,17 @@
             <div class="row">
 
                     <div  style="background-image: url(~/Images/Logo_VALE.png)" >
-                        <div class="col-md-2">
+                        <div class="col-md-3">
 
-                            <asp:Image runat="server" ID="LogoImage" Width="159" Height="196" />
+                            <%--<asp:Image runat="server" ID="LogoImage" Width="159" Height="196" />--%>
+                            <asp:Image runat="server" ID="LogoImage" />
                         </div>
-                        <div class="col-md-10" style="font-size: x-large; position: relative">
+                        <div class="col-md-9" style="font-size: x-large; position: relative">
 
                             <h2>Benvenuto in VALE, ambiente virtuale di collaborazione</h2>
-                            <p></p>
+                            <p>
+                                <br />
+                            </p>
                             <p>
                                 &nbsp;Fai il log-in per accedere alle sezioni interne <a runat="server" href="~/Account/Login">Qui</a>.
                             </p>

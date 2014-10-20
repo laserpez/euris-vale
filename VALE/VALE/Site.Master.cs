@@ -81,7 +81,6 @@ namespace VALE
                 eventsLink.Visible = false;
                 activitiesLink.Visible = false;
                 //blogsLink.Visible = false;
-                UserList.Visible = false;
                 loginLink.Visible = false;
                 homeLink.Visible = false;
             }

@@ -68,7 +68,7 @@ namespace VALE.Logic
                 Eventi = new Source() { Visible = true, Creation = true },
                 Articoli = new Source() { Visible = true, Creation = true },
 
-                ListaUtenti = new SourceVisibleOnly() { Visible = false },
+                ListaUtenti = new SourceVisibleOnly() { Visible = true },
                 Home = new SourceVisibleOnly() { Visible = true },
                 DocumentiAssociazione = new SourceVisibleOnly() { Visible = true },
             };

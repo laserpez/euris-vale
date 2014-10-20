@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AspNet.ScriptManager.jQuery.2.1.0\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
     </Reference>
+    <Reference Include="CodeCarvings.Piczard">
+      <HintPath>..\packages\CodeCarvings.Piczard.1.2.3.3\lib\CodeCarvings.Piczard.dll</HintPath>
+    </Reference>
     <Reference Include="CsvHelper">
       <HintPath>..\packages\CsvHelper.2.6.0\lib\net40-client\CsvHelper.dll</HintPath>
     </Reference>
@@ -1736,16 +1739,16 @@
     <Content Include="CuteSoft_Client\CuteEditor\Themes\OfficeXp\Images\unlink.gif" />
     <Content Include="CuteSoft_Client\CuteEditor\Themes\OfficeXp\Images\youtube.gif" />
     <Content Include="CuteSoft_Client\CuteEditor\Themes\OfficeXp\style.css" />
+    <Content Include="default_profile.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\google.png" />
     <Content Include="Images\logoVALE.png" />
-    <Content Include="Account\ManageProfile.aspx" />
     <Content Include="Images\Logo_VALE_Blu.gif" />
     <Content Include="Images\twitter.png" />
     <Content Include="Images\User.jpg" />
     <Content Include="Images\VALE_Title.gif" />
-    <Content Include="Immagine.png" />
+    <Content Include="Logic\Serializable\Ruoli.xml" />
     <Content Include="MessagePage.aspx" />
     <Content Include="MyVale\Activities.aspx" />
     <Content Include="MyVale\BOD\BODReportCreate.aspx" />
@@ -1868,7 +1871,6 @@
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
     <Content Include="StateInfo\regioni_province_comuni.xml" />
-    <Content Include="UploadFile.aspx" />
     <Content Include="Vale.swf" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config">
@@ -2091,6 +2093,13 @@
     <Compile Include="Models\SummaryIntervention.cs" />
     <Compile Include="Models\UserFile.cs" />
     <Compile Include="Models\XmlRoles.cs" />
+    <Compile Include="MyVale\BOD\ViewBODReport.aspx.cs">
+      <DependentUpon>ViewBODReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyVale\BOD\ViewBODReport.aspx.designer.cs">
+      <DependentUpon>ViewBODReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MyVale\GridPager.ascx.cs">
       <DependentUpon>GridPager.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2115,13 +2124,6 @@
     <Compile Include="Logic\BODReportActions.cs" />
     <Compile Include="Logic\RoleActions.cs" />
     <Compile Include="Logic\UserActions.cs" />
-    <Compile Include="Account\ManageProfile.aspx.cs">
-      <DependentUpon>ManageProfile.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Account\ManageProfile.aspx.designer.cs">
-      <DependentUpon>ManageProfile.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\ActivityReport.cs" />
     <Compile Include="Models\AttachedFile.cs" />
@@ -2165,13 +2167,6 @@
     </Compile>
     <Compile Include="MyVale\BOD\VALEDocuments.aspx.designer.cs">
       <DependentUpon>VALEDocuments.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="MyVale\BOD\ViewBODReport.aspx.cs">
-      <DependentUpon>ViewBODReport.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MyVale\BOD\ViewBODReport.aspx.designer.cs">
-      <DependentUpon>ViewBODReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="MyVale\Create\AddNewUser.ascx.cs">
       <DependentUpon>AddNewUser.ascx</DependentUpon>
@@ -2365,13 +2360,6 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="StateInfo\StateInfoXML.cs" />
-    <Compile Include="UploadFile.aspx.cs">
-      <DependentUpon>UploadFile.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UploadFile.aspx.designer.cs">
-      <DependentUpon>UploadFile.aspx</DependentUpon>
-    </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

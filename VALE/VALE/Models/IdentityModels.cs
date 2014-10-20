@@ -25,7 +25,9 @@ namespace VALE.Models
         public string CellPhone { get; set; }
         public bool NeedsApproval { get; set; }
         public string Description { get; set; }
-        public string CVName { get; set; }
+        public string LastLoginDateString { get; set; }
+        public string LastLoginTimeString { get; set; }
+        public DateTime? LastLoginDate { get; set; }
         public byte[] Document { get; set; }
         public byte[] PhotoProfile { get; set; }
         public string PartnerType { get; set; }
@@ -75,6 +77,16 @@ namespace VALE
             authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             var identity = manager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
             authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
+            var db = new ApplicationDbContext();
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            var userToUpdate = userManager.FindByName(user.UserName);
+            if (userToUpdate != null)
+            {
+                userToUpdate.LastLoginDate = DateTime.Now;
+                userToUpdate.LastLoginDateString = DateTime.Now.ToShortDateString();
+                userToUpdate.LastLoginTimeString = DateTime.Now.ToShortTimeString();
+                db.SaveChanges();
+            }
         }
 
         public const string ProviderNameKey = "providerName";

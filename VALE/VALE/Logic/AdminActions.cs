@@ -21,7 +21,7 @@ namespace VALE.Logic
                 db.SaveChanges();
             }
         }
-
+        
         public static int GetWaitingUsers()
         {
             var db = new ApplicationDbContext();

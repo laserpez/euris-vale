@@ -1,8 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProjectDetails.aspx.cs" Inherits="VALE.MyVale.ProjectDetails" %>
-<%@ Register Src="~/MyVale/FileUploader.ascx" TagPrefix="uc" TagName="FileUploader" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProjectDetails.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="VALE.MyVale.ProjectDetails" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
     <div class="container">
         <div class="bs-docs-section">
             <br />
@@ -35,11 +33,41 @@
                             </div>
                         </div>
                         <div class="panel-body">
-
                             <asp:FormView Width="100%" OnDataBound="ProjectDetail_DataBound" runat="server" ID="ProjectDetail" ItemType="VALE.Models.Project" SelectMethod="GetProject">
                                 <ItemTemplate>
-                                    <div class="col-md-11">
-                                        <h3><%#: Item.ProjectName %></h3>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="col-md-9">
+                                                <h3><%#: Item.ProjectName %></h3>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="navbar-right">
+                                                    <asp:UpdatePanel runat="server">
+                                                        <ContentTemplate>
+                                                            <asp:UpdatePanel runat="server">
+                                                                <ContentTemplate>
+                                                                    <asp:Label ID="lblInfoOperation" runat="server" Visible="false"></asp:Label>
+                                                                    <div class="btn-group" id="divManagProject">
+                                                                        <button type="button" visible="true" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" runat="server">Azioni <span class="caret"></span></button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li>
+                                                                                <asp:LinkButton runat="server" ID="btnSuspendProject" CausesValidation="false" OnClick="btnSuspendProject_Click"><span class="glyphicon glyphicon-share-alt"></span> Sospendi progetto</asp:LinkButton></li>
+                                                                            <li>
+                                                                                <asp:LinkButton runat="server" ID="btnCloseProject" CausesValidation="false" OnClick="btnCloseProject_Click"><span class="glyphicon glyphicon-play"></span>Chiudi progetto</asp:LinkButton></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <asp:Button CausesValidation="false" ID="btnModifyProject" Visible="false" CssClass="btn btn-primary" runat="server" Text="Modifica" OnClick="btnModifyProject_Click" />
+                                                                </ContentTemplate>
+                                                            </asp:UpdatePanel>
+                                                        </ContentTemplate>
+                                                    </asp:UpdatePanel>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Creatore: </asp:Label><asp:Label runat="server"><%#: Item.Organizer.FullName %></asp:Label>
                                         <br />
@@ -53,19 +81,13 @@
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Stato: </asp:Label><asp:Label runat="server"><%#: Item.Status.ToUpperInvariant() %></asp:Label>
                                         <br />
-                                        <asp:Label runat="server" Font-Bold="true">Budget: </asp:Label><asp:Label runat="server"><%#:  Item.Budget.ToString() %> Ore</asp:Label>
+                                        <asp:Label runat="server" Font-Bold="true">Budget: </asp:Label><asp:Label runat="server"><%#: GetHoursWorked() %> </asp:Label>
                                         <br />
                                         <asp:Label runat="server" Font-Bold="true">Descrizione: </asp:Label><asp:Label ID="lblContent" runat="server"></asp:Label>
                                         <br />
 
                                     </div>
-                                    <div class="col-md-1">
-                                        <asp:UpdatePanel runat="server">
-                                            <ContentTemplate>
-                                                <asp:Button CausesValidation="false" ID="btnModifyProject" Visible="false" CssClass="btn btn-primary" runat="server" Text="Modifica" OnClick="btnModifyProject_Click" />
-                                            </ContentTemplate>
-                                        </asp:UpdatePanel>
-                                    </div>
+                             
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <div class="row">
@@ -102,7 +124,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>  <%--Progetti correlati--%>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
@@ -189,7 +211,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>  <%--Progetti correlati--%>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
@@ -264,7 +286,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>  <%--Attività correlate--%>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="panel panel-default">
@@ -321,9 +343,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>  <%--Eventi correlati--%>
                                         </ContentTemplate>
-                                    </asp:UpdatePanel>
+                                    </asp:UpdatePanel>   <%--ProjectTreeView--%>
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <div class="row">
@@ -414,8 +436,120 @@
                                                 </div>
                                             </div>
                                         </ContentTemplate>
-                                    </asp:UpdatePanel>
-                                    <uc:FileUploader ID="FileUploader" runat="server" />
+                                    </asp:UpdatePanel>   <%--Conversazioni--%>
+                                    <asp:UpdatePanel runat="server">
+                                        <ContentTemplate>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-8">
+                                                                        <ul class="nav nav-pills">
+                                                                            <li>
+                                                                                <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Documenti Allegati</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="navbar-right">
+                                                                        <asp:Button runat="server" CausesValidation="false" Text="Aggiungi Documento" CssClass="btn btn-success btn-xs" ID="btnAddDocument" OnClick="btnAddDocument_Click" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                                                            <asp:GridView ID="DocumentsGridView" runat="server" AutoGenerateColumns="False" SelectMethod="DocumentsGridView_GetData"
+                                                                ItemType="VALE.MyVale.AttachedFileGridView" AllowPaging="true" PageSize="10" EmptyDataText="Non ci sono file allegati."
+                                                                CssClass="table table-striped table-bordered" AllowSorting="true"
+                                                                OnRowCommand="grdFilesUploaded_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                         <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server" CommandName="Sort" CommandArgument="FileName"><span  class="glyphicon glyphicon-file"></span> Nome File</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:LinkButton ToolTip="<%# Item.FileName %>"  runat="server" CommandArgument="<%# Item.AttachedFileID %>" CommandName="DOWNLOAD_FILE" CausesValidation="false"><%#: Item.FileName.Length < 20 ? Item.FileName : Item.FileName.Substring(0, 18) + "..." %></asp:LinkButton></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="25%"></HeaderStyle>
+                                                                        <ItemStyle Width="25%"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                         <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server" CommandName="Sort" CommandArgument="FileExtension"><span  class="glyphicon glyphicon-tag"></span> Tipo</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><%#: Item.FileExtension %></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="70px"></HeaderStyle>
+                                                                        <ItemStyle Width="70px"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                         <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server" CommandName="Sort" CommandArgument="FileDescription"><span class="glyphicon glyphicon-list"></span> Descrizione</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server" ToolTip="<%#: Item.FileDescription%>"><%#: Item.FileDescription.Length < 20 ? Item.FileDescription : Item.FileDescription.Substring(0, 18) + "..." %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                         <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server" CommandName="Sort" CommandArgument="Owner"><span  class="glyphicon glyphicon-user"></span> Autore</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><a href="/Account/Profile?Username=<%#: Item.Owner %>"><asp:Label runat="server"><%#: Item.Owner %></asp:Label></a></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="15%"></HeaderStyle>
+                                                                        <ItemStyle Width="15%"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                         <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server" CommandName="Sort" CommandArgument="VersionCount"><span class="glyphicon glyphicon-list-alt"></span> Versioni</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:LinkButton  runat="server" CommandArgument="<%# Item.FileName %>" CommandName="SHOW_VERSIONS" CausesValidation="false"><span runat="server" class="badge"><%#: Item.VersionCount %></span></asp:LinkButton></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderStyle Width="100px"></HeaderStyle>
+                                                                        <ItemStyle Width="100px"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server" CommandName="Sort" CommandArgument="CreationDate"><span  class="glyphicon glyphicon-th"></span> Data</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <HeaderStyle Width="115px"></HeaderStyle>
+                                                                        <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <center>
+                                                                                <div>
+                                                                                    <asp:LinkButton ID="btnDownloadFile" ToolTip="Scarica il file" runat="server" CausesValidation="false" CommandName="DOWNLOAD_FILE" CommandArgument="<%# Item.AttachedFileID %>"><span class="label label-success"><span class="glyphicon glyphicon-save"></span></span></asp:LinkButton>
+                                                                                    <asp:LinkButton ID="btnShowDiscription" ToolTip="Visualiza informazione del file" runat="server" CausesValidation="false" CommandName="SHOW_DESC" CommandArgument="<%# Item.AttachedFileID %>"><span class="label label-primary"><span class="glyphicon glyphicon-info-sign"></span></span></asp:LinkButton>
+                                                                                    <asp:LinkButton ID="btnUpdateFile" ToolTip="Aggiorna il file" runat="server" CausesValidation="false" CommandName="UPDATE_FILE" CommandArgument="<%# Item.FileName %>"><span class="label label-default"><span class="glyphicon glyphicon-refresh"></span></span></asp:LinkButton>
+                                                                                    <asp:LinkButton ID="btnShowVersions" ToolTip="Visualiza i versioni del file" runat="server" CausesValidation="false" CommandName="SHOW_VERSIONS" CommandArgument="<%# Item.FileName %>"><span class="label label-info"><span class="glyphicon glyphicon-list-alt"></span></span></asp:LinkButton>
+                                                                                    <asp:LinkButton ID="btnDeleteFile" ToolTip="Cancella il file" runat="server" Visible='<%# AllowUpdateOrDelete(Convert.ToInt32(Eval("AttachedFileID"))) %>' CausesValidation="false" CommandName="DELETE_FILE" CommandArgument="<%# Item.AttachedFileID %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
+                                                                                </div>
+                                                                            </center>
+                                                                        </ItemTemplate>
+                                                                        <HeaderTemplate>
+                                                                            <center><div><asp:LinkButton CausesValidation="false" runat="server" ><span  class="glyphicon glyphicon-cog"></span> Azioni</asp:LinkButton></div></center>
+                                                                        </HeaderTemplate>
+                                                                        <HeaderStyle Width="155px"></HeaderStyle>
+                                                                        <ItemStyle Width="155px"></ItemStyle>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <PagerSettings Position="Bottom" />
+                                                                <PagerStyle HorizontalAlign="Center" CssClass="GridPager" />
+                                                            </asp:GridView>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>   <%--Documenti Allegati--%>
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
                                             <div class="row">
@@ -468,17 +602,10 @@
                                                 </div>
                                             </div>
                                         </ContentTemplate>
-                                    </asp:UpdatePanel>
-                                    
+                                    </asp:UpdatePanel>   <%--Collaboratori--%>                              
                                     <asp:UpdatePanel runat="server">
                                         <ContentTemplate>
-                                            <asp:Panel runat="server" id="divManagProject">
-                                                <asp:Label runat="server" ID="gestisciProgetto" CssClass="h4" Text="Gestisci progetto"></asp:Label>
-                                                <br />
-                                                <asp:Button runat="server" ID="btnSuspendProject" CausesValidation="false" OnClick="btnSuspendProject_Click" />
-                                                <asp:Button runat="server" ID="btnCloseProject" CausesValidation="false" OnClick="btnCloseProject_Click" /><br />
-                                                <asp:Label ID="lblInfoOperation" runat="server" Visible="false"></asp:Label><br />
-                                            </asp:Panel>
+                                           
                                             
 
                                             <asp:ModalPopupExtender ID="ModalPopup" runat="server"
@@ -512,7 +639,7 @@
                                                 </fieldset>
                                             </div>
                                         </ContentTemplate>
-                                    </asp:UpdatePanel>
+                                    </asp:UpdatePanel>   <%--ManagProject--%>
                                 </ItemTemplate>
                             </asp:FormView>
                         </div>
@@ -550,10 +677,25 @@
                                 </div>
                             </div>
                             <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Budget</asp:Label>
-                            <div class="col-md-10">
-                                    <asp:TextBox TextMode="Number" runat="server" ID="txtBudget" CssClass="form-control" Width="100px"/>
-                                    <br />
-                                </div>
+                            <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Giorni</asp:Label>
+                            <div class="col-md-2">
+                                <asp:TextBox ID="TextDay" TextMode="Number" Width="100" runat="server" CssClass="form-control" Text="0"></asp:TextBox>
+                                <asp:RegularExpressionValidator ControlToValidate="TextDay" runat="server" ErrorMessage="Giorni > 0"
+                                    CssClass="text-danger" ValidationExpression="^\d*$" Display="Dynamic" ValidationGroup="ModifyProject"></asp:RegularExpressionValidator> 
+                            </div>
+                            <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Ore</asp:Label>
+                            <div class="col-md-2">
+                                <asp:TextBox ID="txtHour" TextMode="Number" Width="100" runat="server" CssClass="form-control" Text="0"></asp:TextBox>
+                                <asp:RegularExpressionValidator ControlToValidate="txtHour" runat="server" ErrorMessage="Ore tra 0..7" ValidationGroup="ModifyProject"
+                                    CssClass="text-danger" ValidationExpression="[0-7]" Display="Dynamic"></asp:RegularExpressionValidator> 
+                            </div>
+                            <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Min</asp:Label>
+                            <div class="col-md-2">
+                                <asp:TextBox ID="txtMin" TextMode="Number" Width="100" runat="server" CssClass="form-control" Text="0"></asp:TextBox> 
+                                <asp:RegularExpressionValidator ControlToValidate="txtMin" runat="server" ErrorMessage="Minuti tra 0..59" ValidationGroup="ModifyProject"
+                                    CssClass="text-danger" ValidationExpression="[0-5]?[0-9]" Display="Dynamic"></asp:RegularExpressionValidator>
+                                <br />
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -620,7 +762,7 @@
                 </div>
             </div>
         </ContentTemplate>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel> <%--ModalPopupModifyProject--%> 
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
             <asp:ModalPopupExtender ID="ModalPopupListProject" runat="server"
@@ -694,5 +836,212 @@
                 </div>
             </div>
         </ContentTemplate>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel> <%--ModalPopupListProject--%>
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <asp:ModalPopupExtender ID="ModalPopupAddDocument" runat="server"
+                PopupControlID="pnlPopupAddDocument" TargetControlID="lnkDummyPopupAddDocument" BackgroundCssClass="modalBackground">
+            </asp:ModalPopupExtender>
+            <asp:LinkButton ID="lnkDummyPopupAddDocument" runat="server"></asp:LinkButton>
+            <div class="well bs-component" id="pnlPopupAddDocument" style="width: 60%;">
+                <asp:Label runat="server" ID="lblOperatioPopupAddDocument" visible="false" />
+                <div class="row">
+                    <div class="col-md-12">
+                        <legend><asp:Label runat="server" ID="lblInfoPopupAddDocument"/></legend>
+                    </div>
+                    <div class="col-md-12">
+                        <asp:ValidationSummary runat="server"></asp:ValidationSummary>
+                    </div>
+                    <div  runat="server" id="divDocunetPopupAddDocument">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Documento </label>
+                                    <div class="col-md-10">
+                                        <asp:Label ID="lblFileNamePopupAddDocument" runat="server"></asp:Label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Versione </label>
+                                <div class="col-md-10">
+                                    <asp:Label ID="lblVersionPopupAddDocument" runat="server"></asp:Label>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div  runat="server" id="divInfoPopupAddDocument">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Dimensione </label>
+                                    <div class="col-md-10">
+                                        <asp:Label ID="lblSizeFilePopupAddDocument" runat="server"></asp:Label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Data</label>
+                                    <div class="col-md-10">
+                                        <asp:Label ID="lblDatePopupAddDocument" runat="server"></asp:Label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Data</label>
+                                    <div class="col-md-10">
+                                        <asp:Label ID="lblHourPopupAddDocument" runat="server"></asp:Label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" runat="server" id="divFileUploderPopupAddDocument">
+                        <label class="col-md-2 control-label">File *</label>
+                        <div class="col-md-10">
+                            <asp:FileUpload ID="FileUploadAddDocument" runat="server" CssClass="well well-sm"></asp:FileUpload>
+                            <asp:Label ID="LabelPopUpAddDocumentError" CssClass="text-danger" runat="server" Visible="false"></asp:Label>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="col-md-2 control-label">Descrizione *</label>
+                        <div class="col-md-10">
+                            <asp:TextBox CssClass="form-control input-sm" TextMode="MultiLine" Height="150px" ID="txtFileDescription" runat="server"></asp:TextBox>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFileDescription" ID="validatorFileDescription" CssClass="text-danger" ValidationGroup="AddDocumentPopUp" ErrorMessage="Il campo Descrizione è obbligatorio." />
+                        </div>
+                    </div>
+        
+                    <div class="col-md-12">
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                        <div class="col-md-offset-9 col-md-10">
+                            <asp:Button runat="server" Text="&nbsp;&nbsp;&nbsp;Ok&nbsp;&nbsp;&nbsp;" ID="btnPopUpAddDocument" CssClass="btn btn-success btn-sm" ValidationGroup="AddDocumentPopUp" OnClick="btnPopUpAddDocument_Click" />
+                            <asp:Button runat="server" Text="Annulla" ID="btnPopUpAddDocumentClose" CssClass="btn btn-danger btn-sm" CausesValidation="false" OnClick="btnPopUpAddDocumentClose_Click" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </ContentTemplate>
+        <Triggers>
+            <asp:PostBackTrigger ControlID="btnPopUpAddDocument" />
+        </Triggers>
+    </asp:UpdatePanel> <%--ModalPopupAddDocument--%>
+    <asp:UpdatePanel runat="server">
+        <ContentTemplate>
+            <asp:ModalPopupExtender ID="ModalPopupViewFileVersions" runat="server"
+                PopupControlID="pnlPopupViewFileVersions" TargetControlID="lnkDummyPopupViewFileVersions" BackgroundCssClass="modalBackground">
+            </asp:ModalPopupExtender>
+            <asp:LinkButton ID="lnkDummyPopupViewFileVersions" runat="server"></asp:LinkButton>
+            <div class="panel panel-default" id="pnlPopupViewFileVersions" style="width: 80%;">
+                <div class="panel-heading">
+                    <asp:LinkButton ID="btnClosePopupViewFileVersions" CausesValidation="false" runat="server" class="close" OnClick="btnClosePopupViewFileVersions_Click">×</asp:LinkButton>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-8">
+                                <ul class="nav nav-pills">
+                                    <li>
+                                        <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Versioni de file : <asp:Label runat="server" ID="lblFileNamePopupViewFileVersions" /></li>
+                                </ul>
+                            </div>
+                            <div class="navbar-right">
+                                <%-- <asp:Button runat="server" CausesValidation="false" Text="Aggiungi Documento" CssClass="btn btn-success btn-xs"  />--%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body" style="max-height: 200px; overflow: auto;">
+                    <asp:GridView ID="ViewFileVersionsGridView" runat="server" AutoGenerateColumns="False"
+                        ItemType="VALE.Models.AttachedFile" EmptyDataText="Non ci sono file allegati."
+                        CssClass="table table-striped table-bordered"
+                        OnRowCommand="ViewFileVersionsGridView_RowCommand">
+                        <Columns>
+                            <asp:TemplateField>
+                                <HeaderTemplate>
+                                    <center><div><span  class="glyphicon glyphicon-barcode"></span> Versione</div></center>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <center><div><asp:LinkButton  runat="server" CommandArgument="<%# Item.AttachedFileID %>" CommandName="DOWNLOAD" CausesValidation="false"><span runat="server" class="badge"><%#: Item.Version %></span></asp:LinkButton></div></center>
+                                </ItemTemplate>
+                                <HeaderStyle Width="100px"></HeaderStyle>
+                                <ItemStyle Width="100px"></ItemStyle>
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <HeaderTemplate>
+                                    <center><div><span  class="glyphicon glyphicon-tag"></span> Tipo</div></center>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <center><div><%#: Item.FileExtension %></div></center>
+                                </ItemTemplate>
+                                <HeaderStyle Width="70px"></HeaderStyle>
+                                <ItemStyle Width="70px"></ItemStyle>
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <HeaderTemplate>
+                                    <center><div><span class="glyphicon glyphicon-list"></span> Descrizione</div></center>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <center><div><asp:Label runat="server" ToolTip="<%#: Item.FileDescription%>"><%#: Item.FileDescription.Length < 20 ? Item.FileDescription : Item.FileDescription.Substring(0, 18) + "..." %></asp:Label></div></center>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <HeaderTemplate>
+                                    <center><div><span  class="glyphicon glyphicon-user"></span> Autore</div></center>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <center><div><a href="/Account/Profile?Username=<%#: Item.Owner %>"><asp:Label runat="server"><%#: Item.Owner %></asp:Label></a></div></center>
+                                </ItemTemplate>
+                                <HeaderStyle Width="20%"></HeaderStyle>
+                                <ItemStyle Width="20%"></ItemStyle>
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <center><div><asp:Label runat="server"><%#: Item.CreationDate.ToShortDateString() %></asp:Label></div></center>
+                                </ItemTemplate>
+                                <HeaderTemplate>
+                                    <center><div><span  class="glyphicon glyphicon-th"></span> Data</div></center>
+                                </HeaderTemplate>
+                                <HeaderStyle Width="115px"></HeaderStyle>
+                                <ItemStyle Width="115px" Font-Bold="true"></ItemStyle>
+                            </asp:TemplateField>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <center>
+                                        <div>
+                                            <asp:LinkButton ID="btnDownloadClick" runat="server" CausesValidation="false" CommandName="DOWNLOAD_FILE" CommandArgument="<%# Item.AttachedFileID %>"><span class="label label-success"><span class="glyphicon glyphicon-save"></span></span></asp:LinkButton>
+                                            <asp:LinkButton ID="btnShowDiscClick" runat="server" CausesValidation="false" CommandName="SHOW_DESC" CommandArgument="<%# Item.AttachedFileID %>"><span class="label label-primary"><span class="glyphicon glyphicon-info-sign"></span></span></asp:LinkButton>
+                                            <asp:LinkButton ID="btnDeleteClick" runat="server" Visible='<%# AllowUpdateOrDelete(Convert.ToInt32(Eval("AttachedFileID"))) %>' CausesValidation="false" CommandName="DELETE_FILE" CommandArgument="<%# Item.AttachedFileID %>"><span class="label label-danger"><span class="glyphicon glyphicon-trash"></span></span></asp:LinkButton>
+                                        </div>
+                                    </center>
+                                </ItemTemplate>
+                                <HeaderTemplate>
+                                    <center><div><span  class="glyphicon glyphicon-cog"></span> Azioni</div></center>
+                                </HeaderTemplate>
+                                <HeaderStyle Width="115px"></HeaderStyle>
+                                <ItemStyle Width="115px"></ItemStyle>
+                            </asp:TemplateField>
+                        </Columns>
+
+                    </asp:GridView>
+
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel> <%--ModalPopupViewFileVersions--%>
 </asp:Content>

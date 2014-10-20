@@ -82,6 +82,11 @@ namespace VALE.MyVale
             return db.ActivityTypes.ToList();
         }
 
+        private int GetMinutes(int days, int hours, int min)
+        {
+            return days * (8 * 60) + hours * 60 + min;
+        }
+
         private int SaveActivity() 
         {
             var db = new UserOperationsContext();
@@ -119,18 +124,22 @@ namespace VALE.MyVale
                         status = ActivityStatus.ToBePlanned;
                         break;
                 }
-                int budget = 0;
-                int.TryParse(txtBudget.Text, out budget);
+                int days = 0;
+                int.TryParse(TextDay.Text, out days);
+                int hours = 0;
+                int.TryParse(txtHour.Text, out hours);
+                int min = 0;
+                int.TryParse(txtMin.Text, out min);
                 var newActivity = new Activity
                 {
                     ActivityName = txtName.Text,
                     Description = txtDescription.Text,
                     Status = status,
-                    CreationDate = DateTime.Today,
+                    CreationDate = DateTime.Now,
                     StartDate = startDate,
                     ExpireDate = expireDate,
-                    LastModified = DateTime.Today,
-                    Budget = budget,
+                    LastModified = DateTime.Now,
+                    Budget = GetMinutes(days, hours, min),
                     RelatedProject = project,
                     PendingUsers = new List<UserData>(),
                     RegisteredUsers = new List<UserData>(),
@@ -142,15 +151,6 @@ namespace VALE.MyVale
                 newActivity.RegisteredUsers.Add(user);
                 var activityActions = new ActivityActions();
                 activityActions.SaveData(newActivity, db);
-                //db.Reports.Add(new ActivityReport
-                //{
-                //    ActivityId = newActivity.ActivityId,
-                //    WorkerUserName = User.Identity.GetUserName(),
-                //    HoursWorked = 0,
-                //    ActivityDescription = "Creazione attività",
-                //    Date = DateTime.Today
-
-                //});
                 db.SaveChanges();
                 return newActivity.ActivityId;
             }

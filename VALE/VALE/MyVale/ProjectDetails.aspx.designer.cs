@@ -94,13 +94,31 @@ namespace VALE.MyVale {
         protected global::AjaxControlToolkit.CalendarExtender calendarFrom;
         
         /// <summary>
-        /// txtBudget control.
+        /// TextDay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBudget;
+        protected global::System.Web.UI.WebControls.TextBox TextDay;
+        
+        /// <summary>
+        /// txtHour control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHour;
+        
+        /// <summary>
+        /// txtMin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMin;
         
         /// <summary>
         /// chkPublic control.
@@ -182,5 +200,212 @@ namespace VALE.MyVale {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView OpenedProjectList;
+        
+        /// <summary>
+        /// ModalPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupAddDocument;
+        
+        /// <summary>
+        /// lnkDummyPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkDummyPopupAddDocument;
+        
+        /// <summary>
+        /// lblOperatioPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblOperatioPopupAddDocument;
+        
+        /// <summary>
+        /// lblInfoPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInfoPopupAddDocument;
+        
+        /// <summary>
+        /// divDocunetPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDocunetPopupAddDocument;
+        
+        /// <summary>
+        /// lblFileNamePopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFileNamePopupAddDocument;
+        
+        /// <summary>
+        /// lblVersionPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblVersionPopupAddDocument;
+        
+        /// <summary>
+        /// divInfoPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInfoPopupAddDocument;
+        
+        /// <summary>
+        /// lblSizeFilePopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSizeFilePopupAddDocument;
+        
+        /// <summary>
+        /// lblDatePopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDatePopupAddDocument;
+        
+        /// <summary>
+        /// lblHourPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblHourPopupAddDocument;
+        
+        /// <summary>
+        /// divFileUploderPopupAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divFileUploderPopupAddDocument;
+        
+        /// <summary>
+        /// FileUploadAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadAddDocument;
+        
+        /// <summary>
+        /// LabelPopUpAddDocumentError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelPopUpAddDocumentError;
+        
+        /// <summary>
+        /// txtFileDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFileDescription;
+        
+        /// <summary>
+        /// validatorFileDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator validatorFileDescription;
+        
+        /// <summary>
+        /// btnPopUpAddDocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPopUpAddDocument;
+        
+        /// <summary>
+        /// btnPopUpAddDocumentClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPopUpAddDocumentClose;
+        
+        /// <summary>
+        /// ModalPopupViewFileVersions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupViewFileVersions;
+        
+        /// <summary>
+        /// lnkDummyPopupViewFileVersions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkDummyPopupViewFileVersions;
+        
+        /// <summary>
+        /// btnClosePopupViewFileVersions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnClosePopupViewFileVersions;
+        
+        /// <summary>
+        /// lblFileNamePopupViewFileVersions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFileNamePopupViewFileVersions;
+        
+        /// <summary>
+        /// ViewFileVersionsGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView ViewFileVersionsGridView;
     }
 }

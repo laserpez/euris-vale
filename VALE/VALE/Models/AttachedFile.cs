@@ -12,7 +12,9 @@ namespace VALE.Models
         public string FileName { get; set; }
         public string FileDescription { get; set; }
         public string FileExtension { get; set; }
+        public bool IsAssosiationDocument  { get; set; }
         public int Size { get; set; }
+        public int Version { get; set; }
         public DateTime CreationDate { get; set; }
         public string Owner { get; set; }
         public byte[] FileData { set; get; }
@@ -32,6 +34,12 @@ namespace VALE.Models
         [ForeignKey("RelatedBODReport")]
         public int? BODReportId { get; set; }
         public virtual BODReport RelatedBODReport { get; set; }
+
+        [ForeignKey("RelatedActivity")]
+        public int? ActivityId { get; set; }
+        public virtual Activity RelatedActivity { get; set; }
+
+
 
         
     }

@@ -19,6 +19,7 @@ namespace VALE.MyVale
         private int _currentProjectId;
         private string _currentUserName;
         private UserOperationsContext _db;
+        private ProjectActions _actions;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,17 +29,13 @@ namespace VALE.MyVale
             _currentUserName = User.Identity.GetUserName();
             if (Request.QueryString.HasKeys())
                 _currentProjectId = Convert.ToInt32(Request.QueryString.GetValues("projectId").First());
+            _actions = new ProjectActions();
 
-            FileUploader uploader = (FileUploader)ProjectDetail.FindControl("FileUploader");
-            uploader.DataActions = new ProjectActions();
-            uploader.DataId = _currentProjectId;
-            
             if (!IsPostBack)
             {
                 if (Request.QueryString["From"] != null)
                     Session["ProjectDetailsRequestFrom"] = Request.QueryString["From"];
                 ShowHideControls();
-                uploader.DataBind();
             }
         }
 
@@ -82,8 +79,6 @@ namespace VALE.MyVale
                     grdRelatedProject.Columns[5].Visible = false;
                     ((Button)ProjectDetail.FindControl("btnAddUsers")).Visible = false;
                     ((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Visible = false;
-                    //btnModify.Visible = true;
-                    //((Button)ProjectDetail.FindControl("btnAddRelatedProject")).Enabled = true;
                 }
             }
         }
@@ -137,47 +132,7 @@ namespace VALE.MyVale
                 return null;
         }
 
-        protected void btnSuspendProject_Click(object sender, EventArgs e)
-        {
-            var actions = new ProjectActions();
-            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
-            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
-            if (project.Status == "Sospeso")
-                label.Text = "RIPRENDI";
-            else
-                label.Text = "SOSPENDI";
-
-            project.LastModified = DateTime.Now;
-            var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
-            if (listHierarchyUp.Count != 0)
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
-            _db.SaveChanges();
-
-            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
-            popUp.Show();
-        }
-
-        protected void btnCloseProject_Click(object sender, EventArgs e)
-        {
-            var actions = new ProjectActions();
-            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
-            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
-            if (project.Status == "Chiuso")
-                label.Text = "RIPRENDI";
-            else
-                label.Text = "CHIUDI";
-            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
-            popUp.Show();
-            
-            project.LastModified = DateTime.Now;
-            var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
-            if (listHierarchyUp.Count != 0)
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
-            _db.SaveChanges();
-
-           
-        }
-
+      
         protected void ProjectDetail_DataBound(object sender, EventArgs e)
         {
             if (_currentProjectId != 0)
@@ -298,38 +253,35 @@ namespace VALE.MyVale
         private void SetManageProjectSection()
         {
             var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
-            Button btnSuspend = (Button)ProjectDetail.FindControl("btnSuspendProject");
-            Button btnClose = (Button)ProjectDetail.FindControl("btnCloseProject");
-            Label gestisciProgetto = (Label)ProjectDetail.FindControl("gestisciProgetto");
-            Label lblInfo = (Label)ProjectDetail.FindControl("lblInfoManage");
+            LinkButton btnSuspend = (LinkButton)ProjectDetail.FindControl("btnSuspendProject");
+            LinkButton btnClose = (LinkButton)ProjectDetail.FindControl("btnCloseProject");
             if (project.OrganizerUserName == _currentUserName || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
             {
                 if (project.Status == "Aperto")
                 {
-                    btnSuspend.Text = "Sospendi progetto";
-                    btnSuspend.Enabled = true;
-                    btnSuspend.CssClass = "btn btn-warning";
-                    btnClose.Text = "Chiudi progetto";
-                    btnClose.Enabled = true;
-                    btnClose.CssClass = "btn btn-danger";
+                    btnSuspend.Text = "<span class='glyphicon glyphicon-pause'></span> Sospendi progetto";
+                    btnSuspend.Visible = true;
+
+                    btnClose.Text = "<span class='glyphicon glyphicon-stop'></span> Chiudi progetto";
+                    btnClose.Visible = true;
+                  
                 }
                 else if (project.Status == "Sospeso")
                 {
-                    btnSuspend.Text = "Reapri progetto";
-                    btnSuspend.Enabled = true;
-                    btnSuspend.CssClass = "btn btn-warning";
-                    btnClose.Text = "Chiudi progetto";
-                    btnClose.Enabled = true;
-                    btnClose.CssClass = "btn btn-danger";
+                    btnSuspend.Text = "<span class='glyphicon glyphicon-play'></span> Reapri progetto";
+                    btnSuspend.Visible = true;
+
+                    btnClose.Text = "<span class='glyphicon glyphicon-stop'></span> Chiudi progetto";
+                    btnClose.Visible = true;
+                 
                 }
                 else
                 {
-                    btnSuspend.Text = "Il progetto è chiuso";
-                    btnSuspend.Enabled = false;
-                    btnSuspend.CssClass = "btn btn-warning disabled";
-                    btnClose.Text = "Reapri progetto";
-                    btnClose.Enabled = true;
-                    btnClose.CssClass = "btn btn-danger";
+                    btnSuspend.Visible = false;
+
+                    btnClose.Text = "<span class='glyphicon glyphicon-play'></span> Reapri progetto";
+                    btnClose.Visible = true;
+                 
                 }
             }
             else
@@ -550,24 +502,40 @@ namespace VALE.MyVale
             txtName.CssClass = "form-control";
             txtName.Text = project.ProjectName;
             txtDescription.Text = project.Description;
-            txtBudget.Text = project.Budget.ToString();
+            int minutes = project.Budget;
+            int days = minutes / (60 * 8);
+            minutes -= days * (60 * 8);
+            int hours = minutes / 60;
+            int min = minutes % 60;
+            TextDay.Text = days.ToString();
+            txtHour.Text = hours.ToString();
+            txtMin.Text = min.ToString();
             ddlSelectType.SelectedValue = project.Type;
             txtStartDate.Text = project.CreationDate.ToShortDateString();
             chkPublic.Checked = project.Public;
             ModalPopupProject.Show();
         }
 
+        private int GetMinutes(int days, int hours, int min)
+        {
+            return days * (8 * 60) + hours * 60 + min;
+        }
+
         protected void btnConfirmModify_Click(object sender, EventArgs e)
         {
             var db = new UserOperationsContext();
-            int budget = 0;
-            int.TryParse(txtBudget.Text, out budget);
+            int days = 0;
+            int.TryParse(TextDay.Text, out days);
+            int hours = 0;
+            int.TryParse(txtHour.Text, out hours);
+            int min = 0;
+            int.TryParse(txtMin.Text, out min);
             var project = db.Projects.Where(o => o.ProjectId == _currentProjectId).FirstOrDefault();
             project.ProjectName = txtName.Text;
             project.Description = txtDescription.Text;
             project.CreationDate = Convert.ToDateTime(txtStartDate.Text);
             project.LastModified = DateTime.Now;
-            project.Budget = budget;
+            project.Budget = GetMinutes(days, hours, min);
             project.Public = chkPublic.Checked;
             project.Type = ddlSelectType.SelectedValue;
 
@@ -640,6 +608,7 @@ namespace VALE.MyVale
 
         }
 
+
         //Devono essere gestiti i vincoli per la modifica : amministratore/utente normale/creatore dell'attività
         public IQueryable<Project> GetRelatedProjectList([QueryString("projectId")] int? PprojectId)
         {
@@ -698,22 +667,47 @@ namespace VALE.MyVale
 
         public string GetHoursWorked()
         {
-            return GetHoursWorkedForProject(_currentProjectId);
+            return GetBudgetInfo(_currentProjectId);
         }
 
-        public string GetHoursWorkedForProject(int projectId)
+        public string GetBudgetInfo(int projectId)
         {
-            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
-            int hours;
-            var projectActions = new ProjectActions();
-            hours = projectActions.GetAllProjectHierarchyHoursWorked(projectId);
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
             if (project != null)
             {
-                int budget = projectActions.GetProjectHierarchyBudget(projectId);
-                if (budget > 0)
-                    return String.Format("Budget Totale: {0} Erogato {1}", budget, hours);
+                var projectActions = new ProjectActions();
+                int disbursed = projectActions.GetAllProjectHierarchyHoursWorked(projectId);
+                int planned = projectActions.GetProjectHierarchyBudget(projectId);
+                string strBudget = "";
+                if (project.Budget > 0)
+                    strBudget = GetStringFromMinutes(project.Budget); 
+                string strPlanned = "";
+                if (planned > 0)
+                    strPlanned = ", Pianificato: " + GetStringFromMinutes(planned); 
+                string strDisbursed = "";
+                if (disbursed > 0)
+                    strDisbursed = ", Erogato: " + GetStringFromMinutes(disbursed);
+                return String.Format("{0}{1}{2}", strBudget, strPlanned, strDisbursed); 
             }
-            return String.Format(" {0} Ore di lavoro", hours);
+            return "";
+        }
+
+        private string GetStringFromMinutes(int minutes) 
+        {
+            int days = minutes / (60 * 8);
+            minutes -= days * (60 * 8);
+            int hours = minutes / 60;
+            int min = minutes % 60;
+            string strDays = "";
+            if (days > 0)
+                strDays = days == 1 ? days + " Giorno" : days + " Giorni";
+            string strHours = "";
+            if (hours > 0)
+                strHours = hours == 1 ? hours + " Ora" : hours + " Ore";
+            string strMinutes = "";
+            if (min > 0)
+                strMinutes = min == 1 ? min + " Minuto" : min + " Minuti";
+            return String.Format("{0} {1} {2}", strDays, strHours, strMinutes); 
         }
 
         protected void btnBack_ServerClick(object sender, EventArgs e)
@@ -785,7 +779,7 @@ namespace VALE.MyVale
 
         private TreeNode PopulateProjectNode(Project project)
         {
-            var projectNode = new TreeNode{ Text = project.ProjectName + " (" + GetHoursWorkedForProject(project.ProjectId) + " )" };
+            var projectNode = new TreeNode { Text = project.ProjectName + " (Budget: " + GetBudgetInfo(project.ProjectId) + " )" };
             //if (IsVisibleProject(project))
             //{
             //    var projectInfoNode = PopulateProjectInfoNodeNode(project);
@@ -866,5 +860,286 @@ namespace VALE.MyVale
 
             }
         }
+
+
+        //------------------------------------------- File Uploader -------------------------------
+        protected void btnAddDocument_Click(object sender, EventArgs e)
+        {
+            txtFileDescription.Text = "";
+            LabelPopUpAddDocumentError.Visible = false;
+            btnPopUpAddDocumentClose.Visible = true;
+            lblInfoPopupAddDocument.Text = "Allega un documento";
+            divDocunetPopupAddDocument.Visible = false;
+            lblOperatioPopupAddDocument.Text = "UPLOAD";
+            divFileUploderPopupAddDocument.Visible = true;
+            divInfoPopupAddDocument.Visible = false;
+            txtFileDescription.Enabled = true;
+            validatorFileDescription.Enabled = true;
+            ModalPopupAddDocument.Show();
+        }
+
+        public IQueryable<AttachedFileGridView> DocumentsGridView_GetData()
+        {
+            if (_actions != null)
+                return CreateAttachedFileGridViewList(_actions.GetAttachments(_currentProjectId).ToList()).AsQueryable();
+            return null;
+        }
+
+        protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridView DocumentsGridView = (GridView)ProjectDetail.FindControl("DocumentsGridView");
+            int id;
+            switch (e.CommandName)
+            {
+
+                case "DOWNLOAD_FILE":
+                    id = Convert.ToInt32(e.CommandArgument);
+                    Response.Redirect("/DownloadFile.ashx?fileId=" + id);
+                    break;
+                case "DELETE_FILE":
+                    id = Convert.ToInt32(e.CommandArgument);
+                    _actions.RemoveAttachment(id);
+                    DocumentsGridView.PageIndex = 0;
+                    DocumentsGridView.DataBind();
+                    break;
+                case "SHOW_VERSIONS":
+                    var list = _actions.GetAttachments(_currentProjectId).Where(f => f.FileName == e.CommandArgument.ToString()).OrderByDescending(f => f.CreationDate).AsQueryable();
+                    ViewFileVersionsGridView.DataSource = list;
+                    ViewFileVersionsGridView.DataBind();
+                    lblFileNamePopupViewFileVersions.Text = e.CommandArgument.ToString();
+                    ModalPopupViewFileVersions.Show();
+                    break;
+                case "UPDATE_FILE":
+                    ShowUpdateFilePopUp(e.CommandArgument.ToString());
+                    break;
+                case "SHOW_DESC":
+                    id = Convert.ToInt32(e.CommandArgument);
+                    var file = GetFile(id);
+                    if (file != null)
+                        ShowInfoAttachedFile(file, false);
+                    break;
+                case "Page":
+                    break;
+            }
+        }
+
+        private AttachedFile GetFile(int fileId) 
+        {
+            return _db.AttachedFiles.FirstOrDefault(f => f.AttachedFileID == fileId);
+        }
+
+        private void ShowInfoAttachedFile(AttachedFile file, bool isVersion) 
+        {
+            btnPopUpAddDocumentClose.Visible = false;
+            txtFileDescription.Text = file.FileDescription;
+            LabelPopUpAddDocumentError.Visible = false;
+            divInfoPopupAddDocument.Visible = true;
+            divFileUploderPopupAddDocument.Visible = false;
+            txtFileDescription.Enabled = false;
+            validatorFileDescription.Enabled = false;
+            lblInfoPopupAddDocument.Text = "Informazione del Documento";
+            divDocunetPopupAddDocument.Visible = true;
+            lblVersionPopupAddDocument.Text = file.Version.ToString();
+            lblFileNamePopupAddDocument.Text = file.FileName + file.FileExtension;
+            lblSizeFilePopupAddDocument.Text = (file.Size / (1024 * 1024)) > 0 ? (file.Size / (1024 * 1024)) + "," 
+                + (file.Size / (1024 * 1024)) + " MB" : (file.Size / 1024) + "," + (file.Size %  1024) + " KB";
+            lblDatePopupAddDocument.Text = file.CreationDate.ToLongDateString();
+            lblHourPopupAddDocument.Text = file.CreationDate.ToLongTimeString();
+            if (isVersion)
+                lblOperatioPopupAddDocument.Text = "INFO_VERSION";
+            else
+                lblOperatioPopupAddDocument.Text = "INFO_FILE";
+            ModalPopupAddDocument.Show();
+        }
+
+        private void ShowUpdateFilePopUp(string fileName) 
+        {
+            txtFileDescription.Text = "";
+            LabelPopUpAddDocumentError.Visible = false;
+            btnPopUpAddDocumentClose.Visible = true;
+            divFileUploderPopupAddDocument.Visible = true;
+            divInfoPopupAddDocument.Visible = false;
+            txtFileDescription.Enabled = true;
+            lblInfoPopupAddDocument.Text = "Aggiorna un documento";
+            divDocunetPopupAddDocument.Visible = true;
+            lblVersionPopupAddDocument.Text = GetNewAttachedFileVersion(fileName).ToString();
+            lblFileNamePopupAddDocument.Text = fileName;
+            validatorFileDescription.Enabled = true;
+            lblOperatioPopupAddDocument.Text = "UPDATE";
+            ModalPopupAddDocument.Show();
+        }
+
+        private int GetNewAttachedFileVersion(string attachedFileName) 
+        {
+            int version = 0;
+            var list = _actions.GetAttachments(_currentProjectId).Where(f => f.FileName == attachedFileName);
+            if(list.Count() > 0)
+                version = list.Max(f => f.Version);
+            return version + 1;
+        }
+
+        public bool AllowUpdateOrDelete(int attachedFileId)
+        {
+            var db = new UserOperationsContext();
+            var attachedFile = db.AttachedFiles.First(a => a.AttachedFileID == attachedFileId);
+            var relatedProject = attachedFile.RelatedProject;
+            var currentUsername = HttpContext.Current.User.Identity.Name;
+            if (attachedFile.Owner == currentUsername)
+                return true;
+            if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione"))
+                return true;
+            if (relatedProject != null)
+                if (relatedProject.OrganizerUserName == currentUsername)
+                    return true;
+            return false;
+        }
+
+        protected void btnPopUpAddDocument_Click(object sender, EventArgs e)
+        {
+            if (lblOperatioPopupAddDocument.Text == "INFO_FILE")
+                ModalPopupAddDocument.Hide();
+            else if(lblOperatioPopupAddDocument.Text == "INFO_VERSION")
+                ModalPopupViewFileVersions.Show();
+            else
+            {
+                GridView DocumentsGridView = (GridView)ProjectDetail.FindControl("DocumentsGridView");
+                var attachedFile = new AttachedFile();
+                var fileNames = FileUploadAddDocument.PostedFile.FileName.Split(new char[] { '/', '\\' });
+                if (FileUploadAddDocument.HasFile)
+                {
+                    attachedFile.FileExtension = Path.GetExtension(FileUploadAddDocument.PostedFile.FileName);
+                    if (lblOperatioPopupAddDocument.Text == "UPLOAD")
+                    {
+                        var fileName = fileNames[fileNames.Length - 1];
+                        attachedFile.FileName = fileName.Substring(0, fileName.LastIndexOf('.'));
+                    }
+                    else
+                    {
+                        attachedFile.FileName = lblFileNamePopupAddDocument.Text;
+                    }
+                    attachedFile.Version = GetNewAttachedFileVersion(attachedFile.FileName);
+                    attachedFile.FileDescription = txtFileDescription.Text;
+                    attachedFile.FileData = FileUploadAddDocument.FileBytes;
+                    attachedFile.Size = attachedFile.FileData.Length;
+                    attachedFile.Owner = HttpContext.Current.User.Identity.Name;
+                    attachedFile.CreationDate = DateTime.Now;
+                    _actions.AddAttachment(_currentProjectId, attachedFile);
+                    DocumentsGridView.DataBind();
+                }
+                else
+                {
+                    LabelPopUpAddDocumentError.Text = "Selezionare il file prima di validare.";
+                    LabelPopUpAddDocumentError.Visible = true;
+                    ModalPopupAddDocument.Show();
+                }
+            }
+        }
+
+        protected void btnPopUpAddDocumentClose_Click(object sender, EventArgs e)
+        {
+            ModalPopupAddDocument.Hide();
+        }
+
+        private List<AttachedFileGridView> CreateAttachedFileGridViewList(List<AttachedFile> files)
+        {
+            List<AttachedFileGridView> litFiles = new List<AttachedFileGridView>();
+            var orderGroups = from f in files group f by f.FileName into g
+                select new { FileName = g.Key, Files = g };
+            foreach (var g in orderGroups)
+            {
+                var file = g.Files.OrderByDescending(f => f.CreationDate).FirstOrDefault();
+                AttachedFileGridView gridViewfile = new AttachedFileGridView
+                {
+                    AttachedFileID = file.AttachedFileID,
+                    CreationDate = file.CreationDate,
+                    FileDescription = file.FileDescription,
+                    FileExtension = file.FileExtension,
+                    FileName = file.FileName,
+                    Size = file.Size,
+                    Owner = file.Owner,
+                    Version = file.Version,
+                    VersionCount = g.Files.Count(),
+                };
+                litFiles.Add(gridViewfile);
+            }
+            return litFiles;
+        }
+
+        protected void ViewFileVersionsGridView_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            GridView ViewFileVersionsGridView = (GridView)ProjectDetail.FindControl("ViewFileVersionsGridView");
+            
+            switch (e.CommandName)
+            {
+                case "DOWNLOAD_FILE":
+                    int id = Convert.ToInt32(e.CommandArgument);
+                    Response.Redirect("/DownloadFile.ashx?fileId=" + id);
+                    break;
+                case "DELETE_FILE":
+                    int idfile = Convert.ToInt32(e.CommandArgument);
+                    _actions.RemoveAttachment(idfile);
+                    ViewFileVersionsGridView.PageIndex = 0;
+                    ViewFileVersionsGridView.DataBind();
+                    break;
+                case "SHOW_DESC":
+                    id = Convert.ToInt32(e.CommandArgument);
+                    var file = GetFile(id);
+                    if (file != null)
+                        ShowInfoAttachedFile(file, true);
+                    break;
+                case "Page":
+                    break;
+            }
+        }
+
+        protected void btnClosePopupViewFileVersions_Click(object sender, EventArgs e)
+        {
+            ModalPopupViewFileVersions.Hide();
+        }
+
+        protected void btnSuspendProject_Click(object sender, EventArgs e)
+        {
+            var actions = new ProjectActions();
+            var project = _db.Projects.First(p => p.ProjectId == _currentProjectId);
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
+            if (project.Status == "Sospeso")
+                label.Text = "RIPRENDI";
+            else
+                label.Text = "SOSPENDI";
+
+            project.LastModified = DateTime.Now;
+            var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
+            if (listHierarchyUp.Count != 0)
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            _db.SaveChanges();
+
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Show();
+        }
+
+        protected void btnCloseProject_Click(object sender, EventArgs e)
+        {
+            var actions = new ProjectActions();
+            var project = _db.Projects.FirstOrDefault(p => p.ProjectId == _currentProjectId);
+            Label label = (Label)ProjectDetail.FindControl("lblInfoOperation");
+            if (project.Status == "Chiuso")
+                label.Text = "RIPRENDI";
+            else
+                label.Text = "CHIUDI";
+            ModalPopupExtender popUp = (ModalPopupExtender)ProjectDetail.FindControl("ModalPopup");
+            popUp.Show();
+
+            project.LastModified = DateTime.Now;
+            var listHierarchyUp = actions.getHierarchyUp(_currentProjectId);
+            if (listHierarchyUp.Count != 0)
+                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            _db.SaveChanges();
+
+        }
+    }
+
+    public class AttachedFileGridView : AttachedFile 
+    {
+        public int VersionCount { get; set; }
     }
 }

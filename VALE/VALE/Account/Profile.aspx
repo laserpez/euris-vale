@@ -374,11 +374,11 @@
                         <asp:Label ID="lblChangePasswordError" CssClass="text-danger" runat="server" visible="false"></asp:Label>
                         <br />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" runat="server" id="pnlPasswordFild">
                         <asp:Label runat="server" AssociatedControlID="CurrentPassword" CssClass="col-md-4 control-label">Password Attuale *</asp:Label>
                         <div class="col-md-8">
                             <asp:TextBox runat="server" ID="CurrentPassword" TextMode="Password" CssClass="form-control" Width="227px" />
-                            <asp:RequiredFieldValidator runat="server" ControlToValidate="CurrentPassword" ValidationGroup="ModifyPassword" 
+                            <asp:RequiredFieldValidator ID="passwordValidator" runat="server" ControlToValidate="CurrentPassword" ValidationGroup="ModifyPassword" 
                                 CssClass="text-danger" ErrorMessage="Il campo Password è obbligatorio." />
                         </div>
                     </div>
@@ -527,7 +527,7 @@
                             <br />
                         </div>
                         <div runat="server" id="pnlPartner">
-                            <legend>Dati Sociazione</legend>
+                            <legend>Dati Associazione</legend>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">

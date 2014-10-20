@@ -23,13 +23,12 @@ namespace VALE.Logic
                 var newIntervention = data as Intervention;
 
                 db.Interventions.Add(newIntervention);
+
                 if (newIntervention.RelatedProject != null)
                 {
                     newIntervention.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(newIntervention.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(newIntervention.RelatedProject.ProjectId);
                 }
                 db.SaveChanges();
 
@@ -58,9 +57,7 @@ namespace VALE.Logic
                 {
                     intervention.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(intervention.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(intervention.RelatedProject.ProjectId);
                 }
                 db.SaveChanges();
                 return true;
@@ -85,9 +82,7 @@ namespace VALE.Logic
                 {
                     anIntervention.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(anIntervention.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(anIntervention.RelatedProject.ProjectId);
                 }
                 db.AttachedFiles.Remove(anAttachment);
 
@@ -119,9 +114,7 @@ namespace VALE.Logic
                 {
                     anIntervention.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(anIntervention.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(anIntervention.RelatedProject.ProjectId);
                 }
                 db.SaveChanges();
                 return true;
@@ -142,11 +135,8 @@ namespace VALE.Logic
                 if (interventionRelatedProject != null)
                 {
                     interventionRelatedProject.LastModified = DateTime.Now;
-
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(interventionRelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(interventionRelatedProject.ProjectId);
                 }
 
                 _db.SaveChanges();
@@ -171,11 +161,8 @@ namespace VALE.Logic
                 if (anIntervention.RelatedProject != null)
                 {
                     anIntervention.RelatedProject.LastModified = DateTime.Now;
-
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(anIntervention.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(anIntervention.RelatedProject.ProjectId);
                 }
 
                 db.SaveChanges();

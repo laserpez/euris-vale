@@ -116,6 +116,24 @@ namespace VALE.MyVale
                 Response.End();
             }
         }
+
+        public string GetStringFromMinutes(int minutes)
+        {
+            int days = minutes / (60 * 8);
+            minutes -= days * (60 * 8);
+            int hours = minutes / 60;
+            int min = minutes % 60;
+            string strDays = "";
+            if (days > 0)
+                strDays = days == 1 ? days + " Giorno" : days + " Giorni";
+            string strHours = "";
+            if (hours > 0)
+                strHours = hours == 1 ? hours + " Ora" : hours + " Ore";
+            string strMinutes = "";
+            if (min > 0)
+                strMinutes = min == 1 ? min + " Minuto" : min + " Minuti";
+            return String.Format("{0} {1} {2}", strDays, strHours, strMinutes);
+        }
         
         private List<UserData> GetUsers() 
         {

@@ -99,9 +99,7 @@ namespace VALE.Logic
                 project.AttachedFiles.Add(file);
                 project.LastModified = DateTime.Now;
                 var actions = new ProjectActions();
-                var listHierarchyUp = getHierarchyUp(project.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                actions.udateDateHierarchyUp(project.ProjectId);
                 db.SaveChanges();
 
                 ComposeMessage(dataId, "", "Aggiunto documento allegato");
@@ -129,9 +127,9 @@ namespace VALE.Logic
                 var db = new UserOperationsContext();
                 var project = db.Projects.First(p => p.ProjectId == dataId);
                 db.AttachedFiles.RemoveRange(project.AttachedFiles);
-                var listHierarchyUp = getHierarchyUp(project.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                project.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                actions.udateDateHierarchyUp(project.ProjectId);
                 db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = dataId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Progetto", Date = DateTime.Now, Description = "Rimossi tutti i documenti da \"" + project.ProjectName + "\"" });
                 return true;
@@ -170,9 +168,8 @@ namespace VALE.Logic
             }
 
             aProject.LastModified = DateTime.Now;
-            var listHierarchyUp = getHierarchyUp(aProject.ProjectId);
-            if (listHierarchyUp.Count != 0)
-                listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+            var actions = new ProjectActions();
+            actions.udateDateHierarchyUp(aProject.ProjectId);
             db.SaveChanges();
             if (requestForm == "user")
                 ComposeMessage(dataId, username, subject);
@@ -226,10 +223,9 @@ namespace VALE.Logic
             {
                 ComposeMessage(projectId, relatedProject.OrganizerUserName, "Rimosso progetto correlato");
                 currentProject.RelatedProjects.Remove(relatedProject);
-                var listHierarchyUp = getHierarchyUp(currentProject.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
                 currentProject.LastModified = DateTime.Now;
+                var actions = new ProjectActions();
+                actions.udateDateHierarchyUp(currentProject.ProjectId);
                 db.SaveChanges();
             }
         }
@@ -255,6 +251,29 @@ namespace VALE.Logic
                 }
             }
             return list;
+        }
+
+        public void udateDateHierarchyUp(int projectId)
+        {
+            var db = new UserOperationsContext();
+            List<Project> list = new List<Project>();
+            var project = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            if (project != null)
+            {
+                var hasNext = true;
+                while (hasNext)
+                {
+                    var father = db.Projects.FirstOrDefault(p => p.RelatedProjects.FirstOrDefault(r => r.ProjectId == project.ProjectId) != null);
+                    if (father != null)
+                    {
+                        father.LastModified = DateTime.Now;
+                        project = father;
+                    }
+                    else
+                        hasNext = false;
+                }
+            }
+            db.SaveChanges();
         }
 
         public int getRootId(int projectId)
@@ -333,6 +352,16 @@ namespace VALE.Logic
             return total;
         }
 
+        public int GetAllProjectBudget(Project project)
+        {
+            int total = 0;
+            foreach (var activity in project.Activities)
+            {
+                total += activity.Budget;
+            }
+            return total;
+        }
+
         public int GetAllProjectHierarchyHoursWorked(int projectId)
         {
             int total = 0;
@@ -352,14 +381,15 @@ namespace VALE.Logic
             int total = 0;
             var db = new UserOperationsContext();
             var rootProject = db.Projects.FirstOrDefault(p => p.ProjectId == projectId);
-            total = rootProject.Budget;
+            total = GetAllProjectBudget(rootProject);
             var projects = getHierarchyDown(projectId);
             foreach (var project in projects)
             {
-                total += project.Budget;
+                total += GetAllProjectBudget(project);
             }
             return total;
         }
+
 
         public void SetStatusAllProjectHierarchyDown(int projectId, string status) 
         {

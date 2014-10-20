@@ -42,7 +42,7 @@ namespace VALE.Logic
         {
             StringBuilder strbldr = new StringBuilder();
             //separting header columns text with comma operator
-            strbldr.Append("Progetto;Tipo Progetto;Progetto Publico;Progetto Padre;Nome Attività;Tipo Attività;Descrizione;Ore Di Lavoro;Compiuta da;In Data");
+            strbldr.Append("Progetto;Tipo Progetto;Progetto Publico;Progetto Padre;Nome Attività;Tipo Attività;Descrizione;Giorni;Ore;Minuti;Totale Minuti;Compiuta da;In Data");
             //appending new line for gridview header row
             strbldr.Append("\n");
             foreach (var summaryIntervention in summaryInterventions)
@@ -54,6 +54,14 @@ namespace VALE.Logic
                 strbldr.Append(summaryIntervention.ActivityName + ';');
                 strbldr.Append(summaryIntervention.ActivityType + ';');
                 strbldr.Append(summaryIntervention.ActivityDescription + ';');
+                int minutes = summaryIntervention.HoursWorked;
+                int days = minutes / (60 * 8);
+                minutes -= days * (60 * 8);
+                int hours = minutes / 60;
+                int min = minutes % 60;
+                strbldr.Append(days + " ;");
+                strbldr.Append(hours + " ;");
+                strbldr.Append(min + " ;");
                 strbldr.Append(summaryIntervention.HoursWorked + " ;");
                 strbldr.Append(summaryIntervention.WorkerUserName + ';');
                 strbldr.Append(summaryIntervention.Date.ToShortDateString() + ';');
