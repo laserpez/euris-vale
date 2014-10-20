@@ -39,6 +39,10 @@ namespace VALE.MyVale
             }
         }
 
+        private int getMinutes(int days, int hours, int min) 
+        {
+            return days * (8 * 60) + hours * 60 + min;
+        }
         protected void btnSaveProject_Click(object sender, EventArgs e)
         {
             var dbData = new UserOperationsContext();
@@ -49,8 +53,12 @@ namespace VALE.MyVale
             }
             else
             {
-                int budget = 0;
-                int.TryParse(txtBudget.Text, out budget);
+                int days = 0;
+                int.TryParse(TextDay.Text, out days);
+                int hours = 0;
+                int.TryParse(txtHour.Text, out hours);
+                int min = 0;
+                int.TryParse(txtMin.Text, out min);
                 var project = new Project
                 {
                     CreationDate = Convert.ToDateTime(txtStartDate.Text),
@@ -60,7 +68,7 @@ namespace VALE.MyVale
                     ProjectName = txtName.Text,
                     LastModified = Convert.ToDateTime(txtStartDate.Text),
                     Status = "Aperto",
-                    Budget = budget,
+                    Budget = getMinutes(days, hours, min),
                     Public = chkPublic.Checked,
                     Activities = new List<Activity>(),
                     Events = new List<Event>(),
@@ -90,8 +98,12 @@ namespace VALE.MyVale
             }
             else
             {
-                int budget = 0;
-                int.TryParse(txtBudget.Text, out budget);
+                int days = 0;
+                int.TryParse(TextDay.Text, out days);
+                int hours = 0;
+                int.TryParse(txtHour.Text, out hours);
+                int min = 0;
+                int.TryParse(txtMin.Text, out min);
                 var project = new Project
                 {
                     Type = ddlSelectType.SelectedValue,
@@ -101,7 +113,7 @@ namespace VALE.MyVale
                     ProjectName = txtName.Text,
                     LastModified = Convert.ToDateTime(txtStartDate.Text),
                     Status = "Aperto",
-                    Budget = budget,
+                    Budget = getMinutes(days, hours, min),
                     Public = chkPublic.Checked,
                     Activities = new List<Activity>(),
                     Events = new List<Event>(),

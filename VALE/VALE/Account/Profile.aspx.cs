@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using VALE.Logic;
 using VALE.Models;
 using VALE.StateInfo;
+using System.Web.Security;
 
 
 namespace VALE.Account
@@ -319,6 +320,13 @@ namespace VALE.Account
 
         protected void btnModifyPassword_Click(object sender, EventArgs e)
         {
+            string userName = HttpContext.Current.User.Identity.Name;
+            if ((RoleActions.checkPermission(userName, "Amministrazione") || RoleActions.checkPermission(userName, "Membro del consiglio")) && _currentUserName != userName)
+            {
+                pnlPasswordFild.Visible = false;
+                passwordValidator.Enabled = false;
+            }
+             
             ModalPopupChangePassword.Show();
         }
 
@@ -328,7 +336,6 @@ namespace VALE.Account
             PopulateFormForModifyPersonalData();
             ModalPopupModifyPersonalData.Show();
         }
-
 
         protected void btnPopUpModifyPassword_Click(object sender, EventArgs e)
         {
@@ -340,25 +347,60 @@ namespace VALE.Account
                 //per la password sono richiesti solo sei caratteri
                 passwordValidator.RequiredLength = 6;
                 manager.PasswordValidator = passwordValidator;
-
-                IdentityResult result = manager.ChangePassword(User.Identity.GetUserId(), CurrentPassword.Text, NewPassword.Text);
-                if (result.Succeeded)
+                IdentityResult result;
+                string userName = HttpContext.Current.User.Identity.Name;
+                if ((RoleActions.checkPermission(userName, "Amministrazione") || RoleActions.checkPermission(userName, "Membro del consiglio")) && _currentUserName != userName)
                 {
-                    var user = manager.FindById(User.Identity.GetUserId());
-                    IdentityHelper.SignIn(manager, user, isPersistent: false);
+
+                    ApplicationUser user = manager.FindById(_currentUser.Id);
+
+                    //PasswordHash is just a string. You can set to any string value, and it won't cause an error.
+                    //It will just be challenging for the user to actually login.
+                    user.PasswordHash = manager.PasswordHasher.HashPassword(NewPassword.Text.Trim());
+
+                    //see below
+                    manager.UpdateSecurityStamp(_currentUser.Id);
+                    //save changes
+                    result = manager.Update(user);
                     pnlInfo.Visible = true;
-                    lblInfo.Text = "La Password è stata cabniata con successo.";
+                    if (result.Succeeded)
+                    {
+                        lblInfo.Text = "La Password è stata cambiata con successo.";
+                    }
+                    else
+                    {
+                        string errors = "";
+                        foreach (var error in result.Errors)
+                        {
+                            errors += error + "<br />";
+                        }
+                        lblChangePasswordError.Visible = true;
+                        lblChangePasswordError.Text = errors;
+                        ModalPopupChangePassword.Show();
+                    }
+
                 }
                 else
                 {
-                    string errors = "";
-                    foreach (var error in result.Errors)
+                    result = manager.ChangePassword(_currentUser.Id, CurrentPassword.Text, NewPassword.Text);
+                    if (result.Succeeded)
                     {
-                        errors += error + "<br />";
+                        var user = manager.FindById(User.Identity.GetUserId());
+                        IdentityHelper.SignIn(manager, user, isPersistent: false);
+                        pnlInfo.Visible = true;
+                        lblInfo.Text = "La Password è stata cambiata con successo.";
                     }
-                    lblChangePasswordError.Visible = true;
-                    lblChangePasswordError.Text = errors;
-                    ModalPopupChangePassword.Show();
+                    else
+                    {
+                        string errors = "";
+                        foreach (var error in result.Errors)
+                        {
+                            errors += error + "<br />";
+                        }
+                        lblChangePasswordError.Visible = true;
+                        lblChangePasswordError.Text = errors;
+                        ModalPopupChangePassword.Show();
+                    }
                 }
             }
         }

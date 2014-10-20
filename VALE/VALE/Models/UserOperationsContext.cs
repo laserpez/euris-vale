@@ -39,7 +39,8 @@ namespace VALE.Models
 
             modelBuilder.Entity<AttachedFile>().HasOptional(f => f.RelatedProject).WithMany(p => p.AttachedFiles).WillCascadeOnDelete();
 
-            // TODO Controllare la cancellazione a cascata dagli eventi
+            //modelBuilder.Entity<AttachedFile>().HasOptional(f => f.RelatedActivity).WithMany(p => p.AttachedFiles).WillCascadeOnDelete();
+
             //modelBuilder.Entity<AttachedFile>().HasOptional(f => f.RelatedEvent).WithMany(ev => ev.AttachedFiles).WillCascadeOnDelete();
             
             modelBuilder.Entity<Event>()

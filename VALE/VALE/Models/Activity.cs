@@ -36,6 +36,7 @@ namespace VALE.Models
         [ForeignKey("Creator")]
         public string CreatorUserName { get; set; }
         public virtual UserData Creator { get; set; }
+        public virtual List<AttachedFile> AttachedFiles { get; set; }
     }
 
     public enum ActivityStatus

@@ -46,7 +46,7 @@ namespace VALE
                     response.ClearContent();
                     response.Clear();
                     response.ContentType = "application/octet-stream";
-                    response.AddHeader("Content-Disposition", "attachment; filename=" + file.FileName + ";");
+                    response.AddHeader("Content-Disposition", "attachment; filename=" + file.FileName + file.FileExtension + ";");
                     response.BinaryWrite(file.FileData);
                     response.Flush();
                     response.End();

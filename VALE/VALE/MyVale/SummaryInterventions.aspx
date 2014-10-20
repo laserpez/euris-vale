@@ -220,13 +220,13 @@
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField>
                                                                         <HeaderTemplate>
-                                                                            <center><div><asp:LinkButton runat="server"  CommandArgument="HoursWorked" CommandName="sort"><span  class="glyphicon glyphicon-time"></span> Ore di attività</asp:LinkButton></div></center>
+                                                                            <center><div><asp:LinkButton runat="server"  CommandArgument="HoursWorked" CommandName="sort"><span  class="glyphicon glyphicon-time"></span> Tempo di attività</asp:LinkButton></div></center>
                                                                         </HeaderTemplate>
                                                                         <ItemTemplate>
-                                                                            <center><div><asp:Label runat="server"><%#: Item.HoursWorked %></asp:Label></div></center>
+                                                                            <center><div><asp:Label runat="server"><%#: GetStringFromMinutes(Item.HoursWorked) %></asp:Label></div></center>
                                                                         </ItemTemplate>
-                                                                        <HeaderStyle Width="90px" />
-                                                                        <ItemStyle Width="90px" />
+                                                                        <HeaderStyle Width="120px" />
+                                                                        <ItemStyle Width="120px" />
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Data">
                                                                         <HeaderTemplate>

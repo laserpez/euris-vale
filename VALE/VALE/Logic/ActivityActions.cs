@@ -9,7 +9,7 @@ using VALE.Models;
 
 namespace VALE.Logic
 {
-    public class ActivityActions : IActions
+    public class ActivityActions : IActions, IFileActions
     {
         public ILogger logger { get; set; }
 
@@ -56,25 +56,23 @@ namespace VALE.Logic
         public void SetActivityStatus(int id, ActivityStatus status)
         {
             var db = new UserOperationsContext();
-            var anActivity = db.Activities.First(a => a.ActivityId == id);
+            var activity = db.Activities.First(a => a.ActivityId == id);
             db.Activities.First(a => a.ActivityId == id).Status = status;
-            anActivity.LastModified = DateTime.Today;
-
-            if (anActivity.RelatedProject != null)
+          
+            activity.LastModified = DateTime.Now;
+            if (activity.RelatedProject != null)
             {
-                anActivity.RelatedProject.LastModified = DateTime.Today;
+                activity.RelatedProject.LastModified = DateTime.Now;
                 var actions = new ProjectActions();
-                var listHierarchyUp = actions.getHierarchyUp(anActivity.RelatedProject.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
+                actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
             }
 
             db.SaveChanges();
 
-            if (anActivity.Status == ActivityStatus.Done)
-                ComposeMessage(anActivity.ActivityId, "", "Terminazione attività");
+            if (activity.Status == ActivityStatus.Done)
+                ComposeMessage(activity.ActivityId, "", "Terminazione attività");
 
-            logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato attività", DataType = "Attività", Date = DateTime.Today, Description = "\"" + anActivity.ActivityName + "\"" + " ha ora lo stato: " + status.ToString() });
+            logger.Write(new LogEntry() { DataId = id, Username = HttpContext.Current.User.Identity.Name, DataAction = "Modifica stato attività", DataType = "Attività", Date = DateTime.Today, Description = "\"" + activity.ActivityName + "\"" + " ha ora lo stato: " + status.ToString() });
         }
 
         
@@ -173,15 +171,13 @@ namespace VALE.Logic
                     activity.RegisteredUsers.Remove(user);
                 added = false;
             }
+            activity.LastModified = DateTime.Now;
             if (activity.RelatedProject != null)
             {
-                activity.RelatedProject.LastModified = DateTime.Today;
+                activity.RelatedProject.LastModified = DateTime.Now;
                 var actions = new ProjectActions();
-                var listHierarchyUp = actions.getHierarchyUp(activity.RelatedProject.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Today);
+                actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
             }
-            activity.LastModified = DateTime.Today;
             db.SaveChanges();
             logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = added ? "Invitato utente" : "Rimosso utente", DataType = "Attività", Date = DateTime.Today, Description = username + (added ? " è stato invitato all'attività \"" : " non collabora più all'attività \"") + activity.ActivityName + "\"" });
             return added;
@@ -440,6 +436,70 @@ namespace VALE.Logic
             var db = new UserOperationsContext();
             var intervention = db.Reports.FirstOrDefault(r => r.WorkerUserName == username);
             return intervention != null;
+        }
+
+        public bool AddAttachment(int dataId, AttachedFile file)
+        {
+            try
+            {
+                var _db = new UserOperationsContext();
+                var activity = _db.Activities.First(a => a.ActivityId == dataId);
+                activity.AttachedFiles.Add(file);
+                activity.LastModified = DateTime.Now;
+                if (activity.RelatedProject != null)
+                {
+                    activity.RelatedProject.LastModified = DateTime.Now;
+                    var actions = new ProjectActions();
+                    actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
+                }
+                _db.SaveChanges();
+                ComposeMessage(dataId, "", "Aggiunto documento allegato");
+                logger.Write(new LogEntry() { DataId = activity.ActivityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Aggiunto documento a \"" + activity.ActivityName + "\"", DataType = "Attività", Date = DateTime.Now, Description = "Nome documento: \"" + file.FileName + "\"" });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveAttachment(int attachmentId)
+        {
+            try
+            {
+                var _db = new UserOperationsContext();
+                var anAttachment = _db.AttachedFiles.FirstOrDefault(at => at.AttachedFileID == attachmentId);
+                var activityId = anAttachment.RelatedActivity.ActivityId;
+                var activity = _db.Activities.Where(a => a.ActivityId == activityId).First();
+                activity.AttachedFiles.Remove(anAttachment);
+                _db.AttachedFiles.Remove(anAttachment);
+                activity.LastModified = DateTime.Now;
+                if (activity.RelatedProject != null)
+                {
+                    activity.RelatedProject.LastModified = DateTime.Now;
+                    var actions = new ProjectActions();
+                    actions.udateDateHierarchyUp(activity.RelatedProject.ProjectId);
+                }
+                _db.SaveChanges();
+                logger.Write(new LogEntry() { DataId = activityId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedEvent.Name + "\"", DataType = "Attività", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public List<AttachedFile> GetAttachments(int dataId)
+        {
+            var _db = new UserOperationsContext();
+            var activity = _db.Activities.First(a => a.ActivityId == dataId);
+            return activity.AttachedFiles;
+        }
+
+        public bool RemoveAllAttachments(int dataId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

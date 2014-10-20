@@ -36,7 +36,7 @@
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Descrizione *</asp:Label>
                                 <div class="col-md-10">
-                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Width="500px" Height="300px" ID="txtDescription" runat="server"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" TextMode="MultiLine" Height="300px" ID="txtDescription" runat="server"></asp:TextBox>
                                     <%--<asp:HtmlEditorExtender EnableSanitization="false" runat="server" TargetControlID="txtDescription">
                                         <Toolbar>
                                             <ajaxToolkit:Undo />
@@ -69,16 +69,31 @@
                                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="text-danger" ErrorMessage="Il campo Data di inizio è obbligatorio." /><br />
                                     <asp:RegularExpressionValidator runat="server" ValidationExpression="\d{1,2}/\d{1,2}/\d{4}" CssClass="text-danger" ErrorMessage="Il formato della data non è corretto." ControlToValidate="txtStartDate" Display="Dynamic"></asp:RegularExpressionValidator>
                                 </div>
+                               
                                 <asp:Label  Font-Bold="true" runat="server" CssClass="col-md-2 control-label">Budget</asp:Label>
-                                <div class="col-md-10">
-                                    <asp:TextBox TextMode="Number" runat="server" ID="txtBudget" CssClass="form-control" Width="100px"/>
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Giorni</asp:Label>
+                                <div class="col-md-2">
+                                    <asp:TextBox ID="TextDay" TextMode="Number" Width="100" runat="server" CssClass="form-control" Text="0"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ControlToValidate="TextDay" runat="server" ErrorMessage="Giorni > 0"
+                                        CssClass="text-danger" ValidationExpression="^\d*$" Display="Dynamic"></asp:RegularExpressionValidator> 
+                                </div>
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Ore</asp:Label>
+                                <div class="col-md-2">
+                                    <asp:TextBox ID="txtHour" TextMode="Number" Width="100" runat="server" CssClass="form-control" Text="0"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ControlToValidate="txtHour" runat="server" ErrorMessage="Ore tra 0..7"
+                                        CssClass="text-danger" ValidationExpression="[0-7]" Display="Dynamic"></asp:RegularExpressionValidator> 
+                                </div>
+                                <asp:Label runat="server" Font-Bold="true" CssClass="col-md-1 control-label">Min</asp:Label>
+                                <div class="col-md-2">
+                                    <asp:TextBox ID="txtMin" TextMode="Number" Width="100" runat="server" CssClass="form-control" Text="0"></asp:TextBox> 
+                                    <asp:RegularExpressionValidator ControlToValidate="txtMin" runat="server" ErrorMessage="Minuti tra 0..59"
+                                        CssClass="text-danger" ValidationExpression="[0-5]?[0-9]" Display="Dynamic"></asp:RegularExpressionValidator>
                                     <br />
                                 </div>
                                 <asp:Label Font-Bold="true" runat="server" CssClass="col-md-2 control-label">E' un progetto pubblico?</asp:Label>
                                 <div class="col-md-10">
                                     <asp:CheckBox runat="server" ID="chkPublic" />
                                 </div>
-                               
                                 <asp:Label runat="server" CssClass="col-md-12 control-label"><br /></asp:Label>
                                 <div class="row"><div class="col-md12"><br /></div></div>
                                 <div class="row"><div class="col-md12"><br /></div></div>

@@ -74,9 +74,7 @@ namespace VALE.Logic
                 {
                     newEvent.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(newEvent.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(newEvent.RelatedProject.ProjectId);
                 }
                 db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = newEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Creato nuovo evento", DataType = "Evento", Date = DateTime.Now, Description = "E' stato creato il nuovo evento \"" + newEvent.Name + "\"" });
@@ -109,10 +107,9 @@ namespace VALE.Logic
                 _db.AttachedFiles.Remove(anAttachment);
                 if (anEvent.RelatedProject != null)
                 {
+                    anEvent.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(anEvent.RelatedProject.ProjectId);
                 }
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = eventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "E' stato rimosso il documento \"" + anAttachment.RelatedEvent.Name + "\"", DataType = "Evento", Date = DateTime.Now, Description = "Nome documento: \"" + anAttachment.FileName + "\"" });
@@ -133,10 +130,9 @@ namespace VALE.Logic
                 anEvent.AttachedFiles.Add(file);
                 if (anEvent.RelatedProject != null)
                 {
+                    anEvent.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(anEvent.RelatedProject.ProjectId);
                 }
                 _db.SaveChanges();
                 ComposeMessage(dataId, "", "Aggiunto documento allegato");
@@ -167,10 +163,9 @@ namespace VALE.Logic
                 _db.AttachedFiles.RemoveRange(attachments);
                 if (anEvent.RelatedProject != null)
                 {
+                    anEvent.RelatedProject.LastModified = DateTime.Now;
                     var actions = new ProjectActions();
-                    var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
-                    if (listHierarchyUp.Count != 0)
-                        listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                    actions.udateDateHierarchyUp(anEvent.RelatedProject.ProjectId);
                 }
                 _db.SaveChanges();
                 logger.Write(new LogEntry() { DataId = anEvent.EventId, Username = HttpContext.Current.User.Identity.Name, DataAction = "Rimossi tutti i documenti", DataType = "Evento", Date = DateTime.Now, Description = "Rimossi tutti i documenti da \"" + anEvent.Name + "\"" });
@@ -219,9 +214,7 @@ namespace VALE.Logic
             {
                 anEvent.RelatedProject.LastModified = DateTime.Now;
                 var actions = new ProjectActions();
-                var listHierarchyUp = actions.getHierarchyUp(anEvent.RelatedProject.ProjectId);
-                if (listHierarchyUp.Count != 0)
-                    listHierarchyUp.ForEach(p => p.LastModified = DateTime.Now);
+                actions.udateDateHierarchyUp(anEvent.RelatedProject.ProjectId);
             }
             _db.SaveChanges();
             if (requestform == "user")

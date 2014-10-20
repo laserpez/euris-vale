@@ -12,7 +12,7 @@
       <Visible>true</Visible>
     </Home>
     <ListaUtenti>
-      <Visible>false</Visible>
+      <Visible>true</Visible>
     </ListaUtenti>
     <Consiglio>
       <Visible>true</Visible>

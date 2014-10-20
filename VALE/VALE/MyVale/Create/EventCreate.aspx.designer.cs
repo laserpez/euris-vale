@@ -67,6 +67,15 @@ namespace VALE.MyVale {
         protected global::System.Web.UI.WebControls.TextBox txtHour;
         
         /// <summary>
+        /// FiscalCodeToValidate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator FiscalCodeToValidate;
+        
+        /// <summary>
         /// txtMin control.
         /// </summary>
         /// <remarks>

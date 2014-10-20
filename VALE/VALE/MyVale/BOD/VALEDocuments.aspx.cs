@@ -18,7 +18,7 @@ namespace VALE.MyVale.BOD
                 PagePermission();
             if (!RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") && !RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio"))
             {
-                FooterDocuments.Visible = false;
+                btnAddDocument.Visible = false;
             }
         }
 
@@ -49,20 +49,7 @@ namespace VALE.MyVale.BOD
 
         protected void AddFileNameButton_Click(object sender, EventArgs e)
         {
-            var db = new UserOperationsContext();
-            var attachedFile = new ValeFile();
-            var fileName = FileUpload.PostedFile.FileName.Split(new char[]{'/','\\'});
-            if (FileUpload.HasFile)
-            {
-                attachedFile.FileName = fileName[fileName.Length - 1];
-                attachedFile.FileDescription = txtFileDescription.Value;
-                attachedFile.FileExtension = Path.GetExtension(FileUpload.PostedFile.FileName);
-                attachedFile.FileData = FileUpload.FileBytes;
-                txtFileDescription.Value = "";
-                db.VALEFiles.Add(attachedFile);
-                db.SaveChanges();
-                DocumentsGridView.DataBind();
-            }
+            
         }
 
         protected void grdFilesUploaded_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -93,6 +80,34 @@ namespace VALE.MyVale.BOD
             if (RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "Amministrazione") || RoleActions.checkPermission(HttpContext.Current.User.Identity.Name, "CreazioneConsiglio"))
                 return true;
             return false;
+        }
+
+        protected void btnPopUpAddDocument_Click(object sender, EventArgs e)
+        {
+            var db = new UserOperationsContext();
+            var attachedFile = new ValeFile();
+            var fileName = FileUploadAddDocument.PostedFile.FileName.Split(new char[] { '/', '\\' });
+            if (FileUploadAddDocument.HasFile)
+            {
+                attachedFile.FileName = fileName[fileName.Length - 1];
+                attachedFile.FileDescription = txtFileDescription.Text;
+                attachedFile.FileExtension = Path.GetExtension(FileUploadAddDocument.PostedFile.FileName);
+                attachedFile.FileData = FileUploadAddDocument.FileBytes;
+                txtFileDescription.Text = "";
+                db.VALEFiles.Add(attachedFile);
+                db.SaveChanges();
+                DocumentsGridView.DataBind();
+            }
+        }
+
+        protected void btnPopUpAddDocumentClose_Click(object sender, EventArgs e)
+        {
+            ModalPopupAddDocument.Hide();
+        }
+
+        protected void btnAddDocument_Click(object sender, EventArgs e)
+        {
+            ModalPopupAddDocument.Show();
         }
     }
 }

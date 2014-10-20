@@ -18,7 +18,8 @@
     <style type="text/css">
 
         /*Classe social-network button login*/
-        .social-network-facebook {
+        .social-network-facebook 
+        {
 	    height: 37px;
 	    width: 180px;
         color:#fff;
@@ -26,7 +27,8 @@
         border-color:white; 
         }
 
-        .social-network-twitter {
+        .social-network-twitter 
+        {
 	        height: 37px;
 	        width: 180px;
             color:#fff;
@@ -222,10 +224,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <%--<asp:Image ID="LogoImageTitle" runat="server" />--%>
-                    <%--<object width="130" height="51">
+                    <asp:Image ID="LogoImageTitle" runat="server" />
+                    <object width="130" height="51">
                         <embed src="~/Vale.swf" type="application/x-shockwave-flash" width="130" height="51" runat="server" />
-                    </object>--%>
+                    </object>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -260,7 +262,6 @@
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span  class="glyphicon glyphicon-file"></span> Consiglio<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/BOD/BODReports.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Verbali</a></li>
-                                <%--<li><a runat="server" id="createBODLink" visible="false" href="/MyVale/BOD/BODReportCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea verbale</a></li>--%>
                                 <li><a runat="server" id="associationDocuments" visible="false" href="/MyVale/BOD/VALEDocuments.aspx"><span  class="glyphicon glyphicon-briefcase"></span> Documenti dell'associazione</a></li>
                             </ul>
                         </li>
@@ -269,7 +270,6 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Projects.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Progetti</a></li>
                                 <li><a href="/MyVale/PersonalProjects.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Progetti personali</a></li>
-                                <%--<li><a runat="server" visible="false" id="createProjectLink" href="/MyVale/Create/ProjectCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea progetto</a></li>--%>
                             </ul>
                         </li>
                         <li class="dropdown" id="activitiesLink" runat="server">
@@ -278,7 +278,6 @@
                                 <li><a href="/MyVale/Activities.aspx"><span  class="glyphicon glyphicon-th-list"></span> Attività</a></li>
                                 <li><a href="/MyVale/ManageActivities.aspx"><span  class="glyphicon glyphicon-pushpin"></span> Kanban attività</a></li>
                                 <li><a href="/MyVale/SummaryInterventions.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Riepilogo interventi</a></li>
-                                <%--<li><a runat="server" visible="false" id="createActivityLink" href="/MyVale/Create/ActivityCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea attività</a></li>--%>
                             </ul>
                         </li>
                         <li class="dropdown" id="eventsLink" runat="server">
@@ -286,7 +285,6 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/MyVale/Events.aspx"><span  class="glyphicon glyphicon-eye-open"></span> Calendario eventi</a></li>
                                 <li><a href="/MyVale/PersonalEvents.aspx"><span  class="glyphicon glyphicon-bookmark"></span> Eventi personali</a></li>
-<%--                                <li><a runat="server" visible="false" id="createEventLink" href="/MyVale/Create/EventCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea evento</a></li>--%>
                             </ul>
                         </li>
                         <%--<li class="dropdown" id="blogsLink" runat="server">
@@ -297,7 +295,7 @@
                                 <li><a runat="server" visible="false" id="createBlogArticle" href="/MyVale/Create/ArticleCreate.aspx"><span  class="glyphicon glyphicon-pencil"></span> Crea articolo</a></li>
                             </ul>
                         </li>--%>
-                        <li><a runat="server" id="UserList" visible="true" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Contatti </a></li>
+                        <li><a runat="server" id="UserList" visible="false" href="~/MyVale/UserList"><span  class="glyphicon glyphicon-user"></span> Contatti </a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled" id="loginLink">
                         <AnonymousTemplate>

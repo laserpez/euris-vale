@@ -23,7 +23,7 @@ namespace VALE.Admin
                 PagePermission();
             if (!IsPostBack)
             {
-                grdUsers.Columns[8].Visible = false;
+                grdUsers.Columns[9].Visible = false;
                 if (GetWaitingUsers().Count() > 0)
                 {
                     PreparePanelForManage();
@@ -115,7 +115,7 @@ namespace VALE.Admin
         private void PreparePanelForRegistrationRequest()
         {
             //grdUsers.Columns[8].Visible = false;
-            grdUsers.Columns[8].Visible = true;
+            grdUsers.Columns[9].Visible = true;
             NotificationNumber.Visible = true;
             btnConfirmUser.Visible = true;
             HeaderName.Text = " Richieste Di Registrazione";
@@ -124,7 +124,7 @@ namespace VALE.Admin
         private void PreparePanelForManage()
         {
             //grdUsers.Columns[8].Visible = true;
-            grdUsers.Columns[8].Visible = false;
+            grdUsers.Columns[9].Visible = false;
             NotificationNumber.Visible = false;
             btnConfirmUser.Visible = false;
             HeaderName.Text = " Gestione Utenti";
@@ -314,7 +314,8 @@ namespace VALE.Admin
                 CF = TextCF.Text == "" ? null : TextCF.Text,
                 NeedsApproval = false,
                 IsPartner = checkAssociated.Checked,
-                Email = Email.Text
+                Email = Email.Text,
+                
             };
             if (Region.SelectedIndex != 0)
                 user.Region = Region.SelectedValue;
@@ -329,7 +330,8 @@ namespace VALE.Admin
             else
                 user.City = "";
             user.Address = TextAddress.Text;
-            user.PartnerType = ddlPartnerType.SelectedValue;
+
+            user.PartnerType = checkAssociated.Checked ? ddlPartnerType.SelectedValue : "Generico";
             var passwordValidator = new PasswordValidator();
             //per la password sono richiesti solo sei caratteri
             passwordValidator.RequiredLength = 6;

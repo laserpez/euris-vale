@@ -67,13 +67,31 @@ namespace VALE.MyVale {
         protected global::AjaxControlToolkit.CalendarExtender calendarFrom;
         
         /// <summary>
-        /// txtBudget control.
+        /// TextDay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBudget;
+        protected global::System.Web.UI.WebControls.TextBox TextDay;
+        
+        /// <summary>
+        /// txtHour control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHour;
+        
+        /// <summary>
+        /// txtMin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMin;
         
         /// <summary>
         /// chkPublic control.
